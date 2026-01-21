@@ -1,0 +1,3 @@
+# Local clones of external tools and libraries.
+external/*
+!external/README.md
