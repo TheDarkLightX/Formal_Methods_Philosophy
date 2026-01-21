@@ -11,6 +11,11 @@
 # 1) Classification: the observed rank is mapped to a delta in {+1, 0, -1}.
 # 2) Tracking: the running count is updated by adding that delta.
 #
+# Hi-Lo mapping (common version):
+# - ranks 2..6 give +1
+# - ranks 7..9 give 0
+# - ranks 10..Ace give -1
+#
 # This Tau file focuses on step (2), the state tracker.
 # In Tau, it is usually best to keep the policy logic simple and push complicated
 # parsing and classification into the host system. That is why the input here is the
