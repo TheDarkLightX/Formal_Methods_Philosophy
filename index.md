@@ -105,6 +105,18 @@ show_title: false
   </h2>
   <div style="display: grid; gap: var(--space-md); margin-top: var(--space-md)">
     <details class="fp-faq">
+      <summary>Does this site render LaTeX math?</summary>
+      <div class="fp-prose" style="margin-top: var(--space-sm); color: var(--color-muted)">
+        Yes. We use MathJax. Example: \( \forall s.\, Reachable(s) \rightarrow \lnot Bad(s) \).
+      </div>
+    </details>
+    <details class="fp-faq">
+      <summary>Can I zoom in on the diagrams?</summary>
+      <div class="fp-prose" style="margin-top: var(--space-sm); color: var(--color-muted)">
+        Yes. Click or tap a diagram to open a larger viewer. Press Escape to close.
+      </div>
+    </details>
+    <details class="fp-faq">
       <summary>Is this a math textbook?</summary>
       <div class="fp-prose" style="margin-top: var(--space-sm); color: var(--color-muted)">
         No. It is a set of mental models, careful definitions, and tool-shaped ways of
