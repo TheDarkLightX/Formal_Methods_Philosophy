@@ -3,3 +3,7 @@ description: Tutorials on the philosophy of formal methods, with concrete metaph
 theme: jekyll-theme-primer
 url: https://thedarklightx.github.io
 baseurl: /Formal_Methods_Philosophy
+repo_url: https://github.com/TheDarkLightX/Formal_Methods_Philosophy
+permalink: pretty
+exclude:
+  - design-system
