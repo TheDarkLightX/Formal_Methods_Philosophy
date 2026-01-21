@@ -15,6 +15,14 @@ A snapshot of “everything the system would need to know” to determine what c
 
 A model of change over time: a set of states, an initial state, and a transition relation describing how the system can evolve.
 
+## State space
+
+The set `S` of all states a model allows. In analysis, a crucial subset is the reachable region: the states you can actually reach from the initial state by following transitions.
+
+## Reachable
+
+A state is reachable if there exists an execution (a sequence of transitions) from the initial state that leads to it. Many correctness claims are quantified over reachable states, not over all imaginable states.
+
 ## Invariant
 
 A property intended to hold for all reachable states. When it fails, a tool can often produce a counterexample trace showing how the failure is reached.
@@ -26,5 +34,9 @@ A specific witness that refutes a universal claim. In software, it is often a co
 ## Abstraction
 
 A mapping from concrete states to a smaller representation that discards detail while preserving the distinctions that matter for a chosen property.
+
+## Compression
+
+A change of representation that preserves meaning. For a single state, it is a lossless re-encoding. For a set of states, it can be a symbolic encoding (for example, a formula that compactly represents many states at once).
 
 More terms will be added as the tutorials grow.

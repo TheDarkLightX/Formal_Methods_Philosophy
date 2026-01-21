@@ -223,6 +223,100 @@ In all cases, the tool’s superpower is the same:
 
 > It can reason about huge (even infinite) spaces by transforming symbolic descriptions instead of enumerating concrete states.
 
+### State space as a shape you can resize in your mind
+
+When people say “state explosion,” they often mix three different problems:
+
+1. The system can do too many different things (too many reachable behaviors).
+2. The representation is too large to handle directly (even if the behavior is fixed).
+3. The model is too detailed for the question you are asking (you are tracking distinctions you do not need).
+
+The clean mental template is set-shaped.
+
+- `S` is the state space: all states your model allows.
+- `Reachable ⊆ S` is what the system can actually reach from the start via transitions.
+- `Bad ⊆ S` is the region you want to be impossible.
+
+An invariant is a claim that the reachable region never touches the bad region:
+
+$$
+\forall s.\, Reachable(s) \rightarrow \lnot Bad(s)
+$$
+
+Equivalently:
+
+$$
+Reachable \cap Bad = \emptyset
+$$
+
+This is where “size” matters in a precise way.
+The truth of the invariant does not depend on whether there are one million states or one trillion.
+It depends on whether the intersection is empty.
+But the size of the reachable region, and the way it is represented, controls whether you can actually decide emptiness with time and memory you can afford.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Shrink behavior, compress representation, or abstract away detail</p>
+  {% include diagrams/state-space-shrink-compress.svg %}
+  <figcaption class="fp-figure-caption">
+    “Making the state space smaller” can mean three different moves. Only one of them changes what the system can do. The others change how you represent, or how you approximate, the same underlying behavior.
+  </figcaption>
+</figure>
+
+#### Shrinking, compression, and abstraction are not the same move
+
+**Shrinking behavior** changes the system or the model so that fewer futures are possible.
+In set terms, it makes `Reachable` a smaller subset of `S`.
+Examples include bounding resources, removing nondeterminism, forcing protocols to be followed, and using types or interfaces that prevent invalid states from being constructed.
+
+**Compression** changes the encoding of the same semantics.
+It is lossless with respect to what it represents.
+Symbolic model checking is this idea applied to sets and transitions: instead of listing states, you represent a whole set of states with a compact object such as a Boolean formula or a decision diagram.
+The set did not change.
+Your description of the set got smaller.
+
+**Abstraction** is deliberate forgetting.
+You replace the concrete state space `S` with a smaller space `A`, connected by a many-to-one map `α : S → A`.
+This is the move a human card counter makes when they compress a detailed history of cards into a single running count.
+It is smaller because it throws information away.
+
+These words can be confusing in everyday speech because “compression” sometimes means “lossy compression.”
+In this tutorial, “compression” means “lossless re-encoding,” and “abstraction” means “lossy merging guided by a question.”
+
+#### How abstraction can expand the state space you must consider
+
+Abstraction is usually used to make analysis tractable, but it can also create a larger search problem in one important sense.
+
+For safety proofs, tools often use **over-approximating** abstractions: the abstract model includes every behavior the real system can do, and possibly some extra behaviors that are artifacts of forgetting.
+This is a trade:
+
+- You gain soundness. If the over-approximate model cannot reach `Bad`, the real one cannot either.
+- You may lose precision. The abstract model might reach a bad state that is not actually reachable in the real system, producing a spurious counterexample.
+
+This is why refinement loops exist.
+When a counterexample is spurious, you do not just shrug.
+You sharpen the abstraction until it preserves the distinctions that matter for the property.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Mental template: three questions before you touch a tool</p>
+  <ul>
+    <li>What is my state space, and what does “reachable” mean in this model?</li>
+    <li>What is my invariant, and what is the corresponding “bad region” it forbids?</li>
+    <li>Am I trying to shrink behavior, compress representation, or change the level of abstraction?</li>
+  </ul>
+</div>
+
+#### Tools that help you think in these shapes
+
+Different tools align with different mental moves:
+
+- To **compress without changing meaning**: symbolic model checking, SAT/SMT solving, BDDs, and symbolic execution.
+- To **abstract on purpose and refine when needed**: abstract interpretation, CEGAR-style refinement loops, and predicate abstraction.
+- To **shrink reachable behavior by construction**: strong type systems, typestate and protocol state machines, capability-style APIs, and code generation that enforces valid transitions.
+
+And for humans specifically, the most important “tool” is still the picture:
+a reachable region, a bad region, and an invariant that claims the two never meet.
+Once you can hold that picture, you can reason about shrinking, compression, and abstraction as distinct levers instead of one vague idea.
+
 ### A precise bridge: abstraction as a function
 
 Your running score (the number you keep updating) is not magic; it is a function of what happened.

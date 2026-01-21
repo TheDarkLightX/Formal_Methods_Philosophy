@@ -1,0 +1,395 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 520"
+  role="img"
+  aria-labelledby="fp-ssc-title fp-ssc-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-ssc-title">State space: shrink, compress, abstract</title>
+  <desc id="fp-ssc-desc">
+    A picture that separates three ideas: (1) the set of reachable states, (2) compressing that
+    set into a symbolic description without changing meaning, and (3) abstracting by merging
+    states, which can add behaviors unless refined.
+  </desc>
+
+  <defs>
+    <filter id="fp-ssc-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow
+        dx="0"
+        dy="10"
+        stdDeviation="12"
+        flood-color="#0F172A"
+        flood-opacity="0.10"
+      />
+    </filter>
+    <linearGradient id="fp-ssc-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3B82F6" stop-opacity="0.18" />
+      <stop offset="1" stop-color="#3B82F6" stop-opacity="0.05" />
+    </linearGradient>
+    <linearGradient id="fp-ssc-orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F97316" stop-opacity="0.18" />
+      <stop offset="1" stop-color="#F97316" stop-opacity="0.06" />
+    </linearGradient>
+    <marker
+      id="fp-ssc-arrow"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="520" rx="28" fill="transparent" />
+
+  <g filter="url(#fp-ssc-shadow)">
+    <rect x="40" y="60" width="880" height="400" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text
+    x="80"
+    y="118"
+    font-size="16"
+    font-weight="900"
+    fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    Three different moves that people call “making the state space smaller”
+  </text>
+  <text
+    x="80"
+    y="144"
+    font-size="12"
+    fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    Only one of them actually changes what the system can do. The other two change how you represent or
+    reason about it.
+  </text>
+
+  <!-- Column frames -->
+  <g>
+    <rect
+      x="80"
+      y="176"
+      width="252"
+      height="250"
+      rx="20"
+      fill="rgba(15, 23, 42, 0.04)"
+      stroke="rgba(15, 23, 42, 0.12)"
+    />
+    <rect
+      x="354"
+      y="176"
+      width="252"
+      height="250"
+      rx="20"
+      fill="rgba(15, 23, 42, 0.04)"
+      stroke="rgba(15, 23, 42, 0.12)"
+    />
+    <rect
+      x="628"
+      y="176"
+      width="252"
+      height="250"
+      rx="20"
+      fill="rgba(15, 23, 42, 0.04)"
+      stroke="rgba(15, 23, 42, 0.12)"
+    />
+  </g>
+
+  <!-- Column titles -->
+  <text
+    x="104"
+    y="212"
+    font-size="14"
+    font-weight="900"
+    fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    1) Shrink behavior
+  </text>
+  <text
+    x="378"
+    y="212"
+    font-size="14"
+    font-weight="900"
+    fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    2) Compress representation
+  </text>
+  <text
+    x="652"
+    y="212"
+    font-size="14"
+    font-weight="900"
+    fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    3) Abstract (merge states)
+  </text>
+
+  <!-- Column 1: shrink behavior -->
+  <g transform="translate(92,230)">
+    <!-- Universe box -->
+    <rect x="0" y="0" width="228" height="150" rx="18" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text
+      x="14"
+      y="26"
+      font-size="12"
+      font-weight="800"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Concrete reachable set
+    </text>
+
+    <!-- Reachable blob (smaller, “shrunken”) -->
+    <path
+      d="M45 95 C40 65, 58 44, 92 38 C118 33, 151 44, 168 66 C186 89, 172 122, 140 128 C105 135, 60 125, 45 95 Z"
+      fill="url(#fp-ssc-blue)"
+      stroke="rgba(59, 130, 246, 0.45)"
+      stroke-width="2"
+    />
+
+    <!-- Bad region -->
+    <path
+      d="M150 112 C160 92, 185 86, 205 98 C222 108, 222 130, 205 140 C187 152, 160 146, 150 112 Z"
+      fill="url(#fp-ssc-orange)"
+      stroke="rgba(249, 115, 22, 0.5)"
+      stroke-width="2"
+    />
+
+    <text
+      x="14"
+      y="174"
+      font-size="12"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Make fewer futures possible.
+    </text>
+    <text
+      x="14"
+      y="194"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Types, protocols, bounds, rules.
+    </text>
+  </g>
+
+  <!-- Column 2: compress representation -->
+  <g transform="translate(366,230)">
+    <rect x="0" y="0" width="228" height="150" rx="18" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text
+      x="14"
+      y="26"
+      font-size="12"
+      font-weight="800"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Same set, smaller description
+    </text>
+
+    <rect
+      x="18"
+      y="46"
+      width="192"
+      height="82"
+      rx="14"
+      fill="rgba(59, 130, 246, 0.06)"
+      stroke="rgba(59, 130, 246, 0.22)"
+    />
+    <text
+      x="32"
+      y="76"
+      font-size="12"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+    >
+      ϕ(s)  encodes Reachable(s)
+    </text>
+    <text
+      x="32"
+      y="98"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      SMT, BDDs, symbolic execution
+    </text>
+    <text
+      x="32"
+      y="120"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      No new states, no lost states.
+    </text>
+
+    <text
+      x="14"
+      y="174"
+      font-size="12"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Keep meaning. Change encoding.
+    </text>
+    <text
+      x="14"
+      y="194"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Exact, but more tractable.
+    </text>
+  </g>
+
+  <!-- Column 3: abstraction -->
+  <g transform="translate(640,230)">
+    <rect x="0" y="0" width="228" height="150" rx="18" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text
+      x="14"
+      y="26"
+      font-size="12"
+      font-weight="800"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Many-to-one map α
+    </text>
+
+    <!-- small abstract nodes -->
+    <g fill="rgba(59, 130, 246, 0.18)" stroke="rgba(59, 130, 246, 0.45)" stroke-width="2">
+      <circle cx="62" cy="70" r="18" />
+      <circle cx="120" cy="62" r="18" />
+      <circle cx="172" cy="86" r="18" />
+      <circle cx="92" cy="110" r="18" />
+      <circle cx="152" cy="122" r="18" />
+    </g>
+
+    <!-- Over-approx “reachable” highlight -->
+    <path
+      d="M38 104 C34 70, 58 46, 96 44 C135 42, 192 60, 196 94 C199 125, 168 140, 132 142 C88 145, 46 132, 38 104 Z"
+      fill="rgba(59, 130, 246, 0.10)"
+      stroke="rgba(59, 130, 246, 0.32)"
+      stroke-width="2"
+      stroke-dasharray="6 6"
+    />
+
+    <!-- Bad region (in abstract, can overlap) -->
+    <path
+      d="M150 112 C160 92, 185 86, 205 98 C222 108, 222 130, 205 140 C187 152, 160 146, 150 112 Z"
+      fill="url(#fp-ssc-orange)"
+      stroke="rgba(249, 115, 22, 0.5)"
+      stroke-width="2"
+    />
+
+    <text
+      x="14"
+      y="174"
+      font-size="12"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Forget details on purpose.
+    </text>
+    <text
+      x="14"
+      y="194"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Can add behaviors. Refine if needed.
+    </text>
+  </g>
+
+  <!-- Arrows between columns -->
+  <g>
+    <path
+      d="M332 302 C345 302, 348 302, 352 302"
+      stroke="rgba(59, 130, 246, 0.65)"
+      stroke-width="3"
+      fill="none"
+      marker-end="url(#fp-ssc-arrow)"
+    />
+    <path
+      d="M606 302 C619 302, 622 302, 626 302"
+      stroke="rgba(59, 130, 246, 0.65)"
+      stroke-width="3"
+      fill="none"
+      marker-end="url(#fp-ssc-arrow)"
+    />
+
+    <text
+      x="346"
+      y="292"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      lossless re-encoding
+    </text>
+    <text
+      x="620"
+      y="292"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      many-to-one map
+    </text>
+  </g>
+
+  <!-- Invariant line -->
+  <g>
+    <text
+      x="80"
+      y="454"
+      font-size="12"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Invariant template:
+    </text>
+    <text
+      x="206"
+      y="454"
+      font-size="12"
+      fill="#475569"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+    >
+      ∀s. Reachable(s) → ¬Bad(s)
+    </text>
+    <text
+      x="486"
+      y="454"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      which is the same as
+    </text>
+    <text
+      x="628"
+      y="454"
+      font-size="12"
+      fill="#475569"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+    >
+      Reachable ∩ Bad = ∅
+    </text>
+  </g>
+</svg>
