@@ -840,6 +840,80 @@ details.fp-faq summary:focus-visible {
   display: block;
 }
 
+.fp-zoomable {
+  cursor: zoom-in;
+}
+
+.fp-modal-open {
+  overflow: hidden;
+}
+
+.fp-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  padding: var(--space-xl);
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fp-lightbox-inner {
+  width: min(1200px, 92vw);
+  max-height: 88vh;
+  overflow: auto;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-lg);
+}
+
+.fp-lightbox-inner svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.fp-lightbox-close {
+  position: absolute;
+  top: var(--space-lg);
+  right: var(--space-lg);
+  min-height: 44px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-text);
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 200ms var(--ease-out),
+    box-shadow 200ms var(--ease-out),
+    background-color 200ms var(--ease-out);
+}
+
+.fp-lightbox-close:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.fp-lightbox-close:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.35);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fp-lightbox {
+    backdrop-filter: none;
+  }
+  .fp-lightbox-close {
+    transition: none;
+  }
+}
+
 .fp-callout {
   border-radius: var(--radius-lg);
   border: 1px solid rgba(15, 23, 42, 0.12);
