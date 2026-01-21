@@ -67,10 +67,53 @@
 
     <main id="main" class="fp-main">
       <div class="fp-container">
-        {% if page.show_title != false and page.title %}
-          <h1 class="fp-page-title">{{ page.title }}</h1>
-        {% endif %}
-        {{ content }}
+        <div class="fp-doc-layout">
+          <article class="fp-doc markdown-body" data-fp-doc>
+            <header class="fp-doc-header">
+              <div class="fp-kicker">
+                {% if page.kicker %}{{ page.kicker }}{% else %}Notes{% endif %}
+              </div>
+              <h1 class="fp-doc-title">{{ page.title }}</h1>
+              {% if page.description %}
+                <p class="fp-doc-description">{{ page.description }}</p>
+              {% endif %}
+              <div class="fp-doc-meta">
+                <a
+                  class="fp-doc-meta-link"
+                  href="{{ site.repo_url }}/blob/main/{{ page.path }}"
+                  >View source</a
+                >
+                <span class="fp-dot" aria-hidden="true">•</span>
+                <span class="fp-doc-meta-muted"
+                  >Built {{ site.time | date: '%Y-%m-%d' }}</span
+                >
+              </div>
+            </header>
+            <div class="fp-doc-content">
+              {{ content }}
+            </div>
+          </article>
+
+          <aside class="fp-doc-aside">
+            <div class="fp-aside-card">
+              <div class="fp-aside-title">On this page</div>
+              <nav class="fp-toc" data-fp-toc aria-label="On this page"></nav>
+              <div class="fp-aside-divider"></div>
+              <a class="fp-aside-link" href="{{ '/tutorials/' | relative_url }}"
+                >All tutorials</a
+              >
+              <a class="fp-aside-link" href="{{ '/glossary/' | relative_url }}"
+                >Glossary</a
+              >
+              <a class="fp-aside-link" href="{{ site.repo_url }}">GitHub repo</a>
+            </div>
+
+            <details class="fp-aside-card fp-aside-mobile">
+              <summary class="fp-aside-title">On this page</summary>
+              <nav class="fp-toc" data-fp-toc aria-label="On this page"></nav>
+            </details>
+          </aside>
+        </div>
       </div>
     </main>
 
@@ -102,3 +145,4 @@
     <script src="{{ '/assets/js/docs.js' | relative_url }}" defer></script>
   </body>
 </html>
+

@@ -1,0 +1,103 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-abs-title fp-abs-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-abs-title">Abstraction map from concrete to abstract state</title>
+  <desc id="fp-abs-desc">
+    Many concrete states map through an abstraction function alpha to a smaller abstract
+    state that preserves only the distinctions relevant to a question.
+  </desc>
+
+  <defs>
+    <filter id="fp-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-arrow-abs"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-shadow)">
+    <rect x="40" y="60" width="360" height="300" rx="24" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="70" y="104" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Concrete state space (huge)
+    </text>
+    <text x="70" y="130" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      exact remaining cards, exact order, exact history
+    </text>
+
+    <!-- dots -->
+    <g fill="rgba(59, 130, 246, 0.22)">
+      <circle cx="95" cy="175" r="6" />
+      <circle cx="145" cy="210" r="6" />
+      <circle cx="205" cy="180" r="6" />
+      <circle cx="255" cy="230" r="6" />
+      <circle cx="315" cy="195" r="6" />
+      <circle cx="120" cy="265" r="6" />
+      <circle cx="190" cy="250" r="6" />
+      <circle cx="265" cy="295" r="6" />
+      <circle cx="335" cy="275" r="6" />
+      <circle cx="170" cy="300" r="6" />
+    </g>
+    <g fill="rgba(249, 115, 22, 0.18)">
+      <circle cx="125" cy="185" r="4" />
+      <circle cx="235" cy="205" r="4" />
+      <circle cx="300" cy="250" r="4" />
+      <circle cx="210" cy="290" r="4" />
+      <circle cx="330" cy="215" r="4" />
+      <circle cx="95" cy="245" r="4" />
+    </g>
+  </g>
+
+  <!-- Arrow -->
+  <path
+    d="M420 210 C 500 210, 460 210, 540 210"
+    stroke="#3B82F6"
+    stroke-width="4"
+    fill="none"
+    marker-end="url(#fp-arrow-abs)"
+    stroke-linecap="round"
+  />
+  <text x="470" y="190" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    α
+  </text>
+  <text x="456" y="236" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    abstraction
+  </text>
+
+  <!-- Abstract space -->
+  <g filter="url(#fp-shadow)">
+    <rect x="560" y="60" width="360" height="300" rx="24" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="590" y="104" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Abstract state space (small)
+    </text>
+    <text x="590" y="130" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      preserves only what matters to the question
+    </text>
+
+    <rect x="590" y="170" width="240" height="56" rx="18" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.20)" />
+    <text x="612" y="204" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      running_count = +3
+    </text>
+
+    <rect x="590" y="240" width="240" height="56" rx="18" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.22)" />
+    <text x="612" y="274" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      decks_remaining ≈ 2.5
+    </text>
+
+    <text x="590" y="332" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Soundness asks: did we lose a real behavior?
+    </text>
+  </g>
+</svg>
+

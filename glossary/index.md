@@ -1,47 +1,30 @@
 ---
 title: Glossary
-layout: base
+layout: docs
+kicker: Reference
+description: A compact vocabulary for thinking clearly about state, invariants, abstraction, and counterexamples.
 ---
 
-<div class="fp-prose markdown-body">
-  <p>
-    This glossary is intentionally small. Each definition is phrased to support a mental
-    picture, not just a dictionary meaning.
-  </p>
+This glossary is intentionally small. Each definition is phrased to support a mental picture, not just a dictionary meaning.
 
-  <h2 id="state">State</h2>
-  <p>
-    A snapshot of “everything the system would need to know” to determine what can happen
-    next. In practice, we choose a state representation that preserves the distinctions
-    relevant to our question.
-  </p>
+## State
 
-  <h2 id="state-machine">State machine</h2>
-  <p>
-    A model of change over time: a set of states, an initial state, and a transition
-    relation describing how the system can evolve.
-  </p>
+A snapshot of “everything the system would need to know” to determine what can happen next. In practice, we choose a state representation that preserves the distinctions relevant to our question.
 
-  <h2 id="invariant">Invariant</h2>
-  <p>
-    A property intended to hold for all reachable states. When it fails, a tool can often
-    produce a counterexample trace showing how the failure is reached.
-  </p>
+## State machine
 
-  <h2 id="counterexample">Counterexample</h2>
-  <p>
-    A specific witness that refutes a universal claim. In software, it is often a concrete
-    input and an execution trace.
-  </p>
+A model of change over time: a set of states, an initial state, and a transition relation describing how the system can evolve.
 
-  <h2 id="abstraction">Abstraction</h2>
-  <p>
-    A mapping from concrete states to a smaller representation that discards detail while
-    preserving the distinctions that matter for a chosen property.
-  </p>
+## Invariant
 
-  <p>
-    More terms will be added as the tutorials grow.
-  </p>
-</div>
+A property intended to hold for all reachable states. When it fails, a tool can often produce a counterexample trace showing how the failure is reached.
 
+## Counterexample
+
+A specific witness that refutes a universal claim. In software, it is often a concrete input and an execution trace.
+
+## Abstraction
+
+A mapping from concrete states to a smaller representation that discards detail while preserving the distinctions that matter for a chosen property.
+
+More terms will be added as the tutorials grow.

@@ -1,0 +1,103 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-sec-title fp-sec-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-sec-title">Reliability, predictability, and security</title>
+  <desc id="fp-sec-desc">
+    Reliability is consistent behavior. Predictability is behavior bounded by proven
+    constraints. Security adds an adversary model and protects confidentiality, integrity,
+    and availability.
+  </desc>
+
+  <defs>
+    <filter id="fp-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-arrow-sec"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-shadow)">
+    <rect x="60" y="70" width="840" height="280" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <rect x="110" y="130" width="210" height="160" rx="22" fill="rgba(15, 23, 42, 0.05)" stroke="rgba(15, 23, 42, 0.14)" />
+    <text x="140" y="170" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Reliability
+    </text>
+    <text x="140" y="196" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      does it behave consistently?
+    </text>
+    <text x="140" y="228" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      fewer crashes
+    </text>
+    <text x="140" y="250" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      fewer surprises
+    </text>
+
+    <rect x="375" y="130" width="220" height="160" rx="22" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="405" y="170" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Predictability
+    </text>
+    <text x="405" y="196" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      what behaviors are possible?
+    </text>
+    <text x="405" y="228" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      prove bad states
+    </text>
+    <text x="405" y="250" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      are unreachable
+    </text>
+
+    <rect x="650" y="130" width="200" height="160" rx="22" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="680" y="170" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Security
+    </text>
+    <text x="680" y="196" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      under an adversary model
+    </text>
+    <text x="680" y="228" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      confidentiality
+    </text>
+    <text x="680" y="250" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      integrity, availability
+    </text>
+
+    <path d="M320 210 H365" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-arrow-sec)" stroke-linecap="round" />
+    <path d="M595 210 H640" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-arrow-sec)" stroke-linecap="round" />
+
+    <!-- adversary arrows -->
+    <path
+      d="M890 120 C 920 130, 920 150, 890 160"
+      stroke="rgba(249, 115, 22, 0.55)"
+      stroke-width="4"
+      fill="none"
+      stroke-linecap="round"
+    />
+    <path
+      d="M890 170 C 920 180, 920 200, 890 210"
+      stroke="rgba(249, 115, 22, 0.55)"
+      stroke-width="4"
+      fill="none"
+      stroke-linecap="round"
+    />
+    <path
+      d="M890 220 C 920 230, 920 250, 890 260"
+      stroke="rgba(249, 115, 22, 0.55)"
+      stroke-width="4"
+      fill="none"
+      stroke-linecap="round"
+    />
+  </g>
+</svg>
+

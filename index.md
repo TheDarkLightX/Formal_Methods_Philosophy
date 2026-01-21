@@ -5,30 +5,46 @@ show_title: false
 ---
 
 <section class="fp-hero">
-  <h1 class="fp-hero-title">Formal Philosophy</h1>
-  <p class="fp-hero-subtitle">
-    A tutorial series about how to think in formal methods: modeling, abstraction,
-    symbolic tools, counterexamples, and what it means to justify a claim about software.
-  </p>
+  <div class="fp-hero-grid">
+    <div>
+      <h1 class="fp-hero-title">Formal Philosophy</h1>
+      <p class="fp-hero-subtitle">
+        A tutorial series about how to think in formal methods: modeling, abstraction,
+        symbolic tools, counterexamples, and what it means to justify a claim about software.
+      </p>
 
-  <div class="fp-search" role="search" aria-label="Search">
-    <input
-      class="fp-search-input"
-      type="search"
-      inputmode="search"
-      placeholder="Search: counterexample, invariant, state machine, CEGIS..."
-      aria-label="Search the site"
-      data-fp-search-input
-    />
-    <div class="fp-search-results" data-fp-search-results></div>
-    <div class="fp-search-hint" data-fp-search-hint></div>
-  </div>
+      <div class="fp-badges" aria-label="Topics">
+        <span class="fp-badge">State machines</span>
+        <span class="fp-badge">Abstraction</span>
+        <span class="fp-badge">Counterexamples</span>
+        <span class="fp-badge">CEGIS</span>
+        <span class="fp-badge">Security claims</span>
+      </div>
 
-  <div class="fp-hero-actions">
-    <a class="fp-btn fp-btn-primary" href="{{ '/tutorials/' | relative_url }}"
-      >Start reading</a
-    >
-    <a class="fp-btn fp-btn-secondary" href="{{ site.repo_url }}">View on GitHub</a>
+      <div class="fp-search" role="search" aria-label="Search">
+        <input
+          class="fp-search-input"
+          type="search"
+          inputmode="search"
+          placeholder="Search: counterexample, invariant, state machine, CEGIS..."
+          aria-label="Search the site"
+          data-fp-search-input
+        />
+        <div class="fp-search-results" data-fp-search-results></div>
+        <div class="fp-search-hint" data-fp-search-hint></div>
+      </div>
+
+      <div class="fp-hero-actions">
+        <a class="fp-btn fp-btn-primary" href="{{ '/tutorials/' | relative_url }}"
+          >Start reading</a
+        >
+        <a class="fp-btn fp-btn-secondary" href="{{ site.repo_url }}">View on GitHub</a>
+      </div>
+    </div>
+
+    <div class="fp-hero-visual" aria-hidden="true">
+      {% include diagrams/hero-pipeline.svg %}
+    </div>
   </div>
 </section>
 
@@ -111,4 +127,3 @@ show_title: false
     </details>
   </div>
 </section>
-

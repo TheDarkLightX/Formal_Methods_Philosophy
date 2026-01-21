@@ -1,0 +1,104 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-dial-scale-title fp-dial-scale-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-dial-scale-title">Two accurate mental images: dial and balance</title>
+  <desc id="fp-dial-scale-desc">
+    A running score behaves like a dial that moves with each observation and like a balance
+    between seen and unseen weight.
+  </desc>
+
+  <defs>
+    <filter id="fp-shadow-sm" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <linearGradient id="fp-dial-fill" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3B82F6" stop-opacity="0.16" />
+      <stop offset="1" stop-color="#F97316" stop-opacity="0.10" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left: dial -->
+  <g transform="translate(60,50)" filter="url(#fp-shadow-sm)">
+    <rect x="0" y="0" width="390" height="320" rx="22" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="28" y="46" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Dial (running score)
+    </text>
+    <text x="28" y="72" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Each card nudges the needle up, down, or not at all.
+    </text>
+
+    <circle cx="195" cy="190" r="108" fill="url(#fp-dial-fill)" stroke="rgba(15, 23, 42, 0.14)" />
+    <circle cx="195" cy="190" r="82" fill="#FFFFFF" stroke="rgba(15, 23, 42, 0.10)" />
+
+    <!-- tick marks -->
+    <g stroke="rgba(15, 23, 42, 0.25)" stroke-width="3" stroke-linecap="round">
+      <path d="M195 80 L195 98" />
+      <path d="M120 112 L132 126" />
+      <path d="M270 112 L258 126" />
+      <path d="M88 190 L106 190" />
+      <path d="M302 190 L284 190" />
+      <path d="M120 268 L132 254" />
+      <path d="M270 268 L258 254" />
+      <path d="M195 300 L195 282" />
+    </g>
+
+    <!-- needle -->
+    <path
+      d="M195 190 L265 150"
+      stroke="#F97316"
+      stroke-width="8"
+      stroke-linecap="round"
+    />
+    <circle cx="195" cy="190" r="10" fill="#1E293B" opacity="0.9" />
+
+    <text x="140" y="238" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      0, 1, 2, 1, 1, 0...
+    </text>
+  </g>
+
+  <!-- Right: balance -->
+  <g transform="translate(510,50)" filter="url(#fp-shadow-sm)">
+    <rect x="0" y="0" width="390" height="320" rx="22" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="28" y="46" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Balance (seen vs unseen)
+    </text>
+    <text x="28" y="72" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Total weight starts at 0, so unseen weight mirrors what you saw.
+    </text>
+
+    <!-- stand -->
+    <path d="M195 106 L195 250" stroke="rgba(15, 23, 42, 0.18)" stroke-width="10" stroke-linecap="round" />
+    <path d="M110 250 H280" stroke="rgba(15, 23, 42, 0.18)" stroke-width="10" stroke-linecap="round" />
+    <path d="M90 120 H300" stroke="rgba(15, 23, 42, 0.18)" stroke-width="8" stroke-linecap="round" />
+
+    <!-- strings -->
+    <path d="M125 120 L105 170" stroke="rgba(15, 23, 42, 0.22)" stroke-width="4" stroke-linecap="round" />
+    <path d="M265 120 L285 170" stroke="rgba(15, 23, 42, 0.22)" stroke-width="4" stroke-linecap="round" />
+
+    <!-- pans -->
+    <path d="M65 170 H145" stroke="rgba(15, 23, 42, 0.22)" stroke-width="8" stroke-linecap="round" />
+    <path d="M245 170 H325" stroke="rgba(15, 23, 42, 0.22)" stroke-width="8" stroke-linecap="round" />
+
+    <rect x="78" y="184" width="54" height="42" rx="12" fill="rgba(59, 130, 246, 0.14)" stroke="rgba(59, 130, 246, 0.25)" />
+    <rect x="258" y="184" width="54" height="42" rx="12" fill="rgba(249, 115, 22, 0.14)" stroke="rgba(249, 115, 22, 0.28)" />
+
+    <text x="88" y="210" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      seen
+    </text>
+    <text x="268" y="210" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      unseen
+    </text>
+
+    <text x="88" y="242" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      +running
+    </text>
+    <text x="268" y="242" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      -running
+    </text>
+  </g>
+</svg>
+

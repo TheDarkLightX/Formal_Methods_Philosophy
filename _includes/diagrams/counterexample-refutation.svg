@@ -1,0 +1,89 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-cex-title fp-cex-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-cex-title">Counterexample as a refuter</title>
+  <desc id="fp-cex-desc">
+    A universal claim is refuted by a single witness that violates it, producing a
+    contradiction.
+  </desc>
+
+  <defs>
+    <filter id="fp-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-arrow-cex"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#F97316" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-shadow)">
+    <rect x="60" y="90" width="360" height="240" rx="22" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="90" y="140" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Universal claim
+    </text>
+    <text x="90" y="172" font-size="13" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      ∀x. Swan(x) → White(x)
+    </text>
+    <text x="90" y="210" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      “All swans are white.”
+    </text>
+
+    <rect x="90" y="242" width="300" height="58" rx="16" fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.18)" />
+    <text x="110" y="276" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      For every swan, whiteness follows.
+    </text>
+  </g>
+
+  <path
+    d="M440 210 C 520 210, 500 210, 580 210"
+    stroke="#F97316"
+    stroke-width="4"
+    fill="none"
+    marker-end="url(#fp-arrow-cex)"
+    stroke-linecap="round"
+  />
+  <text x="468" y="190" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    refuter
+  </text>
+
+  <g filter="url(#fp-shadow)">
+    <rect x="600" y="70" width="300" height="280" rx="22" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="630" y="120" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Counterexample
+    </text>
+    <text x="630" y="152" font-size="13" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Swan(b) ∧ ¬White(b)
+    </text>
+
+    <!-- simple swan-ish mark -->
+    <path
+      d="M690 214 C 676 190, 696 168, 720 182 C 742 196, 734 220, 712 222 C 735 242, 740 270, 714 274 C 688 278, 670 250, 684 230"
+      fill="rgba(15, 23, 42, 0.08)"
+      stroke="rgba(15, 23, 42, 0.18)"
+      stroke-width="4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+    <circle cx="728" cy="188" r="5" fill="#0F172A" opacity="0.8" />
+
+    <rect x="630" y="260" width="240" height="66" rx="16" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="650" y="292" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Contradiction:
+    </text>
+    <text x="650" y="314" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      White(b) and ¬White(b)
+    </text>
+  </g>
+</svg>
+

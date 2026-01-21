@@ -1,0 +1,97 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 460"
+  role="img"
+  aria-labelledby="fp-sm-title fp-sm-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-sm-title">Concrete and abstract state machines</title>
+  <desc id="fp-sm-desc">
+    A concrete transition removes an observed card from the remaining deck. An abstract
+    transition updates a small summary like running_count by adding a weight.
+  </desc>
+
+  <defs>
+    <filter id="fp-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-arrow-sm"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-shadow)">
+    <rect x="40" y="70" width="880" height="320" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <!-- Concrete machine -->
+    <text x="90" y="130" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Concrete machine
+    </text>
+    <text x="90" y="154" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      exact remaining cards
+    </text>
+
+    <g>
+      <rect x="90" y="210" width="220" height="72" rx="22" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+      <text x="120" y="246" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        R
+      </text>
+      <text x="145" y="246" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        multiset of cards
+      </text>
+    </g>
+
+    <g>
+      <rect x="360" y="210" width="220" height="72" rx="22" fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.18)" />
+      <text x="390" y="246" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        R \ {c}
+      </text>
+      <text x="468" y="246" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        after observing c
+      </text>
+    </g>
+
+    <path d="M310 246 H350" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-arrow-sm)" stroke-linecap="round" />
+    <text x="312" y="224" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      observe c
+    </text>
+
+    <!-- Abstract machine -->
+    <text x="640" y="130" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Abstract machine
+    </text>
+    <text x="640" y="154" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      small summary state
+    </text>
+
+    <g>
+      <rect x="640" y="200" width="250" height="92" rx="22" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+      <text x="670" y="240" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        running_count
+      </text>
+      <text x="670" y="264" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        add weight(c) each step
+      </text>
+    </g>
+
+    <!-- Abstraction arrow -->
+    <path
+      d="M580 246 C 610 246, 610 246, 640 246"
+      stroke="rgba(15, 23, 42, 0.22)"
+      stroke-width="3"
+      marker-end="url(#fp-arrow-sm)"
+      stroke-linecap="round"
+    />
+    <text x="598" y="228" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      α
+    </text>
+  </g>
+</svg>
+

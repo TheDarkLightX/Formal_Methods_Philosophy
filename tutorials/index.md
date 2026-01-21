@@ -1,14 +1,28 @@
 ---
 title: Tutorials
 layout: base
+show_title: false
 ---
 
-<div class="fp-prose markdown-body">
-  <p>
-    This site is organized as a sequence of tutorials. Each tutorial starts with a
-    concrete picture, then tightens into a precise model that tools can manipulate.
-  </p>
-</div>
+<section class="fp-hero">
+  <div class="fp-hero-grid">
+    <div>
+      <h1 class="fp-hero-title">Tutorials</h1>
+      <p class="fp-hero-subtitle">
+        Each tutorial starts with a concrete picture, then tightens into a precise model
+        that tools can manipulate.
+      </p>
+      <div class="fp-badges" aria-label="Learning style">
+        <span class="fp-badge">Concrete first</span>
+        <span class="fp-badge">Formal accuracy</span>
+        <span class="fp-badge">Tool-shaped thinking</span>
+      </div>
+    </div>
+    <div class="fp-hero-visual" aria-hidden="true">
+      {% include diagrams/hero-pipeline.svg %}
+    </div>
+  </div>
+</section>
 
 <div class="fp-grid" style="margin-top: var(--space-xl)">
   <a
@@ -22,4 +36,3 @@ layout: base
     </p>
   </a>
 </div>
-
