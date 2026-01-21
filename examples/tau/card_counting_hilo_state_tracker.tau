@@ -1,0 +1,66 @@
+# Card counting (Hi-Lo) as an educational Tau spec (approximate state tracker)
+#
+# Goal
+# This file is meant to be readable and executable. It is not consensus-critical.
+#
+# Mental model
+# - The true hidden state is the remaining deck composition (and, if you care, the remaining order).
+# - Hi-Lo keeps a small approximate state: a running count updated online.
+#
+# Two separable steps (human picture)
+# 1) Classification: the observed rank is mapped to a delta in {+1, 0, -1}.
+# 2) Tracking: the running count is updated by adding that delta.
+#
+# This Tau file focuses on step (2), the state tracker.
+# In Tau, it is usually best to keep the policy logic simple and push complicated
+# parsing and classification into the host system. That is why the input here is the
+# already-classified delta, not the raw rank.
+#
+# Encoding
+# - Input i1[t] is the delta at step t (bv[8], two's-complement):
+#     +1  is 0x01
+#      0  is 0x00
+#     -1  is 0xFF
+#
+# Outputs
+# - o1[t] (bv[8]) = running count stored with a +32 bias so it stays non-negative.
+#   - biased_count = running_count + 32
+# - o2[t] (bv[8]) = the delta applied (we echo i1[t] so it is visible in the trace)
+# - o3[t] (sbf)   = 1 iff the delta is one of {0x01, 0x00, 0xFF}
+#
+# Note on limits
+# bv arithmetic is modular. This is an educational model, so we keep widths small and
+# use a bias. In a tutorial, we will explicitly discuss bounding and overflow as a form
+# of state space shrinking.
+
+set charvar off
+
+# Define input/output streams for the REPL interpreter.
+bv[8] i1 = console
+bv[8] o1 = console
+bv[8] o2 = console
+sbf o3 = console
+
+delta_is_valid(delta : bv[8]) :=
+  (delta = { #x01 }:bv[8]) ||
+  (delta = { #x00 }:bv[8]) ||
+  (delta = { #xFF }:bv[8]).
+
+# Demo
+# We feed a fixed sequence of deltas so this file runs end-to-end without manual typing.
+# Sequence: +1, +1, 0, -1, -1, 0 (two's complement -1 is 255 in bv[8]).
+
+# The tracker as a transition system.
+# - The initial biased count is 0x20 (32), which represents running_count = 0.
+# - Each step adds the new delta to the previous biased count.
+r o1[0]:bv[8] = { #x20 }:bv[8] && o2[t]:bv[8] = i1[t]:bv[8] && o1[t]:bv[8] = o1[t-1]:bv[8] + o2[t]:bv[8] && (o3[t]:sbf = 1:sbf <-> delta_is_valid(i1[t]:bv[8]))
+1
+1
+0
+255
+255
+0
+
+# Terminate the execution loop, then quit Tau.
+
+q
