@@ -364,7 +364,7 @@ The practical reason to care about all of this is simple:
 
 > If a hard problem can be translated into an isomorphic (or meaning-preserving) form where the tools are better, the problem has not changed. Leverage has.
 
-Here is a concrete example of how this works.
+Here are three examples of how this works.
 
 ### Example: a puzzle becomes linear algebra
 
@@ -383,8 +383,36 @@ So the puzzle's state space has size $2^n$. For a 5x5 board ($n=25$):
 Brute force is already uncomfortable at that scale. But the algebraic view gives a different tool:
 the whole puzzle becomes a linear system $A x = b$ over $\mathbb{F}_2$, solvable by Gaussian elimination.
 
-That is the "abstraction translation" move in action:
-Nothing magical happened. The same problem was rewritten in a language where a mature tool applies.
+### Example: circuit equivalence becomes SAT
+
+Consider two combinational circuits $C_1$ and $C_2$ that take the same input bits $x$ and produce one output bit each.
+The question "are they equivalent?" means:
+
+- for all inputs $x$, $C_1(x) = C_2(x)$.
+
+That universal claim can be turned into an existential search problem:
+
+- find an input $x$ such that $C_1(x) \ne C_2(x)$.
+
+Encode the circuits and the inequality into a SAT instance. Then:
+
+- if the SAT solver finds a model, the model is a concrete counterexample input,
+- if the SAT solver reports UNSAT, there is no such input, so the circuits are equivalent.
+
+This is not magic. It is a change of language to one with industrial-strength tools.
+
+### Example: deadlock becomes a cycle problem
+
+In lock-based concurrency, deadlock is a pattern of circular waiting.
+Thread A waits for something held by thread B, thread B waits for something held by thread C, and eventually some thread waits for something held by A.
+
+That situation can be captured as a directed "wait-for" graph.
+Vertices represent threads. An edge $A \to B$ means A is waiting for B.
+
+In that model, a deadlock corresponds to a directed cycle.
+Once the problem is phrased as "is there a cycle?", graph algorithms apply immediately.
+
+That is the translation move again: the original situation is unchanged, but the tool choice gets better.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">A useful closing quote</p>
