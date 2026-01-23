@@ -1,0 +1,167 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-iso-title fp-iso-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-iso-title">Isomorphism: encode and decode between two ledgers</title>
+  <desc id="fp-iso-desc">
+    A bag-of-cards representation R and a 52-entry count table v_R, with reversible translations
+    encode and decode.
+  </desc>
+
+  <defs>
+    <filter id="fp-iso-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-iso-arrow"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-iso-shadow)">
+    <rect x="40" y="60" width="880" height="300" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <!-- Left: Ledger A -->
+    <text
+      x="90"
+      y="120"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Ledger A
+    </text>
+    <text
+      x="90"
+      y="145"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      multiset R (a "bag" of remaining cards)
+    </text>
+
+    <rect
+      x="90"
+      y="175"
+      width="260"
+      height="150"
+      rx="22"
+      fill="rgba(59, 130, 246, 0.08)"
+      stroke="rgba(59, 130, 246, 0.18)"
+    />
+
+    <!-- Card-ish tiles -->
+    <g>
+      <rect x="115" y="198" width="54" height="70" rx="14" fill="#FFFFFF" stroke="rgba(15, 23, 42, 0.12)" />
+      <rect x="175" y="208" width="54" height="70" rx="14" fill="#FFFFFF" stroke="rgba(15, 23, 42, 0.12)" />
+      <rect x="235" y="198" width="54" height="70" rx="14" fill="#FFFFFF" stroke="rgba(15, 23, 42, 0.12)" />
+      <rect x="145" y="276" width="54" height="40" rx="12" fill="#FFFFFF" stroke="rgba(15, 23, 42, 0.12)" />
+      <rect x="205" y="276" width="54" height="40" rx="12" fill="#FFFFFF" stroke="rgba(15, 23, 42, 0.12)" />
+    </g>
+    <g font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" fill="#1E293B">
+      <text x="132" y="238">A♠</text>
+      <text x="192" y="248">7♦</text>
+      <text x="252" y="238">K♥</text>
+      <text x="162" y="302">3♣</text>
+      <text x="222" y="302">3♣</text>
+    </g>
+
+    <!-- Right: Ledger B -->
+    <text
+      x="610"
+      y="120"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Ledger B
+    </text>
+    <text
+      x="610"
+      y="145"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      count table v_R (one row per card-label)
+    </text>
+
+    <rect
+      x="610"
+      y="175"
+      width="260"
+      height="150"
+      rx="22"
+      fill="rgba(249, 115, 22, 0.10)"
+      stroke="rgba(249, 115, 22, 0.22)"
+    />
+
+    <!-- Table-ish rows -->
+    <g font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="13">
+      <text x="635" y="210" fill="#1E293B">A♠ : 1</text>
+      <text x="635" y="236" fill="#1E293B">7♦ : 1</text>
+      <text x="635" y="262" fill="#1E293B">K♥ : 1</text>
+      <text x="635" y="288" fill="#1E293B">3♣ : 2</text>
+      <text x="635" y="314" fill="rgba(30, 41, 59, 0.55)">... (48 more)</text>
+    </g>
+
+    <!-- Center arrows -->
+    <text
+      x="475"
+      y="190"
+      font-size="28"
+      font-weight="900"
+      fill="rgba(30, 41, 59, 0.78)"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      ≅
+    </text>
+
+    <path
+      d="M360 225 H590"
+      stroke="#3B82F6"
+      stroke-width="4"
+      marker-end="url(#fp-iso-arrow)"
+      stroke-linecap="round"
+    />
+    <text
+      x="445"
+      y="214"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      encode
+    </text>
+
+    <path
+      d="M590 275 H360"
+      stroke="#3B82F6"
+      stroke-width="4"
+      marker-end="url(#fp-iso-arrow)"
+      stroke-linecap="round"
+    />
+    <text
+      x="446"
+      y="300"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      decode
+    </text>
+  </g>
+</svg>
+
