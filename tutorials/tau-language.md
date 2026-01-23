@@ -54,7 +54,8 @@ it says what the state is, what inputs exist, and what properties must never be 
 ## Part II: reading Tau (streams, time, and constraints)
 
 Tau specifications talk about **streams** (inputs and outputs) indexed by time.
-The index starts at 0, and `t` is used as "the current step" during execution.
+Timepoint 0 is commonly used for initial conditions, and timepoints 1,2,3,... are the execution steps that follow.
+In formulas, `t` is used as “the current step”.
 
 Stream declarations look like:
 
@@ -63,11 +64,31 @@ i1 : bv[8] := in console
 o1 : bv[8] := out console
 ```
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Types used in these examples</p>
+  <ul>
+    <li><code>bv[8]</code>: an 8-bit bitvector (values 0..255). Arithmetic is modular; <code>255</code> is <code>#xFF</code> if you think in hex.</li>
+    <li><code>sbf</code>: a single-bit boolean flag (printed as 0/1), useful for “valid?”, “alarm?”, “solved?” style signals.</li>
+  </ul>
+</div>
+
 Then a local constraint can relate "now" and "one step ago":
 
 ```tau
 o1[t] = o1[t-1] + i1[t]
 ```
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Two operator families (a common source of mistakes)</p>
+  <ul>
+    <li><code>&amp; | '</code> are <em>term</em> operators (bit-level / boolean-algebra terms)</li>
+    <li><code>&amp;&amp; || !</code> are <em>formula</em> operators (logical connectives over constraints)</li>
+  </ul>
+  <p>
+    A comparison like <code>x = y</code> is a formula, so it composes with <code>&amp;&amp;</code>, not <code>&amp;</code>.
+    If you feel yourself fighting the type system, a reliable pattern is: compute complex checks in the host, pass booleans in, and let Tau combine them.
+  </p>
+</div>
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">A small practical note: <code>charvar</code></p>
@@ -84,6 +105,17 @@ One crucial shift in mindset:
 - A Tau specification constrains outputs by stating relationships.
 
 During execution, Tau requests values for input streams and then uses a solver to pick output values that satisfy the constraints.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">How the repo examples run</p>
+  <p>
+    The <code>.tau</code> files in <code>examples/tau/</code> are scripted interpreter sessions:
+    they declare streams, run a spec with the <code>r</code> command, feed a small demo input sequence, then quit.
+    From the repo root:
+  </p>
+  <pre><code>./scripts/update_tau_lang.sh</code></pre>
+  <pre><code>./scripts/run_tau_policy.sh examples/tau/turnstile_fsm_alarm.tau</code></pre>
+</div>
 
 ## Part III: the same system in three layers (FSM, recurrence, specification)
 
@@ -165,10 +197,10 @@ That translation is the leverage move from Tutorial 2.
 
 A lookup table is a representation of a function on a finite domain.
 
-For tabular Q-learning, the domain is `(state, action)` and the values are numbers:
+For tabular Q-learning, the domain is `(state, action)` and the values are typically real-valued scores:
 
 $$
-Q : S \times A \to \mathbb{N}.
+Q : S \times A \to \mathbb{R}.
 $$
 
 If `S` and `A` are finite, then a table is just a list of entries with a chosen ordering.
@@ -188,7 +220,7 @@ one entry in a table is updated using the reward and the best predicted next val
 
 ### A runnable Tau example: tabular update (2x2 table)
 
-There is a runnable Tau spec that maintains a 2x2 Q-table and updates exactly one entry per step:
+There is a runnable Tau spec that models a single update step on a 2x2 Q-table:
 
 - `examples/tau/q_learning_tabular_update.tau`
 
@@ -203,6 +235,8 @@ Each step supplies:
 The spec computes `target = r + q_next` and enforces one clean invariant:
 if `learn = 1`, exactly one table entry changes (the one selected by `(s,a)`), and it changes to `target`.
 All other entries must remain unchanged. If `learn = 0`, the output table equals the input table.
+
+This is also a good example of a common integration pattern: Tau specifies the shape of the update, while the host system is responsible for “closing the loop” by feeding the updated table back in as the next step’s input.
 
 This is the main "Tau + lookup table" move: the host system can choose or learn numbers,
 but Tau can enforce that updates are shaped correctly and do not touch anything else.
