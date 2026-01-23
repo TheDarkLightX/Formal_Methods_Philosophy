@@ -39,4 +39,12 @@ A mapping from concrete states to a smaller representation that discards detail 
 
 A change of representation that preserves meaning. For a single state, it is a lossless re-encoding. For a set of states, it can be a symbolic encoding (for example, a formula that compactly represents many states at once).
 
+## Isomorphism
+
+A 1-to-1, structure-preserving mapping between two structures (with the same operations/relations in view). If two structures are isomorphic, they are “the same shape” up to renaming elements.
+
+## Equivalence relation
+
+A relation \(\sim\) that is reflexive, symmetric, and transitive. It groups objects into equivalence classes representing “different descriptions, same meaning.”
+
 More terms will be added as the tutorials grow.

@@ -35,4 +35,14 @@ show_title: false
       counterexamples, CEGIS, and the boundaries between heuristics and proofs.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/isomorphism/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 2: Isomorphism</h2>
+    <p class="fp-card-text">
+      A 1-to-1, structure-preserving translation: why some “different abstractions” are
+      the same thing in different clothes, and how to move problems into better toolchains.
+    </p>
+  </a>
 </div>

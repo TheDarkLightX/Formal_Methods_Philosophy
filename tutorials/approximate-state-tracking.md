@@ -738,4 +738,8 @@ Next pages will make these pictures manipulable:
 - write the deck model as a small transition system,
 - express properties as logical statements,
 - use tools to search for counterexamples,
+- learn when two different descriptions are actually the same structure (isomorphism) versus a lossy abstraction,
 - and use counterexamples to refine models and synthesize better ones.
+
+If you want the next conceptual tool immediately, read
+[Tutorial 2: Isomorphism]({{ '/tutorials/isomorphism/' | relative_url }}).
