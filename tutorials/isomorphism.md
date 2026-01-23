@@ -36,7 +36,7 @@ Let `Card` be the 52 distinct card labels in a standard deck (rank + suit).
 
 If I ignore order and I'm modeling a single deck, then the exact remaining deck really is a subset $R \subseteq Card$: each card-label is either still in the shoe or it isn't.
 
-That space already has $2^{52} = 4,503,599,627,370,496$ (about 4.5 quadrillion) possible remaining-subset states.
+That space already has $2^{52} = 4{,}503{,}599{,}627{,}370{,}496$ (about 4.5 quadrillion) possible remaining-subset states.
 
 For a multi-deck shoe, the remaining cards form a **multiset** `R` over `Card`: a "bag" where order does not matter but multiplicity does.
 
@@ -126,14 +126,26 @@ any statement expressible *in the chosen language* has the same truth value afte
 
 ## Part III: different abstractions, and when they are secretly the same thing
 
-A useful external map of these ideas is the
+A useful software-side reference for the ideas in this section is the
 [Software Abstraction Cheat Sheet](https://thedarklightx.github.io/Beyond-Code-Abstraction-Cheatsheet/).
-It gives a good rule of thumb:
+Its rule of thumb is strong enough to treat as a definition:
 
-Abstraction means forgetting some implementation detail while preserving the structure needed to reason about a property.
+> Abstraction means: forget some implementation detail, while preserving the structure needed to reason about a property.
 
-That sentence is doing a lot of work. Abstraction is not vagueness. It is a controlled camera angle.
-Some details are blurred out (mutation, allocation, evaluation order, scheduling, pointer layout, and so on) so the remaining shape is sharp enough to reason about a target property (correctness, safety, liveness, equivalence).
+That sentence is doing a lot of work. It is saying: abstraction is not vagueness.
+It is a controlled camera angle. Some details are allowed to blur (mutation, allocation,
+evaluation order, scheduling, pointer layout) so the remaining shape is crisp enough
+to reason about a target property (correctness, safety, liveness, equivalence, complexity).
+
+In practice, several different moves get called "abstraction". Keeping them separate prevents confusion.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Three different “same”-claims</p>
+  {% include diagrams/sameness-moves.svg %}
+  <figcaption class="fp-figure-caption">
+    "Same thing" can mean a lossless re-encoding (isomorphism), the same denotation after applying a meaning function (equivalence), or a deliberate approximation that preserves only certain properties (sound abstraction).
+  </figcaption>
+</figure>
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Three different moves that get called "making the system smaller"</p>
@@ -143,8 +155,17 @@ Some details are blurred out (mutation, allocation, evaluation order, scheduling
   </figcaption>
 </figure>
 
-The cheat sheet collects a lot of lenses on one page. The point is not to memorize them. The point is to notice a theme:
-the same underlying system can be held in view as functions, machines, relations, traces, or proofs, depending on the question.
+### A quick taxonomy (so the words do not slip)
+
+When someone says "this is the same thing in a different abstraction", it helps to ask what kind of sameness is meant.
+
+- **Isomorphism (lossless re-encoding):** there is a reversible translation `encode`/`decode`, and operations correspond across the translation.
+- **Equivalence (same meaning):** there is a meaning function `⟦·⟧` and the two descriptions denote the same object (often many-to-one).
+- **Sound abstraction (property-preserving approximation):** there is a map from concrete to abstract that forgets details but preserves a property of interest (usually one-way).
+- **Encoding/simulation (expressive power):** one formalism can simulate another; the relationship may preserve behavior, but not as a simple 1-to-1 map.
+
+The cheat sheet collects many lenses on one page. The point is not memorization; it is the repeatable move:
+hold the same underlying behavior in view as functions, machines, relations, traces, or proofs, depending on the question.
 
 For example, its "quick reference" places these side by side:
 
@@ -160,6 +181,17 @@ These lenses are related, but not always by literal isomorphisms. The relationsh
 - Sometimes there is an **equivalence of meaning** (different descriptions denote the same object).
 - Sometimes there is a **sound abstraction** (a property is preserved while detail is deliberately merged, which can introduce false positives).
 - Sometimes there is an **encoding** (one formalism can simulate another).
+
+### Example: one state machine, three isomorphic encodings
+
+A finite-state machine can be written in at least three ways that are "the same" up to a choice of naming/ordering:
+
+- as a directed graph (states as nodes, transitions as edges),
+- as a transition function $\delta : S \times \Sigma \to S$,
+- as an adjacency matrix (after choosing an ordering of the states).
+
+Each representation is just a different way of storing the same structure.
+The translations between them are lossless once the naming/ordering convention is fixed.
 
 ### Example: two concrete stacks, one abstract stack
 
@@ -378,7 +410,7 @@ If a board has $n$ lights, then:
 
 So the puzzle's state space has size $2^n$. For a 5x5 board ($n=25$):
 
-- $2^{25} = 33,554,432$ (about 33 million) possible states.
+- $2^{25} = 33{,}554{,}432$ (about 33 million) possible states.
 
 Brute force is already uncomfortable at that scale. But the algebraic view gives a different tool:
 the whole puzzle becomes a linear system $A x = b$ over $\mathbb{F}_2$, solvable by Gaussian elimination.

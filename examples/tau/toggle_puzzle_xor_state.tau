@@ -1,0 +1,33 @@
+# Toggle puzzle as XOR state update (a tiny "Lights Out" slice)
+#
+# Mental model
+# - A board is a bitvector of on/off lights.
+# - A move is a bitmask of which lights get toggled.
+# - Applying a move is XOR (exclusive-or).
+#
+# Encoding (bv[8])
+# - We use the low 5 bits as the board.
+# - A move is a bitmask (we assume it is already validated upstream).
+#
+# This example is meant to connect to the "puzzle becomes linear algebra" lens:
+# XOR over bits is addition over GF(2).
+
+set charvar off
+
+i1 : bv[8] := in console
+o1 : bv[8] := out console  # board
+o2 : bv[8] := out console  # echo move
+o3 : sbf := out console    # solved (board == 0)
+
+# Demo moves (decimal): 7, 28, 14
+# Initial board: 0x15 (10101)
+# 0x15 ^ 0x07 = 0x12
+# 0x12 ^ 0x1C = 0x0E
+# 0x0E ^ 0x0E = 0x00 (solved)
+# Note: this is written on one line because the Tau REPL treats newlines as command boundaries.
+r (o1[0]:bv[8] = { #x15 }:bv[8]) && (o2[t]:bv[8] = i1[t]:bv[8]) && (o1[t]:bv[8] = o1[t-1]:bv[8] ^ o2[t]:bv[8]) && (o3[t]:sbf = 1:sbf <-> o1[t]:bv[8] = { #x00 }:bv[8])
+7
+28
+14
+
+q

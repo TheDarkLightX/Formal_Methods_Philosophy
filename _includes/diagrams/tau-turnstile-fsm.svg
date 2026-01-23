@@ -1,0 +1,200 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-turnstile-title fp-turnstile-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-turnstile-title">Turnstile finite-state machine</title>
+  <desc id="fp-turnstile-desc">
+    Two states, Locked and Unlocked. A coin transitions from Locked to Unlocked. A push transitions from Unlocked to Locked.
+    A push while Locked keeps the state Locked and triggers an alarm.
+  </desc>
+
+  <defs>
+    <filter id="fp-turnstile-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-turnstile-arrow"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-turnstile-shadow)">
+    <rect x="40" y="60" width="880" height="300" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="90"
+      y="120"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Turnstile FSM
+    </text>
+    <text
+      x="90"
+      y="145"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      state is one bit: 0 Locked, 1 Unlocked
+    </text>
+
+    <!-- States -->
+    <g>
+      <circle cx="300" cy="235" r="74" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" stroke-width="2" />
+      <circle cx="660" cy="235" r="74" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.22)" stroke-width="2" />
+
+      <text
+        x="300"
+        y="230"
+        text-anchor="middle"
+        font-size="18"
+        font-weight="900"
+        fill="#1E293B"
+        font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+      >
+        Locked
+      </text>
+      <text
+        x="300"
+        y="253"
+        text-anchor="middle"
+        font-size="12"
+        fill="#475569"
+        font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+      >
+        state = 0
+      </text>
+
+      <text
+        x="660"
+        y="230"
+        text-anchor="middle"
+        font-size="18"
+        font-weight="900"
+        fill="#1E293B"
+        font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+      >
+        Unlocked
+      </text>
+      <text
+        x="660"
+        y="253"
+        text-anchor="middle"
+        font-size="12"
+        fill="#475569"
+        font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+      >
+        state = 1
+      </text>
+    </g>
+
+    <!-- Transitions -->
+    <path
+      d="M360 205 C450 150, 510 150, 600 205"
+      fill="none"
+      stroke="#3B82F6"
+      stroke-width="4"
+      marker-end="url(#fp-turnstile-arrow)"
+      stroke-linecap="round"
+    />
+    <text
+      x="480"
+      y="158"
+      text-anchor="middle"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      coin (event = 1)
+    </text>
+
+    <path
+      d="M600 265 C510 320, 450 320, 360 265"
+      fill="none"
+      stroke="#3B82F6"
+      stroke-width="4"
+      marker-end="url(#fp-turnstile-arrow)"
+      stroke-linecap="round"
+    />
+    <text
+      x="480"
+      y="336"
+      text-anchor="middle"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      push (event = 2)
+    </text>
+
+    <!-- Locked self-loop (alarm) -->
+    <path
+      d="M260 255 C210 260, 205 190, 250 190 C285 190, 295 205, 290 218"
+      fill="none"
+      stroke="rgba(15, 23, 42, 0.45)"
+      stroke-width="3"
+      marker-end="url(#fp-turnstile-arrow)"
+      stroke-linecap="round"
+    />
+    <text
+      x="205"
+      y="184"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      push while locked
+    </text>
+    <text
+      x="205"
+      y="202"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      alarm = 1
+    </text>
+
+    <!-- Notes -->
+    <rect
+      x="90"
+      y="280"
+      width="200"
+      height="54"
+      rx="16"
+      fill="rgba(15, 23, 42, 0.03)"
+      stroke="rgba(15, 23, 42, 0.10)"
+    />
+    <text
+      x="110"
+      y="304"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      event = 0
+    </text>
+    <text
+      x="110"
+      y="323"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      keeps state
+    </text>
+  </g>
+</svg>
+

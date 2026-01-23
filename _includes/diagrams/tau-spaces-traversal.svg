@@ -1,0 +1,136 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-spaces-title fp-spaces-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-spaces-title">Different spaces and how search moves through them</title>
+  <desc id="fp-spaces-desc">
+    Four spaces: state space, table space, weight space, and latent space. Each has a different kind of traversal:
+    counterexample traces, tabular updates, gradient descent, and geometric moves in representation space.
+  </desc>
+
+  <defs>
+    <filter id="fp-spaces-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-spaces-arrow"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-spaces-shadow)">
+    <rect x="40" y="60" width="880" height="300" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="90"
+      y="120"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Different spaces, different search
+    </text>
+    <text
+      x="90"
+      y="145"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      The same project can involve exploration in multiple spaces.
+    </text>
+
+    <!-- Four panels -->
+    <g>
+      <rect x="90" y="170" width="385" height="80" rx="20" fill="rgba(59, 130, 246, 0.06)" stroke="rgba(59, 130, 246, 0.18)" />
+      <rect x="505" y="170" width="385" height="80" rx="20" fill="rgba(249, 115, 22, 0.08)" stroke="rgba(249, 115, 22, 0.22)" />
+      <rect x="90" y="260" width="385" height="80" rx="20" fill="rgba(15, 23, 42, 0.03)" stroke="rgba(15, 23, 42, 0.10)" />
+      <rect x="505" y="260" width="385" height="80" rx="20" fill="rgba(59, 130, 246, 0.05)" stroke="rgba(59, 130, 246, 0.14)" />
+
+      <!-- Labels -->
+      <text x="120" y="196" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        State space
+      </text>
+      <text x="120" y="214" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        counterexample traces, reachability
+      </text>
+
+      <text x="535" y="196" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        Table space
+      </text>
+      <text x="535" y="214" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        one-coordinate updates (tabular RL)
+      </text>
+
+      <text x="120" y="286" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        Weight space
+      </text>
+      <text x="120" y="304" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        gradient descent in parameter space
+      </text>
+
+      <text x="535" y="286" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        Latent space
+      </text>
+      <text x="535" y="304" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        geometric moves in a learned representation
+      </text>
+
+      <!-- State space doodle: nodes + path -->
+      <g stroke="rgba(15, 23, 42, 0.22)" fill="#FFFFFF">
+        <circle cx="360" cy="210" r="7" />
+        <circle cx="320" cy="232" r="7" />
+        <circle cx="280" cy="210" r="7" />
+        <circle cx="240" cy="232" r="7" />
+        <path d="M280 210 L320 232 L360 210" fill="none" />
+        <path d="M240 232 L280 210" fill="none" />
+      </g>
+      <path d="M240 232 L360 210" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-spaces-arrow)" stroke-linecap="round" />
+
+      <!-- Table space doodle: vector with one entry updated -->
+      <g font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12">
+        <rect x="820" y="190" width="44" height="48" rx="10" fill="#FFFFFF" stroke="rgba(15, 23, 42, 0.12)" />
+        <text x="832" y="208" fill="rgba(71, 85, 105, 0.85)">q</text>
+        <path d="M828 214 H856" stroke="rgba(15, 23, 42, 0.10)" />
+        <path d="M828 226 H856" stroke="rgba(15, 23, 42, 0.10)" />
+        <path d="M828 238 H856" stroke="rgba(15, 23, 42, 0.10)" />
+        <rect x="828" y="223" width="28" height="10" rx="5" fill="rgba(249, 115, 22, 0.18)" stroke="rgba(249, 115, 22, 0.30)" />
+      </g>
+      <path d="M790 225 H818" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-spaces-arrow)" stroke-linecap="round" />
+
+      <!-- Weight space doodle: contour + arrow -->
+      <g stroke="rgba(15, 23, 42, 0.16)" fill="none">
+        <ellipse cx="340" cy="307" rx="46" ry="18" />
+        <ellipse cx="340" cy="307" rx="70" ry="30" />
+        <ellipse cx="340" cy="307" rx="92" ry="42" />
+      </g>
+      <path d="M270 330 L350 300" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-spaces-arrow)" stroke-linecap="round" />
+
+      <!-- Latent space doodle: point cloud + move -->
+      <g fill="rgba(15, 23, 42, 0.18)">
+        <circle cx="560" cy="332" r="3" />
+        <circle cx="575" cy="318" r="3" />
+        <circle cx="590" cy="330" r="3" />
+        <circle cx="610" cy="320" r="3" />
+        <circle cx="625" cy="334" r="3" />
+
+        <circle cx="720" cy="318" r="3" />
+        <circle cx="735" cy="332" r="3" />
+        <circle cx="752" cy="320" r="3" />
+        <circle cx="766" cy="334" r="3" />
+      </g>
+      <path d="M590 330 L740 328" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-spaces-arrow)" stroke-linecap="round" />
+    </g>
+  </g>
+</svg>
+

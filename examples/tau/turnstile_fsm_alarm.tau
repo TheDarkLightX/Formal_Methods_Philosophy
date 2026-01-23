@@ -1,0 +1,72 @@
+# Turnstile as a tiny executable Tau specification
+#
+# Goal
+# A two-state machine that is easy to read as invariants, and still runnable.
+#
+# Why bv bits here
+# This file uses bv[8] streams that are intended to take only 0 or 1.
+# The repo runner pipes a .tau file into the Tau REPL. In this mode, bv console inputs
+# work well as a reproducible transcript (numbers after "r" are consumed as inputs).
+#
+# Mental model
+# - state: Locked (0) or Unlocked (1)
+# - inputs each step: coin? push? (each is 0 or 1, encoded as bv[8])
+# - outputs each step: current state and an alarm flag
+#
+# Intended behavior
+# - coin unlocks
+# - push locks
+# - pushing while locked raises alarm
+# - invalid inputs (coin=1 and push=1) fail closed (locks, and raises alarm)
+
+set charvar off
+
+# Inputs (one per prompt, per step)
+i1 : bv[8] := in console  # coin bit (0 or 1)
+i2 : bv[8] := in console  # push bit (0 or 1)
+
+# Outputs
+o1 : bv[8] := out console  # state bit (0 locked, 1 unlocked)
+o2 : bv[8] := out console  # alarm bit (0/1)
+o3 : bv[8] := out console  # invalid_input bit (0/1)
+o4 : bv[8] := out console  # input_valid bit (0/1)
+
+# Helper: toggle a 0/1 bitvector (XOR with 1).
+bit_not(x) : bv[8] := x ^ { 1 }:bv[8]
+
+# Demo input sequence (one integer per step):
+# Each step provides two inputs: coin, then push.
+#
+# Steps:
+# - none
+# - coin
+# - push
+# - push (alarm, since locked)
+# - coin
+# - none
+# - push
+#
+# Notes:
+# - The state update is a pure case split:
+#     state[t] = 1 if coin_only
+#     state[t] = state[t-1] if none
+#     state[t] = 0 otherwise (push_only or invalid)
+# - Alarm is raised when push happens while the previous state was locked, or when input is invalid.
+# - This is written on one line because the Tau REPL treats newlines as command boundaries.
+r (o1[0]:bv[8] = { #x00 }:bv[8]) && (o3[t]:bv[8] = i1[t]:bv[8] & i2[t]:bv[8]) && (o4[t]:bv[8] = bit_not(o3[t]:bv[8])) && (o1[t]:bv[8] = (i1[t]:bv[8] & bit_not(i2[t]:bv[8])) | ((bit_not(i1[t]:bv[8]) & bit_not(i2[t]:bv[8])) & o1[t-1]:bv[8])) && (o2[t]:bv[8] = (i2[t]:bv[8] & bit_not(o1[t-1]:bv[8])) | o3[t]:bv[8])
+0
+0
+1
+0
+0
+1
+0
+1
+1
+0
+0
+0
+0
+1
+
+q

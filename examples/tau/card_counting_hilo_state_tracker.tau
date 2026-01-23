@@ -41,10 +41,10 @@
 set charvar off
 
 # Define input/output streams for the REPL interpreter.
-bv[8] i1 = console
-bv[8] o1 = console
-bv[8] o2 = console
-sbf o3 = console
+i1 : bv[8] := in console
+o1 : bv[8] := out console
+o2 : bv[8] := out console
+o3 : sbf := out console
 
 delta_is_valid(delta : bv[8]) :=
   (delta = { #x01 }:bv[8]) ||
@@ -65,7 +65,5 @@ r o1[0]:bv[8] = { #x20 }:bv[8] && o2[t]:bv[8] = i1[t]:bv[8] && o1[t]:bv[8] = o1[
 255
 255
 0
-
-# Terminate the execution loop, then quit Tau.
 
 q

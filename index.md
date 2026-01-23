@@ -51,7 +51,7 @@ show_title: false
 <section style="margin-top: var(--space-2xl)">
   <div class="fp-grid">
     <a
-      class="fp-card fp-card-link fp-card-span-4"
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/tutorials/approximate-state-tracking/' | relative_url }}"
     >
       <h2 class="fp-card-title">Tutorial 1: Approximate state tracking</h2>
@@ -61,7 +61,7 @@ show_title: false
       </p>
     </a>
     <a
-      class="fp-card fp-card-link fp-card-span-4"
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/tutorials/isomorphism/' | relative_url }}"
     >
       <h2 class="fp-card-title">Tutorial 2: Isomorphism</h2>
@@ -71,7 +71,17 @@ show_title: false
       </p>
     </a>
     <a
-      class="fp-card fp-card-link fp-card-span-4"
+      class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/tau-language/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Tutorial 3: Tau Language</h2>
+      <p class="fp-card-text">
+        Write small executable specifications by listing invariants first, then letting a solver
+        produce behaviors that satisfy them.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/glossary/' | relative_url }}"
     >
       <h2 class="fp-card-title">Glossary</h2>

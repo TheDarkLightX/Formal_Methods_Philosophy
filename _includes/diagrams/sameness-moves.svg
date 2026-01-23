@@ -1,0 +1,283 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 520"
+  role="img"
+  aria-labelledby="fp-sm-title fp-sm-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-sm-title">Three “same”-claims: isomorphism, equivalence, abstraction</title>
+  <desc id="fp-sm-desc">
+    A three-column picture. Column 1 shows a reversible 1-to-1 translation (isomorphism). Column 2 shows many
+    descriptions collapsing to one meaning (equivalence via a semantics map). Column 3 shows a deliberate
+    approximation from concrete to abstract that preserves only selected properties (sound abstraction).
+  </desc>
+
+  <defs>
+    <filter id="fp-sm-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow
+        dx="0"
+        dy="10"
+        stdDeviation="12"
+        flood-color="#0F172A"
+        flood-opacity="0.10"
+      />
+    </filter>
+    <linearGradient id="fp-sm-blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3B82F6" stop-opacity="0.18" />
+      <stop offset="1" stop-color="#3B82F6" stop-opacity="0.06" />
+    </linearGradient>
+    <linearGradient id="fp-sm-teal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#14B8A6" stop-opacity="0.18" />
+      <stop offset="1" stop-color="#14B8A6" stop-opacity="0.06" />
+    </linearGradient>
+    <linearGradient id="fp-sm-orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F97316" stop-opacity="0.18" />
+      <stop offset="1" stop-color="#F97316" stop-opacity="0.06" />
+    </linearGradient>
+    <marker id="fp-sm-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#334155" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="520" rx="28" fill="transparent" />
+
+  <g filter="url(#fp-sm-shadow)">
+    <rect x="40" y="60" width="880" height="400" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text
+    x="80"
+    y="118"
+    font-size="16"
+    font-weight="900"
+    fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    Three different meanings of “same thing”
+  </text>
+  <text
+    x="80"
+    y="144"
+    font-size="12"
+    fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    Is the translation reversible? Is it the same meaning? Or is it an approximation chosen to preserve a property?
+  </text>
+
+  <!-- Column frames -->
+  <g>
+    <rect
+      x="80"
+      y="176"
+      width="252"
+      height="250"
+      rx="20"
+      fill="rgba(15, 23, 42, 0.04)"
+      stroke="rgba(15, 23, 42, 0.12)"
+    />
+    <rect
+      x="354"
+      y="176"
+      width="252"
+      height="250"
+      rx="20"
+      fill="rgba(15, 23, 42, 0.04)"
+      stroke="rgba(15, 23, 42, 0.12)"
+    />
+    <rect
+      x="628"
+      y="176"
+      width="252"
+      height="250"
+      rx="20"
+      fill="rgba(15, 23, 42, 0.04)"
+      stroke="rgba(15, 23, 42, 0.12)"
+    />
+  </g>
+
+  <!-- Column titles -->
+  <text
+    x="104"
+    y="212"
+    font-size="14"
+    font-weight="900"
+    fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    1) Isomorphism
+  </text>
+  <text
+    x="378"
+    y="212"
+    font-size="14"
+    font-weight="900"
+    fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    2) Equivalence
+  </text>
+  <text
+    x="652"
+    y="212"
+    font-size="14"
+    font-weight="900"
+    fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+  >
+    3) Sound abstraction
+  </text>
+
+  <!-- Column 1: Isomorphism -->
+  <g transform="translate(96,236)">
+    <rect x="0" y="0" width="220" height="146" rx="18" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <rect x="18" y="32" width="70" height="46" rx="12" fill="url(#fp-sm-blue)" stroke="rgba(59,130,246,0.45)" />
+    <rect x="132" y="32" width="70" height="46" rx="12" fill="url(#fp-sm-blue)" stroke="rgba(59,130,246,0.45)" />
+    <text
+      x="53"
+      y="60"
+      font-size="12"
+      font-weight="900"
+      text-anchor="middle"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      A
+    </text>
+    <text
+      x="167"
+      y="60"
+      font-size="12"
+      font-weight="900"
+      text-anchor="middle"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      B
+    </text>
+
+    <path d="M94 48 L126 48" stroke="#334155" stroke-width="2" marker-end="url(#fp-sm-arrow)" />
+    <path d="M126 62 L94 62" stroke="#334155" stroke-width="2" marker-end="url(#fp-sm-arrow)" />
+
+    <text
+      x="110"
+      y="100"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      reversible, 1-to-1
+    </text>
+    <text
+      x="18"
+      y="126"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      operations correspond
+    </text>
+  </g>
+
+  <!-- Column 2: Equivalence -->
+  <g transform="translate(370,236)">
+    <rect x="0" y="0" width="220" height="146" rx="18" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <!-- Many descriptions -->
+    <rect x="18" y="32" width="46" height="28" rx="10" fill="url(#fp-sm-teal)" stroke="rgba(20,184,166,0.45)" />
+    <rect x="18" y="68" width="46" height="28" rx="10" fill="url(#fp-sm-teal)" stroke="rgba(20,184,166,0.45)" />
+    <rect x="18" y="104" width="46" height="28" rx="10" fill="url(#fp-sm-teal)" stroke="rgba(20,184,166,0.45)" />
+
+    <text
+      x="41"
+      y="50"
+      font-size="11"
+      font-weight="900"
+      text-anchor="middle"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      d₁
+    </text>
+    <text
+      x="41"
+      y="86"
+      font-size="11"
+      font-weight="900"
+      text-anchor="middle"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      d₂
+    </text>
+    <text
+      x="41"
+      y="122"
+      font-size="11"
+      font-weight="900"
+      text-anchor="middle"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      d₃
+    </text>
+
+    <!-- Funnel arrow -->
+    <path d="M74 46 C96 46, 96 46, 120 62" stroke="#334155" stroke-width="2" fill="none" />
+    <path d="M74 82 C96 82, 96 82, 120 74" stroke="#334155" stroke-width="2" fill="none" />
+    <path d="M74 118 C96 118, 96 118, 120 90" stroke="#334155" stroke-width="2" fill="none" />
+
+    <!-- Meaning -->
+    <circle cx="170" cy="78" r="30" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2" />
+    <text
+      x="170"
+      y="82"
+      font-size="12"
+      font-weight="900"
+      text-anchor="middle"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      ⟦·⟧
+    </text>
+    <text
+      x="170"
+      y="104"
+      font-size="11"
+      text-anchor="middle"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      meaning
+    </text>
+  </g>
+
+  <!-- Column 3: Sound abstraction -->
+  <g transform="translate(644,236)">
+    <rect x="0" y="0" width="220" height="146" rx="18" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <!-- Concrete states -->
+    <circle cx="42" cy="46" r="10" fill="url(#fp-sm-orange)" stroke="rgba(249,115,22,0.55)" />
+    <circle cx="74" cy="46" r="10" fill="url(#fp-sm-orange)" stroke="rgba(249,115,22,0.55)" />
+    <circle cx="42" cy="86" r="10" fill="url(#fp-sm-orange)" stroke="rgba(249,115,22,0.55)" />
+    <circle cx="74" cy="86" r="10" fill="url(#fp-sm-orange)" stroke="rgba(249,115,22,0.55)" />
+
+    <!-- Arrow to abstract -->
+    <path d="M96 66 L134 66" stroke="#334155" stroke-width="2" marker-end="url(#fp-sm-arrow)" />
+
+    <!-- Abstract states (fewer) -->
+    <circle cx="170" cy="54" r="14" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2" />
+    <circle cx="170" cy="90" r="14" fill="#FFFFFF" stroke="#94A3B8" stroke-width="2" />
+
+    <text
+      x="18"
+      y="126"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      many-to-one, property-focused
+    </text>
+  </g>
+</svg>
