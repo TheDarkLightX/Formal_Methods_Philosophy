@@ -82,6 +82,16 @@ show_title: false
     </a>
     <a
       class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/world-models/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Tutorial 4: World models and continuous learning</h2>
+      <p class="fp-card-text">
+        Humans use internal models to simulate and plan. When models learn online, invariants and
+        counterexamples become the difference between adaptation and drift.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/glossary/' | relative_url }}"
     >
       <h2 class="fp-card-title">Glossary</h2>

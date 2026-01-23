@@ -26,7 +26,7 @@ show_title: false
 
 <div class="fp-grid" style="margin-top: var(--space-xl)">
   <a
-    class="fp-card fp-card-link fp-card-span-4"
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/approximate-state-tracking/' | relative_url }}"
   >
     <h2 class="fp-card-title">Tutorial 1: Approximate state tracking</h2>
@@ -36,7 +36,7 @@ show_title: false
     </p>
   </a>
   <a
-    class="fp-card fp-card-link fp-card-span-4"
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/isomorphism/' | relative_url }}"
   >
     <h2 class="fp-card-title">Tutorial 2: Isomorphism</h2>
@@ -46,13 +46,23 @@ show_title: false
     </p>
   </a>
   <a
-    class="fp-card fp-card-link fp-card-span-4"
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/tau-language/' | relative_url }}"
   >
     <h2 class="fp-card-title">Tutorial 3: Tau Language</h2>
     <p class="fp-card-text">
       Learn to read and write small executable specifications by listing invariants first,
       then letting a solver produce behaviors that satisfy them.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/world-models/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 4: World models and continuous learning</h2>
+    <p class="fp-card-text">
+      Why internal models are more than prediction, why test-time learning is powerful,
+      and why invariants and counterexamples become essential when the model can drift.
     </p>
   </a>
 </div>
