@@ -207,7 +207,7 @@ This is the visual view: good for intuition, but hard to execute directly.
 Define a step function that takes the current state and event, and returns the next state:
 
 $$
-\text{state}_{t+1} = \text{step}(\text{state}_t, \text{event}_t)
+\mathrm{state}_{t+1} = \mathrm{step}(\mathrm{state}_t, \mathrm{event}_t)
 $$
 
 This is the functional view. The whole behavior unfolds from an initial state and repeated application of `step`.
