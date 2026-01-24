@@ -277,6 +277,7 @@ It is also a reading discipline. Small symbols carry fixed meanings, so a short 
         <tr><td><code>→</code></td><td>implies</td><td>if left holds, right must hold</td></tr>
         <tr><td><code>↔</code></td><td>if and only if</td><td>both directions of implication</td></tr>
         <tr><td><code>∈</code></td><td>is in</td><td>membership, as in <code>x ∈ S</code></td></tr>
+        <tr><td><code>*</code></td><td>times</td><td>usually multiplication (not a standard logical connective; for logical “and”, use <code>∧</code>)</td></tr>
         <tr><td><code>:=</code></td><td>defined as</td><td>a definition, not a claim to prove</td></tr>
         <tr><td><code>⊢</code></td><td>derives</td><td>there is a valid proof from premises to conclusion</td></tr>
         <tr><td><code>∴</code></td><td>therefore</td><td>the conclusion follows</td></tr>
@@ -290,6 +291,29 @@ It is also a reading discipline. Small symbols carry fixed meanings, so a short 
       A common shorthand is <code>∀x ∈ S. P(x)</code>, read “for all <code>x</code> in <code>S</code>, <code>P(x)</code>”. Formally, it expands to
       <code>∀x. (x ∈ S → P(x))</code>. Likewise, <code>∃x ∈ S. P(x)</code> expands to <code>∃x. (x ∈ S ∧ P(x))</code>.
       Parentheses indicate what binds to what, the same way they do in algebra.
+    </p>
+    <p><strong>Operator precedence and scope (a PEMDAS-like convention)</strong></p>
+    <p>
+      Logic does not have a single universal precedence standard, but most texts follow a "tightest to loosest" convention close to:
+    </p>
+    <ol>
+      <li>Parentheses: <code>(...)</code></li>
+      <li>Negation: <code>¬P</code></li>
+      <li>Conjunction: <code>P ∧ Q</code></li>
+      <li>Disjunction: <code>P ∨ Q</code></li>
+      <li>Implication: <code>P → Q</code></li>
+      <li>Biconditional: <code>P ↔ Q</code></li>
+    </ol>
+    <p>
+      Quantifiers (<code>∀x</code>, <code>∃x</code>) are not "infix operators" like <code>∧</code>. They introduce a bound variable, and their scope is the formula they govern.
+      This tutorial uses <code>∀x. ...</code> and <code>∃x. ...</code> (dot as a scope marker) to keep that scope explicit.
+    </p>
+    <p>
+      Examples under the convention above:
+      <code>¬P ∧ Q</code> parses as <code>(¬P) ∧ Q</code>.
+      <code>P ∧ Q → R</code> parses as <code>(P ∧ Q) → R</code>.
+      <code>P → Q ∧ R</code> parses as <code>P → (Q ∧ R)</code>.
+      When in doubt, add parentheses. It is the only universally correct disambiguation.
     </p>
   </div>
 </div>
