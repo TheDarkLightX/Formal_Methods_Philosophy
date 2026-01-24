@@ -7,7 +7,7 @@ description: Reformulation is translation that preserves meaning while unlocking
 
 This tutorial is about a quiet superpower: saying the same thing in a different language, without changing what is true, and suddenly having stronger tools.
 
-It is also about the other half of the story: when the language is powerful enough to express real systems, there are hard limits on what can be proven or solved automatically. That is where "propose, then gate with evidence" becomes a practical architecture.
+It is also about the other half of the story. Once a language is expressive enough to talk about real systems, there are hard limits on what can be proven or solved automatically. That is where "propose, then gate with evidence" becomes a practical architecture.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Mental pictures to keep</p>
@@ -25,9 +25,9 @@ It is also about the other half of the story: when the language is powerful enou
 
 I am staring at a puzzle that feels small, but the search space is enormous.
 
-There is a row of lights, some on and some off. Each button press toggles a fixed pattern of lights. The goal is to turn all lights off.
+There is a row of lights, some on and some off. A button press flips a fixed pattern. The goal is the all-off board.
 
-At first, my mind tries the obvious: brute force, intuition, trial and error. It works for a small row, then collapses as the row grows.
+For a few lights, I can get away with guessing. As the row grows, guessing turns into noise. Each press branches the future, and I cannot see a reliable path.
 
 Then I redraw the situation.
 
@@ -35,7 +35,8 @@ Instead of "a row of lights", I see a bitvector. Instead of "toggle", I see XOR.
 
 Now the puzzle is no longer a tree of guesses. It is a linear system over $\mathbb{F}_2$.
 
-The board did not change. The meaning did not change. Only the representation changed. But the toolchain changed from "try moves" to "Gaussian elimination".
+The board did not change. The question did not change. Whether a solution exists did not change.
+Only the representation changed. The toolchain changed from "try moves" to "Gaussian elimination".
 
 That is reformulation in one sentence:
 
@@ -59,10 +60,18 @@ From far away, reformulation looks like a graph problem.
 
 To make this precise, we reuse the distinctions from Tutorial 2:
 
-- **Isomorphism:** a 1-to-1, invertible, structure-preserving translation.
-- **Equivalence:** a many-to-one "same meaning" relation (often defined via a semantics function).
-- **Sound abstraction:** a deliberate forgetting that preserves a chosen property, even if it merges distinct concrete states.
-- **Encoding/simulation:** one formalism can represent another's behavior, but not as a simple 1-to-1 correspondence.
+- **Isomorphism:** a 1-to-1 translation that is reversible and preserves the operations and relations in view.
+- **Equivalence:** a "same meaning" relation, often defined by equality after applying a semantics function.
+- **Sound abstraction:** a deliberate merge of distinctions that preserves a chosen property (often one-way).
+- **Encoding/simulation:** one formalism represents another's behavior, but not as a simple 1-to-1 correspondence.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Many descriptions, one meaning</p>
+  {% include diagrams/description-to-meaning.svg %}
+  <figcaption class="fp-figure-caption">
+    A reformulation is safe only if it preserves meaning. Naming the semantics map is a way to keep that promise honest.
+  </figcaption>
+</figure>
 
 Reformulation is not only isomorphism. It is the broader habit of moving along meaning-preserving edges whenever possible, and along sound abstraction edges when the goal is a property rather than exact reconstruction.
 
@@ -93,15 +102,15 @@ Reformulation is not only isomorphism. It is the broader habit of moving along m
 This is the move, repeated with different clothing.
 
 1. **Toggle puzzle to linear algebra**  
-   Lights Out style puzzles become $A x = b$ over $\mathbb{F}_2$. The solver is elimination, not search.
+   Represent board states as vectors in $\{0,1\}^n$ and moves as additions mod 2. Then "is there a sequence of moves that reaches all-off?" becomes "does a linear system $A x = b$ over $\mathbb{F}_2$ have a solution?" The solver is elimination, not branching search.
 
 2. **Circuit equivalence to SAT**  
-   To prove $C_1(x) = C_2(x)$ for all inputs, search for a counterexample input $x$ such that $C_1(x) \ne C_2(x)$. If SAT says UNSAT, there is no counterexample.
+   Two circuits are equivalent exactly when there is no input that makes their outputs differ. Build a formula for $C_1(x) \ne C_2(x)$ and ask a SAT solver for a satisfying assignment. A model is a concrete counterexample input. UNSAT means no counterexample exists.
 
 3. **Deadlock to cycle detection**  
-   A "wait-for graph" converts deadlock into a directed cycle question. The solver is graph theory.
+   Build a wait-for graph with an edge $A \to B$ meaning "A is waiting for B". A deadlock corresponds to a directed cycle. The solver is graph theory.
 
-None of these translations are motivational quotes. They are rigorous changes of representation that preserve the truth of the question being asked.
+These are not metaphors. They are meaning-preserving translations. The only real obligation is the one that matters: show that the translation preserves the question being asked.
 
 ## Interlude: two working examples (Tao and Feynman)
 
@@ -117,7 +126,7 @@ A recurring method in additive combinatorics and analytic number theory is the "
 - then combine the results.
 
 The structured part is chosen so that it can be described compactly and manipulated algebraically.
-The pseudorandom part is chosen so that it is invisible to the patterns being counted (it has small correlation with the relevant test functions).
+The pseudorandom part is chosen so that, for the patterns being counted, it behaves like noise (it has small correlation with the relevant test functions).
 
 This is abstraction as compression with a target property in view.
 The split forgets detail differently depending on the question, but it keeps exactly what makes the proof go through.
@@ -143,7 +152,7 @@ Feynman’s diagram technique is a reformulation move:
 - sum the contributions.
 
 The diagram is not an illustration added after the fact.
-It is a compressed representation of a term in a perturbative expansion, designed so the right combinatorics is visible at a glance.
+It is a compressed representation of a term in a perturbative expansion, designed so the bookkeeping is visible and repeatable.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Feynman diagrams as a compressed representation</p>
@@ -160,6 +169,7 @@ The Abstraction Cheat Sheet has a strong rule of thumb:
 > Abstraction means: forget some implementation detail, while preserving the structure needed to reason about a property.
 
 This is not vagueness. It is a controlled blur.
+It is a camera with a focus ring: some details are deliberately out of focus so the relevant shape is sharp.
 
 One clean way to write the idea is as a map:
 
@@ -174,6 +184,8 @@ Compression is a closely related lens. A compression scheme has:
 - an encoder $enc : X \to Z$
 - a decoder $dec : Z \to X$
 - and a promise that $dec(enc(x)) = x$ for the data of interest
+
+If that promise holds on a set $X$, then the encoding is lossless on $X$. You can recover exactly what you started with.
 
 Abstraction is usually not like that. It does not promise invertibility. It is not lossless.
 
@@ -200,6 +212,7 @@ When a mind learns a pattern, one useful way to describe what happened is:
 - and the result can now be used to predict, plan, or explain.
 
 This is why "having a model" and "being able to compress" feel close.
+A child does not memorize every chair. They form a concept that throws away detail but preserves what matters for a goal like sitting.
 
 But it is important not to oversell it:
 
@@ -215,13 +228,16 @@ From the outside, symbolic reasoning can look like moving marks around.
 
 From the inside, it is search with rails.
 
-Two examples:
+Three examples:
 
 1. **Algebraic simplification**  
    A rewrite like $(x + y)^2 = x^2 + 2xy + y^2$ is not a guess. It is a meaning-preserving transformation that changes what tools can see.
 
 2. **SAT and SMT solving**  
    A SAT solver does not enumerate all $2^n$ assignments. It propagates constraints, learns from conflicts, and prunes vast regions of the search space because the syntax has structure.
+
+3. **Unification and type inference**  
+   Type inference solves systems of equations between types by unification. The "symbols moving around" are the constraints being made consistent.
 
 Symbol manipulation becomes powerful when:
 
@@ -253,8 +269,10 @@ If the solver finds such an $x$, that $x$ is a counterexample witness. If it pro
 There are two clean, non-negotiable constraints on what logic can do for software:
 
 1. **Undecidability:** for sufficiently expressive languages (general programs), many interesting questions have no algorithm that always terminates with the right yes/no answer.
+   The halting problem is the classic example.
 
 2. **Intractability:** even when a problem is decidable (SAT is the classic example), worst-case complexity can be enormous. Modern solvers win by exploiting structure, not by defeating the worst case.
+   This is why representation choice matters so much. It is often the difference between "hopeless" and "instant".
 
 A deeper limit lives even in pure mathematics: in any sufficiently strong formal system, there are true statements that cannot be proven within that system (incompleteness). In software terms, this is a reminder that "formal" does not mean "omniscient". It means "explicit about assumptions and rules".
 
@@ -276,9 +294,11 @@ The core intuition is feasibility:
 - It is one thing to say "a number exists" in a formal system.
 - It is another to say it can be constructed, represented, or used in any meaningful way.
 
+One way to feel the motivation is physical: there are numbers that cannot be written down in the observable universe. Ultrafinitism treats that gap between "defined in a theory" and "usable in reality" as mathematically significant.
+
 Historically, ultrafinitist ideas show up as a response to foundational debates about infinity, and as a response to the physical reality that reasoning is computation done by finite beings.
 
-One way to keep the history grounded is to name a few signposts (not a complete timeline):
+One way to keep the history grounded is to name a few signposts. This is not a complete timeline, and labels vary by author:
 
 - **1958:** Hao Wang surveys foundational work and explicitly centers concepts like proof and feasible number, proposing "anthropologism" as one feasibility-oriented domain.
 - **1959 to 1961:** Alexander Esenin-Volpin presents an "ultra-intuitionistic" program for foundations (often discussed as an ultrafinitist influence).
@@ -296,6 +316,7 @@ Even if one rejects ultrafinitism as a foundation, the engineering lesson remain
 In July 1972, Sir James Lighthill completed a survey report on AI for the UK Science Research Council (often discussed by its 1973 publication).
 
 One of the report’s themes was that many AI approaches ran into combinatorial explosion when scaled, and that demonstrations in small or toy settings did not necessarily carry to the general case.
+It is the same shape as the lights puzzle: a branching tree that looks manageable until it suddenly is not.
 
 In June 1973, a BBC TV debate about the report took place at the Royal Institution. The report and the surrounding debate are often cited as part of the story of reduced UK funding for AI research in that era.
 
@@ -341,7 +362,27 @@ This architecture combines two strengths:
 
 When a system is built so that "no" comes with a counterexample trace, iteration becomes cumulative.
 
-The loop turns a vague prompt into an ever tighter constraint set. Over time, the spec and the candidate converge.
+Here is the concrete shape of the workflow:
+
+- a model proposes a candidate (a patch, a rule, a table update, a plan),
+- the gate checks it against explicit constraints,
+- if it fails, the output is not "seems wrong". It is a smallest witness, like an input that breaks a claim or a trace that violates an invariant,
+- the next proposal is conditioned on that witness.
+
+The loop turns vague intent into explicit constraints. Each counterexample is information that can be carried forward.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">A concrete example</p>
+  <p>
+    Imagine an agent proposes an implementation of the turnstile from Tutorial 3. The spec says: if the
+    previous state is Locked and the input is Push, then the alarm must be 1. The gate runs a checker.
+  </p>
+  <p>
+    If the implementation is wrong, the gate does not respond with a vibe. It returns a witness trace,
+    like a short sequence of inputs (Coin, Push, Push) that leads to a violated invariant. That trace is
+    new information the next proposal can directly address.
+  </p>
+</div>
 
 ### What it does not solve
 
