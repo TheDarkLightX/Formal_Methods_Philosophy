@@ -1,59 +1,135 @@
-# Turnstile as a tiny executable Tau specification
+# ============================================================================
+# Turnstile State Machine - A Tau Executable Specification
+# ============================================================================
 #
-# Goal
-# A two-state machine that is easy to read as invariants, and still runnable.
+# This file demonstrates a tiny state machine written as Tau constraints.
+# It models a subway turnstile with two states and an alarm.
 #
-# Why bv bits here
-# This file uses bv[8] streams that are intended to take only 0 or 1.
-# The repo runner pipes a .tau file into the Tau REPL. In this mode, bv console inputs
-# work well as a reproducible transcript (numbers after "r" are consumed as inputs).
+# ============================================================================
+# HOW TO READ TAU SYNTAX
+# ============================================================================
 #
-# Mental model
-# - state: Locked (0) or Unlocked (1)
-# - inputs each step: coin? push? (each is 0 or 1, encoded as bv[8])
-# - outputs each step: current state and an alarm flag
+# STREAM DECLARATIONS:
+#   i1 : bv[8] := in console   -- input stream i1, 8-bit bitvector, from console
+#   o1 : bv[8] := out console  -- output stream o1, 8-bit bitvector, to console
+#   o2 : bv[8] := out console  -- output stream o2, 0/1 flag as bv[8]
 #
-# Intended behavior
-# - coin unlocks
-# - push locks
-# - pushing while locked raises alarm
-# - invalid inputs (coin=1 and push=1) fail closed (locks, and raises alarm)
+# TYPE ANNOTATIONS IN SPECS:
+#   o1[t]:bv[8]            -- output o1 at time t, typed as bv[8]
+#   i1[t-1]:bv[8]          -- input i1 at time t-1 (previous step)
+#
+# TERM OPERATORS (bit-level, work on values):
+#   &   bitwise AND        x & y
+#   |   bitwise OR         x | y
+#   ^   bitwise XOR        x ^ y
+#   '   complement         x'  (negation of x)
+#
+# FORMULA OPERATORS (logical, combine constraints):
+#   &&  logical AND        (constraint1) && (constraint2)
+#   ||  logical OR         (constraint1) || (constraint2)
+#   !   logical NOT        !(constraint)
+#   <-> equivalence        (x = 0) <-> (y = 1)
+#
+# CONSTANTS:
+#   { 0 }:bv[8]            -- decimal constant 0 as bv[8]
+#   { 1 }:bv[8]            -- decimal constant 1 as bv[8]
+#   1:sbf                  -- boolean 1 as sbf
+#
+# FUNCTIONS:
+#   fname(x) : bv[8] := expr   -- define function returning bv[8]
+#
+# ============================================================================
+# MENTAL MODEL
+# ============================================================================
+# State: Locked (0) or Unlocked (1)
+# Inputs each step: coin? push? (each 0 or 1)
+# Outputs each step: current state, alarm flag, validity flags
+#
+# INVARIANTS (what must always be true)
+# -------------------------------------
+# 1. The state is always Locked or Unlocked
+# 2. Coin (alone) unlocks
+# 3. Push (alone) locks
+# 4. Push while locked raises alarm
+# 5. Invalid input (coin AND push) locks and raises alarm
+#
+# STATE TRANSITIONS
+# -----------------
+#   Input      | From Locked     | From Unlocked
+#   -----------|-----------------|---------------
+#   none       | stay locked     | stay unlocked
+#   coin only  | unlock          | stay unlocked
+#   push only  | stay, ALARM     | lock
+#   coin+push  | stay, ALARM     | lock, ALARM
+#
+# ============================================================================
 
 set charvar off
 
-# Inputs (one per prompt, per step)
-i1 : bv[8] := in console  # coin bit (0 or 1)
-i2 : bv[8] := in console  # push bit (0 or 1)
+# ----------------------------------------------------------------------------
+# STREAM DECLARATIONS (syntax: name : type := in/out source)
+# ----------------------------------------------------------------------------
+# Inputs (provided each step)
+i1 : bv[8] := in console
+i2 : bv[8] := in console
 
-# Outputs
-o1 : bv[8] := out console  # state bit (0 locked, 1 unlocked)
-o2 : bv[8] := out console  # alarm bit (0/1)
-o3 : bv[8] := out console  # invalid_input bit (0/1)
-o4 : bv[8] := out console  # input_valid bit (0/1)
+# Outputs (computed each step)
+o1 : bv[8] := out console
+o2 : bv[8] := out console
+o3 : bv[8] := out console
+o4 : bv[8] := out console
 
-# Helper: toggle a 0/1 bitvector (XOR with 1).
+# ----------------------------------------------------------------------------
+# HELPER FUNCTIONS
+# ----------------------------------------------------------------------------
+# Flip a 0/1 bit (XOR with 1)
 bit_not(x) : bv[8] := x ^ { 1 }:bv[8]
 
-# Demo input sequence (one integer per step):
-# Each step provides two inputs: coin, then push.
+# ----------------------------------------------------------------------------
+# SPECIFICATION
+# ----------------------------------------------------------------------------
+# The spec is written as a single line (required by the Tau REPL).
 #
-# Steps:
-# - none
-# - coin
-# - push
-# - push (alarm, since locked)
-# - coin
-# - none
-# - push
+# BREAKDOWN OF EACH CONJUNCT:
 #
-# Notes:
-# - The state update is a pure case split:
-#     state[t] = 1 if coin_only
-#     state[t] = state[t-1] if none
-#     state[t] = 0 otherwise (push_only or invalid)
-# - Alarm is raised when push happens while the previous state was locked, or when input is invalid.
-# - This is written on one line because the Tau REPL treats newlines as command boundaries.
-r (o1[0]:bv[8] = { #x00 }:bv[8]) && (o3[t]:bv[8] = i1[t]:bv[8] & i2[t]:bv[8]) && (o4[t]:bv[8] = bit_not(o3[t]:bv[8])) && (o1[t]:bv[8] = (i1[t]:bv[8] & bit_not(i2[t]:bv[8])) | ((bit_not(i1[t]:bv[8]) & bit_not(i2[t]:bv[8])) & o1[t-1]:bv[8])) && (o2[t]:bv[8] = (i2[t]:bv[8] & bit_not(o1[t-1]:bv[8])) | o3[t]:bv[8])
+#   o1[0]:bv[8] = { 0 }:bv[8]
+#     Initial condition: Start in Locked state (0)
+#
+#   o3[t]:bv[8] = i1[t]:bv[8] & i2[t]:bv[8]
+#     Invalid input flag = coin AND push (both pressed = invalid)
+#
+#   o4[t]:bv[8] = bit_not(o3[t]:bv[8])
+#     Valid input flag = NOT invalid
+#
+#   o1[t]:bv[8] = (coin_only) | (no_input AND previous_state)
+#     Next state logic:
+#       - Unlocked (1) if coin_only: i1 & ~i2
+#       - Previous state if no_input: ~i1 & ~i2 & o1[t-1]
+#       - Locked (0) otherwise (push or invalid)
+#
+#   o2[t]:bv[8] = (push_while_locked) | invalid
+#     Alarm logic:
+#       - 1 if push while previous state was locked: i2 & ~o1[t-1]
+#       - 1 if invalid input
+
+# ----------------------------------------------------------------------------
+# DEMO INPUT SEQUENCE
+# ----------------------------------------------------------------------------
+# Each step needs two inputs: coin, then push
+#
+# Step 1: coin=0, push=0  (no input)      -> state=0 (locked), alarm=0
+# Step 2: coin=1, push=0  (coin only)     -> state=1 (unlocked), alarm=0
+# Step 3: coin=0, push=1  (push only)     -> state=0 (locked), alarm=0
+# Step 4: coin=0, push=1  (push locked!)  -> state=0 (locked), alarm=1 ***
+# Step 5: coin=1, push=0  (coin only)     -> state=1 (unlocked), alarm=0
+# Step 6: coin=0, push=0  (no input)      -> state=1 (unlocked), alarm=0
+# Step 7: coin=0, push=1  (push only)     -> state=0 (locked), alarm=0
+#
+# NOTE: This file is a REPL transcript. After `r ...`, every following line is
+# treated as input. Do not place blank lines or comments after `r ...` until
+# the end; one blank line terminates execution and returns to the REPL.
+
+r (o1[0]:bv[8] = { 0 }:bv[8]) && (o3[t]:bv[8] = i1[t]:bv[8] & i2[t]:bv[8]) && (o4[t]:bv[8] = bit_not(o3[t]:bv[8])) && (o1[t]:bv[8] = (i1[t]:bv[8] & bit_not(i2[t]:bv[8])) | ((bit_not(i1[t]:bv[8]) & bit_not(i2[t]:bv[8])) & o1[t-1]:bv[8])) && (o2[t]:bv[8] = (i2[t]:bv[8] & bit_not(o1[t-1]:bv[8])) | o3[t]:bv[8])
 0
 0
 1

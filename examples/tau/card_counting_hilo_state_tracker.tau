@@ -1,69 +1,148 @@
-# Card counting (Hi-Lo) as an educational Tau spec (approximate state tracker)
+# ============================================================================
+# Card Counting (Hi-Lo) - Comprehensive Approximate State Tracker
+# ============================================================================
 #
-# Goal
-# This file is meant to be readable and executable. It is not consensus-critical.
+# This spec demonstrates an APPROXIMATE STATE TRACKER: a system that
+# maintains a small summary of a much larger hidden state.
 #
-# Mental model
-# - The true hidden state is the remaining deck composition (and, if you care, the remaining order).
-# - Hi-Lo keeps a small approximate state: a running count updated online.
+# FROM TUTORIAL 1:
+# - The TRUE hidden state is the remaining deck composition (2^52 states!)
+# - The TRACKER state is just a running count (a few hundred states)
+# - This is DELIBERATE information loss that preserves what matters
 #
-# Two separable steps (human picture)
-# 1) Classification: the observed rank is mapped to a delta in {+1, 0, -1}.
-# 2) Tracking: the running count is updated by adding that delta.
+# ============================================================================
+# HOW TO READ TAU SYNTAX
+# ============================================================================
 #
-# Hi-Lo mapping (common version):
-# - ranks 2..6 give +1
-# - ranks 7..9 give 0
-# - ranks 10..Ace give -1
+# STREAM DECLARATIONS:
+#   i1 : bv[8] := in console   -- input stream, 8-bit bitvector, from console
+#   o1 : sbf := out console    -- output stream, simple boolean flag, to console
 #
-# This Tau file focuses on step (2), the state tracker.
-# In Tau, it is usually best to keep the policy logic simple and push complicated
-# parsing and classification into the host system. That is why the input here is the
-# already-classified delta, not the raw rank.
+# TYPE ANNOTATIONS:
+#   o1[t]:bv[8]            -- output at time t, typed as bv[8]
+#   i1[t-1]:bv[8]          -- input at previous time step
 #
-# Encoding
-# - Input i1[t] is the delta at step t (bv[8], two's-complement):
-#     +1  is 0x01
-#      0  is 0x00
-#     -1  is 0xFF
+# TERM OPERATORS (bit-level):
+#   +   addition           x + y (modular arithmetic, wraps at 256)
+#   -   subtraction        x - y (modular, -1 = 255)
+#   &   bitwise AND        x & y
+#   |   bitwise OR         x | y
+#   ^   bitwise XOR        x ^ y
 #
-# Outputs
-# - o1[t] (bv[8]) = running count stored with a +32 bias so it stays non-negative.
-#   - biased_count = running_count + 32
-# - o2[t] (bv[8]) = the delta applied (we echo i1[t] so it is visible in the trace)
-# - o3[t] (sbf)   = 1 iff the delta is one of {0x01, 0x00, 0xFF}
+# FORMULA OPERATORS (logical):
+#   &&  logical AND        (a = 0) && (b = 1)
+#   ||  logical OR         (a = 0) || (b = 0)
+#   <-> equivalence        (flag = 1) <-> (condition)
 #
-# Note on limits
-# bv arithmetic is modular. This is an educational model, so we keep widths small and
-# use a bias. In a tutorial, we will explicitly discuss bounding and overflow as a form
-# of state space shrinking.
+# ============================================================================
+# THE HI-LO COUNTING SYSTEM
+# ============================================================================
+#
+# Each card seen is classified into a delta:
+#   - Low cards (2-6):    delta = +1  (these favor the house leaving)
+#   - Middle cards (7-9): delta =  0  (neutral)
+#   - High cards (10-A):  delta = -1  (these favor the player leaving)
+#
+# The running count is updated: count_new = count_old + delta
+#
+# IMPORTANT: This spec receives PRE-CLASSIFIED deltas, not raw cards.
+# Why? Tau is good at constraints, not string parsing.
+# The HOST system classifies cards; Tau ENFORCES the update rule.
+#
+# ============================================================================
+# ENCODING (bv[8] two's complement)
+# ============================================================================
+#   +1 = 0x01 (decimal 1)    -- low card seen
+#    0 = 0x00 (decimal 0)    -- middle card seen
+#   -1 = 0xFF (decimal 255)  -- high card seen
+#
+# The running count is BIASED by +128 to avoid signed arithmetic in bv[8]:
+#   Actual count -128 to +127 maps to bv[8] value 0 to 255
+#   Initial count = 0, so initial biased_count = 128 (0x80)
+#
+# ============================================================================
+# WHAT THIS SPEC TRACKS (mapping to Tutorial 1)
+# ============================================================================
+#
+# From Tutorial 1, the counter's internal state has:
+#   1. running_count - the score that moves +1/-1/0 per card
+#   2. cards_seen    - how many cards have been observed
+#
+# This spec tracks:
+#   o1 = biased running count (count + 128)
+#   o2 = cards seen counter
+#   o3 = delta echo (for tracing)
+#   o4 = validity flag
+#
+# ============================================================================
 
 set charvar off
 
-# Define input/output streams for the REPL interpreter.
+# ----------------------------------------------------------------------------
+# STREAM DECLARATIONS (syntax: name : type := in/out source)
+# ----------------------------------------------------------------------------
 i1 : bv[8] := in console
+
 o1 : bv[8] := out console
 o2 : bv[8] := out console
-o3 : sbf := out console
+o3 : bv[8] := out console
+o4 : sbf := out console
 
-delta_is_valid(delta : bv[8]) :=
-  (delta = { #x01 }:bv[8]) ||
-  (delta = { #x00 }:bv[8]) ||
-  (delta = { #xFF }:bv[8]).
+# ----------------------------------------------------------------------------
+# HELPER PREDICATE
+# ----------------------------------------------------------------------------
+# Returns true iff delta is a valid Hi-Lo delta value
+delta_is_valid(d : bv[8]) :=
+  (d = { 1 }:bv[8]) || (d = { 0 }:bv[8]) || (d = { 255 }:bv[8]).
 
-# Demo
-# We feed a fixed sequence of deltas so this file runs end-to-end without manual typing.
-# Sequence: +1, +1, 0, -1, -1, 0 (two's complement -1 is 255 in bv[8]).
+# ----------------------------------------------------------------------------
+# SPECIFICATION
+# ----------------------------------------------------------------------------
+# BREAKDOWN:
+#
+#   o1[0]:bv[8] = { 128 }:bv[8]
+#     Initial biased count = 128 (actual count = 0)
+#
+#   o2[0]:bv[8] = { 0 }:bv[8]
+#     Cards seen starts at 0
+#
+#   o3[t]:bv[8] = i1[t]:bv[8]
+#     Echo the delta input
+#
+#   o1[t]:bv[8] = o1[t-1]:bv[8] + i1[t]:bv[8]
+#     Update rule: new_count = old_count + delta
+#     (bv[8] addition handles two's complement automatically)
+#
+#   o2[t]:bv[8] = o2[t-1]:bv[8] + { 1 }:bv[8]
+#     Increment cards seen counter
+#
+#   o4[t]:sbf = 1:sbf <-> delta_is_valid(i1[t]:bv[8])
+#     Set validity flag
 
-# The tracker as a transition system.
-# - The initial biased count is 0x20 (32), which represents running_count = 0.
-# - Each step adds the new delta to the previous biased count.
-r o1[0]:bv[8] = { #x20 }:bv[8] && o2[t]:bv[8] = i1[t]:bv[8] && o1[t]:bv[8] = o1[t-1]:bv[8] + o2[t]:bv[8] && (o3[t]:sbf = 1:sbf <-> delta_is_valid(i1[t]:bv[8]))
+# ----------------------------------------------------------------------------
+# DEMO INPUT SEQUENCE
+# ----------------------------------------------------------------------------
+# Sequence: +1, +1, +1, 0, -1, -1
+#
+# Step | Delta | Count | Biased | Cards
+# -----|-------|-------|--------|-------
+#   1  |  +1   |   1   |  129   |   1
+#   2  |  +1   |   2   |  130   |   2
+#   3  |  +1   |   3   |  131   |   3
+#   4  |   0   |   3   |  131   |   4
+#   5  |  -1   |   2   |  130   |   5
+#   6  |  -1   |   1   |  129   |   6
+#
+# NOTE: This file is a REPL transcript. After `r ...`, every following line is
+# treated as input. Do not place blank lines or comments after `r ...` until
+# the end; one blank line terminates execution and returns to the REPL.
+
+r (o1[0]:bv[8] = { 128 }:bv[8]) && (o2[0]:bv[8] = { 0 }:bv[8]) && (o3[t]:bv[8] = i1[t]:bv[8]) && (o1[t]:bv[8] = o1[t-1]:bv[8] + i1[t]:bv[8]) && (o2[t]:bv[8] = o2[t-1]:bv[8] + { 1 }:bv[8]) && (o4[t]:sbf = 1:sbf <-> delta_is_valid(i1[t]:bv[8]))
+1
 1
 1
 0
 255
 255
-0
 
 q

@@ -5,162 +5,207 @@ kicker: Tutorial 3
 description: Learn to read and write small executable specifications by listing invariants first, then letting a solver choose behaviors that satisfy them.
 ---
 
-This tutorial introduces Tau as a way to write executable specifications: not "do this, then that", but "these relationships must hold, at every time-step".
+This tutorial is about a shift in how you think about writing programs.
 
-Tau is a good fit for the theme of this project because it makes a familiar formal-methods habit concrete:
-start from invariants, then let tools search for behaviors that satisfy them.
+Instead of giving step-by-step instructions ("do this, then do that"), you state what must always be true.
+Then a solver figures out the steps for you.
 
-All examples in this tutorial are runnable from files under `examples/tau/` and do not require typing into the interpreter.
+That sounds abstract. So we will start with a concrete habit: before writing any code, write a list of sentences that are meant to stay true forever.
+Those sentences are your invariants.
+Everything else, such as syntax, types, and stream declarations, is just scaffolding to make the invariants executable.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Mental pictures to keep</p>
   <ul>
-    <li>A timeline of variables (streams) indexed by time</li>
-    <li>An invariant as a rail: the system is allowed to move, but not off the rails</li>
-    <li>A solver as a witness generator: it produces concrete values that make the constraints true</li>
-    <li>A state machine as one lens, and a logic specification as another</li>
+    <li>A timeline of streams: inputs and outputs indexed by time, like frames in a film</li>
+    <li>An invariant as a rail: the system can move, but not off the rails</li>
+    <li>A solver as a witness generator: it finds concrete values that make your constraints true</li>
+    <li>Three lenses for the same system: state machine, recurrence relation, logic specification</li>
   </ul>
 </div>
 
-## Part I: invariants first (the habit that makes specs readable)
+All examples in this tutorial are runnable from files under `examples/tau/`.
+Each file is a self-contained transcript that runs end-to-end without manual typing.
 
-When writing a specification, the fastest way to get lost is to start with syntax.
-The fastest way to stay oriented is to start with a list of sentences that are meant to be true.
+## Part I: inside your head (invariants before syntax)
 
-Here is a small example system: a turnstile with two events.
+Imagine you are designing a turnstile at a subway entrance.
 
-- Event `coin`: unlock.
-- Event `push`: pass through if unlocked, otherwise trigger an alarm.
+You do not start by writing code. You start by stating what must always be true:
 
-Before any Tau code, a useful invariants list is:
+1. The turnstile is always in one of two states: **Locked** or **Unlocked**.
+2. Inserting a coin when locked unlocks it.
+3. Pushing through when unlocked locks it again.
+4. Pushing through when locked triggers an alarm.
+5. No alarm when unlocked.
 
-1. The state is always either `Locked` or `Unlocked`.
-2. If the state is `Locked` and the event is `coin`, the next state is `Unlocked`.
-3. If the state is `Unlocked` and the event is `push`, the next state is `Locked`.
-4. If the state is `Locked` and the event is `push`, an `alarm` flag is raised.
-5. If the state is `Unlocked`, `alarm` is not raised.
+These are your invariants. They decide most design choices before you touch a keyboard.
+They say what the state is, what inputs exist, and what must never be violated.
 
-This list is small, but it already decides most design choices:
-it says what the state is, what inputs exist, and what properties must never be violated.
+This is the habit that makes specifications readable: invariants first, then syntax.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">A tiny turnstile state machine</p>
   {% include diagrams/tau-turnstile-fsm.svg %}
   <figcaption class="fp-figure-caption">
-    The same system can be held in view as a state machine (states and arrows) or as a set of logical constraints relating current and next values.
+    The same system can be viewed as a state machine (states and arrows) or as logical constraints relating current and next values. Both views are correct; they emphasize different things.
   </figcaption>
 </figure>
 
+### Why start with invariants?
+
+When you start with syntax, you get lost in details: "What type is this? How do I declare that? Why is the compiler unhappy?"
+
+When you start with invariants, you stay oriented. The invariants are the spec.
+Everything else exists to make them checkable.
+
 ## Part II: reading Tau (streams, time, and constraints)
 
-Tau specifications talk about **streams** (inputs and outputs) indexed by time.
-Timepoint 0 is commonly used for initial conditions, and timepoints 1,2,3,... are the execution steps that follow.
-In formulas, `t` is used as “the current step”.
+Tau specifications talk about **streams**: sequences of values indexed by time.
+Think of them like frames in a film, numbered 0, 1, 2, 3, ...
 
-Stream declarations look like:
+- **Input streams** (`i1`, `i2`, ...) receive values from the outside world.
+- **Output streams** (`o1`, `o2`, ...) produce values computed by the spec.
+
+At each time step `t`, the spec relates inputs and outputs.
+In Tau, `t` is a logical variable ranging over time steps: a constraint written with `t` is meant to hold for every time step, not as a one-step instruction.
+
+<div class="fp-callout fp-callout-warn">
+  <p class="fp-callout-title"><code>t</code> is not a loop variable</p>
+  <p>
+    In imperative code, a loop counter <code>t</code> advances as the program runs. In Tau, <code>t</code> is a variable that ranges over time steps all at once.
+    A line like <code>o1[t] = o1[t-1] + i1[t]</code> is a relationship that must hold at every step, not an instruction executed at one step.
+  </p>
+</div>
+
+### Declaring streams
 
 ```tau
-i1 : bv[8] := in console
-o1 : bv[8] := out console
+i1 : bv[8] := in console   # input stream, 8-bit values
+o1 : bv[8] := out console  # output stream, 8-bit values
 ```
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Types used in these examples</p>
   <ul>
-    <li><code>bv[8]</code>: an 8-bit bitvector (values 0..255). Arithmetic is modular; <code>255</code> is <code>#xFF</code> if you think in hex.</li>
-    <li><code>sbf</code>: a single-bit boolean flag (printed as 0/1), useful for “valid?”, “alarm?”, “solved?” style signals.</li>
+    <li><code>bv[8]</code>: an 8-bit bitvector (values 0–255). Arithmetic wraps around; 255 + 1 = 0.</li>
+    <li><code>sbf</code>: a simple boolean flag (0 or 1), useful for "valid?", "alarm?", "solved?" signals.</li>
   </ul>
 </div>
 
-Then a local constraint can relate "now" and "one step ago":
+### Writing constraints
+
+A constraint relates values at the current time step (and possibly earlier steps):
 
 ```tau
 o1[t] = o1[t-1] + i1[t]
 ```
 
+This says: "the output at time `t` equals the previous output plus the current input."
+It is a running sum.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">A small but important detail: <code>t-1</code></p>
+  <p>
+    When a constraint mentions <code>t-1</code>, it only makes sense starting at <code>t = 1</code>.
+    That is why examples also include initial conditions like <code>o1[0] = ...</code> to define the base case.
+  </p>
+</div>
+
+### The mindset shift
+
+This is where Tau differs from ordinary programming:
+
+- An **imperative program** computes outputs by executing instructions step by step.
+- A **Tau specification** constrains outputs by stating relationships that must hold.
+
+During execution, Tau asks for input values, then uses a solver to find output values that satisfy all the constraints.
+The specification describes the rails; the solver finds a path that stays on them.
+
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Two operator families (a common source of mistakes)</p>
   <ul>
-    <li><code>&amp; | '</code> are <em>term</em> operators (bit-level / boolean-algebra terms)</li>
-    <li><code>&amp;&amp; || !</code> are <em>formula</em> operators (logical connectives over constraints)</li>
+    <li><code>&amp; | ' ^</code> are <em>term</em> operators (bit-level operations on values)</li>
+    <li><code>&amp;&amp; || ! &lt;-&gt;</code> are <em>formula</em> operators (logical connectives combining constraints)</li>
   </ul>
   <p>
-    A comparison like <code>x = y</code> is a formula, so it composes with <code>&amp;&amp;</code>, not <code>&amp;</code>.
-    If you feel yourself fighting the type system, a reliable pattern is: compute complex checks in the host, pass booleans in, and let Tau combine them.
+    A comparison like <code>x = y</code> is a formula, so it should be combined with <code>&amp;&amp;</code>, not <code>&amp;</code>.
+  </p>
+  <p>
+    In these examples, bit-flips are written with XOR against a mask (for example, <code>x ^ { 1 }:bv[8]</code>), because it makes the intended bit-level change explicit.
   </p>
 </div>
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">A small practical note: <code>charvar</code></p>
+  <p class="fp-callout-title">A practical note: <code>charvar</code></p>
   <p>
-    Tau enables <code>charvar</code> by default (see <code>tau --help</code>). In that mode, names are more restrictive.
-    These tutorials use longer names like <code>delta_is_valid</code> and <code>bit_not</code>, so every example starts with
-    <code>set charvar off</code>.
+    Tau restricts variable names by default. To use longer names like <code>delta_is_valid</code>, every example starts with <code>set charvar off</code>.
   </p>
 </div>
 
-One crucial shift in mindset:
+## Part III: the same system in three lenses
 
-- An imperative program computes outputs by executing instructions.
-- A Tau specification constrains outputs by stating relationships.
+The turnstile can be described in three equivalent ways.
+Each lens emphasizes something different.
 
-During execution, Tau requests values for input streams and then uses a solver to pick output values that satisfy the constraints.
+### Lens 1: state machine (the picture)
 
-<div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">How the repo examples run</p>
-  <p>
-    The <code>.tau</code> files in <code>examples/tau/</code> are scripted interpreter sessions:
-    they declare streams, run a spec with the <code>r</code> command, feed a small demo input sequence, then quit.
-    From the repo root:
-  </p>
-  <pre><code>./scripts/update_tau_lang.sh</code></pre>
-  <pre><code>./scripts/run_tau_policy.sh examples/tau/turnstile_fsm_alarm.tau</code></pre>
-</div>
+Draw circles for states (Locked, Unlocked) and arrows for transitions (coin, push).
+This is the visual view: good for intuition, but hard to execute directly.
 
-## Part III: the same system in three layers (FSM, recurrence, specification)
+### Lens 2: recurrence relation (the function)
 
-The turnstile can be written in at least three closely related forms.
-
-### Layer 1: a state machine (graph)
-
-This is the diagram above: states and labeled transitions.
-
-### Layer 2: a recurrence (a step function)
-
-One can name a transition function:
+Define a step function that takes the current state and event, and returns the next state:
 
 $$
-state_{t+1} = step(state_t, event_t).
+\text{state}_{t+1} = \text{step}(\text{state}_t, \text{event}_t)
 $$
 
-This is the functional lens: the whole behavior is determined by an initial state and a repeated application of a step function.
+This is the functional view. The whole behavior unfolds from an initial state and repeated application of `step`.
 
-### Layer 3: a Tau specification (constraints over time)
+### Lens 3: Tau specification (the constraints)
 
-In Tau, a typical pattern is:
+Encode the state as an output stream, encode the event as an input stream, and write constraints:
 
-- encode the state as an output stream `s[t]`,
-- encode the input event as an input stream `e[t]`,
-- constrain `s[t]` in terms of `s[t-1]` and `e[t]`,
-- add invariants as additional constraints.
+- `o1[0] = 0` (start locked)
+- `o1[t] = 1` if coin and not push (unlock)
+- `o1[t] = 0` if push (lock)
+- `o2[t] = 1` if push while locked (alarm)
 
-The implementation details of this encoding are flexible. The invariants are the point.
+This is the declarative view. You state what must hold; the solver handles the rest.
 
-### A side note: programs as decision trees (and why state matters)
+### Why three lenses?
 
-The turnstile rules above can be read as a case split: given the current state and the current event, pick the next state and outputs.
-That is the same structure as a decision tree.
+Different tools want different representations:
 
-For straight-line code, the decision tree is finite.
-For code with loops, the decision tree is conceptually infinite: it keeps branching as time continues.
-State machines and stream specifications are ways to describe that infinite unfolding compactly.
+- Humans often prefer state machines (visual, local).
+- Recursive code uses recurrence relations.
+- Constraint solvers use logic specifications.
+
+The key insight from Tutorial 2 (Isomorphism) applies here: these are not three different systems.
+They are three equivalent descriptions of the same system.
+Picking the right lens for your task is a practical skill.
+
+### Programs as infinite decision trees
+
+The turnstile rules form a case split: given the current state and event, pick the next state.
+That is a decision tree.
+
+For code without loops, the tree is finite.
+For code with loops, the tree is conceptually infinite. It keeps branching forever.
+
+State machines and stream specifications are compact ways to describe infinite unfoldings.
 
 ## Part IV: cards in Tau (an approximate state tracker)
 
-Tutorial 1 built a precise mental picture for an approximate state tracker (a running count).
-There is a runnable Tau version here:
+Tutorial 1 built a precise mental picture of a card counter's running score.
+Now let's see that same system in Tau.
 
-- `examples/tau/card_counting_hilo_state_tracker.tau`
+The runnable example is:
+
+```
+examples/tau/card_counting_hilo_state_tracker.tau
+```
 
 From the repo root:
 
@@ -168,136 +213,200 @@ From the repo root:
 ./scripts/run_tau_policy.sh examples/tau/card_counting_hilo_state_tracker.tau
 ```
 
-This example follows a useful convention: parsing is pushed out of Tau.
-The input stream provides the already-classified delta (`+1`, `0`, `-1`), and Tau only enforces the update rule and basic validity checks.
+### What the spec does
 
-## Part V: a toggle puzzle in Tau (and why it wants linear algebra)
+The input stream provides a pre-classified delta: `+1`, `0`, or `-1` (encoded as 8-bit values: 1, 0, or 255).
+The output stream maintains a biased running count.
+
+The core constraint is simple:
+
+$$
+\text{count}_t = \text{count}_{t-1} + \text{delta}_t
+$$
+
+That is it. The spec just enforces the update rule.
+
+### A useful convention: push parsing out of Tau
+
+Notice that Tau does not classify cards. It receives the already-classified delta.
+This is a design pattern: keep complex parsing in the host system, let Tau enforce simple invariants.
+
+Why? Tau is good at constraints, not string manipulation. The split keeps both sides clean.
+
+## Part V: a toggle puzzle in Tau (and why XOR is linear algebra)
 
 Now connect back to Tutorial 2's "puzzle becomes linear algebra" example.
 
-The key observation is that a board of on/off lights is a bitvector, and toggling is XOR.
-In Tau, XOR is written `^` in terms.
+Consider a row of lights that are either on or off.
+Pressing a button toggles some subset of lights.
+The puzzle: turn all lights off.
 
-There is a runnable Tau model of a tiny toggle puzzle here:
-
-- `examples/tau/toggle_puzzle_xor_state.tau`
-
-The spec is just a state update:
+The insight is that toggling is XOR. A board of lights is a bitvector. Applying a move is:
 
 $$
-board_t = board_{t-1} \oplus move_t.
+\text{board}_t = \text{board}_{t-1} \oplus \text{move}_t
 $$
 
-Once the system is expressed as XOR addition over bits, the same structure is visible as linear algebra over $\mathbb{F}_2$.
-That translation is the leverage move from Tutorial 2.
+where $\oplus$ is bitwise XOR.
+
+The runnable example is:
+
+```
+examples/tau/toggle_puzzle_xor_state.tau
+```
+
+### Why this matters
+
+XOR over bits is the same as addition in $\mathbb{F}_2$ (the field with two elements).
+So "toggle puzzle" and "linear algebra over a finite field" are the same structure.
+
+This is the leverage move from Tutorial 2: recognize an isomorphism, then use tools designed for the target domain.
 
 ## Part VI: Q-learning as a lookup table (and what Tau can check)
 
 ### What a lookup table really is
 
-A lookup table is a representation of a function on a finite domain.
+A lookup table is a function on a finite domain, stored as a list of values.
 
-For tabular Q-learning, the domain is `(state, action)` and the values are typically real-valued scores:
-
-$$
-Q : S \times A \to \mathbb{R}.
-$$
-
-If `S` and `A` are finite, then a table is just a list of entries with a chosen ordering.
-That is a literal isomorphism: "grid of values" and "vector of values" are the same structure up to reindexing.
-
-### The Q-learning update (one step)
-
-In one common form, the update is:
+For tabular Q-learning, the table maps (state, action) pairs to scores:
 
 $$
-Q(s,a) \leftarrow (1 - \alpha)\,Q(s,a) + \alpha\Bigl(r + \gamma \max_{a^{\prime}} Q(s^{\prime},a^{\prime})\Bigr).
+Q : S \times A \to \mathbb{R}
 $$
 
-This tutorial uses a simplified, integer-friendly version in a tiny state/action space.
-The point is not floating point math. The point is the shape:
-one entry in a table is updated using the reward and the best predicted next value.
+If $S$ and $A$ are small and finite, you can literally store every entry.
+That is a Q-table: a grid of numbers, one per (state, action) pair.
 
-### A runnable Tau example: tabular update (2x2 table)
+### The Q-learning update
 
-There is a runnable Tau spec that models a single update step on a 2x2 Q-table:
+The classic update rule is:
 
-- `examples/tau/q_learning_tabular_update.tau`
+$$
+Q(s,a) \leftarrow (1-\alpha) Q(s,a) + \alpha \left(r + \gamma \max_{a'} Q(s',a')\right)
+$$
 
-Each step supplies:
+In words: blend the old value with a target computed from the reward and the best predicted future value.
 
-- the chosen `(state s, action a)` as two 0/1 bits,
-- a reward `r`,
-- a provided `q_next` value (a stand-in for the usual `max_{a'} Q(s',a')` term),
-- the current table entries `Q00, Q01, Q10, Q11`,
-- and a `learn` bit that toggles whether an update happens.
+For this tutorial, we use a simplified integer version: `target = r + q_next`, and if `learn = 1`, the selected entry becomes `target`.
 
-The spec computes `target = r + q_next` and enforces one clean invariant:
-if `learn = 1`, exactly one table entry changes (the one selected by `(s,a)`), and it changes to `target`.
-All other entries must remain unchanged. If `learn = 0`, the output table equals the input table.
+### A runnable Tau example: 2x2 table update
 
-This is also a good example of a common integration pattern: Tau specifies the shape of the update, while the host system is responsible for “closing the loop” by feeding the updated table back in as the next step’s input.
+The runnable spec is:
 
-This is the main "Tau + lookup table" move: the host system can choose or learn numbers,
-but Tau can enforce that updates are shaped correctly and do not touch anything else.
+```
+examples/tau/q_learning_tabular_update.tau
+```
 
-In practice, that combination is useful because it lets a system be both adaptive and auditable:
+Each step provides:
 
-- The table is a concrete artifact (a small function on a finite domain) that can be logged, diffed, and replayed.
-- The Tau constraints act like guardrails: "only this entry updates", "updates obey this equation", "values stay in range", and so on.
-- When something goes wrong, the failure mode is a counterexample trace, not a vague "the model feels off".
+- `(s, a)`: which entry to update (two 0/1 bits)
+- `r`: the reward
+- `q_next`: a stand-in for $\max_{a'} Q(s', a')$
+- `learn`: whether to update (0 = no, 1 = yes)
+- `Q00, Q01, Q10, Q11`: the current table entries
 
-## Part VII: tables, weights, latent space (isomorphism or not)
+The spec computes `target = r + q_next` and enforces:
 
-### Lookup tables vs neural network weights
+- If `learn = 1`: exactly one entry changes to `target`; the others stay the same.
+- If `learn = 0`: all entries stay the same.
 
-A Q-table is a concrete representation of a function on a small discrete domain.
-A neural network is also a representation of a function, but with a different parameterization.
+### What Tau gives you
 
-There are two different questions that sound similar:
+This is the "Tau + lookup table" pattern:
 
-1. Are two representations both capable of expressing the same input-output behavior?
-2. Is there a 1-to-1, structure-preserving map between the representations?
+- The host system chooses which entry to update and what the reward is.
+- Tau enforces that the update has the right shape.
 
-For tables and weights, (1) can be true in many cases, but (2) is generally false.
-The map "weights -> behavior" is usually many-to-one:
-different weight settings can compute the same function (symmetries, redundancy, overparameterization).
-That is an equivalence relation, not an isomorphism.
+The combination is powerful because it separates concerns:
+
+- The table is a concrete artifact you can log, diff, and replay.
+- The constraints are guardrails: "only this entry updates," "the update uses this formula."
+- When something breaks, you get a counterexample trace, not a mystery.
+
+### A note on closing the loop
+
+This spec models a single update step. It takes the current table as input and produces the updated table as output.
+
+To run multi-step learning, the host system must "close the loop": take the output table and feed it back as the next step's input.
+Tau specifies the shape of each step; the host orchestrates the sequence.
+
+## Part VII: tables vs weights vs latent space
+
+### Lookup tables versus neural network weights
+
+A Q-table represents a function on a small discrete domain. Each entry is one input-output pair.
+
+A neural network also represents a function, but parameterized differently: by weights.
+
+Two questions that sound similar but are not:
+
+1. **Expressiveness**: Can both representations compute the same input-output behavior?
+2. **Isomorphism**: Is there a 1-to-1, structure-preserving map between them?
+
+For tables and neural networks, (1) can be true. A small network can compute the same function as a table.
+But (2) is generally false. The map "weights → behavior" is many-to-one: different weight settings can compute the same function.
+
+That is an equivalence relation (same behavior), not an isomorphism (same structure).
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Table, weights, meaning</p>
   {% include diagrams/tau-table-weights-meaning.svg %}
   <figcaption class="fp-figure-caption">
-    A table has a direct, lossless correspondence with a function on a finite domain. A weight vector often has many distinct parameter settings that denote the same function.
+    A table has a direct, lossless correspondence with a function on a finite domain. A weight vector often has many distinct settings that compute the same function.
   </figcaption>
 </figure>
 
 ### Latent space as a learned abstraction
 
-In deep learning, a latent vector is a learned representation of an input.
-It is best understood as an abstraction: it forgets many details while preserving the distinctions the model needs to make a prediction.
+In deep learning, a latent vector is the model's internal representation of an input.
+It is an abstraction: it forgets details while preserving distinctions the model needs.
 
-From the "spaces" point of view, several different spaces show up:
+From the "spaces" perspective:
 
-- **state space**: the world states the environment can be in,
-- **table space**: the space of all Q-tables (one coordinate per entry),
-- **weight space**: the space of all neural network parameters,
-- **latent space**: the internal representation space the model learns.
+- **State space**: all configurations the environment can be in.
+- **Table space**: all possible Q-tables (one coordinate per entry).
+- **Weight space**: all possible neural network parameters.
+- **Latent space**: the internal representation space the model learns.
 
-"Learning" and "verification" become different kinds of motion through these spaces.
-One searches for counterexamples in a state space. The other searches for parameters that score well on data.
+"Learning" and "verification" are different kinds of search through these spaces:
+
+- Learning searches parameter space for weights that score well on data.
+- Verification searches state space for counterexamples that break an invariant.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">State spaces and parameter spaces</p>
   {% include diagrams/tau-spaces-traversal.svg %}
   <figcaption class="fp-figure-caption">
-    Formal methods and machine learning both involve search. The difference is what space is being traversed and what counts as evidence.
+    Formal methods and machine learning both involve search. The difference is which space you traverse and what counts as evidence.
   </figcaption>
 </figure>
 
+## Running the examples
+
+All examples live in `examples/tau/`. To run them:
+
+1. Build Tau (once):
+   ```bash
+   ./scripts/update_tau_lang.sh
+   ```
+
+2. Run an example:
+   ```bash
+   ./scripts/run_tau_policy.sh examples/tau/turnstile_fsm_alarm.tau
+   ```
+
+Each `.tau` file is a self-contained REPL transcript: it declares streams, runs the spec, feeds demo inputs, and quits.
+You can read the file to see both the spec and the expected behavior.
+
 ## Where this tutorial goes next
 
-Next tutorials can build on this in two directions:
+This tutorial introduced Tau as a way to write executable specifications.
+The key habit: invariants first, syntax second.
 
-- use Tau as a small "logic kernel" inside a larger toolchain (host computes rich checks, Tau enforces rails),
-- connect Tau execution with counterexamples and synthesis loops.
+Next directions:
+
+- Use Tau as a small "logic kernel" inside a larger system: the host computes complex checks, Tau enforces guardrails.
+- Connect Tau execution with counterexamples and synthesis loops (CEGIS).
+- Build more complex state machines with multiple interacting streams.
+
+If you want to see how constraints connect to learning systems, read [Tutorial 4: World Models]({{ '/tutorials/world-models/' | relative_url }}).

@@ -1,91 +1,164 @@
-# Q-learning style tabular update (one-step function) in Tau
+# ============================================================================
+# Q-Learning Tabular Update - Lookup Table with Constrained Updates
+# ============================================================================
 #
-# Goal
-# Demonstrate "a lookup table + a precise update rule" in a way that is fast to execute in the Tau interpreter.
+# This spec demonstrates how Tau can enforce update rules on a lookup table.
+# It models a single Q-learning update step on a tiny 2x2 Q-table.
 #
-# Modeling choice
-# This file treats the Q-table as an input (the current learned table) and produces the updated table as output.
-# This keeps the spec local-in-time and avoids expensive temporal normalization.
+# ============================================================================
+# HOW TO READ TAU SYNTAX
+# ============================================================================
 #
-# Inputs (bv[8], provided as decimal integers in 0..255)
-# - i1[t]  = s       (state bit, 0/1)
-# - i2[t]  = a       (action bit, 0/1)
-# - i3[t]  = r       (reward, small integer)
-# - i4[t]  = q_next  (a value representing Q(s', a_star), supplied by the host/agent)
-# - i5[t]  = learn   (0/1). If 0, output table equals input table.
+# STREAM DECLARATIONS:
+#   i1 : bv[8] := in console   -- input stream, 8-bit bitvector, from console
+#   o1 : sbf := out console    -- output stream, simple boolean flag
 #
-# - i6[t]  = Q00     (current table entry Q(0,0))
-# - i7[t]  = Q01     (current table entry Q(0,1))
-# - i8[t]  = Q10     (current table entry Q(1,0))
-# - i9[t]  = Q11     (current table entry Q(1,1))
+# TYPE ANNOTATIONS:
+#   o1[t]:bv[8]            -- output at time t, typed as bv[8]
 #
-# Outputs (bv[8])
-# - o1[t] = Q00' (updated)
-# - o2[t] = Q01' (updated)
-# - o3[t] = Q10' (updated)
-# - o4[t] = Q11' (updated)
-# - o5[t] = target = r + q_next
+# HELPER FUNCTIONS:
+#   fname(x) : bv[8] := expr   -- define function returning bv[8]
 #
-# Update rule (simplified but Q-learning shaped)
-# target = r + q_next
-# if learn = 1: update exactly one entry Q(s,a) := target, keep the others unchanged
-# if learn = 0: keep all entries unchanged
+# KEY OPERATORS:
+#   +   addition           x + y (modular, wraps at 256)
+#   &   bitwise AND        x & y
+#   |   bitwise OR         x | y
+#   ^   bitwise XOR        x ^ y
+#   *   multiplication     x * y (modular)
 #
-# Note
-# Bitvector arithmetic is modular. This is educational and uses small values.
+# ============================================================================
+# MENTAL MODEL
+# ============================================================================
+# A Q-table maps (state, action) pairs to scores:
+#   Q : S x A -> R
+#
+# For a 2-state, 2-action system, the table has 4 entries:
+#   Q00 = Q(state=0, action=0)
+#   Q01 = Q(state=0, action=1)
+#   Q10 = Q(state=1, action=0)
+#   Q11 = Q(state=1, action=1)
+#
+# THE Q-LEARNING UPDATE
+# ---------------------
+# Classic Q-learning:
+#   Q(s,a) <- (1-alpha)*Q(s,a) + alpha*(r + gamma*max_a' Q(s',a'))
+#
+# Simplified version (for integer arithmetic):
+#   target = r + q_next
+#   if learn=1: Q(s,a) <- target
+#   if learn=0: no change
+#
+# WHAT TAU ENFORCES (the "guardrails" pattern)
+# --------------------------------------------
+# - Exactly one entry is updated (the one selected by s,a)
+# - All other entries are unchanged
+# - The update uses the correct formula
+#
+# The host system chooses WHAT to update; Tau enforces HOW.
+#
+# DESIGN: SINGLE-STEP SPEC
+# ------------------------
+# This spec models ONE update step. The current table is INPUT, the updated
+# table is OUTPUT. To run multi-step learning, the host must "close the loop"
+# by feeding the output table back as the next step's input.
+#
+# ============================================================================
 
 set charvar off
 
+# ----------------------------------------------------------------------------
+# STREAM DECLARATIONS (syntax: name : type := in/out source)
+# ----------------------------------------------------------------------------
+# Control inputs
 i1 : bv[8] := in console
 i2 : bv[8] := in console
 i3 : bv[8] := in console
 i4 : bv[8] := in console
 i5 : bv[8] := in console
 
+# Current table (provided as input)
 i6 : bv[8] := in console
 i7 : bv[8] := in console
 i8 : bv[8] := in console
 i9 : bv[8] := in console
 
+# Updated table (output)
 o1 : bv[8] := out console
 o2 : bv[8] := out console
 o3 : bv[8] := out console
 o4 : bv[8] := out console
 o5 : bv[8] := out console
 
-# Demo (three updates), each step provides:
-#   s, a, r, q_next, learn, Q00, Q01, Q10, Q11
-#
-# Step 1: starting from all zeros, update Q(0,1) with target = 3 + 0 = 3
-# Step 2: starting from (0,3,0,0), update Q(1,0) with target = 2 + 3 = 5
-# Step 3: starting from (0,3,5,0), update Q(0,0) with target = 1 + 5 = 6
-#
-# Helper functions (term-level)
-#
-# This example treats i1/i2/i5 as bits stored in bv[8]. We interpret only the low bit.
-# In practice, a host system should validate and pass clean bits or one-hot flags into Tau.
-
+# ----------------------------------------------------------------------------
+# HELPER FUNCTIONS
+# ----------------------------------------------------------------------------
+# Extract the low bit of a value
 bit(x) : bv[8] := x & { 1 }:bv[8]
+
+# Flip a 0/1 bit
 bit_not(x) : bv[8] := bit(x) ^ { 1 }:bv[8]
 
-# Convert a 0/1 bit into a full-byte mask:
-# - to_mask(0) = 0x00
-# - to_mask(1) = 0xFF
-to_mask(x) : bv[8] := bit(x) * { #xFF }:bv[8]
+# Convert a 0/1 bit to a full-byte mask (0x00 or 0xFF)
+# This enables conditional selection without branching
+to_mask(x) : bv[8] := bit(x) * { 255 }:bv[8]
 
-# Bitwise NOT for bv[8] values.
-bv_not(x) : bv[8] := x ^ { #xFF }:bv[8]
+# Bitwise NOT for bv[8]
+bv_not(x) : bv[8] := x ^ { 255 }:bv[8]
 
-# Select between two bv[8] values using a 0x00/0xFF mask.
+# Select between two values using a mask
+# select(0xFF, yes, no) = yes
+# select(0x00, yes, no) = no
 select(mask, yes, no) : bv[8] := (mask & yes) | (bv_not(mask) & no)
 
+# Mask for each table entry:
+# Returns 0xFF if learn=1 AND this is the selected entry, else 0x00
 mask00(s, a, learn) : bv[8] := to_mask(bit(learn) & bit_not(s) & bit_not(a))
 mask01(s, a, learn) : bv[8] := to_mask(bit(learn) & bit_not(s) & bit(a))
 mask10(s, a, learn) : bv[8] := to_mask(bit(learn) & bit(s) & bit_not(a))
 mask11(s, a, learn) : bv[8] := to_mask(bit(learn) & bit(s) & bit(a))
 
-# Note: the `r ...` command must be a single line (it is one command in the interpreter).
-r (o5[t]:bv[8] = i3[t]:bv[8] + i4[t]:bv[8]) && (o1[t]:bv[8] = select(mask00(i1[t],i2[t],i5[t]), o5[t]:bv[8], i6[t]:bv[8])) && (o2[t]:bv[8] = select(mask01(i1[t],i2[t],i5[t]), o5[t]:bv[8], i7[t]:bv[8])) && (o3[t]:bv[8] = select(mask10(i1[t],i2[t],i5[t]), o5[t]:bv[8], i8[t]:bv[8])) && (o4[t]:bv[8] = select(mask11(i1[t],i2[t],i5[t]), o5[t]:bv[8], i9[t]:bv[8]))
+# ----------------------------------------------------------------------------
+# SPECIFICATION
+# ----------------------------------------------------------------------------
+# BREAKDOWN:
+#
+#   o5[t]:bv[8] = i3[t]:bv[8] + i4[t]:bv[8]
+#     Compute target = reward + q_next
+#
+#   o1[t]:bv[8] = select(mask00(...), target, Q00)
+#     If this entry is selected: output target
+#     Otherwise: output unchanged Q00
+#
+#   (same pattern for o2, o3, o4)
+#
+# The masks ensure:
+# - If learn=0: all masks are 0x00, so all outputs equal inputs (no change)
+# - If learn=1: exactly one mask is 0xFF, so exactly one entry becomes target
+
+# ----------------------------------------------------------------------------
+# DEMO INPUT SEQUENCE
+# ----------------------------------------------------------------------------
+# Three update steps, starting from an all-zeros table.
+#
+# Each step provides 9 inputs: s, a, r, q_next, learn, Q00, Q01, Q10, Q11
+#
+# Step 1: Update Q(0,1) with target = 3 + 0 = 3
+#   s=0, a=1, r=3, q_next=0, learn=1
+#   Table: (0, 0, 0, 0) -> (0, 3, 0, 0)
+#
+# Step 2: Update Q(1,0) with target = 2 + 3 = 5
+#   s=1, a=0, r=2, q_next=3, learn=1
+#   Table: (0, 3, 0, 0) -> (0, 3, 5, 0)
+#
+# Step 3: Update Q(0,0) with target = 1 + 5 = 6
+#   s=0, a=0, r=1, q_next=5, learn=1
+#   Table: (0, 3, 5, 0) -> (6, 3, 5, 0)
+#
+# NOTE: This file is a REPL transcript. After `r ...`, every following line is
+# treated as input. Do not place blank lines or comments after `r ...` until
+# the end; one blank line terminates execution and returns to the REPL.
+
+r (o5[t]:bv[8] = i3[t]:bv[8] + i4[t]:bv[8]) && (o1[t]:bv[8] = select(mask00(i1[t]:bv[8],i2[t]:bv[8],i5[t]:bv[8]), o5[t]:bv[8], i6[t]:bv[8])) && (o2[t]:bv[8] = select(mask01(i1[t]:bv[8],i2[t]:bv[8],i5[t]:bv[8]), o5[t]:bv[8], i7[t]:bv[8])) && (o3[t]:bv[8] = select(mask10(i1[t]:bv[8],i2[t]:bv[8],i5[t]:bv[8]), o5[t]:bv[8], i8[t]:bv[8])) && (o4[t]:bv[8] = select(mask11(i1[t]:bv[8],i2[t]:bv[8],i5[t]:bv[8]), o5[t]:bv[8], i9[t]:bv[8]))
 0
 1
 3

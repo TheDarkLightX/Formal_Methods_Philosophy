@@ -1,31 +1,103 @@
-# Toggle puzzle as XOR state update (a tiny "Lights Out" slice)
+# ============================================================================
+# Toggle Puzzle (Lights Out) - XOR as State Update
+# ============================================================================
 #
-# Mental model
-# - A board is a bitvector of on/off lights.
-# - A move is a bitmask of which lights get toggled.
-# - Applying a move is XOR (exclusive-or).
+# This spec demonstrates a "Lights Out" style puzzle where toggling lights
+# is mathematically equivalent to XOR operations on bitvectors.
 #
-# Encoding (bv[8])
-# - We use the low 5 bits as the board.
-# - A move is a bitmask (we assume it is already validated upstream).
+# ============================================================================
+# HOW TO READ TAU SYNTAX
+# ============================================================================
 #
-# This example is meant to connect to the "puzzle becomes linear algebra" lens:
-# XOR over bits is addition over GF(2).
+# STREAM DECLARATIONS:
+#   i1 : bv[8] := in console   -- input stream, 8-bit bitvector, from console
+#   o1 : sbf := out console    -- output stream, simple boolean flag
+#
+# TYPE ANNOTATIONS:
+#   o1[t]:bv[8]            -- output at time t, typed as bv[8]
+#   o1[t-1]:bv[8]          -- output at previous time step
+#
+# KEY OPERATORS:
+#   ^   XOR (bitwise)      x ^ y  -- toggles bits where y has 1s
+#   =   equality           x = y  -- formula: true if equal
+#   <-> equivalence        (a = 0) <-> (b = 1)  -- both sides same truth value
+#
+# ============================================================================
+# MENTAL MODEL
+# ============================================================================
+# - A board is a row of lights, each on (1) or off (0)
+# - A move specifies which lights to toggle (as a bitmask)
+# - Applying a move flips the selected lights: XOR
+# - Goal: turn all lights off
+#
+# THE KEY INSIGHT
+# ---------------
+# XOR over bits is the same as addition in F_2 (the field with two elements).
+# This means "toggle puzzle" and "linear algebra over a finite field" are
+# ISOMORPHIC structures. You can use linear algebra tools to solve the puzzle!
+#
+# ENCODING
+# --------
+# We use the low 5 bits of a bv[8] as the board (5 lights).
+#
+# THE CORE CONSTRAINT
+# -------------------
+# board[t] = board[t-1] XOR move[t]
+#
+# That's it. The entire puzzle dynamics in one line.
+#
+# ============================================================================
 
 set charvar off
 
+# ----------------------------------------------------------------------------
+# STREAM DECLARATIONS (syntax: name : type := in/out source)
+# ----------------------------------------------------------------------------
 i1 : bv[8] := in console
-o1 : bv[8] := out console  # board
-o2 : bv[8] := out console  # echo move
-o3 : sbf := out console    # solved (board == 0)
+o1 : bv[8] := out console
+o2 : bv[8] := out console
+o3 : sbf := out console
 
-# Demo moves (decimal): 7, 28, 14
-# Initial board: 0x15 (10101)
-# 0x15 ^ 0x07 = 0x12
-# 0x12 ^ 0x1C = 0x0E
-# 0x0E ^ 0x0E = 0x00 (solved)
-# Note: this is written on one line because the Tau REPL treats newlines as command boundaries.
-r (o1[0]:bv[8] = { #x15 }:bv[8]) && (o2[t]:bv[8] = i1[t]:bv[8]) && (o1[t]:bv[8] = o1[t-1]:bv[8] ^ o2[t]:bv[8]) && (o3[t]:sbf = 1:sbf <-> o1[t]:bv[8] = { #x00 }:bv[8])
+# ----------------------------------------------------------------------------
+# SPECIFICATION
+# ----------------------------------------------------------------------------
+# BREAKDOWN:
+#
+#   o1[0]:bv[8] = { 21 }:bv[8]
+#     Initial board = 21 = 0x15 = binary 10101 (lights 0, 2, 4 are on)
+#
+#   o2[t]:bv[8] = i1[t]:bv[8]
+#     Echo the move to output
+#
+#   o1[t]:bv[8] = o1[t-1]:bv[8] ^ o2[t]:bv[8]
+#     XOR the previous board with the move to get new board
+#
+#   o3[t]:sbf = 1:sbf <-> (o1[t]:bv[8] = { 0 }:bv[8])
+#     Set solved flag if board is all zeros
+
+# ----------------------------------------------------------------------------
+# DEMO INPUT SEQUENCE
+# ----------------------------------------------------------------------------
+# Initial board: 21 = 0x15 = 10101 (binary)
+#
+# We apply three moves that solve the puzzle:
+#
+# Step | Move | Move Binary | Board Before | Board After | Solved?
+# -----|------|-------------|--------------|-------------|--------
+#   1  |  7   |  00111      | 10101 (21)   | 10010 (18)  | No
+#   2  | 28   |  11100      | 10010 (18)   | 01110 (14)  | No
+#   3  | 14   |  01110      | 01110 (14)   | 00000 (0)   | Yes!
+#
+# Verification:
+#   21 ^ 7 = 18  (10101 ^ 00111 = 10010)
+#   18 ^ 28 = 14 (10010 ^ 11100 = 01110)
+#   14 ^ 14 = 0  (01110 ^ 01110 = 00000) -> SOLVED!
+#
+# NOTE: This file is a REPL transcript. After `r ...`, every following line is
+# treated as input. Do not place blank lines or comments after `r ...` until
+# the end; one blank line terminates execution and returns to the REPL.
+
+r (o1[0]:bv[8] = { 21 }:bv[8]) && (o2[t]:bv[8] = i1[t]:bv[8]) && (o1[t]:bv[8] = o1[t-1]:bv[8] ^ o2[t]:bv[8]) && (o3[t]:sbf = 1:sbf <-> (o1[t]:bv[8] = { 0 }:bv[8]))
 7
 28
 14

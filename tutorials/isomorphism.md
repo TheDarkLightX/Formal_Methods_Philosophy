@@ -133,36 +133,43 @@ Its rule of thumb is strong enough to treat as a definition:
 > Abstraction means: forget some implementation detail, while preserving the structure needed to reason about a property.
 
 That sentence is doing a lot of work. It is saying: abstraction is not vagueness.
-It is a controlled camera angle. Some details are allowed to blur (mutation, allocation,
-evaluation order, scheduling, pointer layout) so the remaining shape is crisp enough
-to reason about a target property (correctness, safety, liveness, equivalence, complexity).
+It is a controlled camera angle. Some details are allowed to blur (mutation, allocation, evaluation order, scheduling, pointer layout) so the remaining shape is crisp enough to reason about a target property (correctness, safety, liveness, equivalence, complexity).
+
+One way to make this precise is to name a function:
+
+- Concrete states live in a big space $C$.
+- Abstract states live in a smaller space $A$.
+- An abstraction is a map $\alpha : C \to A$.
+
+In general, $\alpha$ is many-to-one. Different concrete states collapse to the same abstract state.
+That is not a bug. It is the point: the abstraction forgets what does not matter for the property in view.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Abstraction as a deliberate many-to-one map</p>
+  {% include diagrams/abstraction-map.svg %}
+  <figcaption class="fp-figure-caption">
+    Abstraction is a controlled loss of information. Many concrete states map to one abstract state, chosen to preserve the distinctions needed to reason about a property.
+  </figcaption>
+</figure>
 
 In practice, several different moves get called "abstraction". Keeping them separate prevents confusion.
 
 <figure class="fp-figure">
-  <p class="fp-figure-title">Three different “same”-claims</p>
+  <p class="fp-figure-title">Different “same”-claims</p>
   {% include diagrams/sameness-moves.svg %}
   <figcaption class="fp-figure-caption">
     "Same thing" can mean a lossless re-encoding (isomorphism), the same denotation after applying a meaning function (equivalence), or a deliberate approximation that preserves only certain properties (sound abstraction).
   </figcaption>
 </figure>
 
-<figure class="fp-figure">
-  <p class="fp-figure-title">Three different moves that get called "making the system smaller"</p>
-  {% include diagrams/state-space-shrink-compress.svg %}
-  <figcaption class="fp-figure-caption">
-    People say "abstraction" for several different moves. Only some of them are lossless changes of representation. Others intentionally merge states, which can change what is provable unless the analysis is careful about soundness.
-  </figcaption>
-</figure>
-
 ### A quick taxonomy (so the words do not slip)
 
-When someone says "this is the same thing in a different abstraction", it helps to ask what kind of sameness is meant.
+When a text says "this is the same thing in a different abstraction", the question is which kind of sameness is meant.
 
 - **Isomorphism (lossless re-encoding):** there is a reversible translation `encode`/`decode`, and operations correspond across the translation.
-- **Equivalence (same meaning):** there is a meaning function `⟦·⟧` and the two descriptions denote the same object (often many-to-one).
+- **Equivalence (same meaning):** there is a meaning function `⟦·⟧` and two descriptions are treated as the same when they denote the same object (often many-to-one).
 - **Sound abstraction (property-preserving approximation):** there is a map from concrete to abstract that forgets details but preserves a property of interest (usually one-way).
-- **Encoding/simulation (expressive power):** one formalism can simulate another; the relationship may preserve behavior, but not as a simple 1-to-1 map.
+- **Encoding/simulation (expressive power):** one formalism can simulate another; behavior may be preserved, but not as a simple 1-to-1 map.
 
 The cheat sheet collects many lenses on one page. The point is not memorization; it is the repeatable move:
 hold the same underlying behavior in view as functions, machines, relations, traces, or proofs, depending on the question.
