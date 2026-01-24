@@ -270,6 +270,7 @@ It is also a reading discipline. Small symbols carry fixed meanings, so a short 
       <tbody>
         <tr><td><code>∀</code></td><td>for all</td><td>universal claim</td></tr>
         <tr><td><code>∃</code></td><td>there exists</td><td>existential claim</td></tr>
+        <tr><td><code>.</code></td><td>such that</td><td>separator between a binder (<code>∀x</code>, <code>∃x</code>) and its body</td></tr>
         <tr><td><code>∧</code></td><td>and</td><td>both must hold</td></tr>
         <tr><td><code>∨</code></td><td>or</td><td>at least one holds</td></tr>
         <tr><td><code>¬</code></td><td>not</td><td>negation</td></tr>
@@ -282,8 +283,13 @@ It is also a reading discipline. Small symbols carry fixed meanings, so a short 
       </tbody>
     </table>
     <p>
-      A phrase like “such that” often appears when writing <code>∃x</code> followed by a condition. Parentheses
-      indicate what binds to what, the same way they do in algebra.
+      Many authors write <code>∀x. P(x)</code>, <code>∀x, P(x)</code>, or <code>∀x (P(x))</code>. These are the same idea: “for all <code>x</code>, <code>P(x)</code>”.
+      Similarly, <code>∃x. P(x)</code> means “there exists an <code>x</code> such that <code>P(x)</code>”.
+    </p>
+    <p>
+      A common shorthand is <code>∀x ∈ S. P(x)</code>, read “for all <code>x</code> in <code>S</code>, <code>P(x)</code>”. Formally, it expands to
+      <code>∀x. (x ∈ S → P(x))</code>. Likewise, <code>∃x ∈ S. P(x)</code> expands to <code>∃x. (x ∈ S ∧ P(x))</code>.
+      Parentheses indicate what binds to what, the same way they do in algebra.
     </p>
   </div>
 </div>
