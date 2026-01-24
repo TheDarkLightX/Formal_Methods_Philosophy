@@ -54,7 +54,7 @@ From far away, reformulation looks like a graph problem.
   <p class="fp-figure-title">Reformulation space</p>
   {% include diagrams/reformulation-space.svg %}
   <figcaption class="fp-figure-caption">
-    A problem can be expressed in many representations. Translations that preserve meaning let tools move with you. The leverage comes from landing in a representation with mature methods.
+    A problem can be expressed in many representations. Translations that preserve meaning let tools travel across representations. The leverage comes from landing in a representation with mature methods.
   </figcaption>
 </figure>
 
@@ -139,7 +139,7 @@ The split forgets detail differently depending on the question, but it keeps exa
   </figcaption>
 </figure>
 
-If you want an entry point written as a guide to this mindset, see Tao’s book *Structure and Randomness*.
+For an entry point written as a guide to this mindset, see Tao’s book *Structure and Randomness*.
 
 ### Richard Feynman: replace a formula jungle with a diagrammatic calculus
 
@@ -185,7 +185,7 @@ Compression is a closely related lens. A compression scheme has:
 - a decoder $dec : Z \to X$
 - and a promise that $dec(enc(x)) = x$ for the data of interest
 
-If that promise holds on a set $X$, then the encoding is lossless on $X$. You can recover exactly what you started with.
+If that promise holds on a set $X$, then the encoding is lossless on $X$. The original can be recovered exactly.
 
 Abstraction is usually not like that. It does not promise invertibility. It is not lossless.
 
@@ -246,9 +246,126 @@ Symbol manipulation becomes powerful when:
 
 This is reformulation again, but inside a language rather than between languages.
 
+At the bottom, this is not mystical. It is what computation is.
+
+A Turing machine is symbol manipulation: it reads a symbol, writes a symbol, moves left or right, and changes an internal state. That is controlled rewriting. Everything above it is a more ergonomic language for the same core act.
+
 ## Part V: why logic is powerful, and why it cannot be the whole story
 
 Logic is the mathematics of "must".
+
+It is also a reading discipline. Small symbols carry fixed meanings, so a short formula can say exactly what a long paragraph tries to gesture at.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Logic legend (how to read the symbols)</p>
+  <div class="fp-prose">
+    <table>
+      <thead>
+        <tr>
+          <th>Symbol</th>
+          <th>Read as</th>
+          <th>Meaning (informal)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><code>∀</code></td><td>for all</td><td>universal claim</td></tr>
+        <tr><td><code>∃</code></td><td>there exists</td><td>existential claim</td></tr>
+        <tr><td><code>∧</code></td><td>and</td><td>both must hold</td></tr>
+        <tr><td><code>∨</code></td><td>or</td><td>at least one holds</td></tr>
+        <tr><td><code>¬</code></td><td>not</td><td>negation</td></tr>
+        <tr><td><code>→</code></td><td>implies</td><td>if left holds, right must hold</td></tr>
+        <tr><td><code>↔</code></td><td>if and only if</td><td>both directions of implication</td></tr>
+        <tr><td><code>∈</code></td><td>is in</td><td>membership, as in <code>x ∈ S</code></td></tr>
+        <tr><td><code>:=</code></td><td>defined as</td><td>a definition, not a claim to prove</td></tr>
+        <tr><td><code>⊢</code></td><td>derives</td><td>there is a valid proof from premises to conclusion</td></tr>
+        <tr><td><code>∴</code></td><td>therefore</td><td>the conclusion follows</td></tr>
+      </tbody>
+    </table>
+    <p>
+      A phrase like “such that” often appears when writing <code>∃x</code> followed by a condition. Parentheses
+      indicate what binds to what, the same way they do in algebra.
+    </p>
+  </div>
+</div>
+
+### A paragraph of formulas can out-precise a page of English
+
+Take the turnstile rules from Tutorial 3 and say them in a tiny logic language.
+
+Let:
+
+- $\mathrm{state}_t \in \{0,1\}$ where 0 means Locked and 1 means Unlocked
+- $\mathrm{coin}_t \in \{0,1\}$ and $\mathrm{push}_t \in \{0,1\}$
+- $\mathrm{alarm}_t \in \{0,1\}$
+
+Now the rules fit in a few lines:
+
+$$
+\forall t.\, \mathrm{state}_t \in \{0,1\}
+$$
+
+$$
+\forall t.\, \mathrm{push}_t = 1 \to \mathrm{state}_{t+1} = 0
+$$
+
+$$
+\forall t.\, (\mathrm{state}_t = 0 \land \mathrm{coin}_t = 1 \land \mathrm{push}_t = 0) \to \mathrm{state}_{t+1} = 1
+$$
+
+$$
+\forall t.\, \mathrm{alarm}_t = 1 \leftrightarrow (\mathrm{state}_t = 0 \land \mathrm{push}_t = 1)
+$$
+
+This looks dense at first, but notice what it buys:
+
+- no ambiguity about time (it says exactly which step looks at which state),
+- no ambiguity about cases (each implication has an explicit condition),
+- and a path to automation (a solver can search for a counterexample trace).
+
+English can say the same thing, but it tends to hide these commitments in phrasing. Logic makes the commitments explicit.
+
+### Modus ponens (one step of deduction)
+
+Reasoning is not a vibe. It is rule-governed movement from premises to conclusions.
+
+The most famous rule is **modus ponens**:
+
+$$
+\text{from } A \text{ and } (A \to B) \text{ infer } B
+$$
+
+In turnstile form, suppose:
+
+$$
+\mathrm{state}_7 = 0 \land \mathrm{push}_7 = 1
+$$
+
+and we have the rule:
+
+$$
+(\mathrm{state}_7 = 0 \land \mathrm{push}_7 = 1) \to \mathrm{alarm}_7 = 1
+$$
+
+Then we can conclude:
+
+$$
+\therefore \mathrm{alarm}_7 = 1
+$$
+
+This is what "deduction" means in its cleanest form: the conclusion is forced by the premises under the rules of the logic.
+
+### Induction (prove it for all time steps)
+
+Many program claims have the shape "for all steps, an invariant holds". Mathematical induction matches that shape.
+
+To prove $\forall t.\, I(t)$ by induction, one proves:
+
+1. **Base case:** $I(0)$.
+2. **Step case:** $\forall t.\, (I(t) \to I(t+1))$.
+
+Then $I(t)$ holds for every natural number $t$.
+
+This is the skeleton behind many safety proofs: start with an initial condition, show every transition preserves the invariant, and conclude the invariant holds forever.
 
 Its most practical move is to turn a universal claim into a refutable target:
 
@@ -262,7 +379,38 @@ $$
 \text{find } x \text{ such that } \lnot P(x)
 $$
 
+In pure logic notation, this is the same shape:
+
+$$
+\lnot(\forall x.\, P(x)) \leftrightarrow \exists x.\, \lnot P(x)
+$$
+
 If the solver finds such an $x$, that $x$ is a counterexample witness. If it proves none exists (in a decidable setting), the universal claim holds.
+
+### What "reasoning" is (and what language models simulate)
+
+In this tutorial, "reasoning" means this:
+
+- there is a language with semantics (the symbols mean something),
+- there are rules for valid steps (proof rules, solver rules, algebraic rewrite rules),
+- and a conclusion is trusted because it can be checked against those rules.
+
+This gives three related words sharp meanings:
+
+- **Deduction:** deriving a conclusion that is forced by premises. In symbols, $\Gamma \vdash \varphi$ means "from assumptions $\Gamma$, the conclusion $\varphi$ is derivable by valid rules".
+- **Induction:** a proof pattern for claims over time or natural numbers. It is still deduction, but it proves $\forall t.\, I(t)$ via a base case and a step case.
+- **Abduction:** proposing a plausible hypothesis that would explain the observations. Abduction is useful, but it is not a proof.
+
+The difference matters because a lot of human confusion comes from mixing them.
+
+Language models can produce text that looks like reasoning, including proofs and derivations. Sometimes it is correct.
+
+But the model is not forced to be correct by default. It is trained to produce plausible continuations of text.
+It often behaves like a strong abductive engine: it proposes hypotheses and fills in missing steps in a way that looks coherent.
+
+That coherence can be real reasoning, or it can be **pseudo reasoning**: a sequence of steps that reads like deduction but does not actually follow the rules. The gap is not always obvious to a human reader, especially when the surface form is fluent.
+
+This is why neuro-symbolic gates matter: treat the model as a proposer in a large space, and treat a checker as the mechanism that turns "looks right" into "is right, because it passed a refuter".
 
 ### Limits: undecidability and intractability
 
