@@ -313,7 +313,8 @@ It is also a reading discipline. Small symbols carry fixed meanings, so a short 
       <code>¬P ∧ Q</code> parses as <code>(¬P) ∧ Q</code>.
       <code>P ∧ Q → R</code> parses as <code>(P ∧ Q) → R</code>.
       <code>P → Q ∧ R</code> parses as <code>P → (Q ∧ R)</code>.
-      When in doubt, add parentheses. It is the only universally correct disambiguation.
+      For chained operators, conventions vary, but <code>∧</code> and <code>∨</code> are usually treated as associative, and <code>→</code> is often treated as right-associative.
+      In ambiguous cases, parentheses are the only universally correct disambiguation.
     </p>
   </div>
 </div>
