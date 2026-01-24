@@ -1,0 +1,175 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-sr-title fp-sr-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-sr-title">Speculative reformulation edge</title>
+  <desc id="fp-sr-desc">
+    A dashed translation edge represents a speculative reformulation, such as moving from continuous
+    physics models to discrete information or computation models. The edge is a hypothesis until it is
+    backed by explicit translation and preserved predictions.
+  </desc>
+
+  <defs>
+    <filter id="fp-sr-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-sr-arrow"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#F97316" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="420" rx="28" fill="transparent" />
+
+  <g filter="url(#fp-sr-shadow)">
+    <rect x="40" y="60" width="880" height="300" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="90"
+      y="118"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      A dashed edge means “hypothesis”
+    </text>
+    <text
+      x="90"
+      y="144"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Treat it as a research program until it comes with an explicit translation and preserved predictions.
+    </text>
+
+    <!-- Left node -->
+    <rect
+      x="90"
+      y="190"
+      width="300"
+      height="140"
+      rx="22"
+      fill="rgba(15, 23, 42, 0.06)"
+      stroke="rgba(15, 23, 42, 0.14)"
+    />
+    <text
+      x="118"
+      y="228"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Continuous physics
+    </text>
+    <text
+      x="118"
+      y="252"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      fields, differential equations
+    </text>
+    <text
+      x="118"
+      y="274"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      real-valued state spaces
+    </text>
+
+    <!-- Right node -->
+    <rect
+      x="570"
+      y="190"
+      width="340"
+      height="140"
+      rx="22"
+      fill="rgba(59, 130, 246, 0.08)"
+      stroke="rgba(59, 130, 246, 0.18)"
+    />
+    <text
+      x="598"
+      y="228"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Discrete information model
+    </text>
+    <text
+      x="598"
+      y="252"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      bits, computation, update rules
+    </text>
+    <text
+      x="598"
+      y="274"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      “it from bit” style proposals
+    </text>
+
+    <!-- Dashed arrow -->
+    <path
+      d="M390 260 H560"
+      stroke="#F97316"
+      stroke-width="4"
+      stroke-dasharray="10 10"
+      marker-end="url(#fp-sr-arrow)"
+      stroke-linecap="round"
+    />
+    <text
+      x="430"
+      y="242"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      hypothesized translation
+    </text>
+
+    <!-- Evidence checklist -->
+    <rect
+      x="90"
+      y="340"
+      width="820"
+      height="56"
+      rx="18"
+      fill="rgba(249, 115, 22, 0.08)"
+      stroke="rgba(249, 115, 22, 0.18)"
+    />
+    <text
+      x="118"
+      y="374"
+      font-size="12"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Evidence requirements: explicit mapping, preserved predictions, and new testable consequences
+    </text>
+  </g>
+</svg>
+

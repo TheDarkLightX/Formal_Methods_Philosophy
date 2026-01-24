@@ -88,7 +88,7 @@ o1 : bv[8] := out console  # output stream, 8-bit values
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Types used in these examples</p>
   <ul>
-    <li><code>bv[8]</code>: an 8-bit bitvector (values 0–255). Arithmetic wraps around; 255 + 1 = 0.</li>
+    <li><code>bv[8]</code>: an 8-bit bitvector (values 0 to 255). Arithmetic wraps around; 255 + 1 = 0.</li>
     <li><code>sbf</code>: a simple Boolean function. In these tutorials we use it like a 0/1 flag for "valid?", "alarm?", and "solved?" signals.</li>
   </ul>
 </div>

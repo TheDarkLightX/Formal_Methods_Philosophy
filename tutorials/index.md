@@ -65,4 +65,14 @@ show_title: false
       and why invariants and counterexamples become essential when the model can drift.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/reformulation-and-gates/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 5: Reformulation and compression</h2>
+    <p class="fp-card-text">
+      How changing representations creates leverage, why abstraction rhymes with compression, and how
+      neuro-symbolic gates turn model proposals into checkable evidence.
+    </p>
+  </a>
 </div>

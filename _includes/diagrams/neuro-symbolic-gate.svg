@@ -1,0 +1,253 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 460"
+  role="img"
+  aria-labelledby="fp-nsg-title fp-nsg-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-nsg-title">Neuro-symbolic gate: propose, check, refute</title>
+  <desc id="fp-nsg-desc">
+    A learned model proposes candidates. A formal gate checks candidates against a specification. If the
+    check fails, a concrete counterexample is returned to drive revision. If it passes, the candidate is
+    released.
+  </desc>
+
+  <defs>
+    <filter id="fp-nsg-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow
+        dx="0"
+        dy="10"
+        stdDeviation="12"
+        flood-color="#0F172A"
+        flood-opacity="0.10"
+      />
+    </filter>
+    <marker
+      id="fp-nsg-arrow"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+    <marker
+      id="fp-nsg-arrow-warn"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#F97316" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="960" height="460" rx="28" fill="transparent" />
+
+  <g filter="url(#fp-nsg-shadow)">
+    <rect x="60" y="60" width="840" height="340" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="100"
+      y="118"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Propose, then gate with evidence
+    </text>
+    <text
+      x="100"
+      y="144"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      The generator can be statistical. The gate is symbolic and checkable.
+    </text>
+
+    <!-- Model -->
+    <rect
+      x="100"
+      y="170"
+      width="220"
+      height="90"
+      rx="20"
+      fill="rgba(59, 130, 246, 0.10)"
+      stroke="rgba(59, 130, 246, 0.22)"
+    />
+    <text
+      x="126"
+      y="208"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Model (proposer)
+    </text>
+    <text
+      x="126"
+      y="232"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      hypotheses, code, plans
+    </text>
+
+    <!-- Gate -->
+    <rect
+      x="370"
+      y="160"
+      width="220"
+      height="110"
+      rx="20"
+      fill="rgba(15, 23, 42, 0.06)"
+      stroke="rgba(15, 23, 42, 0.14)"
+    />
+    <text
+      x="396"
+      y="204"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Formal gate
+    </text>
+    <text
+      x="396"
+      y="228"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      spec + checker
+    </text>
+    <text
+      x="396"
+      y="250"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      pass or counterexample
+    </text>
+
+    <!-- Output -->
+    <rect
+      x="640"
+      y="170"
+      width="220"
+      height="90"
+      rx="20"
+      fill="rgba(59, 130, 246, 0.10)"
+      stroke="rgba(59, 130, 246, 0.22)"
+    />
+    <text
+      x="666"
+      y="208"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Approved output
+    </text>
+    <text
+      x="666"
+      y="232"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      released with evidence
+    </text>
+
+    <!-- Counterexample -->
+    <rect
+      x="370"
+      y="296"
+      width="220"
+      height="78"
+      rx="18"
+      fill="rgba(249, 115, 22, 0.10)"
+      stroke="rgba(249, 115, 22, 0.24)"
+    />
+    <text
+      x="396"
+      y="328"
+      font-size="13"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Counterexample
+    </text>
+    <text
+      x="396"
+      y="350"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      trace or witness
+    </text>
+
+    <!-- Arrows -->
+    <path
+      d="M320 215 H360"
+      stroke="#3B82F6"
+      stroke-width="4"
+      marker-end="url(#fp-nsg-arrow)"
+      stroke-linecap="round"
+    />
+    <path
+      d="M590 215 H630"
+      stroke="#3B82F6"
+      stroke-width="4"
+      marker-end="url(#fp-nsg-arrow)"
+      stroke-linecap="round"
+    />
+    <path
+      d="M480 270 V290"
+      stroke="#F97316"
+      stroke-width="4"
+      marker-end="url(#fp-nsg-arrow-warn)"
+      stroke-linecap="round"
+    />
+    <path
+      d="M370 335 C 220 335, 220 260, 220 260"
+      stroke="#F97316"
+      stroke-width="4"
+      fill="none"
+      marker-end="url(#fp-nsg-arrow-warn)"
+      stroke-linecap="round"
+      opacity="0.95"
+    />
+
+    <text
+      x="414"
+      y="286"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      if fail
+    </text>
+    <text
+      x="546"
+      y="208"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      if pass
+    </text>
+  </g>
+</svg>
+
