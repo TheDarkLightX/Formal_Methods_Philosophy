@@ -288,6 +288,12 @@ It is also a reading discipline. Small symbols carry fixed meanings, so a short 
       Similarly, <code>∃x. P(x)</code> means “there exists an <code>x</code> such that <code>P(x)</code>”.
     </p>
     <p>
+      In this tutorial, a symbol like <code>P</code> is usually a <em>predicate</em> (a property or relation), so <code>P(x)</code> is a statement that can be true or false.
+      It does not mean “a function of <code>P</code>”.
+      A helpful contrast is <code>f(x)</code>, where <code>f</code> is a function symbol and <code>f(x)</code> names a value.
+      Predicates can be viewed as boolean-valued functions on the domain, but they are used as formulas (claims), not as values.
+    </p>
+    <p>
       A common shorthand is <code>∀x ∈ S. P(x)</code>, read “for all <code>x</code> in <code>S</code>, <code>P(x)</code>”. Formally, it expands to
       <code>∀x. (x ∈ S → P(x))</code>. Likewise, <code>∃x ∈ S. P(x)</code> expands to <code>∃x. (x ∈ S ∧ P(x))</code>.
       Parentheses indicate what binds to what, the same way they do in algebra.
