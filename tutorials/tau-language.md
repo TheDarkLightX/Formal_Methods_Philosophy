@@ -89,7 +89,7 @@ o1 : bv[8] := out console  # output stream, 8-bit values
   <p class="fp-callout-title">Types used in these examples</p>
   <ul>
     <li><code>bv[8]</code>: an 8-bit bitvector (values 0–255). Arithmetic wraps around; 255 + 1 = 0.</li>
-    <li><code>sbf</code>: a simple boolean flag (0 or 1), useful for "valid?", "alarm?", "solved?" signals.</li>
+    <li><code>sbf</code>: a simple Boolean function. In these tutorials we use it like a 0/1 flag for "valid?", "alarm?", and "solved?" signals.</li>
   </ul>
 </div>
 
@@ -104,11 +104,60 @@ o1[t] = o1[t-1] + i1[t]
 This says: "the output at time `t` equals the previous output plus the current input."
 It is a running sum.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Time indices as a sliding stencil</p>
+  {% include diagrams/tau-time-index.svg %}
+  <figcaption class="fp-figure-caption">
+    A term like <code>t-1</code> means "one step earlier." A constraint with <code>t</code> is like a stencil that is applied at every time step.
+  </figcaption>
+</figure>
+
+### How to read <code>t-1</code> and <code>t-2</code> (unroll it)
+
+The most reliable mental move is to temporarily replace <code>t</code> with concrete numbers.
+
+If a spec contains:
+
+```tau
+o1[t] = o1[t-1] + i1[t]
+```
+
+then the first few instances look like:
+
+```tau
+o1[1] = o1[0] + i1[1]
+o1[2] = o1[1] + i1[2]
+o1[3] = o1[2] + i1[3]
+```
+
+That is all <code>t-1</code> means: "the previous frame."
+Similarly, <code>t-2</code> means "two frames back." If a constraint uses <code>t-2</code>, unrolling it will show dependencies that skip one step.
+
+If the state-machine picture is easier to hold in mind, read the indices like this:
+
+- <code>o1[t-1]</code>: the state before the transition
+- <code>i1[t]</code>: the event/input at this step (the arrow label)
+- <code>o1[t]</code>: the state after the transition
+
+Tau writes the transition rule as an equation over these time-indexed values.
+
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">A small but important detail: <code>t-1</code></p>
   <p>
     When a constraint mentions <code>t-1</code>, it only makes sense starting at <code>t = 1</code>.
     That is why examples also include initial conditions like <code>o1[0] = ...</code> to define the base case.
+  </p>
+</div>
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Fixed indices vs offsets</p>
+  <ul>
+    <li><code>o1[0]</code> means "the value at time 0" (a fixed index).</li>
+    <li><code>o1[t]</code> means "the value at time <code>t</code>" (a universally-scoped time variable).</li>
+    <li><code>o1[t-1]</code> means "one step earlier than <code>t</code>" (a relative offset).</li>
+  </ul>
+  <p>
+    Writing <code>t-0</code> is unnecessary, because it is the same as <code>t</code>. In specs, the meaningful contrast is usually between <code>[0]</code> (an anchor) and <code>[t-1]</code> (a delay).
   </p>
 </div>
 

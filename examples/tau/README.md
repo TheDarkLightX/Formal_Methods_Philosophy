@@ -27,7 +27,7 @@ From the repo root:
 ```tau
 i1 : bv[8] := in console    # input stream, 8-bit bitvector, from console
 o1 : bv[8] := out console   # output stream, 8-bit bitvector, to console
-o2 : sbf := out console     # output stream, simple boolean flag (0 or 1)
+o2 : sbf := out console     # output stream, simple Boolean function (often used as a 0/1 flag)
 ```
 
 <div class="fp-callout fp-callout-note">

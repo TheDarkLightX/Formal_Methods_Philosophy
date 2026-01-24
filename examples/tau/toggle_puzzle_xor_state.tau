@@ -11,7 +11,8 @@
 #
 # STREAM DECLARATIONS:
 #   i1 : bv[8] := in console   -- input stream, 8-bit bitvector, from console
-#   o1 : sbf := out console    -- output stream, simple boolean flag
+#   o1 : bv[8] := out console  -- output stream, 8-bit bitvector, to console
+#   o3 : sbf := out console    -- output stream, simple Boolean function (used here as a 0/1 solved flag)
 #
 # TYPE ANNOTATIONS:
 #   o1[t]:bv[8]            -- output at time t, typed as bv[8]
