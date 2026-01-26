@@ -545,6 +545,8 @@ This architecture combines two strengths:
 - **Models** are good at proposing candidates in huge, fuzzy spaces (programs, proofs, rewrites, plans).
 - **Formal methods** are good at saying "no" precisely, with a witness.
 
+Put as a slogan: learn broadly, then gate formally where correctness matters.
+
 When a system is built so that "no" comes with a counterexample trace, iteration becomes cumulative.
 
 Here is the concrete shape of the workflow:
