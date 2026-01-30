@@ -31,6 +31,10 @@ A property intended to hold for all reachable states. When it fails, a tool can 
 
 A specific witness that refutes a universal claim. In software, it is often a concrete input and an execution trace.
 
+## Assumption hygiene
+
+The discipline of not smuggling premises in as facts. State assumptions explicitly, scope claims to those assumptions, and prefer refuters, checks, or fail-closed gates when the assumption is safety-critical.
+
 ## Abstraction
 
 A mapping from concrete states to a smaller representation that discards detail while preserving the distinctions that matter for a chosen property.
