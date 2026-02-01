@@ -492,7 +492,19 @@ Also note that not every tool gives the same kind of guarantee. Some tools can p
 
 ### Counterexample-guided synthesis (CEGIS)
 
-CEGIS is the Popper loop turned into an algorithm:
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">A practical definition of “learning”</p>
+  <p>
+    A computer program is said to learn from experience <code>E</code> with respect to some class of tasks <code>T</code> and performance measure <code>P</code>,
+    if its performance at tasks in <code>T</code>, as measured by <code>P</code>, improves with experience <code>E</code>. (Tom Mitchell, 1997)
+  </p>
+</div>
+
+Mitchell’s definition is useful because it makes learning feel less mystical. It is an improvement claim with three handles: tasks <code>T</code>, measurement <code>P</code>, and experience <code>E</code>.
+
+CEGIS can be read in the same shape. The task is “satisfy this spec.” The performance measure is “does the checker accept the candidate?” The experience is the stream of counterexamples.
+
+CEGIS is also the Popper loop turned into an algorithm:
 
 1. Propose a candidate (an invariant, a program, a controller, an abstraction, a proof sketch).
 2. Verify it against the specification.
@@ -518,6 +530,67 @@ In the deck metaphor:
 
 Over time, the process can converge toward a candidate that withstands many refutation attempts.
 Sometimes the loop instead teaches you that your original goal was impossible under your constraints, which is also valuable knowledge.
+
+#### CEGIS as a design and debugging loop
+
+In practice, the counterexample does not only mean “the candidate is wrong.” It means: at least one thing in the triangle is wrong.
+
+- The candidate could be wrong (a bug in the proposed invariant or program).
+- The specification could be wrong (the property is not what was intended).
+- The model could be wrong (important real-world assumptions are missing, or the abstraction is too coarse).
+
+CEGIS becomes a design and debugging discipline when each counterexample is triaged through that triangle and then turned into a specific refinement.
+
+#### Invariant search (what must never break)
+
+For safety-critical systems, the first candidates are often invariants: statements that should hold for every reachable state.
+
+An invariant proof obligation has a simple shape:
+
+- Base case: the initial state satisfies the invariant.
+- Step case: if the invariant holds now, one valid step of the system preserves it.
+
+Written schematically:
+
+$$
+\mathrm{Init}(s) \to I(s)
+$$
+
+$$
+\forall s, s'.\, (I(s) \land \mathrm{Step}(s,s')) \to I(s')
+$$
+
+Invariant search is what happens when the first guess at $I$ is not strong enough, and counterexamples are used to strengthen it until the step case stops leaking.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Example: solvency as an invariant in a perpetual exchange</p>
+  <p>
+    In a perpetual exchange, a central safety claim is solvency: under an explicit set of market and oracle assumptions, the system should never end up owing more than it can pay.
+    A simple way to write that goal is: for every reachable state <code>s</code>, total liabilities do not exceed total assets.
+  </p>
+  <p>
+    $$\forall s.\, \mathrm{Reachable}(s) \to \bigl(\mathrm{Liabilities}(s) \le \mathrm{Assets}(s)\bigr)$$
+  </p>
+  <p>
+    The exact accounting identity depends on the design (margining, insurance funds, auto-deleveraging rules, liquidation priorities).
+    The point of the example is the workflow: define state, state the invariant, then search for refuters (a price path and action sequence) that violate the invariant.
+    Each refuter becomes a design constraint. The next version of the system must handle that case.
+  </p>
+  <p>
+    This is the style of thinking that can prevent whole classes of failures.
+    When a system instead relies on implicit assumptions (“liquidity will always be there,” “the oracle cannot be manipulated,” “liquidations always reduce risk”),
+    reality will eventually supply a black swan trace.
+  </p>
+  <p>
+    A concrete recent example discussed in the industry is Hyperliquid’s March 2025 JELLYJELLY perps episode: a low-liquidity market created large exposure for Hyperliquid’s liquidity vault,
+    validators delisted the market and force-settled positions to prevent a large loss, and the project later reimbursed many users.
+    It is a vivid reminder that “solvency” is not a vague hope. It is an invariant (or a set of invariants) that must be engineered, checked, and gated.
+  </p>
+  <p>
+    Further reading: https://docs.hyperliquid.xyz/hyperliquid-docs/trading/delisting
+    and https://www.coindesk.com/markets/2025/03/26/hyperliquid-delists-jelly-after-suspicious-market-activity-prompts-security-review/
+  </p>
+</div>
 
 ## Part V: Safety, security, and two developer mindsets
 
