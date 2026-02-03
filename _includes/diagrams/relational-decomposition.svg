@@ -1,0 +1,240 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 460"
+  role="img"
+  aria-labelledby="fp-rd-title fp-rd-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-rd-title">Relational decomposition: one example becomes many facts</title>
+  <desc id="fp-rd-desc">
+    An input-output example can be expressed as a pair of whole structures (functional view), or
+    decomposed into relational facts (in and out). Inductive logic programming can learn rules that
+    entail the output facts from the input facts.
+  </desc>
+
+  <defs>
+    <filter id="fp-rd-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-rd-arrow"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-rd-shadow)">
+    <rect x="60" y="60" width="840" height="340" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="100"
+      y="118"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Same meaning, different representation
+    </text>
+    <text
+      x="100"
+      y="144"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Replace one big IO pair with many small facts, then learn local rules.
+    </text>
+
+    <!-- Example -->
+    <rect
+      x="100"
+      y="170"
+      width="230"
+      height="180"
+      rx="20"
+      fill="rgba(59, 130, 246, 0.10)"
+      stroke="rgba(59, 130, 246, 0.22)"
+    />
+    <text
+      x="124"
+      y="206"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Example (IO pair)
+    </text>
+    <text
+      x="124"
+      y="236"
+      font-size="12"
+      fill="#334155"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+    >
+      input  = [1, 2, 3]
+    </text>
+    <text
+      x="124"
+      y="260"
+      font-size="12"
+      fill="#334155"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+    >
+      output = [2, 4, 6]
+    </text>
+    <text
+      x="124"
+      y="292"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Functional view:
+    </text>
+    <text
+      x="124"
+      y="314"
+      font-size="12"
+      fill="#334155"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+    >
+      f(input) = output
+    </text>
+
+    <!-- Facts -->
+    <rect
+      x="365"
+      y="170"
+      width="230"
+      height="180"
+      rx="20"
+      fill="rgba(15, 23, 42, 0.06)"
+      stroke="rgba(15, 23, 42, 0.14)"
+    />
+    <text
+      x="389"
+      y="206"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Decompose into facts
+    </text>
+    <text
+      x="389"
+      y="236"
+      font-size="12"
+      fill="#334155"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+    >
+      in(0,1)  in(1,2)  in(2,3)
+    </text>
+    <text
+      x="389"
+      y="260"
+      font-size="12"
+      fill="#334155"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+    >
+      out(0,2) out(1,4) out(2,6)
+    </text>
+    <text
+      x="389"
+      y="292"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Relational view:
+    </text>
+    <text
+      x="389"
+      y="314"
+      font-size="12"
+      fill="#334155"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+    >
+      facts(input), facts(output)
+    </text>
+
+    <!-- Learned rules -->
+    <rect
+      x="630"
+      y="170"
+      width="230"
+      height="180"
+      rx="20"
+      fill="rgba(59, 130, 246, 0.10)"
+      stroke="rgba(59, 130, 246, 0.22)"
+    />
+    <text
+      x="654"
+      y="206"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Learn rules (ILP)
+    </text>
+    <text
+      x="654"
+      y="236"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Find a program that entails:
+    </text>
+    <text
+      x="654"
+      y="260"
+      font-size="12"
+      fill="#334155"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+    >
+      out(I, Y)  from  in(I, X)
+    </text>
+    <text
+      x="654"
+      y="292"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Example rule:
+    </text>
+    <text
+      x="654"
+      y="314"
+      font-size="12"
+      fill="#334155"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+    >
+      out(I,Y) :- in(I,X), Y=2*X.
+    </text>
+
+    <!-- arrows -->
+    <path d="M330 260 H355" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-rd-arrow)" stroke-linecap="round" />
+    <path d="M595 260 H620" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-rd-arrow)" stroke-linecap="round" />
+
+    <text
+      x="452"
+      y="378"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+      text-anchor="middle"
+    >
+      A representation change can shrink the search problem without changing what is true.
+    </text>
+  </g>
+</svg>

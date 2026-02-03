@@ -97,7 +97,7 @@ Reformulation is not only isomorphism. It is the broader habit of moving along m
   </figcaption>
 </figure>
 
-### Three examples of leverage-by-reformulation
+### Four examples of leverage-by-reformulation
 
 This is the move, repeated with different clothing.
 
@@ -109,6 +109,17 @@ This is the move, repeated with different clothing.
 
 3. **Deadlock to cycle detection**  
    Build a wait-for graph with an edge $A \to B$ meaning "A is waiting for B". A deadlock corresponds to a directed cycle. The solver is graph theory.
+
+4. **Program synthesis to logic learning by relational decomposition**  
+   Many synthesis systems treat each example as a whole pair: an input structure and an output structure. A different representation is to decompose the structures into relational facts, like <code>in(index,value)</code> and <code>out(index,value)</code>. Then learning becomes: find a logic program that entails the output facts from the input facts. Hocquette and Cropper show that this reformulation can make hard synthesis problems much easier to solve using an off-the-shelf inductive logic programming system.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Relational decomposition: one example becomes many facts</p>
+  {% include diagrams/relational-decomposition.svg %}
+  <figcaption class="fp-figure-caption">
+    This is not "adding magic". It is a meaning-preserving representation change that makes the search local and compositional.
+  </figcaption>
+</figure>
 
 These are not metaphors. They are meaning-preserving translations. The only real obligation is the one that matters: show that the translation preserves the question being asked.
 
@@ -596,3 +607,4 @@ So the deepest skill here is the same one that started the tutorial:
 - McCarthy, *Review of “Artificial Intelligence: A General Survey”* (1973): http://www-formal.stanford.edu/jmc/reviews/lighthill/lighthill.html
 - University of Edinburgh AIAI, *Lighthill Report and debate* (1972 to 1973): https://aiai.ed.ac.uk/project/lighthill/
 - Agar, *What is the AI Winter?* (2020): https://www.cambridge.org/core/journals/bjhs-themes/article/what-is-the-ai-winter/F0D1E0F6D434D4A73D79DDDF5646ED46
+- Hocquette and Cropper, *Relational Decomposition for Program Synthesis* (2024): https://arxiv.org/abs/2408.12212
