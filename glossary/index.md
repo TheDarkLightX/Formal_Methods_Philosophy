@@ -59,6 +59,18 @@ The set \(H\) of candidates being considered, for example a family of models, a 
 
 A capacity measure for a binary hypothesis class \(H\). The VC dimension \(\mathrm{VC}(H)\) is the largest \(m\) such that there exists a set of \(m\) inputs that \(H\) can label in all \(2^m\) possible ways (it can “shatter” that set). Higher VC dimension typically means more data is needed to generalize.
 
+## Shattering
+
+A hypothesis class \(H\) shatters a finite set \(S = \{x_1,\dots,x_m\}\) if, for every assignment of labels \(y : S \to \{0,1\}\), there exists some \(h \in H\) such that \(h(x_i) = y(x_i)\) for all \(i\). Informally, \(H\) can realize every possible labeling on \(S\).
+
+## Fat-shattering dimension
+
+A capacity measure for real-valued hypothesis classes. Instead of requiring exact 0/1 labelings, fat-shattering asks whether the class can separate points above or below chosen thresholds with a margin \(\gamma\). It is a VC-like notion used in learning theory for regression and margin-based classification.
+
+## Canonicalizer
+
+A function \(\mathrm{can} : X \to X\) that picks one representative from each equivalence class under a “same meaning” relation \(\sim\). Canonicalizers are a form of symmetry breaking. They reduce redundant search by ensuring equivalent objects map to the same canonical form.
+
 ## Decomposition
 
 A representation choice that restricts candidates to be composed from smaller parts connected by an interface. When coupling is genuinely reduced, decomposition can shrink the effective hypothesis space and turn global search into more local reasoning and propagation.

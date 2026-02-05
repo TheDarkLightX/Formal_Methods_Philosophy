@@ -1,0 +1,239 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 460"
+  role="img"
+  aria-labelledby="fp-vcsh-title fp-vcsh-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-vcsh-title">Shattering and VC dimension</title>
+  <desc id="fp-vcsh-desc">
+    A set of points is shattered by a hypothesis class when every possible labeling on that set can be realized by some
+    hypothesis. VC dimension is the largest set size that can be shattered.
+  </desc>
+
+  <defs>
+    <filter id="fp-vcsh-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <g filter="url(#fp-vcsh-shadow)">
+    <rect x="60" y="60" width="840" height="340" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="100"
+      y="118"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Shattering as an “all labelings” test
+    </text>
+    <text
+      x="100"
+      y="144"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      For three points there are 2³ = 8 possible labelings. Shattering means: all 8 are achievable.
+    </text>
+
+    <!-- Left panel: shattered -->
+    <rect
+      x="100"
+      y="170"
+      width="360"
+      height="200"
+      rx="22"
+      fill="rgba(59, 130, 246, 0.10)"
+      stroke="rgba(59, 130, 246, 0.22)"
+    />
+    <text
+      x="124"
+      y="206"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Shattered set S (m = 3)
+    </text>
+    <text
+      x="124"
+      y="230"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Every labeling appears for some hypothesis.
+    </text>
+
+    <!-- Right panel: not shattered -->
+    <rect
+      x="500"
+      y="170"
+      width="360"
+      height="200"
+      rx="22"
+      fill="rgba(15, 23, 42, 0.06)"
+      stroke="rgba(15, 23, 42, 0.14)"
+    />
+    <text
+      x="524"
+      y="206"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Not shattered (m = 3)
+    </text>
+    <text
+      x="524"
+      y="230"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      At least one labeling is impossible.
+    </text>
+
+    <!-- Legend -->
+    <g>
+      <circle cx="124" cy="250" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <text x="136" y="254" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">0</text>
+      <circle cx="160" cy="250" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <text x="172" y="254" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">1</text>
+      <text
+        x="206"
+        y="254"
+        font-size="12"
+        fill="#475569"
+        font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+      >
+        Label of each point (x₁, x₂, x₃)
+      </text>
+    </g>
+
+    <!-- Helper: rows of three circles -->
+    <!-- Left: all 8 labelings -->
+    <g>
+      <!-- row y positions: 264, 278, 292, 306, 320, 334, 348, 362 -->
+      <!-- 000 -->
+      <circle cx="150" cy="264" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="190" cy="264" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="230" cy="264" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <text x="258" y="268" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">000</text>
+
+      <!-- 001 -->
+      <circle cx="150" cy="278" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="190" cy="278" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="230" cy="278" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <text x="258" y="282" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">001</text>
+
+      <!-- 010 -->
+      <circle cx="150" cy="292" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="190" cy="292" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="230" cy="292" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <text x="258" y="296" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">010</text>
+
+      <!-- 011 -->
+      <circle cx="150" cy="306" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="190" cy="306" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="230" cy="306" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <text x="258" y="310" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">011</text>
+
+      <!-- 100 -->
+      <circle cx="150" cy="320" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="190" cy="320" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="230" cy="320" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <text x="258" y="324" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">100</text>
+
+      <!-- 101 -->
+      <circle cx="150" cy="334" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="190" cy="334" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="230" cy="334" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <text x="258" y="338" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">101</text>
+
+      <!-- 110 -->
+      <circle cx="150" cy="348" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="190" cy="348" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="230" cy="348" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <text x="258" y="352" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">110</text>
+
+      <!-- 111 -->
+      <circle cx="150" cy="362" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="190" cy="362" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="230" cy="362" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <text x="258" y="366" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">111</text>
+    </g>
+
+    <!-- Right: one missing labeling (101) -->
+    <g>
+      <!-- Copy rows, but replace 101 with a missing marker -->
+      <!-- 000 -->
+      <circle cx="550" cy="264" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="590" cy="264" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="630" cy="264" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <text x="658" y="268" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">000</text>
+
+      <!-- 001 -->
+      <circle cx="550" cy="278" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="590" cy="278" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="630" cy="278" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <text x="658" y="282" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">001</text>
+
+      <!-- 010 -->
+      <circle cx="550" cy="292" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="590" cy="292" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="630" cy="292" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <text x="658" y="296" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">010</text>
+
+      <!-- 011 -->
+      <circle cx="550" cy="306" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="590" cy="306" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="630" cy="306" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <text x="658" y="310" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">011</text>
+
+      <!-- 100 -->
+      <circle cx="550" cy="320" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="590" cy="320" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <circle cx="630" cy="320" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <text x="658" y="324" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">100</text>
+
+      <!-- missing 101 -->
+      <circle cx="550" cy="334" r="6.5" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(239, 68, 68, 0.55)" />
+      <circle cx="590" cy="334" r="6.5" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(239, 68, 68, 0.55)" />
+      <circle cx="630" cy="334" r="6.5" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(239, 68, 68, 0.55)" />
+      <path d="M542 326 L638 342" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+      <path d="M638 326 L542 342" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round" opacity="0.9" />
+      <text x="658" y="338" font-size="12" fill="#EF4444" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">101</text>
+
+      <!-- 110 -->
+      <circle cx="550" cy="348" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="590" cy="348" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="630" cy="348" r="6.5" fill="rgba(15, 23, 42, 0.12)" stroke="rgba(15, 23, 42, 0.22)" />
+      <text x="658" y="352" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">110</text>
+
+      <!-- 111 -->
+      <circle cx="550" cy="362" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="590" cy="362" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <circle cx="630" cy="362" r="6.5" fill="rgba(59, 130, 246, 0.85)" />
+      <text x="658" y="366" font-size="12" fill="#475569" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace">111</text>
+    </g>
+
+    <!-- Footer -->
+    <text
+      x="480"
+      y="392"
+      font-size="12"
+      fill="#475569"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+      text-anchor="middle"
+    >
+      H shatters S ⟺ it realizes all 2^|S| labelings on S.
+    </text>
+  </g>
+</svg>

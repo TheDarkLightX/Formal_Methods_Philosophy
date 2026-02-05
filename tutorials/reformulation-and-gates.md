@@ -258,12 +258,35 @@ In all of these settings, "decomposition" is a representation choice that restri
   </figcaption>
 </figure>
 
-#### Two complementary "size" measures
+#### VC dimension and shattering (what the definition checks)
 
-There are two common ways to measure how large $H$ is.
+A binary hypothesis class is a set $H$ of functions $h : X \to \{0,1\}$.
+Think of each $h$ as one possible rule for labeling inputs as false or true.
+
+Let $S = \{x_1, \dots, x_m\}$ be a finite set of inputs.
+The restriction of $H$ to $S$ is the set of labelings that $H$ can realize on those points:
+
+$$
+H\!\upharpoonright_S := \{(h(x_1), \dots, h(x_m)) : h \in H\} \subseteq \{0,1\}^m
+$$
+
+Now two definitions:
+
+- $H$ **shatters** $S$ if $H\!\upharpoonright_S = \{0,1\}^m$, meaning that every one of the $2^m$ labelings occurs for some $h \in H$.
+- The **VC dimension** $\mathrm{VC}(H)$ is the largest $m$ such that some set $S$ of size $m$ is shattered by $H$.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Shattering as an “all labelings” test</p>
+  {% include diagrams/vc-shattering.svg %}
+  <figcaption class="fp-figure-caption">
+    To shatter a set of points is to be able to realize every possible labeling on them. VC dimension is the largest set size that passes this test.
+  </figcaption>
+</figure>
+
+There are two complementary ways to talk about how "large" $H$ is.
 
 1. **If $H$ is finite:** size is literally $\lvert H \rvert$, and bounds often depend on $\log \lvert H \rvert$.
-2. **If $H$ is infinite:** size is measured by a capacity notion such as VC dimension, $\mathrm{VC}(H)$.
+2. **If $H$ is infinite:** size is measured by a capacity notion such as $\mathrm{VC}(H)$.
 
 These are not competing religions. For a finite class, they are linked:
 
@@ -271,7 +294,28 @@ $$
 \mathrm{VC}(H) \le \log_2 \lvert H \rvert
 $$
 
-Reason: if $H$ can shatter $m$ points, then it must realize all $2^m$ labelings on those points, so $\lvert H \rvert \ge 2^m$ and therefore $m \le \log_2 \lvert H \rvert$.
+Reason: if $H$ shatters $m$ points, then it must realize all $2^m$ labelings on those points, so $\lvert H \rvert \ge 2^m$ and therefore $m \le \log_2 \lvert H \rvert$.
+
+Two tiny examples anchor the intuition:
+
+- **Thresholds on the real line** ($h_a(x) = 1[x \ge a]$) have $\mathrm{VC}=1$. One point can be labeled either way, but two ordered points cannot realize the labeling (1,0).
+- **Intervals on the real line** ($h_{a,b}(x) = 1[a \le x \le b]$) have $\mathrm{VC}=2$. Two points can be labeled in all four ways, but three points cannot realize the labeling (1,0,1).
+
+#### Fat-shattering (VC, but for real-valued outputs and margins)
+
+Many hypothesis classes output real numbers, not bits. In that setting, the right analog of shattering uses a margin.
+
+Let $F$ be a class of functions $f : X \to \mathbb{R}$ and fix a scale $\gamma > 0$.
+A finite set $S$ is **$\gamma$-fat-shattered** by $F$ if there exists a choice of thresholds $(r_x)_{x \in S}$ such that for every labeling $\sigma : S \to \{-1,+1\}$, there is some $f \in F$ with:
+
+$$
+\forall x \in S.\; \sigma(x)\bigl(f(x) - r_x\bigr) \ge \gamma
+$$
+
+Intuition: each point $x$ comes with a "bar" $r_x$, and the class must be able to push the output at $x$ at least $\gamma$ above the bar (if $\sigma(x)=+1$) or at least $\gamma$ below it (if $\sigma(x)=-1$), simultaneously for every assignment of signs.
+
+The **fat-shattering dimension at scale $\gamma$**, written $\mathrm{fat}_\gamma(F)$, is the largest size of a $\gamma$-fat-shattered set.
+As $\gamma$ shrinks, fat-shattering usually grows, since it becomes easier to separate points by a smaller margin.
 
 #### Why this matters for learning (Blumer style, in one line)
 
@@ -333,6 +377,89 @@ This is a deep reason tactics work. A tactic is often a move that:
 - reduces degrees of freedom (shrinks $H$),
 - increases locality (makes refuters informative),
 - and converts branching into propagation.
+
+#### Canonicalizers and quotients (remove redundant degrees of freedom)
+
+Decomposition is not the only way to shrink a search. Another common move is to notice that many candidates are "the same thing" in disguise.
+
+This starts with an **equivalence relation** $\sim$ that captures "same meaning" for the purpose at hand.
+For example:
+
+- In lambda calculus, many terms differ only by renaming bound variables (alpha-equivalence).
+- In a state space, many states differ only by a symmetry (renaming IDs, permuting identical components).
+
+A **canonicalizer** is a function $\mathrm{can} : X \to X$ that picks a representative for each equivalence class.
+One clean specification is:
+
+$$
+\forall x.\; \mathrm{can}(x) \sim x
+\quad\land\quad
+\forall x,y.\; \bigl(\mathrm{can}(x) = \mathrm{can}(y)\bigr) \leftrightarrow (x \sim y)
+$$
+
+The first clause says the representative preserves meaning.
+The second clause says representatives are unique per class.
+It implies an idempotence property, $\mathrm{can}(\mathrm{can}(x)) = \mathrm{can}(x)$.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Canonicalization as symmetry breaking</p>
+  {% include diagrams/canonicalization-quotient.svg %}
+  <figcaption class="fp-figure-caption">
+    If many syntactic states mean the same thing, searching all of them wastes budget. Canonicalization collapses each equivalence class to one representative.
+  </figcaption>
+</figure>
+
+This move is best seen as a quotient.
+Instead of searching $X$ directly, search $X/{\sim}$, the set of equivalence classes.
+In practice, one searches only canonical representatives, which makes $X/{\sim}$ concrete.
+
+Canonicalizers can reduce both:
+
+- **effective capacity**, when $H$ contains many redundant descriptions of the same behavior (shrinking $\lvert H \rvert$ without removing semantic variety),
+- **effective epiplexity**, when a compute-bounded search would otherwise revisit symmetric cases again and again.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Assumption hygiene: canonicalization is not always available or cheap</p>
+  <p>
+    Some equivalence relations are expensive to decide, and some canonical forms are expensive to compute.
+    In those settings, symmetry breaking is still valuable, but it may need weaker, cheaper canonicalizers or partial symmetry breaking.
+  </p>
+</div>
+
+#### A reformulation generator (a sketch of algorithm discovery)
+
+This section connects VC-style "hypothesis classes" to automatic algorithm discovery.
+The link is simple: many discovery loops are search over a candidate class, guided by refuters.
+
+If the candidates are programs, invariants, or proof scripts, the search state is often a *partial* object.
+If the candidates are reformulations, the search state is a *representation* plus a library of tools that representation unlocks.
+
+A **reformulation generator** is a policy for proposing meaning-preserving (or soundly abstracting) translation steps in reformulation space.
+It does not need to be perfect. It needs to be productive under a compute budget, and it must be kept honest by gates.
+
+One safe architecture has two loops:
+
+1. **Proposal loop (heuristic):** propose a reformulation or decomposition move that might make progress.
+2. **Gate loop (fail-closed):** check that the move preserves the intended meaning or property, then run a mature solver in the new representation and demand a certificate or a refuter.
+
+Written as a minimal recipe:
+
+- **State:** a representation $R$, a spec $\varphi$, and a set of accumulated refuters $E$ (counterexamples, failing traces, unsat cores, conflict clauses).
+- **Moves:** a library of translation operators $\tau : R \to R'$ (rewrites, reductions, decompositions, symmetry breaking, relaxations).
+- **Gate:** a checker that rejects moves that do not preserve the intended semantics (exact equivalence) or intended property (sound abstraction).
+- **Progress signal:** solved-with-certificate, or refuted-with-witness.
+
+The proposal loop can be hand-written (a portfolio of tactics) or learned (a model that predicts which $\tau$ is worth trying next).
+Either way, the safety claim comes only from the gate.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Assumption hygiene: “automatic solver” is always a scoped claim</p>
+  <p>
+    A reformulation generator is not a magic general problem solver. For expressive enough languages, there are hard limits:
+    some properties are undecidable, and many are computationally intractable in the worst case.
+    The realistic goal is narrower: for a problem family, learn or curate a set of meaning-preserving moves that often land in a representation where mature tools work.
+  </p>
+</div>
 
 ## Part IV: symbol manipulation (why rewriting can beat guessing)
 
