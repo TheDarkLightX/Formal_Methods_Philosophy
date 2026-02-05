@@ -1,0 +1,196 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 460"
+  role="img"
+  aria-labelledby="fp-tvp-title fp-tvp-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-tvp-title">Branching tree search versus propagation on a decomposed graph</title>
+  <desc id="fp-tvp-desc">
+    A monolithic representation often leads to branching search. A decomposed representation can
+    enable local constraint propagation that prunes globally with fewer branches.
+  </desc>
+
+  <defs>
+    <filter id="fp-tvp-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker
+      id="fp-tvp-arrow"
+      markerWidth="12"
+      markerHeight="12"
+      refX="10"
+      refY="6"
+      orient="auto"
+    >
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-tvp-shadow)">
+    <rect x="60" y="60" width="840" height="340" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="100"
+      y="118"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Two search shapes
+    </text>
+    <text
+      x="100"
+      y="144"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Many solvers win by turning branching into propagation, then branching only when needed.
+    </text>
+
+    <!-- Left panel: tree -->
+    <rect
+      x="100"
+      y="170"
+      width="360"
+      height="200"
+      rx="22"
+      fill="rgba(59, 130, 246, 0.10)"
+      stroke="rgba(59, 130, 246, 0.22)"
+    />
+    <text
+      x="124"
+      y="206"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Branching tree search
+    </text>
+    <text
+      x="124"
+      y="230"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Explore many possibilities explicitly.
+    </text>
+
+    <!-- Tree nodes -->
+    <g fill="#1E293B" fill-opacity="0.7">
+      <circle cx="280" cy="260" r="8" />
+      <circle cx="210" cy="310" r="7" />
+      <circle cx="350" cy="310" r="7" />
+      <circle cx="175" cy="348" r="6" />
+      <circle cx="245" cy="348" r="6" />
+      <circle cx="315" cy="348" r="6" />
+      <circle cx="385" cy="348" r="6" />
+    </g>
+    <g stroke="#3B82F6" stroke-width="3" stroke-linecap="round" opacity="0.9">
+      <path d="M280 268 L210 303" />
+      <path d="M280 268 L350 303" />
+      <path d="M210 317 L175 341" />
+      <path d="M210 317 L245 341" />
+      <path d="M350 317 L315 341" />
+      <path d="M350 317 L385 341" />
+    </g>
+    <text
+      x="280"
+      y="366"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+      text-anchor="middle"
+    >
+      Branching factor multiplies.
+    </text>
+
+    <!-- Right panel: propagation graph -->
+    <rect
+      x="500"
+      y="170"
+      width="360"
+      height="200"
+      rx="22"
+      fill="rgba(15, 23, 42, 0.06)"
+      stroke="rgba(15, 23, 42, 0.14)"
+    />
+    <text
+      x="524"
+      y="206"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Propagation on a decomposed graph
+    </text>
+    <text
+      x="524"
+      y="230"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Local constraints prune without full branching.
+    </text>
+
+    <!-- Factor graph style: variables (circles) and constraints (squares) -->
+    <g>
+      <!-- variables -->
+      <circle cx="540" cy="285" r="10" fill="rgba(59, 130, 246, 0.70)" />
+      <circle cx="610" cy="285" r="10" fill="rgba(59, 130, 246, 0.70)" />
+      <circle cx="680" cy="285" r="10" fill="rgba(59, 130, 246, 0.70)" />
+      <circle cx="750" cy="285" r="10" fill="rgba(59, 130, 246, 0.70)" />
+
+      <!-- constraints -->
+      <rect x="574" y="268" width="24" height="24" rx="6" fill="rgba(249, 115, 22, 0.55)" />
+      <rect x="644" y="268" width="24" height="24" rx="6" fill="rgba(249, 115, 22, 0.55)" />
+      <rect x="714" y="268" width="24" height="24" rx="6" fill="rgba(249, 115, 22, 0.55)" />
+    </g>
+
+    <!-- edges -->
+    <g stroke="rgba(15, 23, 42, 0.40)" stroke-width="3" stroke-linecap="round">
+      <path d="M550 285 H574" />
+      <path d="M598 285 H610" />
+
+      <path d="M620 285 H644" />
+      <path d="M668 285 H680" />
+
+      <path d="M690 285 H714" />
+      <path d="M738 285 H750" />
+    </g>
+
+    <!-- propagation arrows -->
+    <g stroke="#3B82F6" stroke-width="3" stroke-linecap="round" marker-end="url(#fp-tvp-arrow)" opacity="0.85">
+      <path d="M586 308 C 590 332, 620 332, 624 308" fill="none" />
+      <path d="M656 308 C 660 332, 690 332, 694 308" fill="none" />
+    </g>
+    <text
+      x="680"
+      y="366"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+      text-anchor="middle"
+    >
+      Propagation prunes globally.
+    </text>
+
+    <!-- footer -->
+    <text
+      x="480"
+      y="392"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+      text-anchor="middle"
+    >
+      Decomposition exposes locality, and locality makes tactics and solvers scalable.
+    </text>
+  </g>
+</svg>

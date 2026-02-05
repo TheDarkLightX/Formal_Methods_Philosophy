@@ -1,0 +1,186 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 460"
+  role="img"
+  aria-labelledby="fp-vcdec-title fp-vcdec-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-vcdec-title">Decomposition restricts a hypothesis class</title>
+  <desc id="fp-vcdec-desc">
+    A rich hypothesis class can realize many labelings on a set of points. When solutions are forced
+    to be composed from smaller parts through a narrow interface, fewer labelings are possible, which
+    can reduce capacity measures such as VC dimension.
+  </desc>
+
+  <defs>
+    <filter id="fp-vcdec-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <g filter="url(#fp-vcdec-shadow)">
+    <rect x="60" y="60" width="840" height="340" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="100"
+      y="118"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Decomposition as a capacity reducer
+    </text>
+    <text
+      x="100"
+      y="144"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Fewer degrees of freedom means fewer possible labelings, and fewer candidates to search.
+    </text>
+
+    <!-- Left panel: monolith -->
+    <rect
+      x="100"
+      y="170"
+      width="360"
+      height="200"
+      rx="22"
+      fill="rgba(59, 130, 246, 0.10)"
+      stroke="rgba(59, 130, 246, 0.22)"
+    />
+    <text
+      x="124"
+      y="206"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Monolithic class H
+    </text>
+    <text
+      x="124"
+      y="230"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Many global labelings are possible.
+    </text>
+
+    <!-- Grid of labelings (all filled) -->
+    <g>
+      <rect x="124" y="250" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="148" y="250" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="172" y="250" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="196" y="250" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="220" y="250" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="244" y="250" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="268" y="250" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="292" y="250" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+
+      <rect x="124" y="274" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="148" y="274" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="172" y="274" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="196" y="274" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="220" y="274" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="244" y="274" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="268" y="274" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="292" y="274" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+
+      <rect x="124" y="298" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="148" y="298" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="172" y="298" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="196" y="298" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="220" y="298" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="244" y="298" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="268" y="298" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+      <rect x="292" y="298" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.75)" />
+    </g>
+    <text
+      x="124"
+      y="346"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Many possible labelings on a set of points.
+    </text>
+
+    <!-- Right panel: decomposed -->
+    <rect
+      x="500"
+      y="170"
+      width="360"
+      height="200"
+      rx="22"
+      fill="rgba(15, 23, 42, 0.06)"
+      stroke="rgba(15, 23, 42, 0.14)"
+    />
+    <text
+      x="524"
+      y="206"
+      font-size="14"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Decomposed class H = H1 × H2
+    </text>
+    <text
+      x="524"
+      y="230"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Narrow interfaces restrict global patterns.
+    </text>
+
+    <!-- Modules -->
+    <rect x="524" y="248" width="84" height="44" rx="12" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="548" y="275" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">H1</text>
+
+    <rect x="622" y="248" width="84" height="44" rx="12" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="646" y="275" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">H2</text>
+
+    <rect x="720" y="248" width="120" height="44" rx="12" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="736" y="275" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">interface</text>
+
+    <!-- Grid of labelings (partially filled) -->
+    <g>
+      <rect x="524" y="304" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.55)" />
+      <rect x="548" y="304" width="20" height="20" rx="4" fill="rgba(15, 23, 42, 0.10)" />
+      <rect x="572" y="304" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.55)" />
+      <rect x="596" y="304" width="20" height="20" rx="4" fill="rgba(15, 23, 42, 0.10)" />
+      <rect x="620" y="304" width="20" height="20" rx="4" fill="rgba(15, 23, 42, 0.10)" />
+      <rect x="644" y="304" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.55)" />
+      <rect x="668" y="304" width="20" height="20" rx="4" fill="rgba(15, 23, 42, 0.10)" />
+      <rect x="692" y="304" width="20" height="20" rx="4" fill="rgba(59, 130, 246, 0.55)" />
+    </g>
+    <text
+      x="524"
+      y="346"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Fewer compatible labelings.
+    </text>
+
+    <!-- footer formulas -->
+    <text
+      x="480"
+      y="392"
+      font-size="12"
+      fill="#475569"
+      font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace"
+      text-anchor="middle"
+    >
+      VC(H) ≤ log2 |H|, and log |H1 × H2| = log |H1| + log |H2|
+    </text>
+  </g>
+</svg>

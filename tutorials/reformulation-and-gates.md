@@ -233,6 +233,107 @@ But it is important not to oversell it:
 
 So the safe claim is modest: good abstractions are compressions that preserve the right structure, and finding them is a major source of cognitive and mathematical leverage.
 
+### Decomposition (why good interfaces shrink both learning and search)
+
+A lot of technical problem solving has the same outer shape:
+
+- there is a space of candidates, call it $H$,
+- there is a notion of "success" (fit the data, satisfy the spec, meet the invariant),
+- and there is a process that eliminates candidates by finding refuters.
+
+This is true in multiple domains:
+
+- **Learning:** $H$ is a hypothesis class. Refuters are misclassified examples. The goal is low error.
+- **Program synthesis:** $H$ is a class of programs. Refuters are failing tests or counterexamples from a verifier. The goal is to satisfy a specification.
+- **Verification and invariant discovery:** $H$ is a space of invariants. Refuters are counterexample traces. The goal is an inductive invariant.
+- **Debugging:** $H$ is a space of patches. Refuters are reproducers, failing tests, and traces. The goal is to remove the failure without breaking other behavior.
+
+In all of these settings, "decomposition" is a representation choice that restricts $H$ to candidates built from smaller parts with explicit interfaces.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Decomposition shrinks the hypothesis space</p>
+  {% include diagrams/vc-decomposition.svg %}
+  <figcaption class="fp-figure-caption">
+    VC dimension is one way to measure how many distinct labelings a hypothesis class can realize. Decomposition can reduce that capacity when it forces solutions to be composed from smaller parts through a narrow interface.
+  </figcaption>
+</figure>
+
+#### Two complementary "size" measures
+
+There are two common ways to measure how large $H$ is.
+
+1. **If $H$ is finite:** size is literally $\lvert H \rvert$, and bounds often depend on $\log \lvert H \rvert$.
+2. **If $H$ is infinite:** size is measured by a capacity notion such as VC dimension, $\mathrm{VC}(H)$.
+
+These are not competing religions. For a finite class, they are linked:
+
+$$
+\mathrm{VC}(H) \le \log_2 \lvert H \rvert
+$$
+
+Reason: if $H$ can shatter $m$ points, then it must realize all $2^m$ labelings on those points, so $\lvert H \rvert \ge 2^m$ and therefore $m \le \log_2 \lvert H \rvert$.
+
+#### Why this matters for learning (Blumer style, in one line)
+
+In a realizable setting where some hypothesis in $H$ is perfectly consistent with the data, a simple Occam bound says that the number of examples needed to rule out most wrong hypotheses scales like:
+
+$$
+m \gtrsim \frac{1}{\varepsilon}\bigl(\ln \lvert H \rvert + \ln(1/\delta)\bigr)
+$$
+
+The precise constants depend on assumptions. The shape is the point: smaller candidate sets need fewer refuters.
+
+For infinite classes, VC bounds replace $\ln \lvert H \rvert$ with a term involving $\mathrm{VC}(H)$ (roughly, sample complexity grows with VC dimension, up to additional logarithmic factors).
+
+#### What decomposition does to these measures
+
+Decomposition helps only when it genuinely restricts the candidates.
+
+One clean case is a product form. If a candidate is determined by independent choices from $H_1$ and $H_2$, then:
+
+$$
+\lvert H \rvert = \lvert H_1 \rvert \cdot \lvert H_2 \rvert
+\quad\text{so}\quad
+\ln \lvert H \rvert = \ln \lvert H_1 \rvert + \ln \lvert H_2 \rvert
+$$
+
+This turns a monolithic search into a sum of smaller searches.
+
+There is also a dual move, common in "mixtures" and routing: $H$ is a union of families $H = \bigcup_{i=1}^k H_i$. That can increase capacity because there are more options. Intuitively, selecting among $k$ modules costs about $\log k$ bits of freedom.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Assumption hygiene: decomposition is a claim about coupling</p>
+  <p>
+    Decomposition does not automatically make a problem easy. It helps when most dependencies are local, and the interface between parts is narrow enough that refuters can be localized.
+    If "everything depends on everything", the effective hypothesis space stays huge even if the code is split into files.
+  </p>
+</div>
+
+#### Why this matters for search tactics (epiplexity in plain language)
+
+Statistical capacity is only half the story. Even if a good candidate exists in a small class, it can still be computationally hard to find.
+
+A useful modern way to say the missing half is:
+
+- Some structure exists "in principle", but it is not accessible under a realistic compute budget.
+- A good reformulation or decomposition can make the same structure cheap enough to exploit.
+
+This is the intuition behind "information for bounded agents" proposals such as epiplexity. One way to summarize the idea is: separate the part of a dataset that can be turned into a shorter program by a bounded learner (structure) from the part that remains unpredictable under the same budget (time-bounded entropy). The moral is stable: compute budgets change what counts as usable structure.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Tree search versus propagation on a decomposed graph</p>
+  {% include diagrams/tree-vs-propagation.svg %}
+  <figcaption class="fp-figure-caption">
+    In a monolithic representation, search tends to branch. In a decomposed representation, local constraints can propagate and prune without enumerating every branch. Many scalable solvers are propagation plus occasional branching.
+  </figcaption>
+</figure>
+
+This is a deep reason tactics work. A tactic is often a move that:
+
+- reduces degrees of freedom (shrinks $H$),
+- increases locality (makes refuters informative),
+- and converts branching into propagation.
+
 ## Part IV: symbol manipulation (why rewriting can beat guessing)
 
 From the outside, symbolic reasoning can look like moving marks around.
@@ -597,6 +698,10 @@ So the deepest skill here is the same one that started the tutorial:
 
 - Abstraction Cheat Sheet: https://thedarklightx.github.io/Beyond-Code-Abstraction-Cheatsheet/
 - Solar-Lezama, *Introduction to Program Synthesis (Lecture 1)*: https://people.csail.mit.edu/asolar/SynthesisCourse/Lecture1.htm
+- Blumer, Ehrenfeucht, Haussler, and Warmuth, *Occam’s Razor* (1987): https://doi.org/10.1016/0020-0190(87)90114-1
+- Blumer, Ehrenfeucht, Haussler, and Warmuth, *Learnability and the Vapnik-Chervonenkis dimension* (1989): https://doi.org/10.1145/76359.76371
+- Shalev-Shwartz and Ben-David, *Understanding Machine Learning: From Theory to Algorithms* (2014): https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/
+- Finzi et al., *From Entropy to Epiplexity: Rethinking Information for Computationally Bounded Intelligence* (2026): https://arxiv.org/abs/2601.03220
 - Tao, *Structure and Randomness: An Introduction to Probabilistic Combinatorics* (2008): https://bookstore.ams.org/gsm-76
 - Feynman, *Space-Time Approach to Quantum Electrodynamics* (1949): https://journals.aps.org/pr/abstract/10.1103/PhysRev.76.769
 - Wang, *Eighty years of foundational studies* (1958): https://philpapers.org/rec/WANEYO
