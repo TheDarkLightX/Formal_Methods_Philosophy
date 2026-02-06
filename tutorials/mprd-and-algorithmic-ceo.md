@@ -53,7 +53,7 @@ $$
 \forall p,s,a.\; ExecCalled(p,s,a) \Rightarrow Allowed(p,s,a)
 $$
 
-Here, \(p\) is the policy artifact. In the governance deployment described by MPRD, \(p\) is the Tau policy specification stored on Tau Net.
+Here, $p$ is the policy artifact. In the governance deployment described by MPRD, $p$ is the Tau policy specification stored on Tau Net.
 
 The lifecycle spec then adds two always-invariants:
 
@@ -161,14 +161,14 @@ The word "CEO" is metaphorical. This is not general intelligence. It is a bounde
 
 ### CEO loop in one recurrence
 
-At each step \(t\), the proposer computes:
+At each step $t$, the proposer computes:
 
 $$
 \text{target}_t = \arg\max_{n \in N_h(x_t)} Score(n, \theta_t), \quad
 \text{action}_t = StepTowards(x_t, \text{target}_t)
 $$
 
-where \(x_t\) is current state, \(N_h(x_t)\) is the bounded neighborhood of radius \(h\), and \(\theta_t\) is objective configuration.
+where $x_t$ is current state, $N_h(x_t)$ is the bounded neighborhood of radius $h$, and $\theta_t$ is objective configuration.
 
 Execution is then gated by policy:
 
@@ -197,7 +197,7 @@ This interface is what turns "intelligence as commodity" into an engineering obj
 The Algorithmic CEO is not one trick. It is a stack of algorithmic choices that make bounded autonomy practical:
 
 1. **Decision-space compilation.** Continuous controls are compiled into a finite lattice of valid states, so invalid states are unrepresentable.
-2. **Geometry shortcut with proof.** A Lean-checked result shows \(L_\infty\) distance equals shortest-path length in the menu graph, removing the need for runtime graph search.
+2. **Geometry shortcut with proof.** A Lean-checked result shows $L_\infty$ distance equals shortest-path length in the menu graph, removing the need for runtime graph search.
 3. **Deterministic total ordering.** Candidate choice is fully deterministic (score, then distance, then key), making runs replayable and auditable.
 4. **Numerically safe scoring.** Saturating arithmetic and hard constraint sentinels make objective evaluation fail-bounded.
 5. **Scalable planning upgrades.** The simplex extension adds partial-order and symmetry reductions, so larger action spaces remain searchable under fixed budgets.
