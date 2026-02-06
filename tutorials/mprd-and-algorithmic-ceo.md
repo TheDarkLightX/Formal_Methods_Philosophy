@@ -90,6 +90,47 @@ InvSelectorContract: Sel(policy, state, candidates) = action
                      => action in candidates and Allowed(policy, state, action)
 ```
 
+### Reading guide for the invariants
+
+Each invariant has the same logical shape: **trigger condition => required consequence**.
+
+If the trigger is true and the consequence is false on any trace, that trace is a concrete counterexample.
+
+| Notation | Read as | Role in this section |
+|---|---|---|
+| `\forall p,s,a` | for every policy, state, action | universal scope |
+| `=>` | implies, if ... then | obligation |
+| `\land` | both must hold | conjunction |
+| `\Box` | always, at every step | temporal safety |
+| `\in` | belongs to set | status membership |
+
+Name legend:
+
+- `p` = policy (Tau specification on Tau Net).
+- `s` = state snapshot.
+- `a` = candidate action.
+- `exec` = execution status.
+- `proof` = proof status.
+- `verdict` = policy result (`Allowed` or `Denied` in the lifecycle model).
+
+Invariant-by-invariant interpretation:
+
+- `InvSafety`: if execution is called for `(p,s,a)`, then the action must be policy-allowed.
+  Pass example: an action executes, and `Allowed(p,s,a)` is true.
+  Violation example: an action executes while `Allowed(p,s,a)` is false.
+- `InvDeniedImpliesSkipped`: if the policy verdict is denied, execution must stay skipped.
+  Pass example: verdict is denied, `exec = skipped`.
+  Violation example: verdict is denied, but `exec = success`.
+- `InvExecRequiresVerified`: if execution ends in success or failed, proof must already be verified.
+  Pass example: `exec = success`, `proof = verified`.
+  Violation example: `exec = failed`, `proof = pending`.
+- `InvExecuteRequiresValidDecision`: if the executor runs a bundle, registry-bound decision verification must be true.
+  Pass example: bundle executes only after `ValidDecision(bundle, registry_state) = true`.
+  Violation example: bundle executes while registry checks fail.
+- `InvSelectorContract`: selected action must come from the candidate set and be policy-allowed.
+  Pass example: selector returns a listed action with `Allowed = true`.
+  Violation example: selector returns an action outside candidates, or one with `Allowed = false`.
+
 This is not a guideline. It is enforced through five architectural constraints:
 
 1. **Proposer isolation.** Models generate candidates without execution capability.
