@@ -41,43 +41,39 @@ This connects directly to two earlier tutorials:
 
 The top-level safety property is stated as a universal claim:
 
-$$
-\forall \text{executed\_action}.\; Allowed(\text{policy}, \text{state}, \text{action}) = \text{true}
-$$
+```text
+∀ executed_action: Allowed(policy, state, action) = true
+```
 
 ### Exact logic form in MPRD artifacts
 
 In the MPRD repository, the same safety claim appears in a stricter execution form:
 
-$$
-\forall p,s,a.\; ExecCalled(p,s,a) \Rightarrow Allowed(p,s,a)
-$$
+```text
+∀ p,s,a: ExecCalled(p,s,a) => Allowed(p,s,a)
+```
 
-Here, $p$ is the policy artifact. In the governance deployment described by MPRD, $p$ is the Tau policy specification stored on Tau Net.
+Here, p is the policy artifact. In the governance deployment described by MPRD, p is the Tau policy specification stored on Tau Net.
 
 The lifecycle spec then adds two always-invariants:
 
-$$
-\Box(\mathrm{verdict} = \mathrm{Denied} \Rightarrow \mathrm{exec} = \mathtt{skipped})
-$$
-
-$$
-\Box(\mathrm{exec} \in \{\mathtt{success}, \mathtt{failed}\} \Rightarrow \mathrm{proof} = \mathtt{verified})
-$$
+```text
+□(verdict = Denied => exec = skipped)
+□(exec ∈ {success, failed} => proof = verified)
+```
 
 In the production ZK profile, the execution gate is phrased as:
 
-$$
-\operatorname{Execute}(\mathrm{bundle}) \Rightarrow \operatorname{ValidDecision}(\mathrm{bundle}, \mathrm{registry\_state}) = \mathrm{true}
-$$
+```text
+Execute(bundle) => ValidDecision(bundle, registry_state) = true
+```
 
 with selector correctness scoped as:
 
-$$
-\operatorname{Sel}(\mathrm{policy}, \mathrm{state}, \mathrm{candidates}) = \mathrm{action}
-\Rightarrow
-\mathrm{action} \in \mathrm{candidates} \land \operatorname{Allowed}(\mathrm{policy}, \mathrm{state}, \mathrm{action})
-$$
+```text
+Sel(policy, state, candidates) = action
+=> action ∈ candidates ∧ Allowed(policy, state, action)
+```
 
 Plain-text mirror of the same invariants:
 
@@ -98,11 +94,11 @@ If the trigger is true and the consequence is false on any trace, that trace is 
 
 | Notation | Read as | Role in this section |
 |---|---|---|
-| `\forall p,s,a` | for every policy, state, action | universal scope |
+| `∀ p,s,a` | for every policy, state, action | universal scope |
 | `=>` | implies, if ... then | obligation |
-| `\land` | both must hold | conjunction |
-| `\Box` | always, at every step | temporal safety |
-| `\in` | belongs to set | status membership |
+| `∧` | both must hold | conjunction |
+| `□` | always, at every step | temporal safety |
+| `∈` | belongs to set | status membership |
 
 Name legend:
 
@@ -161,24 +157,23 @@ The word "CEO" is metaphorical. This is not general intelligence. It is a bounde
 
 ### CEO loop in one recurrence
 
-At each step $t$, the proposer computes:
+At each step t, the proposer computes:
 
-$$
-\text{target}_t = \arg\max_{n \in N_h(x_t)} Score(n, \theta_t), \quad
-\text{action}_t = StepTowards(x_t, \text{target}_t)
-$$
+```text
+target_t = argmax over n in N_h(x_t) of Score(n, theta_t)
+action_t = StepTowards(x_t, target_t)
+```
 
-where $x_t$ is current state, $N_h(x_t)$ is the bounded neighborhood of radius $h$, and $\theta_t$ is objective configuration.
+where x_t is current state, N_h(x_t) is the bounded neighborhood of radius h, and theta_t is objective configuration.
 
 Execution is then gated by policy:
 
-$$
-x_{t+1} =
-\begin{cases}
-Apply(x_t, \text{action}_t), & Allowed(p_t, x_t, \text{action}_t) \\
-x_t, & \text{otherwise}
-\end{cases}
-$$
+```text
+if Allowed(p_t, x_t, action_t):
+    x_(t+1) = Apply(x_t, action_t)
+else:
+    x_(t+1) = x_t
+```
 
 This is the key control split: the CEO computes proposals, policy grants authority.
 
@@ -197,7 +192,7 @@ This interface is what turns "intelligence as commodity" into an engineering obj
 The Algorithmic CEO is not one trick. It is a stack of algorithmic choices that make bounded autonomy practical:
 
 1. **Decision-space compilation.** Continuous controls are compiled into a finite lattice of valid states, so invalid states are unrepresentable.
-2. **Geometry shortcut with proof.** A Lean-checked result shows $L_\infty$ distance equals shortest-path length in the menu graph, removing the need for runtime graph search.
+2. **Geometry shortcut with proof.** A Lean-checked result shows L∞ distance equals shortest-path length in the menu graph, removing the need for runtime graph search.
 3. **Deterministic total ordering.** Candidate choice is fully deterministic (score, then distance, then key), making runs replayable and auditable.
 4. **Numerically safe scoring.** Saturating arithmetic and hard constraint sentinels make objective evaluation fail-bounded.
 5. **Scalable planning upgrades.** The simplex extension adds partial-order and symmetry reductions, so larger action spaces remain searchable under fixed budgets.
@@ -226,7 +221,7 @@ This is a reformulation move in the sense of [Tutorial 5, Part III]({{ '/tutoria
 
 The `GreedyCeo` implements a single-step greedy planner:
 
-1. **Enumerate** reachable nodes within an L∞ ball of radius `horizon` (max 8, giving at most $(2h+1)^3 = 4{,}913$ candidates).
+1. **Enumerate** reachable nodes within an L∞ ball of radius `horizon` (max 8, giving at most `(2h+1)^3 = 4,913` candidates).
 2. **Score** each candidate using a deterministic objective function.
 3. **Select** the best target with deterministic tie-breaking: higher score → smaller L∞ distance → smaller L1 distance → smaller key.
 4. **Return** one safe step toward the target using `step_towards_key`.
@@ -360,9 +355,9 @@ The invariant rail runs after every state transition. It checks three categories
 
 **3. Transition-level conservation.** Specific action outcomes must satisfy conservation laws. For example, after `SettleOpsPayroll`:
 
-$$
-\text{payout\_total} + \text{carry\_to\_reserve} = \text{ops\_payroll\_pool}
-$$
+```text
+payout_total + carry_to_reserve = ops_payroll_pool
+```
 
 If any invariant fails, the rail returns an `InvariantCounterexampleV6` containing the violation ID, the step index, the state hash, and the full action trace.
 
@@ -373,12 +368,12 @@ This connects to the counterexample analysis from [Tutorial 1, Part IV]({{ '/tut
 When a violation is found, the trace may be longer than necessary. The `minimize_counterexample_v1` function reduces it to a minimal failing trace using deterministic delta-debugging:
 
 1. **Verify** the provided trace reproduces the violation.
-2. **Initialize** chunk size $n = 2$.
-3. **Loop**: divide the action sequence into $n$ chunks. For each chunk, try removing it. If the reduced trace still triggers the same invariant ID:
+2. **Initialize** chunk size `n = 2`.
+3. **Loop**: divide the action sequence into `n` chunks. For each chunk, try removing it. If the reduced trace still triggers the same invariant ID:
    - Accept the reduction.
    - Reset chunk size toward 2.
    - Restart.
-4. If no chunk removal preserves the violation, double $n$ (up to sequence length).
+4. If no chunk removal preserves the violation, double `n` (up to sequence length).
 5. Return the minimized counterexample.
 
 The result is a minimal witness: the shortest sub-trace that triggers the specific invariant violation. This is the "minimized witness" concept from [Tutorial 1, Part V]({{ '/tutorials/approximate-state-tracking/' | relative_url }}#zooming-out-counterexample-analysis-and-what-it-gives-you): a counterexample becomes more useful when it carries less irrelevant context.
@@ -410,14 +405,14 @@ The simplex CEO extends the greedy CEO to multi-step planning over a generalized
 
 ### k-way simplex
 
-In the simplex model, allocations are a bounded vector of $k$ non-negative integers, each capped individually, optionally constrained to sum to a constant $T$. Actions are **transfers**: move one unit from bucket $i$ to bucket $j$, subject to:
+In the simplex model, allocations are a bounded vector of k non-negative integers, each capped individually, optionally constrained to sum to a constant T. Actions are **transfers**: move one unit from bucket i to bucket j, subject to:
 
-- Source has at least 1 unit: $x[\text{src}] > 0$
-- Destination is below cap: $x[\text{dst}] < \text{cap}[\text{dst}]$
+- Source has at least 1 unit: `x[src] > 0`
+- Destination is below cap: `x[dst] < cap[dst]`
 
 If a transfer is disabled (preconditions not met), it acts as a no-op. The sum is preserved by construction, every transfer subtracts 1 from one bucket and adds 1 to another. This is **correct by construction (CBC)**: invalid states are unrepresentable because the transfer semantics make it impossible to violate the sum constraint or the per-bucket bounds.
 
-For $k$ buckets with total $T$, the number of distinct states is the stars-and-bars count $\binom{T+k-1}{k-1}$, further reduced by per-bucket caps. For 3–4 buckets with moderate totals, this is manageable. Beyond that, coarser granularity or symmetry reduction is needed.
+For k buckets with total T, the number of distinct states is the stars-and-bars count `C(T+k-1, k-1)`, further reduced by per-bucket caps. For 3–4 buckets with moderate totals, this is manageable. Beyond that, coarser granularity or symmetry reduction is needed.
 
 ### Three planning modes
 
@@ -475,7 +470,7 @@ The planner terminates deterministically when either bound is reached. Tie-break
 
 ### Combinatorics and the connection to VC dimension
 
-For $k$ buckets with total $T$, the unreduced state count is $\binom{T+k-1}{k-1}$. For 3 buckets with $T=10{,}000$ bps, that is $\binom{10002}{2} = 50{,}015{,}001$ states, tractable with POR but large enough to motivate symmetry reduction. For 4 buckets, it grows to $\binom{10003}{3} \approx 1.67 \times 10^{11}$, which requires coarser granularity or aggressive quotienting.
+For k buckets with total T, the unreduced state count is `C(T+k-1, k-1)`. For 3 buckets with `T = 10,000` bps, that is `C(10002, 2) = 50,015,001` states, tractable with POR but large enough to motivate symmetry reduction. For 4 buckets, it grows to `C(10003, 3) ≈ 1.67 x 10^11`, which requires coarser granularity or aggressive quotienting.
 
 This connects to the hypothesis space analysis from [Tutorial 5, Part III]({{ '/tutorials/reformulation-and-gates/' | relative_url }}#vc-dimension-and-shattering-what-the-definition-checks): the effective size of the search space determines how much evidence (search budget) is needed to find a good plan, and reformulation techniques (POR, symmetry) reduce that effective size without losing reachable optima.
 
