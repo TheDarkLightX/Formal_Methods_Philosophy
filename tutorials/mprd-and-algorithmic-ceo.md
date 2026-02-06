@@ -58,26 +58,37 @@ Here, \(p\) is the policy artifact. In the governance deployment described by MP
 The lifecycle spec then adds two always-invariants:
 
 $$
-\Box(\text{verdict} = \text{Denied} \Rightarrow \text{exec} = \text{"skipped"})
+\Box(\mathrm{verdict} = \mathrm{Denied} \Rightarrow \mathrm{exec} = \mathtt{skipped})
 $$
 
 $$
-\Box(\text{exec} \in \{\text{"success"}, \text{"failed"}\} \Rightarrow \text{proof} = \text{"verified"})
+\Box(\mathrm{exec} \in \{\mathtt{success}, \mathtt{failed}\} \Rightarrow \mathrm{proof} = \mathtt{verified})
 $$
 
 In the production ZK profile, the execution gate is phrased as:
 
 $$
-Execute(\text{bundle}) \Rightarrow ValidDecision(\text{bundle}, \text{registry\_state}) = \text{true}
+\operatorname{Execute}(\mathrm{bundle}) \Rightarrow \operatorname{ValidDecision}(\mathrm{bundle}, \mathrm{registry\_state}) = \mathrm{true}
 $$
 
 with selector correctness scoped as:
 
 $$
-Sel(\text{policy}, \text{state}, \text{candidates}) = \text{action}
+\operatorname{Sel}(\mathrm{policy}, \mathrm{state}, \mathrm{candidates}) = \mathrm{action}
 \Rightarrow
-\text{action} \in \text{candidates} \land Allowed(\text{policy}, \text{state}, \text{action})
+\mathrm{action} \in \mathrm{candidates} \land \operatorname{Allowed}(\mathrm{policy}, \mathrm{state}, \mathrm{action})
 $$
+
+Plain-text mirror of the same invariants:
+
+```text
+InvSafety: ExecCalled(p,s,a) => Allowed(p,s,a)
+InvDeniedImpliesSkipped: verdict = Denied => exec = skipped
+InvExecRequiresVerified: exec in {success, failed} => proof = verified
+InvExecuteRequiresValidDecision: Execute(bundle) => ValidDecision(bundle, registry_state) = true
+InvSelectorContract: Sel(policy, state, candidates) = action
+                     => action in candidates and Allowed(policy, state, action)
+```
 
 This is not a guideline. It is enforced through five architectural constraints:
 
