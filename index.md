@@ -102,6 +102,17 @@ show_title: false
     </a>
     <a
       class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/mprd-and-algorithmic-ceo/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Tutorial 6: MPRD and the algorithmic CEO</h2>
+      <p class="fp-card-text">
+        How MPRD turns model proposals into policy-gated execution, which
+        algorithm breakthroughs support the algorithmic CEO, and why this is a
+        concrete neuro-symbolic loop.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/glossary/' | relative_url }}"
     >
       <h2 class="fp-card-title">Glossary</h2>

@@ -75,4 +75,14 @@ show_title: false
       neuro-symbolic gates turn model proposals into checkable evidence.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/mprd-and-algorithmic-ceo/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 6: MPRD and the Algorithmic CEO</h2>
+    <p class="fp-card-text">
+      The neuro-symbolic gate from Tutorial 5 turned into production architecture.
+      Models propose, rules decide, and counterexamples drive refinement.
+    </p>
+  </a>
 </div>
