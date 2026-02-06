@@ -141,6 +141,88 @@ Assumption hygiene for best practices:
 - Name the failure mode it mitigates.
 - Name the metric or test that confirms it helped.
 
+### Technical measures for clean-code discipline
+
+Metrics are not the goal, they are instrumentation for quality control.
+
+```text
+Engineering rule: do not optimize a metric without checking user outcomes.
+```
+
+Useful measures:
+
+- **Cyclomatic complexity** estimates control-flow path count.
+
+  ```text
+  V(G) = E - N + 2P
+  ```
+
+  In practice, teams often use the approximation "number of branch points + 1" per function.
+
+- **Cognitive complexity** estimates how hard code is to understand, with stronger penalties for nested control flow and flow breaks.
+
+- **Shannon entropy** can quantify distributional complexity in tokens, identifiers, or change patterns:
+
+  ```text
+  H = -sum_i p_i * log2(p_i)
+  ```
+
+  This can flag over-compressed naming or noisy change patterns, but entropy alone does not define good design.
+
+- **Shapley value attribution** can estimate each module's marginal contribution to a result metric (for example reliability lift, latency reduction, or defect reduction):
+
+  ```text
+  phi_i = average over subsets S of [ value(S union {i}) - value(S) ]
+  ```
+
+  This is useful for explaining contribution, but only when the value function is well-defined.
+
+Practical interpretation:
+
+- Cyclomatic and cognitive complexity are local maintainability signals.
+- Entropy can be a structure signal.
+- Shapley can be an attribution signal.
+- None of these replaces user-success metrics.
+
+### SOLID, proper abstraction, and language fit
+
+SOLID remains useful as a design checklist:
+
+- **S**ingle Responsibility,
+- **O**pen-Closed,
+- **L**iskov Substitution,
+- **I**nterface Segregation,
+- **D**ependency Inversion.
+
+These are heuristics, not laws. The deeper question is abstraction fit:
+
+- Does the abstraction match the problem constraints?
+- Does it reduce accidental complexity?
+- Does it make invariants easier to state and check?
+
+Language choice is part of abstraction fit:
+
+- Strong type systems can reduce whole classes of runtime mistakes.
+- Functional style can reduce implicit state coupling in transformation-heavy logic.
+- Systems languages can make resource control explicit where performance and safety are critical.
+
+No language wins globally. The right language is the one that makes core constraints easiest to enforce and easiest to maintain.
+
+### Uncle Bob's clean-code lens, and this tutorial's lens
+
+Common ground with Uncle Bob's framing:
+
+- readability is central,
+- small, focused units are preferable,
+- refactoring and testing are continuous obligations.
+
+Difference in emphasis:
+
+- Uncle Bob's lens is style-and-discipline centered.
+- This tutorial adds an explicit user-outcome and evidence loop.
+
+In this tutorial's framing, style quality without user impact measurement is incomplete, and user impact goals without maintainable style are fragile.
+
 ## Part VII: heuristics for prompt engineers in agentic workflows
 
 Prompt quality becomes design quality when agents produce code.
@@ -157,6 +239,34 @@ Useful heuristics:
 8. Require deterministic reproduction steps for defects.
 9. Ask for rollback strategy before rollout.
 10. Treat prompt revisions as first-class engineering iterations.
+
+### Style contract for agent-generated code
+
+A prompt can include an explicit readability and maintainability contract:
+
+```text
+Contract:
+- Keep cognitive complexity low.
+- Keep cyclomatic complexity budgeted per function.
+- Prefer pure functions for domain rules unless mutable state is required.
+- Keep side effects at system boundaries.
+- Use names that expose domain intent.
+- Add tests for invariants and edge cases.
+- Return a short rationale for non-obvious tradeoffs.
+```
+
+This does not force one aesthetic. It forces legibility and constraint clarity.
+
+### Extract-and-explain test
+
+A practical comprehension test for clean code:
+
+1. Extract any non-trivial code block.
+2. State its preconditions, postconditions, and invariants in plain language.
+3. Explain the block to a second engineer or an analysis agent without opening the full project.
+4. Verify that explanation predicts behavior on at least one normal case and one edge case.
+
+If this test fails repeatedly, the code may function, but maintainability risk is high.
 
 ## Part VIII: design quality caps code quality
 
