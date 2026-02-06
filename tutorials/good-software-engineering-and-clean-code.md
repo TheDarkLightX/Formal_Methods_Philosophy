@@ -257,6 +257,152 @@ Contract:
 
 This does not force one aesthetic. It forces legibility and constraint clarity.
 
+### Clean vs dirty examples, with prompt patterns
+
+"Dirty" here means hard to reason about and hard to maintain under change pressure, not morally bad.
+
+Example 1: reservation logic with hidden side effects
+
+Dirty code:
+
+```python
+def p(d, t):
+    if t in d and d[t] > 0:
+        d[t] -= 1
+        print("ok")
+        return True
+    print("bad")
+    return False
+```
+
+Clean code:
+
+```python
+from collections.abc import Mapping, MutableMapping
+
+def can_reserve(stock: Mapping[str, int], sku: str) -> bool:
+    return stock.get(sku, 0) > 0
+
+def reserve(stock: MutableMapping[str, int], sku: str) -> bool:
+    if not can_reserve(stock, sku):
+        return False
+    stock[sku] -= 1
+    return True
+```
+
+Why the clean version is cleaner:
+
+- domain intent is visible in names (`can_reserve`, `reserve`),
+- side effects are localized and explicit,
+- easier unit testing of the decision path,
+- lower cognitive load for future maintainers.
+
+Prompt likely to produce dirty code:
+
+```text
+Write a quick function to reserve an item from a dict. Keep it short. No need for tests or explanation.
+```
+
+Prompt likely to produce clean code:
+
+```text
+Implement inventory reservation in Python.
+Constraints:
+- Keep cognitive complexity low.
+- Separate pure decision logic from mutation.
+- Use descriptive names and type hints.
+- No logging side effects in domain functions.
+- Include a short test matrix (success, missing SKU, zero stock).
+```
+
+Example 2: pricing logic with nested branching
+
+Dirty code:
+
+```typescript
+export function price(o: any) {
+  let t = 0;
+  for (const i of o.items) t += i.p * i.q;
+  if (o.user && o.user.vip) {
+    if (t > 100) t = t * 0.8;
+    else t = t * 0.9;
+  } else {
+    if (t > 200) t = t * 0.95;
+  }
+  if (o.country === "US") t += t * 0.07;
+  else if (o.country === "DE") t += t * 0.19;
+  else t += t * 0.15;
+  return Math.round(t * 100) / 100;
+}
+```
+
+Clean code:
+
+```typescript
+type Country = "US" | "DE" | "ROW";
+
+interface LineItem {
+  unitPrice: number;
+  quantity: number;
+}
+
+interface PricingInput {
+  items: LineItem[];
+  vip: boolean;
+  country: Country;
+}
+
+function subtotal(items: LineItem[]): number {
+  return items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
+}
+
+function discountRate(amount: number, vip: boolean): number {
+  if (vip && amount > 100) return 0.20;
+  if (vip) return 0.10;
+  if (amount > 200) return 0.05;
+  return 0.0;
+}
+
+function taxRate(country: Country): number {
+  if (country === "US") return 0.07;
+  if (country === "DE") return 0.19;
+  return 0.15;
+}
+
+export function finalPrice(input: PricingInput): number {
+  const base = subtotal(input.items);
+  const discounted = base * (1 - discountRate(base, input.vip));
+  const taxed = discounted * (1 + taxRate(input.country));
+  return Math.round(taxed * 100) / 100;
+}
+```
+
+Why the clean version is cleaner:
+
+- each rule is isolated in a named function,
+- types encode assumptions and reduce ambiguous states,
+- branch complexity is split into manageable units,
+- easier to extract one block and explain it independently.
+
+Prompt likely to produce dirty code:
+
+```text
+Write one TypeScript function that calculates final order price with VIP discounts and country tax.
+Keep it compact.
+```
+
+Prompt likely to produce clean code:
+
+```text
+Implement order pricing in TypeScript.
+Requirements:
+- Keep cyclomatic complexity low per function.
+- Use explicit input types, no any.
+- Split subtotal, discount, and tax into separate pure functions.
+- Keep side effects out of pricing logic.
+- Provide table-driven tests for edge cases.
+```
+
 ### Extract-and-explain test
 
 A practical comprehension test for clean code:
