@@ -16,21 +16,21 @@ Source scope: the public MPRD repository at [github.com/TheDarkLightX/MPRD](http
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Mental pictures to keep</p>
   <ul>
-    <li>A CEO as a pilot who cannot fly without air traffic control clearing each maneuver</li>
-    <li>A menu graph as a safe decision lattice: you can only walk along pre-computed edges</li>
+    <li>A CEO as a planner with zero execution keys</li>
+    <li>A menu graph as a safe decision lattice, traversal is limited to pre-computed edges</li>
     <li>Invariant rails as guardrails on a mountain road: the road is narrow on purpose</li>
     <li>Policy as the gate, represented as Tau specs on Tau Net</li>
     <li>The neuro-symbolic loop from Tutorial 5, realized: propose, gate, witness, refine</li>
   </ul>
 </div>
 
-## Part I: the philosophy (why raw intelligence needs rails)
+## Part I: the philosophy (intelligence as a commodity, policy as control)
 
-MPRD opens with an industrial metaphor:
+A precise historical analogy is industrial mechanization plus cloud compute. Mechanization made physical labor increasingly schedulable and meterable at scale. Cloud schedulers made compute a governed utility through quotas, admission control, and deterministic execution contracts.
 
-> Steam is raw power. Uncontained, it dissipates uselessly into the air. But channel it through a piston, and it moves locomotives across continents.
+MPRD applies the same structural idea to intelligence output. Candidate generation is treated as abundant, while permission to mutate economic state is treated as scarce and formally governed.
 
-The claim is that intelligence, whether human, learned, or algorithmic, is analogous to steam. Its value comes not from being unconstrained, but from being channeled through governance structures that preserve safety while allowing the power to do useful work.
+Assumption A (explicit): model inference and search remain cheaper than governance failures. If Assumption A holds, design effort should concentrate on policy gates, execution boundaries, and invariant rails, not on granting proposers direct authority.
 
 This connects directly to two earlier tutorials:
 
@@ -45,7 +45,41 @@ $$
 \forall \text{executed\_action}.\; Allowed(\text{policy}, \text{state}, \text{action}) = \text{true}
 $$
 
-This is not a guideline. It is enforced architecturally through five constraints:
+### Exact logic form in MPRD artifacts
+
+In the MPRD repository, the same safety claim appears in a stricter execution form:
+
+$$
+\forall p,s,a.\; ExecCalled(p,s,a) \Rightarrow Allowed(p,s,a)
+$$
+
+Here, \(p\) is the policy artifact. In the governance deployment described by MPRD, \(p\) is the Tau policy specification stored on Tau Net.
+
+The lifecycle spec then adds two always-invariants:
+
+$$
+\Box(\text{verdict} = \text{Denied} \Rightarrow \text{exec} = \text{"skipped"})
+$$
+
+$$
+\Box(\text{exec} \in \{\text{"success"}, \text{"failed"}\} \Rightarrow \text{proof} = \text{"verified"})
+$$
+
+In the production ZK profile, the execution gate is phrased as:
+
+$$
+Execute(\text{bundle}) \Rightarrow ValidDecision(\text{bundle}, \text{registry\_state}) = \text{true}
+$$
+
+with selector correctness scoped as:
+
+$$
+Sel(\text{policy}, \text{state}, \text{candidates}) = \text{action}
+\Rightarrow
+\text{action} \in \text{candidates} \land Allowed(\text{policy}, \text{state}, \text{action})
+$$
+
+This is not a guideline. It is enforced through five architectural constraints:
 
 1. **Proposer isolation.** Models generate candidates without execution capability.
 2. **Single execution path.** All actions funnel through one guarded channel.
@@ -63,15 +97,60 @@ The architecture separates into three layers with distinct trust profiles:
 | **Governor (Policy on Tau Net)** | Evaluates candidates against policy | Trusted, bounded, deterministic |
 | **Executor** | Performs only approved actions | Guarded, single-path |
 
-The separation matters because it makes the safety claim local: you do not need to audit the proposer to trust the system. You only need to audit the governor and the execution boundary. A stronger or more creative proposer does not weaken safety, it can only propose more candidates for the gate to filter.
+The separation matters because it makes the safety claim local: trust depends on the governor and execution boundary, not on the proposer internals. A stronger or more creative proposer does not weaken safety, it can only propose more candidates for the gate to filter.
 
 This is the same principle behind the CEGIS loop from [Tutorial 1, Part IV]({{ '/tutorials/approximate-state-tracking/' | relative_url }}#counterexample-guided-synthesis-cegis): the synthesizer can be arbitrarily creative, because the verifier decides what passes.
 
-## Part II: the Algorithmic CEO (a proposer that lives inside the gate)
+## Part II: the Algorithmic CEO (the bounded proposer)
 
-The Algorithmic CEO is a deterministic, IO-free controller. It is a greedy local-search optimizer over a pre-computed **menu graph**.
+The Algorithmic CEO is a deterministic, IO-free controller. It is a bounded local-search optimizer over a pre-computed **menu graph**.
 
 The word "CEO" is metaphorical. This is not general intelligence. It is a bounded optimizer that searches a finite graph under formal constraints. The metaphor is: a CEO who can suggest moves but cannot act without board approval, and who can only suggest moves that are edges in a pre-approved decision lattice.
+
+### CEO loop in one recurrence
+
+At each step \(t\), the proposer computes:
+
+$$
+\text{target}_t = \arg\max_{n \in N_h(x_t)} Score(n, \theta_t), \quad
+\text{action}_t = StepTowards(x_t, \text{target}_t)
+$$
+
+where \(x_t\) is current state, \(N_h(x_t)\) is the bounded neighborhood of radius \(h\), and \(\theta_t\) is objective configuration.
+
+Execution is then gated by policy:
+
+$$
+x_{t+1} =
+\begin{cases}
+Apply(x_t, \text{action}_t), & Allowed(p_t, x_t, \text{action}_t) \\
+x_t, & \text{otherwise}
+\end{cases}
+$$
+
+This is the key control split: the CEO computes proposals, policy grants authority.
+
+### CEO interface in practice
+
+Per decision epoch, the Algorithmic CEO is a deterministic function:
+
+- **Inputs**: current state snapshot, fixed menu graph, objective configuration, horizon bound.
+- **Output**: one `ActionId` (or NOOP) that corresponds to a valid graph edge.
+- **No authority**: no direct state mutation and no bypass path around policy evaluation.
+
+This interface is what turns "intelligence as commodity" into an engineering object. Different proposers can be swapped in, but every proposer must emit the same bounded action type and pass the same policy gate.
+
+### Why this is an algorithmic breakthrough
+
+The Algorithmic CEO is not one trick. It is a stack of algorithmic choices that make bounded autonomy practical:
+
+1. **Decision-space compilation.** Continuous controls are compiled into a finite lattice of valid states, so invalid states are unrepresentable.
+2. **Geometry shortcut with proof.** A Lean-checked result shows \(L_\infty\) distance equals shortest-path length in the menu graph, removing the need for runtime graph search.
+3. **Deterministic total ordering.** Candidate choice is fully deterministic (score, then distance, then key), making runs replayable and auditable.
+4. **Numerically safe scoring.** Saturating arithmetic and hard constraint sentinels make objective evaluation fail-bounded.
+5. **Scalable planning upgrades.** The simplex extension adds partial-order and symmetry reductions, so larger action spaces remain searchable under fixed budgets.
+
+The net effect is that the CEO behaves like a deterministic solver, not a black-box agent.
 
 ### The menu graph
 
@@ -101,6 +180,17 @@ The `GreedyCeo` implements a single-step greedy planner:
 4. **Return** one safe step toward the target using `step_towards_key`.
 
 The L∞ distance equals the exact shortest-path length in the safe-menu graph (proved in the Lean artifact `internal/specs/mprd_ceo_menu_shortest_path_proofs.lean`). This means the planner can navigate without running a full graph search: sign-directed one-step movement reaches the target in exactly `dist_inf` steps.
+
+### Pseudocode view
+
+```text
+INPUT: state x, objective config θ, horizon h
+R := neighborhood(x, h)                // bounded candidate set
+best := argmax_total_order(R, Score(·, θ))
+return step_towards_key(x, best.key)   // one valid edge
+```
+
+The important point is not only optimization quality. The point is that every operation in this loop is bounded, deterministic, and auditable.
 
 ### Multi-objective evaluation
 
