@@ -85,4 +85,14 @@ show_title: false
       Models propose, rules decide, and counterexamples drive refinement.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/good-software-engineering-and-clean-code/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 7: What makes a good software engineer, and what clean code means</h2>
+    <p class="fp-card-text">
+      A user-centered framework for the agentic era: provenance-agnostic quality,
+      diamond-rule engineering, and best-practice rails for safe, maintainable systems.
+    </p>
+  </a>
 </div>

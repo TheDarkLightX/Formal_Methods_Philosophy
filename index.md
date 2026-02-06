@@ -113,6 +113,16 @@ show_title: false
     </a>
     <a
       class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/good-software-engineering-and-clean-code/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Tutorial 7: Good software engineering and clean code</h2>
+      <p class="fp-card-text">
+        Why user outcomes are the north star in both traditional and agentic workflows,
+        and how best-practice rails turn intent into durable quality.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/glossary/' | relative_url }}"
     >
       <h2 class="fp-card-title">Glossary</h2>
