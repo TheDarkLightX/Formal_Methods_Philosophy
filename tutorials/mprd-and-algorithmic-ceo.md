@@ -7,7 +7,7 @@ description: MPRD turns "model proposes, rules decide" into a checkable control 
 
 This tutorial maps one concrete system to the architecture from [Tutorial 5]({{ '/tutorials/reformulation-and-gates/' | relative_url }}), "propose, then gate with evidence".
 
-The system is **MPRD** (Model Proposes, Rules Decide). The proposer is an **Algorithmic CEO**: a deterministic, IO-free controller that searches a pre-computed decision graph. The gate is **Tau policy evaluation**. **Policy Algebra** is the authoring and certification rail used to build and validate gate logic. The witness loop is an **invariant rail** with counterexample minimization.
+The system is **MPRD** (Model Proposes, Rules Decide). The proposer is an **Algorithmic CEO**: a deterministic, IO-free controller that searches a pre-computed decision graph. The gate is **policy evaluation**. In MPRD, the policy artifact is a **Tau specification stored on Tau Net**. **Policy Algebra** is the authoring and certification rail used to build and validate gate logic. The witness loop is an **invariant rail** with counterexample minimization.
 
 The central claim is narrow and testable: MPRD separates candidate generation from execution authority. Better proposers can expand search quality, but they do not gain permission to execute without passing formal gates.
 
@@ -19,7 +19,7 @@ Source scope: the public MPRD repository at [github.com/TheDarkLightX/MPRD](http
     <li>A CEO as a pilot who cannot fly without air traffic control clearing each maneuver</li>
     <li>A menu graph as a safe decision lattice: you can only walk along pre-computed edges</li>
     <li>Invariant rails as guardrails on a mountain road: the road is narrow on purpose</li>
-    <li>Tau as the execution gate, with fail-closed allow or deny decisions</li>
+    <li>Policy as the gate, represented as Tau specs on Tau Net</li>
     <li>The neuro-symbolic loop from Tutorial 5, realized: propose, gate, witness, refine</li>
   </ul>
 </div>
@@ -60,7 +60,7 @@ The architecture separates into three layers with distinct trust profiles:
 | Layer | Role | Trust |
 |---|---|---|
 | **Proposer** | Generates candidate actions | Untrusted, unbounded |
-| **Governor (Tau)** | Evaluates candidates against policy | Trusted, bounded, deterministic |
+| **Governor (Policy on Tau Net)** | Evaluates candidates against policy | Trusted, bounded, deterministic |
 | **Executor** | Performs only approved actions | Guarded, single-path |
 
 The separation matters because it makes the safety claim local: you do not need to audit the proposer to trust the system. You only need to audit the governor and the execution boundary. A stronger or more creative proposer does not weaken safety, it can only propose more candidates for the gate to filter.
@@ -116,9 +116,9 @@ Objective configuration changes are gated by a cooldown: `can_update(now, cooldo
 
 The connection to [Tutorial 5, Part III]({{ '/tutorials/reformulation-and-gates/' | relative_url }}#canonicalizers-and-quotients-remove-redundant-degrees-of-freedom) is that the menu graph decomposes a continuous parameter space into a discrete lattice, and the objective function turns a multi-criteria optimization into a single deterministic score. Both are canonicalization moves that reduce the effective search space.
 
-## Part III: Tau gate and Policy Algebra rail
+## Part III: policy gate, Tau storage, and Policy Algebra rail
 
-Tau is the "Rules Decide" gate in MPRD. Every state transition on a trust boundary requires explicit, deterministic, fail-closed evaluation before execution.
+In MPRD, the gate is the policy itself. The canonical policy artifact is a Tau specification stored on Tau Net. Every state transition on a trust boundary requires explicit, deterministic, fail-closed policy evaluation before execution.
 
 Policy Algebra is the rail around that gate: it structures policy logic, canonicalizes it, and supports certification workflows (including Tau emission and semantic checks).
 
@@ -348,7 +348,7 @@ MPRD is this pattern instantiated for economic governance:
 | Loop role | MPRD component |
 |---|---|
 | **Proposer** | Algorithmic CEO (greedy/simplex planner over menu graph) |
-| **Gate** | Tau policy evaluation (fail-closed) |
+| **Gate** | Policy evaluation (Tau policy on Tau Net, fail-closed) |
 | **Witness** | Invariant rail violation (minimized counterexample trace) |
 | **Refinement** | PID controllers adjusting setpoints toward objectives |
 
