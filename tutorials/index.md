@@ -95,4 +95,14 @@ show_title: false
       diamond-rule engineering, and best-practice rails for safe, maintainable systems.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/predictive-reading-scramble-invariants/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 8: Predictive reading, scrambling, invariants, and proof</h2>
+    <p class="fp-card-text">
+      Build an interactive scrambler app, verify logic invariants, and separate formal proof
+      from empirical proof-by-witness about human predictive reading.
+    </p>
+  </a>
 </div>

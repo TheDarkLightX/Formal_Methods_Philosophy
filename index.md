@@ -123,6 +123,16 @@ show_title: false
     </a>
     <a
       class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/predictive-reading-scramble-invariants/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Tutorial 8: Predictive reading and scrambled text</h2>
+      <p class="fp-card-text">
+        An interactive app and scoped proof framework showing how invariants, ambiguity,
+        and context-based prediction fit together in human reading.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/glossary/' | relative_url }}"
     >
       <h2 class="fp-card-title">Glossary</h2>
