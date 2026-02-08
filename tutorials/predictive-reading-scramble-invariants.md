@@ -282,7 +282,13 @@ Experience pattern in humans (generalized):
 
 ```text
 For many humans, culturally loaded symbols can trigger rapid scene-level or narrative-level recall.
-The recall may include dialogue, emotional tone, social context, and time context.
+The recall may include multimodal detail from all five senses:
+- visual detail (scenes, faces, motion, color),
+- auditory detail (voices, lines, music, ambient sound),
+- olfactory detail (smells linked to place and event),
+- gustatory detail (taste cues when present),
+- somatosensory detail (touch, temperature, bodily state).
+The recall may also include emotional state, social context, and time context.
 The recalled material can then be manipulated: compressed into abstract symbols and viewed from
 multiple perspectives for reasoning and planning.
 ```
@@ -297,6 +303,7 @@ Important differences:
 - LLMs operate in tokenized vector spaces learned from text corpora,
 - human symbolic reasoning is tightly coupled to embodied world modeling,
 - humans can bind symbols to autobiographical memory traces and affective context,
+- humans can bind symbols to multisensory traces, not only text-like traces,
 - humans can view symbols from multiple socially grounded perspectives (empathy-linked simulation),
 - failure modes and generalization properties differ.
 
