@@ -227,9 +227,9 @@ Closest connection in spirit:
 ## Part VIII: deeper insight as author hypothesis
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Author hypothesis (Dana Edwards)</p>
+  <p class="fp-callout-title">Author hypothesis</p>
   <p>
-    Dana Edwards' hypothesis has two layers:
+    The hypothesis has two layers:
     (H1) humans and machines both read through prediction under uncertainty, and
     (H2) humans add a symbolic world-model layer that supports logic, abstraction, and compositional reasoning beyond local text decoding.
   </p>
@@ -239,6 +239,7 @@ Scope and caution:
 
 - This is a hypothesis, not a theorem proved in this tutorial.
 - The claim is structural similarity at the inference pattern level, not identity of mechanisms.
+- Assumption C (population-level): most humans can perform some cue-triggered autobiographical-symbolic recall for culturally familiar symbols, although intensity varies across people.
 
 One compact comparison:
 
@@ -276,6 +277,19 @@ for motif in franchise_motifs: blend(motif, current_plot)
 The hypothesis claim is that humans often perform an internal version of this compression-and-manipulation pipeline, sometimes as rapid recall of scenes, and sometimes as a higher-level abstract representation.
 
 In this framing, reading is not only decoding text. It is also integrating decoded meaning into a manipulable symbolic model.
+
+Experience pattern in humans (generalized):
+
+```text
+For many humans, culturally loaded symbols can trigger rapid scene-level or narrative-level recall.
+The recall may include dialogue, emotional tone, social context, and time context.
+The recalled material can then be manipulated: compressed into abstract symbols and viewed from
+multiple perspectives for reasoning and planning.
+```
+
+Scope note:
+
+- this is a population-level tendency claim, not a claim that every human has identical recall depth or speed.
 
 Important differences:
 
