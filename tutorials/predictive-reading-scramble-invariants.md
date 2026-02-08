@@ -229,8 +229,9 @@ Closest connection in spirit:
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Author hypothesis (Dana Edwards)</p>
   <p>
-    Dana Edwards' hypothesis is that human reading and LLM text processing share a common predictive core:
-    both recover meaning by combining partial local signal with context-dependent prediction.
+    Dana Edwards' hypothesis has two layers:
+    (H1) humans and machines both read through prediction under uncertainty, and
+    (H2) humans add a symbolic world-model layer that supports logic, abstraction, and compositional reasoning beyond local text decoding.
   </p>
 </div>
 
@@ -252,10 +253,20 @@ Shared pattern:
 - contextual prior resolves ambiguity,
 - prediction drives decoding.
 
+Human symbolic layer (claimed in H2):
+
+- stories can be compressed into symbols or concepts,
+- multiple stories can be mapped into an abstract symbol space,
+- symbols can be linked into an internal worldview (a structured concept graph),
+- operations can be performed over symbols (if-then rules, branching, iteration, composition).
+
+In this framing, reading is not only decoding text. It is also integrating decoded meaning into a manipulable symbolic model.
+
 Important differences:
 
 - humans use grounded multimodal cognition and biological perception,
 - LLMs operate in tokenized vector spaces learned from text corpora,
+- human symbolic reasoning is tightly coupled to embodied world modeling,
 - failure modes and generalization properties differ.
 
 Falsifiable predictions for this hypothesis:
@@ -263,6 +274,8 @@ Falsifiable predictions for this hypothesis:
 1. As scramble intensity rises, both humans and LLMs should rely more on context than local letter order.
 2. With weak context, both should show higher ambiguity/error on anagram-like collisions.
 3. Strengthening context should recover performance more than strengthening isolated token visibility.
+4. Tasks requiring compression of whole narratives into reusable symbols should favor systems with explicit world-model and reasoning scaffolds.
+5. Inference tasks requiring multi-step symbolic operations (rule chaining, branching, iterative refinement) should reveal a gap between pure next-token prediction and structured reasoning stacks.
 
 ## Part IX: what this proves, and what it does not prove
 
