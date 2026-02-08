@@ -91,9 +91,9 @@ The delivery stack is changing. Core accountability is not.
 | Success criterion | Reliable user outcomes | Reliable user outcomes |
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Author perspective</p>
+  <p class="fp-callout-title">Author perspective (Dana Edwards)</p>
   <p>
-    I am an agentic neuro-symbolic software engineer. I have programmed for more than 20 years. Most of that time was not full-time professional software engineering. The agentic era made tools a force multiplier that changed what consistent delivery looked like.
+    I am Dana Edwards, an agentic neuro-symbolic software engineer. I have programmed for more than 20 years. Most of that time was not full-time professional software engineering. The agentic era made tools a force multiplier that changed what consistent delivery looked like.
   </p>
 </div>
 

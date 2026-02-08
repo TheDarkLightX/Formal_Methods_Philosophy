@@ -227,9 +227,9 @@ Closest connection in spirit:
 ## Part VIII: deeper insight as author hypothesis
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Author hypothesis</p>
+  <p class="fp-callout-title">Author hypothesis (Dana Edwards)</p>
   <p>
-    My hypothesis is that human reading and LLM text processing share a common predictive core:
+    Dana Edwards' hypothesis is that human reading and LLM text processing share a common predictive core:
     both recover meaning by combining partial local signal with context-dependent prediction.
   </p>
 </div>
