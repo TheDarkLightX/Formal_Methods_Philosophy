@@ -296,6 +296,18 @@ multiple perspectives for reasoning and planning.
 Scope note:
 
 - this is a population-level tendency claim, not a claim that every human has identical recall depth or speed.
+- many humans report near-photographic recall for selected highlights, while not being able to replay an entire day with uniform detail.
+
+Assumption A3 (memory-selection hypothesis):
+
+- human memory is selective and compression-oriented, prioritizing salient or useful episodes over exhaustive continuous recording.
+
+Stress-test notes for A3:
+
+- emotionally intense or novel episodes are often retained with richer detail than routine intervals,
+- routine portions of a day are frequently sparsely encoded or later reconstructed,
+- many people cannot enumerate what was eaten on each day across past years, even when selected highlights are vivid,
+- vivid recall does not imply perfect recall, reconstruction errors and distortions still occur.
 
 Important differences:
 
