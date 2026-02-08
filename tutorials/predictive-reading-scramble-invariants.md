@@ -381,6 +381,44 @@ Terminology note:
 
 - many formal references use the word "belief" for uncertain world-model state, but this tutorial uses "world-model state" for readability.
 
+### Prediction from scientific world models vs LLM language models
+
+Assumption A7 (prediction target):
+
+- scientific world models aim to predict physical observables under explicit assumptions,
+- LLMs aim to predict token continuations under textual context.
+
+Compare and contrast:
+
+| Dimension | Human scientific prediction | LLM prediction |
+|-----------|-----------------------------|----------------|
+| **Model object** | Equations/theories about the physical world (for example, relativity, quantum theory) | Learned conditional distribution over tokens |
+| **Primary target** | Future or unobserved physical quantities | Next token and downstream text continuation |
+| **State representation** | World-model state with units, constraints, and causal structure | Context window of tokens and latent activations |
+| **Validation** | Measurement, experiment, replication, error bars | Held-out text performance, task accuracy, calibration tests |
+| **Failure mode** | Wrong assumptions, missing variables, model misspecification | Hallucination, context-window limits, spurious statistical patterns |
+
+Compact prediction forms:
+
+```text
+Scientific-model style (abstract):
+state_(t+1) = F_M(state_t, controls_t, disturbances_t)
+observable_t = H_M(state_t)
+
+LLM style:
+token_n ~ Decode(P_theta(token_n | token_1..token_(n-1), prompt, retrieved_context))
+```
+
+Concrete scope note for the physics example:
+
+- using equations such as E = mc^2 supports quantitative predictions inside the model's validity regime,
+- this does not imply exact prediction of the full future state of the entire universe at practical resolution.
+
+Interpretation:
+
+- humans can use world models to predict non-linguistic reality directly, then compare with experiment,
+- LLMs predict language directly, and can assist world prediction when connected to external models, tools, and data pipelines.
+
 ### Model-level vs system-level distinction
 
 To keep terms precise:
