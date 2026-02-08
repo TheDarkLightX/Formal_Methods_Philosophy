@@ -352,6 +352,46 @@ Stress-test notes for A4:
 - with multimodal training and tool use, some embodiment gaps can be reduced,
 - even then, parity with human autobiographical grounding remains an open empirical question.
 
+Thinking versus LLM inference (core distinction):
+
+Assumption A5 (terminology scope):
+
+- "thinking" refers to a control loop over beliefs, goals, values, and action options in a world model,
+- "LLM inference" refers to conditional token prediction and decoding over a context window.
+
+Operational contrast:
+
+```text
+Human thinking loop (abstract):
+observation -> belief update -> goal/constraint evaluation -> counterfactual simulation -> action selection -> new observation
+
+LLM inference loop (abstract):
+context tokens -> estimate next-token distribution -> decode token -> append token to context -> repeat
+```
+
+Compact formal sketches:
+
+```text
+Human-style control abstraction:
+belief_next = Update(belief, observation)
+action = argmax_a ExpectedUtility(a | belief, goals, constraints)
+
+LLM decoding abstraction:
+token_n ~ Decode(P_theta(token_n | token_1..token_(n-1), prompt, retrieved_context))
+```
+
+Why this matters in practice:
+
+- human thinking is coupled to embodied sensing, social stakes, and long-horizon life goals,
+- base LLM inference is local to the current token stream unless external planning and memory systems are attached,
+- human reasoning can run without producing words at every intermediate step, while LLM behavior is exposed as generated tokens.
+
+Stress-test notes for A5:
+
+- agentic stacks that add planners, tools, and memory can approximate parts of a human-like control loop,
+- humans also rely on fast heuristics and often do not run full explicit deliberation,
+- the boundary is architectural and degree-based, not a claim that one side always performs better on every task.
+
 Open question inside the hypothesis:
 
 - whether current LLMs build and manipulate cultural symbols with the same depth and stability as human world-model symbols remains unresolved.
