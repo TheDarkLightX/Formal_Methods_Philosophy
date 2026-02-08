@@ -1,39 +1,57 @@
 ---
-title: Predictive reading (scrambled words, invariants, proof, and app)
+title: "Predictive reading: scrambled words, invariants, and proof"
 layout: docs
 kicker: Tutorial 8
-description: An interactive word-scramble app plus a scoped proof that decoding scrambled words requires predictive context, not only local letter perception.
+description: An interactive word-scramble app and a scoped proof that decoding scrambled words requires contextual prediction, not letter perception alone.
 ---
 
-This tutorial builds a small app and uses it to make one precise claim:
+You can raed tihs snetcene esaliy, eevn tguohh the itenranl lttrees are jmulbed.
+Why does that work? And when does it *stop* working?
 
-- In a specific model of scrambled-word decoding, successful reading requires prediction from context.
+This tutorial builds a small interactive app and a pair of formal proofs to answer
+those questions precisely:
 
-The claim is scoped. It is not a full theory of human reading.
+> **Claim (scoped):** In a specific model of scrambled-word decoding, successful
+> reading requires prediction from context — not just local letter perception.
+
+The claim is deliberately narrow. It is not a full theory of human reading.
+It is one sharp result about one transformation.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Assumption hygiene (scope first)</p>
   <ul>
-    <li>Assumption A: the scrambling transformation preserves first letter, last letter, length, and letter multiset</li>
-    <li>Assumption B: some different words share those same preserved features</li>
-    <li>Conditional claim: if A and B hold, then local features are insufficient for unique decoding, and context-based prediction is required</li>
+    <li><strong>Assumption A:</strong> the scrambling transformation preserves first letter, last letter, length, and letter multiset</li>
+    <li><strong>Assumption B:</strong> some distinct words share those same preserved features</li>
+    <li><strong>Conditional claim:</strong> if A and B hold, then local features are insufficient for unique decoding, and context-based prediction is required</li>
   </ul>
 </div>
 
-## Part I: what is known, and what is not
+<figure class="fp-figure" style="margin-top: var(--space-lg)">
+  <p class="fp-figure-title">The scramble transformation at a glance</p>
+  {% include diagrams/scramble-invariants.svg %}
+  <figcaption class="fp-figure-caption">
+    Blue cells are boundary anchors (first and last letter) — they never move.
+    Orange cells are interior letters — they get shuffled by a random permutation.
+    All three invariants (length, boundary, letter multiset) are preserved by construction.
+  </figcaption>
+</figure>
 
-The viral "Cambridge study proves internal letters do not matter" meme overstates the result.
+## Part I: what is known — and what is not
+
+The viral "Cambridge study proves internal letters don't matter" meme overstates the evidence considerably.
 
 - Rawlinson's 1976 thesis is often cited as early evidence for robust word recognition under internal-letter perturbation.
-- Later experiments show readers can still read scrambled text, but with measurable cost.
+- Later experimental work (Rayner et al. 2006, Johnson & Eisler 2012) confirms readers *can* decode scrambled text — but with measurable cost in speed and accuracy.
 
-So the reliable statement is narrower:
+The defensible takeaway is narrower than the meme suggests:
 
 - readers tolerate certain perturbations,
-- reading performance degrades,
-- context and prediction help recover meaning.
+- reading performance degrades (it is not free),
+- context and prediction help recover meaning — this is the key lever.
 
-## Part II: app, scramble a paragraph but keep readability rails
+## Part II: app — scramble a paragraph while preserving readability
+
+The best way to build intuition is to try it yourself. The app below scrambles any paragraph you paste in, while keeping first and last letters fixed. Adjust the intensity slider and watch readability degrade.
 
 <div class="fp-card" style="padding: var(--space-lg); margin-top: var(--space-md)">
   <h3 class="fp-card-title">Predictive Reading Scrambler</h3>
@@ -84,7 +102,9 @@ So the reliable statement is narrower:
   </div>
 </div>
 
-## Part III: code example (from the app)
+## Part III: core scrambling logic
+
+Here is the core logic that powers the app above. It is deliberately minimal — a pure function with no side effects.
 
 ```javascript
 function scrambleWord(word, intensity, rng) {
@@ -109,9 +129,11 @@ function scrambleWord(word, intensity, rng) {
 }
 ```
 
-This function preserves boundaries and applies only a permutation to selected internal positions.
+The function preserves boundary letters by construction: the `for` loop starts at index `1` and stops before `chars.length - 1`, so indices `0` and `n-1` are never touched. The Fisher–Yates shuffle on the selected pool guarantees a uniformly random permutation — a bijection — which preserves the letter multiset.
 
 ## Part IV: invariants as logic statements
+
+Now we can state exactly what the transformation preserves. These are not empirical observations — they follow directly from how `T` is defined.
 
 For each word transformation `T(w) = w'`:
 
@@ -122,61 +144,92 @@ I3 (Multiset):    if len(w) >= 4 then bag(w') = bag(w)
 I4 (Non-word):    punctuation/whitespace tokens are unchanged
 ```
 
-The app checks these invariants at runtime and reports pass/fail.
+The app verifies these invariants at runtime and flags any violations.
 
-## Part V: two proof modes (formal and empirical)
+## Part V: two proof modes — formal and empirical
 
-This chapter uses two different notions of proof:
+This chapter relies on two distinct notions of proof:
 
-- **Formal proof:** proves properties of the scrambling transformation.
-- **Empirical proof-by-witness:** shows humans can read some scrambled sentences by observed successful reading/comprehension.
+- **Formal proof:** establishes properties of the scrambling transformation itself.
+- **Empirical proof-by-witness:** demonstrates that humans can read certain scrambled sentences, evidenced by observed comprehension.
 
 The app supports both:
 
 - invariant checks support the formal part,
 - human reading outcomes support the empirical part.
 
-### Part V.A formal proof (scoped model)
+### Part V.A: formal proof (scoped model)
 
 Model definitions:
 
 - Let `Sigma*` be strings over an alphabet.
 - For word `w = c0 c1 ... c(n-1)` with `n >= 4`, choose a subset `S` of internal indices `{1..n-2}`.
 - Let `pi` be a bijection on `S`.
-- Transformation `T` keeps positions not in `S` fixed and permutes characters at positions in `S` by `pi`.
+- Transformation `T` keeps positions outside `S` fixed and permutes characters at positions in `S` according to `pi`.
 
-### Theorem 1: invariants I1-I3 hold for all transformed words
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Theorem 1 — invariants I1–I3 hold for all transformed words</p>
+  <p><strong>Proof sketch:</strong></p>
+  <ol>
+    <li><code>T</code> only reassigns characters to existing positions, so length is unchanged (<strong>I1</strong>).</li>
+    <li>Indices <code>0</code> and <code>n-1</code> are never in <code>S</code>, so first and last letters are unchanged (<strong>I2</strong>).</li>
+    <li>A permutation is a bijection, so it preserves element counts in the permuted set. Non-permuted positions stay unchanged. Therefore the full letter multiset is preserved (<strong>I3</strong>). ∎</li>
+  </ol>
+</div>
 
-Proof sketch:
+### What the math means in plain language
 
-1. `T` only reassigns characters to existing positions, so length is unchanged (`I1`).
-2. Indices `0` and `n-1` are never in `S`, so first and last letters are unchanged (`I2`).
-3. A permutation is a bijection, so it preserves element counts in the permuted set. Non-permuted positions stay unchanged. Therefore the full letter multiset is preserved (`I3`).
+The formal model says: pick a word, leave the first and last letters alone, and rearrange some of the middle letters. The three invariants are precise ways of saying:
 
-QED.
+1. **Length is unchanged** — no letters are added or removed, so the scrambled word has the same number of characters.
+2. **Boundaries are unchanged** — the first and last letters stay put, which is why scrambled words still "look right" at a glance.
+3. **Letter inventory is unchanged** — the same letters are present in the same quantities, just in different positions. Think of it like shuffling cards within a fixed frame.
 
-### Theorem 2: context-free decoding is not sufficient in general
+The proof works because a permutation (a rearrangement) is a bijection — it moves things around without duplicating or losing any. If you shuffle five cards, you still have five cards, and each card appears exactly once.
 
-Define observation function:
+<div class="fp-callout fp-callout-warn" style="margin-top: var(--space-lg)">
+  <p class="fp-callout-title">Theorem 2 — context-free decoding is not sufficient in general</p>
+  <p>Define the observation function:</p>
+  <pre style="background:transparent; border:none; padding:0"><code>Obs(w) = (first(w), last(w), len(w), bag(w))</code></pre>
+  <p>
+    Assumption B gives at least one ambiguous pair <code>u ≠ v</code> with <code>Obs(u) = Obs(v)</code>.
+    Concrete example: <strong>salt</strong> and <strong>slat</strong>.
+  </p>
+  <p>
+    Suppose a decoder <code>D</code> uses only <code>Obs</code>.
+    Because <code>Obs(u) = Obs(v)</code>, we get <code>D(Obs(u)) = D(Obs(v))</code>.
+    So <code>D</code> cannot output both <code>u</code> and <code>v</code> correctly in their respective contexts.
+  </p>
+  <p>
+    Therefore, a successful decoder in ambiguous cases must use extra information
+    beyond <code>Obs</code> — such as sentence context or prior probability.
+    <strong>This is the predictive component.</strong> ∎
+  </p>
+</div>
 
-```text
-Obs(w) = (first(w), last(w), len(w), bag(w))
-```
+### What Theorem 2 means in plain language
 
-Assumption B gives at least one ambiguous pair `u != v` with `Obs(u) = Obs(v)`.
-Concrete example: `salt` and `slat`.
+Consider the words **salt** and **slat**. Both start with `s`, end with `t`, have 4 letters, and contain exactly `{a, l, s, t}`. If you scrambled either word, the result could look like `slat` or `salt` — and there is no way to tell which original was intended by looking at the scrambled letters alone.
 
-Suppose a decoder `D` uses only `Obs`.
-Because `Obs(u) = Obs(v)`, `D(Obs(u)) = D(Obs(v))`.
-So `D` cannot output both `u` and `v` correctly in their respective contexts.
+A reader (human or machine) that sees `slat` in isolation cannot know whether the writer meant "salt" or "slat." The only way to resolve the ambiguity is to use surrounding context: *"pass the slat"* almost certainly means *salt*, while *"a slat in the fence"* means *slat*.
 
-Therefore, a successful decoder in ambiguous cases must use extra information beyond `Obs`, such as sentence context or prior probability.
+This is not a contrived edge case. English has many such collisions: **calm** and **clam** (`c...m`, 4 letters, `{a, c, l, m}`), **trail** and **trial** (`t...l`, 5 letters, `{a, i, l, r, t}`), **united** and **untied** (`u...d`, 6 letters, `{d, e, i, n, t, u}`). The longer the dictionary, the more collisions appear.
 
-This is the predictive component.
+This is the core insight: **local letter features are not enough; prediction from context is required.**
 
-QED.
+<figure class="fp-figure" style="margin-top: var(--space-lg)">
+  <p class="fp-figure-title">Why context-free decoding fails</p>
+  {% include diagrams/obs-ambiguity.svg %}
+  <figcaption class="fp-figure-caption">
+    Two distinct words ("salt" and "slat") produce identical observations under Obs().
+    A context-free decoder D cannot distinguish them — sentence context is required
+    to resolve the ambiguity. This is the formal core of Theorem 2.
+  </figcaption>
+</figure>
 
-### Part V.B empirical proof-by-witness (human readability)
+### Part V.B: empirical proof-by-witness (human readability)
+
+Theorem 2 shows context is *logically necessary* in ambiguous cases. But can humans actually *use* that context in practice? This is an empirical question, and it requires a different kind of evidence.
 
 Statement under test:
 
@@ -189,22 +242,24 @@ with non-trivial success.
 Operational evidence protocol:
 
 ```text
-1. Choose corpus and scramble level alpha.
-2. Show transformed text to readers.
+1. Choose a corpus and scramble level alpha.
+2. Present the transformed text to readers.
 3. Measure at least one success metric:
    - comprehension questions,
    - word recovery accuracy,
-   - reading time vs baseline.
-4. If success is consistently above a pre-registered threshold, accept S for that scope.
+   - reading time vs. baseline.
+4. If success consistently exceeds a pre-registered threshold, accept S for that scope.
 ```
 
-In this empirical sense, a human successfully reading scrambled sentences is the witness. That witness is the proof event for the scoped statement.
+In this empirical sense, a human successfully reading scrambled sentences serves as the witness — that successful reading constitutes the proof event for the scoped claim.
 
-## Part VI: stress tests and failure modes
+## Part VI: stress tests and edge cases
 
-- If scrambling is too strong, readability collapses.
-- If text has many rare words or domain jargon, ambiguity rises.
-- If context is weak (short isolated tokens), predictive recovery drops.
+The scramble-and-read pipeline is not universally robust. Three failure modes are worth testing:
+
+- **Intensity too high:** at extreme scramble levels, even strong context cannot rescue reading — the signal-to-noise ratio collapses.
+- **Rare vocabulary:** domain jargon and uncommon words increase ambiguity because the reader's prior is weaker.
+- **Weak context:** short isolated tokens (labels, single-word captions) give the predictive system little to work with.
 
 App gate:
 
@@ -215,58 +270,73 @@ If invariants pass but readability is poor, adjust intensity or text domain.
 
 ## Part VII: relation to Godel-style results
 
-This is not a Godel-style theorem.
+This result is not a Godel-style incompleteness theorem — but there is a family resemblance worth noting.
 
-- Godel incompleteness is about limits of formal axiomatic systems.
-- This chapter combines a formal proof about a transformation with empirical evidence about human behavior.
+- Godel incompleteness concerns the limits of formal axiomatic systems: there exist true statements that no finite proof within the system can derive.
+- This chapter makes a narrower but structurally similar move: the formal model (Obs) provably cannot distinguish certain word pairs, so meaning recovery must come from outside the model — from context.
 
-Closest connection in spirit:
+The analogy is limited. Godel operates over arithmetic and self-reference; Theorem 2 operates over a specific observation function. But the shared shape is:
 
-- both separate "what can be derived inside a formal system" from "what is true in a broader semantic or empirical setting".
+- a formal system with definite boundaries,
+- a demonstration that some truths lie beyond those boundaries,
+- a pointer to where the extra information must come from.
 
 ## Part VIII: deeper insight as author hypothesis
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Author hypothesis</p>
+  <p class="fp-callout-title">Author hypothesis (not a theorem)</p>
   <p>
-    The hypothesis has two layers:
-    (H1) humans and machines both read through prediction under uncertainty, and
-    (H2) humans add a symbolic world-model layer that supports logic, abstraction, and compositional reasoning beyond local text decoding.
+    <strong>(H1)</strong> Humans and machines both read through prediction under uncertainty.<br/>
+    <strong>(H2)</strong> Humans add a symbolic world-model layer that supports logic, abstraction,
+    and compositional reasoning beyond local text decoding.
+  </p>
+  <p style="margin-top:8px; font-size:0.92em">
+    <strong>Scope:</strong> structural similarity at the inference-pattern level, not identity of mechanisms.
+    Assumption C (population-level): most humans can perform some cue-triggered autobiographical-symbolic recall
+    for culturally familiar symbols, though intensity varies across individuals.
   </p>
 </div>
 
-Scope and caution:
-
-- This is a hypothesis, not a theorem proved in this tutorial.
-- The claim is structural similarity at the inference pattern level, not identity of mechanisms.
-- Assumption C (population-level): most humans can perform some cue-triggered autobiographical-symbolic recall for culturally familiar symbols, although intensity varies across people.
-
-One compact comparison:
+At the core, both systems face the same decoding problem:
 
 ```text
-Human reading (roughly): infer intended word from letters + sentence context + world priors.
-LLM decoding: predict next token from token context + learned distributional priors.
+Human reading: infer the intended word from letters + sentence context + world priors.
+LLM decoding:  predict the next token from token context + learned distributional priors.
 ```
 
-Shared pattern:
+Shared pattern: uncertainty in local signal → contextual prior resolves ambiguity → prediction drives decoding.
 
-- uncertainty in local signal,
-- contextual prior resolves ambiguity,
-- prediction drives decoding.
+### What LLMs can — and cannot — do here
 
-Human symbolic layer (claimed in H2):
+An LLM reading scrambled text faces the same ambiguity problem as a human reader, but resolves it differently.
 
-- stories can be compressed into symbols or concepts,
-- multiple stories can be mapped into an abstract symbol space,
-- symbols can be linked into an internal worldview (a structured concept graph),
-- operations can be performed over symbols (if-then rules, branching, iteration, composition).
+**What LLMs can do well:**
 
-Concrete cultural-symbol example (H2):
+- **Contextual prediction.** LLMs excel at using surrounding tokens to predict the most likely intended word. Given "pass the slat," an LLM's learned distribution strongly favors "salt" — the same disambiguation a human performs.
+- **Pattern completion at scale.** Because LLMs have been trained on vast corpora, they carry implicit frequency priors. Common words and phrases are recovered more reliably than rare ones, mirroring human behavior.
+- **Robustness to mild scrambling.** Tokenizers may split scrambled words into subword pieces, but the attention mechanism can still recover meaning from context when scrambling is moderate.
 
-- Example source story: *A Nightmare on Elm Street*.
-- Example compressed symbol: `FREDDY_GLOVE`.
-- Human interpretation is not only the token itself. The symbol can carry genre priors (horror), character identity, scenes, mood, and narrative constraints.
-- In a hypothetical entertainment programming language, symbols of this type could be composed and manipulated as semantic units:
+**Where LLMs fall short:**
+
+- **No grounded world model.** A human reading "pass the salt" can draw on embodied experience — the weight of a salt shaker, the taste of salt, a dinner scene. An LLM resolves the ambiguity statistically, without sensory grounding.
+- **Brittle under heavy scrambling.** As scramble intensity rises, tokenization breaks down. A heavily scrambled word may become out-of-vocabulary tokens that the model cannot recover, even with strong context.
+- **No stable symbolic compression.** Humans compress entire narratives into reusable symbols (as described in H2). LLMs do not maintain persistent symbolic representations across conversations — each context window is a fresh start unless external memory is attached.
+- **Context window boundary.** Human predictive reading draws on a lifetime of priors. LLM prediction is bounded by the context window and the statistical patterns frozen at training time.
+
+### Where humans go further (H2)
+
+The hypothesis claims humans add a symbolic layer on top of prediction:
+
+- stories compress into symbols or concepts,
+- symbols link into a structured concept graph (an internal worldview),
+- operations run over symbols (if-then rules, branching, iteration, composition),
+- symbols bind to autobiographical memory, affect, and multisensory traces (all five senses, emotional state, social context).
+
+Concrete cultural-symbol example:
+
+- Source story: *A Nightmare on Elm Street*.
+- Compressed symbol: `FREDDY_GLOVE`.
+- The symbol carries genre priors (horror), character identity, scenes, mood, and narrative constraints — not just the token itself.
 
 ```text
 if symbol == FREDDY_GLOVE then tone := HORROR
@@ -274,150 +344,113 @@ if audience_age < threshold then reduce_intensity()
 for motif in franchise_motifs: blend(motif, current_plot)
 ```
 
-The hypothesis claim is that humans often perform an internal version of this compression-and-manipulation pipeline, sometimes as rapid recall of scenes, and sometimes as a higher-level abstract representation.
+The hypothesis is that humans routinely perform an internal version of this compress-and-manipulate pipeline — sometimes as rapid scene-level recall, sometimes as higher-level abstract reasoning. In this framing, reading goes beyond text decoding: it integrates decoded meaning into a symbolic model that can be inspected and manipulated.
 
-In this framing, reading is not only decoding text. It is also integrating decoded meaning into a manipulable symbolic model.
+### Human cognition vs. LLM inference
 
-Experience pattern in humans (generalized):
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Scoping assumptions</p>
+  <ul>
+    <li><strong>A3 (memory selection):</strong> human memory is selective and compression-oriented, prioritizing salient episodes over exhaustive recording. Vivid recall for highlights coexists with sparse encoding of routine intervals.</li>
+    <li><strong>A4 (LLM scope):</strong> the comparison target is a text-first autoregressive transformer at inference time, without direct sensorimotor embodiment.</li>
+    <li><strong>A5 (terminology):</strong> "thinking" = control loop over world-model state, goals, and actions; "LLM inference" = conditional token prediction over a context window.</li>
+  </ul>
+</div>
 
-```text
-For many humans, culturally loaded symbols can trigger rapid scene-level or narrative-level recall.
-The recall may include multimodal detail from all five senses:
-- visual detail (scenes, faces, motion, color),
-- auditory detail (voices, lines, music, ambient sound),
-- olfactory detail (smells linked to place and event),
-- gustatory detail (taste cues when present),
-- somatosensory detail (touch, temperature, bodily state).
-The recall may also include emotional state, social context, and time context.
-The recalled material can then be manipulated: compressed into abstract symbols and viewed from
-multiple perspectives for reasoning and planning.
-```
+LLM inference in brief: input text → tokens → vectors → layered attention + MLP → probability distribution `P(t_n | t_1..t_{n-1})` → decoding rule selects next token → repeat.
 
-Scope note:
-
-- this is a population-level tendency claim, not a claim that every human has identical recall depth or speed.
-- many humans report near-photographic recall for selected highlights, while not being able to replay an entire day with uniform detail.
-
-Assumption A3 (memory-selection hypothesis):
-
-- human memory is selective and compression-oriented, prioritizing salient or useful episodes over exhaustive continuous recording.
-
-Stress-test notes for A3:
-
-- emotionally intense or novel episodes are often retained with richer detail than routine intervals,
-- routine portions of a day are frequently sparsely encoded or later reconstructed,
-- many people cannot enumerate what was eaten on each day across past years, even when selected highlights are vivid,
-- vivid recall does not imply perfect recall, reconstruction errors and distortions still occur.
-
-Important differences:
-
-- humans use grounded multimodal cognition and biological perception,
-- LLMs operate in tokenized vector spaces learned from text corpora,
-- human symbolic reasoning is tightly coupled to embodied world modeling,
-- humans can bind symbols to autobiographical memory traces and affective context,
-- humans can bind symbols to multisensory traces, not only text-like traces,
-- humans can view symbols from multiple socially grounded perspectives (empathy-linked simulation),
-- failure modes and generalization properties differ.
-
-How LLMs process text (model-scoped):
-
-Assumption A4 (LLM model in scope):
-
-- the comparison target is a text-first autoregressive transformer at inference time, without direct sensorimotor embodiment.
-
-Mechanistic summary:
-
-1. Input text is converted to tokens (subword units).
-2. Tokens are mapped to vectors and processed through layered attention and MLP blocks.
-3. The model computes a probability distribution over the next token from prior context.
-4. A decoding rule (greedy, top-k, nucleus sampling, temperature control) selects the next token.
-5. The process repeats token by token until a stop condition is reached.
-
-Compact formula (plain-text form):
-
-```text
-Given context tokens t1..t(n-1), the model estimates P(tn | t1..t(n-1)).
-```
-
-Why the difference is stark:
-
-- human perception starts from a continuous stream across vision, hearing, touch, smell, and taste, while LLM input is discrete token sequences,
-- human recall can include embodied and affective traces, while base LLM recall is context-window bounded unless external memory systems are attached,
-- humans can bind symbols to lived events and social stakes, while LLM symbol grounding is primarily statistical unless tool feedback loops are provided,
-- humans can revisit a memory from multiple socially situated viewpoints, while LLM viewpoint shifts are generated from learned textual patterns.
-
-Stress-test notes for A4:
-
-- with retrieval tools and memory layers, LLM systems can emulate parts of persistent recall behavior,
-- with multimodal training and tool use, some embodiment gaps can be reduced,
-- even then, parity with human autobiographical grounding remains an open empirical question.
-
-Thinking versus LLM inference (core distinction):
-
-Assumption A5 (terminology scope):
-
-- "thinking" refers to a control loop over beliefs, goals, values, and action options in a world model,
-- "LLM inference" refers to conditional token prediction and decoding over a context window.
-
-Operational contrast:
-
-```text
-Human thinking loop (abstract):
-observation -> belief update -> goal/constraint evaluation -> counterfactual simulation -> action selection -> new observation
-
-LLM inference loop (abstract):
-context tokens -> estimate next-token distribution -> decode token -> append token to context -> repeat
-```
+| Dimension | Human cognition | LLM inference |
+|-----------|----------------|---------------|
+| **Input** | Continuous multimodal stream (vision, hearing, touch, smell, taste) | Discrete token sequences |
+| **Memory** | Autobiographical, affective, embodied, persistent | Context-window bounded (unless external memory attached) |
+| **Symbol grounding** | Lived events, social stakes, multisensory traces | Statistical co-occurrence (unless tool feedback loops provided) |
+| **Perspective** | Multiple socially situated viewpoints (empathy-linked) | Generated from learned textual patterns |
+| **Control loop** | Observation → world-model state update → goal evaluation → counterfactual simulation → action | Context → next-token distribution → decode → append → repeat |
+| **Intermediate steps** | Reasoning can proceed without producing words | Behavior exposed as generated tokens |
 
 Compact formal sketches:
 
 ```text
-Human-style control abstraction:
-belief_next = Update(belief, observation)
-action = argmax_a ExpectedUtility(a | belief, goals, constraints)
+Human-style:  wm_state_next = Update(wm_state, observation)
+              action = argmax_a ExpectedUtility(a | wm_state, goals, constraints)
 
-LLM decoding abstraction:
-token_n ~ Decode(P_theta(token_n | token_1..token_(n-1), prompt, retrieved_context))
+LLM-style:    token_n ~ Decode(P_theta(token_n | token_1..token_(n-1), prompt))
 ```
 
-Why this matters in practice:
+Terminology note:
 
-- human thinking is coupled to embodied sensing, social stakes, and long-horizon life goals,
-- base LLM inference is local to the current token stream unless external planning and memory systems are attached,
-- human reasoning can run without producing words at every intermediate step, while LLM behavior is exposed as generated tokens.
+- many formal references use the word "belief" for uncertain world-model state, but this tutorial uses "world-model state" for readability.
 
-Stress-test notes for A5:
+### Model-level vs system-level distinction
 
-- agentic stacks that add planners, tools, and memory can approximate parts of a human-like control loop,
-- humans also rely on fast heuristics and often do not run full explicit deliberation,
-- the boundary is architectural and degree-based, not a claim that one side always performs better on every task.
+To keep terms precise:
 
-Open question inside the hypothesis:
+- model-level LLM behavior is next-token inference,
+- system-level behavior can include planning, memory, tools, and policy constraints around the model.
 
-- whether current LLMs build and manipulate cultural symbols with the same depth and stability as human world-model symbols remains unresolved.
+Assumption A6 (intervention criterion):
 
-Falsifiable predictions for this hypothesis:
+- a process is counted as task-level thinking only if controlled changes in goals, constraints, or world-model assumptions produce systematic policy changes, not only stylistic text changes.
+
+Minimal intervention checks:
+
+1. Goal-flip check: keep observations fixed, change only the goal, verify action policy changes in the expected direction.
+2. Constraint-tightening check: keep goals fixed, tighten safety constraints, verify previously allowed actions are blocked.
+3. Counterfactual check: modify one causal assumption in the world model, verify downstream plan revisions are coherent.
+
+Compact objective contrast:
+
+```text
+Human-style control objective (abstract):
+choose policy pi to maximize expected long-horizon utility under goals and constraints.
+
+Model-level LLM objective at inference:
+choose next token with high conditional probability under P_theta(. | context).
+```
+
+Practical reading of the distinction:
+
+- an LLM can produce text that describes a plan,
+- an agentic stack can execute a plan with tools and memory,
+- human cognition integrates planning with embodied perception and lived value structure.
+
+### Stress-test notes
+
+- Agentic stacks with planners, tools, and memory can approximate parts of a human-like control loop.
+- Multimodal training and tool use can reduce some embodiment gaps.
+- Humans also rely on fast heuristics and often skip full deliberation.
+- Even with retrieval tools and memory layers, parity with human autobiographical grounding remains an open empirical question.
+- The boundary is architectural and degree-based, not a claim that one side always outperforms on every task.
+- Whether current LLMs build and manipulate cultural symbols with the same depth and stability as human world-model symbols remains unresolved.
+
+### Falsifiable predictions
 
 1. As scramble intensity rises, both humans and LLMs should rely more on context than local letter order.
-2. With weak context, both should show higher ambiguity/error on anagram-like collisions.
+2. With weak context, both should exhibit higher ambiguity and error rates on anagram-like collisions.
 3. Strengthening context should recover performance more than strengthening isolated token visibility.
-4. Tasks requiring compression of whole narratives into reusable symbols should favor systems with explicit world-model and reasoning scaffolds.
-5. Inference tasks requiring multi-step symbolic operations (rule chaining, branching, iterative refinement) should reveal a gap between pure next-token prediction and structured reasoning stacks.
-6. Cue-triggered retrieval tasks with autobiographical and affective binding should show stronger and more stable human recall than text-only model recall.
+4. Tasks requiring narrative-to-symbol compression should favor systems with explicit world-model scaffolds.
+5. Multi-step symbolic operations (rule chaining, branching, iterative refinement) should reveal a gap between pure next-token prediction and structured reasoning.
+6. Cue-triggered retrieval with autobiographical and affective binding should show stronger human recall than text-only model recall.
 
-## Part IX: what this proves, and what it does not prove
+## Part IX: what this proves — and what it does not
 
-Proved in this tutorial:
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Summary</p>
+  <p><strong>Proved in this tutorial:</strong></p>
+  <ul>
+    <li>the scrambling transformation preserves formal invariants (Theorem 1),</li>
+    <li>the observation map is non-injective in realistic cases — multiple words can look identical after scrambling,</li>
+    <li>disambiguation therefore requires contextual prediction (Theorem 2).</li>
+  </ul>
+  <p style="margin-top:8px"><strong>Not proved here:</strong></p>
+  <ul>
+    <li>a full cognitive or neural theory of reading,</li>
+    <li>exact predictive mechanisms in the brain,</li>
+    <li>universal readability guarantees for all languages or scripts.</li>
+  </ul>
+</div>
 
-- the scrambling transformation preserves formal invariants,
-- the observation map is non-injective in realistic cases,
-- disambiguation requires contextual prediction in those cases.
-
-Not proved here:
-
-- a full cognitive or neural theory of reading,
-- exact predictive mechanisms in the brain,
-- universal readability guarantees for all languages or scripts.
+The gap between "proved" and "not proved" is the honest boundary of this tutorial. The formal results are tight. Everything beyond them — including the author hypothesis in Part VIII — is clearly labeled as conjecture.
 
 ## References
 

@@ -1,0 +1,116 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 380"
+  role="img"
+  aria-labelledby="fp-obs-title fp-obs-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-obs-title">Observation-function ambiguity between "salt" and "slat"</title>
+  <desc id="fp-obs-desc">
+    Two distinct words map through the observation function to the same tuple,
+    so a context-free decoder cannot distinguish them.
+  </desc>
+
+  <defs>
+    <filter id="fp-obs-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.08" />
+    </filter>
+    <marker id="fp-arrow-obs" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+    <marker id="fp-arrow-obs-orange" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#F97316" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <!-- ─── Word cards (left) ─── -->
+  <g filter="url(#fp-obs-shadow)">
+    <rect x="30" y="40" width="180" height="80" rx="20" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="60" y="70" font-size="12" font-weight="700" fill="#475569"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">word u</text>
+    <text x="60" y="100" font-size="28" font-weight="900" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">"salt"</text>
+  </g>
+
+  <g filter="url(#fp-obs-shadow)">
+    <rect x="30" y="260" width="180" height="80" rx="20" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="60" y="290" font-size="12" font-weight="700" fill="#475569"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">word v</text>
+    <text x="60" y="320" font-size="28" font-weight="900" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">"slat"</text>
+  </g>
+
+  <!-- ─── Converging arrows ─── -->
+  <path d="M210,80 C 270,80 290,155 340,165"
+        stroke="#3B82F6" stroke-width="3" fill="none"
+        marker-end="url(#fp-arrow-obs)" stroke-linecap="round" />
+  <path d="M210,300 C 270,300 290,220 340,210"
+        stroke="#3B82F6" stroke-width="3" fill="none"
+        marker-end="url(#fp-arrow-obs)" stroke-linecap="round" />
+
+  <!-- ─── Obs() label ─── -->
+  <text x="248" y="175" font-size="14" font-weight="900" fill="#3B82F6"
+        font-family="Atkinson Hyperlegible, system-ui, sans-serif">Obs()</text>
+
+  <!-- ─── Observation tuple (center) ─── -->
+  <g filter="url(#fp-obs-shadow)">
+    <rect x="350" y="130" width="240" height="120" rx="22" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="380" y="165" font-size="13" font-weight="900" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">Same observation</text>
+
+    <rect x="370" y="178" width="200" height="50" rx="14"
+          fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.26)" />
+    <text x="390" y="198" font-size="13" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">first = s, last = t</text>
+    <text x="390" y="218" font-size="13" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">len = 4, bag = {a,l,s,t}</text>
+  </g>
+
+  <!-- ─── Arrow to decoder ─── -->
+  <line x1="590" y1="190" x2="660" y2="190"
+        stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-arrow-obs)" stroke-linecap="round" />
+
+  <!-- ─── Decoder box ─── -->
+  <g filter="url(#fp-obs-shadow)">
+    <rect x="670" y="40" width="260" height="100" rx="22" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="700" y="72" font-size="13" font-weight="900" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">Context-free decoder D</text>
+
+    <rect x="690" y="86" width="220" height="36" rx="12"
+          fill="rgba(239,68,68,0.08)" stroke="rgba(239,68,68,0.22)" />
+    <text x="710" y="110" font-size="14" font-weight="700" fill="#DC2626"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">D(Obs) = ???  ambiguous</text>
+  </g>
+
+  <!-- ─── Arrow from decoder to context ─── -->
+  <line x1="800" y1="140" x2="800" y2="210"
+        stroke="#F97316" stroke-width="3" stroke-dasharray="8 4"
+        marker-end="url(#fp-arrow-obs-orange)" stroke-linecap="round" />
+
+  <!-- ─── Context resolution box ─── -->
+  <g filter="url(#fp-obs-shadow)">
+    <rect x="670" y="230" width="260" height="120" rx="22" fill="#FFFFFF" stroke="#E2E8F0" />
+    <text x="700" y="262" font-size="13" font-weight="900" fill="#F97316"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">Context resolves ambiguity</text>
+
+    <text x="700" y="290" font-size="13" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      "Pass the ___"
+    </text>
+    <text x="852" y="290" font-size="13" font-weight="700" fill="#3B82F6"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">→ salt</text>
+
+    <text x="700" y="316" font-size="13" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      "A ___ of wood"
+    </text>
+    <text x="852" y="316" font-size="13" font-weight="700" fill="#3B82F6"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">→ slat</text>
+  </g>
+
+  <!-- ─── u ≠ v label ─── -->
+  <text x="95" y="195" font-size="16" font-weight="900" fill="#475569"
+        font-family="Atkinson Hyperlegible, system-ui, sans-serif">u ≠ v</text>
+  <text x="55" y="218" font-size="11" fill="#475569"
+        font-family="Atkinson Hyperlegible, system-ui, sans-serif">but Obs(u) = Obs(v)</text>
+</svg>
