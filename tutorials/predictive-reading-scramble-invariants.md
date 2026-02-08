@@ -224,7 +224,47 @@ Closest connection in spirit:
 
 - both separate "what can be derived inside a formal system" from "what is true in a broader semantic or empirical setting".
 
-## Part VIII: what this proves, and what it does not prove
+## Part VIII: deeper insight as author hypothesis
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Author hypothesis</p>
+  <p>
+    My hypothesis is that human reading and LLM text processing share a common predictive core:
+    both recover meaning by combining partial local signal with context-dependent prediction.
+  </p>
+</div>
+
+Scope and caution:
+
+- This is a hypothesis, not a theorem proved in this tutorial.
+- The claim is structural similarity at the inference pattern level, not identity of mechanisms.
+
+One compact comparison:
+
+```text
+Human reading (roughly): infer intended word from letters + sentence context + world priors.
+LLM decoding: predict next token from token context + learned distributional priors.
+```
+
+Shared pattern:
+
+- uncertainty in local signal,
+- contextual prior resolves ambiguity,
+- prediction drives decoding.
+
+Important differences:
+
+- humans use grounded multimodal cognition and biological perception,
+- LLMs operate in tokenized vector spaces learned from text corpora,
+- failure modes and generalization properties differ.
+
+Falsifiable predictions for this hypothesis:
+
+1. As scramble intensity rises, both humans and LLMs should rely more on context than local letter order.
+2. With weak context, both should show higher ambiguity/error on anagram-like collisions.
+3. Strengthening context should recover performance more than strengthening isolated token visibility.
+
+## Part IX: what this proves, and what it does not prove
 
 Proved in this tutorial:
 
