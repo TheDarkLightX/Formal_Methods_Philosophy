@@ -260,6 +260,21 @@ Human symbolic layer (claimed in H2):
 - symbols can be linked into an internal worldview (a structured concept graph),
 - operations can be performed over symbols (if-then rules, branching, iteration, composition).
 
+Concrete cultural-symbol example (H2):
+
+- Example source story: *A Nightmare on Elm Street*.
+- Example compressed symbol: `FREDDY_GLOVE`.
+- Human interpretation is not only the token itself. The symbol can carry genre priors (horror), character identity, scenes, mood, and narrative constraints.
+- In a hypothetical entertainment programming language, symbols of this type could be composed and manipulated as semantic units:
+
+```text
+if symbol == FREDDY_GLOVE then tone := HORROR
+if audience_age < threshold then reduce_intensity()
+for motif in franchise_motifs: blend(motif, current_plot)
+```
+
+The hypothesis claim is that humans often perform an internal version of this compression-and-manipulation pipeline, sometimes as rapid recall of scenes, and sometimes as a higher-level abstract representation.
+
 In this framing, reading is not only decoding text. It is also integrating decoded meaning into a manipulable symbolic model.
 
 Important differences:
@@ -268,6 +283,10 @@ Important differences:
 - LLMs operate in tokenized vector spaces learned from text corpora,
 - human symbolic reasoning is tightly coupled to embodied world modeling,
 - failure modes and generalization properties differ.
+
+Open question inside the hypothesis:
+
+- whether current LLMs build and manipulate cultural symbols with the same depth and stability as human world-model symbols remains unresolved.
 
 Falsifiable predictions for this hypothesis:
 
