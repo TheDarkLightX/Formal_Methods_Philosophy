@@ -277,11 +277,27 @@ The hypothesis claim is that humans often perform an internal version of this co
 
 In this framing, reading is not only decoding text. It is also integrating decoded meaning into a manipulable symbolic model.
 
+Author experience report (Dana Edwards):
+
+```text
+When a symbol like Freddy's glove is seen, scene-level or whole-movie recall can occur almost instantly.
+The recall can include dialogue, emotion, social context (who was present), time context (night, age),
+and can remain available decades later. The recalled material can then be transformed: compressed,
+reframed from multiple perspectives (empathy), and used in abstract symbolic operations.
+```
+
+Interpretation boundary:
+
+- this report is first-person experiential evidence, not a universal claim about every reader.
+- the hypothesis is that this kind of reflexive autobiographical-symbolic coupling is a key part of human world modeling.
+
 Important differences:
 
 - humans use grounded multimodal cognition and biological perception,
 - LLMs operate in tokenized vector spaces learned from text corpora,
 - human symbolic reasoning is tightly coupled to embodied world modeling,
+- humans can bind symbols to autobiographical memory traces and affective context,
+- humans can shift viewpoint across socially grounded perspectives (empathy-linked simulation),
 - failure modes and generalization properties differ.
 
 Open question inside the hypothesis:
@@ -295,6 +311,7 @@ Falsifiable predictions for this hypothesis:
 3. Strengthening context should recover performance more than strengthening isolated token visibility.
 4. Tasks requiring compression of whole narratives into reusable symbols should favor systems with explicit world-model and reasoning scaffolds.
 5. Inference tasks requiring multi-step symbolic operations (rule chaining, branching, iterative refinement) should reveal a gap between pure next-token prediction and structured reasoning stacks.
+6. Cue-triggered retrieval tasks with autobiographical and affective binding should show stronger and more stable human recall than text-only model recall.
 
 ## Part IX: what this proves, and what it does not prove
 
