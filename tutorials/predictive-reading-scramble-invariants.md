@@ -319,6 +319,39 @@ Important differences:
 - humans can view symbols from multiple socially grounded perspectives (empathy-linked simulation),
 - failure modes and generalization properties differ.
 
+How LLMs process text (model-scoped):
+
+Assumption A4 (LLM model in scope):
+
+- the comparison target is a text-first autoregressive transformer at inference time, without direct sensorimotor embodiment.
+
+Mechanistic summary:
+
+1. Input text is converted to tokens (subword units).
+2. Tokens are mapped to vectors and processed through layered attention and MLP blocks.
+3. The model computes a probability distribution over the next token from prior context.
+4. A decoding rule (greedy, top-k, nucleus sampling, temperature control) selects the next token.
+5. The process repeats token by token until a stop condition is reached.
+
+Compact formula (plain-text form):
+
+```text
+Given context tokens t1..t(n-1), the model estimates P(tn | t1..t(n-1)).
+```
+
+Why the difference is stark:
+
+- human perception starts from a continuous stream across vision, hearing, touch, smell, and taste, while LLM input is discrete token sequences,
+- human recall can include embodied and affective traces, while base LLM recall is context-window bounded unless external memory systems are attached,
+- humans can bind symbols to lived events and social stakes, while LLM symbol grounding is primarily statistical unless tool feedback loops are provided,
+- humans can revisit a memory from multiple socially situated viewpoints, while LLM viewpoint shifts are generated from learned textual patterns.
+
+Stress-test notes for A4:
+
+- with retrieval tools and memory layers, LLM systems can emulate parts of persistent recall behavior,
+- with multimodal training and tool use, some embodiment gaps can be reduced,
+- even then, parity with human autobiographical grounding remains an open empirical question.
+
 Open question inside the hypothesis:
 
 - whether current LLMs build and manipulate cultural symbols with the same depth and stability as human world-model symbols remains unresolved.
