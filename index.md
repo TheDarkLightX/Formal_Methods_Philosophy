@@ -133,6 +133,16 @@ show_title: false
     </a>
     <a
       class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/prompt-engineering-precision-communication/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Tutorial 9: Prompt engineering and precision communication</h2>
+      <p class="fp-card-text">
+        Precision communication for the agentic era. Make constraints explicit, use representation changes
+        when the direct route is intractable, and transpile controlled language into a structured spec.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/glossary/' | relative_url }}"
     >
       <h2 class="fp-card-title">Glossary</h2>

@@ -105,4 +105,14 @@ show_title: false
       from empirical proof-by-witness about human predictive reading.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/prompt-engineering-precision-communication/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 9: Prompt engineering and precision communication</h2>
+    <p class="fp-card-text">
+      Reduce ambiguity by making structure explicit. Compare bad and good prompts, connect reformulation
+      to state explosion, and try a small transpiler demo that turns controlled language into specs.
+    </p>
+  </a>
 </div>
