@@ -99,7 +99,7 @@ This tutorial uses a controlled subset of Lojban for the demo. It relies on a fe
 
 It is not a general Lojban parser. It is a small, intentionally constrained format designed to be easy to transpile into structured specs.
 
-## Part IV: a high precision prompt template (keyboard-friendly)
+## Part IV: a high precision prompt template
 
 The following prompt expresses the "change of representation" move without math symbols.
 It is meant to be typed and read aloud.
@@ -463,6 +463,91 @@ In formal methods language, this is a refinement loop:
   </p>
 </div>
 
+## Part IX: build a prompt optimizer (app)
+
+A prompt optimizer is not a magic phrase generator. It is a small engineering loop:
+
+1. represent the prompt as structured fields,
+2. emit a canonical prompt from those fields,
+3. evaluate on a small suite of cases,
+4. refine constraints and checks until behavior is stable enough for the scope.
+
+This page includes a small browser demo that does the first two steps deterministically. It lints an input prompt for missing structure, then rewrites it into a standard template.
+
+Limits:
+
+- the demo cannot infer missing requirements,
+- the rewrite improves clarity, but it does not certify correctness,
+- the only reliable notion of "better" comes from explicit checks.
+
+### Demo: Prompt Optimizer (template and lint)
+
+<div class="fp-card" style="padding: var(--space-lg); margin-top: var(--space-md)">
+  <h3 class="fp-card-title">Prompt Optimizer (demo)</h3>
+  <p class="fp-card-text">
+    A deterministic prompt linter and template rewrite.
+    It does not call a language model. It only surfaces missing structure and emits a canonical template.
+  </p>
+
+  <label for="po-input" style="display:block; font-weight:600; margin-top:12px">Input prompt</label>
+  <textarea id="po-input" rows="10" style="width:100%; margin-top:6px"></textarea>
+
+  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px">
+    <button id="po-run" type="button">Optimize</button>
+    <button id="po-reset" type="button">Reset sample</button>
+    <button id="po-copy" type="button">Copy output</button>
+  </div>
+
+  <label for="po-output" style="display:block; font-weight:600; margin-top:12px">Optimized prompt</label>
+  <textarea id="po-output" rows="14" readonly style="width:100%; margin-top:6px"></textarea>
+
+  <pre id="po-notes" style="margin-top:12px; white-space:pre-wrap"></pre>
+</div>
+
+### How the optimizer works (implementation sketch)
+
+The demo implements two passes:
+
+- a **lint** pass that checks for missing elements (constraints, checks, output format),
+- a **rewrite** pass that emits a prompt with standard sections and explicit placeholders.
+
+In pseudocode:
+
+```text
+input_prompt -> lint -> warnings
+input_prompt -> rewrite -> optimized_prompt_template
+```
+
+Minimal implementation steps:
+
+1. Add UI elements with stable IDs (`po-input`, `po-output`, `po-run`, `po-notes`).
+2. Implement two pure functions, `lint(prompt)` and `rewrite(prompt)`.
+3. Wire a button click to run lint plus rewrite and render the output.
+4. Include the script with a deferred tag at the bottom of the page.
+
+Core loop (simplified):
+
+```javascript
+const run = () => {
+  const prompt = input.value || "";
+  const { warnings } = lint(prompt);
+  output.value = rewrite(prompt);
+  notes.textContent = warnings.map((w) => `- ${w}`).join("\n");
+};
+```
+
+### Extending to automatic optimization with a model (optional)
+
+Fully automatic optimization can wrap the same idea around a model that proposes rewrites:
+
+1. generate N candidate prompt rewrites,
+2. run each candidate on the same test cases,
+3. score outputs with a rubric,
+4. keep the best prompt, repeat for K rounds.
+
+This is an engineering loop. It is only as reliable as the evaluation suite and the rubric.
+For safety, keep API keys out of client-side code and call the model through a small server-side proxy, or run locally.
+
 ## References (optional starting points)
 
 - Lojban overview: <https://lojban.org/>
@@ -470,3 +555,4 @@ In formal methods language, this is a refinement loop:
 - Karl Popper, *Conjectures and Refutations* (science as conjecture plus attempted refutation).
 
 <script src="{{ '/assets/js/prompt-precision.js' | relative_url }}" defer></script>
+<script src="{{ '/assets/js/prompt-optimizer.js' | relative_url }}" defer></script>
