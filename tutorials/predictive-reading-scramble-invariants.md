@@ -6,23 +6,26 @@ description: An interactive word-scramble app and a scoped proof that decoding s
 ---
 
 You can raed tihs snetcene esaliy, eevn tguohh the itenranl lttrees are jmulbed.
-Why does that work? And when does it *stop* working?
+Why does that work, and when does it *stop* working?
 
-This tutorial builds a small interactive app and a pair of formal proofs to answer
-those questions precisely:
+This tutorial does two things:
 
-> **Claim (scoped):** In a specific model of scrambled-word decoding, successful
-> reading requires prediction from context — not just local letter perception.
+1. Build an interactive scrambler that checks invariants as it runs.
+2. Prove a small impossibility result about decoding.
 
-The claim is deliberately narrow. It is not a full theory of human reading.
-It is one sharp result about one transformation.
+> **Claim (scoped):** In the model defined here, local letter features are not enough
+> to uniquely decode every scrambled word. In ambiguous cases, a successful decoder
+> must use additional information, such as sentence context or prior probabilities.
+
+This is not a full theory of human reading. It is a narrow claim about one
+transformation and one observation function.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Assumption hygiene (scope first)</p>
   <ul>
-    <li><strong>Assumption A:</strong> the scrambling transformation preserves first letter, last letter, length, and letter multiset</li>
-    <li><strong>Assumption B:</strong> some distinct words share those same preserved features</li>
-    <li><strong>Conditional claim:</strong> if A and B hold, then local features are insufficient for unique decoding, and context-based prediction is required</li>
+    <li><strong>Assumption A:</strong> the scrambler preserves first letter, last letter, length, and letter multiset (a "bag of letters")</li>
+    <li><strong>Assumption B:</strong> there exist distinct words with the same preserved features (a collision)</li>
+    <li><strong>Conditional claim:</strong> if A and B hold, then those local features cannot uniquely determine the intended word, and disambiguation requires extra information (for example, sentence context)</li>
   </ul>
 </div>
 
@@ -30,34 +33,38 @@ It is one sharp result about one transformation.
   <p class="fp-figure-title">The scramble transformation at a glance</p>
   {% include diagrams/scramble-invariants.svg %}
   <figcaption class="fp-figure-caption">
-    Blue cells are boundary anchors (first and last letter) — they never move.
-    Orange cells are interior letters — they get shuffled by a random permutation.
+    Blue cells are boundary anchors (first and last letter). They never move.
+    Orange cells are interior letters. They get shuffled by a permutation.
     All three invariants (length, boundary, letter multiset) are preserved by construction.
   </figcaption>
 </figure>
 
-## Part I: what is known — and what is not
+## Part I: what is known, and what is not
 
 The viral "Cambridge study proves internal letters don't matter" meme overstates the evidence considerably.
 
 - Rawlinson's 1976 thesis is often cited as early evidence for robust word recognition under internal-letter perturbation.
-- Later experimental work (Rayner et al. 2006, Johnson & Eisler 2012) confirms readers *can* decode scrambled text — but with measurable cost in speed and accuracy.
+- Later experimental work (Rayner et al. 2006, Johnson & Eisler 2012) confirms that readers *can* decode scrambled text, but with measurable costs in speed and accuracy.
 
 The defensible takeaway is narrower than the meme suggests:
 
 - readers tolerate certain perturbations,
 - reading performance degrades (it is not free),
-- context and prediction help recover meaning — this is the key lever.
+- context and prediction help recover meaning (this is the key lever).
 
-## Part II: app — scramble a paragraph while preserving readability
+This tutorial uses that background as motivation. The formal results below are about
+the scrambler and its invariants, not a general cognitive model of reading.
 
-The best way to build intuition is to try it yourself. The app below scrambles any paragraph you paste in, while keeping first and last letters fixed. Adjust the intensity slider and watch readability degrade.
+## Part II: app, scramble a paragraph while preserving readability
+
+The app below lets the transformation be explored directly. Paste a paragraph, set a
+scramble probability and a seed, and then compare the output with the invariant checks.
 
 <div class="fp-card" style="padding: var(--space-lg); margin-top: var(--space-md)">
   <h3 class="fp-card-title">Predictive Reading Scrambler</h3>
   <p class="fp-card-text">
-    Paste text, adjust scramble intensity, and inspect invariant checks.
-    The app keeps first and last letters fixed for words of length 4 or more.
+    Paste text, set scramble probability, and inspect invariant checks.
+    Eligible tokens are alphabetic words with length 4 or more. Punctuation and whitespace stay fixed.
   </p>
 
   <label for="pr-input" style="display:block; font-weight:600; margin-top:12px">Input paragraph</label>
@@ -65,12 +72,12 @@ The best way to build intuition is to try it yourself. The app below scrambles a
 
   <div style="display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); margin-top:12px">
     <div>
-      <label for="pr-intensity" style="display:block; font-weight:600">Scramble intensity</label>
+      <label for="pr-intensity" style="display:block; font-weight:600">Scramble probability</label>
       <input id="pr-intensity" type="range" min="0" max="100" step="1" value="65" style="width:100%" />
-      <div class="fp-card-text"><span id="pr-intensity-value">65</span>% internal-position shuffle probability</div>
+      <div class="fp-card-text"><span id="pr-intensity-value">65</span>% chance to scramble an eligible word</div>
     </div>
     <div>
-      <label for="pr-seed" style="display:block; font-weight:600">Seed (deterministic runs)</label>
+      <label for="pr-seed" style="display:block; font-weight:600">Seed (repeatable runs)</label>
       <input id="pr-seed" type="number" value="42" style="width:100%" />
     </div>
   </div>
@@ -104,36 +111,51 @@ The best way to build intuition is to try it yourself. The app below scrambles a
 
 ## Part III: core scrambling logic
 
-Here is the core logic that powers the app above. It is deliberately minimal — a pure function with no side effects.
+Here is the core logic used by the app above. It is a pure function given its RNG.
+`scrambleProb` is a probability in `[0, 1]`.
 
 ```javascript
-function scrambleWord(word, intensity, rng) {
+const scrambleWord = (word, scrambleProb, rng) => {
   if (word.length <= 3) return word;
+  if (rng() >= scrambleProb) return word;
 
   const chars = word.split("");
-  const positions = [];
-  for (let i = 1; i < chars.length - 1; i += 1) {
-    if (rng() < intensity) positions.push(i);
-  }
-  if (positions.length < 2) return word;
+  const start = 1;
+  const end = chars.length - 1;
+  const n = end - start;
+  if (n < 2) return word;
 
-  const pool = positions.map((i) => chars[i]);
+  const pool = chars.slice(start, end);
   for (let i = pool.length - 1; i > 0; i -= 1) {
     const j = Math.floor(rng() * (i + 1));
     [pool[i], pool[j]] = [pool[j], pool[i]];
   }
-  positions.forEach((pos, k) => {
-    chars[pos] = pool[k];
-  });
+
+  for (let i = 0; i < pool.length; i += 1) {
+    chars[start + i] = pool[i];
+  }
+
+  // Avoid no-op shuffles when possible.
+  if (chars.join("") === word && pool.length > 1) {
+    const first = chars[start];
+    for (let i = start; i < end - 1; i += 1) {
+      chars[i] = chars[i + 1];
+    }
+    chars[end - 1] = first;
+  }
+
   return chars.join("");
-}
+};
 ```
 
-The function preserves boundary letters by construction: the `for` loop starts at index `1` and stops before `chars.length - 1`, so indices `0` and `n-1` are never touched. The Fisher–Yates shuffle on the selected pool guarantees a uniformly random permutation — a bijection — which preserves the letter multiset.
+The function preserves boundary letters by construction. It only shuffles the slice
+from index `1` through `chars.length - 2`, so the first and last characters are never
+changed. The Fisher-Yates shuffle produces a permutation (a bijection), which preserves
+the letter multiset.
 
 ## Part IV: invariants as logic statements
 
-Now we can state exactly what the transformation preserves. These are not empirical observations — they follow directly from how `T` is defined.
+Now we can state exactly what the transformation preserves. These are not empirical observations; they follow directly from how `T` is defined.
 
 For each word transformation `T(w) = w'`:
 
@@ -146,7 +168,7 @@ I4 (Non-word):    punctuation/whitespace tokens are unchanged
 
 The app verifies these invariants at runtime and flags any violations.
 
-## Part V: two proof modes — formal and empirical
+## Part V: two proof modes (formal and empirical)
 
 This chapter relies on two distinct notions of proof:
 
@@ -163,17 +185,17 @@ The app supports both:
 Model definitions:
 
 - Let `Sigma*` be strings over an alphabet.
-- For word `w = c0 c1 ... c(n-1)` with `n >= 4`, choose a subset `S` of internal indices `{1..n-2}`.
-- Let `pi` be a bijection on `S`.
-- Transformation `T` keeps positions outside `S` fixed and permutes characters at positions in `S` according to `pi`.
+- For word `w = c0 c1 ... c(n-1)` with `n >= 4`, choose a permutation `pi` of the interior indices `{1..n-2}`.
+- Transformation `T` keeps indices `0` and `n-1` fixed and permutes the interior according to `pi`.
+- In the app, the scramble probability slider controls whether `T` applies a non-identity permutation to a word on a given run.
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Theorem 1 — invariants I1–I3 hold for all transformed words</p>
+  <p class="fp-callout-title">Theorem 1: invariants I1 through I3 hold for all transformed words</p>
   <p><strong>Proof sketch:</strong></p>
   <ol>
     <li><code>T</code> only reassigns characters to existing positions, so length is unchanged (<strong>I1</strong>).</li>
-    <li>Indices <code>0</code> and <code>n-1</code> are never in <code>S</code>, so first and last letters are unchanged (<strong>I2</strong>).</li>
-    <li>A permutation is a bijection, so it preserves element counts in the permuted set. Non-permuted positions stay unchanged. Therefore the full letter multiset is preserved (<strong>I3</strong>). ∎</li>
+    <li>Indices <code>0</code> and <code>n-1</code> are fixed by definition, so first and last letters are unchanged (<strong>I2</strong>).</li>
+    <li>A permutation is a bijection, so it preserves element counts in the permuted positions. Therefore the full letter multiset is preserved (<strong>I3</strong>). ∎</li>
   </ol>
 </div>
 
@@ -181,14 +203,14 @@ Model definitions:
 
 The formal model says: pick a word, leave the first and last letters alone, and rearrange some of the middle letters. The three invariants are precise ways of saying:
 
-1. **Length is unchanged** — no letters are added or removed, so the scrambled word has the same number of characters.
-2. **Boundaries are unchanged** — the first and last letters stay put, which is why scrambled words still "look right" at a glance.
-3. **Letter inventory is unchanged** — the same letters are present in the same quantities, just in different positions. Think of it like shuffling cards within a fixed frame.
+1. **Length is unchanged.** No letters are added or removed, so the scrambled word has the same number of characters.
+2. **Boundaries are unchanged.** The first and last letters stay put, which is why scrambled words still "look right" at a glance.
+3. **Letter inventory is unchanged.** The same letters are present in the same quantities, just in different positions. Think of it like shuffling cards within a fixed frame.
 
-The proof works because a permutation (a rearrangement) is a bijection — it moves things around without duplicating or losing any. If you shuffle five cards, you still have five cards, and each card appears exactly once.
+The proof works because a permutation (a rearrangement) is a bijection: it moves things around without duplicating or losing any. If you shuffle five cards, you still have five cards, and each card appears exactly once.
 
 <div class="fp-callout fp-callout-warn" style="margin-top: var(--space-lg)">
-  <p class="fp-callout-title">Theorem 2 — context-free decoding is not sufficient in general</p>
+  <p class="fp-callout-title">Theorem 2: context-free decoding is not sufficient in general</p>
   <p>Define the observation function:</p>
   <pre style="background:transparent; border:none; padding:0"><code>Obs(w) = (first(w), last(w), len(w), bag(w))</code></pre>
   <p>
@@ -202,18 +224,18 @@ The proof works because a permutation (a rearrangement) is a bijection — it mo
   </p>
   <p>
     Therefore, a successful decoder in ambiguous cases must use extra information
-    beyond <code>Obs</code> — such as sentence context or prior probability.
+    beyond <code>Obs</code>, such as sentence context or prior probability.
     <strong>This is the predictive component.</strong> ∎
   </p>
 </div>
 
 ### What Theorem 2 means in plain language
 
-Consider the words **salt** and **slat**. Both start with `s`, end with `t`, have 4 letters, and contain exactly `{a, l, s, t}`. If you scrambled either word, the result could look like `slat` or `salt` — and there is no way to tell which original was intended by looking at the scrambled letters alone.
+Consider the words **salt** and **slat**. Both start with `s`, end with `t`, have 4 letters, and contain exactly `{a, l, s, t}`. If you scrambled either word, the result could look like `slat` or `salt`, and there is no way to tell which original was intended by looking at the scrambled letters alone.
 
-A reader (human or machine) that sees `slat` in isolation cannot know whether the writer meant "salt" or "slat." The only way to resolve the ambiguity is to use surrounding context: *"pass the slat"* almost certainly means *salt*, while *"a slat in the fence"* means *slat*.
+A reader (human or machine) that sees `slat` in isolation cannot know whether the writer meant "salt" or "slat." The ambiguity can be resolved using context: in *"add the slat to taste"*, the intended word is almost certainly *salt*, while in *"a slat in the fence"*, it is *slat*.
 
-This is not a contrived edge case. English has many such collisions: **calm** and **clam** (`c...m`, 4 letters, `{a, c, l, m}`), **trail** and **trial** (`t...l`, 5 letters, `{a, i, l, r, t}`), **united** and **untied** (`u...d`, 6 letters, `{d, e, i, n, t, u}`). The longer the dictionary, the more collisions appear.
+This is not a contrived edge case. English has many such collisions: **calm** and **clam** (`c...m`, 4 letters, `{a, c, l, m}`), **trail** and **trial** (`t...l`, 5 letters, `{a, i, l, r, t}`), **united** and **untied** (`u...d`, 6 letters, `{d, e, i, n, t, u}`). As the candidate vocabulary grows, collisions become more likely.
 
 This is the core insight: **local letter features are not enough; prediction from context is required.**
 
@@ -222,7 +244,7 @@ This is the core insight: **local letter features are not enough; prediction fro
   {% include diagrams/obs-ambiguity.svg %}
   <figcaption class="fp-figure-caption">
     Two distinct words ("salt" and "slat") produce identical observations under Obs().
-    A context-free decoder D cannot distinguish them — sentence context is required
+    A context-free decoder D cannot distinguish them, so sentence context is required
     to resolve the ambiguity. This is the formal core of Theorem 2.
   </figcaption>
 </figure>
@@ -251,13 +273,13 @@ Operational evidence protocol:
 4. If success consistently exceeds a pre-registered threshold, accept S for that scope.
 ```
 
-In this empirical sense, a human successfully reading scrambled sentences serves as the witness — that successful reading constitutes the proof event for the scoped claim.
+In this mode, the witness is measured success on the task (for example, comprehension above a pre-registered threshold) for the stated scope.
 
 ## Part VI: stress tests and edge cases
 
 The scramble-and-read pipeline is not universally robust. Three failure modes are worth testing:
 
-- **Intensity too high:** at extreme scramble levels, even strong context cannot rescue reading — the signal-to-noise ratio collapses.
+- **Scramble probability too high:** at extreme scramble levels, even strong context cannot rescue reading. The signal-to-noise ratio collapses.
 - **Rare vocabulary:** domain jargon and uncommon words increase ambiguity because the reader's prior is weaker.
 - **Weak context:** short isolated tokens (labels, single-word captions) give the predictive system little to work with.
 
@@ -265,15 +287,16 @@ App gate:
 
 ```text
 If invariant checks fail, the transformation implementation is wrong.
-If invariants pass but readability is poor, adjust intensity or text domain.
+If invariants pass but readability is poor, adjust scramble probability or text domain.
 ```
 
-## Part VII: relation to Godel-style results
+## Part VII: Godel and the limits of a model
 
-This result is not a Godel-style incompleteness theorem — but there is a family resemblance worth noting.
+Godel's incompleteness theorems are about the limits of formal axiomatic systems. The result in this tutorial is
+smaller in scope, but it has a family resemblance worth noting.
 
 - Godel incompleteness concerns the limits of formal axiomatic systems: there exist true statements that no finite proof within the system can derive.
-- This chapter makes a narrower but structurally similar move: the formal model (Obs) provably cannot distinguish certain word pairs, so meaning recovery must come from outside the model — from context.
+- This chapter makes a narrower but structurally similar move: the formal model (Obs) provably cannot distinguish certain word pairs, so meaning recovery must come from outside the model, from context.
 
 The analogy is limited. Godel operates over arithmetic and self-reference; Theorem 2 operates over a specific observation function. But the shared shape is:
 
@@ -281,23 +304,22 @@ The analogy is limited. Godel operates over arithmetic and self-reference; Theor
 - a demonstration that some truths lie beyond those boundaries,
 - a pointer to where the extra information must come from.
 
-## Part VIII: deeper insight as author hypothesis
+## Part VIII: discussion, beyond the formal model (optional)
+
+This tutorial's formal content ends at Theorem 2. The rest of this section is interpretation and open questions.
+It is included because Theorem 2 has a useful general shape: if a model throws away information (Obs is many-to-one),
+then a successful decoder must supply extra information, often in the form of priors and context.
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Author hypothesis (not a theorem)</p>
-  <p>
-    <strong>(H1)</strong> Humans and machines both read through prediction under uncertainty.<br/>
-    <strong>(H2)</strong> Humans add a symbolic world-model layer that supports logic, abstraction,
-    and compositional reasoning beyond local text decoding.
-  </p>
+  <p class="fp-callout-title">Discussion note (not proved here)</p>
   <p style="margin-top:8px; font-size:0.92em">
-    <strong>Scope:</strong> structural similarity at the inference-pattern level, not identity of mechanisms.
-    Assumption C (population-level): most humans can perform some cue-triggered autobiographical-symbolic recall
-    for culturally familiar symbols, though intensity varies across individuals.
+    Theorem 2 is a statement about an observation function and an impossibility of unique decoding from that
+    observation alone. It does not, by itself, identify a mechanism in the brain, or a mechanism in a language model.
+    Mechanism claims require separate empirical evidence.
   </p>
 </div>
 
-At the core, both systems face the same decoding problem:
+At a high level, both human reading and language-model decoding can be framed as inference under uncertainty:
 
 ```text
 Human reading: infer the intended word from letters + sentence context + world priors.
@@ -306,26 +328,26 @@ LLM decoding:  predict the next token from token context + learned distributiona
 
 Shared pattern: uncertainty in local signal → contextual prior resolves ambiguity → prediction drives decoding.
 
-### What LLMs can — and cannot — do here
+### What LLMs can (and cannot) do here
 
 An LLM reading scrambled text faces the same ambiguity problem as a human reader, but resolves it differently.
 
 **What LLMs can do well:**
 
-- **Contextual prediction.** LLMs excel at using surrounding tokens to predict the most likely intended word. Given "pass the slat," an LLM's learned distribution strongly favors "salt" — the same disambiguation a human performs.
-- **Pattern completion at scale.** Because LLMs have been trained on vast corpora, they carry implicit frequency priors. Common words and phrases are recovered more reliably than rare ones, mirroring human behavior.
-- **Robustness to mild scrambling.** Tokenizers may split scrambled words into subword pieces, but the attention mechanism can still recover meaning from context when scrambling is moderate.
+- **Contextual prediction.** LLMs can use surrounding tokens to predict the most likely intended word. Given "add the slat to taste", a model's learned distribution strongly favors "salt", the same disambiguation a reader performs.
+- **Pattern completion at scale.** Because LLMs have been trained on large corpora, they carry frequency priors. Common words and phrases are recovered more reliably than rare ones.
+- **Robustness to mild scrambling.** Tokenizers may split scrambled words into subword pieces, but attention can still recover meaning from context when scrambling is moderate.
 
 **Where LLMs fall short:**
 
-- **No grounded world model.** A human reading "pass the salt" can draw on embodied experience — the weight of a salt shaker, the taste of salt, a dinner scene. An LLM resolves the ambiguity statistically, without sensory grounding.
-- **Brittle under heavy scrambling.** As scramble intensity rises, tokenization breaks down. A heavily scrambled word may become out-of-vocabulary tokens that the model cannot recover, even with strong context.
-- **No stable symbolic compression.** Humans compress entire narratives into reusable symbols (as described in H2). LLMs do not maintain persistent symbolic representations across conversations — each context window is a fresh start unless external memory is attached.
-- **Context window boundary.** Human predictive reading draws on a lifetime of priors. LLM prediction is bounded by the context window and the statistical patterns frozen at training time.
+- **Limited grounding.** A human reading "pass the salt" can draw on embodied experience, such as a dinner scene and the feel of a salt shaker. A language model resolves the ambiguity through learned statistical associations, unless it is connected to tools or sensory inputs.
+- **Brittle under heavy scrambling.** As scrambling increases, the word can be split into unusual token fragments. Recovery becomes harder, even with strong surrounding context.
+- **No persistent symbolic state.** In the base model, there is no durable memory across conversations. Each run starts from the prompt unless external memory is added.
+- **Context window boundary.** Human reading draws on a lifetime of experience. A model's immediate conditioning is bounded by its context window, with longer-term priors implicit in its trained parameters.
 
-### Where humans go further (H2)
+### Where humans go further (open hypothesis, not proved here)
 
-The hypothesis claims humans add a symbolic layer on top of prediction:
+One hypothesis is that reading often includes an integration step beyond local decoding:
 
 - stories compress into symbols or concepts,
 - symbols link into a structured concept graph (an internal worldview),
@@ -336,7 +358,7 @@ Concrete cultural-symbol example:
 
 - Source story: *A Nightmare on Elm Street*.
 - Compressed symbol: `FREDDY_GLOVE`.
-- The symbol carries genre priors (horror), character identity, scenes, mood, and narrative constraints — not just the token itself.
+- The symbol carries genre priors (horror), character identity, scenes, mood, and narrative constraints, not just the token itself.
 
 ```text
 if symbol == FREDDY_GLOVE then tone := HORROR
@@ -344,7 +366,8 @@ if audience_age < threshold then reduce_intensity()
 for motif in franchise_motifs: blend(motif, current_plot)
 ```
 
-The hypothesis is that humans routinely perform an internal version of this compress-and-manipulate pipeline — sometimes as rapid scene-level recall, sometimes as higher-level abstract reasoning. In this framing, reading goes beyond text decoding: it integrates decoded meaning into a symbolic model that can be inspected and manipulated.
+This is a conjectured mechanism-level story, not a result of Theorem 2. It is included to make one structural point:
+decoding can be the first step in a longer pipeline that updates and queries a world-model.
 
 ### Human cognition vs. LLM inference
 
@@ -392,7 +415,7 @@ Compare and contrast:
 
 | Dimension | Human scientific prediction | LLM prediction |
 |-----------|-----------------------------|----------------|
-| **Model object** | Equations/theories about the physical world (for example, relativity, quantum theory) | Learned conditional distribution over tokens |
+| **Model object** | Equations or theories about the physical world (for example, relativity, quantum theory) | Learned conditional distribution over tokens |
 | **Primary target** | Future or unobserved physical quantities | Next token and downstream text continuation |
 | **State representation** | World-model state with units, constraints, and causal structure | Context window of tokens and latent activations |
 | **Validation** | Measurement, experiment, replication, error bars | Held-out text performance, task accuracy, calibration tests |
@@ -454,30 +477,30 @@ Practical reading of the distinction:
 
 ### Stress-test notes
 
-- Agentic stacks with planners, tools, and memory can approximate parts of a human-like control loop.
-- Multimodal training and tool use can reduce some embodiment gaps.
-- Humans also rely on fast heuristics and often skip full deliberation.
-- Even with retrieval tools and memory layers, parity with human autobiographical grounding remains an open empirical question.
-- The boundary is architectural and degree-based, not a claim that one side always outperforms on every task.
-- Whether current LLMs build and manipulate cultural symbols with the same depth and stability as human world-model symbols remains unresolved.
+- agentic stacks with planners, tools, and memory can approximate parts of a human-like control loop,
+- multimodal training and tool use can reduce some embodiment gaps,
+- humans also rely on fast heuristics and often skip full deliberation,
+- even with retrieval tools and memory layers, parity with human autobiographical grounding remains an open empirical question,
+- the boundary is architectural and degree-based, not a claim that one side always outperforms on every task,
+- whether current LLMs build and manipulate cultural symbols with the same depth and stability as human world-model symbols remains unresolved.
 
-### Falsifiable predictions
+### Falsifiable predictions (for this discussion section)
 
-1. As scramble intensity rises, both humans and LLMs should rely more on context than local letter order.
+1. As scramble probability rises, both humans and LLMs should rely more on context than local letter order.
 2. With weak context, both should exhibit higher ambiguity and error rates on anagram-like collisions.
 3. Strengthening context should recover performance more than strengthening isolated token visibility.
 4. Tasks requiring narrative-to-symbol compression should favor systems with explicit world-model scaffolds.
 5. Multi-step symbolic operations (rule chaining, branching, iterative refinement) should reveal a gap between pure next-token prediction and structured reasoning.
 6. Cue-triggered retrieval with autobiographical and affective binding should show stronger human recall than text-only model recall.
 
-## Part IX: what this proves — and what it does not
+## Part IX: what this proves, and what it does not
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Summary</p>
   <p><strong>Proved in this tutorial:</strong></p>
   <ul>
     <li>the scrambling transformation preserves formal invariants (Theorem 1),</li>
-    <li>the observation map is non-injective in realistic cases — multiple words can look identical after scrambling,</li>
+    <li>the observation map is not one-to-one in realistic cases: multiple words can look identical after scrambling,</li>
     <li>disambiguation therefore requires contextual prediction (Theorem 2).</li>
   </ul>
   <p style="margin-top:8px"><strong>Not proved here:</strong></p>
@@ -488,7 +511,7 @@ Practical reading of the distinction:
   </ul>
 </div>
 
-The gap between "proved" and "not proved" is the honest boundary of this tutorial. The formal results are tight. Everything beyond them — including the author hypothesis in Part VIII — is clearly labeled as conjecture.
+The gap between "proved" and "not proved" is the honest boundary of this tutorial. The formal results are tight. Everything outside that scope requires separate evidence.
 
 ## References
 
