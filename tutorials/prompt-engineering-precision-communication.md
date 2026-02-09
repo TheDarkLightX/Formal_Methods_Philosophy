@@ -448,13 +448,13 @@ In formal methods language, this is a refinement loop:
 - use counterexamples (bad outputs) as refuters that force the next refinement.
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Science as selection</p>
+  <p class="fp-callout-title">Science as selection (author quote)</p>
   <p>
     "Survival of the fittest hypothesis is the rule of science."
   </p>
   <p style="margin-top:8px; font-size:0.92em">
-    <strong>Clarification:</strong> a more precise version is: hypotheses compete by making predictions and surviving
-    strong attempts at refutation. Survivors are kept provisionally, within the scope of the tests run so far.
+    <strong>Clarification:</strong> one more precise formulation is that hypotheses compete by making predictions and
+    surviving strong attempts at refutation. Survivors are kept provisionally, within the scope of the tests run so far.
   </p>
   <p style="margin-top:8px; font-size:0.92em">
     <strong>Connection:</strong> this framing matches Karl Popper's emphasis on falsifiability and on progress by
