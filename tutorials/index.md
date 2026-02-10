@@ -115,4 +115,14 @@ show_title: false
       to state explosion, and try a small transpiler demo that turns controlled language into specs.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/reasoning-connectionism-gofai/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 10: Reasoning, logic, and prediction</h2>
+    <p class="fp-card-text">
+      What reasoning is, why statistical learning cannot in principle produce logical validity,
+      and why even approximate logic from a neural network cannot match a dedicated solver.
+    </p>
+  </a>
 </div>

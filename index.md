@@ -143,6 +143,16 @@ show_title: false
     </a>
     <a
       class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/reasoning-connectionism-gofai/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Tutorial 10: Reasoning, logic, and prediction</h2>
+      <p class="fp-card-text">
+        Two competing hypotheses about whether LLMs reason. Define reasoning, explain the GOFAI versus
+        connectionism split, and connect the debate to checkable gates and refuters.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/glossary/' | relative_url }}"
     >
       <h2 class="fp-card-title">Glossary</h2>
