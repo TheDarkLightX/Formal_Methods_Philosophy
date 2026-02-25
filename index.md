@@ -153,6 +153,26 @@ show_title: false
     </a>
     <a
       class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/church-synthesis-problem/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Tutorial 11: Attacking hard problems with Church's synthesis problem</h2>
+      <p class="fp-card-text">
+        Define Church synthesis precisely, trace what is decidable, then use a decomposition-plus-invariants
+        workflow to run systematic, falsifiable attempts against the complexity wall.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/llms-not-agi-meaning-and-concepts/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Tutorial 12: Why current LLMs are not yet AGI</h2>
+      <p class="fp-card-text">
+        A scoped argument for the conceptual gap: strong language-pattern modeling is not yet
+        the same as stable meaning creation, concept invention, or meaning-preserving formalization.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/glossary/' | relative_url }}"
     >
       <h2 class="fp-card-title">Glossary</h2>
