@@ -39,7 +39,7 @@ The claim is framed so it can be stress-tested:
   </p>
 </div>
 
-An everyday example helps separate these cases. Emoji such as `😭`, `🥲`, or `💀` do not work for humans because everyone memorized a perfect dictionary. They work because people already share overlapping emotional, social, and contextual patterns, then repair the exact meaning in conversation. A model like an LLM can often track the usage pattern very well, but it does so by inferring likely roles from surrounding symbols and community conventions. That is useful, but it is still borrowed meaning. By contrast, mathematical objects such as zero or $i$ illustrate structural grounding: they earn their place by stabilizing a role inside a formal system.
+An everyday example makes the contrast easier to see. When one person sends another `😭`, `🥲`, or `💀`, there is usually no need for a formal legend. The symbol works because both people already know something about grief, embarrassment, tenderness, exaggeration, irony, and social tone, then they adjust from context if the meaning is a little off. An LLM can often follow that public pattern of use, sometimes very well, but it does so by modeling which symbols tend to appear in which situations. That is useful, but it is still borrowed meaning. Mathematical objects such as zero or $i$ are different again: they do not lean on shared feeling, they earn their meaning by holding a stable role inside a formal system.
 
 ## Part I: syntax vs. semantics (the two layers of math)
 
