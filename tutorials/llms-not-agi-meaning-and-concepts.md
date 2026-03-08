@@ -101,6 +101,13 @@ The crucial point is that this is not only a story about sensation. In mathemati
 ### 1) Representational Leverage (Galois)
 Galois stopped looking at the *values* of roots and started looking at the *structure* of their permutations. This was not a better algorithm. It was a better abstraction. LLMs are often excellent at following existing abstractions, but proposing new abstractions is harder to validate without an external loop of tests, counterexamples, or proofs.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Why Galois matters here</p>
+  <p>
+    Galois is not just a famous name in a textbook. He died at 20, in 1832, after political turmoil, imprisonment, and the duel that cut his life short. Before that, he helped settle a problem that had haunted algebra for centuries. Abel had already shown that there is no general solution by radicals for the quintic. Galois made the deeper move: he explained exactly when a polynomial <em>is</em> solvable by radicals by changing the object of study itself, from roots and formulas to the symmetries acting on them. That is the kind of achievement this tutorial is pointing at. It is not just symbolic fluency. It is the creation of a new conceptual object, made precise enough to reorganize an entire field.
+  </p>
+</div>
+
 What this example shows is representational leverage. It does not show that only humans can ever do it. It does show that the hard part is not just deriving within a framework, but creating the framework that later derivations live inside.
 
 ### 2) The Simulation Prime (Einstein)
