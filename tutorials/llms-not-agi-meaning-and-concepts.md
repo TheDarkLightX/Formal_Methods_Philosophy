@@ -39,7 +39,9 @@ The claim is framed so it can be stress-tested:
   </p>
 </div>
 
-An everyday example makes the contrast easier to see. When one person sends another `😭`, `🥲`, or `💀`, there is usually no need for a formal legend. The symbol works because both people already know something about grief, embarrassment, tenderness, exaggeration, irony, and social tone, then they adjust from context if the meaning is a little off. An LLM can often follow that public pattern of use, sometimes very well, but it does so by modeling which symbols tend to appear in which situations. That is useful, but it is still borrowed meaning. Mathematical objects such as zero or $i$ are different again: they do not lean on shared feeling, they earn their meaning by holding a stable role inside a formal system.
+An everyday example makes the contrast easier to see. When one person sends another `😭`, `🥲`, or `💀`, there is usually no need for a formal legend. The symbol works because both people already know something about grief, embarrassment, tenderness, exaggeration, irony, and social tone, then they adjust from context if the meaning is a little off.
+
+Part of what gives that symbol its grip is not just convention. A sad emoji can bring back the memory of an actual feeling, a tone of voice, a social moment, even something close to a bodily echo of the emotion itself. Whatever the exact neural mechanism, human readers can often respond with empathy, emotional recall, and imaginative simulation. That is part of why a short string of symbols can carry nostalgia, tenderness, mock-despair, or consolation so quickly between people. An LLM can often follow that public pattern of use, sometimes very well, but it does so by modeling which symbols tend to appear in which situations. That is useful, but it is still borrowed meaning. Mathematical objects such as zero or $i$ are different again: they do not lean on shared feeling, they earn their meaning by holding a stable role inside a formal system.
 
 ## Part I: syntax vs. semantics (the two layers of math)
 
