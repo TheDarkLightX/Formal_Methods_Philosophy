@@ -104,7 +104,10 @@ Galois stopped looking at the *values* of roots and started looking at the *stru
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Why Galois matters here</p>
   <p>
-    Galois is not just a famous name in a textbook. He died at 20, in 1832, after political turmoil, imprisonment, and the duel that cut his life short. Before that, he helped settle a problem that had haunted algebra for centuries. Abel had already shown that there is no general solution by radicals for the quintic. Galois made the deeper move: he explained exactly when a polynomial <em>is</em> solvable by radicals by changing the object of study itself, from roots and formulas to the symmetries acting on them. That is the kind of achievement this tutorial is pointing at. It is not just symbolic fluency. It is the creation of a new conceptual object, made precise enough to reorganize an entire field.
+    Galois is not just a famous name in a textbook. He died at 20, in 1832, after political turmoil, imprisonment, and the duel that cut his life short. On the eve of that duel he tried to compress his mathematics into letters and notes, at one point writing, "I do not have the time." That line carries real despair, but it also shows what he understood was at stake. He was not trying to save a bag of tricks. He was trying to save a new way of thinking.
+  </p>
+  <p>
+    Abel had already shown that there is no general solution by radicals for the quintic. Galois made the deeper move: he explained exactly when a polynomial <em>is</em> solvable by radicals by changing the object of study itself, from roots and formulas to the symmetries acting on them. In the small body of work he left behind, much of it written as a teenager, are the core ideas that became Galois theory and major foundations for modern group-theoretic thinking. That is the kind of achievement this tutorial is pointing at. It is not just symbolic fluency. It is the creation of a new conceptual object, made precise enough to reorganize an entire field.
   </p>
 </div>
 
@@ -198,6 +201,7 @@ We do not need to wait for AGI to do high-assurance work. A workable present-day
 This is the "Formal Philosophy" workflow: use models to propose, use explicit conceptual structure to stabilize the task, and use checkers to catch drift before it becomes authority.
 
 ## References
+- Gardner, R. B. (2011) *The Bicentennial of Evariste Galois*.
 - Rice, H. G. (1953) *Classes of recursively enumerable sets and their decision problems*.
 - Searle, J. (1980) *Minds, Brains, and Programs*.
 - Harnad, S. (1990) *The Symbol Grounding Problem*.
