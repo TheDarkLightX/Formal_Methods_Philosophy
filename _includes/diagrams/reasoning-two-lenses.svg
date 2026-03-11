@@ -1,0 +1,111 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 520"
+  role="img"
+  aria-labelledby="fp-rtl-title fp-rtl-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-rtl-title">Two lenses on reasoning</title>
+  <desc id="fp-rtl-desc">
+    A side-by-side comparison between a comparative-cognition lens on reasoning and a
+    mathematical or formal-methods lens on reasoning.
+  </desc>
+
+  <defs>
+    <filter id="fp-rtl-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <g filter="url(#fp-rtl-shadow)">
+    <rect x="50" y="40" width="860" height="440" rx="28" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text x="88" y="86" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Two real questions, not one
+    </text>
+    <text x="88" y="110" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      The disagreement is mostly about what standard "reasoning" has to meet.
+    </text>
+
+    <rect x="86" y="136" width="370" height="306" rx="24" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.24)" />
+    <rect x="504" y="136" width="370" height="306" rx="24" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+
+    <text x="114" y="178" font-size="15" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Comparative-cognition lens
+    </text>
+    <text x="114" y="200" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Maggie Vale's emphasis
+    </text>
+
+    <text x="532" y="178" font-size="15" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Mathematical or formal lens
+    </text>
+    <text x="532" y="200" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      This tutorial's emphasis
+    </text>
+
+    <text x="114" y="240" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Main question
+    </text>
+    <text x="114" y="260" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Can the system search, adapt,
+    </text>
+    <text x="114" y="278" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      recombine, and solve problems?
+    </text>
+
+    <text x="532" y="240" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Main question
+    </text>
+    <text x="532" y="260" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Can the system justify the result
+    </text>
+    <text x="532" y="278" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      with a licensed, checkable object?
+    </text>
+
+    <text x="114" y="314" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      What counts as evidence
+    </text>
+    <text x="114" y="334" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      flexible behavior, internal search,
+    </text>
+    <text x="114" y="352" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      burst-then-snap, cross-task success
+    </text>
+
+    <text x="532" y="314" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      What counts as evidence
+    </text>
+    <text x="532" y="334" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      derivation, witness, proof trace,
+    </text>
+    <text x="532" y="352" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      exhaustive certificate, verifier output
+    </text>
+
+    <text x="114" y="388" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Verdict on child guessing 4, 3, 2
+    </text>
+    <text x="114" y="408" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      evidence of search, maybe weak reasoning,
+    </text>
+    <text x="114" y="426" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      but not yet strong justification
+    </text>
+
+    <text x="532" y="388" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Verdict on child guessing 4, 3, 2
+    </text>
+    <text x="532" y="408" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      not yet proof, not yet accepted,
+    </text>
+    <text x="532" y="426" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      unless the search was exhaustive and checked
+    </text>
+
+    <text x="88" y="466" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      These lenses are not enemies. One studies problem-solving behavior; the other studies what earns mathematical trust.
+    </text>
+  </g>
+</svg>

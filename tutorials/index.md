@@ -145,4 +145,14 @@ show_title: false
       the same as stable meaning creation, concept invention, or meaning-preserving formalization.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/what-is-reasoning-proof-search-and-justification/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 13: What reasoning is</h2>
+    <p class="fp-card-text">
+      Separate guessing, search, explanation, and proof using a child arithmetic example,
+      Peano arithmetic, and the difference between discovery and justification.
+    </p>
+  </a>
 </div>
