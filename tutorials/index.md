@@ -155,4 +155,14 @@ show_title: false
       Peano arithmetic, and the difference between discovery and justification.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/microkernels-micro-models-and-compositional-correctness/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 14: Microkernels and micro-models</h2>
+    <p class="fp-card-text">
+      Use seL4 as a case study for shrinking the trusted core, proving small local contracts,
+      and widening assurance through checked composition rather than monolithic proof blobs.
+    </p>
+  </a>
 </div>

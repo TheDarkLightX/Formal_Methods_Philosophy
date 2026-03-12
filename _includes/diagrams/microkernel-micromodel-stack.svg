@@ -1,0 +1,75 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 500"
+  role="img"
+  aria-labelledby="fp-mms-title fp-mms-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-mms-title">Microkernel and micro-model stack</title>
+  <desc id="fp-mms-desc">
+    A verified microkernel forms a narrow trusted base. Small local models for initialization,
+    access control, protocols, and components expand the covered surface area through checked interfaces.
+  </desc>
+
+  <defs>
+    <filter id="fp-mms-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-mms-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#F97316" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-mms-shadow)">
+    <rect x="60" y="48" width="840" height="394" rx="28" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text x="96" y="90" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Small trusted core, wider verified envelope
+    </text>
+    <text x="96" y="114" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      The kernel proof is the foundation. More surface area is captured by adding checked local models around it.
+    </text>
+
+    <rect x="118" y="314" width="724" height="82" rx="24" fill="rgba(59, 130, 246, 0.12)" stroke="rgba(59, 130, 246, 0.24)" />
+    <text x="372" y="348" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Verified microkernel
+    </text>
+    <text x="292" y="372" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      small trusted core, narrow authority boundary, strongest local proof obligation
+    </text>
+
+    <rect x="138" y="228" width="150" height="56" rx="18" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(15, 23, 42, 0.14)" />
+    <text x="169" y="261" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Init model</text>
+
+    <rect x="318" y="228" width="150" height="56" rx="18" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(15, 23, 42, 0.14)" />
+    <text x="337" y="261" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Access-control model</text>
+
+    <rect x="498" y="228" width="150" height="56" rx="18" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(15, 23, 42, 0.14)" />
+    <text x="528" y="261" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Protocol model</text>
+
+    <rect x="678" y="228" width="144" height="56" rx="18" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(15, 23, 42, 0.14)" />
+    <text x="706" y="261" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Component model</text>
+
+    <rect x="168" y="148" width="190" height="52" rx="18" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="193" y="179" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">More covered setup behavior</text>
+
+    <rect x="388" y="148" width="190" height="52" rx="18" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="414" y="179" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">More covered interaction rules</text>
+
+    <rect x="608" y="148" width="190" height="52" rx="18" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="633" y="179" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">More covered component logic</text>
+
+    <path d="M213 284 V306" stroke="#3B82F6" stroke-width="4" stroke-linecap="round" />
+    <path d="M393 284 V306" stroke="#3B82F6" stroke-width="4" stroke-linecap="round" />
+    <path d="M573 284 V306" stroke="#3B82F6" stroke-width="4" stroke-linecap="round" />
+    <path d="M750 284 V306" stroke="#3B82F6" stroke-width="4" stroke-linecap="round" />
+
+    <path d="M263 200 V220" stroke="#F97316" stroke-width="4" marker-end="url(#fp-mms-arrow)" stroke-linecap="round" />
+    <path d="M483 200 V220" stroke="#F97316" stroke-width="4" marker-end="url(#fp-mms-arrow)" stroke-linecap="round" />
+    <path d="M703 200 V220" stroke="#F97316" stroke-width="4" marker-end="url(#fp-mms-arrow)" stroke-linecap="round" />
+
+    <text x="96" y="430" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Local proofs widen assurance only through checked connectors: assumptions, guarantees, and initialization conditions.
+    </text>
+  </g>
+</svg>
