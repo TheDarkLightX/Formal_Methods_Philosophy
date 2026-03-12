@@ -112,6 +112,13 @@ The official seL4 verification pages describe a proof stack with several top-lev
 
 The useful teaching point is that this already looks like a collection of micro-models rather than one single flat proof.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Terminology guardrail</p>
+  <p>
+    The seL4 project does not present these layers under the label "micro-models". That label is this tutorial's teaching lens. The point is not to rename the seL4 proof stack. The point is to show that the stack is layered, local, and interface-sensitive rather than one undifferentiated proof blob.
+  </p>
+</div>
+
 | Layer or micro-model | Main question | High-level property |
 |---|---|---|
 | **Specification model** | What should the kernel do? | abstract behavioral contract |
@@ -123,7 +130,53 @@ The useful teaching point is that this already looks like a collection of micro-
 
 That table is the central lesson of the tutorial. Micro-models are not separate because they are cute. They are separate because each one answers a different question at a different boundary.
 
-## Part IV: why this captures more surface area
+## Part IV: one tiny worked composition
+
+The key idea becomes clearer with a tiny system.
+
+Imagine two user-space components on top of seL4:
+
+- a `Sensor` component that collects samples,
+- a `Logger` component that stores them.
+
+The desired system property is:
+
+> `Sensor` may send data to `Logger`, but it must not be able to overwrite `Logger` memory directly.
+
+Now split that claim into three local artifacts:
+
+1. **Initialization model `I`:** the capDL configuration gives `Sensor` send rights to endpoint `E`, but no write capability to `LoggerMem`.
+2. **Kernel guarantee `K`:** if a component lacks the relevant capability, the kernel will not let it access that object; IPC only follows the rights encoded in capabilities.
+3. **Protocol model `P`:** `Logger` updates `LoggerMem` only when it receives a well-formed message on endpoint `E`.
+
+Write the three local claims as:
+
+$$
+I \;\vdash\; \neg WriteCap(Sensor, LoggerMem)
+$$
+
+$$
+K \;\vdash\; \neg WriteCap(c, o) \Rightarrow \neg CanWrite(c, o)
+$$
+
+$$
+P \;\vdash\; Receive(Logger, E, m) \land WellFormed(m) \Rightarrow Append(LoggerMem, m)
+$$
+
+Now the composition steps are visible:
+
+- From `I` and `K`, infer that `Sensor` cannot directly write `LoggerMem`.
+- From `I`, `K`, and `P`, infer that any allowed change to `LoggerMem` must come through the approved IPC path and the logger's local protocol.
+
+That is the "Lego" idea in its safe form. No single micro-model proves the whole story. The end-to-end claim appears only after the connectors line up:
+
+- initialization rights,
+- kernel enforcement,
+- component protocol.
+
+This is also the right way to understand the seL4 case study. The kernel proof is the anchor, not the whole deployment argument.
+
+## Part V: why this captures more surface area
 
 Imagine trying to prove only one theorem:
 
@@ -137,7 +190,7 @@ Now compare a layered approach:
 2. prove the binary implements the proved source behavior,
 3. prove the access-control model prevents unauthorized interference,
 4. prove initialization creates the intended capability layout,
-5. prove local component protocols under those kernel guarantees.
+5. then, outside the kernel proof stack itself, prove local component protocols under those kernel guarantees.
 
 Each new local model covers another slice of actual deployed behavior.
 
@@ -150,7 +203,7 @@ That is what "capturing more surface area" should mean here. Not a marketing cla
 
 The important thing is that the surface area grows by adding checked local claims, not by making one theorem statement more ambitious.
 
-## Part V: the composition rule (why the Lego metaphor needs repair)
+## Part VI: the composition rule (why the Lego metaphor needs repair)
 
 This is the point where many explanations go soft.
 
@@ -184,7 +237,7 @@ Plain English:
 
 That is what makes the Lego metaphor safe. The blocks do not snap together because they are small. They snap together because the connector types match.
 
-## Part VI: seL4 as a worked case of compositional assurance
+## Part VII: seL4 as a worked case of compositional assurance
 
 The official seL4 pages make this especially vivid in the move from kernel proofs to system setup.
 
@@ -214,12 +267,12 @@ The seL4 assumptions page makes this explicit. The assumptions include items suc
 
 This is not a weakness in the explanation. It is exactly how trust should be handled. A good proof stack shrinks the place where informal trust must still live, and labels it clearly.
 
-## Part VII: what the microkernel gives "for free," and what it does not
+## Part VIII: what the microkernel gives "for free," and what it does not
 
 The seL4 verification pages make a strong point about implications:
 
-- functional correctness implies the absence of whole classes of common kernel programming errors,
-- the isolation properties can be used to run critical components alongside untrusted workloads.
+- under the stated proof assumptions, functional correctness implies the absence of whole classes of common kernel programming errors,
+- under the stated configuration conditions, the isolation properties can be used to run critical components alongside untrusted workloads.
 
 Those are real benefits.
 
@@ -241,7 +294,7 @@ This is exactly why micro-models matter. Once the kernel proof is in place, the 
 
 That is how the assurance envelope grows.
 
-## Part VIII: a practical recipe for micro-model verification
+## Part IX: a practical recipe for micro-model verification
 
 If the goal is to use this style in a real project, the recipe is:
 
@@ -262,7 +315,7 @@ If the goal is to use this style in a real project, the recipe is:
 
 This is the proof-theoretic version of good engineering decomposition. Narrow interfaces do not just help coding. They help trust.
 
-## Part IX: where the current tutorial set touches this, and where it does not
+## Part X: where the current tutorial set touches this, and where it does not
 
 The current site already has nearby pieces:
 
@@ -278,7 +331,7 @@ So the honest answer is:
 
 That is why this page exists.
 
-## Part X: conclusion
+## Part XI: conclusion
 
 The deep idea is simple:
 
