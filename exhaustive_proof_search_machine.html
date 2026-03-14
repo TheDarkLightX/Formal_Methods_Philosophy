@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exhaustive Proof Search Machine</title>
+<style>
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f4f0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6a65;
+    --text-tertiary: #9c9a92;
+    --border: rgba(0,0,0,0.15);
+    --border-hover: rgba(0,0,0,0.3);
+    --info-bg: #E6F1FB;
+    --info-text: #0C447C;
+    --info-border: #85B7EB;
+    --danger-bg: #FCEBEB;
+    --danger-text: #791F1F;
+    --danger-border: #F09595;
+    --success-bg: #EAF3DE;
+    --success-text: #27500A;
+    --success-border: #97C459;
+    --radius: 8px;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-primary: #1a1a1a;
+      --bg-secondary: #2c2c2a;
+      --text-primary: #e8e6df;
+      --text-secondary: #9c9a92;
+      --text-tertiary: #6b6a65;
+      --border: rgba(255,255,255,0.15);
+      --border-hover: rgba(255,255,255,0.3);
+      --info-bg: #042C53;
+      --info-text: #B5D4F4;
+      --info-border: #185FA5;
+      --danger-bg: #501313;
+      --danger-text: #F7C1C1;
+      --danger-border: #A32D2D;
+      --success-bg: #173404;
+      --success-text: #C0DD97;
+      --success-border: #3B6D11;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    padding: 2rem;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 0.25rem;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0 0 1.5rem;
+  }
+  .eq {
+    font-size: 22px;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 1.5rem;
+    font-family: var(--font-mono);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+    gap: 6px;
+    margin: 0 0 1rem;
+  }
+  .cell {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: var(--radius);
+    border: 0.5px solid var(--border);
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    transition: all 0.25s;
+    font-family: var(--font-mono);
+  }
+  .cell.testing {
+    border-color: var(--info-border);
+    color: var(--info-text);
+    background: var(--info-bg);
+  }
+  .cell.rejected {
+    border-color: var(--danger-border);
+    color: var(--danger-text);
+    background: var(--danger-bg);
+    opacity: 0.5;
+  }
+  .cell.accepted {
+    border-color: var(--success-border);
+    color: var(--success-text);
+    background: var(--success-bg);
+  }
+  .cell.waiting { opacity: 0.4; }
+  .log {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    min-height: 200px;
+    margin: 1rem 0 0;
+  }
+  .log-step { opacity: 0; transition: opacity 0.3s; }
+  .log-step.vis { opacity: 1; }
+  .log-ok { color: var(--success-text); }
+  .log-no { color: var(--danger-text); }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 0 1.5rem;
+    flex-wrap: wrap;
+  }
+  label { font-size: 14px; color: var(--text-secondary); }
+  input[type="range"] {
+    flex: 1;
+    max-width: 200px;
+    height: 4px;
+    accent-color: var(--info-text);
+  }
+  .xdisp {
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 20px;
+  }
+  button {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    border: 0.5px solid var(--border-hover);
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  button:hover { background: var(--bg-secondary); }
+  button:active { transform: scale(0.98); }
+  button:disabled { opacity: 0.4; cursor: default; }
+  .candidate-label {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-align: center;
+    margin: -0.75rem 0 0.75rem;
+  }
+</style>
+<body>
+  <h1>Exhaustive proof search machine</h1>
+  <p class="subtitle">Checking every candidate in a finite box and keeping only the one that survives the Peano-style checker</p>
+  <div class="controls">
+    <label>Choose x</label>
+    <input type="range" min="0" max="9" value="3" step="1" id="xval" oninput="updateX()" />
+    <span class="xdisp" id="xdisp">3</span>
+    <button onclick="runSearch()" id="runbtn">Run proof search</button>
+  </div>
+  <div class="eq" id="equation">1 + 3 = ?</div>
+  <div class="candidate-label">Candidate space for ? : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}</div>
+  <div class="grid" id="grid"></div>
+  <div class="log" id="log"></div>
+</body>
+<script>
+let x = 3, running = false;
+function buildGrid() {
+  const g = document.getElementById('grid');
+  g.innerHTML = '';
+  for (let i = 0; i <= 10; i++) {
+    const d = document.createElement('div');
+    d.className = 'cell';
+    d.textContent = i;
+    d.id = 'c' + i;
+    g.appendChild(d);
+  }
+}
+function updateX() {
+  if (running) return;
+  x = parseInt(document.getElementById('xval').value);
+  document.getElementById('xdisp').textContent = x;
+  document.getElementById('equation').textContent = '1 + ' + x + ' = ?';
+  buildGrid();
+  document.getElementById('log').innerHTML = '';
+}
+function addLog(html, cls) {
+  const d = document.createElement('div');
+  d.className = 'log-step' + (cls ? ' ' + cls : '');
+  d.innerHTML = html;
+  document.getElementById('log').appendChild(d);
+  requestAnimationFrame(() => d.classList.add('vis'));
+  return d;
+}
+async function runSearch() {
+  if (running) return;
+  running = true;
+  document.getElementById('runbtn').disabled = true;
+  buildGrid();
+  document.getElementById('log').innerHTML = '';
+  const target = 1 + x;
+  let accepted = null;
+  addLog('Begin: prove 1 + ' + x + ' = ? by exhaustive search over {0..10}');
+  addLog('Checker rule: compute 1 + ' + x + ' via Peano axioms, compare to candidate');
+  addLog('---');
+  for (let c = 0; c <= 10; c++) {
+    const cell = document.getElementById('c' + c);
+    cell.className = 'cell testing';
+    await new Promise(r => setTimeout(r, 320));
+    if (c === target) {
+      cell.className = 'cell accepted';
+      accepted = c;
+      addLog('<span class="log-ok">\u2714 ? = ' + c + '  CHECK: 1 + ' + x + ' = ' + c + ' ... YES. Keep.</span>');
+    } else {
+      cell.className = 'cell rejected';
+      addLog('<span class="log-no">\u2718 ? = ' + c + '  CHECK: 1 + ' + x + ' = ' + c + ' ... NO. Reject.</span>');
+    }
+  }
+  addLog('---');
+  addLog('<span class="log-ok">Search complete: exactly one candidate survives, so inside this finite box the answer is ? = ' + accepted + '.</span>');
+  addLog('<span class="log-ok">Certificate sketch: reduce 1 + ' + x + ' by the recursive clauses, then compare that normal form to each candidate.</span>');
+  running = false;
+  document.getElementById('runbtn').disabled = false;
+}
+buildGrid();
+</script>
+</html>

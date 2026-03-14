@@ -100,6 +100,17 @@ and addition by recursion:
 - $x + 0 = x$
 - $x + S(y) = S(x + y)$
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">How Peano arithmetic builds the first few numbers</p>
+  <img
+    src="{{ '/successor_chain_building_numbers.svg' | relative_url }}"
+    alt="A successor chain showing 0, S(0), S(S(0)), S(S(S(0))), and so on."
+    class="fp-diagram">
+  <figcaption class="fp-figure-caption">
+    The successor function does the construction work. Once <code>0</code> and <code>S</code> are fixed, <code>1</code> is just <code>S(0)</code>, <code>2</code> is <code>S(S(0))</code>, and so on.
+  </figcaption>
+</figure>
+
 Now compute:
 
 $$
@@ -120,6 +131,17 @@ Each line is licensed:
 4. Replace $S(S(0))$ by $2$.
 
 That is not just "a chain of thought." It is a derivation.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">A small map of the Peano setup</p>
+  <img
+    src="{{ '/peano_axioms_overview.svg' | relative_url }}"
+    alt="A compact overview of the structural axioms and recursive definitions used in Peano arithmetic."
+    class="fp-diagram">
+  <figcaption class="fp-figure-caption">
+    The point of this little system is not that it feels obvious. The point is that it makes the legal moves public. Once the rules are on the table, a proof becomes something another person can inspect line by line.
+  </figcaption>
+</figure>
 
 The point matters because a natural-language scratchpad can look similar while doing something much weaker. A text trace can say "first add the ones, then simplify, then we get 2," but unless each step is tied to an allowed rule, the trace is commentary, not proof.
 
@@ -145,6 +167,18 @@ is always true, it is enough to check the two possible assignments:
 Every case has been covered, and the formula is true in every case. That is a proof.
 
 This also clarifies the child example. If the child really checked all candidates in a finite search space with a valid rule, then yes, that is a proof by exhaustive search.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">An exhaustive-search machine for a bounded version of the child example</p>
+  <iframe
+    src="{{ '/exhaustive_proof_search_machine.html' | relative_url }}"
+    title="Interactive exhaustive proof search machine for 1 plus x"
+    style="width: 100%; min-height: 720px; border: 0; border-radius: 16px; background: transparent;"
+    loading="lazy"></iframe>
+  <figcaption class="fp-figure-caption">
+    This is a deliberately bounded demonstration. The machine searches the finite box <code>{0,\dots,10}</code>, applies the same checker to every candidate, and keeps only the one that survives. That is the part that makes it exhaustive. It is not a proof about all natural numbers, and that limit matters.
+  </figcaption>
+</figure>
 
 But Peano arithmetic talks about the natural numbers, which are infinite. That changes the game. One cannot prove a universal statement about all natural numbers by checking a few examples. Something stronger is needed.
 
