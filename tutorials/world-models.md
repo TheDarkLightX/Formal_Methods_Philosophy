@@ -22,7 +22,7 @@ This tutorial is about a practical tension:
   </ul>
 </div>
 
-## Part I: inside my head (a private simulator)
+## Part I: inside my head (an inner test bench)
 
 I walk into a room and reach for a mug.
 
@@ -78,7 +78,7 @@ Adults do something qualitatively different from purely statistical prediction: 
 - With **logic**, people can chain implications and track assumptions.
 - With **tools** (pen and paper, computers, solvers), people can reason beyond working memory.
 
-This is “thinking with external organs”: writing down state, writing down constraints, and letting the external system carry the load.
+This is model-building with external scratchpads: writing down state, writing down constraints, and letting the external system carry the load.
 
 In that sense, formal reasoning is not an alien activity. It is the sharpened version of what people already do when a mental model needs to be reliable:
 make it explicit, then check it.
@@ -152,6 +152,8 @@ For systems that learn online, a practical architecture is:
 
 This is the same split as earlier tutorials:
 let learning do search in a rich space, and let formal constraints define what counts as “out of bounds”.
+
+In the house style of this tutorial series: model proposes, gate checks, counterexample teaches.
 
 ## References
 

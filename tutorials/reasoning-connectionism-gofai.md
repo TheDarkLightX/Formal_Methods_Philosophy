@@ -2,7 +2,7 @@
 title: "Reasoning, logic, and prediction: why learning cannot replace proof"
 layout: docs
 kicker: Tutorial 10
-description: What reasoning is, why statistical learning cannot in principle produce logical validity, and why even approximate logic from a neural network cannot match the speed or correctness of a dedicated solver.
+description: What reasoning is, why statistical learning alone does not provide logical validity, and why dedicated solvers still matter even when learned systems become strong heuristics.
 ---
 
 This tutorial addresses a question that sounds simple but divides the field: *does a language model reason?*
@@ -12,9 +12,13 @@ The answer depends on the intended definition of the word. This is not a semanti
 1.  **The formalist view:** reasoning is the production of *valid derivations* in an explicit calculus. It must be sound (truth-preserving) and verifiable by a mechanical checker.
 2.  **The connectionist view:** reasoning is a *behavioral capability*, the ability to generalize, solve problems, and handle novel situations flexibly, regardless of the internal mechanism.
 
-This tutorial argues that while language models exhibit impressive reasoning-like behavior, they cannot, in principle, perform logical reasoning in the formalist sense. This limitation is not a matter of model size or data. It is a consequence of the mathematical difference between *continuous approximation* and *discrete validity*.
+This tutorial makes three scoped claims:
 
-It then argues a second, independent claim: even if a learned system could approximate logical inference, it could not match the speed or accuracy of a dedicated solver such as a modern SAT engine using conflict-driven clause learning.
+1. A **base model without a checker** cannot provide formal guarantees of logical validity.
+2. A **pure learned forward-pass replacement** for general SAT-style reasoning is unlikely under standard complexity assumptions.
+3. A **model-plus-checker system** can still be very useful, because proposal and verification are different jobs.
+
+These are narrower than saying "models do nothing" or "learning is useless for reasoning." The point is to separate behavioral success from certified validity.
 
 The claims are narrow and falsifiable. The goal is not to diminish what language models can do. It is to make visible the boundary between what they do and what reasoning is.
 
@@ -27,6 +31,14 @@ The claims are narrow and falsifiable. The goal is not to diminish what language
     <li><strong>Assumption D (separation):</strong> We distinguish the <em>model level</em> (what the neural network computes) from the <em>system level</em> (the model plus tools, checkers, and gates around it).</li>
     <li><strong>Assumption E (traces):</strong> Natural-language "reasoning traces" are treated as untrusted unless tied to an executable artifact or a sound checker.</li>
   </ul>
+</div>
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Running example for the whole page</p>
+  <p>
+    Keep one tiny workflow in view: a model proposes a satisfying assignment <code>α</code> for a SAT formula <code>F</code>, and a checker either accepts it or returns a failing clause.
+    This is the smallest concrete picture of the whole thesis. Proposal and certification are different jobs. Most of the page is really just a longer explanation of that split.
+  </p>
 </div>
 
 ## Part I: what reasoning is (the formalist definition)
@@ -103,6 +115,8 @@ This objective says: make the predicted next token as close as possible to the a
 
 The model can output text that looks like a proof. Sometimes the proof is correct. But the mechanism that produced it is *pattern completion*, not *rule application*. The model has no internal proof checker. It has no concept of a "licensed step". It has a learned distribution over strings.
 
+Return to the running example. A model may emit a candidate assignment <code>α</code> and even a nice explanation of why it should satisfy <code>F</code>. None of that becomes reasoning in the formal sense until a checker confirms that every clause of <code>F</code> is actually satisfied.
+
 ### Interlude: a formal decision tree vs. chain-of-thought text
 
 One practical way to separate "reasoning as a checkable artifact" from "reasoning-like text" is to compare an explicit decision procedure with a natural-language rationale.
@@ -156,11 +170,21 @@ If it fails, the verifier can return a specific clause $C_i$ such that $\text{Ev
 
 A natural-language rationale for the same check can be concise and readable, but it is not, by itself, executable. In formal methods terms, the decision tree is the verifier. The rationale is commentary.
 
-## Part II: why learning cannot do logic (the mathematical argument)
+## Part II: why learning alone cannot provide logical guarantees
 
 Connectionists often argue that with enough data and layers, neural networks can learn to approximate any function, including logic. This relies on the **Universal Approximation Theorem**.
 
-However, the formalist argument rests on four mathematical barriers that approximation cannot cross. This is not a claim about current limitations. It is a claim about the mathematical structure of the problem.
+However, the formalist argument rests on four mathematical barriers that approximation does not automatically remove. This is not a claim that learned systems are useless. It is a claim about what they do not get for free.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Practical reading guide</p>
+  <p>
+    The next four arguments are not all doing the same job. Some are about guarantees, some are about worst-case complexity, and some are about undecidability. Keep the object of the claim in view: unchecked prediction, not every possible hybrid system.
+  </p>
+  <p>
+    The running example helps here. Each barrier is a different reason why "predict an answer for <code>F</code>" is not the same thing as "run <code>Check(F, α)</code>".
+  </p>
+</div>
 
 ### Argument 1: the exactness gap (continuous vs. discrete)
 
@@ -173,6 +197,8 @@ $$
 $$
 
 Approximating this to within $\varepsilon = 0.1$ is meaningless: the answer is 0 or 1, and a value of 0.6 carries no logical guarantee.
+
+In the running example, this is the difference between "the model seems confident that <code>α</code> works" and "the checker verified every clause." Confidence has no formal slot in the verifier.
 
 - **Unboundedness:** Logical validity applies to formulas of arbitrary length and depth. Approximation theorems apply to fixed-size inputs on bounded domains.
 
@@ -202,6 +228,8 @@ It only implies $\forall x \in S.\; h(x) = c(x)$. The behavior off-support is un
 
 No amount of sampling can prove a "for all" statement. A model trained on all integers up to $10^{100}$ has proved nothing about $10^{100} + 1$. In statistical tasks (vision, speech), $\varepsilon$-error is acceptable. In logic, a single counterexample invalidates the system.
 
+For SAT, that single counterexample can be tiny: one clause that <code>α</code> falsifies. The checker needs only one such witness to reject the whole proposal.
+
 These are not two points on a spectrum. They are different mathematical objects. The first is a probabilistic statement about a random variable. The second is a universally quantified statement about all elements of a domain. No amount of training data can convert the first into the second, because:
 
 1. The training distribution may not cover the relevant cases. SAT instances are combinatorially vast; no finite sample is representative.
@@ -229,6 +257,8 @@ Kearns and Valiant (1994) showed that certain Boolean concept classes, including
 
 The deeper result is that learning the class of all Boolean circuits of polynomial size is not PAC-learnable in polynomial time unless $\text{RP} = \text{NP}$. Since most complexity theorists believe $\text{P} \neq \text{NP}$ (and thus $\text{RP} \neq \text{NP}$), this is strong evidence that no polynomial-time learning algorithm (neural network or otherwise) can learn to decide logical validity in general.
 
+In the running example, the lesson is not that models can never help with SAT. It is that "often propose a good assignment" and "replace the checker" are very different claims.
+
 ### Argument 4: Rice's theorem and the limits of generalization
 
 Rice's theorem (1953) states that for any nontrivial semantic property of programs, there is no algorithm that decides whether an arbitrary program has that property.
@@ -238,6 +268,8 @@ More formally: let $P$ be any property of the partial functions computed by prog
 A neural network is a finite computational device trained on finitely many examples. Rice's theorem tells us that for any sufficiently expressive logical system (one that can encode computation), the semantic properties of formulas in that system are undecidable. A learned model cannot decide an undecidable property, no matter how much data it sees or how many parameters it has.
 
 This is not about current architectures. It is a theorem about the structure of computation itself.
+
+So if the task family is expressive enough, there is no general learned shortcut that can make the verifier disappear. The checker is not extra ceremony. It is the thing that makes the claim meaningful.
 
 ### Complexity theory and "forward pass" limits
 
@@ -263,7 +295,7 @@ This would be a spectacular collapse. No one expects it to be true.
 
 ## Part III: demo: the machinery of deduction
 
-To make the difference concrete, look at **Boolean Constraint Propagation (BCP)**, the engine inside every modern SAT solver. It does not "think"; it forces values based on constraints.
+To make the difference concrete, look at **Boolean Constraint Propagation (BCP)**, the engine inside every modern SAT solver. This is the inside of the checker from the running example. It does not "think"; it forces values based on constraints.
 
 - **Constraint:** $A \lor B$ (A or B must be true).
 - **Fact:** $\lnot A$ (A is false).
@@ -331,9 +363,13 @@ Connectionists argue that "hard logic" is a brittle approximation of the real wo
 **3. "The vanishing gap."**
 They point to empirical success: models can now write code, solve math word problems, and even prove simple theorems. They argue the exactness gap is shrinking with scale, and eventually the error rate $\varepsilon$ will be so low it is negligible.
 
-## Part V: why the gap will not vanish (the complexity checkmate)
+That challenge should be taken seriously. In the running example, it amounts to saying: maybe the model gets so good at proposing <code>α</code> that the checker matters less in practice. The rest of the tutorial explains why "less often needed" is still different from "conceptually replaced".
+
+## Part V: why the gap persists under standard assumptions
 
 The formalist rebuttal to "the vanishing gap" has three layers.
+
+Keep the running example in view here too. The point is not that models can never help with SAT. The point is that a solver builds correctness by checked consequences, while an unchecked model proposes a candidate that still has to survive a gate.
 
 ### Layer 1: soundness by construction vs. statistical approximation
 
@@ -386,7 +422,110 @@ This is not a temporary engineering gap. It is a consequence of the fact that th
   </p>
 </div>
 
-**The consequence:** to match a SAT solver, a neural network must essentially "unroll" the exponential search tree into its weights. This is impossible for general inputs. Neural networks cannot replace solvers. They can only act as *heuristics* that guess the answer. You still need the solver to verify the guess.
+### Layer 4: tensorized logic is real, and it still has a boundary
+
+There is a slogan in modern neurosymbolic AI that sounds provocative: "logical rules and Einstein summation are essentially the same operation." This can be made precise, but only for a scoped fragment.
+
+One clean setting is **finite-domain Datalog** (a positive rule language used in databases and logic programming). In this setting:
+
+- a relation like $\text{Parent}(y,z)$ can be represented as a sparse Boolean matrix $P_{yz}$,
+- a conjunctive rule body corresponds to a **join**, which corresponds to multiplying matching tensor entries,
+- existentially quantified variables correspond to a **projection**, which corresponds to summing (or OR-ing) over an index.
+
+#### Einstein summation (einsum): the index math
+
+Einstein summation is a compact way to write a family of sums that show up everywhere in linear algebra and machine learning.
+
+Start with plain matrix multiplication written with indices:
+
+$$
+C_{ik} = \sum_j A_{ij} B_{jk}
+$$
+
+Einstein notation drops the summation symbol:
+
+$$
+C_{ik} = A_{ij} B_{jk}
+$$
+
+The meaning is the same. The repeated index $j$ is implicitly summed over (contracted). The indices that remain, $i$ and $k$, label the axes of the output.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Einstein summation as index contraction</p>
+  {% include diagrams/einsum-index-contraction.svg %}
+  <figcaption class="fp-figure-caption">
+    An einsum is a rule for which indices are multiplied and which indices are summed out. A repeated index (here, j) is the contraction axis.
+  </figcaption>
+</figure>
+
+For example, the Datalog-style rule
+
+$$
+\text{Aunt}(x,z) \leftarrow \text{Sister}(x,y), \text{Parent}(y,z)
+$$
+
+can be evaluated by a tensor contraction. In Boolean logic form:
+
+$$
+A_{xz} = \bigvee_y \left(S_{xy} \land P_{yz}\right)
+$$
+
+This is exactly a **Boolean semiring** contraction, where multiplication is $\land$ and addition is $\lor$. In ordinary arithmetic, a common implementation trick is to use sum and product, then threshold the result back to $\{0,1\}$:
+
+$$
+A_{xz} = H\left(\sum_y S_{xy}\cdot P_{yz}\right)
+$$
+
+where $H(t)=1$ when $t>0$ and $H(t)=0$ otherwise (a threshold that converts "count of witnesses" into a truth value). This is an exact correspondence between a rule application and an einsum-style contraction, under a finite-domain semantics (Domingos, 2025).
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Join and projection become “multiply then reduce”</p>
+  {% include diagrams/join-projection-to-einsum.svg %}
+  <figcaption class="fp-figure-caption">
+    The shared variable y is the join key. In tensor form, it is the repeated index that is summed out. A step function converts “number of witnesses” back into a truth value.
+  </figcaption>
+</figure>
+
+Positive recursion (for example, reachability and transitive closure) becomes **iterating a monotone operator to a fixpoint**, which again can be expressed in terms of repeated join-and-project steps, and those steps can be compiled to tensor operations.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Positive recursive closure as a fixpoint loop</p>
+  {% include diagrams/fixpoint-closure-join-project.svg %}
+  <figcaption class="fp-figure-caption">
+    Many recursive rules compute a closure: start from base facts, apply the rule to derive new facts, repeat until no new facts appear. Each iteration is join and projection, which maps cleanly to tensor contractions on finite domains.
+  </figcaption>
+</figure>
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Scope and what does not follow</p>
+  <ul>
+    <li><strong>Datalog, not all of logic:</strong> "Rule application is einsum" is cleanest for positive, finite-domain fragments such as Datalog. Claims like "all of logic reduces to this" are much stronger and require additional machinery (for example, negation, function symbols, unification, and search).</li>
+    <li><strong>Speedups depend on representation:</strong> what scales on GPU depends on whether tensors are treated as dense or sparse, and whether the workload is mostly join and fixpoint evaluation or includes hard combinatorial search.</li>
+    <li><strong>Join and closure can still blow up:</strong> even in finite domains, the intermediate results of joins and repeated closure can grow rapidly. Tensorization can change constants and throughput, but it does not remove worst-case explosion.</li>
+  </ul>
+</div>
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">EXP-050 (experiment report, not yet public)</p>
+  <p>
+    A private experiment (EXP-050) explored this equivalence space directly and found exact tensor/einsum formulations for finite quantifier reductions (projection), conjunctive joins (join), and positive recursive closure (fixpoints). The count-style equivalences were machine-checked in Lean. The key boundary result from the same experiment was that GPU tensorization can massively improve throughput for semantic evaluation kernels, but it does not remove combinatorial explosion in hard search problems. A SAT barrier test still exhibited exponential growth. GPU tensorization improves constants, not worst-case complexity class.
+  </p>
+</div>
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Fast kernels do not remove hard search</p>
+  {% include diagrams/gpu-constants-vs-exponential.svg %}
+  <figcaption class="fp-figure-caption">
+    Conceptual picture. Tensorization can shift a curve down (better throughput), but the curve can remain exponential when the problem requires combinatorial search.
+  </figcaption>
+</figure>
+
+This matters for the tutorial's thesis because it separates two ideas that are often conflated:
+
+- **Exact deductive kernels can be implemented as tensor operations.** This is reasoning in the formalist sense, just compiled to a different set of primitives.
+- **Fast evaluation is not the same as easy search.** SAT, synthesis, and many planning problems are hard because they require exploring a combinatorial space of possibilities, not because each local semantic step is expensive.
+
+**The scoped consequence:** for general SAT-style tasks, an unchecked neural network output is not a substitute for a solver certificate. Neural methods can still be useful as *heuristics* that propose guesses, branching orders, or reformulations. The solver is still the component that turns "looks right" into "proved" or "refuted."
 
 ## Part VI: the philosophical landscape
 
@@ -484,6 +623,8 @@ This is the neuro-symbolic architecture from [Tutorial 5]({{ '/tutorials/reformu
 
 It gives the best of both worlds: the **flexibility** of connectionism with the **correctness** of formalism. But it requires admitting that the LLM is *not* doing the reasoning. It is doing the *proposing*. The reasoning lives in the check.
 
+In the running SAT example, the split is tiny and concrete: the model proposes <code>α</code>, and the checker either accepts it or points to the clause that breaks it.
+
 ### A compact decision guide
 
 When evaluating whether a system "reasons", first choose what is being claimed:
@@ -498,9 +639,9 @@ The argument of this tutorial has three legs.
 
 **1. Reasoning, in its strongest and most useful sense, means producing checkable inferences in a formal calculus.** This is not a matter of opinion. It is a definition that comes with a test (run a checker), a guarantee (soundness), and centuries of successful application in mathematics, logic, and engineering.
 
-**2. Statistical learning cannot produce logical validity.** The exactness gap (logic is discrete, approximation is continuous), the distribution-dependence problem (learning gives probabilistic guarantees; logic gives universal guarantees), the PAC-learning barriers (learning Boolean circuits is as hard as breaking cryptography), and Rice's theorem (semantic properties of sufficiently expressive programs are undecidable) all point in the same direction. This is not a current engineering limitation. It is a mathematical boundary.
+**2. Statistical learning does not by itself produce logical validity.** The exactness gap (logic is discrete, approximation is continuous), the distribution-dependence problem (learning gives probabilistic guarantees; logic gives universal guarantees), the PAC-learning barriers (learning Boolean circuits is as hard as breaking cryptography), and Rice's theorem (semantic properties of sufficiently expressive programs are undecidable) all point in the same direction. This is a boundary on guarantees for unchecked outputs.
 
-**3. Even approximate logical competence from a learned model cannot match a dedicated solver.** CDCL solvers achieve soundness by construction, exploit per-instance structure through conflict analysis, and perform millions of exact deductive steps per second at a cost of $O(1)$ per forced assignment. A transformer pays $O(d^2)$ per token for a general-purpose forward pass, cannot guarantee soundness, and cannot discover instance-specific structure on the fly. The complexity-theoretic argument ($\text{NP} \subseteq \text{P}/\text{poly}$ would collapse the polynomial hierarchy) gives a strong theoretical reason to expect this gap to persist.
+**3. Even strong learned heuristics do not erase the role of a dedicated solver.** CDCL solvers achieve soundness by construction, exploit per-instance structure through conflict analysis, and perform millions of exact deductive steps per second at a cost of $O(1)$ per forced assignment. A transformer pays $O(d^2)$ per token for a general-purpose forward pass, cannot guarantee soundness, and cannot discover instance-specific structure on the fly. The complexity-theoretic argument ($\text{NP} \subseteq \text{P}/\text{poly}$ would collapse the polynomial hierarchy) gives a strong theoretical reason to expect that a pure forward-pass replacement will remain unlikely.
 
 The practical conclusion is the one this tutorial series has advocated from the beginning: *use language models as proposers, and use formal methods as gates.* The proposer explores a vast space of candidates with flexibility and speed. The gate ensures that only valid candidates survive. That combination is more powerful than either component alone, and it is honest about what each component can and cannot do.
 
@@ -541,5 +682,6 @@ The practical conclusion is the one this tutorial series has advocated from the 
 - Karl Popper, *Conjectures and Refutations* (1963).
 - Penrose, *The Emperor's New Mind* (1989): argues that human mathematical reasoning transcends Turing computation; widely debated.
 - Shalev-Shwartz and Ben-David, *Understanding Machine Learning: From Theory to Algorithms* (2014).
+- Domingos, "Tensor Logic: The Language of AI" (arXiv:2510.12269, 2025).
 
 <script src="{{ '/assets/js/unit-propagation.js' | relative_url }}" defer></script>

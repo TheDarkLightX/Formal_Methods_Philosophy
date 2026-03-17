@@ -146,6 +146,18 @@ Both are finite, but far beyond what a human (or naive program) can enumerate.
 
 An approximate state tracker is what you get when you replace concrete state with a smaller, information-losing representation.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Abstraction accountability</p>
+  <ul>
+    <li><strong>Preserved:</strong> the questions the tracker is designed to answer, for example "is the shoe getting richer in high cards?"</li>
+    <li><strong>Forgotten:</strong> exact suit identities, exact multiplicities, and often exact remaining order</li>
+    <li><strong>No longer answerable:</strong> questions like "what is the next exact five-card sequence?" or "is the queen of hearts still unseen?"</li>
+  </ul>
+  <p>
+    This is the beginner's checkpoint for every abstraction: what survived, what was merged, and which questions can no longer be asked honestly.
+  </p>
+</div>
+
 Formally, you pick:
 
 - an abstract state space `A` (small enough to handle),
@@ -326,6 +338,8 @@ Think of an “idealized counter” whose memory is perfect but still intentiona
 1. There is a concrete run: `s0 → s1 → s2 → ...` driven by observations.
 2. There is an abstract run: `a0 → a1 → a2 → ...` where `ai = α(si)`.
 
+What to look for in the next equation: it is the formal version of the accountability ledger above. It says "updating first, then abstracting" gives the same abstract answer as "abstracting first, then applying the abstract update rule."
+
 If your abstract update rule satisfies:
 
 ```
@@ -333,6 +347,8 @@ If your abstract update rule satisfies:
 ```
 
 then your abstract tracker is an exact tracker of the abstract state, even though it discards concrete details.
+
+What this buys is precise separation. The abstraction may still forget a lot, but it is no longer hand-wavy. It is a commuting translation between a large state space and a smaller one.
 
 This distinction matters:
 
@@ -376,6 +392,24 @@ then a counterexample is:
 - where your claimed property fails.
 
 In the deck metaphor, a counterexample is literally a concrete ordering of cards that proves: “your statement about all possible orders is false.”
+
+### Software-first picture
+
+Before the swans, use a tiny software trace.
+
+Suppose a withdrawal handler is claimed to preserve the property:
+
+> "the balance never goes negative."
+
+One concrete trace can break that claim:
+
+1. Start with `balance = 1`.
+2. Request a withdrawal of `2`.
+3. End with `balance = -1`.
+
+That trace is already a full counterexample. It is not an essay. It is not a vibe. It is one replayable path from start to failure.
+
+The black-swan image matters because it has exactly the same logical shape, just with feathers instead of state transitions.
 
 ### Black swans: a counterexample in one image
 
@@ -521,6 +555,23 @@ Another way to say step 4: each counterexample becomes a new constraint. The nex
     Propose, verify, refute, refine. This is Popper’s philosophy turned into an executable workflow.
   </figcaption>
 </figure>
+
+#### One full mini-cycle
+
+The loop becomes easier to trust when seen once in full.
+
+Suppose a system proposes the withdrawal rule:
+
+> Allow the withdrawal whenever `balance > 0`.
+
+That candidate sounds plausible. It is also wrong.
+
+- **Counterexample trace:** start with `balance = 1`, request withdrawal `amount = 2`, apply the rule, end with `balance = -1`.
+- **Diagnosis:** the rule looked only at whether some money existed, not whether enough money existed.
+- **Refinement:** strengthen the rule to `allow(amount) iff amount <= balance`.
+- **What changed:** the counterexample is now excluded by construction, and the search space of allowed controllers got smaller.
+
+That is the rhythm of experienced CEGIS work. A bad candidate is not wasted effort. It is a machine for producing the next, tighter obligation.
 
 In the deck metaphor:
 

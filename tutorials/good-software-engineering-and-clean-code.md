@@ -184,6 +184,27 @@ Practical interpretation:
 - Shapley can be an attribution signal.
 - None of these replaces user-success metrics.
 
+### The measurement problem (why proxy metrics break)
+
+Software engineering has a persistent measurement problem: what matters is semantic value, but what is easy to count is usually syntactic activity.
+
+Three recurring failure modes:
+
+- **Non-fungible output:** a small change can prevent an outage or fix a vulnerability, while a large change can be mostly boilerplate.
+- **Context dominates:** the same diff can have radically different risk and value depending on the subsystem and maturity of the codebase.
+- **Gaming is easy:** when a measure becomes a target, behavior shifts toward optimizing the measure rather than the underlying goal (Goodhart's law, often paraphrased via Strathern).
+
+AI-assisted coding makes this sharper. When code can be generated quickly, volume metrics (lines, commits, PR count) can stop correlating with human effort and can even anti-correlate with value.
+
+Practical stance:
+
+- Use metrics as **instrumentation**, not as goals.
+- Treat **system flow metrics** (for example DORA) as team-level signals, not individual scorecards.
+- Prefer **semantic gates** where possible (tests, invariants, security checks, incident rates, user task success).
+- Stress-test a metric before adopting it by enumerating ways the number could rise while user outcomes, safety, or maintainability drop.
+
+Further reading: ["The Measurement Problem in Software Engineering"](https://getmaestro.ai/blog/the-measurement-problem-in-software-engineering) (Maestro AI) surveys repeated metric failures and argues for semantic understanding rather than artifact counting.
+
 ### SOLID, proper abstraction, and language fit
 
 SOLID remains useful as a design checklist:

@@ -1,0 +1,50 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-rc-title fp-rc-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-rc-title">Reformulation conveyor</title>
+  <desc id="fp-rc-desc">
+    A problem is translated into another representation, solved with a stronger tool, and then mapped
+    back with either a witness or a counterexample.
+  </desc>
+
+  <defs>
+    <filter id="fp-rc-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-rc-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-rc-shadow)">
+    <rect x="60" y="70" width="840" height="300" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <rect x="96" y="150" width="160" height="100" rx="20" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="120" y="188" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Original problem</text>
+    <text x="120" y="212" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">board, graph, circuit, trace</text>
+
+    <rect x="304" y="138" width="160" height="124" rx="20" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(15, 23, 42, 0.14)" />
+    <text x="330" y="176" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Translation</text>
+    <text x="330" y="200" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">state what must be preserved</text>
+    <text x="330" y="222" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">meaning, property, or witness</text>
+
+    <rect x="512" y="150" width="160" height="100" rx="20" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="538" y="188" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Stronger tool</text>
+    <text x="538" y="212" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">elimination, SAT, graph search</text>
+
+    <rect x="720" y="138" width="140" height="124" rx="20" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="744" y="176" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Mapped back</text>
+    <text x="744" y="200" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">witness</text>
+    <text x="744" y="220" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">or refuter</text>
+
+    <path d="M256 200 H294" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-rc-arrow)" stroke-linecap="round" />
+    <path d="M464 200 H502" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-rc-arrow)" stroke-linecap="round" />
+    <path d="M672 200 H710" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-rc-arrow)" stroke-linecap="round" />
+
+    <text x="118" y="304" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">If the mapping cannot be checked, the leverage claim is still a hypothesis.</text>
+  </g>
+</svg>

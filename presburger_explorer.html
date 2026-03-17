@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presburger Arithmetic Explorer</title>
+<style>
+  :root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f4f0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6a65;
+    --text-tertiary: #9c9a92;
+    --border: rgba(0,0,0,0.15);
+    --border-hover: rgba(0,0,0,0.3);
+    --info-bg: #E6F1FB;
+    --info-text: #0C447C;
+    --info-border: #85B7EB;
+    --danger-bg: #FCEBEB;
+    --danger-text: #791F1F;
+    --danger-border: #F09595;
+    --success-bg: #EAF3DE;
+    --success-text: #27500A;
+    --success-border: #97C459;
+    --accent: #3B82F6;
+    --accent-light: rgba(59, 130, 246, 0.10);
+    --radius: 8px;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-primary: #1a1a1a;
+      --bg-secondary: #2c2c2a;
+      --text-primary: #e8e6df;
+      --text-secondary: #9c9a92;
+      --text-tertiary: #6b6a65;
+      --border: rgba(255,255,255,0.15);
+      --border-hover: rgba(255,255,255,0.3);
+      --info-bg: #042C53;
+      --info-text: #B5D4F4;
+      --info-border: #185FA5;
+      --danger-bg: #501313;
+      --danger-text: #F7C1C1;
+      --danger-border: #A32D2D;
+      --success-bg: #173404;
+      --success-text: #C0DD97;
+      --success-border: #3B6D11;
+      --accent: #60A5FA;
+      --accent-light: rgba(96, 165, 250, 0.12);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    padding: 1.5rem;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 20px; font-weight: 600; margin: 0 0 0.25rem; }
+  .subtitle { font-size: 13px; color: var(--text-secondary); margin: 0 0 1rem; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin: 0 0 1.5rem; }
+  .tab {
+    padding: 0.6rem 1.2rem; cursor: pointer; font-size: 13px; font-weight: 600;
+    color: var(--text-secondary); border-bottom: 2px solid transparent;
+    margin-bottom: -2px; transition: all 0.15s; background: none; border-top: 0; border-left: 0; border-right: 0;
+    font-family: var(--font-sans);
+  }
+  .tab:hover { color: var(--text-primary); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* Shared */
+  .display-box {
+    background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 1rem 1.2rem; font-family: var(--font-mono); font-size: 18px; text-align: center;
+    margin: 0 0 1rem; min-height: 60px; display: flex; align-items: center; justify-content: center;
+    word-break: break-all; line-height: 1.5; transition: background 0.2s;
+  }
+  .display-box.highlight { background: var(--accent-light); }
+  .decimal { color: var(--accent); font-weight: 700; margin-left: 0.5rem; }
+  button {
+    font-family: var(--font-sans); font-size: 13px; font-weight: 600; padding: 0.5rem 1.2rem;
+    border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer;
+    background: var(--bg-primary); color: var(--text-primary); transition: all 0.15s;
+  }
+  button:hover { border-color: var(--border-hover); background: var(--bg-secondary); }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  button.primary:hover { opacity: 0.9; }
+  .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0 0 1rem; }
+
+  /* Step log */
+  .log { margin: 1rem 0 0; }
+  .log-entry {
+    padding: 0.5rem 0.75rem; border-left: 3px solid var(--border); margin: 0 0 0.4rem;
+    font-size: 13px; font-family: var(--font-mono); transition: border-color 0.2s;
+  }
+  .log-entry .axiom-label {
+    font-family: var(--font-sans); font-size: 11px; font-weight: 700; color: var(--accent);
+    display: block; margin-bottom: 2px;
+  }
+  .log-entry.final { border-left-color: var(--success-border); background: var(--success-bg); border-radius: 0 var(--radius) var(--radius) 0; }
+
+  /* Formula cards */
+  .formula-card {
+    padding: 0.7rem 1rem; border: 1px solid var(--border); border-radius: var(--radius);
+    cursor: pointer; margin: 0 0 0.5rem; transition: all 0.15s;
+  }
+  .formula-card:hover { border-color: var(--accent); background: var(--accent-light); }
+  .formula-card.selected { border-color: var(--accent); background: var(--accent-light); }
+  .formula-card .formula-text { font-family: var(--font-mono); font-size: 14px; margin: 0 0 0.2rem; }
+  .formula-card .formula-desc { font-size: 12px; color: var(--text-secondary); }
+
+  /* Result box */
+  .result-box {
+    padding: 1rem; border-radius: var(--radius); margin: 1rem 0; font-size: 14px; border: 1px solid;
+  }
+  .result-box.true { background: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
+  .result-box.false { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
+  .result-box .verdict { font-size: 18px; font-weight: 900; margin: 0 0 0.3rem; }
+  .result-box .witness { font-family: var(--font-mono); font-size: 13px; margin: 0.3rem 0; }
+  .result-box .explain { font-size: 12px; margin: 0.3rem 0 0; opacity: 0.85; }
+
+  /* Slider row */
+  .slider-row { display: flex; align-items: center; gap: 1rem; margin: 0 0 1rem; }
+  .slider-row label { font-size: 13px; font-weight: 600; min-width: 20px; }
+  .slider-row input[type=range] { flex: 1; }
+  .slider-row .val { font-family: var(--font-mono); font-size: 15px; font-weight: 700; min-width: 24px; text-align: right; }
+
+  /* Tower visual for build tab */
+  .tower { display: flex; flex-direction: column-reverse; align-items: center; gap: 4px; margin: 0 0 1rem; min-height: 40px; }
+  .tower-layer {
+    background: var(--accent-light); border: 1px solid rgba(59,130,246,0.2); border-radius: 6px;
+    padding: 2px 12px; font-family: var(--font-mono); font-size: 12px; color: var(--accent);
+    animation: layerIn 0.2s ease-out;
+  }
+  .tower-layer.zero { background: var(--bg-secondary); border-color: var(--border); color: var(--text-primary); font-weight: 700; }
+  @keyframes layerIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
+
+  .search-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 4px; margin: 0.5rem 0;
+  }
+  .search-cell {
+    text-align: center; padding: 4px; border-radius: 4px; font-family: var(--font-mono);
+    font-size: 12px; border: 1px solid var(--border); transition: all 0.2s;
+  }
+  .search-cell.checking { background: var(--info-bg); border-color: var(--info-border); }
+  .search-cell.pass { background: var(--success-bg); border-color: var(--success-border); }
+  .search-cell.fail { background: var(--danger-bg); border-color: var(--danger-border); opacity: 0.5; }
+</style>
+</head>
+<body>
+
+<h1>Presburger Arithmetic Explorer</h1>
+<p class="subtitle">Build numbers, step through addition, and evaluate formulas — all from the axioms.</p>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('build')">Build Numbers</button>
+  <button class="tab" onclick="showTab('add')">Addition Stepper</button>
+  <button class="tab" onclick="showTab('formula')">Formula Playground</button>
+</div>
+
+<!-- ==================== TAB 1: BUILD NUMBERS ==================== -->
+<div id="tab-build" class="panel active">
+  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem;">
+    Every natural number is built by applying the successor function <strong>S</strong> to <strong>0</strong>.
+    Click S( ) to wrap another layer.
+  </p>
+  <div class="display-box" id="build-display">0</div>
+  <div class="tower" id="build-tower"><div class="tower-layer zero">0</div></div>
+  <div class="btn-row">
+    <button class="primary" onclick="buildSucc()">S( )</button>
+    <button onclick="buildReset()">Reset to 0</button>
+  </div>
+  <div id="build-info" style="font-size:12px;color:var(--text-secondary);"></div>
+</div>
+
+<!-- ==================== TAB 2: ADDITION STEPPER ==================== -->
+<div id="tab-add" class="panel">
+  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem;">
+    Watch Presburger addition unfold axiom by axiom. Axiom 4 peels one S from the second argument; Axiom 3 resolves the base case.
+  </p>
+  <div class="slider-row">
+    <label>x</label>
+    <input type="range" min="0" max="7" value="2" id="add-x" oninput="addReset()">
+    <span class="val" id="add-x-val">2</span>
+  </div>
+  <div class="slider-row">
+    <label>y</label>
+    <input type="range" min="0" max="7" value="3" id="add-y" oninput="addReset()">
+    <span class="val" id="add-y-val">3</span>
+  </div>
+  <div class="display-box" id="add-display"></div>
+  <div class="btn-row">
+    <button class="primary" onclick="addStep()">Step</button>
+    <button onclick="addRunAll()">Run All</button>
+    <button onclick="addReset()">Reset</button>
+  </div>
+  <div class="log" id="add-log"></div>
+</div>
+
+<!-- ==================== TAB 3: FORMULA PLAYGROUND ==================== -->
+<div id="tab-formula" class="panel">
+  <p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem;">
+    Select a Presburger sentence and evaluate it. The decision procedure always terminates with the correct answer.
+  </p>
+  <div id="formula-cards"></div>
+  <div class="btn-row" style="margin-top:1rem;">
+    <button class="primary" onclick="evalFormula()" id="eval-btn" disabled>Evaluate</button>
+  </div>
+  <div id="formula-result"></div>
+  <div id="formula-search" style="margin-top:0.5rem;"></div>
+</div>
+
+<script>
+/* ---- Helpers ---- */
+function succNotation(n) {
+  if (n === 0) return '0';
+  return 'S(' + succNotation(n - 1) + ')';
+}
+
+/* ---- Tab switching ---- */
+function showTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ==================== BUILD NUMBERS ==================== */
+let buildN = 0;
+function buildSucc() {
+  if (buildN >= 12) return;
+  buildN++;
+  const disp = document.getElementById('build-display');
+  disp.textContent = succNotation(buildN) + '  =  ' + buildN;
+  disp.classList.add('highlight');
+  setTimeout(() => disp.classList.remove('highlight'), 300);
+
+  const tower = document.getElementById('build-tower');
+  const layer = document.createElement('div');
+  layer.className = 'tower-layer';
+  layer.textContent = 'S';
+  tower.appendChild(layer);
+
+  const info = document.getElementById('build-info');
+  if (buildN === 1) info.textContent = 'S(0) — the first number after zero.';
+  else if (buildN === 2) info.textContent = 'S(S(0)) — two layers of successor.';
+  else if (buildN <= 5) info.textContent = buildN + ' layers of S wrapped around 0.';
+  else if (buildN <= 11) info.textContent = 'The notation grows, but the structure is always the same: S applied ' + buildN + ' times to 0.';
+  else info.textContent = 'You have reached the demo limit (12). The real number line continues forever.';
+}
+function buildReset() {
+  buildN = 0;
+  document.getElementById('build-display').textContent = '0';
+  document.getElementById('build-tower').innerHTML = '<div class="tower-layer zero">0</div>';
+  document.getElementById('build-info').textContent = '';
+}
+
+/* ==================== ADDITION STEPPER ==================== */
+let addState = null;
+
+function addExpr(x, y) {
+  return succNotation(x) + ' + ' + succNotation(y);
+}
+
+function addReset() {
+  const x = parseInt(document.getElementById('add-x').value);
+  const y = parseInt(document.getElementById('add-y').value);
+  document.getElementById('add-x-val').textContent = x;
+  document.getElementById('add-y-val').textContent = y;
+  addState = { x: x, origX: x, y: y, origY: y, depth: 0, done: false };
+  document.getElementById('add-display').textContent = addExpr(x, y);
+  document.getElementById('add-log').innerHTML = '';
+}
+
+function addStep() {
+  if (!addState) addReset();
+  if (addState.done) return;
+
+  const log = document.getElementById('add-log');
+  const disp = document.getElementById('add-display');
+
+  if (addState.y === 0) {
+    // Axiom 3: x + 0 = x
+    const entry = document.createElement('div');
+    entry.className = 'log-entry final';
+    const wrappedResult = wrapS(addState.x, addState.depth);
+    entry.innerHTML = '<span class="axiom-label">Axiom 3: x + 0 = x</span>' +
+      wrapS(addState.x, addState.depth) + '  →  ' + succNotation(addState.origX + addState.origY);
+    log.appendChild(entry);
+    disp.textContent = succNotation(addState.origX + addState.origY) + '  =  ' + (addState.origX + addState.origY);
+    disp.classList.add('highlight');
+    setTimeout(() => disp.classList.remove('highlight'), 400);
+    addState.done = true;
+  } else {
+    // Axiom 4: x + S(y) = S(x + y)
+    const before = wrapS(addState.x, addState.depth) !== addExpr(addState.x, addState.y)
+      ? wrapS(addState.x, addState.depth) : addExpr(addState.x, addState.y);
+    addState.y--;
+    addState.depth++;
+    const after = wrapS(addState.x, addState.depth);
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.innerHTML = '<span class="axiom-label">Axiom 4: x + S(y) = S(x + y)</span>' +
+      addExprFull(addState.x, addState.y + 1, addState.depth - 1) + '  →  ' +
+      addExprFull(addState.x, addState.y, addState.depth);
+    log.appendChild(entry);
+    disp.textContent = addExprFull(addState.x, addState.y, addState.depth);
+  }
+}
+
+function wrapS(x, depth) {
+  let inner = succNotation(x);
+  for (let i = 0; i < depth; i++) inner = 'S(' + inner + ')';
+  return inner;
+}
+
+function addExprFull(x, y, depth) {
+  if (y === 0 && depth > 0) {
+    let inner = succNotation(x) + ' + 0';
+    for (let i = 0; i < depth; i++) inner = 'S(' + inner + ')';
+    return inner;
+  }
+  let inner = succNotation(x) + ' + ' + succNotation(y);
+  for (let i = 0; i < depth; i++) inner = 'S(' + inner + ')';
+  return inner;
+}
+
+function addRunAll() {
+  if (!addState) addReset();
+  if (addState.done) addReset();
+  const interval = setInterval(() => {
+    addStep();
+    if (addState.done) clearInterval(interval);
+  }, 500);
+}
+
+/* ==================== FORMULA PLAYGROUND ==================== */
+const formulas = [
+  {
+    id: 'even4',
+    display: '∃x. x + x = S(S(S(S(0))))',
+    desc: 'Is 4 even?',
+    evaluate: function() {
+      const steps = [];
+      for (let x = 0; x <= 4; x++) {
+        const pass = (x + x === 4);
+        steps.push({ val: x, pass: pass });
+        if (pass) return { result: true, witness: x, steps: steps, explain: 'Witness found: x = ' + x + ', and ' + x + ' + ' + x + ' = 4.' };
+      }
+      return { result: false, steps: steps, explain: 'No natural number x satisfies x + x = 4.' };
+    }
+  },
+  {
+    id: 'even3',
+    display: '∃x. x + x = S(S(S(0)))',
+    desc: 'Is 3 even?',
+    evaluate: function() {
+      const steps = [];
+      for (let x = 0; x <= 3; x++) {
+        const pass = (x + x === 3);
+        steps.push({ val: x, pass: pass });
+        if (pass) return { result: true, witness: x, steps: steps, explain: 'Witness found.' };
+      }
+      return { result: false, steps: steps, explain: 'No natural number x satisfies 2x = 3. The number 3 is odd.' };
+    }
+  },
+  {
+    id: 'axiom3',
+    display: '∀x∈{0,…,9}. x + 0 = x',
+    desc: 'Axiom 3 holds for all numbers 0–9?',
+    evaluate: function() {
+      const steps = [];
+      for (let x = 0; x <= 9; x++) {
+        const pass = (x + 0 === x);
+        steps.push({ val: x, pass: pass });
+      }
+      return { result: true, steps: steps, explain: 'Every candidate satisfies x + 0 = x. This is Axiom 3 verified by bounded search.' };
+    }
+  },
+  {
+    id: 'succ0',
+    display: '∃x. S(x) = 0',
+    desc: 'Is 0 a successor of something?',
+    evaluate: function() {
+      const steps = [];
+      for (let x = 0; x <= 10; x++) {
+        const pass = (x + 1 === 0);
+        steps.push({ val: x, pass: pass });
+      }
+      return { result: false, steps: steps, explain: 'By Axiom 1: ∀x. S(x) ≠ 0. No number has 0 as its successor. The search confirms this.' };
+    }
+  },
+  {
+    id: 'find_y',
+    display: '∃x. S(S(0)) + x = S(S(S(S(S(0)))))',
+    desc: 'Find x such that 2 + x = 5',
+    evaluate: function() {
+      const steps = [];
+      for (let x = 0; x <= 5; x++) {
+        const pass = (2 + x === 5);
+        steps.push({ val: x, pass: pass });
+        if (pass) return { result: true, witness: x, steps: steps, explain: 'Witness found: x = ' + x + '. Verified: 2 + ' + x + ' = 5. This is program synthesis — the proof produces the value.' };
+      }
+      return { result: false, steps: steps, explain: 'No witness found.' };
+    }
+  },
+  {
+    id: 'even_odd',
+    display: '∀x∈{0,…,6}. ∃y. x=y+y ∨ x=S(y+y)',
+    desc: 'Every number is even or odd',
+    evaluate: function() {
+      const steps = [];
+      for (let x = 0; x <= 6; x++) {
+        let found = false;
+        for (let y = 0; y <= x; y++) {
+          if (x === y + y || x === y + y + 1) { found = true; break; }
+        }
+        steps.push({ val: x, pass: found });
+      }
+      return { result: true, steps: steps, explain: 'Every number in {0,…,6} is either 2y or 2y+1 for some y. The bounded check confirms this; induction extends it to all ℕ.' };
+    }
+  }
+];
+
+let selectedFormula = null;
+
+function renderFormulas() {
+  const container = document.getElementById('formula-cards');
+  formulas.forEach(f => {
+    const card = document.createElement('div');
+    card.className = 'formula-card';
+    card.id = 'fc-' + f.id;
+    card.innerHTML = '<div class="formula-text">' + f.display + '</div><div class="formula-desc">' + f.desc + '</div>';
+    card.onclick = () => selectFormula(f.id);
+    container.appendChild(card);
+  });
+}
+
+function selectFormula(id) {
+  selectedFormula = formulas.find(f => f.id === id);
+  document.querySelectorAll('.formula-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('fc-' + id).classList.add('selected');
+  document.getElementById('eval-btn').disabled = false;
+  document.getElementById('formula-result').innerHTML = '';
+  document.getElementById('formula-search').innerHTML = '';
+}
+
+function evalFormula() {
+  if (!selectedFormula) return;
+  const result = selectedFormula.evaluate();
+  const searchDiv = document.getElementById('formula-search');
+  searchDiv.innerHTML = '<div style="font-size:12px;color:var(--text-secondary);margin:0 0 0.4rem;">Search trace:</div>';
+  const grid = document.createElement('div');
+  grid.className = 'search-grid';
+
+  let delay = 0;
+  result.steps.forEach((s, i) => {
+    const cell = document.createElement('div');
+    cell.className = 'search-cell';
+    cell.textContent = 'x=' + s.val;
+    grid.appendChild(cell);
+    setTimeout(() => {
+      cell.classList.add('checking');
+      setTimeout(() => {
+        cell.classList.remove('checking');
+        cell.classList.add(s.pass ? 'pass' : 'fail');
+      }, 150);
+    }, delay);
+    delay += 200;
+  });
+  searchDiv.appendChild(grid);
+
+  setTimeout(() => {
+    const box = document.createElement('div');
+    box.className = 'result-box ' + (result.result ? 'true' : 'false');
+    box.innerHTML = '<div class="verdict">' + (result.result ? 'TRUE' : 'FALSE') + '</div>';
+    if (result.witness !== undefined) {
+      box.innerHTML += '<div class="witness">Witness: x = ' + result.witness + '  →  ' + succNotation(result.witness) + '</div>';
+    }
+    box.innerHTML += '<div class="explain">' + result.explain + '</div>';
+    document.getElementById('formula-result').innerHTML = '';
+    document.getElementById('formula-result').appendChild(box);
+  }, delay + 200);
+}
+
+/* ---- Init ---- */
+renderFormulas();
+addReset();
+</script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 520"
+  role="img"
+  aria-labelledby="fp-pst-title fp-pst-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-pst-title">Building numbers from zero and successor</title>
+  <desc id="fp-pst-desc">
+    A vertical tower showing how natural numbers are constructed by repeatedly applying
+    the successor function S to zero: 0, S(0) = 1, S(S(0)) = 2, and so on.
+  </desc>
+
+  <defs>
+    <filter id="fp-pst-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-pst-arrow" markerWidth="12" markerHeight="12" refX="6" refY="6" orient="auto">
+      <path d="M0,12 L6,0 L12,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-pst-shadow)">
+    <rect x="60" y="30" width="840" height="460" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text x="96" y="72" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Building numbers from zero and successor
+    </text>
+    <text x="96" y="96" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Each number is defined as the successor of the one before it. Nothing else is assumed.
+    </text>
+
+    <!-- Row of number boxes (horizontal layout) -->
+
+    <!-- 0 -->
+    <rect x="100" y="150" width="140" height="100" rx="20" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="170" y="186" font-size="22" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">0</text>
+    <text x="170" y="212" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">zero</text>
+    <text x="170" y="232" font-size="10" fill="#94A3B8" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">the starting point</text>
+
+    <!-- Arrow 0 → 1 -->
+    <line x1="240" y1="200" x2="272" y2="200" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" marker-end="url(#fp-pst-arrow)" />
+    <text x="256" y="190" font-size="13" font-weight="700" fill="#3B82F6" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- S(0) = 1 -->
+    <rect x="280" y="150" width="140" height="100" rx="20" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="350" y="183" font-size="16" font-weight="700" fill="#1E293B" font-family="'SF Mono', 'Fira Code', monospace" text-anchor="middle">S(0)</text>
+    <text x="350" y="212" font-size="14" font-weight="700" fill="#3B82F6" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">= 1</text>
+    <text x="350" y="234" font-size="10" fill="#94A3B8" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">first successor</text>
+
+    <!-- Arrow 1 → 2 -->
+    <line x1="420" y1="200" x2="452" y2="200" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" marker-end="url(#fp-pst-arrow)" />
+    <text x="436" y="190" font-size="13" font-weight="700" fill="#3B82F6" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- S(S(0)) = 2 -->
+    <rect x="460" y="150" width="140" height="100" rx="20" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="530" y="183" font-size="14" font-weight="700" fill="#1E293B" font-family="'SF Mono', 'Fira Code', monospace" text-anchor="middle">S(S(0))</text>
+    <text x="530" y="212" font-size="14" font-weight="700" fill="#3B82F6" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">= 2</text>
+    <text x="530" y="234" font-size="10" fill="#94A3B8" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">second successor</text>
+
+    <!-- Arrow 2 → 3 -->
+    <line x1="600" y1="200" x2="632" y2="200" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" marker-end="url(#fp-pst-arrow)" />
+    <text x="616" y="190" font-size="13" font-weight="700" fill="#3B82F6" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- S(S(S(0))) = 3 -->
+    <rect x="640" y="150" width="140" height="100" rx="20" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="710" y="183" font-size="12" font-weight="700" fill="#1E293B" font-family="'SF Mono', 'Fira Code', monospace" text-anchor="middle">S(S(S(0)))</text>
+    <text x="710" y="212" font-size="14" font-weight="700" fill="#3B82F6" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">= 3</text>
+
+    <!-- Arrow 3 → ... -->
+    <line x1="780" y1="200" x2="812" y2="200" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" marker-end="url(#fp-pst-arrow)" />
+    <text x="796" y="190" font-size="13" font-weight="700" fill="#3B82F6" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- Ellipsis -->
+    <text x="850" y="206" font-size="28" font-weight="700" fill="#94A3B8" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">···</text>
+
+    <!-- Bottom annotation boxes -->
+    <rect x="100" y="310" width="370" height="80" rx="16" fill="rgba(15, 23, 42, 0.04)" stroke="rgba(15, 23, 42, 0.10)" />
+    <text x="124" y="338" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Two primitives only</text>
+    <text x="124" y="358" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">The constant 0 and the function S are</text>
+    <text x="124" y="376" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">the entire vocabulary for building numbers.</text>
+
+    <rect x="490" y="310" width="370" height="80" rx="16" fill="rgba(15, 23, 42, 0.04)" stroke="rgba(15, 23, 42, 0.10)" />
+    <text x="514" y="338" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Structure is visible</text>
+    <text x="514" y="358" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Each S layer is explicit, so proofs can</text>
+    <text x="514" y="376" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">peel off one layer at a time mechanically.</text>
+
+    <text x="480" y="450" font-size="12" fill="#94A3B8" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      1, 2, 3, … are shorthand. The actual objects are towers of S applied to 0.
+    </text>
+  </g>
+</svg>

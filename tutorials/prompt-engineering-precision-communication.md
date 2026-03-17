@@ -36,6 +36,24 @@ Prompt optimization is the practice of iterating this boundary until results are
 
 ## Part II: precision communication beats cleverness
 
+Start with a failure that looks reasonable.
+
+A product lead writes:
+
+```text
+Build a formal spec for the onboarding workflow and make it robust.
+```
+
+Three different engineers can satisfy that request in three incompatible ways:
+
+- one writes a JSON schema,
+- one writes a state machine,
+- one writes prose plus unit tests.
+
+All three may believe they complied. None of them had a stable target. The phrase "formal spec" hid multiple possible artifacts, and "robust" hid multiple possible checks.
+
+That is the core problem prompt engineering tries to solve. The failure is usually not bad grammar. It is hidden choice points.
+
 One common way to improve reliability is to remove hidden defaults.
 
 Bad prompt example:

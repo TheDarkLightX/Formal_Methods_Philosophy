@@ -2,15 +2,23 @@
 title: Tau Language (invariants first, then execution)
 layout: docs
 kicker: Tutorial 3
-description: Learn to read and write small executable specifications by listing invariants first, then letting a solver choose behaviors that satisfy them.
+description: Learn to read and write small executable stream specifications in Tau, starting from invariants and the common stepwise fragment.
 ---
 
-This tutorial is about a shift in how you think about writing programs.
+This tutorial is about a shift in how to think about writing programs.
+Once the idea clicks, Tau starts to feel much less alien.
 
-Instead of giving step-by-step instructions ("do this, then do that"), you state what must always be true.
-Then a solver figures out the steps for you.
+Tau is not imperative code with odd punctuation.
+It is a declarative language for typed input and output streams.
 
-That sounds abstract. So we will start with a concrete habit: before writing any code, write a list of sentences that are meant to stay true forever.
+Instead of giving a step-by-step recipe ("do this, then do that"), a Tau spec says how current and earlier stream values may relate over time.
+If the spec is satisfiable in Tau's execution sense, Tau can run it step by step: read the current inputs, solve for the current outputs without peeking at future inputs, advance time, repeat.
+
+One careful point matters from the start.
+A Tau specification usually denotes a set of possible programs, not just one program.
+When that set is non-empty, Tau executes one deterministic representative from it.
+
+That can sound a bit slippery on first contact, so this tutorial starts with a concrete habit: before writing any code, write a list of sentences that are meant to stay true forever.
 Those sentences are your invariants.
 Everything else, such as syntax, types, and stream declarations, is just scaffolding to make the invariants executable.
 
@@ -19,7 +27,7 @@ Everything else, such as syntax, types, and stream declarations, is just scaffol
   <ul>
     <li>A timeline of streams: inputs and outputs indexed by time, like frames in a film</li>
     <li>An invariant as a rail: the system can move, but not off the rails</li>
-    <li>A solver as a witness generator: it finds concrete values that make your constraints true</li>
+    <li>A solver as a witness generator: it finds concrete current outputs that keep the constraints true</li>
     <li>Three lenses for the same system: state machine, recurrence relation, logic specification</li>
   </ul>
 </div>
@@ -27,9 +35,17 @@ Everything else, such as syntax, types, and stream declarations, is just scaffol
 All examples in this tutorial are runnable from files under `examples/tau/`.
 Each file is a self-contained transcript that runs end-to-end without manual typing.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Scope of this tutorial</p>
+  <p>
+    This page teaches the common beginner fragment: typed input and output streams, initial conditions like <code>o1[0] = ...</code>, and bounded-lookback constraints such as <code>o1[t] = ...</code> or <code>o1[t] = f(o1[t-1], i1[t])</code>.
+    Full Tau also has explicit temporal operators such as <code>always</code> (<code>[]</code>) and <code>sometimes</code> (<code>&lt;&gt;</code>), quantifiers, and the special <code>tau</code> type for talking about Tau specs as values.
+  </p>
+</div>
+
 ## Part I: inside your head (invariants before syntax)
 
-Imagine you are designing a turnstile at a subway entrance.
+Imagine designing a turnstile at a subway entrance.
 
 You do not start by writing code. You start by stating what must always be true:
 
@@ -39,7 +55,7 @@ You do not start by writing code. You start by stating what must always be true:
 4. Pushing through when locked triggers an alarm.
 5. No alarm when unlocked.
 
-These are your invariants. They decide most design choices before you touch a keyboard.
+These are your invariants. They do most of the real design work before a keyboard even enters the story.
 They say what the state is, what inputs exist, and what must never be violated.
 
 This is the habit that makes specifications readable: invariants first, then syntax.
@@ -54,27 +70,40 @@ This is the habit that makes specifications readable: invariants first, then syn
 
 ### Why start with invariants?
 
-When you start with syntax, you get lost in details: "What type is this? How do I declare that? Why is the compiler unhappy?"
+When the starting point is syntax, it is easy to get trapped in details: "What type is this? How is that declared? Why is the compiler unhappy already?"
 
-When you start with invariants, you stay oriented. The invariants are the spec.
+When the starting point is invariants, orientation comes first. The invariants are the spec.
 Everything else exists to make them checkable.
 
-## Part II: reading Tau (streams, time, and constraints)
+## Part II: reading Tau (the practical version)
 
-Tau specifications talk about **streams**: sequences of values indexed by time.
-Think of them like frames in a film, numbered 0, 1, 2, 3, ...
+Tau is easiest to read if it is pictured as a row of time-stamped boxes.
+That picture may feel almost too simple, but it really does carry a lot of the tutorial.
+
+A **stream** is just a sequence of values indexed by time.
+Think of it like frames in a film, numbered 0, 1, 2, 3, ...
 
 - **Input streams** (`i1`, `i2`, ...) receive values from the outside world.
 - **Output streams** (`o1`, `o2`, ...) produce values computed by the spec.
 
 At each time step `t`, the spec relates inputs and outputs.
-In Tau, `t` is a logical variable ranging over time steps: a constraint written with `t` is meant to hold for every time step, not as a one-step instruction.
+In Tau, `t` is not "the current loop counter." It is a placeholder that means "for every step like this one."
 
 <div class="fp-callout fp-callout-warn">
   <p class="fp-callout-title"><code>t</code> is not a loop variable</p>
   <p>
     In imperative code, a loop counter <code>t</code> advances as the program runs. In Tau, <code>t</code> is a variable that ranges over time steps all at once.
     A line like <code>o1[t] = o1[t-1] + i1[t]</code> is a relationship that must hold at every step, not an instruction executed at one step.
+  </p>
+  <p>
+    Also, a Tau spec with no explicit <code>always</code> or <code>sometimes</code> is implicitly read as <code>always</code>. That is why a bare line like <code>o1[t] = ...</code> is understood as a standing rule.
+  </p>
+</div>
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Time-compatible means no retroactive cheating</p>
+  <p>
+    The theory behind Tau uses the idea of a <em>time-compatible</em> (or prefix-preserving) behavior. If two input histories are the same up to step <code>n</code>, the produced output histories must also be the same up to step <code>n</code>. New future inputs are not allowed to reach back and rewrite earlier outputs. That is the clean formal version of "no time travel tricks."
   </p>
 </div>
 
@@ -89,20 +118,33 @@ o1 : bv[8] := out console  # output stream, 8-bit values
   <p class="fp-callout-title">Types used in these examples</p>
   <ul>
     <li><code>bv[8]</code>: an 8-bit bitvector (values 0 to 255). Arithmetic wraps around; 255 + 1 = 0.</li>
-    <li><code>sbf</code>: a simple Boolean function. In these tutorials we use it like a 0/1 flag for "valid?", "alarm?", and "solved?" signals.</li>
+    <li><code>sbf</code>: a Boolean-algebra type that we use here like a 0/1 flag for "valid?", "alarm?", and "solved?" signals.</li>
+    <li><code>tau</code>: a Tau specification treated as a value. It matters in full Tau, but this page sticks to <code>bv[8]</code> and <code>sbf</code> examples.</li>
   </ul>
+</div>
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Why Boolean algebra keeps showing up</p>
+  <p>
+    Tau is not built around plain yes-or-no booleans alone. Its stream values live in typed Boolean-algebra settings. In one example that means bitvectors and bitwise operations. In another it means symbolic Boolean-function values. That shared algebraic backbone is why the language can reuse the same basic operators across several kinds of objects.
+  </p>
 </div>
 
 ### Writing constraints
 
-A constraint relates values at the current time step (and possibly earlier steps):
+In the fragment used on this page, a top-level Tau spec is a formula.
+The value side is a **term**, for example <code>o1[t-1] + i1[t]</code>.
+The full statement is a **formula**, for example <code>o1[t] = o1[t-1] + i1[t]</code>.
+
+A common beginner pattern is a formula that relates values at the current time step, and sometimes earlier steps too:
 
 ```tau
 o1[t] = o1[t-1] + i1[t]
 ```
 
-This says: "the output at time `t` equals the previous output plus the current input."
-It is a running sum.
+Plain English: "take the old value, add the new input, and that gives the new value."
+That is just a running sum.
+This is a good example of a Tau line that looks more forbidding than it really is.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Time indices as a sliding stencil</p>
@@ -114,7 +156,8 @@ It is a running sum.
 
 ### How to read <code>t-1</code> and <code>t-2</code> (unroll it)
 
-The most reliable mental move is to temporarily replace <code>t</code> with concrete numbers.
+The safest way to read Tau is to stop being abstract for a moment and plug in actual numbers.
+This is worth doing often. Tau gets friendlier very quickly once the symbols are forced to commit to one concrete step.
 
 If a spec contains:
 
@@ -132,6 +175,10 @@ o1[3] = o1[2] + i1[3]
 
 That is all <code>t-1</code> means: "the previous frame."
 Similarly, <code>t-2</code> means "two frames back." If a constraint uses <code>t-2</code>, unrolling it will show dependencies that skip one step.
+
+Most runnable examples on this page have **bounded lookback**.
+That just means the rule for step <code>t</code> only looks at a fixed finite window, such as <code>t</code> and <code>t-1</code>, or <code>t</code>, <code>t-1</code>, and <code>t-2</code>.
+This is the recurrence-shaped fragment that feels most like "state update," even though Tau itself is phrased in streams rather than mutable variables.
 
 If the state-machine picture is easier to hold in mind, read the indices like this:
 
@@ -161,15 +208,39 @@ Tau writes the transition rule as an equation over these time-indexed values.
   </p>
 </div>
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Why "state" often shows up as an output stream</p>
+  <p>
+    Tau allows current outputs to depend on earlier outputs. So memory is already built into the language. In beginner examples like the turnstile, the running count, or the toggle board, the thing called "state" is usually just an output stream whose previous value is read at the next step.
+  </p>
+</div>
+
 ### The mindset shift
 
-This is where Tau differs from ordinary programming:
+This is the biggest mindset shift in the page:
 
 - An **imperative program** computes outputs by executing instructions step by step.
 - A **Tau specification** constrains outputs by stating relationships that must hold.
 
-During execution, Tau asks for input values, then uses a solver to find output values that satisfy all the constraints.
-The specification describes the rails; the solver finds a path that stays on them.
+During execution, Tau receives the current inputs and solves for the current outputs in a way that keeps the spec true now and still compatible with continuing later.
+One good mental model is "fill in the blanks for this step, but only in ways that keep the run extendable."
+It is less like writing instructions for a machine to follow, and more like laying down rails and asking for the next legal move.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Tau satisfiability is stronger than one-shot satisfiability</p>
+  <p>
+    Roughly, Tau is not asking only "is there one trace that works?" A satisfiable Tau spec must admit indefinite execution for every input stream, with outputs chosen step by step, without dependence on future inputs, and in a way that stays time-compatible as the run grows.
+  </p>
+</div>
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Scope check: what Tau does and does not do</p>
+  <ul>
+    <li><strong>Tau does:</strong> enforce relationships between typed streams, and solve current outputs from the current history</li>
+    <li><strong>Tau does not:</strong> parse messy inputs, own the environment loop, or replace the host system that feeds outputs back into future inputs</li>
+    <li><strong>Practical split:</strong> host code handles orchestration, Tau handles the logic kernel</li>
+  </ul>
+</div>
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Two operator families (a common source of mistakes)</p>
@@ -195,7 +266,7 @@ The specification describes the rails; the solver finds a path that stays on the
 ## Part III: the same system in three lenses
 
 The turnstile can be described in three equivalent ways.
-Each lens emphasizes something different.
+Nothing about the system changes. Only the notation changes.
 
 ### Lens 1: state machine (the picture)
 
@@ -221,7 +292,31 @@ Encode the state as an output stream, encode the event as an input stream, and w
 - `o1[t] = 0` if push (lock)
 - `o2[t] = 1` if push while locked (alarm)
 
-This is the declarative view. You state what must hold; the solver handles the rest.
+This is the declarative view. For this tiny example, the constraints pin down one behavior. In general Tau can leave several behaviors admissible, then execution picks one deterministic representative.
+Same turnstile, different accent.
+
+### One turnstile step through all three lenses
+
+Take one concrete moment:
+
+- at time `t-1`, the turnstile is **Locked**
+- at time `t`, a **coin** arrives
+- at time `t`, there is **no push**
+- at time `t`, the next state should be **Unlocked**
+
+Here is the same event in three forms:
+
+- **State machine:** `Locked --coin--> Unlocked`
+- **Recurrence instance:** `state_t = step(Locked, coin) = Unlocked`
+- **Tau instance:** if `o1[t-1] = 0 && coin[t] = 1 && push[t] = 0`, then `o1[t] = 1`
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">One event, three equivalent lenses</p>
+  {% include diagrams/tau-three-lenses.svg %}
+  <figcaption class="fp-figure-caption">
+    The picture, the recurrence, and the Tau clause are doing the same job. They differ in notation, not in meaning.
+  </figcaption>
+</figure>
 
 ### Why three lenses?
 
@@ -273,14 +368,14 @@ $$
 \text{count}_t = \text{count}_{t-1} + \text{delta}_t
 $$
 
-That is it. The spec just enforces the update rule.
+That is it. No hidden cleverness. The spec just enforces the update rule.
 
 ### A useful convention: push parsing out of Tau
 
 Notice that Tau does not classify cards. It receives the already-classified delta.
 This is a design pattern: keep complex parsing in the host system, let Tau enforce simple invariants.
 
-Why? Tau is good at constraints, not string manipulation. The split keeps both sides clean.
+Why? Tau is good at constraints, not string manipulation. The split keeps both sides clean, and it keeps the spec focused on the part that is actually worth checking.
 
 ## Part V: a toggle puzzle in Tau (and why XOR is linear algebra)
 
@@ -288,7 +383,7 @@ Now connect back to Tutorial 2's "puzzle becomes linear algebra" example.
 
 Consider a row of lights that are either on or off.
 Pressing a button toggles some subset of lights.
-The puzzle: turn all lights off.
+The puzzle is simple to state and strangely satisfying to solve: turn all lights off.
 
 The insight is that toggling is XOR. A board of lights is a bitvector. Applying a move is:
 
@@ -309,13 +404,14 @@ examples/tau/toggle_puzzle_xor_state.tau
 XOR over bits is the same as addition in $\mathbb{F}_2$ (the field with two elements).
 So "toggle puzzle" and "linear algebra over a finite field" are the same structure.
 
-This is the leverage move from Tutorial 2: recognize an isomorphism, then use tools designed for the target domain.
+This is the leverage move from Tutorial 2: recognize an isomorphism, then use tools designed for the target domain. A puzzle that looked fiddly by hand becomes crisp once it is seen in the right language.
 
 ## Part VI: Q-learning as a lookup table (and what Tau can check)
 
 ### What a lookup table really is
 
 A lookup table is a function on a finite domain, stored as a list of values.
+There is nothing mystical about it. It is just a very explicit function representation.
 
 For tabular Q-learning, the table maps (state, action) pairs to scores:
 
@@ -336,7 +432,7 @@ $$
 
 In words: blend the old value with a target computed from the reward and the best predicted future value.
 
-For this tutorial, we use a simplified integer version: `target = r + q_next`, and if `learn = 1`, the selected entry becomes `target`.
+For this tutorial, we use a much smaller executable toy. The table entries are `bv[8]` values, and the update is simplified to `target = r + q_next`. If `learn = 1`, the selected entry becomes `target`.
 
 ### A runnable Tau example: 2x2 table update
 
@@ -370,7 +466,7 @@ The combination is powerful because it separates concerns:
 
 - The table is a concrete artifact you can log, diff, and replay.
 - The constraints are guardrails: "only this entry updates," "the update uses this formula."
-- When something breaks, you get a counterexample trace, not a mystery.
+- When something breaks, there is a counterexample trace to inspect instead of a vague sense that "training went oddly."
 
 ### A note on closing the loop
 
@@ -395,7 +491,7 @@ Two questions that sound similar but are not:
 For tables and neural networks, (1) can be true. A small network can compute the same function as a table.
 But (2) is generally false. The map "weights → behavior" is many-to-one: different weight settings can compute the same function.
 
-That is an equivalence relation (same behavior), not an isomorphism (same structure).
+That is an equivalence relation (same behavior), not an isomorphism (same structure). Same outcome, different internal bookkeeping.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Table, weights, meaning</p>

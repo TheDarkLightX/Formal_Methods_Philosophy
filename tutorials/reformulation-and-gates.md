@@ -46,6 +46,12 @@ That is reformulation in one sentence:
 
 From far away, reformulation looks like a graph problem.
 
+The running question stays fixed:
+
+> Can this light board be driven to the all-off state?
+
+This section keeps redrawing that same question. The object does not change. The coordinates do.
+
 - Each **node** is a representation of the same underlying situation (a puzzle board, a vector, a formula).
 - Each **edge** is a translation (sometimes lossless, sometimes approximate).
 - Each node comes with a different library of tools (algebra, graph algorithms, SAT solving, model checking).
@@ -101,6 +107,14 @@ Reformulation is not only isomorphism. It is the broader habit of moving along m
 
 This is the move, repeated with different clothing.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Running example for first read</p>
+  <p>
+    If this section starts to feel like too many examples at once, keep only the toggle puzzle in view.
+    That one example already contains the full pattern: original problem, meaning-preserving translation, stronger toolchain, mapped-back answer.
+  </p>
+</div>
+
 1. **Toggle puzzle to linear algebra**  
    Represent board states as vectors in $\{0,1\}^n$ and moves as additions mod 2. Then "is there a sequence of moves that reaches all-off?" becomes "does a linear system $A x = b$ over $\mathbb{F}_2$ have a solution?" The solver is elimination, not branching search.
 
@@ -123,9 +137,18 @@ This is the move, repeated with different clothing.
 
 These are not metaphors. They are meaning-preserving translations. The only real obligation is the one that matters: show that the translation preserves the question being asked.
 
+For the running toggle puzzle, the question started as "which buttons should be pressed?" and became "does the linear system have a solution?" The mapped-back answer is still a button pattern. That full loop is the pattern the rest of the tutorial keeps unpacking.
+
 ## Interlude: two working examples (Tao and Feynman)
 
 Two of the cleanest real-world examples of abstraction and reformulation come from modern mathematics and modern physics.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Why this interlude is here</p>
+  <p>
+    The toggle puzzle is the small running example. Tao and Feynman are the same move at expert scale: keep meaning fixed, redraw the object so a better tool can see it.
+  </p>
+</div>
 
 ### Terence Tao: split one hard object into two easier ones
 
@@ -175,6 +198,17 @@ It is a compressed representation of a term in a perturbative expansion, designe
 
 ## Part III: abstraction as compression (and why compression feels like understanding)
 
+We will keep the toggle-puzzle example in the background here. The board has not changed. Only the representation, and therefore the available operations, have changed.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Running example checkpoint</p>
+  <p>
+    Keep one concrete object in view: a board state, a move matrix, and the equation <code>A x = b</code> over <code>F_2</code>.
+    In board language, the puzzle is "which buttons should be pressed?" In linear language, the puzzle is "which vector <code>x</code> satisfies the equation?"
+    Part III keeps translating that same object into smaller, sharper, or more structured forms.
+  </p>
+</div>
+
 The Abstraction Cheat Sheet has a strong rule of thumb:
 
 > Abstraction means: forget some implementation detail, while preserving the structure needed to reason about a property.
@@ -189,6 +223,8 @@ One clean way to write the idea is as a map:
 - abstraction: $\alpha : C \to A$
 
 Typically, $\alpha$ is many-to-one. That is the point. Many concrete states collapse to one abstract state.
+
+For the toggle puzzle, one concrete board might be stored as a row of little lights, while an abstract view stores only the bitvector or only the syndrome relevant to solvability in the chosen model. The point is not that one picture is prettier. The point is that one picture makes the next useful operation cheaper.
 
 Compression is a closely related lens. A compression scheme has:
 
@@ -205,6 +241,12 @@ But abstraction and compression rhyme:
 - Both create a smaller object that stands in for a larger one.
 - Both succeed only when the smaller object preserves the structure needed for the task.
 - Both fail when they merge distinctions that matter.
+
+For the running puzzle, that means:
+
+- the concrete view is a branching search over move sequences,
+- the compressed view is a system of equations over $\mathbb{F}_2$,
+- and the whole move is justified only because solving the equations still answers the original board question.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Shrink behavior, compress representation, abstract by merging</p>
@@ -248,7 +290,15 @@ This is true in multiple domains:
 - **Verification and invariant discovery:** $H$ is a space of invariants. Refuters are counterexample traces. The goal is an inductive invariant.
 - **Debugging:** $H$ is a space of patches. Refuters are reproducers, failing tests, and traces. The goal is to remove the failure without breaking other behavior.
 
+The running puzzle fits this template too:
+
+- before reformulation, $H$ can be seen as candidate button-press sequences,
+- after reformulation, $H$ can be seen as candidate solution vectors $x$ in $A x = b$,
+- the refuter is anything that shows the proposed sequence or vector does not actually solve the board.
+
 In all of these settings, "decomposition" is a representation choice that restricts $H$ to candidates built from smaller parts with explicit interfaces.
+
+The same move appears in the running example. A large "try every press sequence" search is replaced by smaller local obligations: how each button affects the board, how those effects compose, and how elimination combines them. The puzzle did not become easier because the universe was kind. It became easier because the representation exposed reusable local structure.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Decomposition shrinks the hypothesis space</p>
@@ -388,14 +438,12 @@ For example:
 - In lambda calculus, many terms differ only by renaming bound variables (alpha-equivalence).
 - In a state space, many states differ only by a symmetry (renaming IDs, permuting identical components).
 
+Toy example: suppose two identical servers hold one job total. The states `(server_a=1, server_b=0)` and `(server_a=0, server_b=1)` are different raw states if the labels matter, but the same state for a load-balancing question where the servers are interchangeable. Searching both gives twice the paperwork and zero new information.
+
 A **canonicalizer** is a function $\mathrm{can} : X \to X$ that picks a representative for each equivalence class.
 One clean specification is:
 
-$$
-\forall x.\; \mathrm{can}(x) \sim x
-\quad\land\quad
-\forall x,y.\; \bigl(\mathrm{can}(x) = \mathrm{can}(y)\bigr) \leftrightarrow (x \sim y)
-$$
+$$\forall x.\; \mathrm{can}(x) \sim x \quad\land\quad \forall x,y.\; \bigl(\mathrm{can}(x) = \mathrm{can}(y)\bigr) \leftrightarrow (x \sim y)$$
 
 The first clause says the representative preserves meaning.
 The second clause says representatives are unique per class.
@@ -412,6 +460,8 @@ It implies an idempotence property, $\mathrm{can}(\mathrm{can}(x)) = \mathrm{can
 This move is best seen as a quotient.
 Instead of searching $X$ directly, search $X/{\sim}$, the set of equivalence classes.
 In practice, one searches only canonical representatives, which makes $X/{\sim}$ concrete.
+
+That is the beginner test for quotienting: if two states differ only by a renaming that the property cannot observe, keep one and stop paying rent on the other.
 
 Canonicalizers can reduce both:
 
@@ -452,6 +502,24 @@ Written as a minimal recipe:
 The proposal loop can be hand-written (a portfolio of tactics) or learned (a model that predicts which $\tau$ is worth trying next).
 Either way, the safety claim comes only from the gate.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Reformulation as a conveyor, not a leap of faith</p>
+  {% include diagrams/reformulation-conveyor.svg %}
+  <figcaption class="fp-figure-caption">
+    Translate the problem, use the stronger tool, then map the answer or counterexample back. If the mapping cannot be checked, the reformulation is still a hypothesis.
+  </figcaption>
+</figure>
+
+One complete toy pass looks like this:
+
+1. Start with the toggle puzzle in board language.
+2. Translate it to a linear system over $\mathbb{F}_2$.
+3. Run elimination.
+4. Get either a press vector (witness of solvability) or inconsistency (witness of impossibility in that model).
+5. Map the press vector back to concrete button presses on the original board.
+
+This is why reformulation feels so powerful. The solver answer comes back carrying structure, not just a yes/no mood.
+
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Assumption hygiene: “automatic solver” is always a scoped claim</p>
   <p>
@@ -467,10 +535,16 @@ From the outside, symbolic reasoning can look like moving marks around.
 
 From the inside, it is search with rails.
 
+Keep the toggle puzzle in view here. Once the board became algebra, a solver no longer had to "feel around" in move space. It could rewrite, eliminate, and propagate.
+
+Keep the toggle puzzle in view for one more section. Row operations in elimination are symbolic rewrites too. They look like bookkeeping on paper, but they preserve meaning while making the hidden structure easier to see.
+
 Three examples:
 
 1. **Algebraic simplification**  
    A rewrite like $(x + y)^2 = x^2 + 2xy + y^2$ is not a guess. It is a meaning-preserving transformation that changes what tools can see.
+
+   In the running example, adding one row of the system to another over $\mathbb{F}_2$ is the same kind of move. The equation changes shape, the solvability question does not.
 
 2. **SAT and SMT solving**  
    A SAT solver does not enumerate all $2^n$ assignments. It propagates constraints, learns from conflicts, and prunes vast regions of the search space because the syntax has structure.
@@ -494,6 +568,10 @@ A Turing machine is symbol manipulation: it reads a symbol, writes a symbol, mov
 Logic is the mathematics of "must".
 
 It is also a reading discipline. Small symbols carry fixed meanings, so a short formula can say exactly what a long paragraph tries to gesture at.
+
+This is also what made the running puzzle easier after reformulation. Once the board became equations, the question stopped being "what move feels promising?" and became "what must be true if this board is solvable?"
+
+This is the one deliberate example switch in the tutorial. Up to here, the running object was the toggle puzzle. For the logic section, the turnstile is a better teaching object because implications, invariants, and time steps are easier to read in state-transition form than in matrix form.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Logic legend (how to read the symbols)</p>
@@ -807,6 +885,9 @@ The loop turns vague intent into explicit constraints. Each counterexample is in
     If the implementation is wrong, the gate does not respond with a vibe. It returns a witness trace,
     like a short sequence of inputs (Coin, Push, Push) that leads to a violated invariant. That trace is
     new information the next proposal can directly address.
+  </p>
+  <p>
+    The running puzzle has the same shape. A model could propose a candidate move vector <code>x</code>. The gate checks whether <code>A x = b</code>. If not, the rejection is not "bad try". It is the exact equation that failed, or a mapped-back board state showing the proposal does not solve the puzzle.
   </p>
 </div>
 

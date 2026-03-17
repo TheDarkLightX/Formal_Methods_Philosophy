@@ -23,6 +23,29 @@ The method in Part V is the point of this tutorial: decompose the problem, list 
 
 ## Part I: what Church's synthesis problem asks
 
+Before the theorem statement, hold one tiny game in mind.
+
+At each time step:
+
+1. the **environment** chooses an input bit `req_t`,
+2. the **system** responds with an output bit `grant_t`,
+3. a specification watches the whole infinite play and decides whether the system met its obligation.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">A tiny realizability game</p>
+  {% include diagrams/church-game-board.svg %}
+  <figcaption class="fp-figure-caption">
+    The environment moves, the system responds, and the specification judges the whole play. Church synthesis asks whether a strategy exists that always wins.
+  </figcaption>
+</figure>
+
+Two tiny specs already show the shape of the problem:
+
+- **Realizable spec:** "whenever `req_t = 1`, output `grant_t = 1` in the same round." If current input is visible before the system chooses, a simple strategy exists: copy the request bit.
+- **Unrealizable spec:** "output `grant_t = req_{t+1}`." This asks the system to know the next environment move before it happens. No causal strategy can do that for all environments.
+
+Those two cases already contain the whole Church question: is there a strategy, under the information pattern of the game, that guarantees the spec against every allowed environment?
+
 Church's question can be phrased as:
 
 Given a formal specification of input-output behavior over time, can an algorithm construct a system that is guaranteed to satisfy that specification for all allowed environments?
@@ -59,6 +82,8 @@ If the specification is expressed in S1S, realizability is decidable. When reali
 
 So the core question is not open in that scope. For the S1S setting, this is a solved decision problem.
 
+In the tiny `req/grant` game, that means the realizable same-round spec is not just intuitively winnable. In the right logical setting, there is a theorem saying a winning strategy can be decided and, when it exists, constructed. The future-looking spec is the opposite shape: there is no causal strategy to extract.
+
 ## Part III: if it is solved, why is it still hard in practice?
 
 The main barrier is complexity, not logical impossibility.
@@ -71,12 +96,18 @@ $$
 
 That is the state-space wall: automata blow-ups, determinization costs, and large parity games.
 
+The tiny game hides that cost because it barely has any memory. The blow-up starts when the specification needs to remember longer histories, alternate safety with liveness, or encode richer environment assumptions.
+
 Important scope note:
 
 - This is a worst-case class result, not a claim that every practical instance is intractable.
 - It still explains why naive "synthesize everything automatically" expectations fail on many real specs.
 
+The tiny `req/grant` game from Part I is nowhere near this hard. That is useful, not embarrassing. It gives a clean baseline: the toy game shows what realizability means, and the complexity result explains what happens when the spec language and game structure scale up.
+
 ## Part IV: four major attack vectors in the literature
+
+Keep the tiny `req/grant` game in view here. Each attack vector is a different way of making that same game easier to solve without changing what counts as a winning strategy.
 
 ### 1) Restrict the logic (GR(1))
 
@@ -93,6 +124,12 @@ Tradeoff:
 Gate:
 
 - Check whether the original spec can be encoded in GR(1) without semantic loss.
+
+Tiny-game version:
+
+- If the `req/grant` obligation can be written as structured assumptions and guarantees, this route keeps the same game but moves it into a fragment with better solver behavior.
+- The spec "if `req_t = 1`, then `grant_t = 1` in the same round" already has the flavor of a GR(1)-style obligation: an assumption about visible inputs and a structured guarantee about outputs.
+- In a toy case like this, the point is not speedup. The point is to see the shape of the restriction: allow the fragment to stay simple enough that the induced game stays manageable.
 
 ### 2) Bound the implementation (bounded synthesis)
 
@@ -111,6 +148,11 @@ Gate:
 
 - Maintain completeness by monotone bound increase and explicit satisfiability certificates.
 
+Tiny-game version:
+
+- Ask first whether a one-state controller can realize the toy spec. If not, ask whether two states are enough.
+- For the realizable "copy the request" spec, a tiny finite controller exists. For the unrealizable future-looking spec, every bound fails, and those failures are informative rather than mysterious.
+
 ### 3) Compose local syntheses (compositional synthesis)
 
 Idea:
@@ -126,6 +168,13 @@ Tradeoff:
 Gate:
 
 - Require explicit compatibility checks between module assumptions and guarantees.
+
+Tiny-game version:
+
+- Split the toy system into a request-reader and a grant-policy component.
+- One local contract can say when a request is considered pending, and another can say when a grant is legal.
+- Composition succeeds only if those local rules still realize the original `req/grant` obligation together.
+- The exercise is almost comically small, but that is the point. It makes the contract question visible: what does the grant side assume about when the request is available, and what does it guarantee in return?
 
 ### 4) Change the mathematical representation
 
@@ -144,9 +193,17 @@ Gate:
 
 - For each alternative formalism, prove meaning preservation against the source spec class and publish counterexample behavior when translations fail.
 
+Tiny-game version:
+
+- A new representation is only interesting if it preserves the same split as the toy game: the same-round spec stays realizable, and the future-looking spec stays unrealizable.
+- Keep the same `req/grant` behavior but rewrite it in a different substrate, for example as an algebraic or stream-based constraint system.
+- If the new representation is honest, it should preserve the same realizability answer. If it changes the answer, that mismatch is already a counterexample to the translation claim.
+
 ## Part V: my attack method (decompose, list invariants, work backward)
 
 This section presents the method, not a promise of a complete breakthrough.
+
+Keep the tiny `req/grant` game on the table here. The method should feel usable on that toy case first, before it is trusted on larger synthesis problems.
 
 ### Step 1: decompose the problem
 
@@ -161,9 +218,21 @@ Decompose Church-style synthesis into independently testable slices:
 
 Each slice should have a local failure witness. If no local witness exists, the slice is underspecified.
 
+In the tiny game, that decomposition is already visible:
+
+- the semantic slice asks whether "same round" or "next round" is the real obligation,
+- the game slice asks whether the system sees `req_t` before choosing `grant_t`,
+- the strategy slice asks whether memory is needed at all.
+
 ### Step 2: create the invariant ledger
 
 A useful attack requires a list of invariants that any valid solution must satisfy.
+
+In the tiny game above, these invariants are already visible:
+
+- `InvCausality` kills the future-looking spec `grant_t = req_{t+1}`.
+- `InvTotalStrategy` asks whether the system has a defined move for every request history.
+- `InvSafety` would correspond to "never output a forbidden grant on any finite prefix."
 
 | Invariant | Why it is required | Typical falsifier | Gate/check |
 |---|---|---|---|
@@ -189,9 +258,13 @@ Backward strategy:
 
 This is an evidence loop, not a one-shot derivation.
 
+In the tiny game, that means: if `InvCausality` is the blocker, use the representation that makes illegal future dependence easiest to expose. If `InvFiniteImplementable` is the blocker, use the representation that most directly exposes controller size.
+
 ### Step 4: attempt ledger (scientific loop)
 
 Use a fixed experiment table so failed attempts become reusable evidence:
+
+For the tiny game, the table is easy to imagine. GR(1) should handle the same-round obligation cleanly. Bounded synthesis should find a tiny controller quickly. Any alternative representation should be rejected immediately if it makes the future-looking spec look realizable.
 
 | Attempt | Representation | Primary target invariant | Expected gain | Falsifier obtained? | Next move |
 |---|---|---|---|---|---|
@@ -212,6 +285,8 @@ A serious attack can be successful even without a global win. Progress includes:
 5. Clear scope boundaries: what is solved, what is open, what assumptions are carrying risk.
 
 This is the practical lesson from hard formal problems: progress is cumulative when claims are falsifiable and every failure leaves a reusable witness.
+
+Even the toy game can contribute to that progress. A one-state winning strategy is a minimal positive artifact. The future-looking spec is a minimal negative witness for causality. Those small cases are not throwaway examples, they are calibration points for the whole attack method.
 
 Put simply, hard problems have shapes. A shape is the practical pattern of the problem: who chooses actions, what must always hold, how long behavior runs, and where complexity explodes. Once that shape is written down, method choice becomes less ideological and more operational.
 

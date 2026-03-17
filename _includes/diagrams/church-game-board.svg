@@ -1,0 +1,49 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-cgb-title fp-cgb-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-cgb-title">Church synthesis as a game</title>
+  <desc id="fp-cgb-desc">
+    The environment chooses an input, the system responds with an output, and the specification judges
+    whether the resulting play satisfies the contract.
+  </desc>
+
+  <defs>
+    <filter id="fp-cgb-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-cgb-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-cgb-shadow)">
+    <rect x="60" y="70" width="840" height="280" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <rect x="100" y="150" width="180" height="100" rx="20" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="130" y="188" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Environment</text>
+    <text x="130" y="212" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">chooses input req_t</text>
+
+    <rect x="390" y="150" width="180" height="100" rx="20" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="430" y="188" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">System</text>
+    <text x="430" y="212" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">responds with grant_t</text>
+
+    <rect x="680" y="138" width="180" height="124" rx="20" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(15, 23, 42, 0.14)" />
+    <text x="720" y="176" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Specification</text>
+    <text x="708" y="200" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">judges the full play</text>
+    <text x="712" y="220" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">realizable or not</text>
+
+    <path d="M280 200 H380" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-cgb-arrow)" stroke-linecap="round" />
+    <path d="M570 200 H670" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-cgb-arrow)" stroke-linecap="round" />
+
+    <text x="316" y="180" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">req_t</text>
+    <text x="610" y="180" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">grant_t</text>
+
+    <text x="112" y="304" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Realizable means there exists a causal strategy that wins against every allowed environment.
+    </text>
+  </g>
+</svg>

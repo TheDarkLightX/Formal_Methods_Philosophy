@@ -166,6 +166,8 @@ In practice, several different moves get called "abstraction". Keeping them sepa
 
 When a text says "this is the same thing in a different abstraction", the question is which kind of sameness is meant.
 
+Same question, different standard of sameness:
+
 - **Isomorphism (lossless re-encoding):** there is a reversible translation `encode`/`decode`, and operations correspond across the translation.
 - **Equivalence (same meaning):** there is a meaning function `⟦·⟧` and two descriptions are treated as the same when they denote the same object (often many-to-one).
 - **Sound abstraction (property-preserving approximation):** there is a map from concrete to abstract that forgets details but preserves a property of interest (usually one-way).
@@ -368,9 +370,9 @@ Isomorphisms and equivalences are what make those translations safe. They justif
 
 In practice, the strongest people and teams become bilingual: they can think in the abstract *and* land the idea in real code without losing the thread.
 
-### Not vibe coding
+### Not under-specified agentic coding
 
-Using an agent after having a precise, checkable description is not the same thing as vibe coding.
+Using an agent after having a precise, checkable description is not the same thing as under-specified agentic coding. A current industry label for that looser style is "vibe coding", but the real issue is implicit meaning, not the tool.
 
 - **Vibe coding** leans on plausible-looking code and iterative prompting while the intent is still under-specified. The output may compile and even appear to work, but the meaning is drifting and mostly implicit.
 - **Structure-first development** uses the agent as a mechanism after the meaning is pinned down: a model, a contract, an invariant, a type, tests derived from a spec, or a proof obligation. The agent is closer to "a compiler plus a fast assistant," not "a substitute for specification."

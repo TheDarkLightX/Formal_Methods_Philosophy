@@ -1,0 +1,185 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 500"
+  role="img"
+  aria-labelledby="fp-jpe-title fp-jpe-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-jpe-title">Join and projection as multiply then reduce</title>
+  <desc id="fp-jpe-desc">
+    A Datalog-style rule joins two relations on a shared variable y, then projects away y. In tensor form this is
+    multiplication on matching indices followed by a reduction (summation or OR) over the repeated index.
+  </desc>
+
+  <defs>
+    <filter id="fp-jpe-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-jpe-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+    <marker id="fp-jpe-arrow-orange" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#F97316" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-jpe-shadow)">
+    <rect x="40" y="60" width="880" height="380" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="90"
+      y="120"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Join + projection (finite domains)
+    </text>
+    <text
+      x="90"
+      y="145"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Shared variables become repeated indices. Projection becomes “reduce over that index”.
+    </text>
+
+    <!-- Left panel: rule as a join graph -->
+    <rect
+      x="90"
+      y="170"
+      width="370"
+      height="240"
+      rx="22"
+      fill="rgba(15, 23, 42, 0.06)"
+      stroke="rgba(15, 23, 42, 0.14)"
+    />
+    <text
+      x="120"
+      y="204"
+      font-size="13"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Relational view
+    </text>
+
+    <!-- Nodes x,y,z -->
+    <g>
+      <circle cx="170" cy="290" r="22" fill="rgba(59, 130, 246, 0.70)" />
+      <circle cx="275" cy="250" r="22" fill="rgba(249, 115, 22, 0.70)" />
+      <circle cx="380" cy="290" r="22" fill="rgba(16, 185, 129, 0.70)" />
+
+      <text x="170" y="296" text-anchor="middle" font-size="14" font-weight="900" fill="#0F172A" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">x</text>
+      <text x="275" y="256" text-anchor="middle" font-size="14" font-weight="900" fill="#0F172A" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">y</text>
+      <text x="380" y="296" text-anchor="middle" font-size="14" font-weight="900" fill="#0F172A" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">z</text>
+
+      <!-- edges (body) -->
+      <path d="M188 283 L257 257" stroke="rgba(15, 23, 42, 0.45)" stroke-width="5" stroke-linecap="round" />
+      <path d="M293 257 L362 283" stroke="rgba(15, 23, 42, 0.45)" stroke-width="5" stroke-linecap="round" />
+
+      <text x="222" y="262" text-anchor="middle" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Sister(x,y)</text>
+      <text x="328" y="262" text-anchor="middle" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Parent(y,z)</text>
+
+      <!-- output edge (head) -->
+      <path
+        d="M192 306 C240 350, 310 350, 358 306"
+        stroke="#3B82F6"
+        stroke-width="5"
+        stroke-linecap="round"
+        fill="none"
+        marker-end="url(#fp-jpe-arrow)"
+      />
+      <text x="275" y="372" text-anchor="middle" font-size="11" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Aunt(x,z)</text>
+    </g>
+
+    <!-- join + projection annotations -->
+    <g>
+      <rect x="120" y="328" width="220" height="56" rx="16" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+      <text x="230" y="352" text-anchor="middle" font-size="12" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">join on y</text>
+      <text x="230" y="372" text-anchor="middle" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">y is the shared variable</text>
+    </g>
+
+    <!-- Right panel: tensor equation -->
+    <rect
+      x="500"
+      y="170"
+      width="330"
+      height="240"
+      rx="22"
+      fill="rgba(59, 130, 246, 0.08)"
+      stroke="rgba(59, 130, 246, 0.18)"
+    />
+    <text
+      x="530"
+      y="204"
+      font-size="13"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Tensor view (einsum + step)
+    </text>
+
+    <!-- tensor equation bubble -->
+    <g>
+      <rect x="530" y="232" width="270" height="108" rx="18" fill="#FFFFFF" stroke="rgba(15, 23, 42, 0.12)" />
+      <text
+        x="665"
+        y="262"
+        text-anchor="middle"
+        font-size="12"
+        fill="#1E293B"
+        font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+      >
+        A[x,z] = H(sum_y
+      </text>
+      <text
+        x="665"
+        y="284"
+        text-anchor="middle"
+        font-size="12"
+        fill="#1E293B"
+        font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+      >
+        S[x,y] * P[y,z])
+      </text>
+      <text
+        x="665"
+        y="314"
+        text-anchor="middle"
+        font-size="11"
+        fill="#475569"
+        font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+      >
+        y repeats, so it is reduced away
+      </text>
+    </g>
+
+    <!-- highlight the repeated index -->
+    <g>
+      <path d="M612 290 H718" stroke="rgba(249, 115, 22, 0.85)" stroke-width="3" stroke-linecap="round" marker-end="url(#fp-jpe-arrow-orange)" />
+      <text x="665" y="360" text-anchor="middle" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        projection: reduce over y
+      </text>
+    </g>
+
+    <!-- Bottom rule line -->
+    <g>
+      <rect x="90" y="404" width="780" height="26" rx="13" fill="rgba(15, 23, 42, 0.03)" stroke="rgba(15, 23, 42, 0.10)" />
+      <text
+        x="480"
+        y="422"
+        text-anchor="middle"
+        font-size="12"
+        fill="#1E293B"
+        font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+      >
+        Aunt(x,z) &lt;- Sister(x,y), Parent(y,z)
+      </text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,69 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 460"
+  role="img"
+  aria-labelledby="fp-pgr-title fp-pgr-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-pgr-title">Proposal, gate, executor, invariant rail</title>
+  <desc id="fp-pgr-desc">
+    A bounded proposer emits one action, the policy gate allows or denies it, the executor runs only
+    approved actions, and the invariant rail checks the resulting trace.
+  </desc>
+
+  <defs>
+    <filter id="fp-pgr-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-pgr-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+    <marker id="fp-pgr-arrow-warn" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#F97316" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-pgr-shadow)">
+    <rect x="60" y="70" width="840" height="320" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text x="98" y="118" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      One action, one gate, one replayable outcome
+    </text>
+    <text x="98" y="144" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      The proposer is allowed to search. It is not allowed to bypass the door.
+    </text>
+
+    <rect x="100" y="180" width="180" height="88" rx="20" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="124" y="214" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Algorithmic CEO</text>
+    <text x="124" y="238" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">bounded proposer</text>
+    <text x="124" y="258" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">outputs one ActionId</text>
+
+    <rect x="330" y="168" width="190" height="112" rx="20" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(15, 23, 42, 0.14)" />
+    <text x="356" y="204" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Policy gate</text>
+    <text x="356" y="228" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Tau policy on Tau Net</text>
+    <text x="356" y="248" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Allow, DenySoft, or DenyVeto</text>
+
+    <rect x="570" y="180" width="170" height="88" rx="20" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="596" y="214" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Executor</text>
+    <text x="596" y="238" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">single guarded path</text>
+    <text x="596" y="258" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">runs only approved action</text>
+
+    <rect x="760" y="168" width="110" height="112" rx="20" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="782" y="204" font-size="14" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Rail</text>
+    <text x="778" y="228" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">check trace</text>
+    <text x="775" y="248" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">keep witness</text>
+
+    <rect x="330" y="312" width="190" height="48" rx="16" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="354" y="341" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">DenyIf or missing signal = stop</text>
+
+    <path d="M280 224 H320" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-pgr-arrow)" stroke-linecap="round" />
+    <path d="M520 224 H560" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-pgr-arrow)" stroke-linecap="round" />
+    <path d="M740 224 H750" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-pgr-arrow)" stroke-linecap="round" />
+    <path d="M425 280 V302" stroke="#F97316" stroke-width="4" marker-end="url(#fp-pgr-arrow-warn)" stroke-linecap="round" />
+
+    <text x="155" y="308" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">proposal</text>
+    <text x="405" y="152" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">gate</text>
+    <text x="633" y="152" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">execute</text>
+    <text x="790" y="152" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">judge</text>
+  </g>
+</svg>

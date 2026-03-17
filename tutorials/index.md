@@ -165,4 +165,24 @@ show_title: false
       and widening assurance through checked composition rather than monolithic proof blobs.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/exhaustive-search-and-path-integrals/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 15: Exhaustive search and path integrals</h2>
+    <p class="fp-card-text">
+      Compare proof by exhaustive search with sum-over-histories, then extend the analogy to
+      action, weighted futures, and the boundary between interference and intelligent planning.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/presburger-arithmetic/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 16: Presburger arithmetic — the decidable island</h2>
+    <p class="fp-card-text">
+      Build Presburger arithmetic from zero and successor, read its formulas, understand why excluding
+      multiplication makes every question decidable, and see how this fragment powers real verification tools.
+    </p>
+  </a>
 </div>

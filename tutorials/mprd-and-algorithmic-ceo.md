@@ -24,11 +24,60 @@ Source scope: the public MPRD repository at [github.com/TheDarkLightX/MPRD](http
   </ul>
 </div>
 
-## Part I: the philosophy (intelligence as a commodity, policy as control)
+## Part I: one proposal, one gate, one outcome
 
-A precise historical analogy is industrial mechanization plus cloud compute. Mechanization made physical labor increasingly schedulable and meterable at scale. Cloud schedulers made compute a governed utility through quotas, admission control, and deterministic execution contracts.
+The fastest way to understand MPRD is to watch one decision epoch.
 
-MPRD applies the same structural idea to intelligence output. Candidate generation is treated as abundant, while permission to mutate economic state is treated as scarce and formally governed.
+1. A bounded planner proposes one action.
+2. A policy gate checks whether that action is allowed in the current state.
+3. The executor runs only approved actions.
+4. The invariant rail checks the result and stores a replayable witness if something breaks.
+
+That is the system story in plain English: a planner with no execution keys, a guarded single door, and a replayable audit trail.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">One decision epoch in MPRD</p>
+  {% include diagrams/proposal-gate-rail.svg %}
+  <figcaption class="fp-figure-caption">
+    The proposer can search aggressively, but it still has to walk through the same narrow door as every other action. Model proposes. Gate checks. Counterexample teaches.
+  </figcaption>
+</figure>
+
+### Three-layer architecture
+
+The architecture separates into three layers with distinct trust profiles:
+
+| Layer | Role | Trust |
+|---|---|---|
+| **Proposer** | Generates candidate actions | Untrusted, bounded by interface |
+| **Governor (Policy on Tau Net)** | Evaluates candidates against policy | Trusted, bounded, deterministic |
+| **Executor** | Performs only approved actions | Guarded, single-path |
+
+The separation matters because it makes the safety claim local. Safety depends on the governor and execution boundary, not on the proposer internals. A better proposer can improve search quality, but it does not gain permission to execute by becoming cleverer.
+
+### One concrete action trace
+
+Suppose the current tokenomics state is healthy enough that the planner wants to increase burn allocation by one safe step.
+
+1. The **Algorithmic CEO** searches the current menu graph neighborhood and returns one `ActionId`.
+2. The **policy gate** evaluates that action against the current Tau policy on Tau Net.
+3. If a veto condition such as `emergency_freeze` is true, the action is denied and execution is skipped.
+4. If the policy returns allow, the **executor** performs the action through the single guarded path.
+5. The **invariant rail** checks the resulting state. If something fails, the system stores a concrete counterexample trace.
+
+The important teaching point is not the tokenomics detail. It is the control split. The proposer suggests. The governor authorizes. The rail judges the aftermath.
+
+### The core invariant in plain language
+
+The top-level safety claim is simple:
+
+> Every executed action must already have passed policy.
+
+Everything else on this page is a more precise version of that sentence.
+
+### Why the architecture exists
+
+The metaphor behind "Algorithmic CEO" is governance separation, not human-style intelligence. Candidate generation can be abundant. Permission to mutate economic state stays scarce.
 
 Assumption A (explicit): model inference and search remain cheaper than governance failures. If Assumption A holds, design effort should concentrate on policy gates, execution boundaries, and invariant rails, not on granting proposers direct authority.
 
@@ -37,43 +86,40 @@ This connects directly to two earlier tutorials:
 - [Tutorial 4 (world models)]({{ '/tutorials/world-models/' | relative_url }}): a learned system that updates at runtime needs formal rails to prevent drift. If the model can change itself, then something outside the model must define what counts as "out of bounds". MPRD is one answer to that design problem.
 - [Tutorial 5, Part VIII (neuro-symbolic gates)]({{ '/tutorials/reformulation-and-gates/' | relative_url }}#part-viii-neuro-symbolic-programming-propose-then-gate-with-evidence): the abstract pattern is "propose, gate, refine". MPRD is the concrete instantiation of that pattern for economic governance.
 
-### The MPRD invariant
-
-The top-level safety property is stated as a universal claim:
-
-```text
-∀ executed_action: Allowed(policy, state, action) = true
-```
-
 ### Exact logic form in MPRD artifacts
 
-In the MPRD repository, the same safety claim appears in a stricter execution form:
+What to look for in the next formulas: each one has the same skeleton, a trigger condition and a required consequence. If the trigger is true and the consequence is false on some trace, that trace is the witness.
 
-```text
-∀ p,s,a: ExecCalled(p,s,a) => Allowed(p,s,a)
-```
+In the MPRD repository, the main safety claim appears in execution form as:
 
-Here, p is the policy artifact. In the governance deployment described by MPRD, p is the Tau policy specification stored on Tau Net.
+$$
+\forall p, s, a.\; \text{ExecCalled}(p, s, a) \Rightarrow Allowed(p, s, a)
+$$
+
+Here, $p$ is the policy artifact (the Tau policy specification stored on Tau Net), $s$ is the state snapshot, and $a$ is the candidate action.
 
 The lifecycle spec then adds two always-invariants:
 
-```text
-□(verdict = Denied => exec = skipped)
-□(exec ∈ {success, failed} => proof = verified)
-```
+$$
+\Box(\text{verdict} = \text{Denied} \Rightarrow \text{exec} = \text{skipped})
+$$
+
+$$
+\Box(\text{exec} \in \{\text{success}, \text{failed}\} \Rightarrow \text{proof} = \text{verified})
+$$
 
 In the production ZK profile, the execution gate is phrased as:
 
-```text
-Execute(bundle) => ValidDecision(bundle, registry_state) = true
-```
+$$
+\text{Execute}(\text{bundle}) \Rightarrow \text{ValidDecision}(\text{bundle}, \text{registry\_state}) = \text{true}
+$$
 
 with selector correctness scoped as:
 
-```text
-Sel(policy, state, candidates) = action
-=> action ∈ candidates ∧ Allowed(policy, state, action)
-```
+$$
+\text{Sel}(\text{policy}, \text{state}, \text{candidates}) = \text{action}
+\Rightarrow \text{action} \in \text{candidates} \;\land\; Allowed(\text{policy}, \text{state}, \text{action})
+$$
 
 Plain-text mirror of the same invariants:
 
@@ -90,24 +136,22 @@ InvSelectorContract: Sel(policy, state, candidates) = action
 
 Each invariant has the same logical shape: **trigger condition => required consequence**.
 
-If the trigger is true and the consequence is false on any trace, that trace is a concrete counterexample.
-
 | Notation | Read as | Role in this section |
 |---|---|---|
-| `∀ p,s,a` | for every policy, state, action | universal scope |
-| `=>` | implies, if ... then | obligation |
-| `∧` | both must hold | conjunction |
-| `□` | always, at every step | temporal safety |
-| `∈` | belongs to set | status membership |
+| $\forall p, s, a$ | for every policy, state, action | universal scope |
+| $\Rightarrow$ | implies, if ... then | obligation |
+| $\land$ | both must hold | conjunction |
+| $\Box$ | always, at every step | temporal safety |
+| $\in$ | belongs to set | status membership |
 
 Name legend:
 
-- `p` = policy (Tau specification on Tau Net).
-- `s` = state snapshot.
-- `a` = candidate action.
-- `exec` = execution status.
-- `proof` = proof status.
-- `verdict` = policy result (`Allowed` or `Denied` in the lifecycle model).
+- $p$ = policy (Tau specification on Tau Net).
+- $s$ = state snapshot.
+- $a$ = candidate action.
+- $\text{exec}$ = execution status.
+- $\text{proof}$ = proof status.
+- $\text{verdict}$ = policy result ($\text{Allowed}$ or $\text{Denied}$ in the lifecycle model).
 
 Invariant-by-invariant interpretation:
 
@@ -135,20 +179,6 @@ This is not a guideline. It is enforced through five architectural constraints:
 4. **Deterministic minting.** Tokens issue exclusively when rules permit.
 5. **Verifiable attestation.** Proofs enable third-party validation without trusting the proposer.
 
-### Three-layer architecture
-
-The architecture separates into three layers with distinct trust profiles:
-
-| Layer | Role | Trust |
-|---|---|---|
-| **Proposer** | Generates candidate actions | Untrusted, unbounded |
-| **Governor (Policy on Tau Net)** | Evaluates candidates against policy | Trusted, bounded, deterministic |
-| **Executor** | Performs only approved actions | Guarded, single-path |
-
-The separation matters because it makes the safety claim local: trust depends on the governor and execution boundary, not on the proposer internals. A stronger or more creative proposer does not weaken safety, it can only propose more candidates for the gate to filter.
-
-This is the same principle behind the CEGIS loop from [Tutorial 1, Part IV]({{ '/tutorials/approximate-state-tracking/' | relative_url }}#counterexample-guided-synthesis-cegis): the synthesizer can be arbitrarily creative, because the verifier decides what passes.
-
 ## Part II: the Algorithmic CEO (the bounded proposer)
 
 The Algorithmic CEO is a deterministic, IO-free controller. It is a bounded local-search optimizer over a pre-computed **menu graph**.
@@ -157,23 +187,27 @@ The word "CEO" is metaphorical. This is not general intelligence. It is a bounde
 
 ### CEO loop in one recurrence
 
-At each step t, the proposer computes:
+At each step $t$, the proposer computes:
 
-```text
-target_t = argmax over n in N_h(x_t) of Score(n, theta_t)
-action_t = StepTowards(x_t, target_t)
-```
+$$
+\text{target}_t = \underset{n \in N_h(x_t)}{\operatorname{argmax}}\; \text{Score}(n, \theta_t)
+$$
 
-where x_t is current state, N_h(x_t) is the bounded neighborhood of radius h, and theta_t is objective configuration.
+$$
+\text{action}_t = \text{StepTowards}(x_t, \text{target}_t)
+$$
+
+where $x_t$ is current state, $N_h(x_t)$ is the bounded neighborhood of radius $h$, and $\theta_t$ is objective configuration.
 
 Execution is then gated by policy:
 
-```text
-if Allowed(p_t, x_t, action_t):
-    x_(t+1) = Apply(x_t, action_t)
-else:
-    x_(t+1) = x_t
-```
+$$
+x_{t+1} =
+\begin{cases}
+\text{Apply}(x_t, \text{action}_t) & \text{if } Allowed(p_t, x_t, \text{action}_t) \\
+x_t & \text{otherwise}
+\end{cases}
+$$
 
 This is the key control split: the CEO computes proposals, policy grants authority.
 
@@ -185,19 +219,19 @@ Per decision epoch, the Algorithmic CEO is a deterministic function:
 - **Output**: one `ActionId` (or NOOP) that corresponds to a valid graph edge.
 - **No authority**: no direct state mutation and no bypass path around policy evaluation.
 
-This interface is what turns "intelligence as commodity" into an engineering object. Different proposers can be swapped in, but every proposer must emit the same bounded action type and pass the same policy gate.
+This interface is what makes proposer-swapping an engineering object instead of a governance hazard. Different proposers can be swapped in, but every proposer must emit the same bounded action type and pass the same policy gate.
 
-### Why this is an algorithmic breakthrough
+### Why this is an algorithmic upgrade, within a bounded scope
 
-The Algorithmic CEO is not one trick. It is a stack of algorithmic choices that make bounded autonomy practical:
+Within the pre-computed menu graph, the Algorithmic CEO is not one trick. It is a stack of algorithmic choices that make bounded autonomy practical:
 
 1. **Decision-space compilation.** Continuous controls are compiled into a finite lattice of valid states, so invalid states are unrepresentable.
-2. **Geometry shortcut with proof.** A Lean-checked result shows L∞ distance equals shortest-path length in the menu graph, removing the need for runtime graph search.
+2. **Geometry shortcut with proof.** A Lean-checked result shows $L^\infty$ distance equals shortest-path length in the menu graph, removing the need for runtime graph search.
 3. **Deterministic total ordering.** Candidate choice is fully deterministic (score, then distance, then key), making runs replayable and auditable.
 4. **Numerically safe scoring.** Saturating arithmetic and hard constraint sentinels make objective evaluation fail-bounded.
 5. **Scalable planning upgrades.** The simplex extension adds partial-order and symmetry reductions, so larger action spaces remain searchable under fixed budgets.
 
-The net effect is that the CEO behaves like a deterministic solver, not a black-box agent.
+The net effect is scoped but important: inside that bounded graph, the CEO behaves like a deterministic search component, not like a black-box agent with open-ended authority.
 
 ### The menu graph
 
@@ -217,16 +251,18 @@ The graph itself is the safety boundary. You cannot propose a move that is not a
 
 This is a reformulation move in the sense of [Tutorial 5, Part III]({{ '/tutorials/reformulation-and-gates/' | relative_url }}#decomposition-why-good-interfaces-shrink-both-learning-and-search): a continuous parameter space has been decomposed into a discrete, searchable lattice. The decomposition makes invalid states unrepresentable and search bounded.
 
+Toy picture: imagine only two knobs, burn and auction, each with three legal settings. The menu graph is then a tiny lattice of legal points. A proposal is not "jump anywhere." It is "take one legal edge from the current node."
+
 ### Greedy algorithm
 
 The `GreedyCeo` implements a single-step greedy planner:
 
-1. **Enumerate** reachable nodes within an L∞ ball of radius `horizon` (max 8, giving at most `(2h+1)^3 = 4,913` candidates).
+1. **Enumerate** reachable nodes within an $L^\infty$ ball of radius `horizon` (max 8, giving at most $(2h+1)^3 = 4{,}913$ candidates).
 2. **Score** each candidate using a deterministic objective function.
-3. **Select** the best target with deterministic tie-breaking: higher score → smaller L∞ distance → smaller L1 distance → smaller key.
+3. **Select** the best target with deterministic tie-breaking: higher score → smaller $L^\infty$ distance → smaller $L^1$ distance → smaller key.
 4. **Return** one safe step toward the target using `step_towards_key`.
 
-The L∞ distance equals the exact shortest-path length in the safe-menu graph (proved in the Lean artifact `internal/specs/mprd_ceo_menu_shortest_path_proofs.lean`). This means the planner can navigate without running a full graph search: sign-directed one-step movement reaches the target in exactly `dist_inf` steps.
+The $L^\infty$ distance equals the exact shortest-path length in the safe-menu graph (proved in the Lean artifact `internal/specs/mprd_ceo_menu_shortest_path_proofs.lean`). This means the planner can navigate without running a full graph search: sign-directed one-step movement reaches the target in exactly $d_\infty$ steps.
 
 ### Pseudocode view
 
@@ -283,6 +319,8 @@ Bounds are enforced by `PolicyLimits`: max 64 children per node, max 1,024 nodes
 2. **Phase 2**: If all `DenyIf` atoms are false (the dangerous conditions are confirmed absent), evaluate the rest of the tree normally.
 
 This is fail-closed by design. Missing data does not default to "allow". It defaults to "veto".
+
+Tiny example: if the rest of the tree says "OPI healthy" and "cooldown elapsed", but `emergency_freeze` is true, or the signal is missing, the whole policy stops right there with `DenyVeto`. The system does not keep arguing with the veto.
 
 ### 4-valued outcomes
 
@@ -355,9 +393,9 @@ The invariant rail runs after every state transition. It checks three categories
 
 **3. Transition-level conservation.** Specific action outcomes must satisfy conservation laws. For example, after `SettleOpsPayroll`:
 
-```text
-payout_total + carry_to_reserve = ops_payroll_pool
-```
+$$
+\text{payout\_total} + \text{carry\_to\_reserve} = \text{ops\_payroll\_pool}
+$$
 
 If any invariant fails, the rail returns an `InvariantCounterexampleV6` containing the violation ID, the step index, the state hash, and the full action trace.
 
@@ -368,12 +406,12 @@ This connects to the counterexample analysis from [Tutorial 1, Part IV]({{ '/tut
 When a violation is found, the trace may be longer than necessary. The `minimize_counterexample_v1` function reduces it to a minimal failing trace using deterministic delta-debugging:
 
 1. **Verify** the provided trace reproduces the violation.
-2. **Initialize** chunk size `n = 2`.
-3. **Loop**: divide the action sequence into `n` chunks. For each chunk, try removing it. If the reduced trace still triggers the same invariant ID:
+2. **Initialize** chunk size $n = 2$.
+3. **Loop**: divide the action sequence into $n$ chunks. For each chunk, try removing it. If the reduced trace still triggers the same invariant ID:
    - Accept the reduction.
    - Reset chunk size toward 2.
    - Restart.
-4. If no chunk removal preserves the violation, double `n` (up to sequence length).
+4. If no chunk removal preserves the violation, double $n$ (up to sequence length).
 5. Return the minimized counterexample.
 
 The result is a minimal witness: the shortest sub-trace that triggers the specific invariant violation. This is the "minimized witness" concept from [Tutorial 1, Part V]({{ '/tutorials/approximate-state-tracking/' | relative_url }}#zooming-out-counterexample-analysis-and-what-it-gives-you): a counterexample becomes more useful when it carries less irrelevant context.
@@ -397,7 +435,7 @@ Concrete temporal properties tested against the tokenomics engine include:
 
 The synthesis mode distinguishes between **deterministic** environments (where the system controls all choices) and **adversarial** environments (where some steps may fail non-deterministically). A `Guaranteed` verdict means the spec holds against all environment choices. A `Possible` verdict means the spec holds along some path but not all.
 
-This connects to [Tutorial 3 (Tau specifications)]({{ '/tutorials/tau-language/' | relative_url }}): Tau specs define what must hold at every step, and the temporal checker searches for violations.
+This connects to [Tutorial 3 (Tau specifications)]({{ '/tutorials/tau-language/' | relative_url }}): Tau specs can state stepwise constraints and temporal obligations. The beginner tutorial focuses on the common stepwise fragment, and the temporal checker here searches for violations of the larger temporal claim.
 
 ## Part V: simplex planning (bounded-horizon search with symmetry)
 
@@ -405,14 +443,14 @@ The simplex CEO extends the greedy CEO to multi-step planning over a generalized
 
 ### k-way simplex
 
-In the simplex model, allocations are a bounded vector of k non-negative integers, each capped individually, optionally constrained to sum to a constant T. Actions are **transfers**: move one unit from bucket i to bucket j, subject to:
+In the simplex model, allocations are a bounded vector of $k$ non-negative integers, each capped individually, optionally constrained to sum to a constant $T$. Actions are **transfers**: move one unit from bucket $i$ to bucket $j$, subject to:
 
 - Source has at least 1 unit: `x[src] > 0`
 - Destination is below cap: `x[dst] < cap[dst]`
 
 If a transfer is disabled (preconditions not met), it acts as a no-op. The sum is preserved by construction, every transfer subtracts 1 from one bucket and adds 1 to another. This is **correct by construction (CBC)**: invalid states are unrepresentable because the transfer semantics make it impossible to violate the sum constraint or the per-bucket bounds.
 
-For k buckets with total T, the number of distinct states is the stars-and-bars count `C(T+k-1, k-1)`, further reduced by per-bucket caps. For 3–4 buckets with moderate totals, this is manageable. Beyond that, coarser granularity or symmetry reduction is needed.
+For $k$ buckets with total $T$, the number of distinct states is the stars-and-bars count $\binom{T+k-1}{k-1}$, further reduced by per-bucket caps. For 3–4 buckets with moderate totals, this is manageable. Beyond that, coarser granularity or symmetry reduction is needed.
 
 ### Three planning modes
 
@@ -429,6 +467,8 @@ When transfers commute, only one ordering needs to be explored. TracePor canonic
 
 This is canonicalization from [Tutorial 5, Part III]({{ '/tutorials/reformulation-and-gates/' | relative_url }}#canonicalizers-and-quotients-remove-redundant-degrees-of-freedom) applied to action sequences: many execution orders that reach the same state are collapsed to one canonical representative, and search only visits representatives.
 
+Toy example: if one transfer moves one unit from bucket A to B and another moves one unit from C to D, and those endpoints do not interfere, then doing A->B first or C->D first lands in the same state. Search should pay for that situation once, not twice.
+
 **StateSymmetry** (quotient by symmetry classes):
 
 When buckets are **interchangeable**, same cap, same objective weight, same role, the state space can be quotiented by permutations within each class. The `symmetry_key` function computes a canonical key:
@@ -440,6 +480,8 @@ When buckets are **interchangeable**, same cap, same objective weight, same role
 Two states that differ only by a permutation of interchangeable buckets will have the same key. Search visits one representative per equivalence class.
 
 This is the quotient search from [Tutorial 5, Part III]({{ '/tutorials/reformulation-and-gates/' | relative_url }}#canonicalizers-and-quotients-remove-redundant-degrees-of-freedom): instead of searching raw states, search equivalence classes.
+
+Toy example: if bucket 1 and bucket 2 have the same cap, weight, and role, then states `[4,1,7]` and `[1,4,7]` are different raw arrays but the same planning situation. Symmetry reduction keeps one representative and discards the duplicate paperwork.
 
 **AmplePorDfsC2** (depth-first with ample-set POR and C2 cycle proviso):
 
@@ -470,7 +512,7 @@ The planner terminates deterministically when either bound is reached. Tie-break
 
 ### Combinatorics and the connection to VC dimension
 
-For k buckets with total T, the unreduced state count is `C(T+k-1, k-1)`. For 3 buckets with `T = 10,000` bps, that is `C(10002, 2) = 50,015,001` states, tractable with POR but large enough to motivate symmetry reduction. For 4 buckets, it grows to `C(10003, 3) ≈ 1.67 x 10^11`, which requires coarser granularity or aggressive quotienting.
+For $k$ buckets with total $T$, the unreduced state count is $\binom{T+k-1}{k-1}$. For 3 buckets with $T = 10{,}000$ bps, that is $\binom{10002}{2} = 50{,}015{,}001$ states, tractable with POR but large enough to motivate symmetry reduction. For 4 buckets, it grows to $\binom{10003}{3} \approx 1.67 \times 10^{11}$, which requires coarser granularity or aggressive quotienting.
 
 This connects to the hypothesis space analysis from [Tutorial 5, Part III]({{ '/tutorials/reformulation-and-gates/' | relative_url }}#vc-dimension-and-shattering-what-the-definition-checks): the effective size of the search space determines how much evidence (search budget) is needed to find a good plan, and reformulation techniques (POR, symmetry) reduce that effective size without losing reachable optima.
 
@@ -531,7 +573,7 @@ MPRD maintains explicit boundaries between three evidence categories:
 
 **Machine-checked formal claims:**
 - Lean theorem bundles for CEO simplex POR (commutation conditions, swap-equivalence invariance, trace canonicalization invariance, reachability equivalence under canonicalization).
-- Lean artifact for v6 menu shortest-path geometry (L∞ distance equals shortest-path length).
+- Lean artifact for v6 menu shortest-path geometry ($L^\infty$ distance equals shortest-path length).
 - Kani harnesses for Rust verified kernels (no-mutation-on-error, conservation laws, anti-replay).
 - ROBDD certification for policy algebra (semantic hashing, semantic diff with concrete counterexamples).
 

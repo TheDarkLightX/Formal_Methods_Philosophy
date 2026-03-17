@@ -1,0 +1,125 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 480"
+  role="img"
+  aria-labelledby="fp-fix-title fp-fix-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-fix-title">Positive recursive closure as a fixpoint loop</title>
+  <desc id="fp-fix-desc">
+    A closure computation starts from base facts, applies a rule to derive new facts using join and projection, unions
+    them into the current relation, and repeats until no new facts appear. The loop terminates at a fixpoint.
+  </desc>
+
+  <defs>
+    <filter id="fp-fix-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-fix-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+    <marker id="fp-fix-arrow-orange" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#F97316" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-fix-shadow)">
+    <rect x="40" y="60" width="880" height="360" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text
+      x="90"
+      y="120"
+      font-size="16"
+      font-weight="900"
+      fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Fixpoint computation (positive recursion)
+    </text>
+    <text
+      x="90"
+      y="145"
+      font-size="12"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      Repeat rule application until the set of derived facts stops changing.
+    </text>
+
+    <!-- Step 1: base facts -->
+    <g>
+      <rect x="90" y="185" width="250" height="76" rx="22" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+      <text x="215" y="212" text-anchor="middle" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        Base facts
+      </text>
+      <text x="215" y="236" text-anchor="middle" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        Reach0[x,z] (edges)
+      </text>
+    </g>
+
+    <!-- Step 2: join + project -->
+    <g>
+      <rect x="370" y="170" width="300" height="106" rx="22" fill="rgba(15, 23, 42, 0.06)" stroke="rgba(15, 23, 42, 0.14)" />
+      <text x="520" y="198" text-anchor="middle" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        Apply rule (join + projection)
+      </text>
+      <text x="520" y="222" text-anchor="middle" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        New[x,z] from Reach[x,y] and Reach[y,z]
+      </text>
+      <rect x="398" y="235" width="244" height="30" rx="14" fill="#FFFFFF" stroke="rgba(15, 23, 42, 0.12)" />
+      <text x="520" y="255" text-anchor="middle" font-size="11" fill="#1E293B" font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">
+        New[x,z] = H(sum_y R[x,y]*R[y,z])
+      </text>
+    </g>
+
+    <!-- Step 3: union / accumulate -->
+    <g>
+      <rect x="700" y="185" width="170" height="76" rx="22" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+      <text x="785" y="212" text-anchor="middle" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        Union
+      </text>
+      <text x="785" y="236" text-anchor="middle" font-size="11" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+        R := R OR New
+      </text>
+    </g>
+
+    <!-- Arrows between steps -->
+    <path d="M340 223 H370" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" marker-end="url(#fp-fix-arrow)" />
+    <path d="M670 223 H700" stroke="#3B82F6" stroke-width="3" stroke-linecap="round" marker-end="url(#fp-fix-arrow)" />
+
+    <!-- Loop back arrow -->
+    <path
+      d="M785 261 C785 324, 520 324, 215 300 C140 294, 125 284, 125 261"
+      stroke="#F97316"
+      stroke-width="3"
+      stroke-linecap="round"
+      fill="none"
+      marker-end="url(#fp-fix-arrow-orange)"
+    />
+    <text
+      x="520"
+      y="330"
+      text-anchor="middle"
+      font-size="11"
+      fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    >
+      repeat until no new facts appear (fixpoint)
+    </text>
+
+    <!-- Bottom note -->
+    <g>
+      <rect x="90" y="378" width="780" height="26" rx="13" fill="rgba(15, 23, 42, 0.03)" stroke="rgba(15, 23, 42, 0.10)" />
+      <text
+        x="480"
+        y="396"
+        text-anchor="middle"
+        font-size="12"
+        fill="#1E293B"
+        font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+      >
+        Closure is a loop: join, project, threshold, union, repeat
+      </text>
+    </g>
+  </g>
+</svg>
