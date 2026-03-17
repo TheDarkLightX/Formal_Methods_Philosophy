@@ -1,0 +1,214 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 380"
+  role="img"
+  aria-labelledby="fp-ppl-title fp-ppl-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-ppl-title">What the structural axioms prevent</title>
+  <desc id="fp-ppl-desc">
+    Three panels comparing pathological number structures with the natural numbers.
+    Without Axiom 1 numbers could loop; without Axiom 2 they could merge.
+    Together both axioms force a single infinite chain.
+  </desc>
+
+  <defs>
+    <filter id="fp-ppl-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <!-- Red arrow for pathological panels -->
+    <marker id="fp-ppl-arrow-red" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#DC2626" fill-opacity="0.75" />
+    </marker>
+    <!-- Dashed-red arrow for the cycle-back / merge edges -->
+    <marker id="fp-ppl-arrow-red-cycle" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#EF4444" />
+    </marker>
+    <!-- Green arrow for correct panel -->
+    <marker id="fp-ppl-arrow-green" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#16A34A" fill-opacity="0.80" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-ppl-shadow)">
+    <rect x="30" y="16" width="900" height="348" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <!-- Title -->
+    <text x="66" y="56" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      What the structural axioms prevent
+    </text>
+    <text x="66" y="76" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Without Axiom 1, numbers could loop.  Without Axiom 2, numbers could merge.  Together they force a single infinite chain.
+    </text>
+
+    <!-- ============================================================ -->
+    <!-- LEFT PANEL -- Without Axiom 1: a cycle                       -->
+    <!-- ============================================================ -->
+    <rect x="52" y="96" width="260" height="248" rx="20" fill="rgba(239, 68, 68, 0.06)" stroke="rgba(220, 38, 38, 0.22)" />
+
+    <!-- Panel heading -->
+    <text x="182" y="122" font-size="12" font-weight="700" fill="#DC2626" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      Without Axiom 1: a cycle
+    </text>
+
+    <!-- Cycle nodes: arrange 0,1,2,3 in a square-ish loop -->
+    <!-- Centre of the cycle ring: cx=182 cy=200 radius ~52 -->
+    <!-- 0 at top, 1 at right, 2 at bottom, 3 at left -->
+
+    <!-- Node 0 -- top -->
+    <circle cx="182" cy="150" r="16" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5" />
+    <text x="182" y="155" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">0</text>
+
+    <!-- Node 1 -- right -->
+    <circle cx="236" cy="204" r="16" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5" />
+    <text x="236" y="209" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">1</text>
+
+    <!-- Node 2 -- bottom -->
+    <circle cx="182" cy="258" r="16" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5" />
+    <text x="182" y="263" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">2</text>
+
+    <!-- Node 3 -- left -->
+    <circle cx="128" cy="204" r="16" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5" />
+    <text x="128" y="209" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">3</text>
+
+    <!-- Arrows around the cycle: 0->1->2->3->0 -->
+    <!-- 0 -> 1 (top-right to right-top) -->
+    <line x1="196" y1="158" x2="222" y2="192" stroke="#DC2626" stroke-width="2" stroke-opacity="0.75" marker-end="url(#fp-ppl-arrow-red)" />
+    <text x="216" y="170" font-size="10" font-weight="700" fill="#DC2626" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- 1 -> 2 (right-bottom to bottom-right) -->
+    <line x1="228" y1="218" x2="196" y2="248" stroke="#DC2626" stroke-width="2" stroke-opacity="0.75" marker-end="url(#fp-ppl-arrow-red)" />
+    <text x="220" y="240" font-size="10" font-weight="700" fill="#DC2626" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- 2 -> 3 (bottom-left to left-bottom) -->
+    <line x1="168" y1="250" x2="142" y2="216" stroke="#DC2626" stroke-width="2" stroke-opacity="0.75" marker-end="url(#fp-ppl-arrow-red)" />
+    <text x="148" y="240" font-size="10" font-weight="700" fill="#DC2626" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- 3 -> 0 (the BAD edge, dashed, bolder) -->
+    <line x1="136" y1="190" x2="168" y2="160" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#fp-ppl-arrow-red-cycle)" />
+    <text x="144" y="168" font-size="10" font-weight="700" fill="#EF4444" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- X mark -->
+    <text x="262" y="152" font-size="20" font-weight="900" fill="#EF4444" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">&#x2715;</text>
+
+    <!-- Caption -->
+    <text x="182" y="302" font-size="10" font-weight="700" fill="#DC2626" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      S(3) = 0 creates a cycle
+    </text>
+    <text x="182" y="316" font-size="10" fill="#94A3B8" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      violates "0 is not a successor"
+    </text>
+
+    <!-- ============================================================ -->
+    <!-- CENTRE PANEL -- Without Axiom 2: a merge                     -->
+    <!-- ============================================================ -->
+    <rect x="332" y="96" width="260" height="248" rx="20" fill="rgba(239, 68, 68, 0.06)" stroke="rgba(220, 38, 38, 0.22)" />
+
+    <text x="462" y="122" font-size="12" font-weight="700" fill="#DC2626" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      Without Axiom 2: a merge
+    </text>
+
+    <!-- Branch A: 0 -> 1,  Branch B: 0 -> 2,  Both merge into 3 -->
+
+    <!-- Node 0 -- left-centre -->
+    <circle cx="370" cy="200" r="16" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5" />
+    <text x="370" y="205" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">0</text>
+
+    <!-- Node 1 -- upper middle -->
+    <circle cx="440" cy="168" r="16" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5" />
+    <text x="440" y="173" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">1</text>
+
+    <!-- Node 2 -- lower middle -->
+    <circle cx="440" cy="232" r="16" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5" />
+    <text x="440" y="237" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">2</text>
+
+    <!-- Node 3 -- right-centre (merge point) -->
+    <circle cx="524" cy="200" r="16" fill="#FEE2E2" stroke="#EF4444" stroke-width="2" />
+    <text x="524" y="205" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">3</text>
+
+    <!-- 0 -> 1 -->
+    <line x1="385" y1="190" x2="425" y2="174" stroke="#DC2626" stroke-width="2" stroke-opacity="0.75" marker-end="url(#fp-ppl-arrow-red)" />
+    <text x="402" y="176" font-size="10" font-weight="700" fill="#DC2626" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- 0 -> 2 -->
+    <line x1="385" y1="210" x2="425" y2="226" stroke="#DC2626" stroke-width="2" stroke-opacity="0.75" marker-end="url(#fp-ppl-arrow-red)" />
+    <text x="402" y="228" font-size="10" font-weight="700" fill="#DC2626" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- 1 -> 3 (upper merge, dashed) -->
+    <line x1="455" y1="174" x2="509" y2="194" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#fp-ppl-arrow-red-cycle)" />
+    <text x="482" y="178" font-size="10" font-weight="700" fill="#EF4444" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- 2 -> 3 (lower merge, dashed) -->
+    <line x1="455" y1="226" x2="509" y2="206" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="5,3" marker-end="url(#fp-ppl-arrow-red-cycle)" />
+    <text x="482" y="226" font-size="10" font-weight="700" fill="#EF4444" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- X mark -->
+    <text x="548" y="192" font-size="20" font-weight="900" fill="#EF4444" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">&#x2715;</text>
+
+    <!-- Caption -->
+    <text x="462" y="302" font-size="10" font-weight="700" fill="#DC2626" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      S(1) = S(2) but 1 &#x2260; 2
+    </text>
+    <text x="462" y="316" font-size="10" fill="#94A3B8" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      violates "S is injective"
+    </text>
+
+    <!-- ============================================================ -->
+    <!-- RIGHT PANEL -- With both axioms: the natural numbers          -->
+    <!-- ============================================================ -->
+    <rect x="612" y="96" width="310" height="248" rx="20" fill="rgba(34, 197, 94, 0.06)" stroke="rgba(22, 163, 74, 0.22)" />
+
+    <text x="767" y="122" font-size="12" font-weight="700" fill="#16A34A" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      With both axioms: the natural numbers
+    </text>
+
+    <!-- Linear chain: 0 -> 1 -> 2 -> 3 -> 4 -> ... -->
+
+    <!-- Node 0 -->
+    <circle cx="648" cy="210" r="16" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5" />
+    <text x="648" y="215" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">0</text>
+
+    <!-- 0 -> 1 -->
+    <line x1="664" y1="210" x2="694" y2="210" stroke="#16A34A" stroke-width="2" marker-end="url(#fp-ppl-arrow-green)" />
+    <text x="679" y="202" font-size="9" font-weight="700" fill="#16A34A" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- Node 1 -->
+    <circle cx="710" cy="210" r="16" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5" />
+    <text x="710" y="215" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">1</text>
+
+    <!-- 1 -> 2 -->
+    <line x1="726" y1="210" x2="756" y2="210" stroke="#16A34A" stroke-width="2" marker-end="url(#fp-ppl-arrow-green)" />
+    <text x="741" y="202" font-size="9" font-weight="700" fill="#16A34A" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- Node 2 -->
+    <circle cx="772" cy="210" r="16" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5" />
+    <text x="772" y="215" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">2</text>
+
+    <!-- 2 -> 3 -->
+    <line x1="788" y1="210" x2="818" y2="210" stroke="#16A34A" stroke-width="2" marker-end="url(#fp-ppl-arrow-green)" />
+    <text x="803" y="202" font-size="9" font-weight="700" fill="#16A34A" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- Node 3 -->
+    <circle cx="834" cy="210" r="16" fill="#F0FDF4" stroke="#16A34A" stroke-width="1.5" />
+    <text x="834" y="215" font-size="13" font-weight="700" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">3</text>
+
+    <!-- 3 -> 4 -->
+    <line x1="850" y1="210" x2="880" y2="210" stroke="#16A34A" stroke-width="2" marker-end="url(#fp-ppl-arrow-green)" />
+    <text x="865" y="202" font-size="9" font-weight="700" fill="#16A34A" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">S</text>
+
+    <!-- Ellipsis -->
+    <text x="900" y="216" font-size="22" font-weight="700" fill="#16A34A" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">&#x00B7;&#x00B7;&#x00B7;</text>
+
+    <!-- Checkmark -->
+    <text x="908" y="150" font-size="22" font-weight="900" fill="#16A34A" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">&#x2713;</text>
+
+    <!-- Caption -->
+    <text x="767" y="302" font-size="10" font-weight="700" fill="#16A34A" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      One infinite chain, no cycles, no merges
+    </text>
+    <text x="767" y="316" font-size="10" fill="#94A3B8" font-family="Atkinson Hyperlegible, system-ui, sans-serif" text-anchor="middle">
+      exactly the structure we want
+    </text>
+
+  </g>
+</svg>

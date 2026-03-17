@@ -1,0 +1,66 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 340"
+  role="img"
+  aria-labelledby="fp-pqe-title fp-pqe-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-pqe-title">Quantifier elimination in action</title>
+  <desc id="fp-pqe-desc">
+    The formula ∀x. ∃y. x + y = 5 flows through a quantifier-elimination pipeline,
+    stripping one quantifier at each stage until only a ground Boolean remains.
+  </desc>
+
+  <defs>
+    <filter id="fp-pqe-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-pqe-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-pqe-shadow)">
+    <rect x="40" y="40" width="880" height="260" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <!-- Title and subtitle -->
+    <text x="78" y="82" font-size="16" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Quantifier elimination in action
+    </text>
+    <text x="78" y="104" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Each stage strips one quantifier until only a ground Boolean remains.
+    </text>
+
+    <!-- Stage 1: Input formula -->
+    <rect x="62" y="130" width="190" height="100" rx="16" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="86" y="157" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Input formula</text>
+    <text x="86" y="186" font-size="14" fill="#334155" font-family="'SF Mono', 'Fira Code', monospace">&#x2200;x. &#x2203;y. x + y = 5</text>
+
+    <!-- Arrow 1-2 -->
+    <path d="M252 180 H278" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-pqe-arrow)" stroke-linecap="round" />
+
+    <!-- Stage 2: Eliminate inner existential y -->
+    <rect x="288" y="130" width="190" height="100" rx="16" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="312" y="157" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Eliminate inner &#x2203;y</text>
+    <text x="312" y="186" font-size="14" fill="#334155" font-family="'SF Mono', 'Fira Code', monospace">&#x2200;x. (x &#x2264; 5)</text>
+    <text x="312" y="220" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">y = 5 &#x2212; x is natural only when x &#x2264; 5</text>
+
+    <!-- Arrow 2-3 -->
+    <path d="M478 180 H504" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-pqe-arrow)" stroke-linecap="round" />
+
+    <!-- Stage 3: Eliminate universal x -->
+    <rect x="514" y="130" width="190" height="100" rx="16" fill="rgba(59, 130, 246, 0.10)" stroke="rgba(59, 130, 246, 0.22)" />
+    <text x="538" y="157" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Eliminate &#x2200;x</text>
+    <text x="538" y="186" font-size="14" fill="#334155" font-family="'SF Mono', 'Fira Code', monospace">&#x00AC;&#x2203;x. x &gt; 5</text>
+    <text x="538" y="220" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x2200;x.P &#x2261; &#x00AC;&#x2203;x.&#x00AC;P</text>
+
+    <!-- Arrow 3-4 -->
+    <path d="M704 180 H730" stroke="#3B82F6" stroke-width="4" marker-end="url(#fp-pqe-arrow)" stroke-linecap="round" />
+
+    <!-- Stage 4: Ground result -->
+    <rect x="740" y="130" width="160" height="100" rx="16" fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.24)" />
+    <text x="764" y="157" font-size="13" font-weight="900" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Ground result</text>
+    <text x="764" y="188" font-size="18" font-weight="900" fill="#F97316" font-family="'SF Mono', 'Fira Code', monospace">FALSE</text>
+    <text x="764" y="220" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">x = 6 is a counterexample</text>
+  </g>
+</svg>

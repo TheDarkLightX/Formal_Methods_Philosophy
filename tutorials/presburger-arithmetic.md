@@ -113,6 +113,10 @@ $$
 
 Together, Axioms 1 and 2 ensure the natural numbers form a single, infinite, non-looping, non-merging chain starting at zero.
 
+<div class="fp-diagram">
+  {% include diagrams/presburger-pathological-lines.svg %}
+</div>
+
 ### Axiom 3: additive identity
 
 $$
@@ -146,6 +150,33 @@ $$
 **The critical restriction:** The formula $\varphi$ must be expressible in the language of Presburger arithmetic: it can only mention $0$, $S$, $+$, $=$, and the logical connectives. It cannot mention multiplication, exponentiation, or any other operation.
 
 This restriction is what separates Presburger from Peano arithmetic. Peano allows induction over any first-order formula, including those that mention multiplication. That extra power is exactly what makes Peano arithmetic undecidable.
+
+### Induction at work: proving $0 + n = n$
+
+Axiom 3 says $x + 0 = x$. But what about $0 + x = x$? That is not an axiom. The addition rules recurse on the second argument, so $0 + x$ requires actual work to evaluate. This is where induction earns its keep.
+
+**Claim:** $\forall n.\; 0 + n = n$
+
+**Proof by induction on $n$:**
+
+*Base case* ($n = 0$):
+
+$$
+0 + 0 = 0 \quad \text{by Axiom 3}
+$$
+
+*Inductive step.* Assume $0 + k = k$ for some $k$. Show $0 + S(k) = S(k)$:
+
+$$
+\begin{aligned}
+0 + S(k) &= S(0 + k) &&\text{Axiom 4} \\
+         &= S(k)     &&\text{inductive hypothesis}
+\end{aligned}
+$$
+
+*Conclusion.* By Axiom 5 (induction), $\forall n.\; 0 + n = n$. $\square$
+
+Two lines of real work. But each line is licensed: one by Axiom 4, one by the inductive hypothesis. That is the difference between "obviously true" and "proved from the axioms." A machine can check this derivation with no understanding of what addition means.
 
 ## Part III: cheatsheet for reading logic formulas
 
@@ -238,7 +269,12 @@ Each line applies exactly one axiom. Three applications of Axiom 4 peel the thre
 
 This is not hand-waving. It is a derivation: every step is licensed by a specific rule, and a machine could check each step mechanically. That is the difference between arriving at an answer and proving one.
 
-The interactive "Addition Stepper" tab in the demo above lets you watch this process unfold for any pair of small numbers.
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Try it yourself</p>
+  <p>
+    Scroll back to the interactive demo above and open the <strong>Addition Stepper</strong> tab. Set x and y to any pair of small numbers and click <strong>Step</strong> to watch the axioms fire one at a time. The derivation you see is the same structure as the algebra above.
+  </p>
+</div>
 
 ### Addition as a program
 
@@ -293,13 +329,15 @@ This is a crucial pattern: while Presburger arithmetic has no multiplication fun
 
 ### Modular arithmetic
 
-Congruence modulo a fixed constant is also expressible:
+Congruence modulo a fixed constant is also expressible. For example, "$x$ leaves remainder 2 when divided by 3" is:
 
 $$
-x \equiv r \pmod{n} \;\;\iff\;\; \exists q.\; x = \underbrace{q + q + \cdots + q}_{n} + \underbrace{S(S(\cdots S(0) \cdots))}_{r}
+x \equiv 2 \pmod{3} \;\;\iff\;\; \exists q.\; x = q + q + q + S(S(0))
 $$
 
-This is important because the decision procedure reduces every formula to combinations of linear inequalities and divisibility constraints.
+The pattern generalizes: for any fixed $n$ and remainder $r$, write $n$ copies of $q$ added together, then add $r$ as a successor numeral. The key word is *fixed*: both $n$ and $r$ must be constants baked into the formula.
+
+This expressiveness matters because the decision procedure reduces every Presburger formula to a Boolean combination of exactly these two kinds of constraint: linear inequalities and divisibility conditions.
 
 ### Some example sentences and their truth values
 
@@ -367,6 +405,16 @@ The difference between Presburger and Peano arithmetic is exactly one operation:
 
 The loss of decidability is not gradual. It is a sharp boundary. The moment you can write $x \times y = z$ as a formula, you can encode arbitrary computation, and the halting problem infects the theory.
 
+To see the boundary concretely, consider primality. In Peano arithmetic, "$x$ is prime" is expressible:
+
+$$
+x > 1 \;\wedge\; \forall a.\,\forall b.\; (a \times b = x \;\rightarrow\; a = 1 \;\vee\; b = 1)
+$$
+
+This formula uses multiplication between two variables ($a \times b$). There is no way to rewrite it using only addition. You cannot check whether a number has non-trivial factors without multiplying. That single operation, variable-times-variable, is enough to encode Turing machines and bring in the halting problem.
+
+In Presburger arithmetic, you can ask "is $x$ divisible by 3?" (since 3 is fixed). But you cannot ask "does $x$ have any divisor other than 1 and itself?" because that would require quantifying over divisors and multiplying them.
+
 This is why Presburger arithmetic's limitation is actually its greatest strength. By staying on the decidable side of the boundary, every question has a guaranteed answer. For high-assurance software, that guarantee is worth more than the ability to talk about multiplication.
 
 <div class="fp-callout fp-callout-note">
@@ -388,6 +436,10 @@ Every Presburger formula, no matter how deeply nested its quantifiers, is equiva
 - divisibility constraints ($d \mid (a_1 x_1 + \cdots + c)$).
 
 Once all quantifiers are removed, what remains is a finite Boolean expression that can be evaluated directly.
+
+<div class="fp-diagram">
+  {% include diagrams/presburger-qe-pipeline.svg %}
+</div>
 
 ### Cooper's algorithm (sketch)
 
@@ -478,6 +530,13 @@ Output:
 ```
 
 The decision procedure separates even from odd, correctly and mechanically, for every input.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Try it yourself</p>
+  <p>
+    Scroll back to the interactive demo and open the <strong>Formula Playground</strong> tab. Select any of the preset formulas and click <strong>Evaluate</strong>. Watch the search trace light up as the procedure checks each candidate, then delivers a guaranteed TRUE or FALSE.
+  </p>
+</div>
 
 ## Part IX: programs are proofs
 
