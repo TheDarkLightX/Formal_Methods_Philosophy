@@ -179,7 +179,7 @@ show_title: false
     class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/presburger-arithmetic/' | relative_url }}"
   >
-    <h2 class="fp-card-title">Tutorial 16: Presburger arithmetic — the decidable island</h2>
+    <h2 class="fp-card-title">Tutorial 16: Presburger arithmetic, the decidable island</h2>
     <p class="fp-card-text">
       Build Presburger arithmetic from zero and successor, read its formulas, understand why excluding
       multiplication makes every question decidable, and see how this fragment powers real verification tools.

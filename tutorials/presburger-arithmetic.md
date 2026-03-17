@@ -147,7 +147,7 @@ $$
 
 This restriction is what separates Presburger from Peano arithmetic. Peano allows induction over any first-order formula, including those that mention multiplication. That extra power is exactly what makes Peano arithmetic undecidable.
 
-## Part III: cheatsheet — reading logic formulas
+## Part III: cheatsheet for reading logic formulas
 
 Logic notation can look alien on first contact. This reference card covers every symbol used in Presburger arithmetic.
 
@@ -203,7 +203,7 @@ Read: "There exists an $x$ whose successor is zero." This is false by Axiom 1.
 <div class="fp-callout fp-callout-warn">
   <p class="fp-callout-title">Free variables vs. sentences</p>
   <p>
-    A <strong>sentence</strong> is a formula with no free variables — every variable is bound by a quantifier. Only sentences have definite truth values. A formula with free variables, like <code>x + 0 = x</code>, is a template that becomes true or false depending on what <code>x</code> is.
+    A <strong>sentence</strong> is a formula with no free variables; every variable is bound by a quantifier. Only sentences have definite truth values. A formula with free variables, like <code>x + 0 = x</code>, is a template that becomes true or false depending on what <code>x</code> is.
   </p>
   <p>
     Decidability applies to sentences. Given any sentence in the language, the decision procedure returns TRUE or FALSE.
@@ -257,7 +257,7 @@ The recursion peels $S$ off the second argument, exactly as the axioms prescribe
 
 ## Part V: what you can say in Presburger arithmetic
 
-The language is small — just $0$, $S$, and $+$ — but it can express more than it first appears.
+The language is small (just $0$, $S$, and $+$) but it can express more than it first appears.
 
 ### Ordering
 
@@ -289,7 +289,7 @@ n \mid x &\;\iff\; \exists y.\; x = \underbrace{y + y + \cdots + y}_{n \text{ co
 \end{aligned}
 $$
 
-This is a crucial pattern: while Presburger arithmetic has no multiplication function, it can express divisibility by any fixed constant using repeated addition. The constant must be fixed in the formula — you cannot quantify over divisors.
+This is a crucial pattern: while Presburger arithmetic has no multiplication function, it can express divisibility by any fixed constant using repeated addition. The constant must be fixed in the formula; you cannot quantify over divisors.
 
 ### Modular arithmetic
 
@@ -325,7 +325,7 @@ A theory is **decidable** if there exists an algorithm that:
 
 Presburger arithmetic is decidable. Mojżesz Presburger proved this in 1929, presenting his result at the First Congress of Mathematicians of Slavic Countries in Warsaw.
 
-This means there is a machine — not a heuristic, not a best-effort search, but a terminating algorithm — that can answer every question expressible in the language $\{0, S, +\}$.
+This means there is a machine (not a heuristic, not a best-effort search, but a terminating algorithm) that can answer every question expressible in the language $\{0, S, +\}$.
 
 The algorithm does not need to be fast. Presburger's decision procedure has high worst-case complexity (at least doubly exponential in the length of the formula). But it always finishes, and it is always right. For finite or bounded queries, modern implementations are practical.
 
@@ -353,7 +353,7 @@ That extension destroys decidability:
 
 Presburger arithmetic avoids all three of these. Its completeness and decidability come precisely from excluding multiplication.
 
-## Part VII: the boundary — what multiplication destroys
+## Part VII: the boundary, and what multiplication destroys
 
 The difference between Presburger and Peano arithmetic is exactly one operation: $\times$.
 
@@ -410,9 +410,9 @@ $$
 \exists x.\; x + x = S(S(S(S(0))))
 $$
 
-Step 1 — rewrite in terms of integers: $\exists x.\; 2x = 4$.
+Step 1. rewrite in terms of integers: $\exists x.\; 2x = 4$.
 
-Step 2 — solve: $x = 2$. This is a natural number, so the existential is satisfied.
+Step 2. solve: $x = 2$. This is a natural number, so the existential is satisfied.
 
 Result: **TRUE**, with witness $x = 2$.
 
@@ -422,9 +422,9 @@ $$
 \exists x.\; x + x = S(S(S(0)))
 $$
 
-Step 1 — rewrite: $\exists x.\; 2x = 3$.
+Step 1. rewrite: $\exists x.\; 2x = 3$.
 
-Step 2 — solve: $x = 1.5$. This is not a natural number.
+Step 2. solve: $x = 1.5$. This is not a natural number.
 
 Result: **FALSE**. No witness exists.
 
@@ -434,11 +434,11 @@ $$
 \forall x.\;\exists y.\; x + y = S(S(S(S(S(0)))))
 $$
 
-Step 1 — eliminate the inner $\exists y$: $y = 5 - x$. This is a natural number only when $x \leq 5$.
+Step 1. eliminate the inner $\exists y$: $y = 5 - x$. This is a natural number only when $x \leq 5$.
 
-Step 2 — the formula reduces to $\forall x.\;(x \leq 5)$.
+Step 2. the formula reduces to $\forall x.\;(x \leq 5)$.
 
-Step 3 — this is false ($x = 6$ is a counterexample).
+Step 3. this is false ($x = 6$ is a counterexample).
 
 Result: **FALSE**.
 
@@ -564,8 +564,8 @@ Modern SMT (Satisfiability Modulo Theories) solvers like Z3 and CVC5 include a t
 When a verification tool asks "is this integer constraint satisfiable?", the LIA solver answers using a decision procedure descended from Presburger and Cooper. This happens inside:
 
 - **Program analysis tools** (abstract interpreters, static analyzers),
-- **Proof assistants** (Isabelle, Lean, Coq — all delegate integer subgoals to arithmetic solvers),
-- **Model checkers** (CBMC, SPARK — for bounded and unbounded verification of C, Ada, and other code).
+- **Proof assistants** (Isabelle, Lean, Coq, which all delegate integer subgoals to arithmetic solvers),
+- **Model checkers** (CBMC, SPARK, for bounded and unbounded verification of C, Ada, and other code).
 
 ### Array bounds checking
 
@@ -601,7 +601,7 @@ The seL4 microkernel's formal verification includes thousands of subgoals about 
 
 ### The pattern
 
-The common thread is this: real systems deal with integers, indices, offsets, and counters. When the operations are limited to addition, subtraction, comparison, and divisibility by constants — and they often are — the problem lives in Presburger arithmetic, and decidability gives you a guarantee that no heuristic can match.
+The common thread is this: real systems deal with integers, indices, offsets, and counters. When the operations are limited to addition, subtraction, comparison, and divisibility by constants, and they often are, the problem lives in Presburger arithmetic, and decidability gives you a guarantee that no heuristic can match.
 
 That is the practical payoff of Presburger's 1929 theorem: a fragment of arithmetic that is powerful enough to express most integer reasoning in software, and tame enough that a machine can always give the right answer.
 
