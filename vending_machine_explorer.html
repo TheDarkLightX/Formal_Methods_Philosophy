@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vending Machine Explorer</title>
+<style>
+  :root {
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eae8e3;
+    --text: #1a1a1a; --text2: #6b6a65; --text3: #9c9a92;
+    --border: rgba(0,0,0,0.12); --blue: #3B82F6; --blue-bg: rgba(59,130,246,0.08);
+    --blue-border: rgba(59,130,246,0.22); --orange: #F97316; --orange-bg: rgba(249,115,22,0.08);
+    --green: #16a34a; --green-bg: rgba(22,163,74,0.08); --red: #dc2626; --red-bg: rgba(220,38,38,0.06);
+    --radius: 10px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "SF Mono", "Fira Code", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a; --bg2: #2c2c2a; --bg3: #3a3a36;
+      --text: #e8e6df; --text2: #9c9a92; --text3: #6b6a65;
+      --border: rgba(255,255,255,0.12); --blue-bg: rgba(59,130,246,0.14);
+      --blue-border: rgba(59,130,246,0.30); --orange-bg: rgba(249,115,22,0.12);
+      --green-bg: rgba(22,163,74,0.12); --red-bg: rgba(220,38,38,0.10);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 1.25rem; max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 18px; font-weight: 700; margin: 0 0 0.15rem; }
+  .subtitle { font-size: 13px; color: var(--text2); margin: 0 0 1rem; }
+  h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin: 0 0 0.5rem; }
+
+  /* ── State diagram ─────────────────────────── */
+  .state-diagram-wrap { margin: 0 0 1rem; border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem; background: var(--bg2); overflow: hidden; }
+  .state-diagram { width: 100%; height: auto; display: block; }
+  .sd-box { transition: fill 0.3s, stroke 0.3s; }
+  .sd-box.active { fill: rgba(59,130,246,0.22) !important; stroke: #3B82F6 !important; stroke-width: 2 !important; }
+  .sd-label { transition: fill 0.3s; }
+  .sd-label.active { fill: #3B82F6 !important; font-weight: 900 !important; }
+  .sd-edge { transition: stroke 0.4s, stroke-width 0.4s; }
+  .sd-edge.fired { stroke: #F97316 !important; stroke-width: 3 !important; }
+
+  /* ── Main layout ───────────────────────────── */
+  .main { display: grid; grid-template-columns: 280px 1fr; gap: 1rem; margin: 0 0 1rem; }
+  @media (max-width: 620px) { .main { grid-template-columns: 1fr; } }
+
+  /* ── Vending machine ───────────────────────── */
+  .machine { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2); overflow: hidden; }
+  .machine-display { background: #0d1117; color: #4ade80; font-family: var(--mono); padding: 0.75rem; text-align: center; }
+  .machine-display .credit { font-size: 22px; font-weight: 700; }
+  .machine-display .status { font-size: 11px; margin-top: 0.25rem; color: #86efac; min-height: 1.2em; }
+  .products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 8px; }
+  .product-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 10px 4px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--bg); cursor: pointer; transition: all 0.15s; font-family: var(--font);
+    min-height: 70px; position: relative;
+  }
+  .product-btn:hover:not(:disabled) { border-color: var(--blue); background: var(--blue-bg); transform: translateY(-1px); }
+  .product-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .product-btn .prod-label { font-size: 11px; font-weight: 700; color: var(--text); }
+  .product-btn .prod-name { font-size: 10px; color: var(--text2); margin-top: 2px; }
+  .product-btn .prod-price { font-size: 11px; font-weight: 600; color: var(--blue); margin-top: 3px; }
+  .product-btn .sold-out { font-size: 9px; font-weight: 700; color: var(--red); text-transform: uppercase; }
+  .product-btn.selected { border-color: var(--orange); background: var(--orange-bg); }
+
+  .coins { display: flex; gap: 6px; padding: 8px; }
+  .coin-btn {
+    flex: 1; padding: 8px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--bg); cursor: pointer; font-family: var(--font); font-size: 13px;
+    font-weight: 700; transition: all 0.15s; color: var(--text);
+  }
+  .coin-btn:hover:not(:disabled) { border-color: var(--green); background: var(--green-bg); transform: translateY(-1px); }
+  .coin-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .actions { display: flex; gap: 6px; padding: 0 8px 8px; }
+  .action-btn {
+    flex: 1; padding: 8px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--bg); cursor: pointer; font-family: var(--font); font-size: 12px;
+    font-weight: 600; transition: all 0.15s; color: var(--text2);
+  }
+  .action-btn:hover:not(:disabled) { border-color: var(--blue-border); color: var(--text); }
+  .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .action-btn.primary { background: var(--blue-bg); color: var(--blue); border-color: var(--blue-border); }
+  .action-btn.primary:hover:not(:disabled) { background: rgba(59,130,246,0.18); }
+  .tray { padding: 6px 8px 8px; min-height: 36px; }
+  .tray-item { display: inline-block; padding: 6px 12px; border-radius: 6px; background: var(--green-bg); color: var(--green); font-size: 12px; font-weight: 600; animation: drop 0.4s ease-out; }
+  @keyframes drop { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Formula panel ─────────────────────────── */
+  .formulas { display: flex; flex-direction: column; gap: 0.75rem; }
+  .f-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem; background: var(--bg2); }
+  .f-state-val { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--blue); padding: 4px 8px; border-radius: 6px; background: var(--blue-bg); display: inline-block; }
+  .f-var-row { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; border-bottom: 1px solid var(--border); font-family: var(--mono); }
+  .f-var-row:last-child { border-bottom: 0; }
+  .f-var-name { color: var(--text2); }
+  .f-var-val { font-weight: 600; color: var(--text); }
+  .f-inv { font-size: 12px; font-family: var(--mono); padding: 4px 0; display: flex; gap: 6px; align-items: flex-start; }
+  .f-inv-icon { flex-shrink: 0; width: 16px; text-align: center; font-weight: 700; }
+  .f-inv-icon.ok { color: var(--green); }
+  .f-inv-icon.na { color: var(--text3); }
+  .f-inv-text { color: var(--text2); line-height: 1.35; }
+  .f-inv-text.active { color: var(--text); }
+  .f-trans { font-family: var(--mono); font-size: 12px; color: var(--orange); line-height: 1.5; min-height: 2em; }
+  .f-trans.none { color: var(--text3); }
+
+  /* ── Log ────────────────────────────────────── */
+  .log { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem; background: var(--bg2); max-height: 140px; overflow-y: auto; }
+  .log-entry { font-size: 11px; font-family: var(--mono); padding: 3px 0; border-bottom: 1px solid var(--border); color: var(--text2); display: flex; gap: 8px; }
+  .log-entry:last-child { border-bottom: 0; }
+  .log-step { color: var(--text3); min-width: 20px; }
+  .log-action { color: var(--blue); font-weight: 600; min-width: 100px; }
+  .log-formula { color: var(--text2); }
+</style>
+</head>
+<body>
+
+<h1>Vending Machine Explorer</h1>
+<p class="subtitle">Interact with the machine and watch the state machine, invariants, and transition formulas update in real time.</p>
+
+<!-- ── State machine diagram ───────────────── -->
+<div class="state-diagram-wrap">
+<svg class="state-diagram" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="vm-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0.5 L8,4 L0,7.5 Z" fill="rgba(0,0,0,0.3)"/>
+    </marker>
+  </defs>
+  <!-- Row 1 -->
+  <rect id="sd-idle" class="sd-box" x="8" y="20" width="100" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-idle" class="sd-label" x="58" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="-apple-system,sans-serif">Idle</text>
+  <rect id="sd-auth" class="sd-box" x="170" y="20" width="120" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-auth" class="sd-label" x="230" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="-apple-system,sans-serif">Authorized</text>
+  <rect id="sd-choice" class="sd-box" x="352" y="20" width="130" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-choice" class="sd-label" x="417" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="-apple-system,sans-serif">ChoiceReady</text>
+  <!-- Row 2 -->
+  <rect id="sd-exec" class="sd-box" x="352" y="130" width="130" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-exec" class="sd-label" x="417" y="154" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="-apple-system,sans-serif">Executing</text>
+  <rect id="sd-deliv" class="sd-box" x="170" y="130" width="120" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-deliv" class="sd-label" x="230" y="154" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="-apple-system,sans-serif">Delivered</text>
+  <rect id="sd-reset" class="sd-box" x="8" y="130" width="100" height="38" rx="12" fill="rgba(59,130,246,0.05)" stroke="rgba(59,130,246,0.14)"/>
+  <text id="sl-reset" class="sd-label" x="58" y="154" text-anchor="middle" font-size="12" font-weight="600" fill="#6b6a65" font-family="-apple-system,sans-serif">Resetting</text>
+  <!-- Edges -->
+  <line id="e-idle-auth" class="sd-edge" x1="108" y1="39" x2="165" y2="39" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-auth-choice" class="sd-edge" x1="290" y1="39" x2="347" y2="39" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-choice-exec" class="sd-edge" x1="490" y1="58" x2="490" y2="125" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-exec-deliv" class="sd-edge" x1="352" y1="149" x2="295" y2="149" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-deliv-reset" class="sd-edge" x1="170" y1="149" x2="113" y2="149" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-reset-idle" class="sd-edge" x1="8" y1="130" x2="8" y2="63" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <!-- Reject arc -->
+  <path id="e-reject" class="sd-edge" d="M352,20 C300,-8 170,-8 108,20" stroke="rgba(220,38,38,0.3)" stroke-width="1" stroke-dasharray="4,3" fill="none" marker-end="url(#vm-arrow)"/>
+  <text x="230" y="9" text-anchor="middle" font-size="9" fill="rgba(220,38,38,0.6)" font-family="-apple-system,sans-serif">reject</text>
+  <!-- Edge labels -->
+  <text x="136" y="32" font-size="8" fill="rgba(0,0,0,0.4)" font-family="-apple-system,sans-serif">coin</text>
+  <text x="318" y="32" font-size="8" fill="rgba(0,0,0,0.4)" font-family="-apple-system,sans-serif">ready</text>
+  <text x="498" y="95" font-size="8" fill="rgba(0,0,0,0.4)" font-family="-apple-system,sans-serif">select</text>
+  <text x="320" y="142" font-size="8" fill="rgba(0,0,0,0.4)" font-family="-apple-system,sans-serif">vend</text>
+  <text x="140" y="142" font-size="8" fill="rgba(0,0,0,0.4)" font-family="-apple-system,sans-serif">take</text>
+  <!-- Counter badges -->
+  <text x="590" y="30" font-size="10" fill="rgba(0,0,0,0.3)" font-family="-apple-system,sans-serif">Step: <tspan id="sd-step" font-weight="700">0</tspan></text>
+</svg>
+</div>
+
+<!-- ── Main: machine + formulas ────────────── -->
+<div class="main">
+  <!-- Vending machine -->
+  <div class="machine">
+    <div class="machine-display">
+      <div class="credit" id="vm-credit">$0.00</div>
+      <div class="status" id="vm-status">INSERT COINS</div>
+    </div>
+    <div class="products" id="vm-products"></div>
+    <div class="coins" id="vm-coins">
+      <button class="coin-btn" data-value="25" onclick="vm.insertCoin(25)">25&cent;</button>
+      <button class="coin-btn" data-value="50" onclick="vm.insertCoin(50)">50&cent;</button>
+      <button class="coin-btn" data-value="100" onclick="vm.insertCoin(100)">$1.00</button>
+    </div>
+    <div class="actions">
+      <button class="action-btn" id="btn-cancel" onclick="vm.cancel()" disabled>Cancel</button>
+      <button class="action-btn primary" id="btn-take" onclick="vm.takeItem()" disabled>Take Item</button>
+    </div>
+    <div class="tray" id="vm-tray"></div>
+  </div>
+
+  <!-- Formula panel -->
+  <div class="formulas">
+    <div class="f-card">
+      <h3>Current State</h3>
+      <div class="f-state-val" id="f-state">&#963;.state = Idle</div>
+    </div>
+    <div class="f-card">
+      <h3>Variables</h3>
+      <div id="f-vars"></div>
+    </div>
+    <div class="f-card">
+      <h3>Invariants</h3>
+      <div id="f-invs"></div>
+    </div>
+    <div class="f-card">
+      <h3>Last Transition</h3>
+      <div class="f-trans none" id="f-trans">&mdash; waiting for first action</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Transition log ────────────────────────── -->
+<div>
+  <h3 style="margin-bottom:0.5rem">Transition History</h3>
+  <div class="log" id="vm-log">
+    <div class="log-entry"><span class="log-step">0</span><span class="log-action">Init</span><span class="log-formula">&#963; := (Idle, credit=0, choice=&empty;, delivered=false)</span></div>
+  </div>
+</div>
+
+<script>
+const PRODUCTS = [
+  { id: 'A1', name: 'Water',  price: 75,  stock: 3 },
+  { id: 'A2', name: 'Cola',   price: 100, stock: 2 },
+  { id: 'A3', name: 'Juice',  price: 125, stock: 2 },
+  { id: 'B1', name: 'Chips',  price: 100, stock: 1 },
+  { id: 'B2', name: 'Candy',  price: 50,  stock: 0 },
+  { id: 'B3', name: 'Cookie', price: 75,  stock: 4 },
+];
+
+const STATES = ['Idle','Authorized','ChoiceReady','Executing','Delivered','Resetting'];
+const STATE_IDS = { Idle:'idle', Authorized:'auth', ChoiceReady:'choice', Executing:'exec', Delivered:'deliv', Resetting:'reset' };
+const EDGE_MAP = {
+  'Idle->Authorized': 'e-idle-auth',
+  'Authorized->ChoiceReady': 'e-auth-choice',
+  'ChoiceReady->Executing': 'e-choice-exec',
+  'Executing->Delivered': 'e-exec-deliv',
+  'Delivered->Resetting': 'e-deliv-reset',
+  'Resetting->Idle': 'e-reset-idle',
+  'ChoiceReady->Idle': 'e-reject',
+};
+
+const INVARIANTS = [
+  { id: 'inv1', formula: 'credit &ge; 0', desc: 'Credit is never negative', check: s => s.credit >= 0, always: true },
+  { id: 'inv2', formula: 'state = ChoiceReady &rarr; credit > 0', desc: 'Choice requires credit', check: s => s.state !== 'ChoiceReady' || s.credit > 0, always: true },
+  { id: 'inv3', formula: 'Execute &rarr; credit &ge; price(choice)', desc: 'Execution requires sufficient funds', check: s => s.state !== 'Executing' || s.credit >= (s.choicePrice || 0), always: true },
+  { id: 'inv4', formula: 'delivered &rarr; state &isin; {Delivered, Resetting}', desc: 'Delivery only after execution', check: s => !s.delivered || ['Delivered','Resetting'].includes(s.state), always: true },
+  { id: 'inv5', formula: 'vend &rarr; stocked(choice)', desc: 'Cannot vend empty slot', check: s => s.state !== 'Executing' || (s.choiceStock || 0) > 0, always: true },
+];
+
+class VendingMachine {
+  constructor() {
+    this.state = 'Idle';
+    this.credit = 0;
+    this.choice = null;
+    this.choicePrice = 0;
+    this.choiceStock = 0;
+    this.delivered = false;
+    this.step = 0;
+    this.products = PRODUCTS.map(p => ({...p}));
+    this.buildProducts();
+    this.render();
+  }
+
+  buildProducts() {
+    const el = document.getElementById('vm-products');
+    el.innerHTML = '';
+    this.products.forEach(p => {
+      const btn = document.createElement('button');
+      btn.className = 'product-btn';
+      btn.dataset.id = p.id;
+      btn.onclick = () => this.selectProduct(p.id);
+      const soldOut = p.stock === 0;
+      btn.innerHTML = `<span class="prod-label">${p.id}</span><span class="prod-name">${p.name}</span>` +
+        (soldOut ? '<span class="sold-out">Sold Out</span>' : `<span class="prod-price">$${(p.price/100).toFixed(2)}</span>`);
+      if (soldOut) btn.disabled = true;
+      el.appendChild(btn);
+    });
+  }
+
+  insertCoin(cents) {
+    if (!['Idle','Authorized','ChoiceReady'].includes(this.state)) return;
+    const prev = this.state;
+    this.credit += cents;
+    if (prev === 'Idle') {
+      this.transition('Authorized',
+        `Authorize := (state = Idle) &and; GateSatisfied &and; (state' = Authorized)`,
+        `Insert ${cents}&cent; &rarr; credit' = $${(this.credit/100).toFixed(2)}`);
+      // Auto-advance to ChoiceReady after brief delay
+      setTimeout(() => {
+        if (this.state === 'Authorized') {
+          this.transition('ChoiceReady',
+            `PresentChoices := (state = Authorized) &and; MenuReady &and; (state' = ChoiceReady)`,
+            `Menu ready &rarr; selections enabled`);
+        }
+      }, 600);
+    } else {
+      this.logEntry(`Add coin`, `credit' = credit + ${cents}&cent; = $${(this.credit/100).toFixed(2)}`);
+      this.render();
+    }
+  }
+
+  selectProduct(id) {
+    if (this.state !== 'ChoiceReady') return;
+    const p = this.products.find(x => x.id === id);
+    if (!p) return;
+    this.choice = p.id;
+    this.choicePrice = p.price;
+    this.choiceStock = p.stock;
+    if (p.stock === 0) {
+      this.logEntry('Reject (empty)', `BadInput := stocked(${p.id}) = 0 &and; (state' = ChoiceReady)`);
+      this.choice = null;
+      this.setStatus(`${p.id} is sold out!`);
+      this.render();
+      return;
+    }
+    if (this.credit < p.price) {
+      this.logEntry('Reject (funds)', `BadInput := credit < price(${p.id}) &and; (state' = ChoiceReady)`);
+      this.choice = null;
+      this.setStatus(`Need $${(p.price/100).toFixed(2)}, have $${(this.credit/100).toFixed(2)}`);
+      this.highlightEdge('ChoiceReady->Idle', 800);
+      this.render();
+      return;
+    }
+    // Valid selection -> Executing
+    this.transition('Executing',
+      `Choose := (state = ChoiceReady) &and; ChoiceValid &and; (state' = Executing)`,
+      `Select ${p.id} (${p.name}, $${(p.price/100).toFixed(2)}) &rarr; executing`);
+    // Auto-vend after delay
+    setTimeout(() => {
+      if (this.state === 'Executing') {
+        const product = this.products.find(x => x.id === this.choice);
+        if (product) product.stock--;
+        this.credit -= this.choicePrice;
+        this.delivered = true;
+        this.transition('Delivered',
+          `Execute := (state = Executing) &and; resource_ok &and; (state' = Delivered)`,
+          `Vend ${this.choice} &rarr; delivered' = true, credit' = $${(this.credit/100).toFixed(2)}`);
+        document.getElementById('vm-tray').innerHTML = `<span class="tray-item">${this.choice}: ${product ? product.name : ''}</span>`;
+        this.buildProducts();
+      }
+    }, 1200);
+  }
+
+  takeItem() {
+    if (this.state !== 'Delivered') return;
+    document.getElementById('vm-tray').innerHTML = '';
+    this.transition('Resetting',
+      `Deliver := (state = Delivered) &and; ResourceTransferred`,
+      `Take item &rarr; moving to reset`);
+    setTimeout(() => {
+      if (this.state === 'Resetting') {
+        const changeMsg = this.credit > 0 ? `, change $${(this.credit/100).toFixed(2)} returned` : '';
+        this.credit = 0;
+        this.choice = null;
+        this.choicePrice = 0;
+        this.delivered = false;
+        this.transition('Idle',
+          `Reset := (state' = Idle) &and; (authorized' = 0) &and; (delivered' = 0)`,
+          `Reset complete${changeMsg} &rarr; ready for next customer`);
+      }
+    }, 600);
+  }
+
+  cancel() {
+    if (!['Authorized','ChoiceReady'].includes(this.state)) return;
+    const changeMsg = this.credit > 0 ? `change $${(this.credit/100).toFixed(2)} returned` : 'no change';
+    this.credit = 0;
+    this.choice = null;
+    this.delivered = false;
+    this.transition('Idle',
+      `Reject := BadInput &and; (state' = Idle) &and; (credit' = 0)`,
+      `Cancel &rarr; ${changeMsg}`);
+  }
+
+  transition(newState, formula, detail) {
+    const prev = this.state;
+    this.state = newState;
+    this.step++;
+    this.highlightEdge(`${prev}->${newState}`, 1500);
+    this.setFormula(formula);
+    this.logEntry(`${prev} &rarr; ${newState}`, detail);
+    this.render();
+  }
+
+  logEntry(action, formula) {
+    this.step++;
+    const log = document.getElementById('vm-log');
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.innerHTML = `<span class="log-step">${this.step}</span><span class="log-action">${action}</span><span class="log-formula">${formula}</span>`;
+    log.insertBefore(entry, log.firstChild);
+    document.getElementById('sd-step').textContent = this.step;
+  }
+
+  highlightEdge(key, ms) {
+    const id = EDGE_MAP[key];
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('fired');
+    setTimeout(() => el.classList.remove('fired'), ms);
+  }
+
+  setStatus(msg) { document.getElementById('vm-status').textContent = msg; }
+  setFormula(html) {
+    const el = document.getElementById('f-trans');
+    el.innerHTML = html;
+    el.className = 'f-trans';
+  }
+
+  render() {
+    // Display
+    document.getElementById('vm-credit').textContent = `$${(this.credit/100).toFixed(2)}`;
+    const statusMap = {
+      Idle: 'INSERT COINS',
+      Authorized: 'PROCESSING...',
+      ChoiceReady: 'SELECT AN ITEM',
+      Executing: 'VENDING...',
+      Delivered: 'TAKE YOUR ITEM',
+      Resetting: 'PLEASE WAIT...',
+    };
+    document.getElementById('vm-status').textContent = statusMap[this.state] || '';
+
+    // State diagram highlights
+    STATES.forEach(s => {
+      const sid = STATE_IDS[s];
+      document.getElementById('sd-' + sid).classList.toggle('active', s === this.state);
+      document.getElementById('sl-' + sid).classList.toggle('active', s === this.state);
+    });
+    document.getElementById('sd-step').textContent = this.step;
+
+    // Button states
+    const canInsert = ['Idle','Authorized','ChoiceReady'].includes(this.state);
+    document.querySelectorAll('.coin-btn').forEach(b => b.disabled = !canInsert);
+    const canSelect = this.state === 'ChoiceReady';
+    document.querySelectorAll('.product-btn').forEach(b => {
+      const p = this.products.find(x => x.id === b.dataset.id);
+      b.disabled = !canSelect || (p && p.stock === 0);
+      b.classList.toggle('selected', this.choice === b.dataset.id);
+    });
+    document.getElementById('btn-cancel').disabled = !['Authorized','ChoiceReady'].includes(this.state);
+    document.getElementById('btn-take').disabled = this.state !== 'Delivered';
+
+    // Formula panel - state
+    document.getElementById('f-state').innerHTML = `&#963;.state = ${this.state}`;
+
+    // Formula panel - variables
+    document.getElementById('f-vars').innerHTML = [
+      ['credit', `$${(this.credit/100).toFixed(2)}`],
+      ['choice', this.choice || '&empty;'],
+      ['authorized', this.state !== 'Idle' ? '1' : '0'],
+      ['delivered', this.delivered ? 'true' : 'false'],
+    ].map(([n,v]) => `<div class="f-var-row"><span class="f-var-name">${n}</span><span class="f-var-val">${v}</span></div>`).join('');
+
+    // Formula panel - invariants
+    const invHtml = INVARIANTS.map(inv => {
+      const ok = inv.check(this);
+      const relevant = inv.always;
+      return `<div class="f-inv"><span class="f-inv-icon ${ok ? 'ok' : 'na'}">${ok ? '&#10003;' : '&#10007;'}</span><span class="f-inv-text ${relevant ? 'active' : ''}">${inv.formula}</span></div>`;
+    }).join('');
+    document.getElementById('f-invs').innerHTML = invHtml;
+  }
+}
+
+const vm = new VendingMachine();
+</script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 920 340"
+  role="img"
+  aria-labelledby="fp-gts-title fp-gts-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-gts-title">The gated-transaction shape</title>
+  <desc id="fp-gts-desc">
+    Six states arranged in a horseshoe cycle: Idle, Authorized, ChoiceReady across the top;
+    Executing, Delivered, Resetting across the bottom. Arrows show the allowed transition
+    path, with a dashed reject arc returning to Idle.
+  </desc>
+
+  <defs>
+    <filter id="fp-gts-sh" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.07" />
+    </filter>
+    <marker id="fp-gts-a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#3B82F6" fill-opacity="0.85" />
+    </marker>
+    <marker id="fp-gts-ar" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#F97316" fill-opacity="0.85" />
+    </marker>
+  </defs>
+
+  <!-- Heading -->
+  <text x="460" y="26" font-size="13" font-weight="900" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="0.08em">
+    THE GATED-TRANSACTION SHAPE
+  </text>
+
+  <!-- ── Row 1 states ──────────────────────────── -->
+  <g filter="url(#fp-gts-sh)">
+    <rect x="50" y="52" width="150" height="50" rx="18"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.28)" />
+    <text x="125" y="83" font-size="15" font-weight="900" fill="#1E293B" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Idle</text>
+  </g>
+  <g filter="url(#fp-gts-sh)">
+    <rect x="295" y="52" width="170" height="50" rx="18"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.28)" />
+    <text x="380" y="83" font-size="15" font-weight="900" fill="#1E293B" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Authorized</text>
+  </g>
+  <g filter="url(#fp-gts-sh)">
+    <rect x="560" y="52" width="180" height="50" rx="18"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.28)" />
+    <text x="650" y="83" font-size="15" font-weight="900" fill="#1E293B" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">ChoiceReady</text>
+  </g>
+
+  <!-- ── Row 2 states ──────────────────────────── -->
+  <g filter="url(#fp-gts-sh)">
+    <rect x="560" y="218" width="180" height="50" rx="18"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.28)" />
+    <text x="650" y="249" font-size="15" font-weight="900" fill="#1E293B" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Executing</text>
+  </g>
+  <g filter="url(#fp-gts-sh)">
+    <rect x="295" y="218" width="170" height="50" rx="18"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.28)" />
+    <text x="380" y="249" font-size="15" font-weight="900" fill="#1E293B" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Delivered</text>
+  </g>
+  <g filter="url(#fp-gts-sh)">
+    <rect x="50" y="218" width="150" height="50" rx="18"
+      fill="rgba(59,130,246,0.06)" stroke="rgba(59,130,246,0.18)" />
+    <text x="125" y="249" font-size="14" font-weight="900" fill="#475569" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Resetting</text>
+  </g>
+
+  <!-- ── Arrows: top row (left → right) ────────── -->
+  <line x1="200" y1="77" x2="289" y2="77"
+    stroke="#3B82F6" stroke-width="2" marker-end="url(#fp-gts-a)" />
+  <text x="244" y="68" font-size="10" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">gate passes</text>
+
+  <line x1="465" y1="77" x2="554" y2="77"
+    stroke="#3B82F6" stroke-width="2" marker-end="url(#fp-gts-a)" />
+  <text x="509" y="68" font-size="10" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">menu ready</text>
+
+  <!-- ── Arrow: right column (down) ────────────── -->
+  <line x1="755" y1="102" x2="755" y2="212"
+    stroke="#3B82F6" stroke-width="2" marker-end="url(#fp-gts-a)" />
+  <text x="785" y="161" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">choice valid</text>
+
+  <!-- ── Arrows: bottom row (right → left) ─────── -->
+  <line x1="560" y1="243" x2="471" y2="243"
+    stroke="#3B82F6" stroke-width="2" marker-end="url(#fp-gts-a)" />
+  <text x="515" y="234" font-size="10" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">resource OK</text>
+
+  <line x1="295" y1="243" x2="206" y2="243"
+    stroke="#3B82F6" stroke-width="2" marker-end="url(#fp-gts-a)" />
+  <text x="250" y="234" font-size="10" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">transfer done</text>
+
+  <!-- ── Arrow: left column (up) ───────────────── -->
+  <line x1="35" y1="218" x2="35" y2="108"
+    stroke="#3B82F6" stroke-width="2" marker-end="url(#fp-gts-a)" />
+  <text x="22" y="160" font-size="10" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    writing-mode="tb">clear state</text>
+
+  <!-- ── Reject arc (dashed orange) ────────────── -->
+  <path d="M 560,52 C 490,14 260,14 200,52"
+    stroke="#F97316" stroke-width="1.5" stroke-dasharray="5,4"
+    fill="none" marker-end="url(#fp-gts-ar)" />
+  <text x="380" y="10" font-size="10" fill="#F97316" text-anchor="middle" font-weight="700"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">reject (bad input)</text>
+
+  <!-- ── Caption ───────────────────────────────── -->
+  <text x="460" y="300" font-size="12" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Arcade, ATM, elevator, and vending machine all follow this skeleton.
+  </text>
+  <text x="460" y="320" font-size="12" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    The implementation details differ; the abstract shape is shared.
+  </text>
+</svg>

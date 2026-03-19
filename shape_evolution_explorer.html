@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shape Evolution Explorer</title>
+<style>
+  :root {
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eae8e3;
+    --text: #1a1a1a; --text2: #6b6a65; --text3: #9c9a92;
+    --border: rgba(0,0,0,0.12); --blue: #3B82F6; --blue-bg: rgba(59,130,246,0.08);
+    --blue-border: rgba(59,130,246,0.22); --orange: #F97316; --orange-bg: rgba(249,115,22,0.08);
+    --orange-border: rgba(249,115,22,0.22); --green: #16a34a; --green-bg: rgba(22,163,74,0.08);
+    --red: #dc2626; --red-bg: rgba(220,38,38,0.06); --red-border: rgba(220,38,38,0.2);
+    --radius: 10px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --mono: "SF Mono", "Fira Code", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a1a; --bg2: #2c2c2a; --bg3: #3a3a36;
+      --text: #e8e6df; --text2: #9c9a92; --text3: #6b6a65;
+      --border: rgba(255,255,255,0.12); --blue-bg: rgba(59,130,246,0.14);
+      --blue-border: rgba(59,130,246,0.30); --orange-bg: rgba(249,115,22,0.12);
+      --orange-border: rgba(249,115,22,0.30); --green-bg: rgba(22,163,74,0.12);
+      --red-bg: rgba(220,38,38,0.10); --red-border: rgba(220,38,38,0.30);
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 1.25rem; max-width: 760px; margin: 0 auto; font-size: 14px; line-height: 1.55; }
+  h1 { font-size: 18px; font-weight: 700; }
+  .subtitle { font-size: 13px; color: var(--text2); margin: 0.15rem 0 1rem; }
+  h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin: 0 0 0.4rem; }
+
+  /* ── Layout ────────────────────────────────── */
+  .top { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem; }
+  @media (max-width: 600px) { .top { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem; background: var(--bg2); }
+
+  /* ── State diagram ─────────────────────────── */
+  .diagram-card { overflow: hidden; }
+  .diagram-card svg { width: 100%; height: auto; display: block; }
+  .sd-box { transition: fill 0.4s, stroke 0.4s; }
+  .sd-label { font-family: var(--font); }
+  .sd-edge { transition: stroke 0.4s; }
+
+  /* ── Narrative ─────────────────────────────── */
+  .chapter-num { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin: 0 0 0.35rem; }
+  .chapter-title { font-size: 16px; font-weight: 700; margin: 0 0 0.5rem; }
+  .chapter-text { color: var(--text2); margin: 0 0 0.75rem; line-height: 1.55; }
+  .chapter-text em { color: var(--text); font-style: normal; font-weight: 600; }
+  .choices { display: flex; flex-direction: column; gap: 0.5rem; }
+  .choice-btn {
+    text-align: left; padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--bg); cursor: pointer; font-family: var(--font); font-size: 13px;
+    transition: all 0.15s; color: var(--text); line-height: 1.4;
+  }
+  .choice-btn:hover { border-color: var(--blue); background: var(--blue-bg); transform: translateY(-1px); }
+  .choice-btn .choice-label { font-weight: 700; display: block; }
+  .choice-btn .choice-desc { color: var(--text2); font-size: 12px; display: block; margin-top: 2px; }
+  .choice-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+  .outcome { padding: 0.65rem; border-radius: 8px; margin: 0.5rem 0 0; font-size: 13px; line-height: 1.45; }
+  .outcome.good { background: var(--green-bg); color: var(--green); }
+  .outcome.warn { background: var(--orange-bg); color: var(--orange); }
+  .outcome.bad { background: var(--red-bg); color: var(--red); }
+  .next-btn {
+    margin-top: 0.75rem; padding: 0.55rem 1.2rem; border: 1.5px solid var(--blue-border);
+    border-radius: 8px; background: var(--blue-bg); color: var(--blue); cursor: pointer;
+    font-family: var(--font); font-size: 13px; font-weight: 700; transition: all 0.15s;
+  }
+  .next-btn:hover { background: rgba(59,130,246,0.18); transform: translateY(-1px); }
+
+  /* ── Properties ────────────────────────────── */
+  .properties { display: flex; flex-wrap: wrap; gap: 5px; margin: 0 0 1rem; }
+  .prop-pill {
+    padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+    border: 1px solid var(--border); color: var(--text3); background: var(--bg);
+    transition: all 0.4s;
+  }
+  .prop-pill.achieved { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue); }
+  .prop-pill.new { background: var(--orange-bg); border-color: var(--orange-border); color: var(--orange); animation: pulse 0.6s ease; }
+  .prop-pill.vuln { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+  /* ── Formulas ──────────────────────────────── */
+  .formula-list { display: flex; flex-direction: column; gap: 4px; }
+  .formula-item {
+    font-family: var(--mono); font-size: 12px; padding: 5px 8px; border-radius: 6px;
+    background: var(--bg); border: 1px solid var(--border); color: var(--text2);
+    display: flex; gap: 6px; align-items: flex-start; transition: all 0.3s;
+  }
+  .formula-item.new { background: var(--orange-bg); border-color: var(--orange-border); color: var(--orange); }
+  .formula-tag { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; flex-shrink: 0; text-transform: uppercase; }
+  .formula-tag.guard { background: var(--blue-bg); color: var(--blue); }
+  .formula-tag.inv { background: rgba(22,163,74,0.1); color: var(--green); }
+  .formula-tag.proved { background: var(--orange-bg); color: var(--orange); }
+  .formula-tag.vuln { background: var(--red-bg); color: var(--red); }
+
+  /* ── Progress ──────────────────────────────── */
+  .progress-wrap { margin: 0 0 1rem; }
+  .progress-bar-bg { height: 6px; border-radius: 3px; background: var(--bg3); overflow: hidden; margin-top: 0.35rem; }
+  .progress-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--orange)); transition: width 0.6s ease; }
+  .progress-label { font-size: 11px; color: var(--text3); display: flex; justify-content: space-between; }
+
+  /* ── Finale ─────────────────────────────────── */
+  .finale { border: 1px solid var(--blue-border); border-radius: var(--radius); padding: 1rem; background: var(--blue-bg); margin: 1rem 0; }
+  .finale h2 { font-size: 16px; margin: 0 0 0.5rem; color: var(--blue); }
+  .finale-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0; }
+  .finale-col { padding: 0.75rem; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); }
+  .finale-col h4 { font-size: 12px; font-weight: 700; margin: 0 0 0.35rem; }
+  .finale-formula { font-family: var(--mono); font-size: 11px; color: var(--text2); line-height: 1.6; }
+  .restart-btn {
+    margin-top: 0.75rem; padding: 0.55rem 1.2rem; border: 1.5px solid var(--border);
+    border-radius: 8px; background: var(--bg); color: var(--text); cursor: pointer;
+    font-family: var(--font); font-size: 13px; font-weight: 600; transition: all 0.15s;
+  }
+  .restart-btn:hover { border-color: var(--blue-border); transform: translateY(-1px); }
+</style>
+</head>
+<body>
+
+<h1>Shape Evolution Explorer</h1>
+<p class="subtitle">Make design choices and watch your system's formal shape grow. Each decision adds states, transitions, or invariants.</p>
+
+<!-- ── Progress ──────────────────────────────── -->
+<div class="progress-wrap">
+  <div class="progress-label"><span id="prog-text">Chapter 1 of 7</span><span id="prog-pct">0%</span></div>
+  <div class="progress-bar-bg"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+</div>
+
+<!-- ── Properties ────────────────────────────── -->
+<div>
+  <h3>Assurance Properties</h3>
+  <div class="properties" id="props"></div>
+</div>
+
+<!-- ── Main: diagram + narrative ──────────────── -->
+<div class="top">
+  <div class="card diagram-card">
+    <h3>System Shape</h3>
+    <svg id="diagram" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <div class="card" id="narrative-card">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ── Formulas ──────────────────────────────── -->
+<div class="card" style="margin-bottom:1rem">
+  <h3>Active Formulas &amp; Invariants</h3>
+  <div class="formula-list" id="formulas">
+    <div class="formula-item"><span class="formula-tag guard">init</span> No formulas yet &mdash; make your first design choice.</div>
+  </div>
+</div>
+
+<div id="finale-area"></div>
+
+<script>
+const ALL_PROPS = [
+  'Deterministic','Replayable','Strongly Guarded','Partially Proved',
+  'Canonical','Exact','Value-aware','Proof-carrying','Cross-layer','Fail-closed'
+];
+
+const CHAPTERS = [
+  {
+    title: 'Your first system',
+    narrative: `You're building a system where users exchange digital tokens. Right now it's as simple as it gets: someone sends a request, the system processes it, delivers a result, and resets. <em>Three states, three transitions, no questions asked.</em>`,
+    auto: true,
+    states: ['Idle','Processing','Done'],
+    transitions: [['Idle','Processing'],['Processing','Done'],['Done','Idle']],
+    formulas: [],
+    properties: [],
+  },
+  {
+    title: 'The uninvited guest',
+    narrative: `Day two. Someone sends a malformed request and your system processes it anyway, moving tokens it shouldn't. You need a <em>gate</em> &mdash; something that says "prove you belong here" before the system acts. How do you respond?`,
+    choices: [
+      {
+        label: 'Add an authorization gate',
+        desc: 'Require authentication before any processing begins.',
+        states: ['Idle','Authorized','Processing','Done'],
+        transitions: [['Idle','Authorized'],['Authorized','Processing'],['Processing','Done'],['Done','Idle']],
+        formulas: [{ text: 'Execute &rarr; authorized', tag: 'inv', isNew: true }],
+        properties: ['Strongly Guarded'],
+        outcome: ['good', 'Strong choice. The system now requires proof of identity before acting. No unauthorized request can reach the processing phase.'],
+      },
+      {
+        label: 'Trust all inputs',
+        desc: 'Assume everyone sending requests is legitimate.',
+        states: ['Idle','Processing','Done'],
+        transitions: [['Idle','Processing'],['Processing','Done'],['Done','Idle']],
+        formulas: [{ text: 'No gate &mdash; any input reaches Processing', tag: 'vuln', isNew: true }],
+        properties: [],
+        vulns: ['No Gate'],
+        outcome: ['bad', 'Dangerous. Any actor can trigger processing without authentication. This is the shape of most early-stage exploits.'],
+      }
+    ]
+  },
+  {
+    title: 'Too many options',
+    narrative: `Authorized users can now send any request they want. But not every request makes sense &mdash; some select tokens that don't exist, some reference invalid amounts. How do you <em>validate what they're asking for</em>?`,
+    choices: [
+      {
+        label: 'Add a validated selection phase',
+        desc: 'Check the request against available options before executing.',
+        addStates: ['ChoiceReady'],
+        insertAfter: 'Authorized',
+        formulas: [{ text: 'Choose &rarr; (state = ChoiceReady)', tag: 'inv', isNew: true }, { text: 'ChoiceValid &and; stocked(choice)', tag: 'guard', isNew: true }],
+        properties: ['Deterministic'],
+        outcome: ['good', 'Now every selection is validated before execution. Invalid choices are caught early, not discovered mid-transaction.'],
+      },
+      {
+        label: 'Accept any choice',
+        desc: 'Let the execution phase figure out if the request was valid.',
+        formulas: [{ text: 'No pre-validation &mdash; errors caught late', tag: 'vuln', isNew: true }],
+        properties: [],
+        vulns: ['Late Validation'],
+        outcome: ['warn', 'This works until it doesn\'t. Late-caught errors mean the system may partially execute before discovering the request was invalid.'],
+      }
+    ]
+  },
+  {
+    title: 'The crash',
+    narrative: `A valid, authorized, correctly-selected transaction <em>fails halfway through</em>. Maybe the target token was just claimed by someone else. Your system is stuck in "Executing" with no way back. What do you build?`,
+    choices: [
+      {
+        label: 'Add reject handling and safe reset',
+        desc: 'Build a recovery path that returns to a clean state.',
+        addStates: ['Resetting'],
+        addTransitions: [['_reject_','Idle']],
+        formulas: [{ text: 'Reject &rarr; (state\' = Idle) &and; (credit\' = refund)', tag: 'guard', isNew: true }, { text: 'DeliverOnlyAfterExecute := delivered &rarr; state &isin; {Delivered, Resetting}', tag: 'inv', isNew: true }],
+        properties: ['Fail-closed'],
+        outcome: ['good', 'The system can now fail safely. Failed transactions return to a clean state with resources intact. This is the "fail-closed" property.'],
+      },
+      {
+        label: 'Hope failures don\'t happen',
+        desc: 'No recovery path. If execution fails, manual intervention required.',
+        formulas: [{ text: 'No recovery &mdash; stuck states possible', tag: 'vuln', isNew: true }],
+        properties: [],
+        vulns: ['No Recovery'],
+        outcome: ['bad', 'Without recovery, a single failure can lock the system. In adversarial environments, this is a denial-of-service vector.'],
+      }
+    ]
+  },
+  {
+    title: 'The time traveler',
+    narrative: `A clever user captures a valid transaction from yesterday and replays it today. The authorization passes, the selection passes, the execution succeeds &mdash; but it's a <em>duplicate</em>. The same value has been spent twice.`,
+    choices: [
+      {
+        label: 'Add monotonic nonce guard',
+        desc: 'Each transaction carries a sequence number that must strictly increase.',
+        formulas: [{ text: 'NonceNeverDecreases := lastUsedNonce\' &ge; lastUsedNonce', tag: 'proved', isNew: true }, { text: 'Accept := (n = lastUsedNonce + 1) &and; accepted\' = TRUE', tag: 'guard', isNew: true }],
+        properties: ['Replayable'],
+        outcome: ['good', 'Replay attacks are now impossible. The monotonic nonce guard ensures every transaction is unique and ordered in time.'],
+      },
+      {
+        label: 'Add timestamp check',
+        desc: 'Reject transactions older than a timeout window.',
+        formulas: [{ text: 'RejectIfStale := (now - tx.time > timeout) &rarr; reject', tag: 'guard', isNew: true }],
+        properties: [],
+        partialProps: ['Replayable'],
+        outcome: ['warn', 'Better than nothing, but timestamps can be spoofed and the window creates a replay gap. Not as strong as a nonce guard.'],
+      }
+    ]
+  },
+  {
+    title: 'Show your work',
+    narrative: `Your system now has gates, validated choices, failure recovery, and temporal guards. But how do you <em>know</em> the core invariant &mdash; that value is never created or destroyed &mdash; actually holds? You believe it, but <em>belief isn't proof</em>.`,
+    choices: [
+      {
+        label: 'Prove conservation algebraically',
+        desc: 'Write a formal proof that K_after >= K_before for every valid transition.',
+        formulas: [{ text: 'ReserveMonotonicity := K_after &ge; K_before', tag: 'proved', isNew: true }, { text: '&Delta;(s&#8321; &#8728; s&#8322;) = &Delta;(s&#8321;) + &Delta;(s&#8322;)', tag: 'proved', isNew: true }],
+        properties: ['Partially Proved', 'Value-aware'],
+        outcome: ['good', 'Now you have mathematical certainty. The reserve product can never decrease through valid swaps, and settlement is compositional. These properties hold for all inputs, not just tested ones.'],
+      },
+      {
+        label: 'Test it extensively',
+        desc: 'Run thousands of random transactions and check the invariant holds.',
+        formulas: [{ text: 'K_after &ge; K_before (tested, not proved)', tag: 'vuln', isNew: true }],
+        properties: [],
+        partialProps: ['Partially Proved'],
+        outcome: ['warn', 'Testing increases confidence but cannot cover all inputs. A single adversarial edge case can break an invariant that passed a million random tests.'],
+      }
+    ]
+  },
+  {
+    title: 'The shape you built',
+    narrative: '',
+    finale: true,
+  }
+];
+
+class ShapeExplorer {
+  constructor() {
+    this.chapter = 0;
+    this.states = [];
+    this.transitions = [];
+    this.formulas = [];
+    this.properties = new Set();
+    this.vulns = new Set();
+    this.chosen = false;
+    this.renderProps();
+    this.showChapter();
+  }
+
+  showChapter() {
+    const ch = CHAPTERS[this.chapter];
+    this.chosen = false;
+
+    if (ch.finale) { this.showFinale(); return; }
+
+    // Apply auto-chapter state
+    if (ch.auto || ch.states) {
+      if (ch.states) this.states = [...ch.states];
+      if (ch.transitions) this.transitions = ch.transitions.map(t => [...t]);
+      if (ch.formulas) ch.formulas.forEach(f => this.formulas.push({...f}));
+      if (ch.properties) ch.properties.forEach(p => this.properties.add(p));
+    }
+
+    this.renderDiagram();
+    this.renderFormulas();
+    this.renderProps();
+    this.renderProgress();
+
+    const card = document.getElementById('narrative-card');
+    let html = `<div class="chapter-num">Chapter ${this.chapter + 1} of ${CHAPTERS.length}</div>`;
+    html += `<div class="chapter-title">${ch.title}</div>`;
+    html += `<div class="chapter-text">${ch.narrative}</div>`;
+
+    if (ch.choices) {
+      html += '<div class="choices" id="choices">';
+      ch.choices.forEach((c, i) => {
+        html += `<button class="choice-btn" onclick="app.choose(${i})"><span class="choice-label">${c.label}</span><span class="choice-desc">${c.desc}</span></button>`;
+      });
+      html += '</div>';
+      html += '<div id="outcome-area"></div>';
+    } else {
+      html += `<button class="next-btn" onclick="app.next()">Continue &rarr;</button>`;
+    }
+    card.innerHTML = html;
+  }
+
+  choose(idx) {
+    if (this.chosen) return;
+    this.chosen = true;
+    const ch = CHAPTERS[this.chapter];
+    const c = ch.choices[idx];
+
+    // Disable buttons
+    document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+
+    // Apply choice
+    if (c.states) this.states = [...c.states];
+    if (c.addStates) {
+      c.addStates.forEach(s => {
+        if (c.insertAfter) {
+          const idx2 = this.states.indexOf(c.insertAfter);
+          if (idx2 >= 0) this.states.splice(idx2 + 1, 0, s);
+          else this.states.push(s);
+        } else {
+          this.states.push(s);
+        }
+      });
+      // Rebuild transitions for full state chain
+      this.transitions = [];
+      for (let i = 0; i < this.states.length - 1; i++) {
+        this.transitions.push([this.states[i], this.states[i+1]]);
+      }
+      this.transitions.push([this.states[this.states.length-1], this.states[0]]);
+    }
+    if (c.addTransitions) {
+      c.addTransitions.forEach(t => {
+        if (t[0] === '_reject_') {
+          // Add reject from ChoiceReady (or last-before-exec) to Idle
+          const choiceState = this.states.find(s => s === 'ChoiceReady') || this.states[Math.floor(this.states.length/2)];
+          this.transitions.push([choiceState, t[1], {dashed: true, label: 'reject'}]);
+        } else {
+          this.transitions.push([...t]);
+        }
+      });
+    }
+    if (c.transitions) this.transitions = c.transitions.map(t => [...t]);
+
+    // Mark old formulas as not new
+    this.formulas.forEach(f => f.isNew = false);
+    if (c.formulas) c.formulas.forEach(f => this.formulas.push({...f}));
+    if (c.properties) c.properties.forEach(p => this.properties.add(p));
+    if (c.vulns) c.vulns.forEach(v => this.vulns.add(v));
+
+    this.renderDiagram();
+    this.renderFormulas();
+    this.renderProps(c.properties || []);
+    this.renderProgress();
+
+    // Show outcome
+    const area = document.getElementById('outcome-area');
+    const [type, text] = c.outcome;
+    area.innerHTML = `<div class="outcome ${type}">${text}</div><button class="next-btn" onclick="app.next()">Continue &rarr;</button>`;
+  }
+
+  next() {
+    this.chapter++;
+    if (this.chapter < CHAPTERS.length) this.showChapter();
+  }
+
+  /* ── Rendering ─────────────────────────────── */
+
+  renderDiagram() {
+    const svg = document.getElementById('diagram');
+    const n = this.states.length;
+    if (n === 0) { svg.innerHTML = ''; return; }
+
+    const W = 340, H = 200;
+    const bw = 80, bh = 32, rx = 10, pad = 12;
+    let positions = {};
+
+    if (n <= 4) {
+      const totalW = n * bw + (n - 1) * pad;
+      const startX = (W - totalW) / 2;
+      const cy = H / 2 - bh / 2;
+      this.states.forEach((s, i) => { positions[s] = { x: startX + i * (bw + pad), y: cy }; });
+    } else {
+      const topN = Math.ceil(n / 2);
+      const botN = n - topN;
+      const topW = topN * bw + (topN - 1) * pad;
+      const topX = (W - topW) / 2;
+      for (let i = 0; i < topN; i++) positions[this.states[i]] = { x: topX + i * (bw + pad), y: 20 };
+      const botW = botN * bw + (botN - 1) * pad;
+      const botX = (W - botW) / 2;
+      for (let i = 0; i < botN; i++) {
+        const si = topN + i;
+        positions[this.states[si]] = { x: botX + (botN - 1 - i) * (bw + pad), y: H - bh - 30 };
+      }
+    }
+
+    let out = '<defs><marker id="se-arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0.5 L8,4 L0,7.5 Z" fill="rgba(59,130,246,0.7)"/></marker>';
+    out += '<marker id="se-arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0.5 L8,4 L0,7.5 Z" fill="rgba(220,38,38,0.6)"/></marker></defs>';
+
+    // Draw edges
+    this.transitions.forEach(t => {
+      const from = positions[t[0]], to = positions[t[1]];
+      if (!from || !to) return;
+      const opts = t[2] || {};
+      const fx = from.x + bw/2, fy = from.y + bh/2;
+      const tx = to.x + bw/2, ty = to.y + bh/2;
+      const dx = tx - fx, dy = ty - fy;
+      const len = Math.sqrt(dx*dx + dy*dy);
+      const ux = dx/len, uy = dy/len;
+      const sx = fx + ux * (bw/2 + 4), sy = fy + uy * (bh/2 + 4);
+      const ex = tx - ux * (bw/2 + 10), ey = ty - uy * (bh/2 + 10);
+
+      if (opts.dashed) {
+        // Curved reject arrow
+        const mx = (sx + ex) / 2, my = Math.min(sy, ey) - 30;
+        out += `<path d="M${sx},${sy} Q${mx},${my} ${ex},${ey}" stroke="rgba(220,38,38,0.5)" stroke-width="1.5" stroke-dasharray="4,3" fill="none" marker-end="url(#se-arr-r)"/>`;
+        if (opts.label) out += `<text x="${mx}" y="${my - 4}" text-anchor="middle" font-size="8" fill="rgba(220,38,38,0.6)" font-family="var(--font)">${opts.label}</text>`;
+      } else {
+        out += `<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="rgba(59,130,246,0.35)" stroke-width="1.5" marker-end="url(#se-arr)"/>`;
+      }
+    });
+
+    // Draw states
+    Object.entries(positions).forEach(([name, pos]) => {
+      out += `<rect class="sd-box" x="${pos.x}" y="${pos.y}" width="${bw}" height="${bh}" rx="${rx}" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.22)"/>`;
+      out += `<text class="sd-label" x="${pos.x + bw/2}" y="${pos.y + bh/2 + 4}" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">${name}</text>`;
+    });
+
+    svg.innerHTML = out;
+  }
+
+  renderFormulas() {
+    const el = document.getElementById('formulas');
+    if (this.formulas.length === 0) {
+      el.innerHTML = '<div class="formula-item"><span class="formula-tag guard">init</span> No formulas yet.</div>';
+      return;
+    }
+    el.innerHTML = this.formulas.map(f =>
+      `<div class="formula-item${f.isNew ? ' new' : ''}"><span class="formula-tag ${f.tag}">${f.tag}</span>${f.text}</div>`
+    ).join('');
+  }
+
+  renderProps(newProps) {
+    const el = document.getElementById('props');
+    const newSet = new Set(newProps || []);
+    el.innerHTML = ALL_PROPS.map(p => {
+      const achieved = this.properties.has(p);
+      const isNew = newSet.has(p);
+      const cls = isNew ? 'new' : (achieved ? 'achieved' : '');
+      return `<span class="prop-pill ${cls}">${p}</span>`;
+    }).join('');
+    // Also show vulnerabilities
+    if (this.vulns.size > 0) {
+      this.vulns.forEach(v => {
+        el.innerHTML += `<span class="prop-pill vuln">${v}</span>`;
+      });
+    }
+  }
+
+  renderProgress() {
+    const pct = Math.round((this.chapter / (CHAPTERS.length - 1)) * 100);
+    document.getElementById('prog-bar').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '%';
+    document.getElementById('prog-text').textContent = `Chapter ${this.chapter + 1} of ${CHAPTERS.length}`;
+  }
+
+  showFinale() {
+    this.renderProgress();
+    const score = this.properties.size;
+    const total = ALL_PROPS.length;
+    const pctScore = Math.round(score / total * 100);
+
+    const card = document.getElementById('narrative-card');
+    card.innerHTML = `<div class="chapter-num">Chapter ${CHAPTERS.length} of ${CHAPTERS.length}</div>
+      <div class="chapter-title">The shape you built</div>
+      <div class="chapter-text">Look at what you've created. You started with three states and zero invariants. Through ${CHAPTERS.length - 2} engineering decisions, you built a system with <em>${this.states.length} states</em>, <em>${this.formulas.length} formulas</em>, and <em>${score} of ${total}</em> assurance properties.</div>`;
+
+    const area = document.getElementById('finale-area');
+    area.innerHTML = `<div class="finale">
+      <h2>Your Shape vs. ZenoDEX</h2>
+      <div class="finale-compare">
+        <div class="finale-col">
+          <h4>Your System (${score}/${total} properties)</h4>
+          <div class="finale-formula">${this.formulas.map(f => f.text).join('<br>')}</div>
+        </div>
+        <div class="finale-col">
+          <h4>ZenoDEX Shape (7 clauses)</h4>
+          <div class="finale-formula">
+            BoundaryValidity<br>
+            &and; TemporalAdmissibility<br>
+            &and; CanonicalWinnerSelection<br>
+            &and; ReserveMonotonicity<br>
+            &and; SettlementCompositionality<br>
+            &and; DeterministicRouting<br>
+            &and; StablecoinSolvency
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text2);margin:0.5rem 0">
+        ${pctScore >= 70
+          ? 'Your choices built a shape remarkably close to a real high-assurance protocol. The same abstraction move — gates, phases, invariants, proofs — scales from vending machines to decentralized exchanges.'
+          : 'The weaker choices left gaps in your assurance. In a real adversarial environment, each missing property is an attack surface. The tutorial above shows what the full shape looks like and why each clause matters.'}
+      </p>
+      <button class="restart-btn" onclick="location.reload()">Start Over</button>
+    </div>`;
+  }
+}
+
+const app = new ShapeExplorer();
+</script>
+</body>
+</html>
