@@ -5,779 +5,551 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Shape Evolution Explorer</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
   :root {
-    --paper: #faf9f6;
-    --paper-strong: #fffefa;
-    --ink: #1c1917;
-    --muted: #57534e;
-    --muted-soft: #a8a29e;
-    --border: rgba(28, 25, 23, 0.12);
-    --border-strong: rgba(28, 25, 23, 0.20);
-    --navy: #1e3a5f;
-    --navy-soft: rgba(30, 58, 95, 0.10);
-    --gold: #b8690f;
-    --gold-soft: rgba(184, 105, 15, 0.10);
-    --sage: #0f7b54;
-    --sage-soft: rgba(15, 123, 84, 0.10);
-    --red: #c44040;
-    --red-soft: rgba(196, 64, 64, 0.10);
-    --shadow: 0 24px 50px rgba(28, 25, 23, 0.12);
-    --radius-xl: 28px;
-    --radius-lg: 20px;
-    --radius-md: 14px;
-    --display: 'Lora', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
-    --body: 'Inter', system-ui, -apple-system, sans-serif;
-    --mono: 'JetBrains Mono', 'Consolas', 'Nimbus Mono PS', monospace;
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eae8e3;
+    --text: #1a1a1a; --text2: #6b6a65; --text3: #9c9a92;
+    --border: rgba(0,0,0,0.12); --blue: #3B82F6; --blue-bg: rgba(59,130,246,0.08);
+    --blue-border: rgba(59,130,246,0.22); --orange: #F97316; --orange-bg: rgba(249,115,22,0.08);
+    --orange-border: rgba(249,115,22,0.22); --green: #16a34a; --green-bg: rgba(22,163,74,0.08);
+    --red: #dc2626; --red-bg: rgba(220,38,38,0.06); --red-border: rgba(220,38,38,0.2);
+    --radius: 10px;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --display: 'Lora', 'Palatino Linotype', Georgia, serif;
+    --mono: 'JetBrains Mono', "SF Mono", "Fira Code", Menlo, monospace;
   }
-
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: #0c0a09;
-      --paper-strong: #1c1917;
-      --ink: #fafaf9;
-      --muted: #d6d3d1;
-      --muted-soft: #78716c;
-      --border: rgba(214, 211, 209, 0.10);
-      --border-strong: rgba(214, 211, 209, 0.16);
-      --navy-soft: rgba(110, 155, 210, 0.14);
-      --gold-soft: rgba(220, 155, 60, 0.14);
-      --sage-soft: rgba(80, 200, 140, 0.14);
-      --red-soft: rgba(220, 110, 100, 0.14);
-      --shadow: 0 28px 64px rgba(0, 0, 0, 0.30);
+      --bg: #1a1a1a; --bg2: #2c2c2a; --bg3: #3a3a36;
+      --text: #e8e6df; --text2: #9c9a92; --text3: #6b6a65;
+      --border: rgba(255,255,255,0.12); --blue-bg: rgba(59,130,246,0.14);
+      --blue-border: rgba(59,130,246,0.30); --orange-bg: rgba(249,115,22,0.12);
+      --orange-border: rgba(249,115,22,0.30); --green-bg: rgba(22,163,74,0.12);
+      --red-bg: rgba(220,38,38,0.10); --red-border: rgba(220,38,38,0.30);
     }
   }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 1.25rem; max-width: 760px; margin: 0 auto; font-size: 14px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  h1 { font-family: var(--display); font-size: 20px; font-weight: 700; }
+  .subtitle { font-size: 13px; color: var(--text2); margin: 0.15rem 0 1rem; }
+  h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin: 0 0 0.4rem; }
 
-  *, *::before, *::after { box-sizing: border-box; }
+  /* ── Layout ────────────────────────────────── */
+  .top { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem; }
+  @media (max-width: 600px) { .top { grid-template-columns: 1fr; } }
+  .card { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem; background: var(--bg2); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
 
-  body {
-    margin: 0;
-    font-family: var(--body);
-    font-size: 14px;
-    color: var(--ink);
-    background:
-      radial-gradient(circle at top left, rgba(184, 105, 15, 0.07), transparent 22%),
-      radial-gradient(circle at top right, rgba(30, 58, 95, 0.09), transparent 24%),
-      linear-gradient(180deg, var(--paper-strong) 0%, var(--paper) 100%);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
+  /* ── State diagram ─────────────────────────── */
+  .diagram-card { overflow: hidden; }
+  .diagram-card svg { width: 100%; height: auto; display: block; }
+  .sd-box { transition: fill 0.4s, stroke 0.4s; }
+  .sd-label { font-family: var(--font); }
+  .sd-edge { transition: stroke 0.4s; }
 
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(rgba(30, 58, 95, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(30, 58, 95, 0.04) 1px, transparent 1px);
-    background-size: 22px 22px;
-    mask-image: linear-gradient(180deg, rgba(0,0,0,0.22), transparent 88%);
-  }
-
-  .shell {
-    position: relative;
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 22px 18px 32px;
-  }
-
-  .hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
-    gap: 18px;
-    margin-bottom: 18px;
-    align-items: end;
-  }
-
-  .eyebrow {
-    margin: 0 0 8px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--navy);
-  }
-
-  h1 {
-    margin: 0;
-    font-family: var(--display);
-    font-size: clamp(2rem, 4vw, 3.25rem);
-    line-height: 0.95;
-  }
-
-  .subtitle {
-    margin: 10px 0 0;
-    max-width: 64ch;
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.65;
-  }
-
-  .hero-note {
-    padding: 18px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow);
-  }
-
-  .hero-note-label {
-    margin: 0 0 8px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted-soft);
-  }
-
-  .hero-note-formula {
-    font-family: var(--mono);
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--ink);
-  }
-
-  .panel {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow);
-  }
-
-  .panel-head {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    align-items: baseline;
-    margin-bottom: 12px;
-  }
-
-  .panel-head h2, .panel-head h3 {
-    margin: 0;
-    font-family: var(--display);
-    font-size: 1.2rem;
-    line-height: 1.1;
-  }
-
-  .panel-note {
-    font-size: 12px;
-    color: var(--muted-soft);
-  }
-
-  .progress-card {
-    padding: 16px 18px;
-    margin-bottom: 18px;
-  }
-
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--muted);
-  }
-
-  .progress-bar-bg {
-    margin-top: 10px;
-    height: 10px;
-    border-radius: 999px;
-    background: rgba(30, 58, 95, 0.08);
-    overflow: hidden;
-  }
-
-  .progress-bar {
-    height: 100%;
-    width: 0;
-    border-radius: inherit;
-    background: linear-gradient(90deg, var(--navy), var(--gold));
-    transition: width 0.5s ease;
-  }
-
-  .stage {
-    display: grid;
-    grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
-    gap: 18px;
-    margin-bottom: 18px;
-  }
-
-  .narrative-panel, .shape-panel, .property-panel,
-  .formula-panel, .trace-panel, .finale { padding: 18px; }
-
-  .chapter-num {
-    margin: 0 0 10px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--navy);
-  }
-
-  .chapter-title {
-    margin: 0 0 12px;
-    font-family: var(--display);
-    font-size: 2rem;
-    line-height: 0.98;
-  }
-
-  .chapter-text {
-    margin: 0 0 16px;
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.75;
-  }
-
-  .chapter-text em {
-    color: var(--ink);
-    font-style: normal;
-    font-weight: 600;
-  }
-
-  .story-prompt {
-    margin: 0 0 16px;
-    padding: 14px 16px;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.50);
-    border: 1px solid var(--border);
-    font-size: 13px;
-    line-height: 1.65;
-    color: var(--muted);
-  }
-
-  .choices { display: grid; gap: 10px; }
-
-  .choice-btn, .next-btn, .restart-btn {
-    width: 100%;
-    border: 0;
-    cursor: pointer;
-    transition: transform 0.16s, box-shadow 0.16s, filter 0.16s;
-  }
-
+  /* ── Narrative ─────────────────────────────── */
+  .chapter-num { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin: 0 0 0.35rem; }
+  .chapter-title { font-family: var(--display); font-size: 17px; font-weight: 700; margin: 0 0 0.5rem; }
+  .chapter-text { color: var(--text2); margin: 0 0 0.75rem; line-height: 1.55; }
+  .chapter-text em { color: var(--text); font-style: normal; font-weight: 600; }
+  .choices { display: flex; flex-direction: column; gap: 0.5rem; }
   .choice-btn {
-    text-align: left;
-    padding: 14px 16px;
-    border-radius: 22px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.80), rgba(255, 255, 255, 0.50));
-    border: 1px solid var(--border);
-    border-left: 4px solid var(--navy);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    text-align: left; padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--bg); cursor: pointer; font-family: var(--font); font-size: 13px;
+    transition: all 0.15s; color: var(--text); line-height: 1.4;
   }
-
-  .choice-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(28, 25, 23, 0.10);
-    border-left-color: var(--gold);
-  }
-
-  .choice-btn:disabled {
-    opacity: 0.48;
-    transform: none;
-    cursor: default;
-  }
-
-  .choice-label {
-    display: block;
-    margin-bottom: 6px;
-    font-family: var(--display);
-    font-size: 1.05rem;
-    color: var(--ink);
-  }
-
-  .choice-desc {
-    display: block;
-    font-size: 13px;
-    line-height: 1.55;
-    color: var(--muted);
-  }
-
-  .outcome {
-    margin-top: 14px;
-    padding: 14px 16px;
-    border-radius: 20px;
-    border: 1px solid;
-    font-size: 13px;
-    line-height: 1.6;
-  }
-
-  .outcome.good {
-    background: var(--sage-soft);
-    color: var(--sage);
-    border-color: rgba(15, 123, 84, 0.22);
-  }
-
-  .outcome.warn {
-    background: var(--gold-soft);
-    color: var(--gold);
-    border-color: rgba(184, 105, 15, 0.22);
-  }
-
-  .outcome.bad {
-    background: var(--red-soft);
-    color: var(--red);
-    border-color: rgba(196, 64, 64, 0.22);
-  }
-
-  .next-btn, .restart-btn {
-    margin-top: 14px;
-    padding: 13px 16px;
-    border-radius: 999px;
-    font-family: var(--body);
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-  }
-
+  .choice-btn:hover { border-color: var(--blue); background: var(--blue-bg); transform: translateY(-1px); }
+  .choice-btn .choice-label { font-weight: 700; display: block; }
+  .choice-btn .choice-desc { color: var(--text2); font-size: 12px; display: block; margin-top: 2px; }
+  .choice-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+  .outcome { padding: 0.65rem; border-radius: 8px; margin: 0.5rem 0 0; font-size: 13px; line-height: 1.45; }
+  .outcome.good { background: var(--green-bg); color: var(--green); }
+  .outcome.warn { background: var(--orange-bg); color: var(--orange); }
+  .outcome.bad { background: var(--red-bg); color: var(--red); }
   .next-btn {
-    background: linear-gradient(180deg, #1e3a5f 0%, #152c48 100%);
-    color: #f5f0e6;
-    box-shadow: 0 4px 12px rgba(30, 58, 95, 0.25);
+    margin-top: 0.75rem; padding: 0.55rem 1.2rem; border: 1.5px solid var(--blue-border);
+    border-radius: 8px; background: var(--blue-bg); color: var(--blue); cursor: pointer;
+    font-family: var(--font); font-size: 13px; font-weight: 700; transition: all 0.15s;
   }
+  .next-btn:hover { background: rgba(59,130,246,0.18); transform: translateY(-1px); }
 
-  .next-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(30, 58, 95, 0.30);
-  }
-
-  .restart-btn {
-    background: linear-gradient(180deg, #b8690f 0%, #915210 100%);
-    color: #fff8ee;
-    box-shadow: 0 4px 12px rgba(184, 105, 15, 0.25);
-  }
-
-  .restart-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(184, 105, 15, 0.30);
-  }
-
-  .metrics {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-
-  .metric-card {
-    padding: 12px 14px;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.42);
-  }
-
-  .metric-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted-soft);
-  }
-
-  .metric-value {
-    margin-top: 5px;
-    font-family: var(--mono);
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--navy);
-  }
-
-  .diagram-wrap {
-    padding: 12px;
-    border-radius: 24px;
-    border: 1px solid var(--border);
-    background:
-      radial-gradient(circle at top right, rgba(30, 58, 95, 0.06), transparent 28%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.50), rgba(255, 255, 255, 0.18));
-  }
-
-  #diagram { width: 100%; height: auto; display: block; }
-
-  .sd-box {
-    fill: rgba(255, 255, 255, 0.70);
-    stroke: var(--border-strong);
-    stroke-width: 1.4;
-    transition: fill 0.3s, stroke 0.3s;
-  }
-
-  .sd-box.new-node {
-    fill: rgba(184, 105, 15, 0.12);
-    stroke: var(--gold);
-    stroke-width: 2;
-  }
-
-  .sd-label {
-    font-family: var(--body);
-    font-size: 12px;
-    font-weight: 600;
-    fill: var(--muted);
-  }
-
-  .sd-edge {
-    stroke: rgba(30, 58, 95, 0.28);
-    stroke-width: 1.6;
-    fill: none;
-  }
-
-  .sd-edge.new-edge {
-    stroke: var(--gold);
-    stroke-width: 2.6;
-  }
-
-  .sd-edge.dashed {
-    stroke: var(--red);
-    stroke-dasharray: 5 5;
-    opacity: 0.6;
-  }
-
-  .shape-summary {
-    margin-top: 12px;
-    padding: 14px 16px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.40);
-  }
-
-  .shape-summary-title {
-    margin: 0 0 8px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted-soft);
-  }
-
-  .shape-summary-formula {
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1.75;
-    color: var(--ink);
-  }
-
-  .ledger {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 18px;
-    margin-bottom: 18px;
-  }
-
-  .property-panel { grid-column: 1 / -1; }
-
-  .properties {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-
+  /* ── Properties ────────────────────────────── */
+  .properties { display: flex; flex-wrap: wrap; gap: 5px; margin: 0 0 1rem; }
   .prop-pill {
-    padding: 8px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.50);
-    color: var(--muted-soft);
-    font-size: 12px;
-    font-weight: 500;
-    transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+    padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+    border: 1px solid var(--border); color: var(--text3); background: var(--bg);
+    transition: all 0.4s;
   }
+  .prop-pill.achieved { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue); }
+  .prop-pill.new { background: var(--orange-bg); border-color: var(--orange-border); color: var(--orange); animation: pulse 0.6s ease; }
+  .prop-pill.vuln { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
+  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 
-  .prop-pill.achieved {
-    background: var(--navy-soft);
-    border-color: rgba(30, 58, 95, 0.20);
-    color: var(--navy);
-    font-weight: 600;
+  /* ── Formulas ──────────────────────────────── */
+  .formula-list { display: flex; flex-direction: column; gap: 4px; }
+  .formula-item {
+    font-family: var(--mono); font-size: 12px; padding: 5px 8px; border-radius: 6px;
+    background: var(--bg); border: 1px solid var(--border); color: var(--text2);
+    display: flex; gap: 6px; align-items: flex-start; transition: all 0.3s;
   }
+  .formula-item.new { background: var(--orange-bg); border-color: var(--orange-border); color: var(--orange); }
+  .formula-tag { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; flex-shrink: 0; text-transform: uppercase; }
+  .formula-tag.guard { background: var(--blue-bg); color: var(--blue); }
+  .formula-tag.inv { background: rgba(22,163,74,0.1); color: var(--green); }
+  .formula-tag.proved { background: var(--orange-bg); color: var(--orange); }
+  .formula-tag.vuln { background: var(--red-bg); color: var(--red); }
 
-  .prop-pill.new {
-    background: var(--gold-soft);
-    border-color: rgba(184, 105, 15, 0.28);
-    color: var(--gold);
-    font-weight: 700;
-    transform: scale(1.04);
-    box-shadow: 0 0 0 3px rgba(184, 105, 15, 0.10);
+  /* ── Progress ──────────────────────────────── */
+  .progress-wrap { margin: 0 0 1rem; }
+  .progress-bar-bg { height: 6px; border-radius: 3px; background: var(--bg3); overflow: hidden; margin-top: 0.35rem; }
+  .progress-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--orange)); transition: width 0.6s ease; }
+  .progress-label { font-size: 11px; color: var(--text3); display: flex; justify-content: space-between; }
+
+  /* ── Finale ─────────────────────────────────── */
+  .finale { border: 1px solid var(--blue-border); border-radius: var(--radius); padding: 1rem; background: var(--blue-bg); margin: 1rem 0; }
+  .finale h2 { font-family: var(--display); font-size: 17px; margin: 0 0 0.5rem; color: var(--blue); }
+  .finale-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0; }
+  .finale-col { padding: 0.75rem; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); }
+  .finale-col h4 { font-size: 12px; font-weight: 700; margin: 0 0 0.35rem; }
+  .finale-formula { font-family: var(--mono); font-size: 11px; color: var(--text2); line-height: 1.6; }
+  .restart-btn {
+    margin-top: 0.75rem; padding: 0.55rem 1.2rem; border: 1.5px solid var(--border);
+    border-radius: 8px; background: var(--bg); color: var(--text); cursor: pointer;
+    font-family: var(--font); font-size: 13px; font-weight: 600; transition: all 0.15s;
   }
-
-  .prop-pill.vuln {
-    background: var(--red-soft);
-    border-color: rgba(196, 64, 64, 0.20);
-    color: var(--red);
-    font-weight: 600;
-  }
-
-  .shape-compare { display: grid; gap: 12px; }
-
-  .shape-card-mini {
-    padding: 14px 16px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.44);
-  }
-
-  .shape-card-mini h4 {
-    margin: 0 0 8px;
-    font-family: var(--display);
-    font-size: 1rem;
-  }
-
-  .shape-card-mini .mini-formula {
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1.75;
-    color: var(--muted);
-  }
-
-  .formula-list, .decision-list {
-    display: grid;
-    gap: 10px;
-    max-height: 420px;
-    overflow-y: auto;
-    padding-right: 4px;
-  }
-
-  .formula-list::-webkit-scrollbar, .decision-list::-webkit-scrollbar { width: 5px; }
-  .formula-list::-webkit-scrollbar-track, .decision-list::-webkit-scrollbar-track { background: transparent; }
-  .formula-list::-webkit-scrollbar-thumb, .decision-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 999px; }
-
-  .formula-item, .decision-item {
-    padding: 12px 14px;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.42);
-  }
-
-  .formula-item.new {
-    border-color: rgba(184, 105, 15, 0.25);
-    border-left: 3px solid var(--gold);
-    background: var(--gold-soft);
-  }
-
-  .formula-tag {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 8px;
-    border-radius: 999px;
-    margin-bottom: 8px;
-    font-size: 10px;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  .formula-tag.shape  { background: var(--navy-soft); color: var(--navy); }
-  .formula-tag.guard  { background: var(--gold-soft); color: var(--gold); }
-  .formula-tag.inv    { background: var(--sage-soft); color: var(--sage); }
-  .formula-tag.proved { background: var(--navy-soft); color: var(--navy); }
-  .formula-tag.vuln   { background: var(--red-soft); color: var(--red); }
-
-  .formula-text {
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1.75;
-    color: var(--ink);
-  }
-
-  .formula-note {
-    margin-top: 6px;
-    font-size: 12px;
-    line-height: 1.6;
-    color: var(--muted);
-  }
-
-  .decision-item { display: grid; gap: 6px; }
-
-  .decision-label {
-    font-family: var(--display);
-    font-size: 1rem;
-  }
-
-  .decision-meta {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--muted-soft);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .decision-copy {
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--muted);
-  }
-
-  .finale { margin-top: 18px; }
-
-  .finale h2 {
-    margin: 0 0 12px;
-    font-family: var(--display);
-    font-size: 2rem;
-    line-height: 1;
-  }
-
-  .finale-copy {
-    margin: 0 0 14px;
-    color: var(--muted);
-    font-size: 15px;
-    line-height: 1.7;
-  }
-
-  .finale-compare {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .finale-col {
-    padding: 14px 16px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.44);
-  }
-
-  .finale-col h4 {
-    margin: 0 0 10px;
-    font-family: var(--display);
-    font-size: 1.02rem;
-  }
-
-  .finale-formula {
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1.8;
-    color: var(--muted);
-  }
-
-  @media (max-width: 760px) {
-    .hero, .stage, .ledger, .finale-compare { grid-template-columns: 1fr; }
-    .property-panel { grid-column: auto; }
-  }
-
-  @media (max-width: 680px) {
-    .shell { padding: 16px 12px 24px; }
-    .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
+  .restart-btn:hover { border-color: var(--blue-border); transform: translateY(-1px); }
 </style>
 </head>
 <body>
-<div class="shell">
-  <header class="hero">
-    <div>
-      <p class="eyebrow">Shape Studio</p>
-      <h1>Shape Evolution Explorer</h1>
-      <p class="subtitle">
-        Make one engineering decision at a time and watch a weak software shape harden into
-        something closer to ZenoDEX. Each choice changes states, transitions, formulas, and
-        assurance properties, so abstraction stops being hand-waving and becomes visible structure.
-      </p>
-    </div>
-    <div class="hero-note">
-      <p class="hero-note-label">Compression Thesis</p>
-      <div class="hero-note-formula">
-        Shape(system)<br>
-        := states + transitions + guards + invariants + canonicalizers + evidence
-      </div>
-    </div>
-  </header>
 
-  <section class="panel progress-card">
-    <div class="progress-label">
-      <span id="prog-text">Chapter 1 of 9</span>
-      <span id="prog-pct">0%</span>
-    </div>
-    <div class="progress-bar-bg">
-      <div class="progress-bar" id="prog-bar"></div>
-    </div>
-  </section>
+<h1>Shape Evolution Explorer</h1>
+<p class="subtitle">Make design choices and watch your system's formal shape grow. Each decision adds states, transitions, or invariants.</p>
 
-  <section class="stage">
-    <article class="panel narrative-panel" id="narrative-card"></article>
-    <aside class="panel shape-panel">
-      <div class="panel-head">
-        <h2>Current Shape Surface</h2>
-        <span class="panel-note">The diagram grows when structure is added.</span>
-      </div>
-      <div class="metrics">
-        <div class="metric-card"><div class="metric-label">States</div><div class="metric-value" id="metric-states">0</div></div>
-        <div class="metric-card"><div class="metric-label">Transitions</div><div class="metric-value" id="metric-transitions">0</div></div>
-        <div class="metric-card"><div class="metric-label">Formulas</div><div class="metric-value" id="metric-formulas">0</div></div>
-        <div class="metric-card"><div class="metric-label">Properties</div><div class="metric-value" id="metric-properties">0</div></div>
-      </div>
-      <div class="diagram-wrap">
-        <svg id="diagram" viewBox="0 0 360 220" aria-label="System shape diagram"></svg>
-      </div>
-      <div class="shape-summary" id="shape-summary"></div>
-    </aside>
-  </section>
-
-  <section class="ledger">
-    <section class="panel property-panel">
-      <div class="panel-head">
-        <h3>Assurance Ledger</h3>
-        <span class="panel-note">Blue means achieved, amber means newly added.</span>
-      </div>
-      <div class="properties" id="props"></div>
-      <div class="shape-compare">
-        <div class="shape-card-mini">
-          <h4>Current ZenoDEX Shape</h4>
-          <div class="mini-formula">deterministic<br>&and; replayable<br>&and; partially_proved<br>&and; strongly_guarded</div>
-        </div>
-        <div class="shape-card-mini">
-          <h4>Target ZenoDEX Shape</h4>
-          <div class="mini-formula">canonical<br>&and; exact<br>&and; value_aware<br>&and; proof_carrying<br>&and; cross_layer_equivalent<br>&and; fail_closed_everywhere_important</div>
-        </div>
-      </div>
-    </section>
-    <section class="panel formula-panel">
-      <div class="panel-head">
-        <h3>Formula Surface</h3>
-        <span class="panel-note">These clauses are the compressed description of the machine.</span>
-      </div>
-      <div class="formula-list" id="formulas"></div>
-    </section>
-    <section class="panel trace-panel">
-      <div class="panel-head">
-        <h3>Design Trace</h3>
-        <span class="panel-note">Every choice leaves a shaped residue.</span>
-      </div>
-      <div class="decision-list" id="decision-log"></div>
-    </section>
-  </section>
-
-  <div id="finale-area"></div>
+<!-- ── Progress ──────────────────────────────── -->
+<div class="progress-wrap">
+  <div class="progress-label"><span id="prog-text">Chapter 1 of 7</span><span id="prog-pct">0%</span></div>
+  <div class="progress-bar-bg"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
 </div>
 
+<!-- ── Properties ────────────────────────────── -->
+<div>
+  <h3>Assurance Properties</h3>
+  <div class="properties" id="props"></div>
+</div>
+
+<!-- ── Main: diagram + narrative ──────────────── -->
+<div class="top">
+  <div class="card diagram-card">
+    <h3>System Shape</h3>
+    <svg id="diagram" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <div class="card" id="narrative-card">
+    <!-- filled by JS -->
+  </div>
+</div>
+
+<!-- ── Formulas ──────────────────────────────── -->
+<div class="card" style="margin-bottom:1rem">
+  <h3>Active Formulas &amp; Invariants</h3>
+  <div class="formula-list" id="formulas">
+    <div class="formula-item"><span class="formula-tag guard">init</span> No formulas yet &mdash; make your first design choice.</div>
+  </div>
+</div>
+
+<div id="finale-area"></div>
+
 <script>
-const ALL_PROPS=["Strongly Guarded","Deterministic","Replayable","Partially Proved","Fail-closed","Canonical","Exact","Value-aware","Proof-carrying","Cross-layer Equivalent"];
-const CHAPTERS=[{title:"A toy machine",narrative:"A child at the arcade sees a new game cabinet for the first time. There is a glowing attract screen, a coin slot, a big red button, and a prize dispenser. The child may not know the phrase <em>finite state machine</em>, but the body learns it anyway: idle, action, delivery, reset. That is the seed of a software shape.",prompt:"Begin with a deliberately weak machine. It has phases, but no gate, no validation, no replay story, and no proof.",auto:true,stateOrder:["Idle","Executing","Delivered"],formulas:[{id:"base-shape",tag:"shape",text:"Next := Idle &rarr; Executing &rarr; Delivered &rarr; Idle",note:"Even the weakest machine can be compressed into a transition skeleton."}]},{title:"Guard the boundary",narrative:"Now the parent steps up to an ATM. The machine does not hand out cash just because someone touched the keypad. There is a card, a PIN, and a decision about whether the request belongs at all. The first important shaping move is almost always a gate at the boundary.",prompt:"What happens when a request arrives at the edge of the system?",choices:[{label:"Add an authorization gate",desc:"Insert an explicit authorization phase before execution begins.",addStateAfter:["Idle"],stateName:"Authorized",formulas:[{id:"auth-accept",tag:"guard",text:"Accept(req) := auth_ok(req) &and; state' = Authorized",note:"A request must satisfy a boundary predicate before it can change the machine's phase."},{id:"auth-inv",tag:"inv",text:"Execute(req) &rarr; authorized(req)",note:"This invariant states that execution is downstream of proof of belonging."}],properties:["Strongly Guarded"],outcome:["good","The machine now has an explicit boundary. Inputs still arrive from the world, but not every input may enter the meaningful part of the workflow."]},{label:"Trust every caller",desc:"Let any incoming request flow directly into execution.",formulas:[{id:"no-gate",tag:"vuln",text:"NoGate := any_request(req) &rarr; state' = Executing",note:"This is shorter, but the shorter shape is worse because it lacks a boundary obligation."}],vulns:["No Gate"],outcome:["bad","The system remains easy to describe, but it is easy for the wrong reason. The machine has no front door."]}]},{title:"Validate the menu",narrative:"Back in the arcade, the child knows that pushing a random blinking light is not the same as making a valid selection. At a vending machine, the same button can be meaningless in one phase and meaningful in another. Shape grows when meaning becomes conditional on phase.",prompt:"How should the machine treat user choices?",choices:[{label:"Insert a validated selection phase",desc:"Make choices first-class, and require them to be checked before execution.",addStateAfter:["Authorized","Idle"],stateName:"ChoiceReady",formulas:[{id:"choice-state",tag:"guard",text:"Choose(req) := state = ChoiceReady &and; choice_valid(req)",note:"Selection is no longer an accidental side effect. It becomes a named phase with its own admissibility rule."},{id:"choice-stock",tag:"inv",text:"choice_valid(req) := listed(req.choice) &and; stock(req.choice) > 0",note:"The machine rejects impossible requests before the costlier part of execution begins."}],properties:["Deterministic"],outcome:["good","The machine now distinguishes seeing a request from accepting that request as well-formed. This shrinks ambiguity and attack surface at the same time."]},{label:"Validate late",desc:"Let execution discover whether the request was coherent.",formulas:[{id:"late-validation",tag:"vuln",text:"LateValidation := state = Executing and checks happen mid-flight",note:"The shape is now vulnerable to partial execution before the system realizes the request was malformed."}],vulns:["Late Validation"],outcome:["warn","The machine still works in the happy path, but the formal burden shifted to a riskier phase."]}]},{title:"Fail closed",narrative:"The elevator gives another lesson. Doors open, doors close, the cabin moves, and when something goes wrong the controller does not improvise forever. It settles into a safe posture. High-assurance systems need the same discipline. A bad request should not leave the machine suspended in a half-true state.",prompt:"What should the machine do when a request is rejected or execution fails?",choices:[{label:"Add reset and rejection paths",desc:"Return to a clean baseline whenever the machine cannot continue safely.",addStateAfter:["Delivered"],stateName:"Resetting",extraTransitions:[{from:"ChoiceReady",to:"Idle",dashed:true,label:"reject"},{from:"Executing",to:"Idle",dashed:true,label:"abort"}],formulas:[{id:"reject-formula",tag:"guard",text:"Reject(req) := guard_fail(req) &and; state' = Idle",note:"Bad inputs are not merely denied, they are forced back into a safe phase."},{id:"reset-formula",tag:"inv",text:"Reset := residual_state' = 0 &and; state' = Idle",note:"This is the fail-closed move: clean residual state before reopening the boundary."}],properties:["Fail-closed"],outcome:["good","The machine now has a recovery posture. That matters because adversaries search for undefined middle ground."]},{label:"Rely on manual intervention",desc:"If something goes wrong, assume an operator will clean it up later.",formulas:[{id:"no-reset",tag:"vuln",text:"Stuck := failed_execution and no deterministic return path",note:"A machine without a safe exit can lock itself into inconsistency."}],vulns:["No Recovery"],outcome:["bad","The shape is now brittle. A single failure can trap the machine in a state the design never made legible."]}]},{title:"Make time count",narrative:"The parent withdraws cash from the ATM, returns later, and recognizes something important: yesterday's approved request must not still be spendable today. Replay protection is the part of the shape that gives time a memory.",prompt:"How will the machine distinguish a fresh request from a replay?",choices:[{label:"Require a monotonic nonce",desc:"Treat every accepted request as the next point in a strict sequence.",formulas:[{id:"nonce-accept",tag:"guard",text:"Accept(n) := (n = last_nonce + 1) &and; accepted' = TRUE",note:"A valid request is not just authorized, it must also be the next admissible one in time."},{id:"nonce-monotone",tag:"proved",text:"NonceNeverDecreases := last_nonce' &ge; last_nonce",note:"This temporal invariant blocks replay because the machine remembers what it has already consumed."}],properties:["Replayable"],outcome:["good","The system is now ordered in time. Capture-and-replay attacks lose the ability to masquerade as new intent."]},{label:"Check timestamps only",desc:"Reject requests that look old, but do not require an exact sequence.",formulas:[{id:"timestamp-window",tag:"vuln",text:"RejectIfStale := now - tx.time > timeout",note:"This narrows the replay window, but it does not fully close it because freshness and uniqueness are not the same condition."}],vulns:["Replay Gap"],outcome:["warn","This is better than no time model, but it still leaves a fuzzier shape than a strict nonce discipline."]}]},{title:"Choose one winner",narrative:"A DEX adds a new kind of burden. Several candidate outcomes may all satisfy the basic constraints, but the system still has to emit one concrete result. Without a canonical rule, the same intent set can produce different winners in different implementations.",prompt:"How should the machine choose among several valid outcomes?",choices:[{label:"Add a canonicalizer",desc:"Make the winner the unique minimum of a published key.",addStateAfter:["ChoiceReady","Authorized","Idle"],stateName:"Canonicalized",formulas:[{id:"winner-key",tag:"guard",text:"winner := argmin_{o in Outcomes} key(o)",note:"Canonicalization turns many semantically acceptable candidates into one reproducible output."},{id:"winner-unique",tag:"proved",text:"exists_unique winner",note:"A total key acts like a proof obligation for output uniqueness."}],properties:["Canonical"],outcome:["good","Now the system has a public reason for why one outcome wins and another does not. Replay and audit both become simpler."]},{label:"Pick any best-looking outcome",desc:"Allow implementations to break ties however they happen to prefer.",formulas:[{id:"noncanonical",tag:"vuln",text:"TieBreak := implementation_local and not externally fixed",note:"A noncanonical machine can still be locally deterministic, but it will drift across implementations."}],vulns:["Noncanonical Output"],outcome:["bad","This leaves the shape under-specified. Different runtimes may produce different winners from the same abstract input."]}]},{title:"Stay exact about value",narrative:"At the vending machine, price is not approximate. At a DEX, reserve updates cannot be approximate either. The moment value moves, arithmetic becomes part of the shape. This is where friendly stories meet the harsh edge of exact state transitions.",prompt:"How should the machine represent value movement?",choices:[{label:"Use exact integer arithmetic",desc:"Make the runtime formula itself part of the contract.",formulas:[{id:"cpmm-exact",tag:"guard",text:"amount_out := floor(reserve_out * net_in / (reserve_in + net_in))",note:"The machine now says exactly how outputs are computed, not just what they should feel like."},{id:"reserve-mono",tag:"proved",text:"ReserveMonotonicity := K_after &ge; K_before",note:"This clause ties concrete arithmetic to a value-aware safety law."}],properties:["Exact","Value-aware"],outcome:["good","The machine can now be audited down to the integer. Approximation has been pushed out of the trusted core."]},{label:"Use floating estimates",desc:"Treat arithmetic as a rough quote that is close enough most of the time.",formulas:[{id:"rounding-drift",tag:"vuln",text:"quote := float_model(state, req)",note:"Approximate arithmetic is shorter to write, but it is harder to align across implementations and proofs."}],vulns:["Rounding Drift"],outcome:["warn","This can be acceptable for UI hints, but not for the core machine if exact settlement matters."]}]},{title:"Carry evidence across layers",narrative:"A human engineer can do a thought experiment, but a high-assurance stack wants evidence that survives translation. The spec, the proof object, and the runtime should all be talking about the same machine. Otherwise the shape only exists on paper.",prompt:"How should the machine carry confidence from logic into execution?",choices:[{label:"Require proof-carrying, cross-layer checks",desc:"Accept only what can be tied back to a verified or replayable certificate.",formulas:[{id:"proof-carrying",tag:"proved",text:"Execute(batch, cert) := verify(cert, batch) &and; run(batch)",note:"Proof-carrying design says evidence is not commentary, it is an execution precondition."},{id:"cross-layer",tag:"proved",text:"CrossLayerEquivalent := alpha(runtime_step) = spec_step",note:"A cross-layer relation compresses a large codebase into a smaller meaning-preserving description."}],properties:["Partially Proved","Proof-carrying","Cross-layer Equivalent"],outcome:["good","The shape now travels. Runtime behavior, proof artifacts, and abstract contracts can be checked against each other instead of drifting apart."]},{label:"Trust tests and intuition",desc:"Rely on sampled runs and engineer judgment without a portable evidence object.",formulas:[{id:"tests-only",tag:"vuln",text:"Confidence := sampled_tests_passed",note:"Testing is useful, but it does not automatically bind the code, the model, and the theorem into one replayable object."}],vulns:["Spec Drift"],outcome:["warn","The system may still be good engineering, but the assurance remains local and fragile."]}]},{title:"The shape you built",finale:true}];
+const ALL_PROPS = [
+  'Deterministic','Replayable','Strongly Guarded','Partially Proved',
+  'Canonical','Exact','Value-aware','Proof-carrying','Cross-layer','Fail-closed'
+];
 
-function reportHeightToHost(){if(window.parent===window)return;window.parent.postMessage({type:"fp:iframe-height",height:Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)},"*")}
+const CHAPTERS = [
+  {
+    title: 'Your first system',
+    narrative: `You're building a system where users exchange digital tokens. Right now it's as simple as it gets: someone sends a request, the system processes it, delivers a result, and resets. <em>Three states, three transitions, no questions asked.</em>`,
+    auto: true,
+    states: ['Idle','Processing','Done'],
+    transitions: [['Idle','Processing'],['Processing','Done'],['Done','Idle']],
+    formulas: [],
+    properties: [],
+  },
+  {
+    title: 'The uninvited guest',
+    narrative: `Day two. Someone sends a malformed request and your system processes it anyway, moving tokens it shouldn't. You need a <em>gate</em> &mdash; something that says "prove you belong here" before the system acts. How do you respond?`,
+    choices: [
+      {
+        label: 'Add an authorization gate',
+        desc: 'Require authentication before any processing begins.',
+        states: ['Idle','Authorized','Processing','Done'],
+        transitions: [['Idle','Authorized'],['Authorized','Processing'],['Processing','Done'],['Done','Idle']],
+        formulas: [{ text: 'Execute &rarr; authorized', tag: 'inv', isNew: true }],
+        properties: ['Strongly Guarded'],
+        outcome: ['good', 'Strong choice. The system now requires proof of identity before acting. No unauthorized request can reach the processing phase.'],
+      },
+      {
+        label: 'Trust all inputs',
+        desc: 'Assume everyone sending requests is legitimate.',
+        states: ['Idle','Processing','Done'],
+        transitions: [['Idle','Processing'],['Processing','Done'],['Done','Idle']],
+        formulas: [{ text: 'No gate &mdash; any input reaches Processing', tag: 'vuln', isNew: true }],
+        properties: [],
+        vulns: ['No Gate'],
+        outcome: ['bad', 'Dangerous. Any actor can trigger processing without authentication. This is the shape of most early-stage exploits.'],
+      }
+    ]
+  },
+  {
+    title: 'Too many options',
+    narrative: `Authorized users can now send any request they want. But not every request makes sense &mdash; some select tokens that don't exist, some reference invalid amounts. How do you <em>validate what they're asking for</em>?`,
+    choices: [
+      {
+        label: 'Add a validated selection phase',
+        desc: 'Check the request against available options before executing.',
+        addStates: ['ChoiceReady'],
+        insertAfter: 'Authorized',
+        formulas: [{ text: 'Choose &rarr; (state = ChoiceReady)', tag: 'inv', isNew: true }, { text: 'ChoiceValid &and; stocked(choice)', tag: 'guard', isNew: true }],
+        properties: ['Deterministic'],
+        outcome: ['good', 'Now every selection is validated before execution. Invalid choices are caught early, not discovered mid-transaction.'],
+      },
+      {
+        label: 'Accept any choice',
+        desc: 'Let the execution phase figure out if the request was valid.',
+        formulas: [{ text: 'No pre-validation &mdash; errors caught late', tag: 'vuln', isNew: true }],
+        properties: [],
+        vulns: ['Late Validation'],
+        outcome: ['warn', 'This works until it doesn\'t. Late-caught errors mean the system may partially execute before discovering the request was invalid.'],
+      }
+    ]
+  },
+  {
+    title: 'The crash',
+    narrative: `A valid, authorized, correctly-selected transaction <em>fails halfway through</em>. Maybe the target token was just claimed by someone else. Your system is stuck in "Executing" with no way back. What do you build?`,
+    choices: [
+      {
+        label: 'Add reject handling and safe reset',
+        desc: 'Build a recovery path that returns to a clean state.',
+        addStates: ['Resetting'],
+        addTransitions: [['_reject_','Idle']],
+        formulas: [{ text: 'Reject &rarr; (state\' = Idle) &and; (credit\' = refund)', tag: 'guard', isNew: true }, { text: 'DeliverOnlyAfterExecute := delivered &rarr; state &isin; {Delivered, Resetting}', tag: 'inv', isNew: true }],
+        properties: ['Fail-closed'],
+        outcome: ['good', 'The system can now fail safely. Failed transactions return to a clean state with resources intact. This is the "fail-closed" property.'],
+      },
+      {
+        label: 'Hope failures don\'t happen',
+        desc: 'No recovery path. If execution fails, manual intervention required.',
+        formulas: [{ text: 'No recovery &mdash; stuck states possible', tag: 'vuln', isNew: true }],
+        properties: [],
+        vulns: ['No Recovery'],
+        outcome: ['bad', 'Without recovery, a single failure can lock the system. In adversarial environments, this is a denial-of-service vector.'],
+      }
+    ]
+  },
+  {
+    title: 'The time traveler',
+    narrative: `A clever user captures a valid transaction from yesterday and replays it today. The authorization passes, the selection passes, the execution succeeds &mdash; but it's a <em>duplicate</em>. The same value has been spent twice.`,
+    choices: [
+      {
+        label: 'Add monotonic nonce guard',
+        desc: 'Each transaction carries a sequence number that must strictly increase.',
+        formulas: [{ text: 'NonceNeverDecreases := lastUsedNonce\' &ge; lastUsedNonce', tag: 'proved', isNew: true }, { text: 'Accept := (n = lastUsedNonce + 1) &and; accepted\' = TRUE', tag: 'guard', isNew: true }],
+        properties: ['Replayable'],
+        outcome: ['good', 'Replay attacks are now impossible. The monotonic nonce guard ensures every transaction is unique and ordered in time.'],
+      },
+      {
+        label: 'Add timestamp check',
+        desc: 'Reject transactions older than a timeout window.',
+        formulas: [{ text: 'RejectIfStale := (now - tx.time > timeout) &rarr; reject', tag: 'guard', isNew: true }],
+        properties: [],
+        partialProps: ['Replayable'],
+        outcome: ['warn', 'Better than nothing, but timestamps can be spoofed and the window creates a replay gap. Not as strong as a nonce guard.'],
+      }
+    ]
+  },
+  {
+    title: 'Show your work',
+    narrative: `Your system now has gates, validated choices, failure recovery, and temporal guards. But how do you <em>know</em> the core invariant &mdash; that value is never created or destroyed &mdash; actually holds? You believe it, but <em>belief isn't proof</em>.`,
+    choices: [
+      {
+        label: 'Prove conservation algebraically',
+        desc: 'Write a formal proof that K_after >= K_before for every valid transition.',
+        formulas: [{ text: 'ReserveMonotonicity := K_after &ge; K_before', tag: 'proved', isNew: true }, { text: '&Delta;(s&#8321; &#8728; s&#8322;) = &Delta;(s&#8321;) + &Delta;(s&#8322;)', tag: 'proved', isNew: true }],
+        properties: ['Partially Proved', 'Value-aware'],
+        outcome: ['good', 'Now you have mathematical certainty. The reserve product can never decrease through valid swaps, and settlement is compositional. These properties hold for all inputs, not just tested ones.'],
+      },
+      {
+        label: 'Test it extensively',
+        desc: 'Run thousands of random transactions and check the invariant holds.',
+        formulas: [{ text: 'K_after &ge; K_before (tested, not proved)', tag: 'vuln', isNew: true }],
+        properties: [],
+        partialProps: ['Partially Proved'],
+        outcome: ['warn', 'Testing increases confidence but cannot cover all inputs. A single adversarial edge case can break an invariant that passed a million random tests.'],
+      }
+    ]
+  },
+  {
+    title: 'The shape you built',
+    narrative: '',
+    finale: true,
+  }
+];
 
-class ShapeExplorer{
-  constructor(){this.chapter=0;this.stateOrder=[];this.extraTransitions=[];this.formulas=[];this.properties=new Set();this.vulns=new Set();this.decisions=[];this.newProps=[];this.newStateNames=new Set();this.newTransitionKeys=new Set();this.chosen=false;this.metricStates=document.getElementById("metric-states");this.metricTransitions=document.getElementById("metric-transitions");this.metricFormulas=document.getElementById("metric-formulas");this.metricProperties=document.getElementById("metric-properties");this.narrativeCard=document.getElementById("narrative-card");this.diagram=document.getElementById("diagram");this.propsEl=document.getElementById("props");this.formulasEl=document.getElementById("formulas");this.summaryEl=document.getElementById("shape-summary");this.decisionLogEl=document.getElementById("decision-log");this.finaleArea=document.getElementById("finale-area");this.progressBar=document.getElementById("prog-bar");this.progressText=document.getElementById("prog-text");this.progressPct=document.getElementById("prog-pct");this.narrativeCard.addEventListener("click",e=>{const cb=e.target.closest(".choice-btn");if(cb){this.choose(Number(cb.dataset.index));return}if(e.target.closest(".next-btn"))this.next()});document.addEventListener("click",e=>{if(e.target.closest(".restart-btn"))this.restart()});this.showChapter()}
-  transitionKeys(){const k=[];for(let i=0;i<this.stateOrder.length-1;i++)k.push(this.stateOrder[i]+"->"+this.stateOrder[i+1]);if(this.stateOrder.length>1)k.push(this.stateOrder[this.stateOrder.length-1]+"->Idle");this.extraTransitions.forEach(t=>k.push(t.from+"->"+t.to+(t.label?":"+t.label:"")));return k}
-  insertState(name,anchors){if(this.stateOrder.includes(name))return;const list=Array.isArray(anchors)?anchors:[anchors];let done=false;list.some(a=>{const i=this.stateOrder.indexOf(a);if(i>=0){this.stateOrder.splice(i+1,0,name);done=true;return true}return false});if(!done)this.stateOrder.push(name);this.newStateNames.add(name)}
-  addExtraTransition(t){if(this.extraTransitions.some(e=>e.from===t.from&&e.to===t.to&&(e.label||"")===(t.label||"")))return;this.extraTransitions.push({...t});this.newTransitionKeys.add(t.from+"->"+t.to+":"+(t.label||""))}
-  appendFormulas(fs){this.formulas.forEach(f=>f.isNew=false);fs.forEach(f=>this.formulas.push({...f,isNew:true}))}
-  showChapter(){const ch=CHAPTERS[this.chapter];this.chosen=false;this.newProps=[];this.newStateNames=new Set();this.newTransitionKeys=new Set();this.finaleArea.innerHTML="";if(ch.finale){this.showFinale();return}if(ch.auto){this.stateOrder=[...ch.stateOrder];this.extraTransitions=[];this.formulas=[];this.vulns.clear();this.properties.clear();this.decisions=[];this.appendFormulas(ch.formulas||[])}let h="<div class=\"chapter-num\">Chapter "+(this.chapter+1)+" of "+CHAPTERS.length+"</div>";h+="<div class=\"chapter-title\">"+ch.title+"</div>";h+="<div class=\"chapter-text\">"+ch.narrative+"</div>";if(ch.prompt)h+="<div class=\"story-prompt\">"+ch.prompt+"</div>";if(ch.choices){h+="<div class=\"choices\">";ch.choices.forEach((c,i)=>{h+="<button class=\"choice-btn\" data-index=\""+i+"\"><span class=\"choice-label\">"+c.label+"</span><span class=\"choice-desc\">"+c.desc+"</span></button>"});h+="</div><div id=\"outcome-area\"></div>"}else{h+="<button class=\"next-btn\">Continue to the next shaping move</button>"}this.narrativeCard.innerHTML=h;this.renderAll()}
-  choose(idx){if(this.chosen)return;this.chosen=true;const ch=CHAPTERS[this.chapter],c=ch.choices[idx];this.newProps=c.properties||[];(c.properties||[]).forEach(p=>this.properties.add(p));(c.vulns||[]).forEach(v=>this.vulns.add(v));if(c.stateName)this.insertState(c.stateName,c.addStateAfter||[]);(c.extraTransitions||[]).forEach(t=>this.addExtraTransition(t));if(c.formulas)this.appendFormulas(c.formulas);this.decisions.push({chapter:ch.title,label:c.label,copy:c.outcome[1]});this.renderAll();const oa=document.getElementById("outcome-area");if(oa)oa.innerHTML="<div class=\"outcome "+c.outcome[0]+"\">"+c.outcome[1]+"</div><button class=\"next-btn\">Continue to the next shaping move</button>";this.narrativeCard.querySelectorAll(".choice-btn").forEach(b=>b.disabled=true)}
-  next(){if(this.chapter<CHAPTERS.length-1){this.chapter++;this.showChapter()}}
-  restart(){this.chapter=0;this.showChapter()}
-  renderDiagram(){if(!this.stateOrder.length){this.diagram.innerHTML="";return}const states=[...this.stateOrder],W=360,H=220,bw=92,bh=34,gap=18,pos={},tc=Math.ceil(states.length/2),bc=states.length-tc,tw=tc*bw+Math.max(0,tc-1)*gap,tx=(W-tw)/2;for(let i=0;i<tc;i++)pos[states[i]]={x:tx+i*(bw+gap),y:24};if(bc>0){const bwt=bc*bw+Math.max(0,bc-1)*gap,bx=(W-bwt)/2;for(let i=0;i<bc;i++)pos[states[tc+i]]={x:bx+(bc-1-i)*(bw+gap),y:154}}let s="<defs><marker id=\"se-a\" markerWidth=\"8\" markerHeight=\"8\" refX=\"7\" refY=\"4\" orient=\"auto\"><path d=\"M0,0.5 L8,4 L0,7.5 Z\" fill=\"rgba(30,58,95,0.5)\"></path></marker><marker id=\"se-aw\" markerWidth=\"8\" markerHeight=\"8\" refX=\"7\" refY=\"4\" orient=\"auto\"><path d=\"M0,0.5 L8,4 L0,7.5 Z\" fill=\"#b8690f\"></path></marker><marker id=\"se-ar\" markerWidth=\"8\" markerHeight=\"8\" refX=\"7\" refY=\"4\" orient=\"auto\"><path d=\"M0,0.5 L8,4 L0,7.5 Z\" fill=\"#c44040\"></path></marker></defs>";const chain=[];for(let i=0;i<this.stateOrder.length-1;i++)chain.push({from:this.stateOrder[i],to:this.stateOrder[i+1]});if(this.stateOrder.length>1)chain.push({from:this.stateOrder[this.stateOrder.length-1],to:"Idle"});chain.concat(this.extraTransitions).forEach(t=>{const f=pos[t.from],o=pos[t.to];if(!f||!o)return;const k=t.from+"->"+t.to+(t.label?":"+t.label:""),isNew=this.newTransitionKeys.has(k)||(!t.label&&this.newStateNames.has(t.from)&&this.newStateNames.has(t.to)),cls=["sd-edge",t.dashed?"dashed":"",isNew?"new-edge":""].filter(Boolean).join(" "),fx=f.x+bw/2,fy=f.y+bh/2,ox=o.x+bw/2,oy=o.y+bh/2;if(t.dashed){const mx=(fx+ox)/2,my=Math.min(fy,oy)-34;s+="<path class=\""+cls+"\" d=\"M"+fx+","+fy+" Q"+mx+","+my+" "+ox+","+oy+"\" marker-end=\"url(#se-ar)\"></path>";if(t.label)s+="<text x=\""+mx+"\" y=\""+(my-4)+"\" text-anchor=\"middle\" style=\"font-family:var(--body);font-size:8px;fill:#c44040;\">"+t.label+"</text>"}else{s+="<line class=\""+cls+"\" x1=\""+fx+"\" y1=\""+fy+"\" x2=\""+ox+"\" y2=\""+oy+"\" marker-end=\""+(isNew?"url(#se-aw)":"url(#se-a)")+"\"></line>"}});states.forEach(st=>{const p=pos[st],nc="sd-box"+(this.newStateNames.has(st)?" new-node":"");s+="<rect class=\""+nc+"\" x=\""+p.x+"\" y=\""+p.y+"\" width=\""+bw+"\" height=\""+bh+"\" rx=\"14\"></rect>";s+="<text class=\"sd-label\" x=\""+(p.x+bw/2)+"\" y=\""+(p.y+21)+"\" text-anchor=\"middle\">"+st+"</text>"});this.diagram.innerHTML=s}
-  renderMetrics(){const tc=this.stateOrder.length>1?this.stateOrder.length:0;this.metricStates.textContent=this.stateOrder.length;this.metricTransitions.textContent=tc+this.extraTransitions.length;this.metricFormulas.textContent=this.formulas.length;this.metricProperties.textContent=this.properties.size}
-  renderSummary(){const pf=this.properties.size>0?Array.from(this.properties).map(p=>p.toLowerCase().replace(/\s+/g,"_")).join("<br>&and; "):"incomplete_shape";this.summaryEl.innerHTML="<div class=\"shape-summary-title\">Compressed View</div><div class=\"shape-summary-formula\">YourShape := "+pf+"<br><br>StateOrder := "+this.stateOrder.join(" &rarr; ")+" &rarr; Idle</div>"}
-  renderProps(){this.propsEl.innerHTML=ALL_PROPS.map(p=>{const a=this.properties.has(p),n=this.newProps.includes(p);return"<span class=\"prop-pill "+(n?"new":a?"achieved":"")+"\">"+p+"</span>"}).join("");this.vulns.forEach(v=>{this.propsEl.innerHTML+="<span class=\"prop-pill vuln\">"+v+"</span>"})}
-  renderFormulas(){if(!this.formulas.length){this.formulasEl.innerHTML="<div class=\"formula-item\"><span class=\"formula-tag shape\">none</span><div class=\"formula-text\">No formulas yet.</div></div>";return}this.formulasEl.innerHTML=this.formulas.map(f=>"<div class=\"formula-item"+(f.isNew?" new":"")+"\"><span class=\"formula-tag "+f.tag+"\">"+f.tag+"</span><div class=\"formula-text\">"+f.text+"</div><div class=\"formula-note\">"+f.note+"</div></div>").join("")}
-  renderDecisions(){if(!this.decisions.length){this.decisionLogEl.innerHTML="<div class=\"decision-item\"><div class=\"decision-meta\">Awaiting first decision</div><div class=\"decision-copy\">The first branch will begin the design trace.</div></div>";return}this.decisionLogEl.innerHTML=this.decisions.map((d,i)=>"<div class=\"decision-item\"><div class=\"decision-meta\">Decision "+(i+1)+" | "+d.chapter+"</div><div class=\"decision-label\">"+d.label+"</div><div class=\"decision-copy\">"+d.copy+"</div></div>").join("")}
-  renderProgress(){const pct=Math.round((this.chapter/(CHAPTERS.length-1))*100);this.progressBar.style.width=pct+"%";this.progressText.textContent="Chapter "+(this.chapter+1)+" of "+CHAPTERS.length;this.progressPct.textContent=pct+"%"}
-  renderAll(){this.renderMetrics();this.renderDiagram();this.renderSummary();this.renderProps();this.renderFormulas();this.renderDecisions();this.renderProgress();requestAnimationFrame(reportHeightToHost)}
-  showFinale(){this.renderAll();const score=this.properties.size,total=ALL_PROPS.length,pct=Math.round((score/total)*100),pf=this.properties.size>0?Array.from(this.properties).map(p=>p.toLowerCase().replace(/\s+/g,"_")).join("<br>&and; "):"incomplete_shape";this.narrativeCard.innerHTML="<div class=\"chapter-num\">Chapter "+CHAPTERS.length+" of "+CHAPTERS.length+"</div><div class=\"chapter-title\">The shape you built</div><div class=\"chapter-text\">The shape now has <em>"+this.stateOrder.length+" states</em>, <em>"+this.formulas.length+" formulas</em>, and <em>"+score+" assurance properties</em>. That is what abstraction buys: the ability to summarize a large behavioral story in a smaller, shape-preserving object.</div>";this.finaleArea.innerHTML="<section class=\"panel finale\"><h2>Your Shape vs. ZenoDEX</h2><p class=\"finale-copy\">"+(pct>=70?"This design track now resembles a high-assurance protocol. The same shaping moves that felt obvious in the arcade and the ATM story -- gates, phases, canonicalizers, exact arithmetic, and replayable evidence -- are also the moves that make a DEX legible.":"The weaker branches left visible holes. That is exactly the lesson the tutorial wants to teach: a missing clause in the compressed shape becomes an attack surface in the full machine.")+"</p><div class=\"finale-compare\"><div class=\"finale-col\"><h4>Your Constructed Shape</h4><div class=\"finale-formula\">"+pf+"</div></div><div class=\"finale-col\"><h4>Current ZenoDEX Shape</h4><div class=\"finale-formula\">deterministic<br>&and; replayable<br>&and; partially_proved<br>&and; strongly_guarded</div></div><div class=\"finale-col\"><h4>Target ZenoDEX Shape</h4><div class=\"finale-formula\">canonical<br>&and; exact<br>&and; value_aware<br>&and; proof_carrying<br>&and; cross_layer_equivalent<br>&and; fail_closed_everywhere_important</div></div></div><button class=\"restart-btn\">Start Over</button></section>"}
+class ShapeExplorer {
+  constructor() {
+    this.chapter = 0;
+    this.states = [];
+    this.transitions = [];
+    this.formulas = [];
+    this.properties = new Set();
+    this.vulns = new Set();
+    this.chosen = false;
+    this.renderProps();
+    this.showChapter();
+  }
+
+  showChapter() {
+    const ch = CHAPTERS[this.chapter];
+    this.chosen = false;
+
+    if (ch.finale) { this.showFinale(); return; }
+
+    // Apply auto-chapter state
+    if (ch.auto || ch.states) {
+      if (ch.states) this.states = [...ch.states];
+      if (ch.transitions) this.transitions = ch.transitions.map(t => [...t]);
+      if (ch.formulas) ch.formulas.forEach(f => this.formulas.push({...f}));
+      if (ch.properties) ch.properties.forEach(p => this.properties.add(p));
+    }
+
+    this.renderDiagram();
+    this.renderFormulas();
+    this.renderProps();
+    this.renderProgress();
+
+    const card = document.getElementById('narrative-card');
+    let html = `<div class="chapter-num">Chapter ${this.chapter + 1} of ${CHAPTERS.length}</div>`;
+    html += `<div class="chapter-title">${ch.title}</div>`;
+    html += `<div class="chapter-text">${ch.narrative}</div>`;
+
+    if (ch.choices) {
+      html += '<div class="choices" id="choices">';
+      ch.choices.forEach((c, i) => {
+        html += `<button class="choice-btn" onclick="app.choose(${i})"><span class="choice-label">${c.label}</span><span class="choice-desc">${c.desc}</span></button>`;
+      });
+      html += '</div>';
+      html += '<div id="outcome-area"></div>';
+    } else {
+      html += `<button class="next-btn" onclick="app.next()">Continue &rarr;</button>`;
+    }
+    card.innerHTML = html;
+  }
+
+  choose(idx) {
+    if (this.chosen) return;
+    this.chosen = true;
+    const ch = CHAPTERS[this.chapter];
+    const c = ch.choices[idx];
+
+    // Disable buttons
+    document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+
+    // Apply choice
+    if (c.states) this.states = [...c.states];
+    if (c.addStates) {
+      c.addStates.forEach(s => {
+        if (c.insertAfter) {
+          const idx2 = this.states.indexOf(c.insertAfter);
+          if (idx2 >= 0) this.states.splice(idx2 + 1, 0, s);
+          else this.states.push(s);
+        } else {
+          this.states.push(s);
+        }
+      });
+      // Rebuild transitions for full state chain
+      this.transitions = [];
+      for (let i = 0; i < this.states.length - 1; i++) {
+        this.transitions.push([this.states[i], this.states[i+1]]);
+      }
+      this.transitions.push([this.states[this.states.length-1], this.states[0]]);
+    }
+    if (c.addTransitions) {
+      c.addTransitions.forEach(t => {
+        if (t[0] === '_reject_') {
+          // Add reject from ChoiceReady (or last-before-exec) to Idle
+          const choiceState = this.states.find(s => s === 'ChoiceReady') || this.states[Math.floor(this.states.length/2)];
+          this.transitions.push([choiceState, t[1], {dashed: true, label: 'reject'}]);
+        } else {
+          this.transitions.push([...t]);
+        }
+      });
+    }
+    if (c.transitions) this.transitions = c.transitions.map(t => [...t]);
+
+    // Mark old formulas as not new
+    this.formulas.forEach(f => f.isNew = false);
+    if (c.formulas) c.formulas.forEach(f => this.formulas.push({...f}));
+    if (c.properties) c.properties.forEach(p => this.properties.add(p));
+    if (c.vulns) c.vulns.forEach(v => this.vulns.add(v));
+
+    this.renderDiagram();
+    this.renderFormulas();
+    this.renderProps(c.properties || []);
+    this.renderProgress();
+
+    // Show outcome
+    const area = document.getElementById('outcome-area');
+    const [type, text] = c.outcome;
+    area.innerHTML = `<div class="outcome ${type}">${text}</div><button class="next-btn" onclick="app.next()">Continue &rarr;</button>`;
+  }
+
+  next() {
+    this.chapter++;
+    if (this.chapter < CHAPTERS.length) this.showChapter();
+  }
+
+  /* ── Rendering ─────────────────────────────── */
+
+  renderDiagram() {
+    const svg = document.getElementById('diagram');
+    const n = this.states.length;
+    if (n === 0) { svg.innerHTML = ''; return; }
+
+    const W = 340, H = 200;
+    const bw = 80, bh = 32, rx = 10, pad = 12;
+    let positions = {};
+
+    if (n <= 4) {
+      const totalW = n * bw + (n - 1) * pad;
+      const startX = (W - totalW) / 2;
+      const cy = H / 2 - bh / 2;
+      this.states.forEach((s, i) => { positions[s] = { x: startX + i * (bw + pad), y: cy }; });
+    } else {
+      const topN = Math.ceil(n / 2);
+      const botN = n - topN;
+      const topW = topN * bw + (topN - 1) * pad;
+      const topX = (W - topW) / 2;
+      for (let i = 0; i < topN; i++) positions[this.states[i]] = { x: topX + i * (bw + pad), y: 20 };
+      const botW = botN * bw + (botN - 1) * pad;
+      const botX = (W - botW) / 2;
+      for (let i = 0; i < botN; i++) {
+        const si = topN + i;
+        positions[this.states[si]] = { x: botX + (botN - 1 - i) * (bw + pad), y: H - bh - 30 };
+      }
+    }
+
+    let out = '<defs><marker id="se-arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0.5 L8,4 L0,7.5 Z" fill="rgba(59,130,246,0.7)"/></marker>';
+    out += '<marker id="se-arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0.5 L8,4 L0,7.5 Z" fill="rgba(220,38,38,0.6)"/></marker></defs>';
+
+    // Draw edges
+    this.transitions.forEach(t => {
+      const from = positions[t[0]], to = positions[t[1]];
+      if (!from || !to) return;
+      const opts = t[2] || {};
+      const fx = from.x + bw/2, fy = from.y + bh/2;
+      const tx = to.x + bw/2, ty = to.y + bh/2;
+      const dx = tx - fx, dy = ty - fy;
+      const len = Math.sqrt(dx*dx + dy*dy);
+      const ux = dx/len, uy = dy/len;
+      const sx = fx + ux * (bw/2 + 4), sy = fy + uy * (bh/2 + 4);
+      const ex = tx - ux * (bw/2 + 10), ey = ty - uy * (bh/2 + 10);
+
+      if (opts.dashed) {
+        // Curved reject arrow
+        const mx = (sx + ex) / 2, my = Math.min(sy, ey) - 30;
+        out += `<path d="M${sx},${sy} Q${mx},${my} ${ex},${ey}" stroke="rgba(220,38,38,0.5)" stroke-width="1.5" stroke-dasharray="4,3" fill="none" marker-end="url(#se-arr-r)"/>`;
+        if (opts.label) out += `<text x="${mx}" y="${my - 4}" text-anchor="middle" font-size="8" fill="rgba(220,38,38,0.6)" font-family="var(--font)">${opts.label}</text>`;
+      } else {
+        out += `<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="rgba(59,130,246,0.35)" stroke-width="1.5" marker-end="url(#se-arr)"/>`;
+      }
+    });
+
+    // Draw states
+    Object.entries(positions).forEach(([name, pos]) => {
+      out += `<rect class="sd-box" x="${pos.x}" y="${pos.y}" width="${bw}" height="${bh}" rx="${rx}" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.22)"/>`;
+      out += `<text class="sd-label" x="${pos.x + bw/2}" y="${pos.y + bh/2 + 4}" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">${name}</text>`;
+    });
+
+    svg.innerHTML = out;
+  }
+
+  renderFormulas() {
+    const el = document.getElementById('formulas');
+    if (this.formulas.length === 0) {
+      el.innerHTML = '<div class="formula-item"><span class="formula-tag guard">init</span> No formulas yet.</div>';
+      return;
+    }
+    el.innerHTML = this.formulas.map(f =>
+      `<div class="formula-item${f.isNew ? ' new' : ''}"><span class="formula-tag ${f.tag}">${f.tag}</span>${f.text}</div>`
+    ).join('');
+  }
+
+  renderProps(newProps) {
+    const el = document.getElementById('props');
+    const newSet = new Set(newProps || []);
+    el.innerHTML = ALL_PROPS.map(p => {
+      const achieved = this.properties.has(p);
+      const isNew = newSet.has(p);
+      const cls = isNew ? 'new' : (achieved ? 'achieved' : '');
+      return `<span class="prop-pill ${cls}">${p}</span>`;
+    }).join('');
+    // Also show vulnerabilities
+    if (this.vulns.size > 0) {
+      this.vulns.forEach(v => {
+        el.innerHTML += `<span class="prop-pill vuln">${v}</span>`;
+      });
+    }
+  }
+
+  renderProgress() {
+    const pct = Math.round((this.chapter / (CHAPTERS.length - 1)) * 100);
+    document.getElementById('prog-bar').style.width = pct + '%';
+    document.getElementById('prog-pct').textContent = pct + '%';
+    document.getElementById('prog-text').textContent = `Chapter ${this.chapter + 1} of ${CHAPTERS.length}`;
+  }
+
+  showFinale() {
+    this.renderProgress();
+    const score = this.properties.size;
+    const total = ALL_PROPS.length;
+    const pctScore = Math.round(score / total * 100);
+
+    const card = document.getElementById('narrative-card');
+    card.innerHTML = `<div class="chapter-num">Chapter ${CHAPTERS.length} of ${CHAPTERS.length}</div>
+      <div class="chapter-title">The shape you built</div>
+      <div class="chapter-text">Look at what you've created. You started with three states and zero invariants. Through ${CHAPTERS.length - 2} engineering decisions, you built a system with <em>${this.states.length} states</em>, <em>${this.formulas.length} formulas</em>, and <em>${score} of ${total}</em> assurance properties.</div>`;
+
+    const area = document.getElementById('finale-area');
+    area.innerHTML = `<div class="finale">
+      <h2>Your Shape vs. ZenoDEX</h2>
+      <div class="finale-compare">
+        <div class="finale-col">
+          <h4>Your System (${score}/${total} properties)</h4>
+          <div class="finale-formula">${this.formulas.map(f => f.text).join('<br>')}</div>
+        </div>
+        <div class="finale-col">
+          <h4>ZenoDEX Shape (7 clauses)</h4>
+          <div class="finale-formula">
+            BoundaryValidity<br>
+            &and; TemporalAdmissibility<br>
+            &and; CanonicalWinnerSelection<br>
+            &and; ReserveMonotonicity<br>
+            &and; SettlementCompositionality<br>
+            &and; DeterministicRouting<br>
+            &and; StablecoinSolvency
+          </div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:var(--text2);margin:0.5rem 0">
+        ${pctScore >= 70
+          ? 'Your choices built a shape remarkably close to a real high-assurance protocol. The same abstraction move -- gates, phases, invariants, proofs -- scales from vending machines to decentralized exchanges.'
+          : 'The weaker choices left gaps in your assurance. In a real adversarial environment, each missing property is an attack surface. The tutorial above shows what the full shape looks like and why each clause matters.'}
+      </p>
+      <button class="restart-btn" onclick="location.reload()">Start Over</button>
+    </div>`;
+  }
 }
 
-const app=new ShapeExplorer();
-addEventListener("load",reportHeightToHost);
-addEventListener("resize",()=>requestAnimationFrame(reportHeightToHost));
+const app = new ShapeExplorer();
 </script>
 </body>
 </html>
