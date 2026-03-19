@@ -5,955 +5,466 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vending Machine Explorer</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap');
 
   :root {
-    /* Warm stone grays (not brown, not cold) */
-    --paper: #faf9f7;
-    --paper-strong: #ffffff;
-    --ink: #1c1917;
-    --muted: #57534e;
-    --muted-soft: #a8a29e;
-    --border: rgba(28, 25, 23, 0.10);
-    --border-strong: rgba(28, 25, 23, 0.18);
-
-    /* Machine shell */
-    --machine: linear-gradient(175deg, #1e293b 0%, #0f172a 100%);
-    --machine-glow: rgba(56, 189, 248, 0.15);
-    --marquee: linear-gradient(135deg, #ea580c 0%, #fbbf24 100%);
-
-    /* Semantic accents */
-    --accent: #2563eb;
-    --accent-soft: rgba(37, 99, 235, 0.10);
-    --success: #059669;
-    --success-soft: rgba(5, 150, 105, 0.08);
-    --warn: #d97706;
-    --warn-soft: rgba(217, 119, 6, 0.08);
-    --danger: #dc2626;
-    --danger-soft: rgba(220, 38, 38, 0.08);
-
-    --shadow: 0 20px 50px rgba(28, 25, 23, 0.10);
-    --radius-xl: 28px;
-    --radius-lg: 20px;
-    --radius-md: 14px;
-    --display: 'Lora', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
-    --body: 'Inter', system-ui, -apple-system, sans-serif;
-    --mono: 'JetBrains Mono', 'Consolas', 'Liberation Mono', monospace;
+    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eae8e3;
+    --text: #1a1a1a; --text2: #6b6a65; --text3: #9c9a92;
+    --border: rgba(0,0,0,0.10); --blue: #3B82F6; --blue-bg: rgba(59,130,246,0.08);
+    --blue-border: rgba(59,130,246,0.22); --orange: #F97316; --orange-bg: rgba(249,115,22,0.08);
+    --green: #16a34a; --green-bg: rgba(22,163,74,0.08); --red: #dc2626; --red-bg: rgba(220,38,38,0.06);
+    --radius: 12px;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --display: 'Lora', 'Palatino Linotype', Georgia, serif;
+    --mono: 'JetBrains Mono', "SF Mono", "Fira Code", Menlo, monospace;
   }
-
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: #0c0a09;
-      --paper-strong: #1c1917;
-      --ink: #fafaf9;
-      --muted: #d6d3d1;
-      --muted-soft: #78716c;
-      --border: rgba(214, 211, 209, 0.10);
-      --border-strong: rgba(214, 211, 209, 0.16);
-      --machine: linear-gradient(175deg, #1e293b 0%, #0f172a 100%);
-      --accent-soft: rgba(96, 165, 250, 0.14);
-      --success-soft: rgba(52, 211, 153, 0.12);
-      --warn-soft: rgba(251, 191, 36, 0.12);
-      --danger-soft: rgba(248, 113, 113, 0.12);
-      --shadow: 0 24px 60px rgba(0, 0, 0, 0.30);
+      --bg: #1a1a1a; --bg2: #2c2c2a; --bg3: #3a3a36;
+      --text: #e8e6df; --text2: #9c9a92; --text3: #6b6a65;
+      --border: rgba(255,255,255,0.10); --blue-bg: rgba(59,130,246,0.14);
+      --blue-border: rgba(59,130,246,0.30); --orange-bg: rgba(249,115,22,0.12);
+      --green-bg: rgba(22,163,74,0.12); --red-bg: rgba(220,38,38,0.10);
     }
   }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 1.25rem; max-width: 760px; margin: 0 auto; -webkit-font-smoothing: antialiased; }
+  h1 { font-family: var(--display); font-size: 20px; font-weight: 700; margin: 0 0 0.15rem; }
+  .subtitle { font-size: 13px; color: var(--text2); margin: 0 0 1rem; }
+  h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin: 0 0 0.5rem; }
 
-  *, *::before, *::after { box-sizing: border-box; }
-
-  body {
-    margin: 0;
-    font-family: var(--body);
-    font-size: 14px;
-    color: var(--ink);
-    background:
-      radial-gradient(circle at top left, rgba(234, 88, 12, 0.07), transparent 24%),
-      radial-gradient(circle at bottom right, rgba(37, 99, 235, 0.08), transparent 28%),
-      linear-gradient(180deg, var(--paper-strong) 0%, var(--paper) 100%);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-    background-size: 24px 24px;
-    mask-image: linear-gradient(180deg, rgba(0,0,0,0.15), transparent 80%);
-    opacity: 0.5;
-  }
-
-  .page-shell {
-    position: relative;
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 28px 20px 36px;
-  }
-
-  /* ── Hero ────────────────────────────────────── */
-  .hero {
-    display: grid;
-    grid-template-columns: 1.35fr 1fr;
-    gap: 20px;
-    align-items: end;
-    margin-bottom: 20px;
-  }
-
-  .eyebrow {
-    margin: 0 0 8px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
-  h1 {
-    margin: 0;
-    font-family: var(--display);
-    font-size: clamp(2rem, 3.8vw, 3rem);
-    line-height: 0.95;
-    letter-spacing: 0.01em;
-  }
-
-  .subtitle {
-    margin: 10px 0 0;
-    max-width: 60ch;
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--muted);
-  }
-
-  .shape-chip {
-    padding: 16px 18px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.50);
-    backdrop-filter: blur(12px);
-    box-shadow: var(--shadow);
-  }
-
-  .shape-chip-label {
-    margin: 0 0 10px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted-soft);
-  }
-
-  .shape-chip-formula {
-    font-family: var(--mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-    color: var(--ink);
-  }
-
-  /* ── Panels (frosted glass) ──────────────────── */
-  .panel {
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    background: rgba(255, 255, 255, 0.45);
-    backdrop-filter: blur(12px);
-    box-shadow: var(--shadow);
-  }
-
-  .panel-head {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    align-items: baseline;
-    margin-bottom: 14px;
-  }
-
-  .panel-head h2, .panel-head h3 {
-    margin: 0;
-    font-family: var(--display);
-    font-size: 1.2rem;
-    line-height: 1.1;
-  }
-
-  .panel-note {
-    font-size: 12px;
-    color: var(--muted-soft);
-  }
-
-  /* ── State Diagram ──────────────────────────── */
-  .diagram-panel { padding: 20px; margin-bottom: 20px; }
-
-  .diagram-wrap {
-    border-radius: 22px;
-    background:
-      radial-gradient(circle at top left, rgba(37, 99, 235, 0.06), transparent 30%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.15));
-    padding: 12px;
-  }
-
+  /* ── State diagram ─────────────────────────── */
+  .state-diagram-wrap { margin: 0 0 1rem; border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem; background: var(--bg2); overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
   .state-diagram { width: 100%; height: auto; display: block; }
+  .sd-box { transition: fill 0.3s, stroke 0.3s; }
+  .sd-box.active { fill: rgba(59,130,246,0.22) !important; stroke: #3B82F6 !important; stroke-width: 2 !important; }
+  .sd-label { transition: fill 0.3s; }
+  .sd-label.active { fill: #3B82F6 !important; font-weight: 900 !important; }
+  .sd-edge { transition: stroke 0.4s, stroke-width 0.4s; }
+  .sd-edge.fired { stroke: #F97316 !important; stroke-width: 3 !important; }
 
-  .sd-box {
-    fill: rgba(255, 255, 255, 0.65);
-    stroke: var(--border-strong);
-    stroke-width: 1.4;
-    transition: fill 0.28s, stroke 0.28s, filter 0.28s;
-  }
+  /* ── Main layout ───────────────────────────── */
+  .main { display: grid; grid-template-columns: 280px 1fr; gap: 1rem; margin: 0 0 1rem; }
+  @media (max-width: 620px) { .main { grid-template-columns: 1fr; } }
 
-  .sd-box.active {
-    fill: rgba(37, 99, 235, 0.10);
-    stroke: var(--accent);
-    stroke-width: 2.2;
-    filter: drop-shadow(0 3px 10px rgba(37, 99, 235, 0.18));
-  }
-
-  .sd-label {
-    fill: var(--muted);
-    font-family: var(--body);
-    font-size: 12px;
-    font-weight: 600;
-    transition: fill 0.28s;
-  }
-
-  .sd-label.active { fill: var(--accent); }
-
-  .sd-edge, .sd-edge-loop {
-    stroke: var(--muted-soft);
-    stroke-width: 1.5;
-    fill: none;
-    transition: stroke 0.35s, stroke-width 0.35s, opacity 0.35s;
-  }
-
-  .sd-edge-loop { stroke-dasharray: 4 5; }
-
-  .sd-edge.fired, .sd-edge-loop.fired {
-    stroke: var(--warn);
-    stroke-width: 2.8;
-    opacity: 1;
-  }
-
-  .sd-edge.cancel {
-    stroke: var(--danger);
-    stroke-dasharray: 5 5;
-    opacity: 0.5;
-  }
-
-  /* ── Workspace ──────────────────────────────── */
-  .workspace {
-    display: grid;
-    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-
-  /* ── Machine ────────────────────────────────── */
-  .machine-panel { padding: 20px; }
-
-  .machine-shell {
-    padding: 20px;
-    border-radius: 28px;
-    background: var(--machine);
-    position: relative;
-    overflow: hidden;
-    min-height: 100%;
-  }
-
-  .machine-shell::before, .machine-shell::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-
-  .machine-shell::before {
-    background:
-      radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.18), transparent 18%),
-      radial-gradient(circle at 82% 24%, rgba(56, 189, 248, 0.12), transparent 20%),
-      linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.18) 100%);
-  }
-
-  .machine-shell::after {
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 22px;
-    inset: 8px;
-  }
-
-  .marquee {
-    position: relative;
-    border-radius: var(--radius-lg);
-    padding: 14px 16px 12px;
-    background: var(--marquee);
-    color: #fffbf2;
-    box-shadow: 0 6px 24px rgba(234, 88, 12, 0.30);
-    margin-bottom: 14px;
-  }
-
-  .marquee::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(255, 255, 255, 0.20), transparent 45%, rgba(255, 255, 255, 0.06));
-    mix-blend-mode: screen;
-    border-radius: inherit;
-    pointer-events: none;
-  }
-
-  .marquee-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    align-items: center;
-    margin-bottom: 6px;
-  }
-
-  .marquee-title {
-    margin: 0;
-    font-family: var(--display);
-    font-size: 1.45rem;
-    line-height: 1;
-  }
-
-  .marquee-badge {
-    padding: 5px 10px;
-    border-radius: 999px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background: rgba(255, 255, 255, 0.18);
-  }
-
-  .marquee-copy {
-    margin: 0;
-    max-width: 56ch;
-    font-size: 13px;
-    line-height: 1.5;
-    opacity: 0.92;
-  }
-
-  /* Display */
+  /* ── Vending machine ───────────────────────── */
+  .machine { border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg2); overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06); }
   .machine-display {
-    border-radius: 22px;
-    border: 1px solid rgba(56, 189, 248, 0.18);
-    background:
-      linear-gradient(180deg, rgba(3, 16, 21, 0.94), rgba(9, 29, 37, 0.92)),
-      radial-gradient(circle at top left, rgba(56, 189, 248, 0.08), transparent 28%);
-    padding: 16px;
-    color: #7dd3fc;
-    box-shadow:
-      inset 0 0 0 1px rgba(255, 255, 255, 0.03),
-      inset 0 0 32px rgba(56, 189, 248, 0.06),
-      0 8px 20px rgba(0, 0, 0, 0.14);
+    background: linear-gradient(175deg, #0f172a, #1e293b);
+    color: #4ade80; font-family: var(--mono); padding: 0.85rem; text-align: center;
+    border-bottom: 3px solid rgba(74, 222, 128, 0.15);
   }
-
-  .display-meta {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 12px;
-    font-family: var(--mono);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: rgba(125, 211, 252, 0.50);
-  }
-
-  .display-main {
-    display: flex;
-    justify-content: space-between;
-    gap: 14px;
-    align-items: end;
-    margin-bottom: 12px;
-  }
-
-  .credit-stack { display: flex; flex-direction: column; gap: 4px; }
-
-  .credit-label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: rgba(125, 211, 252, 0.50);
-  }
-
-  .credit-value {
-    font-family: var(--mono);
-    font-size: clamp(1.9rem, 6vw, 2.7rem);
-    font-weight: 700;
-    line-height: 0.95;
-    letter-spacing: 0.04em;
-    text-shadow: 0 0 24px rgba(56, 189, 248, 0.25);
-  }
-
-  .display-status {
-    max-width: 170px;
-    text-align: right;
-    font-family: var(--mono);
-    font-size: 12px;
-    line-height: 1.5;
-    color: rgba(125, 211, 252, 0.60);
-  }
-
-  .display-foot {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    padding-top: 10px;
-    border-top: 1px solid rgba(56, 189, 248, 0.08);
-    font-family: var(--mono);
-    font-size: 11px;
-    color: rgba(125, 211, 252, 0.55);
-  }
-
-  /* Products */
-  .products {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-    margin: 16px 0;
-  }
-
+  .machine-display .credit { font-size: 24px; font-weight: 700; letter-spacing: 0.03em; text-shadow: 0 0 12px rgba(74,222,128,0.3); }
+  .machine-display .status { font-size: 11px; margin-top: 0.3rem; color: #86efac; min-height: 1.2em; letter-spacing: 0.06em; }
+  .products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 8px; }
   .product-btn {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 6px;
-    min-height: 112px;
-    padding: 12px;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    background: rgba(255, 255, 255, 0.06);
-    color: #e7e5e4;
-    cursor: pointer;
-    transition: transform 0.16s, border-color 0.16s, background 0.16s, box-shadow 0.16s;
-    text-align: left;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 8px 4px; border: 1.5px solid var(--border); border-radius: 10px;
+    background: var(--bg); cursor: pointer; transition: all 0.15s; font-family: var(--font);
+    min-height: 76px; position: relative;
   }
+  .product-btn:hover:not(:disabled) { border-color: var(--blue); background: var(--blue-bg); transform: translateY(-1px); box-shadow: 0 2px 8px rgba(59,130,246,0.12); }
+  .product-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .product-btn .prod-emoji { font-size: 18px; line-height: 1; margin-bottom: 2px; }
+  .product-btn .prod-label { font-size: 10px; font-weight: 700; color: var(--text3); }
+  .product-btn .prod-name { font-size: 11px; font-weight: 600; color: var(--text); margin-top: 1px; }
+  .product-btn .prod-price { font-size: 11px; font-weight: 600; color: var(--blue); margin-top: 2px; }
+  .product-btn .sold-out { font-size: 9px; font-weight: 700; color: var(--red); text-transform: uppercase; }
+  .product-btn.selected { border-color: var(--orange); background: var(--orange-bg); box-shadow: 0 0 0 2px rgba(249,115,22,0.15); }
 
-  .product-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    border-color: rgba(251, 191, 36, 0.40);
-    background: rgba(255, 255, 255, 0.10);
-    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12);
-  }
-
-  .product-btn.selected {
-    border-color: rgba(251, 191, 36, 0.65);
-    background: rgba(251, 191, 36, 0.10);
-  }
-
-  .product-btn.locked { opacity: 0.40; cursor: not-allowed; }
-
-  .product-btn.sold-out {
-    border-style: dashed;
-    border-color: rgba(248, 113, 113, 0.35);
-  }
-
-  .product-top { display: flex; align-items: center; gap: 8px; }
-  .product-emoji { font-size: 22px; line-height: 1; }
-
-  .product-code {
-    display: inline-flex;
-    padding: 3px 8px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.10);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  .product-name {
-    font-family: var(--display);
-    font-size: 1.05rem;
-    line-height: 1;
-  }
-
-  .product-meta {
-    margin-top: auto;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    align-items: end;
-    font-size: 12px;
-  }
-
-  .product-price {
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 600;
-    color: #fcd34d;
-  }
-
-  .product-stock {
-    font-family: var(--mono);
-    font-size: 10px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, 0.35);
-  }
-
-  /* Coins & Actions */
-  .coin-row, .action-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .action-row { margin-top: 10px; }
-
-  .coin-btn, .action-btn {
-    border: 0;
-    border-radius: 18px;
-    padding: 12px 10px;
-    font-family: var(--body);
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: transform 0.16s, filter 0.16s, box-shadow 0.16s;
-  }
-
+  .coins { display: flex; gap: 6px; padding: 8px; }
   .coin-btn {
-    border-radius: 999px;
-    background:
-      radial-gradient(circle at top left, rgba(255, 255, 255, 0.40), transparent 35%),
-      linear-gradient(180deg, #fde68a 0%, #f59e0b 100%);
-    color: #78350f;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.45),
-      inset 0 -2px 0 rgba(120, 53, 15, 0.12),
-      0 2px 6px rgba(0, 0, 0, 0.12);
+    flex: 1; padding: 8px; border: 1.5px solid rgba(202,138,4,0.25); border-radius: 999px;
+    background: linear-gradient(180deg, #fefce8 0%, #fef9c3 100%);
+    cursor: pointer; font-family: var(--font); font-size: 13px;
+    font-weight: 700; transition: all 0.15s; color: #854d0e;
   }
-
-  .coin-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.45),
-      inset 0 -2px 0 rgba(120, 53, 15, 0.12),
-      0 8px 20px rgba(245, 158, 11, 0.30);
-  }
-
+  .coin-btn:hover:not(:disabled) { border-color: rgba(202,138,4,0.5); transform: translateY(-1px); box-shadow: 0 2px 8px rgba(202,138,4,0.18); }
+  .coin-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .actions { display: flex; gap: 6px; padding: 0 8px 8px; }
   .action-btn {
-    background: rgba(255, 255, 255, 0.08);
-    color: #e7e5e4;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    flex: 1; padding: 8px; border: 1.5px solid var(--border); border-radius: 8px;
+    background: var(--bg); cursor: pointer; font-family: var(--font); font-size: 12px;
+    font-weight: 600; transition: all 0.15s; color: var(--text2);
   }
+  .action-btn:hover:not(:disabled) { border-color: var(--blue-border); color: var(--text); }
+  .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .action-btn.primary { background: var(--blue-bg); color: var(--blue); border-color: var(--blue-border); }
+  .action-btn.primary:hover:not(:disabled) { background: rgba(59,130,246,0.18); }
+  .tray { padding: 6px 8px 8px; min-height: 36px; }
+  .tray-item { display: inline-block; padding: 6px 12px; border-radius: 8px; background: var(--green-bg); color: var(--green); font-size: 12px; font-weight: 600; animation: drop 0.4s ease-out; }
+  @keyframes drop { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
-  .action-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    filter: brightness(1.05);
-  }
+  /* ── Formula panel ─────────────────────────── */
+  .formulas { display: flex; flex-direction: column; gap: 0.75rem; }
+  .f-card { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem; background: var(--bg2); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .f-state-val { font-family: var(--mono); font-size: 14px; font-weight: 600; color: var(--blue); padding: 4px 8px; border-radius: 6px; background: var(--blue-bg); display: inline-block; }
+  .f-var-row { display: flex; justify-content: space-between; font-size: 12px; padding: 3px 0; border-bottom: 1px solid var(--border); font-family: var(--mono); }
+  .f-var-row:last-child { border-bottom: 0; }
+  .f-var-name { color: var(--text2); }
+  .f-var-val { font-weight: 600; color: var(--text); }
+  .f-inv { font-size: 12px; font-family: var(--mono); padding: 4px 0; display: flex; gap: 6px; align-items: flex-start; }
+  .f-inv-icon { flex-shrink: 0; width: 16px; text-align: center; font-weight: 700; }
+  .f-inv-icon.ok { color: var(--green); }
+  .f-inv-icon.na { color: var(--text3); }
+  .f-inv-text { color: var(--text2); line-height: 1.35; }
+  .f-inv-text.active { color: var(--text); }
+  .f-trans { font-family: var(--mono); font-size: 12px; color: var(--orange); line-height: 1.5; min-height: 2em; }
+  .f-trans.none { color: var(--text3); }
 
-  .action-btn.primary {
-    background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
-    border-color: rgba(96, 165, 250, 0.2);
-    color: #fff;
-  }
-
-  .action-btn.warn {
-    background: rgba(220, 38, 38, 0.15);
-    border-color: rgba(220, 38, 38, 0.25);
-    color: #fca5a5;
-  }
-
-  .coin-btn:disabled, .action-btn:disabled {
-    opacity: 0.30;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* Tray */
-  .tray {
-    margin-top: 12px;
-    min-height: 60px;
-    padding: 10px 14px;
-    border-radius: 18px;
-    border: 1px dashed rgba(255, 255, 255, 0.14);
-    background: rgba(0, 0, 0, 0.12);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-    color: rgba(255, 255, 255, 0.35);
-    font-size: 13px;
-  }
-
-  .tray-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    background: rgba(16, 185, 129, 0.12);
-    border: 1px solid rgba(16, 185, 129, 0.24);
-    color: #6ee7b7;
-    font-size: 12px;
-    font-weight: 600;
-    animation: tray-drop 0.32s ease-out;
-  }
-
-  .tray-item::before {
-    content: "delivered";
-    padding: 3px 7px;
-    border-radius: 999px;
-    font-family: var(--mono);
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: #065f46;
-    background: rgba(255, 255, 255, 0.85);
-  }
-
-  @keyframes tray-drop {
-    from { opacity: 0; transform: translateY(-10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  /* ── Inspector ──────────────────────────────── */
-  .inspector { display: grid; gap: 20px; }
-  .inspector-panel { padding: 20px; }
-
-  .f-state-val {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    background: var(--accent-soft);
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 13px;
-    font-weight: 600;
-  }
-
-  .state-grid { display: grid; gap: 0; margin-top: 14px; }
-
-  .state-row {
-    display: grid;
-    grid-template-columns: 112px 1fr;
-    gap: 12px;
-    align-items: center;
-    padding: 9px 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .state-row:last-child { border-bottom: 0; }
-
-  .state-name { font-family: var(--mono); font-size: 12px; color: var(--muted-soft); }
-  .state-value { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--ink); word-break: break-word; }
-
-  .metric-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-
-  .metric-pill {
-    padding: 7px 12px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.45);
-    border: 1px solid var(--border);
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .metric-pill strong { color: var(--ink); }
-
-  /* Guards */
-  .guard-list { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-
-  .guard-item {
-    display: grid;
-    grid-template-columns: 26px 1fr;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.35);
-    align-items: start;
-  }
-
-  .guard-item.ok {
-    border-color: rgba(5, 150, 105, 0.20);
-    background: var(--success-soft);
-  }
-
-  .guard-item.blocked {
-    border-color: rgba(220, 38, 38, 0.20);
-    background: var(--danger-soft);
-  }
-
-  .guard-icon {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    flex-shrink: 0;
-  }
-
-  .guard-item.ok .guard-icon { background: var(--success); box-shadow: 0 2px 6px rgba(5, 150, 105, 0.22); }
-  .guard-item.blocked .guard-icon { background: var(--danger); box-shadow: 0 2px 6px rgba(220, 38, 38, 0.22); }
-
-  .guard-formula { font-family: var(--mono); font-size: 12px; line-height: 1.55; color: var(--ink); }
-  .guard-detail { margin-top: 3px; font-size: 12px; line-height: 1.5; color: var(--muted); }
-
-  /* Transition */
-  .transition-card {
-    padding: 16px 18px;
-    border-radius: 22px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.50), rgba(255, 255, 255, 0.25));
-    border: 1px solid var(--border);
-  }
-
-  .transition-label {
-    margin: 0 0 10px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.10em;
-    text-transform: uppercase;
-    color: var(--muted-soft);
-  }
-
-  .transition-formula {
-    min-height: 50px;
-    font-family: var(--mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-    color: var(--warn);
-  }
-
-  .transition-formula.none { color: var(--muted-soft); }
-
-  .transition-detail {
-    margin-top: 8px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--muted);
-  }
-
-  /* History */
-  .history-panel { padding: 20px; }
-
-  .history-list {
-    display: grid;
-    gap: 10px;
-    max-height: 300px;
-    overflow-y: auto;
-    padding-right: 4px;
-    margin: 0; padding: 0; list-style: none;
-  }
-
-  .history-list::-webkit-scrollbar { width: 5px; }
-  .history-list::-webkit-scrollbar-track { background: transparent; }
-  .history-list::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 999px; }
-
-  .history-item {
-    display: grid;
-    grid-template-columns: 56px minmax(120px, 170px) 1fr;
-    gap: 12px;
-    align-items: start;
-    padding: 12px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, 0.35);
-  }
-
-  .history-step { font-family: var(--mono); font-size: 11px; color: var(--muted-soft); }
-  .history-action { font-family: var(--mono); font-size: 12px; font-weight: 600; color: var(--accent); }
-  .history-copy { display: grid; gap: 4px; }
-  .history-detail { font-size: 13px; line-height: 1.55; color: var(--ink); }
-  .history-formula { font-family: var(--mono); font-size: 11px; line-height: 1.6; color: var(--muted-soft); }
-
-  /* ── Responsive ─────────────────────────────── */
-  @media (max-width: 760px) { .hero, .workspace { grid-template-columns: 1fr; } }
-
-  @media (max-width: 620px) {
-    .page-shell { padding: 16px 14px 24px; }
-    .diagram-panel, .machine-panel, .inspector-panel, .history-panel { padding: 14px; }
-    .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .coin-row, .action-row { grid-template-columns: 1fr; }
-    .history-item { grid-template-columns: 1fr; }
-    .state-row { grid-template-columns: 1fr; gap: 2px; }
-  }
+  /* ── Log ────────────────────────────────────── */
+  .log { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem; background: var(--bg2); max-height: 140px; overflow-y: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .log-entry { font-size: 11px; font-family: var(--mono); padding: 3px 0; border-bottom: 1px solid var(--border); color: var(--text2); display: flex; gap: 8px; }
+  .log-entry:last-child { border-bottom: 0; }
+  .log-step { color: var(--text3); min-width: 20px; }
+  .log-action { color: var(--blue); font-weight: 600; min-width: 100px; }
+  .log-formula { color: var(--text2); }
 </style>
 </head>
 <body>
-<div class="page-shell">
-  <header class="hero">
-    <div>
-      <p class="eyebrow">Software Shape Lab</p>
-      <h1>Vending Machine Explorer</h1>
-      <p class="subtitle">
-        Press the same buttons a customer would press, then watch the machine expose its hidden
-        state, guard conditions, and transition formulas.
-      </p>
-    </div>
-    <div class="shape-chip">
-      <div class="shape-chip-label">Compressed Shape</div>
-      <div class="shape-chip-formula">
-        MachineShape(vend)<br>
-        := Idle &rarr; Authorized &rarr; ChoiceReady<br>
-        &rarr; Executing &rarr; Delivered &rarr; Resetting &rarr; Idle
-      </div>
-    </div>
-  </header>
 
-  <section class="panel diagram-panel">
-    <div class="panel-head">
-      <h2>Live State Diagram</h2>
-      <div class="panel-note">Orange edges pulse when a transition fires</div>
-    </div>
-    <div class="diagram-wrap">
-      <svg class="state-diagram" viewBox="0 0 820 270" aria-label="State machine diagram">
-        <defs>
-          <marker id="vm-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#a8a29e"></path></marker>
-          <marker id="vm-arrow-warn" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#d97706"></path></marker>
-        </defs>
-        <line id="e-idle-auth" class="sd-edge" x1="116" y1="72" x2="218" y2="72" marker-end="url(#vm-arrow)"></line>
-        <line id="e-auth-choice" class="sd-edge" x1="324" y1="72" x2="436" y2="72" marker-end="url(#vm-arrow)"></line>
-        <line id="e-choice-exec" class="sd-edge" x1="542" y1="90" x2="542" y2="178" marker-end="url(#vm-arrow)"></line>
-        <line id="e-exec-deliv" class="sd-edge" x1="496" y1="196" x2="384" y2="196" marker-end="url(#vm-arrow)"></line>
-        <line id="e-deliv-reset" class="sd-edge" x1="278" y1="196" x2="166" y2="196" marker-end="url(#vm-arrow)"></line>
-        <line id="e-reset-idle" class="sd-edge" x1="116" y1="178" x2="116" y2="90" marker-end="url(#vm-arrow)"></line>
-        <path id="e-auth-idle" class="sd-edge cancel" d="M270,54 C238,14 160,14 116,44" marker-end="url(#vm-arrow)"></path>
-        <path id="e-choice-idle" class="sd-edge cancel" d="M438,48 C384,6 194,4 124,40" marker-end="url(#vm-arrow)"></path>
-        <path id="e-choice-loop" class="sd-edge-loop" d="M562,56 C620,26 682,70 632,102 C598,124 552,112 542,88" marker-end="url(#vm-arrow-warn)"></path>
-        <text x="164" y="58" style="font-family:var(--body);font-size:11px;fill:#a8a29e;">coin</text>
-        <text x="372" y="58" style="font-family:var(--body);font-size:11px;fill:#a8a29e;">menu ready</text>
-        <text x="552" y="138" style="font-family:var(--body);font-size:11px;fill:#a8a29e;">select</text>
-        <text x="420" y="182" style="font-family:var(--body);font-size:11px;fill:#a8a29e;">vend</text>
-        <text x="196" y="182" style="font-family:var(--body);font-size:11px;fill:#a8a29e;">take item</text>
-        <text x="70" y="138" style="font-family:var(--body);font-size:11px;fill:#a8a29e;">reset</text>
-        <text x="186" y="24" style="font-family:var(--body);font-size:11px;fill:#dc2626;">cancel</text>
-        <text x="368" y="14" style="font-family:var(--body);font-size:11px;fill:#dc2626;">refund</text>
-        <text x="640" y="36" style="font-family:var(--body);font-size:11px;fill:#d97706;">guard blocks</text>
-        <rect id="sd-idle" class="sd-box" x="24" y="46" width="92" height="44" rx="16"></rect>
-        <text id="sl-idle" class="sd-label" x="70" y="73" text-anchor="middle">Idle</text>
-        <rect id="sd-auth" class="sd-box" x="218" y="46" width="106" height="44" rx="16"></rect>
-        <text id="sl-auth" class="sd-label" x="271" y="73" text-anchor="middle">Authorized</text>
-        <rect id="sd-choice" class="sd-box" x="436" y="46" width="106" height="44" rx="16"></rect>
-        <text id="sl-choice" class="sd-label" x="489" y="73" text-anchor="middle">ChoiceReady</text>
-        <rect id="sd-exec" class="sd-box" x="489" y="174" width="106" height="44" rx="16"></rect>
-        <text id="sl-exec" class="sd-label" x="542" y="201" text-anchor="middle">Executing</text>
-        <rect id="sd-deliv" class="sd-box" x="278" y="174" width="106" height="44" rx="16"></rect>
-        <text id="sl-deliv" class="sd-label" x="331" y="201" text-anchor="middle">Delivered</text>
-        <rect id="sd-reset" class="sd-box" x="60" y="174" width="106" height="44" rx="16"></rect>
-        <text id="sl-reset" class="sd-label" x="113" y="201" text-anchor="middle">Resetting</text>
-      </svg>
-    </div>
-  </section>
+<h1>Vending Machine Explorer</h1>
+<p class="subtitle">Interact with the machine and watch the state machine, invariants, and transition formulas update in real time.</p>
 
-  <section class="workspace">
-    <section class="panel machine-panel">
-      <div class="machine-shell">
-        <div class="marquee">
-          <div class="marquee-top">
-            <h2 class="marquee-title">Arcade Drinks</h2>
-            <span class="marquee-badge">demo machine</span>
-          </div>
-          <p class="marquee-copy">Insert credit, test the guards, and notice how meaning appears in phases. A product button is just plastic in Idle, but it becomes a valid transition trigger in ChoiceReady.</p>
-        </div>
-        <div class="machine-display">
-          <div class="display-meta"><span>state console</span><span id="display-step">step 0</span></div>
-          <div class="display-main">
-            <div class="credit-stack"><span class="credit-label">credit</span><div class="credit-value" id="vm-credit">$0.00</div></div>
-            <div class="display-status" id="vm-status">Insert coins to wake the machine.</div>
-          </div>
-          <div class="display-foot"><span id="display-choice">choice = &empty;</span><span id="display-change">change due = $0.00</span></div>
-        </div>
-        <div class="products" id="vm-products"></div>
-        <div class="coin-row" id="vm-coins">
-          <button class="coin-btn" data-value="25">25&cent;</button>
-          <button class="coin-btn" data-value="50">50&cent;</button>
-          <button class="coin-btn" data-value="100">$1.00</button>
-        </div>
-        <div class="action-row">
-          <button class="action-btn warn" id="btn-cancel">Cancel</button>
-          <button class="action-btn primary" id="btn-take">Take Item</button>
-          <button class="action-btn" id="btn-reset">Reset Demo</button>
-        </div>
-        <div class="tray" id="vm-tray">Tray empty. A successful vend will land here.</div>
-      </div>
-    </section>
-    <aside class="inspector">
-      <section class="panel inspector-panel">
-        <div class="panel-head"><h3>State Vector</h3><span class="panel-note">Visible machine state</span></div>
-        <div class="f-state-val" id="f-state">&#963;.state = Idle</div>
-        <div class="state-grid" id="state-grid"></div>
-        <div class="metric-pills">
-          <span class="metric-pill"><strong>Guarded</strong> input before execution</span>
-          <span class="metric-pill"><strong>Replayable</strong> trace in the log</span>
-          <span class="metric-pill"><strong>Same shape</strong> as ATM and elevator</span>
-        </div>
-      </section>
-      <section class="panel inspector-panel">
-        <div class="panel-head"><h3>Live Guards</h3><span class="panel-note">Invariants checked now</span></div>
-        <ul class="guard-list" id="f-invs"></ul>
-      </section>
-      <section class="panel inspector-panel">
-        <div class="transition-card">
-          <p class="transition-label">Last Transition Formula</p>
-          <div class="transition-formula none" id="f-trans">waiting for first action</div>
-          <div class="transition-detail" id="f-detail">The first meaningful input will write a formula here.</div>
-        </div>
-      </section>
-    </aside>
-  </section>
+<!-- ── State machine diagram ───────────────── -->
+<div class="state-diagram-wrap">
+<svg class="state-diagram" viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="vm-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0.5 L8,4 L0,7.5 Z" fill="rgba(0,0,0,0.3)"/>
+    </marker>
+  </defs>
+  <!-- Row 1 -->
+  <rect id="sd-idle" class="sd-box" x="8" y="20" width="100" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-idle" class="sd-label" x="58" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="Inter, sans-serif">Idle</text>
+  <rect id="sd-auth" class="sd-box" x="170" y="20" width="120" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-auth" class="sd-label" x="230" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="Inter, sans-serif">Authorized</text>
+  <rect id="sd-choice" class="sd-box" x="352" y="20" width="130" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-choice" class="sd-label" x="417" y="44" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="Inter, sans-serif">ChoiceReady</text>
+  <!-- Row 2 -->
+  <rect id="sd-exec" class="sd-box" x="352" y="130" width="130" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-exec" class="sd-label" x="417" y="154" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="Inter, sans-serif">Executing</text>
+  <rect id="sd-deliv" class="sd-box" x="170" y="130" width="120" height="38" rx="12" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)"/>
+  <text id="sl-deliv" class="sd-label" x="230" y="154" text-anchor="middle" font-size="12" font-weight="700" fill="#1a1a1a" font-family="Inter, sans-serif">Delivered</text>
+  <rect id="sd-reset" class="sd-box" x="8" y="130" width="100" height="38" rx="12" fill="rgba(59,130,246,0.05)" stroke="rgba(59,130,246,0.14)"/>
+  <text id="sl-reset" class="sd-label" x="58" y="154" text-anchor="middle" font-size="12" font-weight="600" fill="#6b6a65" font-family="Inter, sans-serif">Resetting</text>
+  <!-- Edges -->
+  <line id="e-idle-auth" class="sd-edge" x1="108" y1="39" x2="165" y2="39" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-auth-choice" class="sd-edge" x1="290" y1="39" x2="347" y2="39" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-choice-exec" class="sd-edge" x1="490" y1="58" x2="490" y2="125" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-exec-deliv" class="sd-edge" x1="352" y1="149" x2="295" y2="149" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-deliv-reset" class="sd-edge" x1="170" y1="149" x2="113" y2="149" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <line id="e-reset-idle" class="sd-edge" x1="8" y1="130" x2="8" y2="63" stroke="rgba(0,0,0,0.2)" stroke-width="1.5" marker-end="url(#vm-arrow)"/>
+  <!-- Reject arc -->
+  <path id="e-reject" class="sd-edge" d="M352,20 C300,-8 170,-8 108,20" stroke="rgba(220,38,38,0.3)" stroke-width="1" stroke-dasharray="4,3" fill="none" marker-end="url(#vm-arrow)"/>
+  <text x="230" y="9" text-anchor="middle" font-size="9" fill="rgba(220,38,38,0.6)" font-family="Inter, sans-serif">reject</text>
+  <!-- Edge labels -->
+  <text x="136" y="32" font-size="8" fill="rgba(0,0,0,0.4)" font-family="Inter, sans-serif">coin</text>
+  <text x="318" y="32" font-size="8" fill="rgba(0,0,0,0.4)" font-family="Inter, sans-serif">ready</text>
+  <text x="498" y="95" font-size="8" fill="rgba(0,0,0,0.4)" font-family="Inter, sans-serif">select</text>
+  <text x="320" y="142" font-size="8" fill="rgba(0,0,0,0.4)" font-family="Inter, sans-serif">vend</text>
+  <text x="140" y="142" font-size="8" fill="rgba(0,0,0,0.4)" font-family="Inter, sans-serif">take</text>
+  <!-- Counter badges -->
+  <text x="590" y="30" font-size="10" fill="rgba(0,0,0,0.3)" font-family="Inter, sans-serif">Step: <tspan id="sd-step" font-weight="700">0</tspan></text>
+</svg>
+</div>
 
-  <section class="panel history-panel">
-    <div class="panel-head"><h3>Transition Ledger</h3><span class="panel-note">Every accepted and blocked move is recorded</span></div>
-    <div class="history-list" id="vm-log"></div>
-  </section>
+<!-- ── Main: machine + formulas ────────────── -->
+<div class="main">
+  <!-- Vending machine -->
+  <div class="machine">
+    <div class="machine-display">
+      <div class="credit" id="vm-credit">$0.00</div>
+      <div class="status" id="vm-status">INSERT COINS</div>
+    </div>
+    <div class="products" id="vm-products"></div>
+    <div class="coins" id="vm-coins">
+      <button class="coin-btn" data-value="25" onclick="vm.insertCoin(25)">25&cent;</button>
+      <button class="coin-btn" data-value="50" onclick="vm.insertCoin(50)">50&cent;</button>
+      <button class="coin-btn" data-value="100" onclick="vm.insertCoin(100)">$1.00</button>
+    </div>
+    <div class="actions">
+      <button class="action-btn" id="btn-cancel" onclick="vm.cancel()" disabled>Cancel</button>
+      <button class="action-btn primary" id="btn-take" onclick="vm.takeItem()" disabled>Take Item</button>
+    </div>
+    <div class="tray" id="vm-tray"></div>
+  </div>
+
+  <!-- Formula panel -->
+  <div class="formulas">
+    <div class="f-card">
+      <h3>Current State</h3>
+      <div class="f-state-val" id="f-state">&#963;.state = Idle</div>
+    </div>
+    <div class="f-card">
+      <h3>Variables</h3>
+      <div id="f-vars"></div>
+    </div>
+    <div class="f-card">
+      <h3>Invariants</h3>
+      <div id="f-invs"></div>
+    </div>
+    <div class="f-card">
+      <h3>Last Transition</h3>
+      <div class="f-trans none" id="f-trans">&mdash; waiting for first action</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Transition log ────────────────────────── -->
+<div>
+  <h3 style="margin-bottom:0.5rem">Transition History</h3>
+  <div class="log" id="vm-log">
+    <div class="log-entry"><span class="log-step">0</span><span class="log-action">Init</span><span class="log-formula">&#963; := (Idle, credit=0, choice=&empty;, delivered=false)</span></div>
+  </div>
 </div>
 
 <script>
-const INVENTORY = [
-  { id: "A1", name: "Water", emoji: "\u{1F4A7}", price: 75, stock: 3 },
-  { id: "A2", name: "Cola", emoji: "\u{1F964}", price: 100, stock: 2 },
-  { id: "A3", name: "Juice", emoji: "\u{1F34A}", price: 125, stock: 2 },
-  { id: "B1", name: "Chips", emoji: "\u{1F35F}", price: 100, stock: 1 },
-  { id: "B2", name: "Candy", emoji: "\u{1F36C}", price: 50, stock: 0 },
-  { id: "B3", name: "Cookie", emoji: "\u{1F36A}", price: 75, stock: 4 }
+const PRODUCTS = [
+  { id: 'A1', name: 'Water',  emoji: '\u{1F4A7}', price: 75,  stock: 3 },
+  { id: 'A2', name: 'Cola',   emoji: '\u{1F964}', price: 100, stock: 2 },
+  { id: 'A3', name: 'Juice',  emoji: '\u{1F34A}', price: 125, stock: 2 },
+  { id: 'B1', name: 'Chips',  emoji: '\u{1F35F}', price: 100, stock: 1 },
+  { id: 'B2', name: 'Candy',  emoji: '\u{1F36C}', price: 50,  stock: 0 },
+  { id: 'B3', name: 'Cookie', emoji: '\u{1F36A}', price: 75,  stock: 4 },
 ];
-const STATES = ["Idle","Authorized","ChoiceReady","Executing","Delivered","Resetting"];
-const STATE_IDS = {Idle:"idle",Authorized:"auth",ChoiceReady:"choice",Executing:"exec",Delivered:"deliv",Resetting:"reset"};
-const EDGE_MAP = {"Idle->Authorized":"e-idle-auth","Authorized->ChoiceReady":"e-auth-choice","ChoiceReady->Executing":"e-choice-exec","Executing->Delivered":"e-exec-deliv","Delivered->Resetting":"e-deliv-reset","Resetting->Idle":"e-reset-idle","Authorized->Idle":"e-auth-idle","ChoiceReady->Idle":"e-choice-idle","ChoiceReady->ChoiceReady":"e-choice-loop"};
-function money(c){return "$"+(c/100).toFixed(2)}
-function reportHeightToHost(){if(window.parent===window)return;window.parent.postMessage({type:"fp:iframe-height",height:Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)},"*")}
 
-class VendingMachineExplorer{
-  constructor(){this.resetModel();this.cacheElements();this.bindEvents();this.render()}
-  cacheElements(){this.productsEl=document.getElementById("vm-products");this.creditEl=document.getElementById("vm-credit");this.statusEl=document.getElementById("vm-status");this.choiceEl=document.getElementById("display-choice");this.changeEl=document.getElementById("display-change");this.stepEl=document.getElementById("display-step");this.trayEl=document.getElementById("vm-tray");this.stateEl=document.getElementById("f-state");this.stateGridEl=document.getElementById("state-grid");this.invariantsEl=document.getElementById("f-invs");this.formulaEl=document.getElementById("f-trans");this.detailEl=document.getElementById("f-detail");this.logEl=document.getElementById("vm-log");this.cancelBtn=document.getElementById("btn-cancel");this.takeBtn=document.getElementById("btn-take");this.resetBtn=document.getElementById("btn-reset")}
-  bindEvents(){document.getElementById("vm-coins").addEventListener("click",e=>{const b=e.target.closest(".coin-btn");if(b&&!b.disabled)this.insertCoin(Number(b.dataset.value))});this.productsEl.addEventListener("click",e=>{const b=e.target.closest(".product-btn");if(b&&!b.disabled)this.selectProduct(b.dataset.id)});this.cancelBtn.addEventListener("click",()=>this.cancel());this.takeBtn.addEventListener("click",()=>this.takeItem());this.resetBtn.addEventListener("click",()=>this.hardReset())}
-  resetModel(){this.state="Idle";this.credit=0;this.choice=null;this.choicePrice=0;this.choiceStock=0;this.delivered=false;this.step=0;this.products=INVENTORY.map(i=>({...i}));this.lastFormula="waiting for first action";this.lastDetail="The first meaningful input will write a formula here.";this.status="Insert coins to wake the machine.";this.history=[{step:0,action:"Init",detail:"sigma := (Idle, credit = 0, choice = empty, delivered = false)",formula:"state = Idle and credit = 0"}]}
-  currentProduct(){return this.products.find(i=>i.id===this.choice)||null}
-  setStatus(m){this.status=m}
-  highlightEdge(key,ms){const el=document.getElementById(EDGE_MAP[key]);if(!el)return;el.classList.add("fired");setTimeout(()=>el.classList.remove("fired"),ms)}
-  record(action,formula,detail){this.step+=1;this.lastFormula=formula;this.lastDetail=detail;this.history.unshift({step:this.step,action,detail,formula})}
-  transition(next,formula,detail){const prev=this.state;this.state=next;this.record(prev+" -> "+next,formula,detail);this.highlightEdge(prev+"->"+next,1400);this.render()}
-  insertCoin(cents){if(!["Idle","Authorized","ChoiceReady"].includes(this.state))return;const prev=this.state;this.credit+=cents;this.setStatus("Coin accepted. Credit now "+money(this.credit)+".");if(prev==="Idle"){this.transition("Authorized","Authorize := (state = Idle) and GateSatisfied and (state' = Authorized)","Inserted "+cents+" cents. The machine leaves Idle because a valid token crossed the boundary.");setTimeout(()=>{if(this.state==="Authorized"){this.setStatus("Menu is live. Selection buttons now have meaning.");this.transition("ChoiceReady","PresentChoices := (state = Authorized) and MenuReady and (state' = ChoiceReady)","Credit is now available for menu selection, so the machine advances into a choice-enabled phase.")}},450);return}this.record("TopUp","TopUp := credit' = credit + coin and state' = state","Inserted "+cents+" cents. This does not change the phase, it only changes the numeric state.");if(this.state==="Authorized"){this.state="ChoiceReady";this.highlightEdge("Authorized->ChoiceReady",900)}this.render()}
-  selectProduct(id){if(this.state!=="ChoiceReady")return;const p=this.products.find(i=>i.id===id);if(!p)return;this.choice=p.id;this.choicePrice=p.price;this.choiceStock=p.stock;if(p.stock<=0){this.setStatus(p.id+" is empty. Choose another slot.");this.record("RejectEmpty","RejectEmpty := (stocked(choice) = 0) and (state' = ChoiceReady)","The selection was syntactically valid but semantically blocked because the slot is empty.");this.highlightEdge("ChoiceReady->ChoiceReady",1100);this.render();return}if(this.credit<p.price){this.setStatus("Need "+money(p.price)+". Current credit is "+money(this.credit)+".");this.record("RejectFunds","RejectFunds := (credit < price(choice)) and (state' = ChoiceReady)","The button press is observed, but the machine stays in ChoiceReady because the guard is not satisfied.");this.highlightEdge("ChoiceReady->ChoiceReady",1100);this.render();return}this.setStatus("Executing vend for "+p.id+".");this.transition("Executing","Choose := (state = ChoiceReady) and stocked(choice) and credit >= price(choice) and (state' = Executing)","Selected "+p.id+". All local guards passed, so the machine commits to execution.");setTimeout(()=>{if(this.state!=="Executing"||this.choice!==p.id)return;const cur=this.currentProduct();if(!cur||cur.stock<=0){this.state="ChoiceReady";this.record("ExecutionAbort","Abort := stock lost during execution and state' = ChoiceReady","An execution-time resource check failed, so the machine fell back into a safe selection state.");this.highlightEdge("ChoiceReady->ChoiceReady",1100);this.render();return}cur.stock-=1;this.credit-=cur.price;this.choiceStock=cur.stock;this.delivered=true;this.trayEl.innerHTML="<span class=\"tray-item\">"+cur.emoji+" "+cur.id+" "+cur.name+"</span>";this.setStatus("Item delivered. Retrieve the product from the tray.");this.transition("Delivered","Vend := (state = Executing) and stocked(choice) and (delivered' = true) and (state' = Delivered)","The coil turned, the item dropped, and the machine now exposes a delivery state to the user.")},900)}
-  takeItem(){if(this.state!=="Delivered")return;this.setStatus("Customer accepted delivery. Returning to reset.");this.transition("Resetting","Acknowledge := (state = Delivered) and ItemCollected and (state' = Resetting)","The physical transfer completed, so the machine can now clean up residual state.");setTimeout(()=>{if(this.state!=="Resetting")return;const change=this.credit;this.credit=0;this.choice=null;this.choicePrice=0;this.choiceStock=0;this.delivered=false;this.trayEl.textContent="Tray empty. A successful vend will land here.";this.setStatus(change>0?"Reset complete. Change returned.":"Reset complete. Ready for the next customer.");this.transition("Idle","Reset := (state = Resetting) and (credit' = 0) and (choice' = empty) and (state' = Idle)","Reset returned the machine to its baseline configuration"+(change>0?", with "+money(change)+" handed back as change.":"."))},520)}
-  cancel(){if(!["Authorized","ChoiceReady"].includes(this.state))return;const prev=this.state,refunded=this.credit;this.credit=0;this.choice=null;this.choicePrice=0;this.choiceStock=0;this.delivered=false;this.setStatus(refunded>0?"Transaction canceled. "+money(refunded)+" refunded.":"Transaction canceled.");this.state="Idle";this.record("Cancel","Cancel := (state = "+prev+") and (credit' = 0) and (state' = Idle)","The user withdrew intent before execution, so the machine refunded credit and closed the session.");this.highlightEdge(prev+"->Idle",1300);this.render()}
-  hardReset(){this.resetModel();this.trayEl.textContent="Tray empty. A successful vend will land here.";this.render()}
-  invariants(){const c=this.currentProduct();return[{formula:"credit >= 0",detail:"No transition is allowed to manufacture negative credit.",ok:this.credit>=0},{formula:"state = ChoiceReady -> credit > 0",detail:"The machine only opens the menu after some valid payment has been accepted.",ok:this.state!=="ChoiceReady"||this.credit>0},{formula:"state = Executing -> choice != empty and credit >= price(choice)",detail:"Execution is allowed only after the selected item and the required credit are both present.",ok:this.state!=="Executing"||(this.choice&&this.credit>=this.choicePrice)},{formula:"delivered -> state in {Delivered, Resetting}",detail:"A product cannot appear in the tray while the machine still claims to be idle or selecting.",ok:!this.delivered||["Delivered","Resetting"].includes(this.state)},{formula:"Vend -> stocked(choice)",detail:"Delivery requires inventory. Empty slots may be pressed, but they cannot produce a vend transition.",ok:this.state!=="Executing"||(!!c&&c.stock>0)},{formula:"state = Idle -> delivered = false",detail:"Idle is the reusable baseline. No residual delivery flag is allowed to leak back into it.",ok:this.state!=="Idle"||!this.delivered}]}
-  renderProducts(){const ok=this.state==="ChoiceReady";this.productsEl.innerHTML=this.products.map(i=>{const afford=this.credit>=i.price;const cls=["product-btn",i.id===this.choice?"selected":"",ok?"":"locked",i.stock<=0?"sold-out":""].filter(Boolean).join(" ");const stock=i.stock<=0?"empty":i.stock+" left";return"<button class=\""+cls+"\" data-id=\""+i.id+"\" "+(ok?"":"disabled")+"><div class=\"product-top\"><span class=\"product-emoji\">"+i.emoji+"</span><span class=\"product-code\">"+i.id+"</span></div><span class=\"product-name\">"+i.name+"</span><span class=\"product-meta\"><span class=\"product-price\">"+money(i.price)+"</span><span class=\"product-stock\">"+stock+(i.stock>0&&!afford?" | need "+money(i.price-this.credit):"")+"</span></span></button>"}).join("")}
-  renderDiagram(){STATES.forEach(n=>{const s=STATE_IDS[n];document.getElementById("sd-"+s).classList.toggle("active",this.state===n);document.getElementById("sl-"+s).classList.toggle("active",this.state===n)})}
-  renderSnapshot(){const c=this.currentProduct();this.stateGridEl.innerHTML=[["credit",money(this.credit)],["choice",this.choice||"empty"],["price(choice)",c?money(c.price):"n/a"],["stock(choice)",c?String(c.stock):"n/a"],["delivered",this.delivered?"true":"false"],["step",String(this.step)]].map(([n,v])=>"<div class=\"state-row\"><div class=\"state-name\">"+n+"</div><div class=\"state-value\">"+v+"</div></div>").join("")}
-  renderInvariants(){this.invariantsEl.innerHTML=this.invariants().map(i=>{const k=i.ok?"ok":"blocked",ic=i.ok?"\u2713":"\u2717";return"<li class=\"guard-item "+k+"\"><span class=\"guard-icon\">"+ic+"</span><div><div class=\"guard-formula\">"+i.formula+"</div><div class=\"guard-detail\">"+i.detail+"</div></div></li>"}).join("")}
-  renderHistory(){this.logEl.innerHTML=this.history.map(e=>"<div class=\"history-item\"><div class=\"history-step\">step "+e.step+"</div><div class=\"history-action\">"+e.action+"</div><div class=\"history-copy\"><div class=\"history-detail\">"+e.detail+"</div><div class=\"history-formula\">"+e.formula+"</div></div></div>").join("")}
-  render(){this.creditEl.textContent=money(this.credit);this.statusEl.textContent=this.status;this.choiceEl.textContent="choice = "+(this.choice||"empty");this.changeEl.textContent="change due = "+money(this.state==="Delivered"||this.state==="Resetting"?this.credit:0);this.stepEl.textContent="step "+this.step;this.stateEl.innerHTML="&#963;.state = "+this.state;this.formulaEl.textContent=this.lastFormula;this.formulaEl.classList.toggle("none",this.step===0);this.detailEl.textContent=this.lastDetail;this.cancelBtn.disabled=!["Authorized","ChoiceReady"].includes(this.state);this.takeBtn.disabled=this.state!=="Delivered";document.querySelectorAll(".coin-btn").forEach(b=>{b.disabled=!["Idle","Authorized","ChoiceReady"].includes(this.state)});if(!this.delivered&&this.state!=="Resetting"&&this.trayEl.textContent.trim()==="")this.trayEl.textContent="Tray empty. A successful vend will land here.";this.renderProducts();this.renderDiagram();this.renderSnapshot();this.renderInvariants();this.renderHistory();requestAnimationFrame(reportHeightToHost)}
+const STATES = ['Idle','Authorized','ChoiceReady','Executing','Delivered','Resetting'];
+const STATE_IDS = { Idle:'idle', Authorized:'auth', ChoiceReady:'choice', Executing:'exec', Delivered:'deliv', Resetting:'reset' };
+const EDGE_MAP = {
+  'Idle->Authorized': 'e-idle-auth',
+  'Authorized->ChoiceReady': 'e-auth-choice',
+  'ChoiceReady->Executing': 'e-choice-exec',
+  'Executing->Delivered': 'e-exec-deliv',
+  'Delivered->Resetting': 'e-deliv-reset',
+  'Resetting->Idle': 'e-reset-idle',
+  'ChoiceReady->Idle': 'e-reject',
+};
+
+const INVARIANTS = [
+  { id: 'inv1', formula: 'credit &ge; 0', desc: 'Credit is never negative', check: s => s.credit >= 0, always: true },
+  { id: 'inv2', formula: 'state = ChoiceReady &rarr; credit > 0', desc: 'Choice requires credit', check: s => s.state !== 'ChoiceReady' || s.credit > 0, always: true },
+  { id: 'inv3', formula: 'Execute &rarr; credit &ge; price(choice)', desc: 'Execution requires sufficient funds', check: s => s.state !== 'Executing' || s.credit >= (s.choicePrice || 0), always: true },
+  { id: 'inv4', formula: 'delivered &rarr; state &isin; {Delivered, Resetting}', desc: 'Delivery only after execution', check: s => !s.delivered || ['Delivered','Resetting'].includes(s.state), always: true },
+  { id: 'inv5', formula: 'vend &rarr; stocked(choice)', desc: 'Cannot vend empty slot', check: s => s.state !== 'Executing' || (s.choiceStock || 0) > 0, always: true },
+];
+
+class VendingMachine {
+  constructor() {
+    this.state = 'Idle';
+    this.credit = 0;
+    this.choice = null;
+    this.choicePrice = 0;
+    this.choiceStock = 0;
+    this.delivered = false;
+    this.step = 0;
+    this.products = PRODUCTS.map(p => ({...p}));
+    this.buildProducts();
+    this.render();
+  }
+
+  buildProducts() {
+    const el = document.getElementById('vm-products');
+    el.innerHTML = '';
+    this.products.forEach(p => {
+      const btn = document.createElement('button');
+      btn.className = 'product-btn';
+      btn.dataset.id = p.id;
+      btn.onclick = () => this.selectProduct(p.id);
+      const soldOut = p.stock === 0;
+      btn.innerHTML = `<span class="prod-emoji">${p.emoji}</span><span class="prod-label">${p.id}</span><span class="prod-name">${p.name}</span>` +
+        (soldOut ? '<span class="sold-out">Sold Out</span>' : `<span class="prod-price">$${(p.price/100).toFixed(2)}</span>`);
+      if (soldOut) btn.disabled = true;
+      el.appendChild(btn);
+    });
+  }
+
+  insertCoin(cents) {
+    if (!['Idle','Authorized','ChoiceReady'].includes(this.state)) return;
+    const prev = this.state;
+    this.credit += cents;
+    if (prev === 'Idle') {
+      this.transition('Authorized',
+        `Authorize := (state = Idle) &and; GateSatisfied &and; (state' = Authorized)`,
+        `Insert ${cents}&cent; &rarr; credit' = $${(this.credit/100).toFixed(2)}`);
+      // Auto-advance to ChoiceReady after brief delay
+      setTimeout(() => {
+        if (this.state === 'Authorized') {
+          this.transition('ChoiceReady',
+            `PresentChoices := (state = Authorized) &and; MenuReady &and; (state' = ChoiceReady)`,
+            `Menu ready &rarr; selections enabled`);
+        }
+      }, 600);
+    } else {
+      this.logEntry(`Add coin`, `credit' = credit + ${cents}&cent; = $${(this.credit/100).toFixed(2)}`);
+      this.render();
+    }
+  }
+
+  selectProduct(id) {
+    if (this.state !== 'ChoiceReady') return;
+    const p = this.products.find(x => x.id === id);
+    if (!p) return;
+    this.choice = p.id;
+    this.choicePrice = p.price;
+    this.choiceStock = p.stock;
+    if (p.stock === 0) {
+      this.logEntry('Reject (empty)', `BadInput := stocked(${p.id}) = 0 &and; (state' = ChoiceReady)`);
+      this.choice = null;
+      this.setStatus(`${p.id} is sold out!`);
+      this.render();
+      return;
+    }
+    if (this.credit < p.price) {
+      this.logEntry('Reject (funds)', `BadInput := credit < price(${p.id}) &and; (state' = ChoiceReady)`);
+      this.choice = null;
+      this.setStatus(`Need $${(p.price/100).toFixed(2)}, have $${(this.credit/100).toFixed(2)}`);
+      this.highlightEdge('ChoiceReady->Idle', 800);
+      this.render();
+      return;
+    }
+    // Valid selection -> Executing
+    this.transition('Executing',
+      `Choose := (state = ChoiceReady) &and; ChoiceValid &and; (state' = Executing)`,
+      `Select ${p.id} (${p.name}, $${(p.price/100).toFixed(2)}) &rarr; executing`);
+    // Auto-vend after delay
+    setTimeout(() => {
+      if (this.state === 'Executing') {
+        const product = this.products.find(x => x.id === this.choice);
+        if (product) product.stock--;
+        this.credit -= this.choicePrice;
+        this.delivered = true;
+        this.transition('Delivered',
+          `Execute := (state = Executing) &and; resource_ok &and; (state' = Delivered)`,
+          `Vend ${this.choice} &rarr; delivered' = true, credit' = $${(this.credit/100).toFixed(2)}`);
+        document.getElementById('vm-tray').innerHTML = `<span class="tray-item">${product ? product.emoji : ''} ${this.choice}: ${product ? product.name : ''}</span>`;
+        this.buildProducts();
+      }
+    }, 1200);
+  }
+
+  takeItem() {
+    if (this.state !== 'Delivered') return;
+    document.getElementById('vm-tray').innerHTML = '';
+    this.transition('Resetting',
+      `Deliver := (state = Delivered) &and; ResourceTransferred`,
+      `Take item &rarr; moving to reset`);
+    setTimeout(() => {
+      if (this.state === 'Resetting') {
+        const changeMsg = this.credit > 0 ? `, change $${(this.credit/100).toFixed(2)} returned` : '';
+        this.credit = 0;
+        this.choice = null;
+        this.choicePrice = 0;
+        this.delivered = false;
+        this.transition('Idle',
+          `Reset := (state' = Idle) &and; (authorized' = 0) &and; (delivered' = 0)`,
+          `Reset complete${changeMsg} &rarr; ready for next customer`);
+      }
+    }, 600);
+  }
+
+  cancel() {
+    if (!['Authorized','ChoiceReady'].includes(this.state)) return;
+    const changeMsg = this.credit > 0 ? `change $${(this.credit/100).toFixed(2)} returned` : 'no change';
+    this.credit = 0;
+    this.choice = null;
+    this.delivered = false;
+    this.transition('Idle',
+      `Reject := BadInput &and; (state' = Idle) &and; (credit' = 0)`,
+      `Cancel &rarr; ${changeMsg}`);
+  }
+
+  transition(newState, formula, detail) {
+    const prev = this.state;
+    this.state = newState;
+    this.step++;
+    this.highlightEdge(`${prev}->${newState}`, 1500);
+    this.setFormula(formula);
+    this.logEntry(`${prev} &rarr; ${newState}`, detail);
+    this.render();
+  }
+
+  logEntry(action, formula) {
+    this.step++;
+    const log = document.getElementById('vm-log');
+    const entry = document.createElement('div');
+    entry.className = 'log-entry';
+    entry.innerHTML = `<span class="log-step">${this.step}</span><span class="log-action">${action}</span><span class="log-formula">${formula}</span>`;
+    log.insertBefore(entry, log.firstChild);
+    document.getElementById('sd-step').textContent = this.step;
+  }
+
+  highlightEdge(key, ms) {
+    const id = EDGE_MAP[key];
+    if (!id) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.classList.add('fired');
+    setTimeout(() => el.classList.remove('fired'), ms);
+  }
+
+  setStatus(msg) { document.getElementById('vm-status').textContent = msg; }
+  setFormula(html) {
+    const el = document.getElementById('f-trans');
+    el.innerHTML = html;
+    el.className = 'f-trans';
+  }
+
+  render() {
+    // Display
+    document.getElementById('vm-credit').textContent = `$${(this.credit/100).toFixed(2)}`;
+    const statusMap = {
+      Idle: 'INSERT COINS',
+      Authorized: 'PROCESSING...',
+      ChoiceReady: 'SELECT AN ITEM',
+      Executing: 'VENDING...',
+      Delivered: 'TAKE YOUR ITEM',
+      Resetting: 'PLEASE WAIT...',
+    };
+    document.getElementById('vm-status').textContent = statusMap[this.state] || '';
+
+    // State diagram highlights
+    STATES.forEach(s => {
+      const sid = STATE_IDS[s];
+      document.getElementById('sd-' + sid).classList.toggle('active', s === this.state);
+      document.getElementById('sl-' + sid).classList.toggle('active', s === this.state);
+    });
+    document.getElementById('sd-step').textContent = this.step;
+
+    // Button states
+    const canInsert = ['Idle','Authorized','ChoiceReady'].includes(this.state);
+    document.querySelectorAll('.coin-btn').forEach(b => b.disabled = !canInsert);
+    const canSelect = this.state === 'ChoiceReady';
+    document.querySelectorAll('.product-btn').forEach(b => {
+      const p = this.products.find(x => x.id === b.dataset.id);
+      b.disabled = !canSelect || (p && p.stock === 0);
+      b.classList.toggle('selected', this.choice === b.dataset.id);
+    });
+    document.getElementById('btn-cancel').disabled = !['Authorized','ChoiceReady'].includes(this.state);
+    document.getElementById('btn-take').disabled = this.state !== 'Delivered';
+
+    // Formula panel - state
+    document.getElementById('f-state').innerHTML = `&#963;.state = ${this.state}`;
+
+    // Formula panel - variables
+    document.getElementById('f-vars').innerHTML = [
+      ['credit', `$${(this.credit/100).toFixed(2)}`],
+      ['choice', this.choice || '&empty;'],
+      ['authorized', this.state !== 'Idle' ? '1' : '0'],
+      ['delivered', this.delivered ? 'true' : 'false'],
+    ].map(([n,v]) => `<div class="f-var-row"><span class="f-var-name">${n}</span><span class="f-var-val">${v}</span></div>`).join('');
+
+    // Formula panel - invariants
+    const invHtml = INVARIANTS.map(inv => {
+      const ok = inv.check(this);
+      const relevant = inv.always;
+      return `<div class="f-inv"><span class="f-inv-icon ${ok ? 'ok' : 'na'}">${ok ? '\u2713' : '\u2717'}</span><span class="f-inv-text ${relevant ? 'active' : ''}">${inv.formula}</span></div>`;
+    }).join('');
+    document.getElementById('f-invs').innerHTML = invHtml;
+  }
 }
 
-const vm=new VendingMachineExplorer();
-addEventListener("load",reportHeightToHost);
-addEventListener("resize",()=>requestAnimationFrame(reportHeightToHost));
+const vm = new VendingMachine();
 </script>
 </body>
 </html>
