@@ -184,7 +184,7 @@
       <button class="coin-btn" data-value="100" onclick="vm.insertCoin(100)">$1.00</button>
     </div>
     <div class="actions">
-      <button class="action-btn" id="btn-cancel" onclick="vm.cancel()" disabled>Cancel</button>
+      <button class="action-btn" id="btn-cancel" onclick="vm.cancel()" disabled>Coin Return</button>
       <button class="action-btn primary" id="btn-take" onclick="vm.takeItem()" disabled>Take Item</button>
     </div>
     <div class="tray" id="vm-tray"></div>
@@ -370,8 +370,8 @@ class VendingMachine {
     this.choice = null;
     this.delivered = false;
     this.transition('Idle',
-      `Reject := BadInput &and; (state' = Idle) &and; (credit' = 0)`,
-      `Cancel &rarr; ${changeMsg}`);
+      `CoinReturn := (state &isin; {Authorized, ChoiceReady}) &and; (state' = Idle) &and; (credit' = 0)`,
+      `Coin return &rarr; ${changeMsg}`);
   }
 
   transition(newState, formula, detail) {
