@@ -494,6 +494,16 @@ function evalFormula() {
 /* ---- Init ---- */
 renderFormulas();
 addReset();
+
+// Report height to parent iframe for responsive resizing
+function reportHeight() {
+  if (window.parent !== window) {
+    window.parent.postMessage({ type: 'fp:iframe-height', height: document.body.scrollHeight }, '*');
+  }
+}
+window.addEventListener('load', () => { reportHeight(); setTimeout(reportHeight, 300); });
+window.addEventListener('resize', reportHeight);
+new MutationObserver(reportHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
 </script>
 </body>
 </html>

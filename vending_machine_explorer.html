@@ -34,7 +34,8 @@
   h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin: 0 0 0.5rem; }
 
   /* ── State diagram ─────────────────────────── */
-  .state-diagram-wrap { margin: 0 0 1rem; border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem; background: var(--bg2); overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .state-diagram-wrap { margin: 0 0 1rem; border: 1px solid var(--border); border-radius: var(--radius); padding: 0.5rem; background: var(--bg2); overflow-x: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .state-diagram { min-width: 500px; }
   .state-diagram { width: 100%; height: auto; display: block; }
   .sd-box { transition: fill 0.3s, stroke 0.3s; }
   .sd-box.active { fill: rgba(59,130,246,0.22) !important; stroke: #3B82F6 !important; stroke-width: 2 !important; }
@@ -116,9 +117,9 @@
   .log { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.75rem; background: var(--bg2); max-height: 140px; overflow-y: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
   .log-entry { font-size: 11px; font-family: var(--mono); padding: 3px 0; border-bottom: 1px solid var(--border); color: var(--text2); display: flex; gap: 8px; }
   .log-entry:last-child { border-bottom: 0; }
-  .log-step { color: var(--text3); min-width: 20px; }
-  .log-action { color: var(--blue); font-weight: 600; min-width: 100px; }
-  .log-formula { color: var(--text2); }
+  .log-step { color: var(--text3); min-width: 20px; flex-shrink: 0; }
+  .log-action { color: var(--blue); font-weight: 600; min-width: 80px; flex-shrink: 0; }
+  .log-formula { color: var(--text2); overflow-wrap: break-word; word-break: break-word; min-width: 0; }
 </style>
 </head>
 <body>
@@ -465,6 +466,16 @@ class VendingMachine {
 }
 
 const vm = new VendingMachine();
+
+// Report height to parent iframe for responsive resizing
+function reportHeight() {
+  if (window.parent !== window) {
+    window.parent.postMessage({ type: 'fp:iframe-height', height: document.body.scrollHeight }, '*');
+  }
+}
+window.addEventListener('load', () => { reportHeight(); setTimeout(reportHeight, 300); });
+window.addEventListener('resize', reportHeight);
+new MutationObserver(reportHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
 </script>
 </body>
 </html>

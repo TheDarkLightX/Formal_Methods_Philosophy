@@ -109,6 +109,7 @@
   .finale { border: 1px solid var(--blue-border); border-radius: var(--radius); padding: 1rem; background: var(--blue-bg); margin: 1rem 0; }
   .finale h2 { font-family: var(--display); font-size: 17px; margin: 0 0 0.5rem; color: var(--blue); }
   .finale-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0; }
+  @media (max-width: 500px) { .finale-compare { grid-template-columns: 1fr; } }
   .finale-col { padding: 0.75rem; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); }
   .finale-col h4 { font-size: 12px; font-weight: 700; margin: 0 0 0.35rem; }
   .finale-formula { font-family: var(--mono); font-size: 11px; color: var(--text2); line-height: 1.6; }
@@ -550,6 +551,16 @@ class ShapeExplorer {
 }
 
 const app = new ShapeExplorer();
+
+// Report height to parent iframe for responsive resizing
+function reportHeight() {
+  if (window.parent !== window) {
+    window.parent.postMessage({ type: 'fp:iframe-height', height: document.body.scrollHeight }, '*');
+  }
+}
+window.addEventListener('load', () => { reportHeight(); setTimeout(reportHeight, 300); });
+window.addEventListener('resize', reportHeight);
+new MutationObserver(reportHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
 </script>
 </body>
 </html>

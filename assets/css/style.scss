@@ -621,8 +621,10 @@ details.fp-faq summary:focus-visible {
 }
 
 .markdown-body table {
+  display: block;
   border-radius: var(--radius-md);
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .markdown-body hr {
@@ -643,7 +645,7 @@ details.fp-faq summary:focus-visible {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
-  overflow: hidden;
+  overflow: clip;
 }
 
 .fp-doc-header {
@@ -838,6 +840,12 @@ details.fp-faq summary:focus-visible {
   width: 100%;
   height: auto;
   display: block;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fp-diagram svg {
+  min-width: 600px;
 }
 
 .fp-zoomable {
@@ -952,4 +960,55 @@ details.fp-faq summary:focus-visible {
     display: block;
     margin-top: var(--space-lg);
   }
+}
+
+/* ── Mobile: small screens ───────────────────── */
+@media (max-width: 720px) {
+  .fp-body {
+    font-size: 16px;
+  }
+  .fp-container {
+    padding: 0 var(--space-md);
+  }
+  .fp-doc-title {
+    font-size: 28px;
+  }
+  .fp-doc-header {
+    padding: var(--space-xl) var(--space-md) var(--space-md);
+  }
+  .fp-doc-content {
+    padding: var(--space-lg) var(--space-md);
+    overflow-x: auto;
+  }
+  .fp-figure {
+    padding: var(--space-md);
+    margin-left: calc(-1 * var(--space-md));
+    margin-right: calc(-1 * var(--space-md));
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+  }
+  .fp-callout {
+    padding: var(--space-md);
+  }
+  .fp-hero {
+    padding: var(--space-xl) var(--space-md);
+  }
+  .fp-hero-title {
+    font-size: 32px;
+  }
+}
+
+/* ── Math: prevent horizontal overflow ────────── */
+.MathJax,
+.MathJax_Display,
+mjx-container {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.markdown-body .MathJax_Display {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 2px 0;
 }
