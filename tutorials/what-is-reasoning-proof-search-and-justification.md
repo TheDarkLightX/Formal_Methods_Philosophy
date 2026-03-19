@@ -173,7 +173,9 @@ This also clarifies the child example. If the child really checked all candidate
   <iframe
     src="{{ '/exhaustive_proof_search_machine.html' | relative_url }}"
     title="Interactive exhaustive proof search machine for 1 plus x"
-    style="width: 100%; min-height: 720px; border: 0; border-radius: 16px; background: transparent;"
+    data-fp-resize="true"
+    data-fp-min-height="760"
+    style="width: 100%; min-height: 760px; border: 0; border-radius: 16px; background: transparent;"
     loading="lazy"></iframe>
   <figcaption class="fp-figure-caption">
     This is a deliberately bounded demonstration. The machine searches the finite box <code>{0,\dots,10}</code>, applies the same checker to every candidate, and keeps only the one that survives. That is the part that makes it exhaustive. It is not a proof about all natural numbers, and that limit matters.

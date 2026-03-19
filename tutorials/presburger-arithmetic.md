@@ -69,6 +69,8 @@ Try building numbers yourself:
   <iframe
     src="{{ '/presburger_explorer.html' | relative_url }}"
     title="Interactive Presburger arithmetic explorer"
+    data-fp-resize="true"
+    data-fp-min-height="820"
     style="width: 100%; min-height: 820px; border: 0; border-radius: 16px; background: transparent;"
     loading="lazy"></iframe>
   <figcaption class="fp-figure-caption">

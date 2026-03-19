@@ -6,546 +6,1571 @@
 <title>Shape Evolution Explorer</title>
 <style>
   :root {
-    --bg: #ffffff; --bg2: #f5f4f0; --bg3: #eae8e3;
-    --text: #1a1a1a; --text2: #6b6a65; --text3: #9c9a92;
-    --border: rgba(0,0,0,0.12); --blue: #3B82F6; --blue-bg: rgba(59,130,246,0.08);
-    --blue-border: rgba(59,130,246,0.22); --orange: #F97316; --orange-bg: rgba(249,115,22,0.08);
-    --orange-border: rgba(249,115,22,0.22); --green: #16a34a; --green-bg: rgba(22,163,74,0.08);
-    --red: #dc2626; --red-bg: rgba(220,38,38,0.06); --red-border: rgba(220,38,38,0.2);
-    --radius: 10px; --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --mono: "SF Mono", "Fira Code", Menlo, monospace;
+    --paper: #f7f2e8;
+    --paper-strong: #fffaf2;
+    --ink: #1f232f;
+    --muted: #657181;
+    --muted-soft: #92a0b0;
+    --border: rgba(40, 52, 72, 0.14);
+    --border-strong: rgba(40, 52, 72, 0.24);
+    --navy: #1c3f63;
+    --navy-soft: rgba(28, 63, 99, 0.12);
+    --gold: #d17b2f;
+    --gold-soft: rgba(209, 123, 47, 0.14);
+    --sage: #2c8b67;
+    --sage-soft: rgba(44, 139, 103, 0.12);
+    --red: #bb4f45;
+    --red-soft: rgba(187, 79, 69, 0.12);
+    --shadow: 0 28px 60px rgba(39, 34, 28, 0.15);
+    --radius-xl: 28px;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --display: "Baskerville Old Face", "Palatino Linotype", "Book Antiqua", serif;
+    --body: "Verdana", "Geneva", sans-serif;
+    --mono: "Courier New", "Nimbus Mono PS", monospace;
   }
+
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #1a1a1a; --bg2: #2c2c2a; --bg3: #3a3a36;
-      --text: #e8e6df; --text2: #9c9a92; --text3: #6b6a65;
-      --border: rgba(255,255,255,0.12); --blue-bg: rgba(59,130,246,0.14);
-      --blue-border: rgba(59,130,246,0.30); --orange-bg: rgba(249,115,22,0.12);
-      --orange-border: rgba(249,115,22,0.30); --green-bg: rgba(22,163,74,0.12);
-      --red-bg: rgba(220,38,38,0.10); --red-border: rgba(220,38,38,0.30);
+      --paper: #11161f;
+      --paper-strong: #1a212c;
+      --ink: #f4ebde;
+      --muted: #c3b6a6;
+      --muted-soft: #8fa3b9;
+      --border: rgba(226, 236, 248, 0.1);
+      --border-strong: rgba(226, 236, 248, 0.18);
+      --navy-soft: rgba(110, 168, 232, 0.14);
+      --gold-soft: rgba(233, 164, 89, 0.14);
+      --sage-soft: rgba(102, 209, 167, 0.14);
+      --red-soft: rgba(232, 119, 108, 0.14);
+      --shadow: 0 30px 76px rgba(0, 0, 0, 0.34);
     }
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: var(--font); background: var(--bg); color: var(--text); padding: 1.25rem; max-width: 760px; margin: 0 auto; font-size: 14px; line-height: 1.55; }
-  h1 { font-size: 18px; font-weight: 700; }
-  .subtitle { font-size: 13px; color: var(--text2); margin: 0.15rem 0 1rem; }
-  h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text3); margin: 0 0 0.4rem; }
 
-  /* ── Layout ────────────────────────────────── */
-  .top { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 0 0 1rem; }
-  @media (max-width: 600px) { .top { grid-template-columns: 1fr; } }
-  .card { border: 1px solid var(--border); border-radius: var(--radius); padding: 0.85rem; background: var(--bg2); }
-
-  /* ── State diagram ─────────────────────────── */
-  .diagram-card { overflow: hidden; }
-  .diagram-card svg { width: 100%; height: auto; display: block; }
-  .sd-box { transition: fill 0.4s, stroke 0.4s; }
-  .sd-label { font-family: var(--font); }
-  .sd-edge { transition: stroke 0.4s; }
-
-  /* ── Narrative ─────────────────────────────── */
-  .chapter-num { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue); margin: 0 0 0.35rem; }
-  .chapter-title { font-size: 16px; font-weight: 700; margin: 0 0 0.5rem; }
-  .chapter-text { color: var(--text2); margin: 0 0 0.75rem; line-height: 1.55; }
-  .chapter-text em { color: var(--text); font-style: normal; font-weight: 600; }
-  .choices { display: flex; flex-direction: column; gap: 0.5rem; }
-  .choice-btn {
-    text-align: left; padding: 0.65rem 0.85rem; border: 1.5px solid var(--border); border-radius: 8px;
-    background: var(--bg); cursor: pointer; font-family: var(--font); font-size: 13px;
-    transition: all 0.15s; color: var(--text); line-height: 1.4;
+  * {
+    box-sizing: border-box;
   }
-  .choice-btn:hover { border-color: var(--blue); background: var(--blue-bg); transform: translateY(-1px); }
-  .choice-btn .choice-label { font-weight: 700; display: block; }
-  .choice-btn .choice-desc { color: var(--text2); font-size: 12px; display: block; margin-top: 2px; }
-  .choice-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
-  .outcome { padding: 0.65rem; border-radius: 8px; margin: 0.5rem 0 0; font-size: 13px; line-height: 1.45; }
-  .outcome.good { background: var(--green-bg); color: var(--green); }
-  .outcome.warn { background: var(--orange-bg); color: var(--orange); }
-  .outcome.bad { background: var(--red-bg); color: var(--red); }
-  .next-btn {
-    margin-top: 0.75rem; padding: 0.55rem 1.2rem; border: 1.5px solid var(--blue-border);
-    border-radius: 8px; background: var(--blue-bg); color: var(--blue); cursor: pointer;
-    font-family: var(--font); font-size: 13px; font-weight: 700; transition: all 0.15s;
+
+  body {
+    margin: 0;
+    font-family: var(--body);
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(209, 123, 47, 0.1), transparent 22%),
+      radial-gradient(circle at top right, rgba(28, 63, 99, 0.13), transparent 24%),
+      linear-gradient(180deg, var(--paper-strong) 0%, var(--paper) 100%);
+    min-height: 100vh;
   }
-  .next-btn:hover { background: rgba(59,130,246,0.18); transform: translateY(-1px); }
 
-  /* ── Properties ────────────────────────────── */
-  .properties { display: flex; flex-wrap: wrap; gap: 5px; margin: 0 0 1rem; }
-  .prop-pill {
-    padding: 4px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
-    border: 1px solid var(--border); color: var(--text3); background: var(--bg);
-    transition: all 0.4s;
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(28, 63, 99, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(28, 63, 99, 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+    mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.28), transparent 88%);
   }
-  .prop-pill.achieved { background: var(--blue-bg); border-color: var(--blue-border); color: var(--blue); }
-  .prop-pill.new { background: var(--orange-bg); border-color: var(--orange-border); color: var(--orange); animation: pulse 0.6s ease; }
-  .prop-pill.vuln { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
-  @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.08); } }
 
-  /* ── Formulas ──────────────────────────────── */
-  .formula-list { display: flex; flex-direction: column; gap: 4px; }
-  .formula-item {
-    font-family: var(--mono); font-size: 12px; padding: 5px 8px; border-radius: 6px;
-    background: var(--bg); border: 1px solid var(--border); color: var(--text2);
-    display: flex; gap: 6px; align-items: flex-start; transition: all 0.3s;
+  .shell {
+    position: relative;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 22px 18px 32px;
   }
-  .formula-item.new { background: var(--orange-bg); border-color: var(--orange-border); color: var(--orange); }
-  .formula-tag { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; flex-shrink: 0; text-transform: uppercase; }
-  .formula-tag.guard { background: var(--blue-bg); color: var(--blue); }
-  .formula-tag.inv { background: rgba(22,163,74,0.1); color: var(--green); }
-  .formula-tag.proved { background: var(--orange-bg); color: var(--orange); }
-  .formula-tag.vuln { background: var(--red-bg); color: var(--red); }
 
-  /* ── Progress ──────────────────────────────── */
-  .progress-wrap { margin: 0 0 1rem; }
-  .progress-bar-bg { height: 6px; border-radius: 3px; background: var(--bg3); overflow: hidden; margin-top: 0.35rem; }
-  .progress-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--blue), var(--orange)); transition: width 0.6s ease; }
-  .progress-label { font-size: 11px; color: var(--text3); display: flex; justify-content: space-between; }
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+    gap: 18px;
+    margin-bottom: 18px;
+    align-items: end;
+  }
 
-  /* ── Finale ─────────────────────────────────── */
-  .finale { border: 1px solid var(--blue-border); border-radius: var(--radius); padding: 1rem; background: var(--blue-bg); margin: 1rem 0; }
-  .finale h2 { font-size: 16px; margin: 0 0 0.5rem; color: var(--blue); }
-  .finale-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0; }
-  .finale-col { padding: 0.75rem; border-radius: 8px; background: var(--bg); border: 1px solid var(--border); }
-  .finale-col h4 { font-size: 12px; font-weight: 700; margin: 0 0 0.35rem; }
-  .finale-formula { font-family: var(--mono); font-size: 11px; color: var(--text2); line-height: 1.6; }
+  .eyebrow {
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 0.95;
+  }
+
+  .subtitle {
+    margin: 10px 0 0;
+    max-width: 64ch;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  .hero-note {
+    padding: 18px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+  }
+
+  .hero-note-label {
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+  }
+
+  .hero-note-formula {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  .panel {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    background: rgba(255, 255, 255, 0.38);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+  }
+
+  .panel-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  .panel-head h2,
+  .panel-head h3 {
+    margin: 0;
+    font-family: var(--display);
+    font-size: 1.2rem;
+    line-height: 1.1;
+  }
+
+  .panel-note {
+    font-size: 12px;
+    color: var(--muted-soft);
+  }
+
+  .progress-card {
+    padding: 16px 18px;
+    margin-bottom: 18px;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .progress-bar-bg {
+    margin-top: 10px;
+    height: 10px;
+    border-radius: 999px;
+    background: rgba(28, 63, 99, 0.08);
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--navy), var(--gold));
+    transition: width 0.5s ease;
+  }
+
+  .stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1.02fr) minmax(320px, 0.98fr);
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+
+  .narrative-panel,
+  .shape-panel,
+  .property-panel,
+  .formula-panel,
+  .trace-panel,
+  .finale {
+    padding: 18px;
+  }
+
+  .chapter-num {
+    margin: 0 0 10px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+
+  .chapter-title {
+    margin: 0 0 12px;
+    font-family: var(--display);
+    font-size: 2rem;
+    line-height: 0.98;
+  }
+
+  .chapter-text {
+    margin: 0 0 16px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+  .chapter-text em {
+    color: var(--ink);
+    font-style: normal;
+    font-weight: 700;
+  }
+
+  .story-prompt {
+    margin: 0 0 16px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--border);
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  .choices {
+    display: grid;
+    gap: 10px;
+  }
+
+  .choice-btn,
+  .next-btn,
   .restart-btn {
-    margin-top: 0.75rem; padding: 0.55rem 1.2rem; border: 1.5px solid var(--border);
-    border-radius: 8px; background: var(--bg); color: var(--text); cursor: pointer;
-    font-family: var(--font); font-size: 13px; font-weight: 600; transition: all 0.15s;
+    width: 100%;
+    border: 0;
+    cursor: pointer;
+    transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
   }
-  .restart-btn:hover { border-color: var(--blue-border); transform: translateY(-1px); }
+
+  .choice-btn {
+    text-align: left;
+    padding: 14px 16px;
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.58));
+    border: 1px solid var(--border);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .choice-btn:hover,
+  .next-btn:hover,
+  .restart-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.01);
+  }
+
+  .choice-btn:disabled {
+    opacity: 0.48;
+    transform: none;
+    cursor: default;
+  }
+
+  .choice-label {
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--display);
+    font-size: 1.05rem;
+    color: var(--ink);
+  }
+
+  .choice-desc {
+    display: block;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  .outcome {
+    margin-top: 14px;
+    padding: 14px 16px;
+    border-radius: 20px;
+    border: 1px solid;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .outcome.good {
+    background: var(--sage-soft);
+    color: var(--sage);
+    border-color: rgba(44, 139, 103, 0.26);
+  }
+
+  .outcome.warn {
+    background: var(--gold-soft);
+    color: var(--gold);
+    border-color: rgba(209, 123, 47, 0.26);
+  }
+
+  .outcome.bad {
+    background: var(--red-soft);
+    color: var(--red);
+    border-color: rgba(187, 79, 69, 0.26);
+  }
+
+  .next-btn,
+  .restart-btn {
+    margin-top: 14px;
+    padding: 13px 16px;
+    border-radius: 999px;
+    font-family: var(--body);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .next-btn {
+    background: linear-gradient(180deg, #244a70 0%, #163451 100%);
+    color: #f6efe3;
+  }
+
+  .restart-btn {
+    background: linear-gradient(180deg, #d17b2f 0%, #b7641c 100%);
+    color: #fff8ee;
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .metric-card {
+    padding: 12px 14px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.46);
+  }
+
+  .metric-label {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+  }
+
+  .metric-value {
+    margin-top: 5px;
+    font-family: var(--mono);
+    font-size: 22px;
+    color: var(--navy);
+  }
+
+  .diagram-wrap {
+    padding: 12px;
+    border-radius: 24px;
+    border: 1px solid var(--border);
+    background:
+      radial-gradient(circle at top right, rgba(28, 63, 99, 0.1), transparent 28%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.2));
+  }
+
+  #diagram {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .sd-box {
+    fill: rgba(255, 255, 255, 0.78);
+    stroke: rgba(40, 52, 72, 0.2);
+    stroke-width: 1.4;
+    transition: fill 0.3s ease, stroke 0.3s ease;
+  }
+
+  .sd-box.new-node {
+    fill: rgba(209, 123, 47, 0.16);
+    stroke: rgba(209, 123, 47, 0.66);
+  }
+
+  .sd-label {
+    font-family: var(--body);
+    font-size: 12px;
+    font-weight: 700;
+    fill: var(--ink);
+  }
+
+  .sd-edge {
+    stroke: rgba(28, 63, 99, 0.35);
+    stroke-width: 1.6;
+    fill: none;
+  }
+
+  .sd-edge.new-edge {
+    stroke: rgba(209, 123, 47, 0.86);
+    stroke-width: 2.6;
+  }
+
+  .sd-edge.dashed {
+    stroke: rgba(187, 79, 69, 0.56);
+    stroke-dasharray: 5 5;
+  }
+
+  .shape-summary {
+    margin-top: 12px;
+    padding: 14px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.44);
+  }
+
+  .shape-summary-title {
+    margin: 0 0 8px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted-soft);
+  }
+
+  .shape-summary-formula {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  .ledger {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+
+  .property-panel {
+    grid-column: 1 / -1;
+  }
+
+  .properties {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .prop-pill {
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.54);
+    color: var(--muted);
+    font-size: 12px;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+  }
+
+  .prop-pill.achieved {
+    background: var(--navy-soft);
+    border-color: rgba(28, 63, 99, 0.24);
+    color: var(--navy);
+  }
+
+  .prop-pill.new {
+    background: var(--gold-soft);
+    border-color: rgba(209, 123, 47, 0.28);
+    color: var(--gold);
+    transform: scale(1.04);
+  }
+
+  .prop-pill.vuln {
+    background: var(--red-soft);
+    border-color: rgba(187, 79, 69, 0.24);
+    color: var(--red);
+  }
+
+  .shape-compare {
+    display: grid;
+    gap: 12px;
+  }
+
+  .shape-card-mini {
+    padding: 14px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .shape-card-mini h4 {
+    margin: 0 0 8px;
+    font-family: var(--display);
+    font-size: 1rem;
+  }
+
+  .shape-card-mini .mini-formula {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.75;
+  }
+
+  .formula-list,
+  .decision-list {
+    display: grid;
+    gap: 10px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .formula-item,
+  .decision-item {
+    padding: 12px 14px;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.48);
+  }
+
+  .formula-item.new {
+    border-color: rgba(209, 123, 47, 0.3);
+    background: var(--gold-soft);
+  }
+
+  .formula-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+
+  .formula-tag.shape {
+    background: rgba(28, 63, 99, 0.12);
+    color: var(--navy);
+  }
+
+  .formula-tag.guard {
+    background: rgba(209, 123, 47, 0.14);
+    color: var(--gold);
+  }
+
+  .formula-tag.inv {
+    background: rgba(44, 139, 103, 0.14);
+    color: var(--sage);
+  }
+
+  .formula-tag.proved {
+    background: rgba(28, 63, 99, 0.14);
+    color: var(--navy);
+  }
+
+  .formula-tag.vuln {
+    background: rgba(187, 79, 69, 0.14);
+    color: var(--red);
+  }
+
+  .formula-text {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.75;
+    color: var(--ink);
+  }
+
+  .formula-note {
+    margin-top: 6px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .decision-item {
+    display: grid;
+    gap: 6px;
+  }
+
+  .decision-label {
+    font-family: var(--display);
+    font-size: 1rem;
+  }
+
+  .decision-meta {
+    font-size: 12px;
+    color: var(--muted-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .decision-copy {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  .finale {
+    margin-top: 18px;
+  }
+
+  .finale h2 {
+    margin: 0 0 12px;
+    font-family: var(--display);
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .finale-copy {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .finale-compare {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .finale-col {
+    padding: 14px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .finale-col h4 {
+    margin: 0 0 10px;
+    font-family: var(--display);
+    font-size: 1.02rem;
+  }
+
+  .finale-formula {
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 760px) {
+    .hero,
+    .stage,
+    .ledger,
+    .finale-compare {
+      grid-template-columns: 1fr;
+    }
+
+    .property-panel {
+      grid-column: auto;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .shell {
+      padding: 16px 12px 24px;
+    }
+
+    .metrics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
 </style>
 </head>
 <body>
+<div class="shell">
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Shape Studio</p>
+      <h1>Shape Evolution Explorer</h1>
+      <p class="subtitle">
+        Make one engineering decision at a time and watch a weak software shape harden into
+        something closer to ZenoDEX. Each choice changes states, transitions, formulas, and
+        assurance properties, so abstraction stops being hand-waving and becomes visible structure.
+      </p>
+    </div>
+    <div class="hero-note">
+      <p class="hero-note-label">Compression Thesis</p>
+      <div class="hero-note-formula">
+        Shape(system)<br>
+        := states + transitions + guards + invariants + canonicalizers + evidence
+      </div>
+    </div>
+  </header>
 
-<h1>Shape Evolution Explorer</h1>
-<p class="subtitle">Make design choices and watch your system's formal shape grow. Each decision adds states, transitions, or invariants.</p>
+  <section class="panel progress-card">
+    <div class="progress-label">
+      <span id="prog-text">Chapter 1 of 9</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-bar-bg">
+      <div class="progress-bar" id="prog-bar"></div>
+    </div>
+  </section>
 
-<!-- ── Progress ──────────────────────────────── -->
-<div class="progress-wrap">
-  <div class="progress-label"><span id="prog-text">Chapter 1 of 7</span><span id="prog-pct">0%</span></div>
-  <div class="progress-bar-bg"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
+  <section class="stage">
+    <article class="panel narrative-panel" id="narrative-card"></article>
+
+    <aside class="panel shape-panel">
+      <div class="panel-head">
+        <h2>Current Shape Surface</h2>
+        <span class="panel-note">The diagram grows when structure is added.</span>
+      </div>
+      <div class="metrics">
+        <div class="metric-card">
+          <div class="metric-label">States</div>
+          <div class="metric-value" id="metric-states">0</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Transitions</div>
+          <div class="metric-value" id="metric-transitions">0</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Formulas</div>
+          <div class="metric-value" id="metric-formulas">0</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Properties</div>
+          <div class="metric-value" id="metric-properties">0</div>
+        </div>
+      </div>
+      <div class="diagram-wrap">
+        <svg id="diagram" viewBox="0 0 360 220" aria-label="System shape diagram"></svg>
+      </div>
+      <div class="shape-summary" id="shape-summary"></div>
+    </aside>
+  </section>
+
+  <section class="ledger">
+    <section class="panel property-panel">
+      <div class="panel-head">
+        <h3>Assurance Ledger</h3>
+        <span class="panel-note">Blue means achieved, amber means newly added.</span>
+      </div>
+      <div class="properties" id="props"></div>
+      <div class="shape-compare">
+        <div class="shape-card-mini">
+          <h4>Current ZenoDEX Shape</h4>
+          <div class="mini-formula">
+            deterministic<br>
+            &and; replayable<br>
+            &and; partially_proved<br>
+            &and; strongly_guarded
+          </div>
+        </div>
+        <div class="shape-card-mini">
+          <h4>Target ZenoDEX Shape</h4>
+          <div class="mini-formula">
+            canonical<br>
+            &and; exact<br>
+            &and; value_aware<br>
+            &and; proof_carrying<br>
+            &and; cross_layer_equivalent<br>
+            &and; fail_closed_everywhere_important
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel formula-panel">
+      <div class="panel-head">
+        <h3>Formula Surface</h3>
+        <span class="panel-note">These clauses are the compressed description of the machine.</span>
+      </div>
+      <div class="formula-list" id="formulas"></div>
+    </section>
+
+    <section class="panel trace-panel">
+      <div class="panel-head">
+        <h3>Design Trace</h3>
+        <span class="panel-note">Every choice leaves a shaped residue.</span>
+      </div>
+      <div class="decision-list" id="decision-log"></div>
+    </section>
+  </section>
+
+  <div id="finale-area"></div>
 </div>
-
-<!-- ── Properties ────────────────────────────── -->
-<div>
-  <h3>Assurance Properties</h3>
-  <div class="properties" id="props"></div>
-</div>
-
-<!-- ── Main: diagram + narrative ──────────────── -->
-<div class="top">
-  <div class="card diagram-card">
-    <h3>System Shape</h3>
-    <svg id="diagram" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg"></svg>
-  </div>
-  <div class="card" id="narrative-card">
-    <!-- filled by JS -->
-  </div>
-</div>
-
-<!-- ── Formulas ──────────────────────────────── -->
-<div class="card" style="margin-bottom:1rem">
-  <h3>Active Formulas &amp; Invariants</h3>
-  <div class="formula-list" id="formulas">
-    <div class="formula-item"><span class="formula-tag guard">init</span> No formulas yet &mdash; make your first design choice.</div>
-  </div>
-</div>
-
-<div id="finale-area"></div>
 
 <script>
 const ALL_PROPS = [
-  'Deterministic','Replayable','Strongly Guarded','Partially Proved',
-  'Canonical','Exact','Value-aware','Proof-carrying','Cross-layer','Fail-closed'
+  "Strongly Guarded",
+  "Deterministic",
+  "Replayable",
+  "Partially Proved",
+  "Fail-closed",
+  "Canonical",
+  "Exact",
+  "Value-aware",
+  "Proof-carrying",
+  "Cross-layer Equivalent"
 ];
 
 const CHAPTERS = [
   {
-    title: 'Your first system',
-    narrative: `You're building a system where users exchange digital tokens. Right now it's as simple as it gets: someone sends a request, the system processes it, delivers a result, and resets. <em>Three states, three transitions, no questions asked.</em>`,
+    title: "A toy machine",
+    narrative: "A child at the arcade sees a new game cabinet for the first time. There is a glowing attract screen, a coin slot, a big red button, and a prize dispenser. The child may not know the phrase <em>finite state machine</em>, but the body learns it anyway: idle, action, delivery, reset. That is the seed of a software shape.",
+    prompt: "Begin with a deliberately weak machine. It has phases, but no gate, no validation, no replay story, and no proof.",
     auto: true,
-    states: ['Idle','Processing','Done'],
-    transitions: [['Idle','Processing'],['Processing','Done'],['Done','Idle']],
-    formulas: [],
-    properties: [],
-  },
-  {
-    title: 'The uninvited guest',
-    narrative: `Day two. Someone sends a malformed request and your system processes it anyway, moving tokens it shouldn't. You need a <em>gate</em> &mdash; something that says "prove you belong here" before the system acts. How do you respond?`,
-    choices: [
+    stateOrder: ["Idle", "Executing", "Delivered"],
+    formulas: [
       {
-        label: 'Add an authorization gate',
-        desc: 'Require authentication before any processing begins.',
-        states: ['Idle','Authorized','Processing','Done'],
-        transitions: [['Idle','Authorized'],['Authorized','Processing'],['Processing','Done'],['Done','Idle']],
-        formulas: [{ text: 'Execute &rarr; authorized', tag: 'inv', isNew: true }],
-        properties: ['Strongly Guarded'],
-        outcome: ['good', 'Strong choice. The system now requires proof of identity before acting. No unauthorized request can reach the processing phase.'],
-      },
-      {
-        label: 'Trust all inputs',
-        desc: 'Assume everyone sending requests is legitimate.',
-        states: ['Idle','Processing','Done'],
-        transitions: [['Idle','Processing'],['Processing','Done'],['Done','Idle']],
-        formulas: [{ text: 'No gate &mdash; any input reaches Processing', tag: 'vuln', isNew: true }],
-        properties: [],
-        vulns: ['No Gate'],
-        outcome: ['bad', 'Dangerous. Any actor can trigger processing without authentication. This is the shape of most early-stage exploits.'],
+        id: "base-shape",
+        tag: "shape",
+        text: "Next := Idle &rarr; Executing &rarr; Delivered &rarr; Idle",
+        note: "Even the weakest machine can be compressed into a transition skeleton."
       }
     ]
   },
   {
-    title: 'Too many options',
-    narrative: `Authorized users can now send any request they want. But not every request makes sense &mdash; some select tokens that don't exist, some reference invalid amounts. How do you <em>validate what they're asking for</em>?`,
+    title: "Guard the boundary",
+    narrative: "Now the parent steps up to an ATM. The machine does not hand out cash just because someone touched the keypad. There is a card, a PIN, and a decision about whether the request belongs at all. The first important shaping move is almost always a gate at the boundary.",
+    prompt: "What happens when a request arrives at the edge of the system?",
     choices: [
       {
-        label: 'Add a validated selection phase',
-        desc: 'Check the request against available options before executing.',
-        addStates: ['ChoiceReady'],
-        insertAfter: 'Authorized',
-        formulas: [{ text: 'Choose &rarr; (state = ChoiceReady)', tag: 'inv', isNew: true }, { text: 'ChoiceValid &and; stocked(choice)', tag: 'guard', isNew: true }],
-        properties: ['Deterministic'],
-        outcome: ['good', 'Now every selection is validated before execution. Invalid choices are caught early, not discovered mid-transaction.'],
+        label: "Add an authorization gate",
+        desc: "Insert an explicit authorization phase before execution begins.",
+        addStateAfter: ["Idle"],
+        stateName: "Authorized",
+        formulas: [
+          {
+            id: "auth-accept",
+            tag: "guard",
+            text: "Accept(req) := auth_ok(req) &and; state' = Authorized",
+            note: "A request must satisfy a boundary predicate before it can change the machine's phase."
+          },
+          {
+            id: "auth-inv",
+            tag: "inv",
+            text: "Execute(req) &rarr; authorized(req)",
+            note: "This invariant states that execution is downstream of proof of belonging."
+          }
+        ],
+        properties: ["Strongly Guarded"],
+        outcome: ["good", "The machine now has an explicit boundary. Inputs still arrive from the world, but not every input may enter the meaningful part of the workflow."]
       },
       {
-        label: 'Accept any choice',
-        desc: 'Let the execution phase figure out if the request was valid.',
-        formulas: [{ text: 'No pre-validation &mdash; errors caught late', tag: 'vuln', isNew: true }],
-        properties: [],
-        vulns: ['Late Validation'],
-        outcome: ['warn', 'This works until it doesn\'t. Late-caught errors mean the system may partially execute before discovering the request was invalid.'],
+        label: "Trust every caller",
+        desc: "Let any incoming request flow directly into execution.",
+        formulas: [
+          {
+            id: "no-gate",
+            tag: "vuln",
+            text: "NoGate := any_request(req) &rarr; state' = Executing",
+            note: "This is shorter, but the shorter shape is worse because it lacks a boundary obligation."
+          }
+        ],
+        vulns: ["No Gate"],
+        outcome: ["bad", "The system remains easy to describe, but it is easy for the wrong reason. The machine has no front door."]
       }
     ]
   },
   {
-    title: 'The crash',
-    narrative: `A valid, authorized, correctly-selected transaction <em>fails halfway through</em>. Maybe the target token was just claimed by someone else. Your system is stuck in "Executing" with no way back. What do you build?`,
+    title: "Validate the menu",
+    narrative: "Back in the arcade, the child knows that pushing a random blinking light is not the same as making a valid selection. At a vending machine, the same button can be meaningless in one phase and meaningful in another. Shape grows when meaning becomes conditional on phase.",
+    prompt: "How should the machine treat user choices?",
     choices: [
       {
-        label: 'Add reject handling and safe reset',
-        desc: 'Build a recovery path that returns to a clean state.',
-        addStates: ['Resetting'],
-        addTransitions: [['_reject_','Idle']],
-        formulas: [{ text: 'Reject &rarr; (state\' = Idle) &and; (credit\' = refund)', tag: 'guard', isNew: true }, { text: 'DeliverOnlyAfterExecute := delivered &rarr; state &isin; {Delivered, Resetting}', tag: 'inv', isNew: true }],
-        properties: ['Fail-closed'],
-        outcome: ['good', 'The system can now fail safely. Failed transactions return to a clean state with resources intact. This is the "fail-closed" property.'],
+        label: "Insert a validated selection phase",
+        desc: "Make choices first-class, and require them to be checked before execution.",
+        addStateAfter: ["Authorized", "Idle"],
+        stateName: "ChoiceReady",
+        formulas: [
+          {
+            id: "choice-state",
+            tag: "guard",
+            text: "Choose(req) := state = ChoiceReady &and; choice_valid(req)",
+            note: "Selection is no longer an accidental side effect. It becomes a named phase with its own admissibility rule."
+          },
+          {
+            id: "choice-stock",
+            tag: "inv",
+            text: "choice_valid(req) := listed(req.choice) &and; stock(req.choice) > 0",
+            note: "The machine rejects impossible requests before the costlier part of execution begins."
+          }
+        ],
+        properties: ["Deterministic"],
+        outcome: ["good", "The machine now distinguishes seeing a request from accepting that request as well-formed. This shrinks ambiguity and attack surface at the same time."]
       },
       {
-        label: 'Hope failures don\'t happen',
-        desc: 'No recovery path. If execution fails, manual intervention required.',
-        formulas: [{ text: 'No recovery &mdash; stuck states possible', tag: 'vuln', isNew: true }],
-        properties: [],
-        vulns: ['No Recovery'],
-        outcome: ['bad', 'Without recovery, a single failure can lock the system. In adversarial environments, this is a denial-of-service vector.'],
+        label: "Validate late",
+        desc: "Let execution discover whether the request was coherent.",
+        formulas: [
+          {
+            id: "late-validation",
+            tag: "vuln",
+            text: "LateValidation := state = Executing and checks happen mid-flight",
+            note: "The shape is now vulnerable to partial execution before the system realizes the request was malformed."
+          }
+        ],
+        vulns: ["Late Validation"],
+        outcome: ["warn", "The machine still works in the happy path, but the formal burden shifted to a riskier phase."]
       }
     ]
   },
   {
-    title: 'The time traveler',
-    narrative: `A clever user captures a valid transaction from yesterday and replays it today. The authorization passes, the selection passes, the execution succeeds &mdash; but it's a <em>duplicate</em>. The same value has been spent twice.`,
+    title: "Fail closed",
+    narrative: "The elevator gives another lesson. Doors open, doors close, the cabin moves, and when something goes wrong the controller does not improvise forever. It settles into a safe posture. High-assurance systems need the same discipline. A bad request should not leave the machine suspended in a half-true state.",
+    prompt: "What should the machine do when a request is rejected or execution fails?",
     choices: [
       {
-        label: 'Add monotonic nonce guard',
-        desc: 'Each transaction carries a sequence number that must strictly increase.',
-        formulas: [{ text: 'NonceNeverDecreases := lastUsedNonce\' &ge; lastUsedNonce', tag: 'proved', isNew: true }, { text: 'Accept := (n = lastUsedNonce + 1) &and; accepted\' = TRUE', tag: 'guard', isNew: true }],
-        properties: ['Replayable'],
-        outcome: ['good', 'Replay attacks are now impossible. The monotonic nonce guard ensures every transaction is unique and ordered in time.'],
+        label: "Add reset and rejection paths",
+        desc: "Return to a clean baseline whenever the machine cannot continue safely.",
+        addStateAfter: ["Delivered"],
+        stateName: "Resetting",
+        extraTransitions: [
+          { from: "ChoiceReady", to: "Idle", dashed: true, label: "reject" },
+          { from: "Executing", to: "Idle", dashed: true, label: "abort" }
+        ],
+        formulas: [
+          {
+            id: "reject-formula",
+            tag: "guard",
+            text: "Reject(req) := guard_fail(req) &and; state' = Idle",
+            note: "Bad inputs are not merely denied, they are forced back into a safe phase."
+          },
+          {
+            id: "reset-formula",
+            tag: "inv",
+            text: "Reset := residual_state' = 0 &and; state' = Idle",
+            note: "This is the fail-closed move: clean residual state before reopening the boundary."
+          }
+        ],
+        properties: ["Fail-closed"],
+        outcome: ["good", "The machine now has a recovery posture. That matters because adversaries search for undefined middle ground."]
       },
       {
-        label: 'Add timestamp check',
-        desc: 'Reject transactions older than a timeout window.',
-        formulas: [{ text: 'RejectIfStale := (now - tx.time > timeout) &rarr; reject', tag: 'guard', isNew: true }],
-        properties: [],
-        partialProps: ['Replayable'],
-        outcome: ['warn', 'Better than nothing, but timestamps can be spoofed and the window creates a replay gap. Not as strong as a nonce guard.'],
+        label: "Rely on manual intervention",
+        desc: "If something goes wrong, assume an operator will clean it up later.",
+        formulas: [
+          {
+            id: "no-reset",
+            tag: "vuln",
+            text: "Stuck := failed_execution and no deterministic return path",
+            note: "A machine without a safe exit can lock itself into inconsistency."
+          }
+        ],
+        vulns: ["No Recovery"],
+        outcome: ["bad", "The shape is now brittle. A single failure can trap the machine in a state the design never made legible."]
       }
     ]
   },
   {
-    title: 'Show your work',
-    narrative: `Your system now has gates, validated choices, failure recovery, and temporal guards. But how do you <em>know</em> the core invariant &mdash; that value is never created or destroyed &mdash; actually holds? You believe it, but <em>belief isn't proof</em>.`,
+    title: "Make time count",
+    narrative: "The parent withdraws cash from the ATM, returns later, and recognizes something important: yesterday's approved request must not still be spendable today. Replay protection is the part of the shape that gives time a memory.",
+    prompt: "How will the machine distinguish a fresh request from a replay?",
     choices: [
       {
-        label: 'Prove conservation algebraically',
-        desc: 'Write a formal proof that K_after >= K_before for every valid transition.',
-        formulas: [{ text: 'ReserveMonotonicity := K_after &ge; K_before', tag: 'proved', isNew: true }, { text: '&Delta;(s&#8321; &#8728; s&#8322;) = &Delta;(s&#8321;) + &Delta;(s&#8322;)', tag: 'proved', isNew: true }],
-        properties: ['Partially Proved', 'Value-aware'],
-        outcome: ['good', 'Now you have mathematical certainty. The reserve product can never decrease through valid swaps, and settlement is compositional. These properties hold for all inputs, not just tested ones.'],
+        label: "Require a monotonic nonce",
+        desc: "Treat every accepted request as the next point in a strict sequence.",
+        formulas: [
+          {
+            id: "nonce-accept",
+            tag: "guard",
+            text: "Accept(n) := (n = last_nonce + 1) &and; accepted' = TRUE",
+            note: "A valid request is not just authorized, it must also be the next admissible one in time."
+          },
+          {
+            id: "nonce-monotone",
+            tag: "proved",
+            text: "NonceNeverDecreases := last_nonce' &ge; last_nonce",
+            note: "This temporal invariant blocks replay because the machine remembers what it has already consumed."
+          }
+        ],
+        properties: ["Replayable"],
+        outcome: ["good", "The system is now ordered in time. Capture-and-replay attacks lose the ability to masquerade as new intent."]
       },
       {
-        label: 'Test it extensively',
-        desc: 'Run thousands of random transactions and check the invariant holds.',
-        formulas: [{ text: 'K_after &ge; K_before (tested, not proved)', tag: 'vuln', isNew: true }],
-        properties: [],
-        partialProps: ['Partially Proved'],
-        outcome: ['warn', 'Testing increases confidence but cannot cover all inputs. A single adversarial edge case can break an invariant that passed a million random tests.'],
+        label: "Check timestamps only",
+        desc: "Reject requests that look old, but do not require an exact sequence.",
+        formulas: [
+          {
+            id: "timestamp-window",
+            tag: "vuln",
+            text: "RejectIfStale := now - tx.time > timeout",
+            note: "This narrows the replay window, but it does not fully close it because freshness and uniqueness are not the same condition."
+          }
+        ],
+        vulns: ["Replay Gap"],
+        outcome: ["warn", "This is better than no time model, but it still leaves a fuzzier shape than a strict nonce discipline."]
       }
     ]
   },
   {
-    title: 'The shape you built',
-    narrative: '',
-    finale: true,
+    title: "Choose one winner",
+    narrative: "A DEX adds a new kind of burden. Several candidate outcomes may all satisfy the basic constraints, but the system still has to emit one concrete result. Without a canonical rule, the same intent set can produce different winners in different implementations.",
+    prompt: "How should the machine choose among several valid outcomes?",
+    choices: [
+      {
+        label: "Add a canonicalizer",
+        desc: "Make the winner the unique minimum of a published key.",
+        addStateAfter: ["ChoiceReady", "Authorized", "Idle"],
+        stateName: "Canonicalized",
+        formulas: [
+          {
+            id: "winner-key",
+            tag: "guard",
+            text: "winner := argmin_{o in Outcomes} key(o)",
+            note: "Canonicalization turns many semantically acceptable candidates into one reproducible output."
+          },
+          {
+            id: "winner-unique",
+            tag: "proved",
+            text: "exists_unique winner",
+            note: "A total key acts like a proof obligation for output uniqueness."
+          }
+        ],
+        properties: ["Canonical"],
+        outcome: ["good", "Now the system has a public reason for why one outcome wins and another does not. Replay and audit both become simpler."]
+      },
+      {
+        label: "Pick any best-looking outcome",
+        desc: "Allow implementations to break ties however they happen to prefer.",
+        formulas: [
+          {
+            id: "noncanonical",
+            tag: "vuln",
+            text: "TieBreak := implementation_local and not externally fixed",
+            note: "A noncanonical machine can still be locally deterministic, but it will drift across implementations."
+          }
+        ],
+        vulns: ["Noncanonical Output"],
+        outcome: ["bad", "This leaves the shape under-specified. Different runtimes may produce different winners from the same abstract input."]
+      }
+    ]
+  },
+  {
+    title: "Stay exact about value",
+    narrative: "At the vending machine, price is not approximate. At a DEX, reserve updates cannot be approximate either. The moment value moves, arithmetic becomes part of the shape. This is where friendly stories meet the harsh edge of exact state transitions.",
+    prompt: "How should the machine represent value movement?",
+    choices: [
+      {
+        label: "Use exact integer arithmetic",
+        desc: "Make the runtime formula itself part of the contract.",
+        formulas: [
+          {
+            id: "cpmm-exact",
+            tag: "guard",
+            text: "amount_out := floor(reserve_out * net_in / (reserve_in + net_in))",
+            note: "The machine now says exactly how outputs are computed, not just what they should feel like."
+          },
+          {
+            id: "reserve-mono",
+            tag: "proved",
+            text: "ReserveMonotonicity := K_after &ge; K_before",
+            note: "This clause ties concrete arithmetic to a value-aware safety law."
+          }
+        ],
+        properties: ["Exact", "Value-aware"],
+        outcome: ["good", "The machine can now be audited down to the integer. Approximation has been pushed out of the trusted core."]
+      },
+      {
+        label: "Use floating estimates",
+        desc: "Treat arithmetic as a rough quote that is close enough most of the time.",
+        formulas: [
+          {
+            id: "rounding-drift",
+            tag: "vuln",
+            text: "quote := float_model(state, req)",
+            note: "Approximate arithmetic is shorter to write, but it is harder to align across implementations and proofs."
+          }
+        ],
+        vulns: ["Rounding Drift"],
+        outcome: ["warn", "This can be acceptable for UI hints, but not for the core machine if exact settlement matters."]
+      }
+    ]
+  },
+  {
+    title: "Carry evidence across layers",
+    narrative: "A human engineer can do a thought experiment, but a high-assurance stack wants evidence that survives translation. The spec, the proof object, and the runtime should all be talking about the same machine. Otherwise the shape only exists on paper.",
+    prompt: "How should the machine carry confidence from logic into execution?",
+    choices: [
+      {
+        label: "Require proof-carrying, cross-layer checks",
+        desc: "Accept only what can be tied back to a verified or replayable certificate.",
+        formulas: [
+          {
+            id: "proof-carrying",
+            tag: "proved",
+            text: "Execute(batch, cert) := verify(cert, batch) &and; run(batch)",
+            note: "Proof-carrying design says evidence is not commentary, it is an execution precondition."
+          },
+          {
+            id: "cross-layer",
+            tag: "proved",
+            text: "CrossLayerEquivalent := alpha(runtime_step) = spec_step",
+            note: "A cross-layer relation compresses a large codebase into a smaller meaning-preserving description."
+          }
+        ],
+        properties: ["Partially Proved", "Proof-carrying", "Cross-layer Equivalent"],
+        outcome: ["good", "The shape now travels. Runtime behavior, proof artifacts, and abstract contracts can be checked against each other instead of drifting apart."]
+      },
+      {
+        label: "Trust tests and intuition",
+        desc: "Rely on sampled runs and engineer judgment without a portable evidence object.",
+        formulas: [
+          {
+            id: "tests-only",
+            tag: "vuln",
+            text: "Confidence := sampled_tests_passed",
+            note: "Testing is useful, but it does not automatically bind the code, the model, and the theorem into one replayable object."
+          }
+        ],
+        vulns: ["Spec Drift"],
+        outcome: ["warn", "The system may still be good engineering, but the assurance remains local and fragile."]
+      }
+    ]
+  },
+  {
+    title: "The shape you built",
+    finale: true
   }
 ];
+
+function reportHeightToHost() {
+  if (window.parent === window) {
+    return;
+  }
+  const height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+  window.parent.postMessage({ type: "fp:iframe-height", height }, "*");
+}
 
 class ShapeExplorer {
   constructor() {
     this.chapter = 0;
-    this.states = [];
-    this.transitions = [];
+    this.stateOrder = [];
+    this.extraTransitions = [];
     this.formulas = [];
     this.properties = new Set();
     this.vulns = new Set();
+    this.decisions = [];
+    this.newProps = [];
+    this.newStateNames = new Set();
+    this.newTransitionKeys = new Set();
     this.chosen = false;
-    this.renderProps();
+
+    this.metricStates = document.getElementById("metric-states");
+    this.metricTransitions = document.getElementById("metric-transitions");
+    this.metricFormulas = document.getElementById("metric-formulas");
+    this.metricProperties = document.getElementById("metric-properties");
+    this.narrativeCard = document.getElementById("narrative-card");
+    this.diagram = document.getElementById("diagram");
+    this.propsEl = document.getElementById("props");
+    this.formulasEl = document.getElementById("formulas");
+    this.summaryEl = document.getElementById("shape-summary");
+    this.decisionLogEl = document.getElementById("decision-log");
+    this.finaleArea = document.getElementById("finale-area");
+    this.progressBar = document.getElementById("prog-bar");
+    this.progressText = document.getElementById("prog-text");
+    this.progressPct = document.getElementById("prog-pct");
+
+    this.narrativeCard.addEventListener("click", (event) => {
+      const choiceButton = event.target.closest(".choice-btn");
+      if (choiceButton) {
+        this.choose(Number(choiceButton.dataset.index));
+        return;
+      }
+      const nextButton = event.target.closest(".next-btn");
+      if (nextButton) {
+        this.next();
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      const restartButton = event.target.closest(".restart-btn");
+      if (restartButton) {
+        this.restart();
+      }
+    });
+
     this.showChapter();
   }
 
-  showChapter() {
-    const ch = CHAPTERS[this.chapter];
-    this.chosen = false;
-
-    if (ch.finale) { this.showFinale(); return; }
-
-    // Apply auto-chapter state
-    if (ch.auto || ch.states) {
-      if (ch.states) this.states = [...ch.states];
-      if (ch.transitions) this.transitions = ch.transitions.map(t => [...t]);
-      if (ch.formulas) ch.formulas.forEach(f => this.formulas.push({...f}));
-      if (ch.properties) ch.properties.forEach(p => this.properties.add(p));
+  transitionKeys() {
+    const keys = [];
+    for (let i = 0; i < this.stateOrder.length - 1; i += 1) {
+      keys.push(this.stateOrder[i] + "->" + this.stateOrder[i + 1]);
     }
-
-    this.renderDiagram();
-    this.renderFormulas();
-    this.renderProps();
-    this.renderProgress();
-
-    const card = document.getElementById('narrative-card');
-    let html = `<div class="chapter-num">Chapter ${this.chapter + 1} of ${CHAPTERS.length}</div>`;
-    html += `<div class="chapter-title">${ch.title}</div>`;
-    html += `<div class="chapter-text">${ch.narrative}</div>`;
-
-    if (ch.choices) {
-      html += '<div class="choices" id="choices">';
-      ch.choices.forEach((c, i) => {
-        html += `<button class="choice-btn" onclick="app.choose(${i})"><span class="choice-label">${c.label}</span><span class="choice-desc">${c.desc}</span></button>`;
-      });
-      html += '</div>';
-      html += '<div id="outcome-area"></div>';
-    } else {
-      html += `<button class="next-btn" onclick="app.next()">Continue &rarr;</button>`;
+    if (this.stateOrder.length > 1) {
+      keys.push(this.stateOrder[this.stateOrder.length - 1] + "->Idle");
     }
-    card.innerHTML = html;
+    this.extraTransitions.forEach((item) => {
+      keys.push(item.from + "->" + item.to + (item.label ? ":" + item.label : ""));
+    });
+    return keys;
   }
 
-  choose(idx) {
-    if (this.chosen) return;
-    this.chosen = true;
-    const ch = CHAPTERS[this.chapter];
-    const c = ch.choices[idx];
-
-    // Disable buttons
-    document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
-
-    // Apply choice
-    if (c.states) this.states = [...c.states];
-    if (c.addStates) {
-      c.addStates.forEach(s => {
-        if (c.insertAfter) {
-          const idx2 = this.states.indexOf(c.insertAfter);
-          if (idx2 >= 0) this.states.splice(idx2 + 1, 0, s);
-          else this.states.push(s);
-        } else {
-          this.states.push(s);
-        }
-      });
-      // Rebuild transitions for full state chain
-      this.transitions = [];
-      for (let i = 0; i < this.states.length - 1; i++) {
-        this.transitions.push([this.states[i], this.states[i+1]]);
+  insertState(stateName, anchors) {
+    if (this.stateOrder.includes(stateName)) {
+      return;
+    }
+    const anchorList = Array.isArray(anchors) ? anchors : [anchors];
+    let inserted = false;
+    anchorList.some((anchor) => {
+      const index = this.stateOrder.indexOf(anchor);
+      if (index >= 0) {
+        this.stateOrder.splice(index + 1, 0, stateName);
+        inserted = true;
+        return true;
       }
-      this.transitions.push([this.states[this.states.length-1], this.states[0]]);
+      return false;
+    });
+    if (!inserted) {
+      this.stateOrder.push(stateName);
     }
-    if (c.addTransitions) {
-      c.addTransitions.forEach(t => {
-        if (t[0] === '_reject_') {
-          // Add reject from ChoiceReady (or last-before-exec) to Idle
-          const choiceState = this.states.find(s => s === 'ChoiceReady') || this.states[Math.floor(this.states.length/2)];
-          this.transitions.push([choiceState, t[1], {dashed: true, label: 'reject'}]);
-        } else {
-          this.transitions.push([...t]);
-        }
+    this.newStateNames.add(stateName);
+  }
+
+  addExtraTransition(item) {
+    const key = item.from + "->" + item.to + ":" + (item.label || "");
+    const exists = this.extraTransitions.some((entry) => (
+      entry.from === item.from &&
+      entry.to === item.to &&
+      (entry.label || "") === (item.label || "")
+    ));
+    if (exists) {
+      return;
+    }
+    this.extraTransitions.push({ ...item });
+    this.newTransitionKeys.add(key);
+  }
+
+  appendFormulas(formulas) {
+    this.formulas.forEach((formula) => {
+      formula.isNew = false;
+    });
+    formulas.forEach((formula) => {
+      this.formulas.push({ ...formula, isNew: true });
+    });
+  }
+
+  showChapter() {
+    const chapter = CHAPTERS[this.chapter];
+    this.chosen = false;
+    this.newProps = [];
+    this.newStateNames = new Set();
+    this.newTransitionKeys = new Set();
+    this.finaleArea.innerHTML = "";
+
+    if (chapter.finale) {
+      this.showFinale();
+      return;
+    }
+
+    if (chapter.auto) {
+      this.stateOrder = [...chapter.stateOrder];
+      this.extraTransitions = [];
+      this.formulas = [];
+      this.vulns.clear();
+      this.properties.clear();
+      this.decisions = [];
+      this.appendFormulas(chapter.formulas || []);
+    }
+
+    let html = "";
+    html += "<div class=\"chapter-num\">Chapter " + (this.chapter + 1) + " of " + CHAPTERS.length + "</div>";
+    html += "<div class=\"chapter-title\">" + chapter.title + "</div>";
+    html += "<div class=\"chapter-text\">" + chapter.narrative + "</div>";
+    if (chapter.prompt) {
+      html += "<div class=\"story-prompt\">" + chapter.prompt + "</div>";
+    }
+    if (chapter.choices) {
+      html += "<div class=\"choices\">";
+      chapter.choices.forEach((choice, index) => {
+        html += "<button class=\"choice-btn\" data-index=\"" + index + "\">";
+        html += "<span class=\"choice-label\">" + choice.label + "</span>";
+        html += "<span class=\"choice-desc\">" + choice.desc + "</span>";
+        html += "</button>";
       });
+      html += "</div><div id=\"outcome-area\"></div>";
+    } else {
+      html += "<button class=\"next-btn\">Continue to the next shaping move</button>";
     }
-    if (c.transitions) this.transitions = c.transitions.map(t => [...t]);
+    this.narrativeCard.innerHTML = html;
+    this.renderAll();
+  }
 
-    // Mark old formulas as not new
-    this.formulas.forEach(f => f.isNew = false);
-    if (c.formulas) c.formulas.forEach(f => this.formulas.push({...f}));
-    if (c.properties) c.properties.forEach(p => this.properties.add(p));
-    if (c.vulns) c.vulns.forEach(v => this.vulns.add(v));
+  choose(index) {
+    if (this.chosen) {
+      return;
+    }
+    this.chosen = true;
+    const chapter = CHAPTERS[this.chapter];
+    const choice = chapter.choices[index];
 
-    this.renderDiagram();
-    this.renderFormulas();
-    this.renderProps(c.properties || []);
-    this.renderProgress();
+    this.newProps = choice.properties || [];
+    (choice.properties || []).forEach((property) => this.properties.add(property));
+    (choice.vulns || []).forEach((vuln) => this.vulns.add(vuln));
 
-    // Show outcome
-    const area = document.getElementById('outcome-area');
-    const [type, text] = c.outcome;
-    area.innerHTML = `<div class="outcome ${type}">${text}</div><button class="next-btn" onclick="app.next()">Continue &rarr;</button>`;
+    if (choice.stateName) {
+      this.insertState(choice.stateName, choice.addStateAfter || []);
+    }
+    (choice.extraTransitions || []).forEach((item) => this.addExtraTransition(item));
+    if (choice.formulas) {
+      this.appendFormulas(choice.formulas);
+    }
+
+    this.decisions.push({
+      chapter: chapter.title,
+      label: choice.label,
+      copy: choice.outcome[1]
+    });
+
+    this.renderAll();
+
+    const outcomeArea = document.getElementById("outcome-area");
+    if (outcomeArea) {
+      outcomeArea.innerHTML =
+        "<div class=\"outcome " + choice.outcome[0] + "\">" + choice.outcome[1] + "</div>" +
+        "<button class=\"next-btn\">Continue to the next shaping move</button>";
+    }
+    this.narrativeCard.querySelectorAll(".choice-btn").forEach((button) => {
+      button.disabled = true;
+    });
   }
 
   next() {
-    this.chapter++;
-    if (this.chapter < CHAPTERS.length) this.showChapter();
+    if (this.chapter < CHAPTERS.length - 1) {
+      this.chapter += 1;
+      this.showChapter();
+    }
   }
 
-  /* ── Rendering ─────────────────────────────── */
+  restart() {
+    this.chapter = 0;
+    this.showChapter();
+  }
 
   renderDiagram() {
-    const svg = document.getElementById('diagram');
-    const n = this.states.length;
-    if (n === 0) { svg.innerHTML = ''; return; }
+    if (this.stateOrder.length === 0) {
+      this.diagram.innerHTML = "";
+      return;
+    }
 
-    const W = 340, H = 200;
-    const bw = 80, bh = 32, rx = 10, pad = 12;
-    let positions = {};
+    const states = [...this.stateOrder];
+    const positions = {};
+    const width = 360;
+    const height = 220;
+    const boxWidth = 92;
+    const boxHeight = 34;
+    const gap = 18;
+    const topCount = Math.ceil(states.length / 2);
+    const bottomCount = states.length - topCount;
+    const topWidth = topCount * boxWidth + Math.max(0, topCount - 1) * gap;
+    const topX = (width - topWidth) / 2;
 
-    if (n <= 4) {
-      const totalW = n * bw + (n - 1) * pad;
-      const startX = (W - totalW) / 2;
-      const cy = H / 2 - bh / 2;
-      this.states.forEach((s, i) => { positions[s] = { x: startX + i * (bw + pad), y: cy }; });
-    } else {
-      const topN = Math.ceil(n / 2);
-      const botN = n - topN;
-      const topW = topN * bw + (topN - 1) * pad;
-      const topX = (W - topW) / 2;
-      for (let i = 0; i < topN; i++) positions[this.states[i]] = { x: topX + i * (bw + pad), y: 20 };
-      const botW = botN * bw + (botN - 1) * pad;
-      const botX = (W - botW) / 2;
-      for (let i = 0; i < botN; i++) {
-        const si = topN + i;
-        positions[this.states[si]] = { x: botX + (botN - 1 - i) * (bw + pad), y: H - bh - 30 };
+    for (let i = 0; i < topCount; i += 1) {
+      positions[states[i]] = { x: topX + i * (boxWidth + gap), y: 24 };
+    }
+
+    if (bottomCount > 0) {
+      const bottomWidth = bottomCount * boxWidth + Math.max(0, bottomCount - 1) * gap;
+      const bottomX = (width - bottomWidth) / 2;
+      for (let i = 0; i < bottomCount; i += 1) {
+        const stateName = states[topCount + i];
+        positions[stateName] = { x: bottomX + (bottomCount - 1 - i) * (boxWidth + gap), y: 154 };
       }
     }
 
-    let out = '<defs><marker id="se-arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0.5 L8,4 L0,7.5 Z" fill="rgba(59,130,246,0.7)"/></marker>';
-    out += '<marker id="se-arr-r" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0.5 L8,4 L0,7.5 Z" fill="rgba(220,38,38,0.6)"/></marker></defs>';
+    let svg = "";
+    svg += "<defs>";
+    svg += "<marker id=\"se-arr\" markerWidth=\"8\" markerHeight=\"8\" refX=\"7\" refY=\"4\" orient=\"auto\">";
+    svg += "<path d=\"M0,0.5 L8,4 L0,7.5 Z\" fill=\"rgba(28, 63, 99, 0.65)\"></path>";
+    svg += "</marker>";
+    svg += "<marker id=\"se-arr-warn\" markerWidth=\"8\" markerHeight=\"8\" refX=\"7\" refY=\"4\" orient=\"auto\">";
+    svg += "<path d=\"M0,0.5 L8,4 L0,7.5 Z\" fill=\"#d17b2f\"></path>";
+    svg += "</marker>";
+    svg += "<marker id=\"se-arr-red\" markerWidth=\"8\" markerHeight=\"8\" refX=\"7\" refY=\"4\" orient=\"auto\">";
+    svg += "<path d=\"M0,0.5 L8,4 L0,7.5 Z\" fill=\"#bb4f45\"></path>";
+    svg += "</marker>";
+    svg += "</defs>";
 
-    // Draw edges
-    this.transitions.forEach(t => {
-      const from = positions[t[0]], to = positions[t[1]];
-      if (!from || !to) return;
-      const opts = t[2] || {};
-      const fx = from.x + bw/2, fy = from.y + bh/2;
-      const tx = to.x + bw/2, ty = to.y + bh/2;
-      const dx = tx - fx, dy = ty - fy;
-      const len = Math.sqrt(dx*dx + dy*dy);
-      const ux = dx/len, uy = dy/len;
-      const sx = fx + ux * (bw/2 + 4), sy = fy + uy * (bh/2 + 4);
-      const ex = tx - ux * (bw/2 + 10), ey = ty - uy * (bh/2 + 10);
+    const chain = [];
+    for (let i = 0; i < this.stateOrder.length - 1; i += 1) {
+      chain.push({ from: this.stateOrder[i], to: this.stateOrder[i + 1] });
+    }
+    if (this.stateOrder.length > 1) {
+      chain.push({ from: this.stateOrder[this.stateOrder.length - 1], to: "Idle" });
+    }
 
-      if (opts.dashed) {
-        // Curved reject arrow
-        const mx = (sx + ex) / 2, my = Math.min(sy, ey) - 30;
-        out += `<path d="M${sx},${sy} Q${mx},${my} ${ex},${ey}" stroke="rgba(220,38,38,0.5)" stroke-width="1.5" stroke-dasharray="4,3" fill="none" marker-end="url(#se-arr-r)"/>`;
-        if (opts.label) out += `<text x="${mx}" y="${my - 4}" text-anchor="middle" font-size="8" fill="rgba(220,38,38,0.6)" font-family="var(--font)">${opts.label}</text>`;
+    chain.concat(this.extraTransitions).forEach((transition) => {
+      const from = positions[transition.from];
+      const to = positions[transition.to];
+      if (!from || !to) {
+        return;
+      }
+      const key = transition.from + "->" + transition.to + (transition.label ? ":" + transition.label : "");
+      const isNew = this.newTransitionKeys.has(key) || (
+        !transition.label &&
+        this.newStateNames.has(transition.from) &&
+        this.newStateNames.has(transition.to)
+      );
+      const klass = [
+        "sd-edge",
+        transition.dashed ? "dashed" : "",
+        isNew ? "new-edge" : ""
+      ].filter(Boolean).join(" ");
+      const fx = from.x + boxWidth / 2;
+      const fy = from.y + boxHeight / 2;
+      const tx = to.x + boxWidth / 2;
+      const ty = to.y + boxHeight / 2;
+
+      if (transition.dashed) {
+        const midX = (fx + tx) / 2;
+        const midY = Math.min(fy, ty) - 34;
+        svg += "<path class=\"" + klass + "\" d=\"M" + fx + "," + fy + " Q" + midX + "," + midY + " " + tx + "," + ty + "\" marker-end=\"url(#se-arr-red)\"></path>";
+        if (transition.label) {
+          svg += "<text x=\"" + midX + "\" y=\"" + (midY - 4) + "\" text-anchor=\"middle\" class=\"panel-note\" style=\"font-size:8px; fill:#bb4f45;\">" + transition.label + "</text>";
+        }
       } else {
-        out += `<line x1="${sx}" y1="${sy}" x2="${ex}" y2="${ey}" stroke="rgba(59,130,246,0.35)" stroke-width="1.5" marker-end="url(#se-arr)"/>`;
+        svg += "<line class=\"" + klass + "\" x1=\"" + fx + "\" y1=\"" + fy + "\" x2=\"" + tx + "\" y2=\"" + ty + "\" marker-end=\"" + (isNew ? "url(#se-arr-warn)" : "url(#se-arr)") + "\"></line>";
       }
     });
 
-    // Draw states
-    Object.entries(positions).forEach(([name, pos]) => {
-      out += `<rect class="sd-box" x="${pos.x}" y="${pos.y}" width="${bw}" height="${bh}" rx="${rx}" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.22)"/>`;
-      out += `<text class="sd-label" x="${pos.x + bw/2}" y="${pos.y + bh/2 + 4}" text-anchor="middle" font-size="11" font-weight="700" fill="#1a1a1a">${name}</text>`;
+    states.forEach((state) => {
+      const pos = positions[state];
+      const nodeClass = "sd-box" + (this.newStateNames.has(state) ? " new-node" : "");
+      svg += "<rect class=\"" + nodeClass + "\" x=\"" + pos.x + "\" y=\"" + pos.y + "\" width=\"" + boxWidth + "\" height=\"" + boxHeight + "\" rx=\"14\"></rect>";
+      svg += "<text class=\"sd-label\" x=\"" + (pos.x + boxWidth / 2) + "\" y=\"" + (pos.y + 21) + "\" text-anchor=\"middle\">" + state + "</text>";
     });
 
-    svg.innerHTML = out;
+    this.diagram.innerHTML = svg;
+  }
+
+  renderMetrics() {
+    const transitionCount = this.stateOrder.length > 1 ? this.stateOrder.length : 0;
+    this.metricStates.textContent = String(this.stateOrder.length);
+    this.metricTransitions.textContent = String(transitionCount + this.extraTransitions.length);
+    this.metricFormulas.textContent = String(this.formulas.length);
+    this.metricProperties.textContent = String(this.properties.size);
+  }
+
+  renderSummary() {
+    const propertyFormula = this.properties.size > 0
+      ? Array.from(this.properties).map((prop) => prop.toLowerCase().replace(/\s+/g, "_")).join("<br>&and; ")
+      : "incomplete_shape";
+    this.summaryEl.innerHTML =
+      "<div class=\"shape-summary-title\">Compressed View</div>" +
+      "<div class=\"shape-summary-formula\">" +
+      "YourShape := " + propertyFormula + "<br><br>" +
+      "StateOrder := " + this.stateOrder.join(" &rarr; ") + " &rarr; Idle" +
+      "</div>";
+  }
+
+  renderProps() {
+    this.propsEl.innerHTML = ALL_PROPS.map((prop) => {
+      const achieved = this.properties.has(prop);
+      const isNew = this.newProps.includes(prop);
+      const cls = isNew ? "new" : (achieved ? "achieved" : "");
+      return "<span class=\"prop-pill " + cls + "\">" + prop + "</span>";
+    }).join("");
+    this.vulns.forEach((vuln) => {
+      this.propsEl.innerHTML += "<span class=\"prop-pill vuln\">" + vuln + "</span>";
+    });
   }
 
   renderFormulas() {
-    const el = document.getElementById('formulas');
     if (this.formulas.length === 0) {
-      el.innerHTML = '<div class="formula-item"><span class="formula-tag guard">init</span> No formulas yet.</div>';
+      this.formulasEl.innerHTML = "<div class=\"formula-item\"><span class=\"formula-tag shape\">none</span><div class=\"formula-text\">No formulas yet.</div></div>";
       return;
     }
-    el.innerHTML = this.formulas.map(f =>
-      `<div class="formula-item${f.isNew ? ' new' : ''}"><span class="formula-tag ${f.tag}">${f.tag}</span>${f.text}</div>`
-    ).join('');
+    this.formulasEl.innerHTML = this.formulas.map((formula) => {
+      return [
+        "<div class=\"formula-item", formula.isNew ? " new" : "", "\">",
+        "<span class=\"formula-tag ", formula.tag, "\">", formula.tag, "</span>",
+        "<div class=\"formula-text\">", formula.text, "</div>",
+        "<div class=\"formula-note\">", formula.note, "</div>",
+        "</div>"
+      ].join("");
+    }).join("");
   }
 
-  renderProps(newProps) {
-    const el = document.getElementById('props');
-    const newSet = new Set(newProps || []);
-    el.innerHTML = ALL_PROPS.map(p => {
-      const achieved = this.properties.has(p);
-      const isNew = newSet.has(p);
-      const cls = isNew ? 'new' : (achieved ? 'achieved' : '');
-      return `<span class="prop-pill ${cls}">${p}</span>`;
-    }).join('');
-    // Also show vulnerabilities
-    if (this.vulns.size > 0) {
-      this.vulns.forEach(v => {
-        el.innerHTML += `<span class="prop-pill vuln">${v}</span>`;
-      });
+  renderDecisions() {
+    if (this.decisions.length === 0) {
+      this.decisionLogEl.innerHTML = "<div class=\"decision-item\"><div class=\"decision-meta\">Awaiting first decision</div><div class=\"decision-copy\">The first branch will begin the design trace.</div></div>";
+      return;
     }
+    this.decisionLogEl.innerHTML = this.decisions.map((decision, index) => {
+      return [
+        "<div class=\"decision-item\">",
+        "<div class=\"decision-meta\">Decision ", index + 1, " | ", decision.chapter, "</div>",
+        "<div class=\"decision-label\">", decision.label, "</div>",
+        "<div class=\"decision-copy\">", decision.copy, "</div>",
+        "</div>"
+      ].join("");
+    }).join("");
   }
 
   renderProgress() {
     const pct = Math.round((this.chapter / (CHAPTERS.length - 1)) * 100);
-    document.getElementById('prog-bar').style.width = pct + '%';
-    document.getElementById('prog-pct').textContent = pct + '%';
-    document.getElementById('prog-text').textContent = `Chapter ${this.chapter + 1} of ${CHAPTERS.length}`;
+    this.progressBar.style.width = pct + "%";
+    this.progressText.textContent = "Chapter " + (this.chapter + 1) + " of " + CHAPTERS.length;
+    this.progressPct.textContent = pct + "%";
+  }
+
+  renderAll() {
+    this.renderMetrics();
+    this.renderDiagram();
+    this.renderSummary();
+    this.renderProps();
+    this.renderFormulas();
+    this.renderDecisions();
+    this.renderProgress();
+    window.requestAnimationFrame(reportHeightToHost);
   }
 
   showFinale() {
-    this.renderProgress();
+    this.renderAll();
     const score = this.properties.size;
     const total = ALL_PROPS.length;
-    const pctScore = Math.round(score / total * 100);
+    const pct = Math.round((score / total) * 100);
+    const propertyFormula = this.properties.size > 0
+      ? Array.from(this.properties).map((prop) => prop.toLowerCase().replace(/\s+/g, "_")).join("<br>&and; ")
+      : "incomplete_shape";
 
-    const card = document.getElementById('narrative-card');
-    card.innerHTML = `<div class="chapter-num">Chapter ${CHAPTERS.length} of ${CHAPTERS.length}</div>
-      <div class="chapter-title">The shape you built</div>
-      <div class="chapter-text">Look at what you've created. You started with three states and zero invariants. Through ${CHAPTERS.length - 2} engineering decisions, you built a system with <em>${this.states.length} states</em>, <em>${this.formulas.length} formulas</em>, and <em>${score} of ${total}</em> assurance properties.</div>`;
+    this.narrativeCard.innerHTML =
+      "<div class=\"chapter-num\">Chapter " + CHAPTERS.length + " of " + CHAPTERS.length + "</div>" +
+      "<div class=\"chapter-title\">The shape you built</div>" +
+      "<div class=\"chapter-text\">The shape now has <em>" + this.stateOrder.length + " states</em>, <em>" + this.formulas.length + " formulas</em>, and <em>" + score + " assurance properties</em>. That is what abstraction buys: the ability to summarize a large behavioral story in a smaller, shape-preserving object.</div>";
 
-    const area = document.getElementById('finale-area');
-    area.innerHTML = `<div class="finale">
-      <h2>Your Shape vs. ZenoDEX</h2>
-      <div class="finale-compare">
-        <div class="finale-col">
-          <h4>Your System (${score}/${total} properties)</h4>
-          <div class="finale-formula">${this.formulas.map(f => f.text).join('<br>')}</div>
-        </div>
-        <div class="finale-col">
-          <h4>ZenoDEX Shape (7 clauses)</h4>
-          <div class="finale-formula">
-            BoundaryValidity<br>
-            &and; TemporalAdmissibility<br>
-            &and; CanonicalWinnerSelection<br>
-            &and; ReserveMonotonicity<br>
-            &and; SettlementCompositionality<br>
-            &and; DeterministicRouting<br>
-            &and; StablecoinSolvency
-          </div>
-        </div>
-      </div>
-      <p style="font-size:13px;color:var(--text2);margin:0.5rem 0">
-        ${pctScore >= 70
-          ? 'Your choices built a shape remarkably close to a real high-assurance protocol. The same abstraction move -- gates, phases, invariants, proofs -- scales from vending machines to decentralized exchanges.'
-          : 'The weaker choices left gaps in your assurance. In a real adversarial environment, each missing property is an attack surface. The tutorial above shows what the full shape looks like and why each clause matters.'}
-      </p>
-      <button class="restart-btn" onclick="location.reload()">Start Over</button>
-    </div>`;
+    this.finaleArea.innerHTML =
+      "<section class=\"panel finale\">" +
+      "<h2>Your Shape vs. ZenoDEX</h2>" +
+      "<p class=\"finale-copy\">" +
+      (pct >= 70
+        ? "This design track now resembles a high-assurance protocol. The same shaping moves that felt obvious in the arcade and the ATM story, gates, phases, canonicalizers, exact arithmetic, and replayable evidence, are also the moves that make a DEX legible."
+        : "The weaker branches left visible holes. That is exactly the lesson the tutorial wants to teach: a missing clause in the compressed shape becomes an attack surface in the full machine.") +
+      "</p>" +
+      "<div class=\"finale-compare\">" +
+      "<div class=\"finale-col\">" +
+      "<h4>Your Constructed Shape</h4>" +
+      "<div class=\"finale-formula\">" + propertyFormula + "</div>" +
+      "</div>" +
+      "<div class=\"finale-col\">" +
+      "<h4>Current ZenoDEX Shape</h4>" +
+      "<div class=\"finale-formula\">deterministic<br>&and; replayable<br>&and; partially_proved<br>&and; strongly_guarded</div>" +
+      "</div>" +
+      "<div class=\"finale-col\">" +
+      "<h4>Target ZenoDEX Shape</h4>" +
+      "<div class=\"finale-formula\">canonical<br>&and; exact<br>&and; value_aware<br>&and; proof_carrying<br>&and; cross_layer_equivalent<br>&and; fail_closed_everywhere_important</div>" +
+      "</div>" +
+      "</div>" +
+      "<button class=\"restart-btn\">Start Over</button>" +
+      "</section>";
   }
 }
 
 const app = new ShapeExplorer();
+window.addEventListener("load", reportHeightToHost);
+window.addEventListener("resize", () => window.requestAnimationFrame(reportHeightToHost));
 </script>
 </body>
 </html>

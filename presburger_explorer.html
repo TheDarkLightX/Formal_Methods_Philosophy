@@ -6,90 +6,128 @@
 <title>Presburger Arithmetic Explorer</title>
 <style>
   :root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f5f4f0;
-    --text-primary: #1a1a1a;
-    --text-secondary: #6b6a65;
-    --text-tertiary: #9c9a92;
-    --border: rgba(0,0,0,0.15);
-    --border-hover: rgba(0,0,0,0.3);
-    --info-bg: #E6F1FB;
-    --info-text: #0C447C;
-    --info-border: #85B7EB;
-    --danger-bg: #FCEBEB;
-    --danger-text: #791F1F;
-    --danger-border: #F09595;
-    --success-bg: #EAF3DE;
-    --success-text: #27500A;
-    --success-border: #97C459;
-    --accent: #3B82F6;
-    --accent-light: rgba(59, 130, 246, 0.10);
-    --radius: 8px;
-    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --font-mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, monospace;
+    --bg-primary: #f7f1e6;
+    --bg-secondary: #fff9ef;
+    --text-primary: #1f2028;
+    --text-secondary: #6a6771;
+    --text-tertiary: #9d95a0;
+    --border: rgba(43, 53, 76, 0.14);
+    --border-hover: rgba(43, 53, 76, 0.28);
+    --info-bg: #edf4fb;
+    --info-text: #184f86;
+    --info-border: #8bbce8;
+    --danger-bg: #faece9;
+    --danger-text: #8a2f29;
+    --danger-border: #efaba3;
+    --success-bg: #edf5e9;
+    --success-text: #2c6436;
+    --success-border: #9cc286;
+    --accent: #2a5f9a;
+    --accent-light: rgba(42, 95, 154, 0.10);
+    --radius: 12px;
+    --shadow: 0 24px 48px rgba(45, 34, 25, 0.12);
+    --font-sans: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    --font-display: "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    --font-mono: "Courier New", "Nimbus Mono PS", monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg-primary: #1a1a1a;
-      --bg-secondary: #2c2c2a;
-      --text-primary: #e8e6df;
-      --text-secondary: #9c9a92;
-      --text-tertiary: #6b6a65;
-      --border: rgba(255,255,255,0.15);
-      --border-hover: rgba(255,255,255,0.3);
-      --info-bg: #042C53;
-      --info-text: #B5D4F4;
-      --info-border: #185FA5;
-      --danger-bg: #501313;
-      --danger-text: #F7C1C1;
-      --danger-border: #A32D2D;
-      --success-bg: #173404;
-      --success-text: #C0DD97;
-      --success-border: #3B6D11;
-      --accent: #60A5FA;
-      --accent-light: rgba(96, 165, 250, 0.12);
+      --bg-primary: #111722;
+      --bg-secondary: #182131;
+      --text-primary: #f1e7da;
+      --text-secondary: #c3b7a7;
+      --text-tertiary: #8a96a7;
+      --border: rgba(234, 241, 252, 0.12);
+      --border-hover: rgba(234, 241, 252, 0.24);
+      --info-bg: #123353;
+      --info-text: #c8e1ff;
+      --info-border: #4b83bb;
+      --danger-bg: #4a1918;
+      --danger-text: #ffd2cd;
+      --danger-border: #a24038;
+      --success-bg: #173226;
+      --success-text: #bfe7c9;
+      --success-border: #4d8d60;
+      --accent: #78afe9;
+      --accent-light: rgba(120, 175, 233, 0.12);
+      --shadow: 0 28px 60px rgba(0, 0, 0, 0.34);
     }
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: var(--font-sans);
-    background: var(--bg-primary);
+    background:
+      radial-gradient(circle at top left, rgba(209, 123, 47, 0.10), transparent 20%),
+      radial-gradient(circle at top right, rgba(42, 95, 154, 0.12), transparent 26%),
+      linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
     color: var(--text-primary);
-    padding: 1.5rem;
-    max-width: 720px;
-    margin: 0 auto;
+    padding: 1.25rem;
   }
-  h1 { font-size: 20px; font-weight: 600; margin: 0 0 0.25rem; }
-  .subtitle { font-size: 13px; color: var(--text-secondary); margin: 0 0 1rem; }
+  .app-shell {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 1.35rem;
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    background: rgba(255,255,255,0.40);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+  }
+  .eyebrow {
+    margin: 0 0 0.45rem;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 700;
+    line-height: 0.95;
+    margin: 0 0 0.35rem;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 1.2rem;
+    line-height: 1.65;
+  }
 
   /* Tabs */
-  .tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin: 0 0 1.5rem; }
-  .tab {
-    padding: 0.6rem 1.2rem; cursor: pointer; font-size: 13px; font-weight: 600;
-    color: var(--text-secondary); border-bottom: 2px solid transparent;
-    margin-bottom: -2px; transition: all 0.15s; background: none; border-top: 0; border-left: 0; border-right: 0;
-    font-family: var(--font-sans);
+  .tabs {
+    display: flex;
+    gap: 0.4rem;
+    margin: 0 0 1.5rem;
+    flex-wrap: wrap;
   }
-  .tab:hover { color: var(--text-primary); }
-  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab {
+    padding: 0.7rem 1.05rem; cursor: pointer; font-size: 13px; font-weight: 700;
+    color: var(--text-secondary); border: 1px solid var(--border);
+    transition: all 0.15s; background: rgba(255,255,255,0.56);
+    font-family: var(--font-sans);
+    border-radius: 999px;
+  }
+  .tab:hover { color: var(--text-primary); border-color: var(--border-hover); }
+  .tab.active { color: #fff; background: var(--accent); border-color: var(--accent); }
   .panel { display: none; }
   .panel.active { display: block; }
 
   /* Shared */
   .display-box {
-    background: var(--bg-secondary); border: 1px solid var(--border); border-radius: var(--radius);
+    background: rgba(255,255,255,0.54); border: 1px solid var(--border); border-radius: 18px;
     padding: 1rem 1.2rem; font-family: var(--font-mono); font-size: 18px; text-align: center;
     margin: 0 0 1rem; min-height: 60px; display: flex; align-items: center; justify-content: center;
-    word-break: break-all; line-height: 1.5; transition: background 0.2s;
+    word-break: break-all; line-height: 1.5; transition: background 0.2s; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
   }
   .display-box.highlight { background: var(--accent-light); }
   .decimal { color: var(--accent); font-weight: 700; margin-left: 0.5rem; }
   button {
     font-family: var(--font-sans); font-size: 13px; font-weight: 600; padding: 0.5rem 1.2rem;
     border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer;
-    background: var(--bg-primary); color: var(--text-primary); transition: all 0.15s;
+    background: rgba(255,255,255,0.62); color: var(--text-primary); transition: all 0.15s;
   }
-  button:hover { border-color: var(--border-hover); background: var(--bg-secondary); }
+  button:hover { border-color: var(--border-hover); background: rgba(255,255,255,0.82); }
   button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
   button.primary:hover { opacity: 0.9; }
   .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0 0 1rem; }
@@ -108,8 +146,9 @@
 
   /* Formula cards */
   .formula-card {
-    padding: 0.7rem 1rem; border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 0.7rem 1rem; border: 1px solid var(--border); border-radius: 18px;
     cursor: pointer; margin: 0 0 0.5rem; transition: all 0.15s;
+    background: rgba(255,255,255,0.46);
   }
   .formula-card:hover { border-color: var(--accent); background: var(--accent-light); }
   .formula-card.selected { border-color: var(--accent); background: var(--accent-light); }
@@ -118,7 +157,7 @@
 
   /* Result box */
   .result-box {
-    padding: 1rem; border-radius: var(--radius); margin: 1rem 0; font-size: 14px; border: 1px solid;
+    padding: 1rem; border-radius: 18px; margin: 1rem 0; font-size: 14px; border: 1px solid;
   }
   .result-box.true { background: var(--success-bg); color: var(--success-text); border-color: var(--success-border); }
   .result-box.false { background: var(--danger-bg); color: var(--danger-text); border-color: var(--danger-border); }
@@ -156,14 +195,15 @@
 </style>
 </head>
 <body>
-
+<div class="app-shell">
+<p class="eyebrow">Arithmetic Lab</p>
 <h1>Presburger Arithmetic Explorer</h1>
-<p class="subtitle">Build numbers, step through addition, and evaluate formulas — all from the axioms.</p>
+<p class="subtitle">Build numbers, step through addition, and evaluate formulas, all from the axioms.</p>
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('build')">Build Numbers</button>
-  <button class="tab" onclick="showTab('add')">Addition Stepper</button>
-  <button class="tab" onclick="showTab('formula')">Formula Playground</button>
+  <button class="tab active" onclick="showTab('build', this)">Build Numbers</button>
+  <button class="tab" onclick="showTab('add', this)">Addition Stepper</button>
+  <button class="tab" onclick="showTab('formula', this)">Formula Playground</button>
 </div>
 
 <!-- ==================== TAB 1: BUILD NUMBERS ==================== -->
@@ -217,6 +257,7 @@
   <div id="formula-result"></div>
   <div id="formula-search" style="margin-top:0.5rem;"></div>
 </div>
+</div>
 
 <script>
 /* ---- Helpers ---- */
@@ -225,12 +266,19 @@ function succNotation(n) {
   return 'S(' + succNotation(n - 1) + ')';
 }
 
+function reportHeightToHost() {
+  if (window.parent === window) return;
+  const height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+  window.parent.postMessage({ type: 'fp:iframe-height', height: height }, '*');
+}
+
 /* ---- Tab switching ---- */
-function showTab(id) {
+function showTab(id, button) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab-' + id).classList.add('active');
-  event.target.classList.add('active');
+  if (button) button.classList.add('active');
+  window.requestAnimationFrame(reportHeightToHost);
 }
 
 /* ==================== BUILD NUMBERS ==================== */
@@ -250,27 +298,38 @@ function buildSucc() {
   tower.appendChild(layer);
 
   const info = document.getElementById('build-info');
-  if (buildN === 1) info.textContent = 'S(0) — the first number after zero.';
-  else if (buildN === 2) info.textContent = 'S(S(0)) — two layers of successor.';
+  if (buildN === 1) info.textContent = 'S(0), the first number after zero.';
+  else if (buildN === 2) info.textContent = 'S(S(0)), two layers of successor.';
   else if (buildN <= 5) info.textContent = buildN + ' layers of S wrapped around 0.';
   else if (buildN <= 11) info.textContent = 'The notation grows, but the structure is always the same: S applied ' + buildN + ' times to 0.';
   else info.textContent = 'You have reached the demo limit (12). The real number line continues forever.';
+  window.requestAnimationFrame(reportHeightToHost);
 }
 function buildReset() {
   buildN = 0;
   document.getElementById('build-display').textContent = '0';
   document.getElementById('build-tower').innerHTML = '<div class="tower-layer zero">0</div>';
   document.getElementById('build-info').textContent = '';
+  window.requestAnimationFrame(reportHeightToHost);
 }
 
 /* ==================== ADDITION STEPPER ==================== */
 let addState = null;
+let addRunTimer = null;
+
+function stopAddRun() {
+  if (addRunTimer !== null) {
+    clearInterval(addRunTimer);
+    addRunTimer = null;
+  }
+}
 
 function addExpr(x, y) {
   return succNotation(x) + ' + ' + succNotation(y);
 }
 
 function addReset() {
+  stopAddRun();
   const x = parseInt(document.getElementById('add-x').value);
   const y = parseInt(document.getElementById('add-y').value);
   document.getElementById('add-x-val').textContent = x;
@@ -278,6 +337,7 @@ function addReset() {
   addState = { x: x, origX: x, y: y, origY: y, depth: 0, done: false };
   document.getElementById('add-display').textContent = addExpr(x, y);
   document.getElementById('add-log').innerHTML = '';
+  window.requestAnimationFrame(reportHeightToHost);
 }
 
 function addStep() {
@@ -314,6 +374,7 @@ function addStep() {
     log.appendChild(entry);
     disp.textContent = addExprFull(addState.x, addState.y, addState.depth);
   }
+  window.requestAnimationFrame(reportHeightToHost);
 }
 
 function wrapS(x, depth) {
@@ -334,11 +395,12 @@ function addExprFull(x, y, depth) {
 }
 
 function addRunAll() {
+  stopAddRun();
   if (!addState) addReset();
   if (addState.done) addReset();
-  const interval = setInterval(() => {
+  addRunTimer = setInterval(() => {
     addStep();
-    if (addState.done) clearInterval(interval);
+    if (addState.done) stopAddRun();
   }, 500);
 }
 
@@ -407,7 +469,7 @@ const formulas = [
       for (let x = 0; x <= 5; x++) {
         const pass = (2 + x === 5);
         steps.push({ val: x, pass: pass });
-        if (pass) return { result: true, witness: x, steps: steps, explain: 'Witness found: x = ' + x + '. Verified: 2 + ' + x + ' = 5. This is program synthesis — the proof produces the value.' };
+        if (pass) return { result: true, witness: x, steps: steps, explain: 'Witness found: x = ' + x + '. Verified: 2 + ' + x + ' = 5. This is program synthesis, the proof produces the value.' };
       }
       return { result: false, steps: steps, explain: 'No witness found.' };
     }
@@ -451,6 +513,7 @@ function selectFormula(id) {
   document.getElementById('eval-btn').disabled = false;
   document.getElementById('formula-result').innerHTML = '';
   document.getElementById('formula-search').innerHTML = '';
+  window.requestAnimationFrame(reportHeightToHost);
 }
 
 function evalFormula() {
@@ -488,12 +551,15 @@ function evalFormula() {
     box.innerHTML += '<div class="explain">' + result.explain + '</div>';
     document.getElementById('formula-result').innerHTML = '';
     document.getElementById('formula-result').appendChild(box);
+    reportHeightToHost();
   }, delay + 200);
 }
 
 /* ---- Init ---- */
 renderFormulas();
 addReset();
+window.addEventListener('load', reportHeightToHost);
+window.addEventListener('resize', () => window.requestAnimationFrame(reportHeightToHost));
 </script>
 </body>
 </html>

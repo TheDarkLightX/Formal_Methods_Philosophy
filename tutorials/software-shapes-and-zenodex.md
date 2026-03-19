@@ -95,7 +95,9 @@ Try it yourself -- this interactive vending machine shows the formal specificati
   <iframe
     src="{{ '/vending_machine_explorer.html' | relative_url }}"
     title="Interactive vending machine with state machine and formula display"
-    style="width: 100%; min-height: 740px; border: 0; border-radius: 16px; background: transparent;"
+    data-fp-resize="true"
+    data-fp-min-height="900"
+    style="width: 100%; min-height: 900px; border: 0; border-radius: 16px; background: transparent;"
     loading="lazy"></iframe>
   <figcaption class="fp-figure-caption">
     Insert coins, select a product, and watch the state machine highlight which phase you are in.
@@ -582,17 +584,19 @@ For ZenoDEX, both activities matter. Parameter synthesis can improve a verified 
 
 ## Part VIII: shape your own system
 
-The interactive explorer below turns the ideas from this tutorial into a choose-your-own-adventure experience. You start with a bare system skeleton and make design choices -- each one adds states, transitions, or invariants to the shape. The formulas update as you go, showing how engineering decisions transform a system's formal structure.
+The interactive explorer below turns the ideas from this tutorial into a choose-your-own-adventure experience. You start with a bare system skeleton and make design choices, each one adds states, transitions, or invariants to the shape. The formulas update as you go, showing how engineering decisions transform a system's formal structure.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Interactive: shape evolution explorer</p>
   <iframe
     src="{{ '/shape_evolution_explorer.html' | relative_url }}"
-    title="Interactive shape evolution explorer -- choose your own adventure through formal system design"
-    style="width: 100%; min-height: 800px; border: 0; border-radius: 16px; background: transparent;"
+    title="Interactive shape evolution explorer, choose your own adventure through formal system design"
+    data-fp-resize="true"
+    data-fp-min-height="920"
+    style="width: 100%; min-height: 920px; border: 0; border-radius: 16px; background: transparent;"
     loading="lazy"></iframe>
   <figcaption class="fp-figure-caption">
-    Start with a minimal system and make design choices. Each choice morphs the shape -- adding
+    Start with a minimal system and make design choices. Each choice morphs the shape, adding
     states, strengthening invariants, or introducing new formal layers. Watch the transition
     diagram and formula panel evolve as your decisions accumulate.
   </figcaption>
@@ -600,7 +604,7 @@ The interactive explorer below turns the ideas from this tutorial into a choose-
 
 ## Takeaway
 
-A child at an arcade, a parent at an ATM, a person waiting for an elevator -- each one learns the shape of a state machine without ever hearing the term. Gates, phases, transitions, invariants, and resets are not inventions of formal methods. They are patterns that human minds extract from ordinary experience.
+A child at an arcade, a parent at an ATM, a person waiting for an elevator, each one learns the shape of a state machine without ever hearing the term. Gates, phases, transitions, invariants, and resets are not inventions of formal methods. They are patterns that human minds extract from ordinary experience.
 
 Formal methods make those patterns explicit. Once explicit, a shape can be shared across a team, criticized by a reviewer, checked by a solver, and proved by a kernel.
 
@@ -612,4 +616,4 @@ $$
 \text{states} + \text{transitions} + \text{invariants} + \text{selection rules} + \text{evidence}
 $$
 
-Once that object is explicit, it can be shared, critiqued, proved, synthesized, and improved -- by anyone, for any machine, at any level of assurance.
+Once that object is explicit, it can be shared, critiqued, proved, synthesized, and improved, by anyone, for any machine, at any level of assurance.

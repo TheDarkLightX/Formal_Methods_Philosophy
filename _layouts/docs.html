@@ -141,6 +141,72 @@
     <script>
       window.FP_SEARCH_URL = "{{ '/search.json' | relative_url }}";
     </script>
+    <script>
+      (function () {
+        const MIN_HEIGHT = 560;
+        const MAX_HEIGHT = 2200;
+        const HEIGHT_PADDING = 24;
+
+        function resizeFrameForSource(sourceWindow, contentHeight) {
+          if (!sourceWindow || typeof contentHeight !== "number") {
+            return;
+          }
+          document.querySelectorAll('iframe[data-fp-resize="true"]').forEach((frame) => {
+            if (frame.contentWindow !== sourceWindow) {
+              return;
+            }
+            const frameMin = Number(frame.dataset.fpMinHeight || MIN_HEIGHT);
+            const nextHeight = Math.max(frameMin, Math.min(contentHeight + HEIGHT_PADDING, MAX_HEIGHT));
+            frame.style.height = nextHeight + "px";
+            frame.style.minHeight = nextHeight + "px";
+          });
+        }
+
+        window.addEventListener("message", (event) => {
+          const data = event.data;
+          if (!data || data.type !== "fp:iframe-height") {
+            return;
+          }
+          resizeFrameForSource(event.source, data.height);
+        });
+
+        function bindResizableFrames() {
+          document.querySelectorAll('iframe[data-fp-resize="true"]').forEach((frame) => {
+            if (frame.dataset.fpResizeBound === "true") {
+              return;
+            }
+            frame.dataset.fpResizeBound = "true";
+
+            const attemptResize = () => {
+              try {
+                const doc = frame.contentWindow && frame.contentWindow.document;
+                if (!doc || !doc.body) {
+                  return;
+                }
+                resizeFrameForSource(frame.contentWindow, Math.max(doc.body.scrollHeight, doc.documentElement.scrollHeight));
+              } catch (_error) {
+                /* same-origin access is required; postMessage will handle the common case */
+              }
+            };
+
+            frame.addEventListener("load", () => {
+              attemptResize();
+              window.setTimeout(attemptResize, 250);
+              window.setTimeout(attemptResize, 1000);
+            });
+
+            window.setTimeout(attemptResize, 1200);
+          });
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", bindResizableFrames);
+        } else {
+          bindResizableFrames();
+        }
+        window.addEventListener("load", bindResizableFrames);
+      })();
+    </script>
     <script src="{{ '/assets/js/search.js' | relative_url }}" defer></script>
     <script src="{{ '/assets/js/docs.js' | relative_url }}" defer></script>
     <script src="{{ '/assets/js/zoom.js' | relative_url }}" defer></script>
