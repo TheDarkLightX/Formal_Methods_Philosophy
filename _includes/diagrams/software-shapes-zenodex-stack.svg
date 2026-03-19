@@ -32,7 +32,7 @@
       font-family="Atkinson Hyperlegible, system-ui, sans-serif">Tau boundary guards</text>
     <text x="68" y="92" font-size="11" fill="#475569"
       font-family="Atkinson Hyperlegible, system-ui, sans-serif">
-      Decide which proposed transitions are admissible — yes/no before anything executes
+      Decide which proposed transitions are admissible -- yes/no before anything executes
     </text>
     <rect x="680" y="60" width="84" height="24" rx="10"
       fill="rgba(59,130,246,0.12)" stroke="rgba(59,130,246,0.20)" />
@@ -48,7 +48,7 @@
       font-family="Atkinson Hyperlegible, system-ui, sans-serif">TLA+ temporal shadows</text>
     <text x="68" y="162" font-size="11" fill="#475569"
       font-family="Atkinson Hyperlegible, system-ui, sans-serif">
-      Describe allowed state evolution over time — catch stale nonces, ordering violations
+      Describe allowed state evolution over time -- catch stale nonces, ordering violations
     </text>
     <rect x="680" y="130" width="84" height="24" rx="10"
       fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.18)" />
@@ -64,7 +64,7 @@
       font-family="Atkinson Hyperlegible, system-ui, sans-serif">Lean algebraic proofs</text>
     <text x="68" y="232" font-size="11" fill="#475569"
       font-family="Atkinson Hyperlegible, system-ui, sans-serif">
-      Establish compositionality, canonicality, conservation — mathematical guarantees
+      Establish compositionality, canonicality, conservation -- mathematical guarantees
     </text>
     <rect x="680" y="200" width="84" height="24" rx="10"
       fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.16)" />

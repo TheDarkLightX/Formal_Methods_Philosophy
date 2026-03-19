@@ -7,9 +7,9 @@ description: How humans recognize software shapes before learning formal methods
 
 A child drops a token into an arcade cabinet and learns, without any formal training, one of the deepest patterns in computing: some actions do nothing until the right gate has been passed.
 
-The child does not know the phrase "state machine." But after two rounds the child acts on a precise set of rules — and the rules turn out to be correct.
+The child does not know the phrase "state machine." But after two rounds the child acts on a precise set of rules -- and the rules turn out to be correct.
 
-This tutorial is about that moment of recognition. Humans build working models of machines — gates, phases, transitions, resets — long before they encounter the notation. Formal methods do not invent these structures. They make implicit structures explicit, communicable, and checkable.
+This tutorial is about that moment of recognition. Humans build working models of machines -- gates, phases, transitions, resets -- long before they encounter the notation. Formal methods do not invent these structures. They make implicit structures explicit, communicable, and checkable.
 
 The concrete vehicle is ZenoDEX, a decentralized exchange whose design is spread across four logic layers: Tau boundary guards, TLA+ temporal models, Lean algebraic proofs, and exact integer runtime code. Before we reach ZenoDEX, we start where the intuition starts: at an arcade, an ATM, an elevator, and a vending machine.
 
@@ -18,20 +18,20 @@ The concrete vehicle is ZenoDEX, a decentralized exchange whose design is spread
   <ul>
     <li><strong>Shape</strong> means an abstraction of states, transitions, invariants, and selection rules. Two systems share a shape without sharing implementation details.</li>
     <li><strong>Source posture:</strong> ZenoDEX observations are based on the public repository surface inspected on March 19, 2026, plus an author-supplied shape memo. The snapshot exposed Tau specs, TLA+ shadows, Lean proofs, runtime code, and public assurance scripts.</li>
-    <li><strong>Teaching examples</strong> (ATM, arcade, elevator, vending machine) are intentionally simplified — they abstract away hardware failure, networking, and social edge cases to reveal the common interaction shape.</li>
+    <li><strong>Teaching examples</strong> (ATM, arcade, elevator, vending machine) are intentionally simplified -- they abstract away hardware failure, networking, and social edge cases to reveal the common interaction shape.</li>
     <li><strong>Evidence tags:</strong> <code>PROVED</code> = inspected Lean theorem. <code>TLA_SHADOW</code> = inspected TLA+ model. <code>TAU_CONTRACT</code> = inspected Tau guard. <code>IMPLEMENTED</code> = inspected runtime code. <code>TESTED_DISCOVERY</code> = inspected discovery code, not promoted to theorem.</li>
   </ul>
 </div>
 
 ## Part I: four ordinary machines that already contain formal structure
 
-Formal methods often sound abstract because they begin with symbols. Human understanding usually begins elsewhere — with light, sound, timing, and expectation.
+Formal methods often sound abstract because they begin with symbols. Human understanding usually begins elsewhere -- with light, sound, timing, and expectation.
 
 That is not a weakness. It is the first compression step.
 
 Imagine a single outing. A parent and child leave an apartment building. The elevator arrives with a soft chime. In the lobby, the parent stops at the ATM for cash. Later, at the arcade, the child feeds tokens into a cabinet and learns which buttons matter before credit and which matter after. At the end, thirsty and overstimulated, the child stands in front of a humming vending machine, money in hand, waiting for the moment a drink selection becomes real.
 
-These scenes feel mundane to an adult. To a child, they are thick with pattern. The child is not merely seeing metal, glass, and buttons — the child is learning when a system is ready, what counts as a valid move, what causes rejection, and what completion feels like.
+These scenes feel mundane to an adult. To a child, they are thick with pattern. The child is not merely seeing metal, glass, and buttons -- the child is learning when a system is ready, what counts as a valid move, what causes rejection, and what completion feels like.
 
 ### 1. The arcade cabinet
 
@@ -39,7 +39,7 @@ The arcade is loud before anyone reasons about it. The carpet is patterned to hi
 
 A child needs one or two interactions to learn the machine.
 
-Pressing the start button before inserting a token does nothing meaningful. The button physically moves, the cabinet may flash, but the system has not accepted the action. After the token drops, the cabinet changes. The screen shifts. A selection becomes meaningful. The machine that ignored input a moment ago now treats the same button press as admissible. Once the game begins, the "insert token" phase is over and a play phase with different rules takes its place. When the game ends — scores shown, tickets printed, lights returning to attract mode — the machine settles back to the state that waits for the next coin.
+Pressing the start button before inserting a token does nothing meaningful. The button physically moves, the cabinet may flash, but the system has not accepted the action. After the token drops, the cabinet changes. The screen shifts. A selection becomes meaningful. The machine that ignored input a moment ago now treats the same button press as admissible. Once the game begins, the "insert token" phase is over and a play phase with different rules takes its place. When the game ends -- scores shown, tickets printed, lights returning to attract mode -- the machine settles back to the state that waits for the next coin.
 
 That whole experience already contains a rule system:
 
@@ -88,7 +88,7 @@ Then one of three things happens: the machine accepts the choice and vends, it r
 
 The sequence is sensory. The understanding is structural.
 
-Try it yourself — this interactive vending machine shows the formal specification behind every button press:
+Try it yourself -- this interactive vending machine shows the formal specification behind every button press:
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Interactive: a vending machine with live state and formulas</p>
@@ -190,7 +190,7 @@ $$
 \vee \text{Reject}
 $$
 
-Four representative transition clauses show the pattern — each is a precondition on the current state, an action guard, and a postcondition on the next state:
+Four representative transition clauses show the pattern -- each is a precondition on the current state, an action guard, and a postcondition on the next state:
 
 $$
 \text{Authorize}
@@ -227,7 +227,7 @@ $$
 \wedge (\text{delivered}' = 0)
 $$
 
-The remaining clauses — PresentChoices, Deliver, Reject — follow the same precondition/action/postcondition pattern.
+The remaining clauses -- PresentChoices, Deliver, Reject -- follow the same precondition/action/postcondition pattern.
 
 The invariants now look like reusable laws rather than vague English:
 
@@ -316,7 +316,7 @@ $$
 \end{cases}
 $$
 
-The map is deliberately coarse. That is the point. Many concrete states — attract screen, awaiting coin, credit zero — collapse into a single abstract `Idle` phase because they behave identically with respect to the property under study.
+The map is deliberately coarse. That is the point. Many concrete states -- attract screen, awaiting coin, credit zero -- collapse into a single abstract `Idle` phase because they behave identically with respect to the property under study.
 
 Similar maps exist for the ATM (where `WelcomeScreen` and `CardInserted` both map to `Idle`, and `MainMenu` and `AmountMenu` both map to `ChoiceReady`) and the elevator (where `DoorsClosing`, `Moving`, and `Braking` all map to `Executing`). The details differ, but the structure is the same: many concrete states refine to a handful of abstract phases.
 
@@ -330,7 +330,7 @@ $$
 M \models \varphi^{\uparrow}
 $$
 
-where $\varphi^{\uparrow}$ is the lifted property — the abstract claim rewritten in terms of concrete states.
+where $\varphi^{\uparrow}$ is the lifted property -- the abstract claim rewritten in terms of concrete states.
 
 For example, suppose the abstract machine proves $\text{DeliverOnlyAfterExecute}$. For the vending machine, this lifts to:
 
@@ -360,9 +360,9 @@ ZenoDEX makes this move visible by distributing its shape across four logic laye
   {% include diagrams/software-shapes-zenodex-stack.svg %}
 </div>
 
-- **Tau boundary guards** (`TAU_CONTRACT`): the gatekeepers. A proposed transition either passes or does not — no ambiguity, no "best effort."
-- **TLA+ temporal shadows** (`TLA_SHADOW`): describe how the system is allowed to evolve over time. They catch temporal violations — stale nonces, ordering anomalies, illegal sequences.
-- **Lean algebraic proofs** (`PROVED`): establish structural properties — compositionality, canonicality, conservation. Mathematical guarantees that hold regardless of input.
+- **Tau boundary guards** (`TAU_CONTRACT`): the gatekeepers. A proposed transition either passes or does not -- no ambiguity, no "best effort."
+- **TLA+ temporal shadows** (`TLA_SHADOW`): describe how the system is allowed to evolve over time. They catch temporal violations -- stale nonces, ordering anomalies, illegal sequences.
+- **Lean algebraic proofs** (`PROVED`): establish structural properties -- compositionality, canonicality, conservation. Mathematical guarantees that hold regardless of input.
 - **Runtime integer code** (`IMPLEMENTED`): computes exact transitions that must match the guarded and proved surface. This is where the formulas meet real arithmetic.
 
 The full shape, as summarized in an author-supplied memo, is:
@@ -442,7 +442,7 @@ RejectStale
 NonceNeverDecreases := lastUsedNonce ≥ prevLastUsedNonce
 ```
 
-This is the time-evolution version of the same idea. Not every transition is admissible. Some traces are ruled out by construction — a stale nonce cannot sneak past a monotonic guard.
+This is the time-evolution version of the same idea. Not every transition is admissible. Some traces are ruled out by construction -- a stale nonce cannot sneak past a monotonic guard.
 
 ### Settlement compositionality (`PROVED`)
 
@@ -452,7 +452,7 @@ $$
 \Delta(s_1 \circ_s s_2) = \Delta(s_1) + \Delta(s_2)
 $$
 
-This is a compositionality shape: a property of the parts lifts to a property of their combination. Once proved, reasoning about batched settlements becomes much simpler — verify the pieces, and the composition holds automatically.
+This is a compositionality shape: a property of the parts lifts to a property of their combination. Once proved, reasoning about batched settlements becomes much simpler -- verify the pieces, and the composition holds automatically.
 
 ### Canonical winner selection (`PROVED`, `TAU_CONTRACT`, `IMPLEMENTED`)
 
@@ -489,7 +489,7 @@ The target state adds six clauses:
 - **Cross-layer equivalent:** Tau, TLA+, Lean, and runtime code agree on the same observable behavior.
 - **Fail-closed where it matters:** unsafe ambiguity blocks the transition rather than guessing.
 
-Moving from current to target is a *strengthening* — each added clause imposes a strictly tighter constraint. That turns "software shaping" from a metaphor into a measurable engineering trajectory.
+Moving from current to target is a *strengthening* -- each added clause imposes a strictly tighter constraint. That turns "software shaping" from a metaphor into a measurable engineering trajectory.
 
 ## Part VI: from thought experiments to formal tools
 
@@ -499,8 +499,8 @@ The difference is that informal thought experiments are private and lossy. Each 
 
 - **Tau** turns a boundary condition into an executable guard. A proposed transition either passes or does not.
 - **TLA+** turns "which sequences of states are allowed?" into an explicit temporal model that can be explored mechanically.
-- **Lean** turns algebraic claims — compositionality, canonicality, exactness — into theorems that a kernel checks down to its axioms.
-- **ICE-style invariant synthesis** sits in between. It tries to infer a formula from examples, counterexamples, and implication constraints — a mechanical version of what engineers do mentally when they say "there is clearly some rule here, but the exact invariant is not yet written down."
+- **Lean** turns algebraic claims -- compositionality, canonicality, exactness -- into theorems that a kernel checks down to its axioms.
+- **ICE-style invariant synthesis** sits in between. It tries to infer a formula from examples, counterexamples, and implication constraints -- a mechanical version of what engineers do mentally when they say "there is clearly some rule here, but the exact invariant is not yet written down."
 
 The relationship between intuition and these tools is not replacement. It is stabilization:
 
@@ -582,17 +582,17 @@ For ZenoDEX, both activities matter. Parameter synthesis can improve a verified 
 
 ## Part VIII: shape your own system
 
-The interactive explorer below turns the ideas from this tutorial into a choose-your-own-adventure experience. You start with a bare system skeleton and make design choices — each one adds states, transitions, or invariants to the shape. The formulas update as you go, showing how engineering decisions transform a system's formal structure.
+The interactive explorer below turns the ideas from this tutorial into a choose-your-own-adventure experience. You start with a bare system skeleton and make design choices -- each one adds states, transitions, or invariants to the shape. The formulas update as you go, showing how engineering decisions transform a system's formal structure.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Interactive: shape evolution explorer</p>
   <iframe
     src="{{ '/shape_evolution_explorer.html' | relative_url }}"
-    title="Interactive shape evolution explorer — choose your own adventure through formal system design"
+    title="Interactive shape evolution explorer -- choose your own adventure through formal system design"
     style="width: 100%; min-height: 800px; border: 0; border-radius: 16px; background: transparent;"
     loading="lazy"></iframe>
   <figcaption class="fp-figure-caption">
-    Start with a minimal system and make design choices. Each choice morphs the shape — adding
+    Start with a minimal system and make design choices. Each choice morphs the shape -- adding
     states, strengthening invariants, or introducing new formal layers. Watch the transition
     diagram and formula panel evolve as your decisions accumulate.
   </figcaption>
@@ -600,7 +600,7 @@ The interactive explorer below turns the ideas from this tutorial into a choose-
 
 ## Takeaway
 
-A child at an arcade, a parent at an ATM, a person waiting for an elevator — each one learns the shape of a state machine without ever hearing the term. Gates, phases, transitions, invariants, and resets are not inventions of formal methods. They are patterns that human minds extract from ordinary experience.
+A child at an arcade, a parent at an ATM, a person waiting for an elevator -- each one learns the shape of a state machine without ever hearing the term. Gates, phases, transitions, invariants, and resets are not inventions of formal methods. They are patterns that human minds extract from ordinary experience.
 
 Formal methods make those patterns explicit. Once explicit, a shape can be shared across a team, criticized by a reviewer, checked by a solver, and proved by a kernel.
 
@@ -612,4 +612,4 @@ $$
 \text{states} + \text{transitions} + \text{invariants} + \text{selection rules} + \text{evidence}
 $$
 
-Once that object is explicit, it can be shared, critiqued, proved, synthesized, and improved — by anyone, for any machine, at any level of assurance.
+Once that object is explicit, it can be shared, critiqued, proved, synthesized, and improved -- by anyone, for any machine, at any level of assurance.
