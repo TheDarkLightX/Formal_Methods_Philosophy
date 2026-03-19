@@ -185,4 +185,14 @@ show_title: false
       multiplication makes every question decidable, and see how this fragment powers real verification tools.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/software-shapes-and-zenodex/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 17: Software shapes and ZenoDEX</h2>
+    <p class="fp-card-text">
+      Start from arcade, ATM, and vending-machine intuition, then compress those shared shapes into
+      states and invariants before climbing into ZenoDEX, formal tools, and parameter synthesis.
+    </p>
+  </a>
 </div>
