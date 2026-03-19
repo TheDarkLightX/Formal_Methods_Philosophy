@@ -6,99 +6,71 @@
 <title>Exhaustive Proof Search Machine</title>
 <style>
   :root {
-    --bg-primary: #f7efe4;
-    --bg-secondary: #fff8ef;
-    --text-primary: #1f2028;
-    --text-secondary: #67636c;
-    --text-tertiary: #a1989f;
-    --border: rgba(43, 53, 76, 0.14);
-    --border-hover: rgba(43, 53, 76, 0.3);
-    --info-bg: #edf4fb;
-    --info-text: #184f86;
-    --info-border: #8bbce8;
-    --danger-bg: #faece9;
-    --danger-text: #8a2f29;
-    --danger-border: #efaba3;
-    --success-bg: #edf5e9;
-    --success-text: #2c6436;
-    --success-border: #9cc286;
-    --radius: 12px;
-    --shadow: 0 24px 48px rgba(45, 34, 25, 0.12);
-    --font-sans: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    --font-display: "Palatino Linotype", "Book Antiqua", Georgia, serif;
-    --font-mono: "Courier New", "Nimbus Mono PS", monospace;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f5f4f0;
+    --text-primary: #1a1a1a;
+    --text-secondary: #6b6a65;
+    --text-tertiary: #9c9a92;
+    --border: rgba(0,0,0,0.15);
+    --border-hover: rgba(0,0,0,0.3);
+    --info-bg: #E6F1FB;
+    --info-text: #0C447C;
+    --info-border: #85B7EB;
+    --danger-bg: #FCEBEB;
+    --danger-text: #791F1F;
+    --danger-border: #F09595;
+    --success-bg: #EAF3DE;
+    --success-text: #27500A;
+    --success-border: #97C459;
+    --radius: 8px;
+    --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "SF Mono", "Fira Code", "Fira Mono", Menlo, monospace;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg-primary: #111722;
-      --bg-secondary: #182131;
-      --text-primary: #f1e7da;
-      --text-secondary: #c3b7a7;
-      --text-tertiary: #8a96a7;
-      --border: rgba(234, 241, 252, 0.12);
-      --border-hover: rgba(234, 241, 252, 0.24);
-      --info-bg: #123353;
-      --info-text: #c8e1ff;
-      --info-border: #4b83bb;
-      --danger-bg: #4a1918;
-      --danger-text: #ffd2cd;
-      --danger-border: #a24038;
-      --success-bg: #173226;
-      --success-text: #bfe7c9;
-      --success-border: #4d8d60;
-      --shadow: 0 28px 60px rgba(0, 0, 0, 0.34);
+      --bg-primary: #1a1a1a;
+      --bg-secondary: #2c2c2a;
+      --text-primary: #e8e6df;
+      --text-secondary: #9c9a92;
+      --text-tertiary: #6b6a65;
+      --border: rgba(255,255,255,0.15);
+      --border-hover: rgba(255,255,255,0.3);
+      --info-bg: #042C53;
+      --info-text: #B5D4F4;
+      --info-border: #185FA5;
+      --danger-bg: #501313;
+      --danger-text: #F7C1C1;
+      --danger-border: #A32D2D;
+      --success-bg: #173404;
+      --success-text: #C0DD97;
+      --success-border: #3B6D11;
     }
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: var(--font-sans);
-    background:
-      radial-gradient(circle at top left, rgba(209, 123, 47, 0.10), transparent 18%),
-      radial-gradient(circle at top right, rgba(24, 79, 134, 0.12), transparent 24%),
-      linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+    background: var(--bg-primary);
     color: var(--text-primary);
-    padding: 1.25rem;
-  }
-  .app-shell {
-    max-width: 780px;
+    padding: 2rem;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 1.35rem;
-    border: 1px solid var(--border);
-    border-radius: 28px;
-    background: rgba(255,255,255,0.40);
-    backdrop-filter: blur(10px);
-    box-shadow: var(--shadow);
-  }
-  .eyebrow {
-    margin: 0 0 0.4rem;
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
   }
   h1 {
-    font-family: var(--font-display);
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 0.95;
-    margin: 0 0 0.35rem;
+    font-size: 22px;
+    font-weight: 500;
+    margin: 0 0 0.25rem;
   }
   .subtitle {
     font-size: 14px;
     color: var(--text-secondary);
-    margin: 0 0 1.35rem;
-    line-height: 1.65;
+    margin: 0 0 1.5rem;
   }
   .eq {
     font-size: 22px;
     font-weight: 500;
     text-align: center;
-    margin: 0 0 1.25rem;
+    margin: 0 0 1.5rem;
     font-family: var(--font-mono);
-    padding: 1rem 1.2rem;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.52);
   }
   .grid {
     display: grid;
@@ -116,7 +88,7 @@
     border-radius: var(--radius);
     border: 0.5px solid var(--border);
     color: var(--text-secondary);
-    background: rgba(255,255,255,0.58);
+    background: var(--bg-primary);
     transition: all 0.25s;
     font-family: var(--font-mono);
   }
@@ -144,10 +116,6 @@
     line-height: 1.8;
     min-height: 200px;
     margin: 1rem 0 0;
-    padding: 1rem 1.1rem;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.46);
   }
   .log-step { opacity: 0; transition: opacity 0.3s; }
   .log-step.vis { opacity: 1; }
@@ -159,10 +127,6 @@
     gap: 12px;
     margin: 0 0 1.5rem;
     flex-wrap: wrap;
-    padding: 1rem 1.1rem;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.46);
   }
   label { font-size: 14px; color: var(--text-secondary); }
   input[type="range"] {
@@ -182,12 +146,12 @@
     padding: 8px 16px;
     border-radius: var(--radius);
     border: 0.5px solid var(--border-hover);
-    background: rgba(255,255,255,0.6);
+    background: transparent;
     color: var(--text-primary);
     cursor: pointer;
     transition: background 0.15s, transform 0.1s;
   }
-  button:hover { background: rgba(255,255,255,0.82); }
+  button:hover { background: var(--bg-secondary); }
   button:active { transform: scale(0.98); }
   button:disabled { opacity: 0.4; cursor: default; }
   .candidate-label {
@@ -199,10 +163,8 @@
 </style>
 </head>
 <body>
-  <div class="app-shell">
-  <p class="eyebrow">Proof Search Lab</p>
   <h1>Exhaustive proof search machine</h1>
-  <p class="subtitle">Check every candidate in a finite box and keep only the one that survives the Peano-style checker.</p>
+  <p class="subtitle">Checking every candidate in a finite box and keeping only the one that survives the Peano-style checker</p>
   <div class="controls">
     <label>Choose x</label>
     <input type="range" min="0" max="9" value="3" step="1" id="xval" oninput="updateX()" />
@@ -213,15 +175,9 @@
   <div class="candidate-label">Candidate space for ? : {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10}</div>
   <div class="grid" id="grid"></div>
   <div class="log" id="log"></div>
-  </div>
 </body>
 <script>
 let x = 3, running = false;
-function reportHeightToHost() {
-  if (window.parent === window) return;
-  const height = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
-  window.parent.postMessage({ type: 'fp:iframe-height', height: height }, '*');
-}
 function buildGrid() {
   const g = document.getElementById('grid');
   g.innerHTML = '';
@@ -232,7 +188,6 @@ function buildGrid() {
     d.id = 'c' + i;
     g.appendChild(d);
   }
-  window.requestAnimationFrame(reportHeightToHost);
 }
 function updateX() {
   if (running) return;
@@ -241,7 +196,6 @@ function updateX() {
   document.getElementById('equation').textContent = '1 + ' + x + ' = ?';
   buildGrid();
   document.getElementById('log').innerHTML = '';
-  window.requestAnimationFrame(reportHeightToHost);
 }
 function addLog(html, cls) {
   const d = document.createElement('div');
@@ -249,7 +203,6 @@ function addLog(html, cls) {
   d.innerHTML = html;
   document.getElementById('log').appendChild(d);
   requestAnimationFrame(() => d.classList.add('vis'));
-  window.requestAnimationFrame(reportHeightToHost);
   return d;
 }
 async function runSearch() {
@@ -281,10 +234,7 @@ async function runSearch() {
   addLog('<span class="log-ok">Certificate sketch: reduce 1 + ' + x + ' by the recursive clauses, then compare that normal form to each candidate.</span>');
   running = false;
   document.getElementById('runbtn').disabled = false;
-  window.requestAnimationFrame(reportHeightToHost);
 }
 buildGrid();
-window.addEventListener('load', reportHeightToHost);
-window.addEventListener('resize', () => window.requestAnimationFrame(reportHeightToHost));
 </script>
 </html>
