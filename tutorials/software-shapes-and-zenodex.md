@@ -17,7 +17,7 @@ The concrete vehicle is ZenoDEX, a decentralized exchange whose design is spread
   <p class="fp-callout-title">Scope and assumptions</p>
   <ul>
     <li><strong>Shape</strong> means an abstraction of states, transitions, invariants, and selection rules. Two systems share a shape without sharing implementation details.</li>
-    <li><strong>Source posture:</strong> ZenoDEX observations are based on the public repository surface inspected on March 19, 2026, plus an author-supplied shape memo. The snapshot exposed Tau specs, TLA+ shadows, Lean proofs, runtime code, and public assurance scripts.</li>
+    <li><strong>Source posture:</strong> ZenoDEX observations are based on the public repository surface inspected on March 19, 2026, plus a shape memo prepared for this tutorial. The snapshot exposed Tau specs, TLA+ shadows, Lean proofs, runtime code, and public assurance scripts.</li>
     <li><strong>Teaching examples</strong> (ATM, arcade, elevator, vending machine) are intentionally simplified -- they abstract away hardware failure, networking, and social edge cases to reveal the common interaction shape.</li>
     <li><strong>Evidence tags:</strong> <code>PROVED</code> = inspected Lean theorem. <code>TLA_SHADOW</code> = inspected TLA+ model. <code>TAU_CONTRACT</code> = inspected Tau guard. <code>IMPLEMENTED</code> = inspected runtime code. <code>TESTED_DISCOVERY</code> = inspected discovery code, not promoted to theorem.</li>
   </ul>
@@ -367,7 +367,7 @@ ZenoDEX makes this move visible by distributing its shape across four logic laye
 - **Lean algebraic proofs** (`PROVED`): establish structural properties -- compositionality, canonicality, conservation. Mathematical guarantees that hold regardless of input.
 - **Runtime integer code** (`IMPLEMENTED`): computes exact transitions that must match the guarded and proved surface. This is where the formulas meet real arithmetic.
 
-The full shape, as summarized in an author-supplied memo, is:
+The full shape, as summarized in our shape memo, is:
 
 $$
 \text{Shape(ZenoDEX)}
@@ -472,7 +472,7 @@ This says more than "pick a winner." It says the candidate set is finite and non
   {% include diagrams/software-shapes-strengthening.svg %}
 </div>
 
-The author-supplied current assurance state is:
+The current assurance state is:
 
 $$
 \text{CurrentShape}(Z) :=
