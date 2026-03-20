@@ -12,25 +12,25 @@
     --canvas: #f7f1e6;
     --panel: rgba(255, 250, 241, 0.92);
     --panel-strong: rgba(255, 247, 234, 0.98);
-    --ink: #1f2528;
-    --muted: #5f655f;
-    --line: rgba(31, 37, 40, 0.14);
-    --line-strong: rgba(31, 37, 40, 0.25);
+    --ink: #2a2520;
+    --muted: #7a7064;
+    --line: rgba(42, 37, 32, 0.14);
+    --line-strong: rgba(42, 37, 32, 0.25);
     --teal: #0f766e;
     --teal-soft: rgba(15, 118, 110, 0.10);
     --teal-strong: rgba(15, 118, 110, 0.18);
-    --amber: #b45309;
-    --amber-soft: rgba(180, 83, 9, 0.10);
-    --amber-strong: rgba(180, 83, 9, 0.18);
-    --red: #b42318;
-    --red-soft: rgba(180, 35, 24, 0.10);
-    --red-strong: rgba(180, 35, 24, 0.18);
-    --slate: #394149;
-    --navy: #18242f;
+    --amber: #a04a08;
+    --amber-soft: rgba(160, 74, 8, 0.10);
+    --amber-strong: rgba(160, 74, 8, 0.18);
+    --red: #a82218;
+    --red-soft: rgba(168, 34, 24, 0.10);
+    --red-strong: rgba(168, 34, 24, 0.18);
+    --slate: #4d443c;
+    --navy: #1e1814;
     --radius-lg: 24px;
     --radius-md: 16px;
     --radius-sm: 12px;
-    --shadow: 0 18px 36px rgba(24, 36, 47, 0.08);
+    --shadow: 0 18px 36px rgba(42, 34, 28, 0.08);
     --font-body: "Source Sans 3", Georgia, serif;
     --font-display: "Bitter", Georgia, serif;
     --font-mono: "IBM Plex Mono", monospace;
@@ -38,25 +38,25 @@
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: #1a1e24;
-      --canvas: #14181e;
-      --panel: rgba(28, 33, 42, 0.94);
-      --panel-strong: rgba(32, 38, 48, 0.98);
-      --ink: #e2e0dc;
-      --muted: #9ca3a0;
-      --line: rgba(200, 210, 220, 0.12);
-      --line-strong: rgba(200, 210, 220, 0.22);
+      --paper: #1c1916;
+      --canvas: #141210;
+      --panel: rgba(32, 28, 24, 0.94);
+      --panel-strong: rgba(36, 32, 28, 0.98);
+      --ink: #e4dfda;
+      --muted: #9e968c;
+      --line: rgba(228, 223, 218, 0.12);
+      --line-strong: rgba(228, 223, 218, 0.22);
       --teal: #2dd4bf;
       --teal-soft: rgba(45, 212, 191, 0.12);
       --teal-strong: rgba(45, 212, 191, 0.20);
-      --amber: #fbbf24;
-      --amber-soft: rgba(251, 191, 36, 0.12);
-      --amber-strong: rgba(251, 191, 36, 0.20);
+      --amber: #f5b731;
+      --amber-soft: rgba(245, 183, 49, 0.12);
+      --amber-strong: rgba(245, 183, 49, 0.20);
       --red: #f87171;
       --red-soft: rgba(248, 113, 113, 0.12);
       --red-strong: rgba(248, 113, 113, 0.20);
-      --slate: #cbd5e1;
-      --navy: #e2e8f0;
+      --slate: #c4bbb2;
+      --navy: #f0ebe4;
       --shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
     }
   }
@@ -70,13 +70,13 @@
     color: var(--ink);
     background:
       radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 36%),
-      radial-gradient(circle at top right, rgba(180, 83, 9, 0.08), transparent 32%),
+      radial-gradient(circle at top right, rgba(160, 74, 8, 0.08), transparent 32%),
       linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)),
       repeating-linear-gradient(
         0deg,
         transparent,
         transparent 23px,
-        rgba(24, 36, 47, 0.035) 24px
+        rgba(42, 34, 28, 0.035) 24px
       ),
       var(--canvas);
     line-height: 1.45;
@@ -86,8 +86,8 @@
     body {
       background:
         radial-gradient(circle at top left, rgba(45, 212, 191, 0.06), transparent 36%),
-        radial-gradient(circle at top right, rgba(251, 191, 36, 0.05), transparent 32%),
-        linear-gradient(180deg, rgba(20,24,30,0.95), rgba(20,24,30,0.80)),
+        radial-gradient(circle at top right, rgba(245, 183, 49, 0.05), transparent 32%),
+        linear-gradient(180deg, rgba(20,18,16,0.95), rgba(20,18,16,0.80)),
         var(--canvas);
     }
   }
@@ -108,48 +108,48 @@
 
   @media (prefers-color-scheme: dark) {
     .hero {
-      background: linear-gradient(145deg, rgba(28,33,42,0.96), rgba(22,27,36,0.95));
+      background: linear-gradient(145deg, rgba(32,28,24,0.96), rgba(26,22,18,0.95));
     }
     .hero-side {
-      background: linear-gradient(180deg, rgba(10,14,20,0.94), rgba(10,14,20,0.88));
+      background: linear-gradient(180deg, rgba(14,12,10,0.94), rgba(14,12,10,0.88));
     }
     .formula-block {
-      background: rgba(255,255,255,0.04);
-      border-color: rgba(255,255,255,0.08);
+      background: rgba(255,248,240,0.04);
+      border-color: rgba(255,248,240,0.08);
     }
     .clause-formula,
     .scenario-formula,
     .trace-formula,
     .probe-formula {
-      background: rgba(200,210,220,0.06);
+      background: rgba(228,223,218,0.06);
     }
     .stage {
-      background: linear-gradient(180deg, rgba(28,33,42,0.92), rgba(22,27,36,0.86));
+      background: linear-gradient(180deg, rgba(32,28,24,0.92), rgba(26,22,18,0.86));
     }
     .stage.reject {
-      background: linear-gradient(180deg, rgba(45,212,191,0.10), rgba(22,27,36,0.94));
+      background: linear-gradient(180deg, rgba(45,212,191,0.10), rgba(26,22,18,0.94));
     }
     .stage.disaster {
-      background: linear-gradient(180deg, rgba(248,113,113,0.10), rgba(22,27,36,0.94));
+      background: linear-gradient(180deg, rgba(248,113,113,0.10), rgba(26,22,18,0.94));
     }
     .clause-card.active {
-      background: linear-gradient(180deg, rgba(45,212,191,0.08), rgba(28,33,42,0.98));
+      background: linear-gradient(180deg, rgba(45,212,191,0.08), rgba(32,28,24,0.98));
     }
     .trace-item.good {
-      background: linear-gradient(180deg, rgba(45,212,191,0.08), rgba(28,33,42,0.98));
+      background: linear-gradient(180deg, rgba(45,212,191,0.08), rgba(32,28,24,0.98));
     }
     .trace-item.warn {
-      background: linear-gradient(180deg, rgba(251,191,36,0.06), rgba(28,33,42,0.98));
+      background: linear-gradient(180deg, rgba(245,183,49,0.06), rgba(32,28,24,0.98));
     }
     .trace-item.bad {
-      background: linear-gradient(180deg, rgba(248,113,113,0.08), rgba(28,33,42,0.98));
+      background: linear-gradient(180deg, rgba(248,113,113,0.08), rgba(32,28,24,0.98));
     }
     .panel-head {
-      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+      background: linear-gradient(180deg, rgba(255,248,240,0.03), rgba(255,248,240,0.01));
     }
     .preset-btn.active {
       background: var(--teal);
-      color: #0a0e14;
+      color: #141210;
     }
   }
 
@@ -190,7 +190,7 @@
   .hero-side {
     border-left: 1px solid var(--line);
     padding: 24px;
-    background: linear-gradient(180deg, rgba(24, 36, 47, 0.94), rgba(24, 36, 47, 0.88));
+    background: linear-gradient(180deg, rgba(42, 34, 28, 0.94), rgba(42, 34, 28, 0.88));
     color: #f5efe4;
     display: flex;
     flex-direction: column;
@@ -259,7 +259,7 @@
   .preset-btn.active {
     background: var(--navy);
     color: #fbf6ed;
-    border-color: rgba(24, 36, 47, 0.8);
+    border-color: rgba(42, 34, 28, 0.8);
   }
 
   .metrics {
@@ -274,7 +274,7 @@
     background: var(--panel);
     border-radius: var(--radius-md);
     padding: 14px 16px;
-    box-shadow: 0 10px 22px rgba(24, 36, 47, 0.05);
+    box-shadow: 0 10px 22px rgba(42, 34, 28, 0.05);
   }
 
   .metric-label {
@@ -417,12 +417,12 @@
     font-size: 10px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    background: rgba(24, 36, 47, 0.06);
+    background: rgba(42, 34, 28, 0.06);
     color: var(--slate);
   }
 
   .clause-chip.old {
-    background: rgba(24, 36, 47, 0.08);
+    background: rgba(42, 34, 28, 0.08);
   }
 
   .clause-chip.new {
@@ -440,7 +440,7 @@
     display: block;
     padding: 8px 10px;
     border-radius: 10px;
-    background: rgba(24, 36, 47, 0.04);
+    background: rgba(42, 34, 28, 0.04);
     font-size: 11px;
     line-height: 1.6;
     color: var(--navy);
@@ -467,7 +467,7 @@
     right: 6%;
     top: 50%;
     height: 3px;
-    background: linear-gradient(90deg, rgba(24,36,47,0.06), rgba(24,36,47,0.16), rgba(24,36,47,0.06));
+    background: linear-gradient(90deg, rgba(42,34,28,0.06), rgba(42,34,28,0.16), rgba(42,34,28,0.06));
     transform: translateY(-50%);
     z-index: 0;
     border-radius: 2px;
@@ -522,8 +522,8 @@
   }
 
   @keyframes pulse-danger {
-    0%, 100% { box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.10); }
-    50% { box-shadow: 0 0 0 6px rgba(180, 35, 24, 0.18); }
+    0%, 100% { box-shadow: 0 0 0 3px rgba(168, 34, 24, 0.10); }
+    50% { box-shadow: 0 0 0 6px rgba(168, 34, 24, 0.18); }
   }
 
   .stage.reject {
@@ -531,8 +531,8 @@
   }
 
   .stage.disaster {
-    background: linear-gradient(180deg, rgba(180,35,24,0.10), rgba(255,250,241,0.94));
-    border-color: rgba(180,35,24,0.24);
+    background: linear-gradient(180deg, rgba(168,34,24,0.10), rgba(255,250,241,0.94));
+    border-color: rgba(168,34,24,0.24);
   }
 
   .stage-label {
@@ -579,12 +579,12 @@
 
   .scenario-card:hover {
     transform: translateY(-1px);
-    border-color: rgba(24, 36, 47, 0.28);
+    border-color: rgba(42, 34, 28, 0.28);
   }
 
   .scenario-card.selected {
-    border-color: rgba(24, 36, 47, 0.45);
-    box-shadow: inset 0 0 0 1px rgba(24, 36, 47, 0.12);
+    border-color: rgba(42, 34, 28, 0.45);
+    box-shadow: inset 0 0 0 1px rgba(42, 34, 28, 0.12);
   }
 
   .scenario-top {
@@ -639,7 +639,7 @@
     margin-top: 8px;
     padding: 8px 9px;
     border-radius: 10px;
-    background: rgba(24, 36, 47, 0.04);
+    background: rgba(42, 34, 28, 0.04);
     font-size: 11px;
     line-height: 1.55;
     color: var(--navy);
@@ -674,13 +674,13 @@
   }
 
   .trace-item.warn {
-    border-color: rgba(180, 83, 9, 0.25);
+    border-color: rgba(160, 74, 8, 0.25);
     background: linear-gradient(180deg, rgba(180,83,9,0.05), rgba(255,250,241,0.98));
   }
 
   .trace-item.bad {
-    border-color: rgba(180, 35, 24, 0.24);
-    background: linear-gradient(180deg, rgba(180,35,24,0.06), rgba(255,250,241,0.98));
+    border-color: rgba(168, 34, 24, 0.24);
+    background: linear-gradient(180deg, rgba(168,34,24,0.06), rgba(255,250,241,0.98));
   }
 
   .trace-label,
@@ -716,7 +716,7 @@
     margin-top: 8px;
     padding: 8px 9px;
     border-radius: 10px;
-    background: rgba(24, 36, 47, 0.04);
+    background: rgba(42, 34, 28, 0.04);
     font-size: 11px;
     line-height: 1.55;
     color: var(--navy);
@@ -817,7 +817,7 @@
       <ellipse cx="220" cy="70" rx="200" ry="60" fill="rgba(148,163,184,0.08)" stroke="rgba(148,163,184,0.30)" stroke-width="1.5" />
       <text x="420" y="24" font-size="11" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">Q (full state space)</text>
       <!-- Disaster set D -->
-      <ellipse id="vennD" cx="340" cy="70" rx="70" ry="42" fill="rgba(180,35,24,0.10)" stroke="rgba(180,35,24,0.25)" stroke-width="1.5" />
+      <ellipse id="vennD" cx="340" cy="70" rx="70" ry="42" fill="rgba(168,34,24,0.10)" stroke="rgba(168,34,24,0.25)" stroke-width="1.5" />
       <text id="vennDLabel" x="355" y="74" font-size="10" fill="var(--red)" font-family="var(--font-mono)" text-anchor="middle">D</text>
       <!-- Reach(M) -->
       <ellipse id="vennReach" cx="200" cy="70" rx="140" ry="48" fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.30)" stroke-width="2" style="transition: rx 0.6s cubic-bezier(0.33,1,0.68,1), cx 0.6s cubic-bezier(0.33,1,0.68,1)" />

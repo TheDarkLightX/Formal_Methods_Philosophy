@@ -61,7 +61,7 @@ $$
 \operatorname{Reach}(M) \cap D = \varnothing \; ?
 $$
 
-This is the first reason shape matters. A stronger shape is not just "more rules." It changes the relation between reachable and unreachable worlds.
+This is why shape matters. A stronger shape is not just "more rules." It changes the boundary between reachable and unreachable worlds.
 
 If a new shape only adds guards, certificates, or stronger canonicalization, then the usual strengthening picture is:
 
@@ -77,7 +77,7 @@ The diagram below makes the geometry concrete. The full state space is the outer
   <p class="fp-figure-title">State-space pruning: how a stronger shape removes disaster states</p>
   {% include diagrams/shape-state-space-pruning.svg %}
   <figcaption class="fp-figure-caption">
-    A stronger shape shrinks the reachable region until it no longer intersects the disaster set.
+    Adding guards and certificates can only shrink the reachable region, never enlarge it. If the shrinkage clears the disaster set, safety follows.
   </figcaption>
 </figure>
 
@@ -259,7 +259,7 @@ This is already a serious assurance surface. The new shape does not start from n
   </p>
 </div>
 
-The following diagram shows the transition at a glance: the old shape's seven clauses on the left, the stronger Shape++ target's ten clauses on the right, with the key insight that each new clause either eliminates ambiguity, requires evidence, or makes bad states unrepresentable.
+The following diagram lays the two clause sets side by side. Notice that no old clause disappears; Shape++ only adds or tightens.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Old shape versus Shape++: the clause-level transition</p>
@@ -337,7 +337,7 @@ from "a state that must be filtered out later" into "a state that should never b
 
 ### 2. Unique canonical winners everywhere
 
-The stronger canonical form is:
+The canonical form under Shape++ is:
 
 $$
 \forall C \ne \varnothing.\;
@@ -345,7 +345,7 @@ $$
 \forall c \in C,\; Key(w) \le Key(c).
 $$
 
-This blocks the disaster family
+The disaster family it eliminates is:
 
 $$
 \begin{aligned}
@@ -358,7 +358,7 @@ D_{\text{ambiguous}} :=
 \end{aligned}
 $$
 
-This is exactly the difference between "the program happened to pick one route" and "there exists one semantically canonical route."
+Two routes with equal scores, both claiming to win: that is the gap between "the program happened to pick one" and "there exists one semantically canonical choice."
 
 ### 3. Exact fee-aware accounting
 
@@ -377,7 +377,7 @@ $$
 \end{aligned}
 $$
 
-The advantage is not cosmetic. It blocks silent-leak or unexplained-residue worlds such as
+The advantage is not cosmetic. It makes silent-leak and unexplained-residue worlds unreachable:
 
 $$
 \begin{aligned}
@@ -388,7 +388,7 @@ D_{\text{fee-leak}} :=
 \end{aligned}
 $$
 
-This is the difference between "nothing obviously broke" and "every remainder has a place in the model."
+Monotonicity tells you the total did not decrease. Exact accounting tells you where every unit went. The second is strictly more informative.
 
 ### 4. Value-aware settlement safety
 
@@ -420,7 +420,7 @@ $$
 
 ### 5. Proof-carrying optimizer certificates
 
-In a traditional system, the optimizer says "route X wins" and you trust it. In a proof-carrying system, the optimizer says "route X wins, and here is the replayable evidence that X is optimal over the declared candidate domain." The evidence is checkable by anyone. The stronger pattern is:
+In a traditional system, the optimizer says "route X wins" and you trust it. In a proof-carrying system, the optimizer says "route X wins, and here is the replayable evidence that X is optimal over the declared candidate domain." The evidence is checkable by anyone. The proof-carrying pattern replaces trust with verification:
 
 $$
 \begin{aligned}
@@ -432,7 +432,7 @@ $$
 
 This changes routing and optimization from "the runtime gave an answer" to "the runtime gave an answer together with a replayable reason that the answer is the right one on the declared candidate domain."
 
-That blocks a family like:
+The disaster family it renders unreachable is:
 
 $$
 D_{\text{uncertified-winner}}
@@ -480,7 +480,7 @@ $$
 \end{aligned}
 $$
 
-This prevents unsound canonicalization and unsound optimizer pruning.
+Without this guardrail, an optimizer might silently reorder opposite-direction swaps as if the sequence did not matter, producing a result that looks optimal but is not reproducible under replay.
 
 ### 8. Oracle divergence safety
 
@@ -551,7 +551,7 @@ $$
 obs_{\text{runtime}} \ne obs_{\text{certificate}} \to reject.
 $$
 
-This blocks drift worlds:
+The disaster family it catches is:
 
 $$
 \begin{aligned}
@@ -566,18 +566,35 @@ $$
 
 The transition from old shape to Shape++ is not a rewrite. It is a sequence of precise strengthenings, each targeting a specific weakness in the original posture. The table below maps every old clause to its stronger counterpart, names the mathematical change, and identifies which disaster family the strengthening removes.
 
-| Older clause | Stronger clause | What changes mathematically | Which bad family is pruned |
-|---|---|---|---|
-| `DeterministicRouting` | `UniqueCanonicalWinnerEverywhere` | Moves from repeated output to unique semantic representative | ambiguous maximizers |
-| `ReserveMonotonicity` | `ExactFeeAwareAccounting` | Moves from inequality to exact residue accounting | silent fee leakage, unexplained remainders |
-| runtime validity checks | `CBCValidity` | Moves from post-hoc filtering to validity by construction | filled-below-minimum outcomes |
-| local routing checks | `ProofCarryingOptimizerCertificates` | Moves from "runtime chose X" to "runtime chose X with a replayable witness" | uncertified winners |
-| token-count safety | `ValueAwareSettlementSafety` | Adds declared value interpretation and price rails | value-blind settlement acceptance |
-| heuristic pruning | `AntiFragmentationByTheorem` | Prunes dominated fragmented candidates lawfully | needless split-candidate explosion |
-| tacit ordering assumptions | `NonCommutativityQuarantine` | Makes ordering sensitivity explicit | unsound commuting rewrites |
-| solvency plus freshness checks | `OracleDivergenceSafety` | Treats mismatched oracle views as inadmissible for risky transitions | stale or in-flight oracle execution |
-| bounded liquidation posture | `LiquidationSpiralContainment` | Narrows allowed next steps under stress | uncontrolled liquidation transitions |
-| replayable local checks | `CrossLayerReplayParity` | Aligns runtime, packet, and proof surfaces | cross-layer semantic drift |
+**1. DeterministicRouting &rarr; UniqueCanonicalWinnerEverywhere**
+From repeated output to unique semantic representative. *Prunes: ambiguous maximizers.*
+
+**2. ReserveMonotonicity &rarr; ExactFeeAwareAccounting**
+From inequality to exact residue accounting. *Prunes: silent fee leakage, unexplained remainders.*
+
+**3. Runtime validity checks &rarr; CBCValidity**
+From post-hoc filtering to validity by construction. *Prunes: filled-below-minimum outcomes.*
+
+**4. Local routing checks &rarr; ProofCarryingOptimizerCertificates**
+From "runtime chose X" to "runtime chose X with a replayable witness." *Prunes: uncertified winners.*
+
+**5. Token-count safety &rarr; ValueAwareSettlementSafety**
+Adds declared value interpretation and price rails. *Prunes: value-blind settlement acceptance.*
+
+**6. Heuristic pruning &rarr; AntiFragmentationByTheorem**
+Prunes dominated fragmented candidates lawfully. *Prunes: needless split-candidate explosion.*
+
+**7. Tacit ordering assumptions &rarr; NonCommutativityQuarantine**
+Makes ordering sensitivity explicit. *Prunes: unsound commuting rewrites.*
+
+**8. Solvency plus freshness checks &rarr; OracleDivergenceSafety**
+Treats mismatched oracle views as inadmissible for risky transitions. *Prunes: stale or in-flight oracle execution.*
+
+**9. Bounded liquidation posture &rarr; LiquidationSpiralContainment**
+Narrows allowed next steps under stress. *Prunes: uncontrolled liquidation transitions.*
+
+**10. Replayable local checks &rarr; CrossLayerReplayParity**
+Aligns runtime, packet, and proof surfaces. *Prunes: cross-layer semantic drift.*
 
 This table explains why `Shape++` feels "ideal" in the engineering sense. It is not ideal because it sounds elegant. It is ideal because every strengthening follows the same pattern:
 
@@ -624,17 +641,22 @@ D_{\text{partial-exact-out}} :=
 \end{aligned}
 $$
 
-Under the stronger shape, full allocation becomes part of admissibility and certificate meaning, not an after-the-fact sanity check.
+Under Shape++, full allocation becomes part of admissibility and certificate meaning, not an after-the-fact sanity check.
 
-### 2. Filled below minimum output
+### 2--6. Disaster families already derived in Part III
 
-The disaster formula is simply:
+Four disaster families were derived clause by clause in Part III. Their one-line signatures are collected here to complete the catalog:
 
 $$
-filled \wedge output < min\_out.
+\begin{array}{ll}
+D_{\text{invalid-fill}} & filled \wedge output < min\_out \\[4pt]
+D_{\text{fee-leak}} & \text{exact conservation claimed} \wedge \text{dust discarded} \\[4pt]
+D_{\text{oracle-mismatch}} & risky \wedge (price\_pending \ne price) \\[4pt]
+D_{\text{drift}} & obs_{\text{runtime}} \ne obs_{\text{replay}}
+\end{array}
 $$
 
-Under `CBCValidity`, this is not merely rejected late. It stops being a valid filled outcome object.
+What the catalog view adds is the collective observation: these four families share a common structure. In each case, two quantities that the system claims are consistent actually diverge (output vs. minimum, accounting vs. residue, pending vs. committed price, runtime vs. replay). Shape++ turns each divergence from a detectable symptom into an inadmissible construction.
 
 ### 3. Reserve drain
 
@@ -644,45 +666,7 @@ $$
 amount\_out = reserve\_out
 $$
 
-or more generally any swap witness that exhausts output reserve or exits the proved CPMM envelope. The older boundary guards already blocked much of this family. The stronger shape keeps that boundary explicit so higher layers cannot silently assume soundness.
-
-### 4. Silent fee leakage
-
-The dangerous world is:
-
-$$
-\text{exact conservation claimed}
-\wedge
-\text{dust discarded}.
-$$
-
-If exactness is the claim, then dust has to become first-class state or first-class accounting residue.
-
-### 5. Oracle mismatch execution
-
-The disaster formula is:
-
-$$
-risky \wedge (price\_pending \ne price).
-$$
-
-This is exactly the kind of state the strengthened oracle clauses try to remove from `Reach(M)`.
-
-### 6. Cross-layer drift
-
-The disaster formula is:
-
-$$
-winner_{\text{runtime}} \ne winner_{\text{certificate}}
-$$
-
-or more generally
-
-$$
-obs_{\text{runtime}} \ne obs_{\text{replay}}.
-$$
-
-This is a dangerous class because every local component can look sensible while the composed system stops being replayable.
+or more generally any swap witness that exhausts output reserve or exits the proved CPMM envelope. The older boundary guards already blocked much of this family. Shape++ keeps that boundary explicit so higher layers cannot silently assume soundness.
 
 ### 7. Deadlock after phase closure
 
@@ -712,7 +696,7 @@ Named examples include the empty-auction deadlock and no-reveal deadlock. This i
   </p>
 </div>
 
-The explorer below treats the old shape and the stronger shape as clause sets. Toggle individual clauses, select a scenario, and inspect which disaster states remain reachable, which are pruned, and which chaos probes fail closed under the active assumptions.
+The explorer below treats the old shape and Shape++ as clause sets. Toggle individual clauses, select a scenario, and inspect which disaster states remain reachable, which are pruned, and which chaos probes fail closed under the active assumptions.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Interactive: ZenoDEX shape pruning lab</p>
@@ -877,17 +861,20 @@ The new shape says something stricter:
 
 > Make invalid economic states hard to represent. Make winners canonical. Explain every residue. Carry proofs at important boundaries. Reject drift or ambiguity instead of proceeding.
 
-That difference is the difference between "nothing obviously broke" and "here is the evidence that nothing could break."
+That difference is the distance between confidence-by-silence and confidence-by-evidence.
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">The four moves of shape strengthening</p>
-  <p>Every clause in Shape++ follows one or more of the same four moves:</p>
-  <ol>
-    <li><strong>Make invalid states unrepresentable</strong> where possible (CBC validity, exact accounting).</li>
-    <li><strong>Make ambiguous states non-canonical</strong> where representation must stay broad (unique winners, anti-fragmentation).</li>
-    <li><strong>Require replayable evidence</strong> at important boundaries (proof-carrying certificates, cross-layer parity).</li>
-    <li><strong>Reject on mismatch</strong> instead of guessing (oracle divergence, non-commutativity quarantine).</li>
-  </ol>
+  <p class="fp-callout-title">Why the four moves compose</p>
+  <p>
+    Part IV introduced four moves that every Shape++ clause follows: make invalid states
+    unrepresentable, make ambiguous states non-canonical, require replayable evidence, reject
+    on mismatch. What the tutorial has shown since then is that these moves are not independent
+    design choices. They compose: a system that rejects on mismatch (move 4) at boundaries
+    where evidence is already required (move 3) gets a <em>two-layered</em> defense, because
+    the evidence gate catches structural violations before the mismatch gate is even reached.
+    That composition is what makes ten clauses feel like a cohesive target rather than a
+    checklist.
+  </p>
 </div>
 
 Shape++ is "ideal" in the engineering sense because it pushes disaster states out of the reachable region, and it does so with formulas that can be inspected, replayed, falsified, and, in the strongest cases, proved. The interactive lab above lets you see exactly how each clause contributes to that pruning.
