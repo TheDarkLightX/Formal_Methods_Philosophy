@@ -1,0 +1,136 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 360"
+  role="img"
+  aria-labelledby="fp-cft-title fp-cft-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-cft-title">Chaos engineering as perturbed state-space search</title>
+  <desc id="fp-cft-desc">
+    A nominal transition feeds into a fault-injection node where the path branches.
+    The top branch leads to a green Reject or Recover outcome under fail-closed guards.
+    The bottom branch leads to a red Disaster state when guards are absent.
+    Four example fault types are shown along the perturbation path.
+  </desc>
+
+  <defs>
+    <filter id="fp-cft-sh" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.07" />
+    </filter>
+    <marker id="fp-cft-a" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#3B82F6" fill-opacity="0.85" />
+    </marker>
+    <marker id="fp-cft-ag" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#0F766E" fill-opacity="0.85" />
+    </marker>
+    <marker id="fp-cft-ar" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#EF4444" fill-opacity="0.85" />
+    </marker>
+    <marker id="fp-cft-af" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,1 L10,5 L0,9 Z" fill="#F97316" fill-opacity="0.85" />
+    </marker>
+  </defs>
+
+  <!-- Heading -->
+  <text x="480" y="26" font-size="13" font-weight="900" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="0.08em">
+    CHAOS ENGINEERING: FAULT INJECTION AS STATE-SPACE SEARCH
+  </text>
+
+  <!-- ── Nominal transition box ────────────────── -->
+  <g filter="url(#fp-cft-sh)">
+    <rect x="40" y="110" width="180" height="64" rx="18"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.28)" />
+    <text x="130" y="138" font-size="14" font-weight="900" fill="#1E293B" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Nominal transition</text>
+    <text x="130" y="158" font-size="11" fill="#475569" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">steady-state path</text>
+  </g>
+
+  <!-- Arrow: nominal -> fault node -->
+  <line x1="220" y1="142" x2="330" y2="142"
+    stroke="#3B82F6" stroke-width="2.5" marker-end="url(#fp-cft-a)" />
+  <text x="275" y="132" font-size="10" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-style="italic">
+    &#8594;&#x2099;&#x2092;&#x2098;&#x1D62;&#x2099;&#x2090;&#x2097;
+  </text>
+
+  <!-- ── Fault-injected node ───────────────────── -->
+  <g filter="url(#fp-cft-sh)">
+    <rect x="336" y="96" width="200" height="92" rx="18"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.28)" />
+    <text x="436" y="126" font-size="14" font-weight="900" fill="#1E293B" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Fault injected</text>
+    <text x="436" y="148" font-size="10" fill="#475569" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      &#8594;fault := &#8594;nominal &#8744; &#8594;perturbation
+    </text>
+    <text x="436" y="168" font-size="10" fill="#475569" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Reach(M_fault) &#8745; D = &#8709; ?</text>
+  </g>
+
+  <!-- ── Four fault icons along perturbation label ── -->
+  <text x="436" y="210" font-size="9" font-weight="700" fill="#F97316" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="0.03em">
+    PERTURBATION EXAMPLES
+  </text>
+  <g font-size="9.5" fill="#64748B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <rect x="314" y="218" width="106" height="22" rx="8"
+      fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.20)" />
+    <text x="367" y="233">Verifier timeout</text>
+    <rect x="426" y="218" width="98" height="22" rx="8"
+      fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.20)" />
+    <text x="475" y="233">Truncated TCP</text>
+    <rect x="314" y="246" width="106" height="22" rx="8"
+      fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.20)" />
+    <text x="367" y="261">Oversized body</text>
+    <rect x="426" y="246" width="98" height="22" rx="8"
+      fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.20)" />
+    <text x="475" y="261">Price churn</text>
+  </g>
+
+  <!-- ── Top-right branch: Reject or Recover (green) ── -->
+  <path d="M536 120 C 580 120, 600 80, 640 80"
+    stroke="#0F766E" stroke-width="2.5" fill="none"
+    marker-end="url(#fp-cft-ag)" stroke-linecap="round" />
+  <text x="590" y="92" font-size="10" fill="#0F766E" font-weight="700"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">fail-closed</text>
+
+  <g filter="url(#fp-cft-sh)">
+    <rect x="654" y="50" width="260" height="64" rx="18"
+      fill="rgba(15,118,110,0.10)" stroke="rgba(15,118,110,0.30)" />
+    <text x="784" y="78" font-size="15" font-weight="900" fill="#0F766E" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Reject or Recover</text>
+    <text x="784" y="98" font-size="11" fill="#475569" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">safe outcome under guards</text>
+  </g>
+
+  <!-- ── Bottom-right branch: Disaster state (red) ── -->
+  <path d="M536 164 C 580 164, 600 200, 640 200"
+    stroke="#EF4444" stroke-width="2.5" fill="none"
+    marker-end="url(#fp-cft-ar)" stroke-linecap="round" />
+  <text x="580" y="196" font-size="10" fill="#EF4444" font-weight="700"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">no guard</text>
+
+  <g filter="url(#fp-cft-sh)">
+    <rect x="654" y="170" width="260" height="64" rx="18"
+      fill="rgba(239,68,68,0.10)" stroke="rgba(239,68,68,0.28)" />
+    <text x="784" y="198" font-size="15" font-weight="900" fill="#EF4444" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Disaster state</text>
+    <text x="784" y="218" font-size="11" fill="#475569" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">silent corruption, hang, leak</text>
+  </g>
+
+  <!-- ── Annotation bar ───────────────────────── -->
+  <rect x="120" y="296" width="720" height="44" rx="14"
+    fill="rgba(15,23,42,0.04)" stroke="rgba(15,23,42,0.10)" />
+  <text x="480" y="316" font-size="12" font-weight="900" fill="#1E293B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Goal: Fault &#8594; (Reject &#8744; Recover), NOT Fault &#8594; ProceedWithGuess
+  </text>
+  <text x="480" y="332" font-size="10" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    A good fail-closed boundary redirects fault transitions into reject or recover states, not into silent corruption.
+  </text>
+</svg>

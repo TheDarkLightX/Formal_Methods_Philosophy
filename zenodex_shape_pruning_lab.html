@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZenoDEX Shape Pruning Lab</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --paper: #efe7d8;
+    --canvas: #f7f1e6;
+    --panel: rgba(255, 250, 241, 0.92);
+    --panel-strong: rgba(255, 247, 234, 0.98);
+    --ink: #1f2528;
+    --muted: #5f655f;
+    --line: rgba(31, 37, 40, 0.14);
+    --line-strong: rgba(31, 37, 40, 0.25);
+    --teal: #0f766e;
+    --teal-soft: rgba(15, 118, 110, 0.10);
+    --teal-strong: rgba(15, 118, 110, 0.18);
+    --amber: #b45309;
+    --amber-soft: rgba(180, 83, 9, 0.10);
+    --amber-strong: rgba(180, 83, 9, 0.18);
+    --red: #b42318;
+    --red-soft: rgba(180, 35, 24, 0.10);
+    --red-strong: rgba(180, 35, 24, 0.18);
+    --slate: #394149;
+    --navy: #18242f;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 18px 36px rgba(24, 36, 47, 0.08);
+    --font-body: "Source Sans 3", Georgia, serif;
+    --font-display: "Bitter", Georgia, serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1a1e24;
+      --canvas: #14181e;
+      --panel: rgba(28, 33, 42, 0.94);
+      --panel-strong: rgba(32, 38, 48, 0.98);
+      --ink: #e2e0dc;
+      --muted: #9ca3a0;
+      --line: rgba(200, 210, 220, 0.12);
+      --line-strong: rgba(200, 210, 220, 0.22);
+      --teal: #2dd4bf;
+      --teal-soft: rgba(45, 212, 191, 0.12);
+      --teal-strong: rgba(45, 212, 191, 0.20);
+      --amber: #fbbf24;
+      --amber-soft: rgba(251, 191, 36, 0.12);
+      --amber-strong: rgba(251, 191, 36, 0.20);
+      --red: #f87171;
+      --red-soft: rgba(248, 113, 113, 0.12);
+      --red-strong: rgba(248, 113, 113, 0.20);
+      --slate: #cbd5e1;
+      --navy: #e2e8f0;
+      --shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 36%),
+      radial-gradient(circle at top right, rgba(180, 83, 9, 0.08), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 23px,
+        rgba(24, 36, 47, 0.035) 24px
+      ),
+      var(--canvas);
+    line-height: 1.45;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(45, 212, 191, 0.06), transparent 36%),
+        radial-gradient(circle at top right, rgba(251, 191, 36, 0.05), transparent 32%),
+        linear-gradient(180deg, rgba(20,24,30,0.95), rgba(20,24,30,0.80)),
+        var(--canvas);
+    }
+  }
+
+  .shell {
+    max-width: 1280px;
+    margin: 0 auto;
+  }
+
+  .hero {
+    border: 1px solid var(--line);
+    background: linear-gradient(145deg, rgba(255,251,245,0.96), rgba(247,241,230,0.95));
+    border-radius: 28px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-bottom: 18px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .hero {
+      background: linear-gradient(145deg, rgba(28,33,42,0.96), rgba(22,27,36,0.95));
+    }
+    .hero-side {
+      background: linear-gradient(180deg, rgba(10,14,20,0.94), rgba(10,14,20,0.88));
+    }
+    .formula-block {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+    }
+    .clause-formula,
+    .scenario-formula,
+    .trace-formula,
+    .probe-formula {
+      background: rgba(200,210,220,0.06);
+    }
+    .stage {
+      background: linear-gradient(180deg, rgba(28,33,42,0.92), rgba(22,27,36,0.86));
+    }
+    .stage.reject {
+      background: linear-gradient(180deg, rgba(45,212,191,0.10), rgba(22,27,36,0.94));
+    }
+    .stage.disaster {
+      background: linear-gradient(180deg, rgba(248,113,113,0.10), rgba(22,27,36,0.94));
+    }
+    .clause-card.active {
+      background: linear-gradient(180deg, rgba(45,212,191,0.08), rgba(28,33,42,0.98));
+    }
+    .trace-item.good {
+      background: linear-gradient(180deg, rgba(45,212,191,0.08), rgba(28,33,42,0.98));
+    }
+    .trace-item.warn {
+      background: linear-gradient(180deg, rgba(251,191,36,0.06), rgba(28,33,42,0.98));
+    }
+    .trace-item.bad {
+      background: linear-gradient(180deg, rgba(248,113,113,0.08), rgba(28,33,42,0.98));
+    }
+    .panel-head {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    }
+    .preset-btn.active {
+      background: var(--teal);
+      color: #0a0e14;
+    }
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.9fr;
+    gap: 0;
+  }
+
+  .hero-copy {
+    padding: 28px 28px 24px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 10px;
+  }
+
+  h1 {
+    margin: 0 0 10px;
+    font-family: var(--font-display);
+    font-size: 34px;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-copy p {
+    margin: 0;
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 58ch;
+  }
+
+  .hero-side {
+    border-left: 1px solid var(--line);
+    padding: 24px;
+    background: linear-gradient(180deg, rgba(24, 36, 47, 0.94), rgba(24, 36, 47, 0.88));
+    color: #f5efe4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .formula-block {
+    padding: 12px 14px;
+    border-radius: var(--radius-sm);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.10);
+  }
+
+  .formula-block h2,
+  .panel-title,
+  .section-title {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 17px;
+  }
+
+  .formula-block code,
+  .metric-value,
+  .clause-formula,
+  .scenario-formula,
+  .trace-formula,
+  .probe-formula,
+  .legend-code {
+    font-family: var(--font-mono);
+  }
+
+  .formula-line {
+    display: block;
+    font-size: 12px;
+    line-height: 1.65;
+    color: rgba(245, 239, 228, 0.96);
+    white-space: normal;
+  }
+
+  .preset-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0 28px 24px;
+  }
+
+  .preset-btn {
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 10px 14px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 700;
+    transition: transform 140ms ease, border-color 140ms ease, background 140ms ease;
+  }
+
+  .preset-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(15, 118, 110, 0.32);
+  }
+
+  .preset-btn.active {
+    background: var(--navy);
+    color: #fbf6ed;
+    border-color: rgba(24, 36, 47, 0.8);
+  }
+
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .metric {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: var(--radius-md);
+    padding: 14px 16px;
+    box-shadow: 0 10px 22px rgba(24, 36, 47, 0.05);
+  }
+
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .metric-value {
+    font-size: 27px;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+  }
+
+  .metric-subtext {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .metric-value {
+    transition: color 0.3s ease;
+  }
+
+  .metric-bar {
+    margin-top: 10px;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--line);
+    overflow: hidden;
+  }
+
+  .metric-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.5s cubic-bezier(0.33, 1, 0.68, 1), background 0.3s ease;
+  }
+
+  .metric-bar-fill.teal { background: var(--teal); }
+  .metric-bar-fill.amber { background: var(--amber); }
+  .metric-bar-fill.red { background: var(--red); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.06fr 1.22fr 0.98fr;
+    gap: 16px;
+    align-items: start;
+  }
+
+  .panel {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .panel-head {
+    padding: 18px 18px 12px;
+    border-bottom: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,0.44), rgba(255,255,255,0.14));
+  }
+
+  .panel-head p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .panel-body {
+    padding: 16px 18px 18px;
+  }
+
+  .clause-group + .clause-group {
+    margin-top: 16px;
+  }
+
+  .group-label {
+    margin: 0 0 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .clause-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    transition: border-color 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .clause-card + .clause-card {
+    margin-top: 10px;
+  }
+
+  .clause-card.active {
+    border-color: rgba(15, 118, 110, 0.28);
+    box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.10);
+    background: linear-gradient(180deg, rgba(15, 118, 110, 0.07), rgba(255, 250, 241, 0.98));
+  }
+
+  .clause-check {
+    margin-top: 4px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--teal);
+    cursor: pointer;
+  }
+
+  .clause-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 6px;
+  }
+
+  .clause-name {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .clause-chip {
+    border-radius: 999px;
+    padding: 2px 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    background: rgba(24, 36, 47, 0.06);
+    color: var(--slate);
+  }
+
+  .clause-chip.old {
+    background: rgba(24, 36, 47, 0.08);
+  }
+
+  .clause-chip.new {
+    background: var(--amber-soft);
+    color: var(--amber);
+  }
+
+  .clause-summary {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .clause-formula {
+    display: block;
+    padding: 8px 10px;
+    border-radius: 10px;
+    background: rgba(24, 36, 47, 0.04);
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--navy);
+    white-space: normal;
+  }
+
+  .reach-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .pipeline {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .pipeline::before {
+    content: "";
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 50%;
+    height: 3px;
+    background: linear-gradient(90deg, rgba(24,36,47,0.06), rgba(24,36,47,0.16), rgba(24,36,47,0.06));
+    transform: translateY(-50%);
+    z-index: 0;
+    border-radius: 2px;
+  }
+
+  .pipeline-arrow {
+    display: none;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 8px solid var(--teal);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    z-index: 2;
+    transition: border-left-color 0.3s ease;
+  }
+
+  .pipeline-arrow.disaster-arrow {
+    border-left-color: var(--red);
+  }
+
+  .stage {
+    position: relative;
+    z-index: 1;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(247,241,230,0.86));
+    border-radius: 18px;
+    padding: 14px 12px;
+    min-height: 112px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  }
+
+  .stage.active {
+    border-color: rgba(15, 118, 110, 0.30);
+    box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.08);
+    transform: translateY(-2px);
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.08); }
+    50% { box-shadow: 0 0 0 6px rgba(15, 118, 110, 0.14); }
+  }
+
+  .stage.active.reject {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .stage.active.disaster {
+    animation: pulse-danger 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-danger {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(180, 35, 24, 0.10); }
+    50% { box-shadow: 0 0 0 6px rgba(180, 35, 24, 0.18); }
+  }
+
+  .stage.reject {
+    background: linear-gradient(180deg, rgba(15,118,110,0.10), rgba(247,241,230,0.94));
+  }
+
+  .stage.disaster {
+    background: linear-gradient(180deg, rgba(180,35,24,0.10), rgba(255,250,241,0.94));
+    border-color: rgba(180,35,24,0.24);
+  }
+
+  .stage-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .stage-title {
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 1.1;
+  }
+
+  .stage-copy {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .branch-grid {
+    display: grid;
+    grid-template-columns: 1.25fr 0.8fr;
+    gap: 12px;
+  }
+
+  .scenario-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .scenario-card {
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    border-radius: 16px;
+    padding: 12px 13px;
+    cursor: pointer;
+    transition: transform 180ms ease, border-color 250ms ease, box-shadow 250ms ease, background 250ms ease;
+  }
+
+  .scenario-card:hover {
+    transform: translateY(-1px);
+    border-color: rgba(24, 36, 47, 0.28);
+  }
+
+  .scenario-card.selected {
+    border-color: rgba(24, 36, 47, 0.45);
+    box-shadow: inset 0 0 0 1px rgba(24, 36, 47, 0.12);
+  }
+
+  .scenario-top {
+    display: flex;
+    gap: 10px;
+    align-items: start;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .scenario-name {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .scenario-note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .status-pill {
+    border-radius: 999px;
+    padding: 4px 8px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  .status-pill.blocked {
+    background: var(--teal-soft);
+    color: var(--teal);
+  }
+
+  .status-pill.fragile {
+    background: var(--amber-soft);
+    color: var(--amber);
+  }
+
+  .status-pill.reachable {
+    background: var(--red-soft);
+    color: var(--red);
+  }
+
+  .scenario-formula {
+    display: block;
+    margin-top: 8px;
+    padding: 8px 9px;
+    border-radius: 10px;
+    background: rgba(24, 36, 47, 0.04);
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--navy);
+  }
+
+  .reasoning-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .trace-list,
+  .facts-list,
+  .probe-list {
+    display: grid;
+    gap: 10px;
+  }
+
+  .trace-item,
+  .fact-card,
+  .probe-card {
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    border-radius: 15px;
+    padding: 12px;
+  }
+
+  .trace-item.good {
+    border-color: rgba(15, 118, 110, 0.25);
+    background: linear-gradient(180deg, rgba(15,118,110,0.06), rgba(255,250,241,0.98));
+  }
+
+  .trace-item.warn {
+    border-color: rgba(180, 83, 9, 0.25);
+    background: linear-gradient(180deg, rgba(180,83,9,0.05), rgba(255,250,241,0.98));
+  }
+
+  .trace-item.bad {
+    border-color: rgba(180, 35, 24, 0.24);
+    background: linear-gradient(180deg, rgba(180,35,24,0.06), rgba(255,250,241,0.98));
+  }
+
+  .trace-label,
+  .fact-label,
+  .probe-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .trace-title,
+  .fact-title,
+  .probe-title {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .trace-copy,
+  .fact-copy,
+  .probe-copy {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .trace-formula,
+  .probe-formula {
+    display: block;
+    margin-top: 8px;
+    padding: 8px 9px;
+    border-radius: 10px;
+    background: rgba(24, 36, 47, 0.04);
+    font-size: 11px;
+    line-height: 1.55;
+    color: var(--navy);
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .legend-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 999px;
+  }
+
+  .legend-dot.blocked { background: var(--teal); }
+  .legend-dot.fragile { background: var(--amber); }
+  .legend-dot.reachable { background: var(--red); }
+
+  .venn-strip {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px 20px;
+    margin-bottom: 14px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+  }
+
+  .footnote {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 1100px) {
+    .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid { grid-template-columns: 1fr; }
+    .reasoning-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 760px) {
+    body { padding: 14px; }
+    .hero-grid { grid-template-columns: 1fr; }
+    .hero-side { border-left: 0; border-top: 1px solid rgba(255,255,255,0.12); }
+    .metrics { grid-template-columns: 1fr; }
+    .pipeline { grid-template-columns: 1fr 1fr; }
+    .branch-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <section class="hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="eyebrow">Shape transition, reachability, and fail-closed reasoning</div>
+        <h1>ZenoDEX Shape Pruning Lab</h1>
+        <p>
+          This lab treats the old ZenoDEX shape and the strengthened <code>Shape++</code> target as clause sets.
+          Toggle the clauses, select a scenario, and inspect which disaster states remain reachable, which are pruned,
+          and which boundary faults fail closed under the active shape.
+        </p>
+      </div>
+      <aside class="hero-side">
+        <div class="formula-block">
+          <h2>Old shape</h2>
+          <span class="formula-line">OldShape := BoundaryValidity ∧ TemporalAdmissibility ∧ CanonicalWinnerSelection ∧ ReserveMonotonicity ∧ SettlementCompositionality ∧ DeterministicRouting ∧ StablecoinSolvency</span>
+        </div>
+        <div class="formula-block">
+          <h2>Shape++ target</h2>
+          <span class="formula-line">Shape++ := CBCValidity ∧ UniqueCanonicalWinnerEverywhere ∧ ExactFeeAwareAccounting ∧ ValueAwareSettlementSafety ∧ ProofCarryingOptimizerCertificates ∧ AntiFragmentationByTheorem ∧ NonCommutativityQuarantine ∧ OracleDivergenceSafety ∧ LiquidationSpiralContainment ∧ CrossLayerReplayParity</span>
+        </div>
+      </aside>
+    </div>
+    <div class="preset-row" id="presetRow"></div>
+  </section>
+
+  <section class="venn-strip" id="vennStrip">
+    <svg id="vennSvg" viewBox="0 0 440 140" role="img" aria-label="State-space coverage indicator" style="width: 100%; max-width: 440px; height: auto;">
+      <defs>
+        <clipPath id="venn-clip-q"><ellipse cx="220" cy="70" rx="200" ry="60" /></clipPath>
+      </defs>
+      <!-- Q: full state space -->
+      <ellipse cx="220" cy="70" rx="200" ry="60" fill="rgba(148,163,184,0.08)" stroke="rgba(148,163,184,0.30)" stroke-width="1.5" />
+      <text x="420" y="24" font-size="11" fill="var(--muted)" font-family="var(--font-mono)" text-anchor="end">Q (full state space)</text>
+      <!-- Disaster set D -->
+      <ellipse id="vennD" cx="340" cy="70" rx="70" ry="42" fill="rgba(180,35,24,0.10)" stroke="rgba(180,35,24,0.25)" stroke-width="1.5" />
+      <text id="vennDLabel" x="355" y="74" font-size="10" fill="var(--red)" font-family="var(--font-mono)" text-anchor="middle">D</text>
+      <!-- Reach(M) -->
+      <ellipse id="vennReach" cx="200" cy="70" rx="140" ry="48" fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.30)" stroke-width="2" style="transition: rx 0.6s cubic-bezier(0.33,1,0.68,1), cx 0.6s cubic-bezier(0.33,1,0.68,1)" />
+      <text id="vennReachLabel" x="160" y="74" font-size="11" font-weight="700" fill="var(--navy)" font-family="var(--font-mono)" text-anchor="middle" style="transition: x 0.6s ease">Reach(M)</text>
+      <!-- Overlap indicator -->
+      <text id="vennVerdict" x="220" y="132" font-size="11" font-weight="600" fill="var(--teal)" font-family="var(--font-mono)" text-anchor="middle"></text>
+    </svg>
+  </section>
+
+  <section class="metrics" id="metrics"></section>
+
+  <section class="grid">
+    <div class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title">Clause board</h2>
+        <p>The baseline clauses already block several bad worlds. The strengthening clauses push more invalid, ambiguous, or drift-prone worlds out of reach.</p>
+      </div>
+      <div class="panel-body" id="clauseBoard"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title">State-space board</h2>
+        <p>The selected scenario branches at one pipeline stage. Under a stronger shape it is redirected into reject or recover, not disaster.</p>
+      </div>
+      <div class="panel-body">
+        <div class="reach-wrap">
+          <div class="pipeline" id="pipeline"></div>
+          <div class="legend">
+            <div class="legend-item"><span class="legend-dot blocked"></span><span>blocked, the active shape removes this bad branch</span></div>
+            <div class="legend-item"><span class="legend-dot fragile"></span><span>fragile, some guards exist but the proof boundary is still incomplete</span></div>
+            <div class="legend-item"><span class="legend-dot reachable"></span><span>reachable, the bad state is still admissible under the active shape</span></div>
+          </div>
+          <div class="reasoning-grid">
+            <div>
+              <h3 class="section-title">Reasoning trace</h3>
+              <div class="trace-list" id="traceList"></div>
+            </div>
+            <div>
+              <h3 class="section-title">Scenario facts</h3>
+              <div class="facts-list" id="factList"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2 class="panel-title">Scenarios and chaos probes</h2>
+        <p>Some scenarios are already blocked by the baseline. Others only disappear once the new clauses become active and the runtime fails closed on mismatch.</p>
+      </div>
+      <div class="panel-body">
+        <div class="scenario-list" id="scenarioList"></div>
+        <h3 class="section-title" style="margin-top: 18px;">Chaos probes</h3>
+        <div class="probe-list" id="probeList"></div>
+        <p class="footnote">
+          Reading rule: a green probe does not mean "proved forever." It means the currently active shape has the clauses needed for the intended fail-closed posture under that perturbation.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+const PRESETS = [
+  { id: "baseline", label: "Baseline old shape", desc: "The earlier guarded, replayable, partially proved posture.", clauses: ["BoundaryValidity", "TemporalAdmissibility", "CanonicalWinnerSelection", "ReserveMonotonicity", "SettlementCompositionality", "DeterministicRouting", "StablecoinSolvency"] },
+  { id: "ideal", label: "Shape++ target", desc: "Baseline plus the strengthening clauses that prune more disaster states.", clauses: ["BoundaryValidity", "TemporalAdmissibility", "CanonicalWinnerSelection", "ReserveMonotonicity", "SettlementCompositionality", "DeterministicRouting", "StablecoinSolvency", "CBCValidity", "UniqueCanonicalWinnerEverywhere", "ExactFeeAwareAccounting", "ValueAwareSettlementSafety", "ProofCarryingOptimizerCertificates", "AntiFragmentationByTheorem", "NonCommutativityQuarantine", "OracleDivergenceSafety", "LiquidationSpiralContainment", "CrossLayerReplayParity"] },
+  { id: "minimal", label: "Minimal shell", desc: "Almost no structure, useful for seeing how fast bad worlds appear.", clauses: ["BoundaryValidity"] }
+];
+
+const CLAUSE_GROUPS = [
+  {
+    label: "Baseline clauses",
+    clauses: [
+      {
+        id: "BoundaryValidity",
+        era: "old",
+        name: "BoundaryValidity",
+        summary: "Strong guards reject malformed or reserve-breaking transitions before they become history.",
+        formula: "ReserveInvariantGuard := ParamsOK ∧ ReservesOK ∧ SafeOK ∧ DriftOK ∧ (K_after ≥ K_before)"
+      },
+      {
+        id: "TemporalAdmissibility",
+        era: "old",
+        name: "TemporalAdmissibility",
+        summary: "State evolution is ordered. Replayed or gapped requests do not advance the machine.",
+        formula: "Accept := (n = lastUsedNonce + 1) ∧ accepted' = TRUE; NonceNeverDecreases := lastUsedNonce ≥ prevLastUsedNonce"
+      },
+      {
+        id: "CanonicalWinnerSelection",
+        era: "old",
+        name: "CanonicalWinnerSelection",
+        summary: "Important candidate sets already have a deterministic winner relation under an explicit key.",
+        formula: "∃! k ∈ S. ∀ x ∈ S, key(k) ≤ key(x)"
+      },
+      {
+        id: "ReserveMonotonicity",
+        era: "old",
+        name: "ReserveMonotonicity",
+        summary: "Valid swaps do not decrease the reserve product.",
+        formula: "K_after ≥ K_before"
+      },
+      {
+        id: "SettlementCompositionality",
+        era: "old",
+        name: "SettlementCompositionality",
+        summary: "Settlement algebra composes lawfully under append and combination.",
+        formula: "Δ(s₁ ∘ₛ s₂) = Δ(s₁) + Δ(s₂)"
+      },
+      {
+        id: "DeterministicRouting",
+        era: "old",
+        name: "DeterministicRouting",
+        summary: "The runtime tie-breaks and dispatcher logic are repeatable on the same inputs.",
+        formula: "same_inputs → same_runtime_output"
+      },
+      {
+        id: "StablecoinSolvency",
+        era: "old",
+        name: "StablecoinSolvency",
+        summary: "MCR, TCR, freshness, and recovery-mode gates already constrain zUSD risk.",
+        formula: "RiskyOpsAllowed := oracle_seen ∧ price_pending = price ∧ OracleFresh ∧ ¬RecoveryMode"
+      }
+    ]
+  },
+  {
+    label: "Strengthening clauses",
+    clauses: [
+      {
+        id: "CBCValidity",
+        era: "new",
+        name: "CBCValidity",
+        summary: "Invalid fills become hard to represent because a filled outcome carries a proof that the user constraint was met.",
+        formula: "ValidOutcome(i) ::= unfilled | filled(output, pf : output ≥ min_out(i))"
+      },
+      {
+        id: "UniqueCanonicalWinnerEverywhere",
+        era: "new",
+        name: "UniqueCanonicalWinnerEverywhere",
+        summary: "Every relevant candidate domain should have one semantically canonical representative, not merely one implementation result.",
+        formula: "∀ C ≠ ∅. ∃! w ∈ C. ∀ c ∈ C, Key(w) ≤ Key(c)"
+      },
+      {
+        id: "ExactFeeAwareAccounting",
+        era: "new",
+        name: "ExactFeeAwareAccounting",
+        summary: "Fee retention and residue are explained exactly, not only by a monotone lower bound.",
+        formula: "K(batch_fee(s, amounts, fees)) = K(s) + Σᵢ FeeAwareGap(sᵢ, aᵢ, fᵢ)"
+      },
+      {
+        id: "ValueAwareSettlementSafety",
+        era: "new",
+        name: "ValueAwareSettlementSafety",
+        summary: "Settlement acceptance depends on declared value interpretation, price rails, and packetized evidence, not only token counts.",
+        formula: "packet_ok ↔ strong_certificate_ok ∧ feature_extension_ok ∧ module_bundle_ok ∧ full_price_rails_ok ∧ value_lane_ok"
+      },
+      {
+        id: "ProofCarryingOptimizerCertificates",
+        era: "new",
+        name: "ProofCarryingOptimizerCertificates",
+        summary: "A winner should arrive with replayable evidence that binds the runtime answer to the declared candidate domain.",
+        formula: "ExecutableWinner(c) → ProofOK(c) ∧ BindingOK(c)"
+      },
+      {
+        id: "AntiFragmentationByTheorem",
+        era: "new",
+        name: "AntiFragmentationByTheorem",
+        summary: "Same-pool same-direction fragmentation is dominated by the merged execution.",
+        formula: "SamePoolSameDirection(F₁,…,Fₙ) → Out(single(Σᵢ Fᵢ)) ≥ OutSeq(F₁,…,Fₙ)"
+      },
+      {
+        id: "NonCommutativityQuarantine",
+        era: "new",
+        name: "NonCommutativityQuarantine",
+        summary: "Ordering-sensitive opposite-direction flows are explicitly treated as non-commuting.",
+        formula: "OppositeDirection(s₁, s₂) → ¬AssumeCommutes(s₁, s₂)"
+      },
+      {
+        id: "OracleDivergenceSafety",
+        era: "new",
+        name: "OracleDivergenceSafety",
+        summary: "Pending and committed oracle disagreement is not just a warning. It is an inadmissible risky-op world.",
+        formula: "RiskyOpsAllowed := oracle_seen ∧ price > 0 ∧ price_pending > 0 ∧ price_pending = price ∧ OracleFresh ∧ ¬RecoveryMode"
+      },
+      {
+        id: "LiquidationSpiralContainment",
+        era: "new",
+        name: "LiquidationSpiralContainment",
+        summary: "A broader target clause, narrowed today to explicit liquidation posture under pending-price stress.",
+        formula: "LiquidationAllowed := oracle_seen ∧ price_pending > 0 ∧ debt > 0 ∧ ¬MCR_OK(collateral, debt, price_pending, mcr) ∧ debt ≤ sp_debt"
+      },
+      {
+        id: "CrossLayerReplayParity",
+        era: "new",
+        name: "CrossLayerReplayParity",
+        summary: "Runtime, certificate, and proof-backed reconstructions should agree on one observable winner or rejection reason.",
+        formula: "obs_runtime = obs_certificate = obs_proof, otherwise reject"
+      }
+    ]
+  }
+];
+
+const SCENARIOS = [
+  {
+    id: "replay",
+    stage: "guard",
+    title: "Replay a once-valid request",
+    note: "A previously accepted request is submitted again with a stale nonce.",
+    formula: "accepted ∧ requestedNonce ≤ lastUsedNonce",
+    facts: [
+      "requestedNonce = 41",
+      "lastUsedNonce = 41",
+      "the payload itself still passes local arithmetic checks"
+    ],
+    requires: ["TemporalAdmissibility"],
+    baseReason: "The monotone nonce law rejects stale or gapped requests before they can become history.",
+    failureReason: "Without temporal admissibility, a replayed request can look locally valid and still execute twice."
+  },
+  {
+    id: "reserve-drain",
+    stage: "guard",
+    title: "Full reserve drain witness",
+    note: "A swap witness tries to empty the output reserve or escape the safe CPMM envelope.",
+    formula: "amount_out = reserve_out",
+    facts: [
+      "amount_out requests the entire output side",
+      "the transition would move the pool outside its safe arithmetic envelope"
+    ],
+    requires: ["BoundaryValidity", "ReserveMonotonicity"],
+    baseReason: "The reserve guard and K-monotone boundary reject drains before routing or settlement can inherit them.",
+    failureReason: "If that barrier weakens, impossible quotes can rise into higher layers and become replayable bad witnesses."
+  },
+  {
+    id: "invalid-fill",
+    stage: "candidate",
+    title: "Filled below min_out",
+    note: "A filled outcome carries output below the user's minimum.",
+    formula: "filled ∧ output < min_out",
+    facts: [
+      "output = 93",
+      "min_out = 100",
+      "the batch objective still wants to score the result"
+    ],
+    requires: ["CBCValidity"],
+    baseReason: "The stronger shape makes invalid fills ill-formed as filled outcomes. They do not enter the winner relation.",
+    failureReason: "Without CBC validity, the system can score an arithmetic artifact that should not count as a valid fill."
+  },
+  {
+    id: "ambiguous-winner",
+    stage: "winner",
+    title: "Equal-score ambiguous winner",
+    note: "Two candidates tie on the objective and both remain semantically plausible winners.",
+    formula: "∃ a ≠ b. feasible(a) ∧ feasible(b) ∧ score(a) = score(b) ∧ winner(a) ∧ winner(b)",
+    facts: [
+      "candidate A and candidate B tie on the main score",
+      "the runtime list order happens to pick one today"
+    ],
+    requires: ["UniqueCanonicalWinnerEverywhere"],
+    baseReason: "A total canonical key removes semantic ambiguity instead of hiding it behind implementation order.",
+    failureReason: "Determinism alone can still leave the meaning of the winner under-specified."
+  },
+  {
+    id: "partial-exact-out",
+    stage: "certificate",
+    title: "Partial exact-out accepted as complete",
+    note: "A returned exact-out route delivers less than the requested amount but is still surfaced as a winner.",
+    formula: "winner(A) ∧ Σ_{ℓ∈Legs(A)} out(ℓ) < Q",
+    facts: [
+      "requested exact out Q is fixed",
+      "the emitted route is cheaper only because it under-delivers"
+    ],
+    requires: ["ProofCarryingOptimizerCertificates", "UniqueCanonicalWinnerEverywhere"],
+    baseReason: "The certificate lane binds winnerhood to the declared exact-out domain and to full-allocation meaning.",
+    failureReason: "Without that proof boundary, a runtime can accidentally compare partial solutions as if they were complete."
+  },
+  {
+    id: "fee-leak",
+    stage: "settlement",
+    title: "Fee dust disappears",
+    note: "The system claims exact conservation while floor residue silently vanishes.",
+    formula: "exact_conservation_claimed ∧ discarded_dust > 0",
+    facts: [
+      "small fees are split across several destinations",
+      "each leg floors independently",
+      "no carry state exists to explain the residue"
+    ],
+    requires: ["ExactFeeAwareAccounting"],
+    baseReason: "Exact fee-aware accounting gives every remainder a place in the model and in the audit trail.",
+    failureReason: "K-monotonicity alone does not explain where the missing dust went."
+  },
+  {
+    id: "fragmentation",
+    stage: "candidate",
+    title: "Fragmented same-pool route dominates the search budget",
+    note: "The router keeps split candidates that are theorem-dominated by a merged execution.",
+    formula: "SamePoolSameDirection(F₁,…,Fₙ) ∧ kept(fragmented_route) ∧ dominated(fragmented_route)",
+    facts: [
+      "all legs hit the same pool in the same direction",
+      "the split route only survives because no theorem prunes it"
+    ],
+    requires: ["AntiFragmentationByTheorem"],
+    baseReason: "The anti-fragmentation theorem lawfully removes dominated routes from the search space.",
+    failureReason: "Without the theorem, the router wastes budget on candidates that should have been excluded by shape."
+  },
+  {
+    id: "noncommute",
+    stage: "settlement",
+    title: "Opposite-direction flows treated as commuting",
+    note: "A rewrite assumes ordering does not matter even though the legs are directionally opposed.",
+    formula: "OppositeDirection(s₁, s₂) ∧ AssumeCommutes(s₁, s₂)",
+    facts: [
+      "the settlements touch the same liquidity in opposite directions",
+      "the rewrite drops ordering sensitivity to simplify reasoning"
+    ],
+    requires: ["NonCommutativityQuarantine"],
+    baseReason: "The stronger shape treats this as a forbidden rewrite, not as a simplification opportunity.",
+    failureReason: "Assuming commutativity here can create unsound canonicalization and unsound optimizer pruning."
+  },
+  {
+    id: "oracle-mismatch",
+    stage: "guard",
+    title: "Risky op during oracle mismatch",
+    note: "A mint, redemption, or similar risky path is attempted while pending and committed prices disagree.",
+    formula: "risky ∧ (price_pending ≠ price)",
+    facts: [
+      "oracle_seen = true",
+      "price_pending and price are both positive",
+      "the two prices disagree at the decision boundary"
+    ],
+    requires: ["OracleDivergenceSafety", "StablecoinSolvency"],
+    baseReason: "Risky ops are blocked until the price view is aligned and fresh.",
+    failureReason: "If oracle divergence is treated as a soft warning, timing accidents can replace explicit safety barriers."
+  },
+  {
+    id: "value-blind",
+    stage: "settlement",
+    title: "Value-blind settlement acceptance",
+    note: "Token arithmetic passes, but the value interpretation, price rails, or LP liability packet is missing or inconsistent.",
+    formula: "token_conservation ∧ ¬value_lane_ok",
+    facts: [
+      "the delta table is structurally well-formed",
+      "the packet does not satisfy the declared value-evidence lane"
+    ],
+    requires: ["ValueAwareSettlementSafety", "CrossLayerReplayParity"],
+    baseReason: "The settlement packet only passes when the value lane and replay lane agree on the same interpretation.",
+    failureReason: "Token counts alone can hide a value-semantic mismatch between runtime and replay."
+  },
+  {
+    id: "liquidation",
+    stage: "guard",
+    title: "Unbounded liquidation posture under stress",
+    note: "A stressed vault moves into liquidation-sensitive territory without an explicit next-step containment rule.",
+    formula: "¬MCR_OK(collateral, debt, price_pending, mcr) ∧ uncontrolled_transition",
+    facts: [
+      "price_pending has already crossed the MCR boundary",
+      "the debt is live and system stress is present"
+    ],
+    requires: ["LiquidationSpiralContainment", "StablecoinSolvency"],
+    baseReason: "The stronger target narrows the admissible next steps under liquidation stress instead of relying on informal expectations.",
+    failureReason: "Solvency checks alone do not fully specify the next-step posture once the system is already under stress."
+  },
+  {
+    id: "deadlock",
+    stage: "finalize",
+    title: "Phase closes into deadlock",
+    note: "A bounded protocol phase ends with no enabled actions and no safe terminal completion.",
+    formula: "phase_closed ∧ ¬Complete ∧ Enabled = ∅",
+    facts: [
+      "the commit or reveal window is already closed",
+      "the current state is not marked Complete"
+    ],
+    requires: ["CrossLayerReplayParity", "ProofCarryingOptimizerCertificates"],
+    baseReason: "Replayable terminal handling and explicit completion actions reduce the risk of phase-closed deadlocks surviving unnoticed.",
+    failureReason: "Without explicit replayable terminal semantics, a protocol can satisfy local checks and still strand itself."
+  }
+];
+
+const PROBES = [
+  {
+    id: "proof-timeout",
+    title: "Verifier timeout",
+    formula: "timeout(verifier) → reject",
+    requires: ["ProofCarryingOptimizerCertificates"],
+    description: "The runtime should refuse to accept a winner if the certificate boundary cannot be checked in time."
+  },
+  {
+    id: "truncated-tcp",
+    title: "Truncated TCP reply",
+    formula: "partial_packet → reject",
+    requires: ["CrossLayerReplayParity", "ProofCarryingOptimizerCertificates"],
+    description: "A quote or packet surface must not accept a partially parsed transport payload as a valid replay object."
+  },
+  {
+    id: "oversized-body",
+    title: "Oversized request body",
+    formula: "oversized_body → reject",
+    requires: ["BoundaryValidity"],
+    description: "Bounded parsing at the shell should convert malformed or oversized requests into deterministic rejection."
+  },
+  {
+    id: "rapid-pending-price",
+    title: "Rapid pending-price churn",
+    formula: "price_pending ≠ price → risky_ops_blocked",
+    requires: ["OracleDivergenceSafety"],
+    description: "A fast-changing pending oracle should not let risky transitions slip through while the committed price view lags."
+  },
+  {
+    id: "malformed-certificate",
+    title: "Malformed optimizer certificate",
+    formula: "¬ProofOK(cert) → reject_winner",
+    requires: ["ProofCarryingOptimizerCertificates", "CrossLayerReplayParity"],
+    description: "A corrupted or incomplete certificate should prevent the winner from being accepted, even if the underlying route is valid."
+  },
+  {
+    id: "opposite-direction-rewrite",
+    title: "Opposite-direction batch rewrite",
+    formula: "OppositeDirection ∧ rewrite_applied → quarantine",
+    requires: ["NonCommutativityQuarantine", "SettlementCompositionality"],
+    description: "An optimizer rewrite that assumes ordering does not matter for opposing flows should be blocked by the commutativity quarantine."
+  }
+];
+
+const PIPELINE_STAGES = [
+  { id: "request", title: "Request", copy: "A user intent or protocol event enters the system." },
+  { id: "guard", title: "Guard", copy: "Boundary and temporal admissibility decide whether the step may proceed." },
+  { id: "candidate", title: "Candidate set", copy: "Valid candidates, fills, or route fragments are represented." },
+  { id: "winner", title: "Winner relation", copy: "Canonicalization selects one representative from the admissible domain." },
+  { id: "certificate", title: "Certificate lane", copy: "The runtime answer is bound to a replayable witness or rejected." },
+  { id: "settlement", title: "Settlement", copy: "Accounting, valuation, and compositional laws check the chosen transition." },
+  { id: "finalize", title: "Finalize", copy: "The flow ends in complete, reject, or recover, not in silent drift." },
+  { id: "reject", title: "Reject or recover", copy: "The active shape reroutes the bad branch into a fail-closed outcome.", kind: "reject" },
+  { id: "disaster", title: "Disaster state", copy: "The branch remains reachable under the active clause set.", kind: "disaster" }
+];
+
+const clauseMap = new Map();
+CLAUSE_GROUPS.forEach(group => group.clauses.forEach(clause => clauseMap.set(clause.id, clause)));
+
+const state = {
+  activePreset: "baseline",
+  activeClauses: new Set(PRESETS[0].clauses),
+  selectedScenario: SCENARIOS[0].id
+};
+
+function scenarioCoverage(scenario) {
+  const have = scenario.requires.filter(id => state.activeClauses.has(id));
+  const ratio = have.length / scenario.requires.length;
+  if (ratio === 1) return { status: "blocked", have, missing: [] };
+  if (ratio > 0) return { status: "fragile", have, missing: scenario.requires.filter(id => !state.activeClauses.has(id)) };
+  return { status: "reachable", have: [], missing: [...scenario.requires] };
+}
+
+function probeCoverage(probe) {
+  const have = probe.requires.filter(id => state.activeClauses.has(id));
+  return {
+    status: have.length === probe.requires.length ? "blocked" : "reachable",
+    missing: probe.requires.filter(id => !state.activeClauses.has(id))
+  };
+}
+
+function setPreset(id) {
+  const preset = PRESETS.find(item => item.id === id);
+  if (!preset) return;
+  state.activePreset = id;
+  state.activeClauses = new Set(preset.clauses);
+  renderAll();
+}
+
+function toggleClause(id) {
+  if (state.activeClauses.has(id)) state.activeClauses.delete(id);
+  else state.activeClauses.add(id);
+  state.activePreset = "custom";
+  renderAll();
+}
+
+function selectScenario(id) {
+  state.selectedScenario = id;
+  renderAll();
+}
+
+function renderPresetRow() {
+  const row = document.getElementById("presetRow");
+  row.innerHTML = PRESETS.map(preset => {
+    const active = state.activePreset === preset.id ? "active" : "";
+    return `<button class="preset-btn ${active}" type="button" data-preset="${preset.id}">
+      ${preset.label}
+    </button>`;
+  }).join("") + `<button class="preset-btn ${state.activePreset === "custom" ? "active" : ""}" type="button" data-preset="custom">
+    Custom clause mix
+  </button>`;
+
+  row.querySelectorAll("[data-preset]").forEach(btn => {
+    const id = btn.getAttribute("data-preset");
+    if (id === "custom") return;
+    btn.addEventListener("click", () => setPreset(id));
+  });
+}
+
+function renderMetrics() {
+  const blocked = SCENARIOS.filter(s => scenarioCoverage(s).status === "blocked").length;
+  const fragile = SCENARIOS.filter(s => scenarioCoverage(s).status === "fragile").length;
+  const reachable = SCENARIOS.length - blocked - fragile;
+  const probePass = PROBES.filter(p => probeCoverage(p).status === "blocked").length;
+
+  const clausePct = Math.round(100 * state.activeClauses.size / clauseMap.size);
+  const blockedPct = Math.round(100 * blocked / SCENARIOS.length);
+  const probePct = Math.round(100 * probePass / PROBES.length);
+
+  document.getElementById("metrics").innerHTML = `
+    <article class="metric">
+      <div class="metric-label">Active clauses</div>
+      <div class="metric-value">${state.activeClauses.size} / ${clauseMap.size}</div>
+      <div class="metric-bar"><div class="metric-bar-fill teal" style="width: ${clausePct}%"></div></div>
+      <div class="metric-subtext">Shape clauses currently modeled in the lab.</div>
+    </article>
+    <article class="metric">
+      <div class="metric-label">Blocked disasters</div>
+      <div class="metric-value">${blocked} / ${SCENARIOS.length}</div>
+      <div class="metric-bar"><div class="metric-bar-fill teal" style="width: ${blockedPct}%"></div></div>
+      <div class="metric-subtext">Bad worlds pruned by the active shape.</div>
+    </article>
+    <article class="metric">
+      <div class="metric-label">Fragile scenarios</div>
+      <div class="metric-value">${fragile}</div>
+      <div class="metric-bar"><div class="metric-bar-fill amber" style="width: ${SCENARIOS.length ? Math.round(100 * fragile / SCENARIOS.length) : 0}%"></div></div>
+      <div class="metric-subtext">Some relevant clauses exist, but the full blocking set is not active.</div>
+    </article>
+    <article class="metric">
+      <div class="metric-label">Chaos fail-closed</div>
+      <div class="metric-value">${probePass} / ${PROBES.length}</div>
+      <div class="metric-bar"><div class="metric-bar-fill teal" style="width: ${probePct}%"></div></div>
+      <div class="metric-subtext">Boundary perturbations with clauses needed for deterministic rejection.</div>
+    </article>
+  `;
+}
+
+function renderClauseBoard() {
+  const root = document.getElementById("clauseBoard");
+  root.innerHTML = CLAUSE_GROUPS.map(group => `
+    <section class="clause-group">
+      <div class="group-label">${group.label}</div>
+      ${group.clauses.map(clause => `
+        <label class="clause-card ${state.activeClauses.has(clause.id) ? "active" : ""}">
+          <input class="clause-check" type="checkbox" ${state.activeClauses.has(clause.id) ? "checked" : ""} data-clause="${clause.id}" />
+          <div>
+            <div class="clause-title-row">
+              <h3 class="clause-name">${clause.name}</h3>
+              <span class="clause-chip ${clause.era}">${clause.era === "old" ? "baseline" : "strengthening"}</span>
+            </div>
+            <p class="clause-summary">${clause.summary}</p>
+            <span class="clause-formula">${clause.formula}</span>
+          </div>
+        </label>
+      `).join("")}
+    </section>
+  `).join("");
+
+  root.querySelectorAll("[data-clause]").forEach(box => {
+    box.addEventListener("change", event => toggleClause(event.target.getAttribute("data-clause")));
+  });
+}
+
+function renderScenarioList() {
+  const root = document.getElementById("scenarioList");
+  root.innerHTML = SCENARIOS.map(scenario => {
+    const coverage = scenarioCoverage(scenario);
+    const selected = state.selectedScenario === scenario.id ? "selected" : "";
+    const label = coverage.status === "blocked" ? "blocked" : (coverage.status === "fragile" ? "fragile" : "reachable");
+    return `
+      <button class="scenario-card ${selected}" type="button" data-scenario="${scenario.id}">
+        <div class="scenario-top">
+          <div>
+            <h3 class="scenario-name">${scenario.title}</h3>
+            <p class="scenario-note">${scenario.note}</p>
+          </div>
+          <span class="status-pill ${coverage.status}">${label}</span>
+        </div>
+        <span class="scenario-formula">${scenario.formula}</span>
+      </button>
+    `;
+  }).join("");
+
+  root.querySelectorAll("[data-scenario]").forEach(btn => {
+    btn.addEventListener("click", () => selectScenario(btn.getAttribute("data-scenario")));
+  });
+}
+
+function renderProbeList() {
+  const root = document.getElementById("probeList");
+  root.innerHTML = PROBES.map(probe => {
+    const result = probeCoverage(probe);
+    const stateText = result.status === "blocked" ? "fails closed" : "hazard";
+    const missingText = result.missing.length
+      ? `Missing: ${result.missing.join(", ")}`
+      : "Active clauses are sufficient for the intended fail-closed posture.";
+    return `
+      <article class="probe-card">
+        <div class="probe-label">${stateText}</div>
+        <h3 class="probe-title">${probe.title}</h3>
+        <p class="probe-copy">${probe.description}</p>
+        <span class="probe-formula">${probe.formula}</span>
+        <p class="probe-copy" style="margin-top: 8px;">${missingText}</p>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderPipeline() {
+  const scenario = SCENARIOS.find(item => item.id === state.selectedScenario);
+  const coverage = scenarioCoverage(scenario);
+  const root = document.getElementById("pipeline");
+  const activeStage = scenario.stage;
+
+  const normalStages = PIPELINE_STAGES.filter(stage => !["reject", "disaster"].includes(stage.id));
+  const branchStage = coverage.status === "blocked" ? PIPELINE_STAGES.find(stage => stage.id === "reject") : PIPELINE_STAGES.find(stage => stage.id === "disaster");
+
+  const visible = normalStages.slice(0, 4).concat(normalStages.slice(4, 7), branchStage);
+  root.innerHTML = visible.map(stage => {
+    const extraClass = stage.kind || "";
+    const active = stage.id === activeStage || stage.id === branchStage.id ? "active" : "";
+    const copy = stage.id === branchStage.id
+      ? (coverage.status === "blocked"
+        ? "The selected bad branch is rerouted into reject or recover under the active clauses."
+        : "The selected bad branch remains admissible and can still enter history.")
+      : stage.copy;
+    return `
+      <article class="stage ${extraClass} ${active}">
+        <div class="stage-label">${stage.id}</div>
+        <h3 class="stage-title">${stage.title}</h3>
+        <p class="stage-copy">${copy}</p>
+      </article>
+    `;
+  }).join("");
+}
+
+function renderFactsAndTrace() {
+  const scenario = SCENARIOS.find(item => item.id === state.selectedScenario);
+  const coverage = scenarioCoverage(scenario);
+  const factRoot = document.getElementById("factList");
+  const traceRoot = document.getElementById("traceList");
+
+  factRoot.innerHTML = `
+    <article class="fact-card">
+      <div class="fact-label">Disaster formula</div>
+      <h3 class="fact-title">${scenario.title}</h3>
+      <span class="trace-formula">${scenario.formula}</span>
+    </article>
+    ${scenario.facts.map((fact, index) => `
+      <article class="fact-card">
+        <div class="fact-label">Fact ${index + 1}</div>
+        <p class="fact-copy">${fact}</p>
+      </article>
+    `).join("")}
+  `;
+
+  const haveCards = coverage.have.map(id => {
+    const clause = clauseMap.get(id);
+    return `
+      <article class="trace-item ${coverage.status === "blocked" ? "good" : "warn"}">
+        <div class="trace-label">Active clause</div>
+        <h3 class="trace-title">${clause.name}</h3>
+        <p class="trace-copy">${clause.summary}</p>
+        <span class="trace-formula">${clause.formula}</span>
+      </article>
+    `;
+  }).join("");
+
+  const missingCards = coverage.missing.map(id => {
+    const clause = clauseMap.get(id);
+    return `
+      <article class="trace-item bad">
+        <div class="trace-label">Missing clause</div>
+        <h3 class="trace-title">${clause.name}</h3>
+        <p class="trace-copy">${clause.summary}</p>
+        <span class="trace-formula">${clause.formula}</span>
+      </article>
+    `;
+  }).join("");
+
+  let outcomeCard = "";
+  if (coverage.status === "blocked") {
+    outcomeCard = `
+      <article class="trace-item good">
+        <div class="trace-label">Derived outcome</div>
+        <h3 class="trace-title">Disaster pruned from the reachable space</h3>
+        <p class="trace-copy">${scenario.baseReason}</p>
+      </article>
+    `;
+  } else if (coverage.status === "fragile") {
+    outcomeCard = `
+      <article class="trace-item warn">
+        <div class="trace-label">Derived outcome</div>
+        <h3 class="trace-title">Partially guarded, not fully closed</h3>
+        <p class="trace-copy">Some of the right laws are active, but the full blocking set is missing. The selected bad branch is still fragile rather than eliminated.</p>
+      </article>
+    `;
+  } else {
+    outcomeCard = `
+      <article class="trace-item bad">
+        <div class="trace-label">Derived outcome</div>
+        <h3 class="trace-title">Disaster state remains reachable</h3>
+        <p class="trace-copy">${scenario.failureReason}</p>
+      </article>
+    `;
+  }
+
+  traceRoot.innerHTML = `
+    ${haveCards}
+    ${missingCards}
+    ${outcomeCard}
+  `;
+}
+
+function renderVenn() {
+  const total = clauseMap.size;
+  const active = state.activeClauses.size;
+  const ratio = active / total;
+  const blocked = SCENARIOS.filter(s => scenarioCoverage(s).status === "blocked").length;
+  const allBlocked = blocked === SCENARIOS.length;
+
+  // Shrink Reach(M) ellipse as more clauses are active
+  const maxRx = 160, minRx = 80;
+  const maxCx = 210, minCx = 170;
+  const rx = maxRx - (maxRx - minRx) * ratio;
+  const cx = maxCx - (maxCx - minCx) * ratio;
+
+  const reach = document.getElementById("vennReach");
+  const label = document.getElementById("vennReachLabel");
+  const verdict = document.getElementById("vennVerdict");
+
+  if (reach) {
+    reach.setAttribute("rx", rx);
+    reach.setAttribute("cx", cx);
+  }
+  if (label) {
+    label.setAttribute("x", cx - 40);
+  }
+  if (verdict) {
+    if (allBlocked) {
+      verdict.textContent = "Reach(M) ∩ D = ∅  ✓  all modeled disasters pruned";
+      verdict.setAttribute("fill", "var(--teal)");
+    } else {
+      verdict.textContent = `Reach(M) ∩ D ≠ ∅ :  ${SCENARIOS.length - blocked} disaster(s) still reachable`;
+      verdict.setAttribute("fill", "var(--red)");
+    }
+  }
+}
+
+function renderAll() {
+  renderPresetRow();
+  renderMetrics();
+  renderClauseBoard();
+  renderScenarioList();
+  renderProbeList();
+  renderPipeline();
+  renderFactsAndTrace();
+  renderVenn();
+  reportHeight();
+}
+
+function reportHeight() {
+  if (window.parent !== window) {
+    window.parent.postMessage({ type: "fp:iframe-height", height: document.body.scrollHeight }, "*");
+  }
+}
+
+window.addEventListener("load", () => {
+  renderAll();
+  reportHeight();
+  setTimeout(reportHeight, 200);
+});
+window.addEventListener("resize", reportHeight);
+new MutationObserver(reportHeight).observe(document.body, { childList: true, subtree: true, attributes: true });
+</script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 520"
+  role="img"
+  aria-labelledby="fp-ovn-title fp-ovn-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-ovn-title">Old Shape vs Shape++ clause comparison</title>
+  <desc id="fp-ovn-desc">
+    Side-by-side comparison of the original ZenoDEX shape with 7 clauses and the
+    strengthened Shape++ target with 10 clauses. New and strengthened clauses are
+    highlighted in orange. An arrow labeled "strengthen" connects the two cards.
+  </desc>
+
+  <defs>
+    <filter id="fp-ovn-sh" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.08" />
+    </filter>
+    <marker id="fp-ovn-arrow" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto">
+      <path d="M0,1.5 L12,6 L0,10.5 Z" fill="#3B82F6" fill-opacity="0.85" />
+    </marker>
+  </defs>
+
+  <!-- ── Left card: Old Shape (7 clauses) ──────── -->
+  <g filter="url(#fp-ovn-sh)">
+    <rect x="24" y="20" width="330" height="420" rx="24" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text x="54" y="58" font-size="16" font-weight="900" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Old Shape</text>
+    <text x="54" y="78" font-size="12" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">7 clauses</text>
+
+    <!-- Clause pills (blue) -->
+    <rect x="44" y="98" width="290" height="34" rx="12"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.20)" />
+    <text x="60" y="120" font-size="11.5" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">1. BoundaryValidity</text>
+
+    <rect x="44" y="142" width="290" height="34" rx="12"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.20)" />
+    <text x="60" y="164" font-size="11.5" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">2. TemporalAdmissibility</text>
+
+    <rect x="44" y="186" width="290" height="34" rx="12"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.20)" />
+    <text x="60" y="208" font-size="11.5" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">3. CanonicalWinnerSelection</text>
+
+    <rect x="44" y="230" width="290" height="34" rx="12"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.20)" />
+    <text x="60" y="252" font-size="11.5" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">4. ReserveMonotonicity</text>
+
+    <rect x="44" y="274" width="290" height="34" rx="12"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.20)" />
+    <text x="60" y="296" font-size="11.5" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">5. SettlementCompositionality</text>
+
+    <rect x="44" y="318" width="290" height="34" rx="12"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.20)" />
+    <text x="60" y="340" font-size="11.5" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">6. DeterministicRouting</text>
+
+    <rect x="44" y="362" width="290" height="34" rx="12"
+      fill="rgba(59,130,246,0.10)" stroke="rgba(59,130,246,0.20)" />
+    <text x="60" y="384" font-size="11.5" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">7. StablecoinSolvency</text>
+  </g>
+
+  <!-- ── Center arrow ────────────────────────────── -->
+  <path d="M 368,240 L 448,240"
+    stroke="#3B82F6" stroke-width="4" fill="none"
+    marker-end="url(#fp-ovn-arrow)" stroke-linecap="round" />
+  <text x="408" y="226" font-size="13" font-weight="900" fill="#1E293B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">strengthen</text>
+  <text x="408" y="262" font-size="10" fill="#475569" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">+3 new, 5 stronger</text>
+
+  <!-- ── Right card: Shape++ (10 clauses) ────────── -->
+  <g filter="url(#fp-ovn-sh)">
+    <rect x="470" y="20" width="468" height="420" rx="24" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <text x="500" y="58" font-size="16" font-weight="900" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Shape++</text>
+    <text x="500" y="78" font-size="12" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">10 clauses</text>
+
+    <!-- Legend badges -->
+    <rect x="770" y="42" width="60" height="18" rx="8"
+      fill="rgba(249,115,22,0.12)" stroke="rgba(249,115,22,0.28)" />
+    <text x="800" y="55" font-size="9" font-weight="700" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">NEW</text>
+
+    <rect x="840" y="42" width="84" height="18" rx="8"
+      fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.20)" />
+    <text x="882" y="55" font-size="9" font-weight="700" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">STRENGTHENED</text>
+
+    <!-- Clause pills (orange for new/strengthened) -->
+
+    <!-- 1. CBCValidity - NEW -->
+    <rect x="490" y="88" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="108" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">1. CBCValidity</text>
+    <rect x="858" y="93" width="50" height="18" rx="7"
+      fill="rgba(249,115,22,0.18)" stroke="none" />
+    <text x="883" y="105" font-size="8" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">NEW</text>
+
+    <!-- 2. UniqueCanonicalWinnerEverywhere - STRENGTHENED -->
+    <rect x="490" y="124" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="144" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">2. UniqueCanonicalWinnerEverywhere</text>
+    <rect x="825" y="129" width="84" height="18" rx="7"
+      fill="rgba(249,115,22,0.14)" stroke="none" />
+    <text x="867" y="141" font-size="7.5" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">STRENGTHENED</text>
+
+    <!-- 3. ExactFeeAwareAccounting - STRENGTHENED -->
+    <rect x="490" y="160" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="180" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">3. ExactFeeAwareAccounting</text>
+    <rect x="825" y="165" width="84" height="18" rx="7"
+      fill="rgba(249,115,22,0.14)" stroke="none" />
+    <text x="867" y="177" font-size="7.5" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">STRENGTHENED</text>
+
+    <!-- 4. ValueAwareSettlementSafety - NEW -->
+    <rect x="490" y="196" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="216" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">4. ValueAwareSettlementSafety</text>
+    <rect x="858" y="201" width="50" height="18" rx="7"
+      fill="rgba(249,115,22,0.18)" stroke="none" />
+    <text x="883" y="213" font-size="8" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">NEW</text>
+
+    <!-- 5. ProofCarryingOptimizerCertificates - NEW -->
+    <rect x="490" y="232" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="252" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">5. ProofCarryingOptimizerCertificates</text>
+    <rect x="858" y="237" width="50" height="18" rx="7"
+      fill="rgba(249,115,22,0.18)" stroke="none" />
+    <text x="883" y="249" font-size="8" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">NEW</text>
+
+    <!-- 6. AntiFragmentationByTheorem - NEW -->
+    <rect x="490" y="268" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="288" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">6. AntiFragmentationByTheorem</text>
+    <rect x="858" y="273" width="50" height="18" rx="7"
+      fill="rgba(249,115,22,0.18)" stroke="none" />
+    <text x="883" y="285" font-size="8" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">NEW</text>
+
+    <!-- 7. NonCommutativityQuarantine - NEW -->
+    <rect x="490" y="304" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="324" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">7. NonCommutativityQuarantine</text>
+    <rect x="858" y="309" width="50" height="18" rx="7"
+      fill="rgba(249,115,22,0.18)" stroke="none" />
+    <text x="883" y="321" font-size="8" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">NEW</text>
+
+    <!-- 8. OracleDivergenceSafety - STRENGTHENED -->
+    <rect x="490" y="340" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="360" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">8. OracleDivergenceSafety</text>
+    <rect x="825" y="345" width="84" height="18" rx="7"
+      fill="rgba(249,115,22,0.14)" stroke="none" />
+    <text x="867" y="357" font-size="7.5" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">STRENGTHENED</text>
+
+    <!-- 9. LiquidationSpiralContainment - STRENGTHENED -->
+    <rect x="490" y="376" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="396" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">9. LiquidationSpiralContainment</text>
+    <rect x="825" y="381" width="84" height="18" rx="7"
+      fill="rgba(249,115,22,0.14)" stroke="none" />
+    <text x="867" y="393" font-size="7.5" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">STRENGTHENED</text>
+
+    <!-- 10. CrossLayerReplayParity - NEW -->
+    <rect x="490" y="412" width="430" height="30" rx="11"
+      fill="rgba(249,115,22,0.10)" stroke="rgba(249,115,22,0.24)" />
+    <text x="506" y="432" font-size="11" font-weight="700" fill="#1E293B"
+      font-family="SF Mono, Fira Code, monospace">10. CrossLayerReplayParity</text>
+    <rect x="854" y="417" width="54" height="18" rx="7"
+      fill="rgba(249,115,22,0.18)" stroke="none" />
+    <text x="881" y="429" font-size="8" font-weight="800" fill="#C2410C" text-anchor="middle"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">NEW</text>
+  </g>
+
+  <!-- ── Bottom annotation ───────────────────────── -->
+  <rect x="80" y="462" width="800" height="40" rx="14"
+    fill="rgba(15,23,42,0.04)" stroke="rgba(15,23,42,0.08)" />
+  <text x="120" y="478" font-size="10" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">KEY INSIGHT</text>
+  <text x="120" y="494" font-size="10.5" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Each strengthening either makes invalid states unrepresentable, removes ambiguity, requires replayable evidence, or rejects on mismatch.
+  </text>
+</svg>

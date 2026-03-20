@@ -195,4 +195,14 @@ show_title: false
       states and invariants before climbing into ZenoDEX, formal tools, and parameter synthesis.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/zenodex-shape-transition/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 18: ZenoDEX shape transition</h2>
+    <p class="fp-card-text">
+      Compare the old ZenoDEX shape with the stronger Shape++ target, then track how exact formulas,
+      proof-carrying boundaries, and chaos-engineering probes make disaster states unreachable.
+    </p>
+  </a>
 </div>
