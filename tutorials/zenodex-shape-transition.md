@@ -86,35 +86,28 @@ The diagram below makes the geometry concrete. The full state space is the outer
 The best compressed source-backed summary of the older full-stack shape is:
 
 $$
-\text{OldShape}(Z)
-:=
-\text{BoundaryValidity}
-\wedge
-\text{TemporalAdmissibility}
-\wedge
-\text{CanonicalWinnerSelection}
-\wedge
-\text{ReserveMonotonicity}
-\wedge
-\text{SettlementCompositionality}
-\wedge
-\text{DeterministicRouting}
-\wedge
-\text{StablecoinSolvency}.
+\begin{aligned}
+\text{OldShape}(Z) :={} &
+  \text{BoundaryValidity}
+  \wedge \text{TemporalAdmissibility} \\
+  &\wedge \text{CanonicalWinnerSelection}
+  \wedge \text{ReserveMonotonicity} \\
+  &\wedge \text{SettlementCompositionality}
+  \wedge \text{DeterministicRouting} \\
+  &\wedge \text{StablecoinSolvency}.
+\end{aligned}
 $$
 
 The earlier tutorial compressed the same posture into the more human-readable slogan
 
 $$
-\text{CurrentTagline}(Z)
-:=
-\text{Deterministic}
-\wedge
-\text{Replayable}
-\wedge
-\text{PartiallyProved}
-\wedge
-\text{StronglyGuarded}.
+\begin{aligned}
+\text{CurrentTagline}(Z) :={} &
+  \text{Deterministic}
+  \wedge \text{Replayable} \\
+  &\wedge \text{PartiallyProved}
+  \wedge \text{StronglyGuarded}.
+\end{aligned}
 $$
 
 That slogan is useful, but the longer formula tells more of the engineering story.
@@ -132,17 +125,14 @@ K_{\text{after}} := reserve\_in_{\text{after}} \cdot reserve\_out_{\text{after}}
 $$
 
 $$
-\text{ReserveInvariantGuard}
-:=
-\text{ParamsOK}
-\wedge
-\text{ReservesOK}
-\wedge
-\text{SafeOK}
-\wedge
-\text{DriftOK}
-\wedge
-(K_{\text{after}} \ge K_{\text{before}}).
+\begin{aligned}
+\text{ReserveInvariantGuard} :={} &
+  \text{ParamsOK}
+  \wedge \text{ReservesOK}
+  \wedge \text{SafeOK} \\
+  &\wedge \text{DriftOK}
+  \wedge (K_{\text{after}} \ge K_{\text{before}}).
+\end{aligned}
 $$
 
 This is already fail-closed at the boundary, in the limited sense that malformed or reserve-breaking transitions should be rejected before they become runtime history.
@@ -152,14 +142,13 @@ This is already fail-closed at the boundary, in the limited sense that malformed
 The old shape also constrained traces over time, not just single-step arithmetic. A representative nonce shadow law is:
 
 $$
-\text{Accept}
-:=
-\exists n.\;
-n = lastUsedNonce + 1
-\wedge
-lastUsedNonce' = n
-\wedge
-accepted' = \text{TRUE}
+\begin{aligned}
+\text{Accept} :={} &
+  \exists n.\;
+  n = lastUsedNonce + 1 \\
+  &\wedge lastUsedNonce' = n
+  \wedge accepted' = \text{TRUE}
+\end{aligned}
 $$
 
 with the key invariant
@@ -173,9 +162,11 @@ $$
 This blocks one large class of disaster states:
 
 $$
-D_{\text{replay}}
-:=
-\{ q \mid accepted(q) \wedge requestedNonce(q) \le lastUsedNonce(q) \}.
+\begin{aligned}
+D_{\text{replay}} :=
+\{ q \mid\; & accepted(q) \\
+  &\wedge\; requestedNonce(q) \le lastUsedNonce(q) \}.
+\end{aligned}
 $$
 
 ### 3. Canonical winner selection
@@ -217,9 +208,10 @@ $$
 That means reasoning about append and composition is lawful rather than ad hoc:
 
 $$
-batchToSettlement(b_1 ++ b_2)
-=
-batchToSettlement(b_1) \circ_s batchToSettlement(b_2).
+\begin{aligned}
+& batchToSettlement(b_1 \mathbin{++} b_2) \\
+&\quad = batchToSettlement(b_1) \circ_s batchToSettlement(b_2).
+\end{aligned}
 $$
 
 ### 6. Deterministic routing
@@ -233,29 +225,26 @@ The older routing posture already had deterministic tie-breaks, exact-in and exa
 The zUSD layer already had strong solvency and recovery-mode formulas. For example:
 
 $$
-\text{MCR\_OK}(collateral, debt, price, mcr)
-:=
-debt = 0
-\vee
-collateral \cdot price \cdot 10000 \ge debt \cdot mcr \cdot 10^8
+\begin{aligned}
+& \text{MCR\_OK}(collateral, debt, price, mcr) \\
+& \quad := debt = 0 \\
+& \quad \vee\; collateral \cdot price \cdot 10000
+  \ge debt \cdot mcr \cdot 10^8
+\end{aligned}
 $$
 
 and the risky-operations gate:
 
 $$
-\text{RiskyOpsAllowed}
-:=
-oracle\_seen
-\wedge
-price > 0
-\wedge
-price\_pending > 0
-\wedge
-price\_pending = price
-\wedge
-\text{OracleFresh}
-\wedge
-\neg \text{RecoveryMode}.
+\begin{aligned}
+\text{RiskyOpsAllowed} :={} &
+  oracle\_seen
+  \wedge price > 0 \\
+  &\wedge price\_pending > 0
+  \wedge price\_pending = price \\
+  &\wedge \text{OracleFresh}
+  \wedge \neg \text{RecoveryMode}.
+\end{aligned}
 $$
 
 This is already a serious assurance surface. The new shape does not start from nothing.
@@ -285,45 +274,33 @@ The following diagram shows the transition at a glance: the old shape's seven cl
 The new candidate ideal is:
 
 $$
-\text{Shape}_{++}(Z)
-:=
-\text{CBCValidity}
-\wedge
-\text{UniqueCanonicalWinnerEverywhere}
-\wedge
-\text{ExactFeeAwareAccounting}
-\wedge
-\text{ValueAwareSettlementSafety}
-\wedge
-\text{ProofCarryingOptimizerCertificates}
-\wedge
-\text{AntiFragmentationByTheorem}
-\wedge
-\text{NonCommutativityQuarantine}
-\wedge
-\text{OracleDivergenceSafety}
-\wedge
-\text{LiquidationSpiralContainment}
-\wedge
-\text{CrossLayerReplayParity}.
+\begin{aligned}
+\text{Shape}_{++}(Z) :={} &
+  \text{CBCValidity}
+  \wedge \text{UniqueCanonicalWinnerEverywhere} \\
+  &\wedge \text{ExactFeeAwareAccounting}
+  \wedge \text{ValueAwareSettlementSafety} \\
+  &\wedge \text{ProofCarryingOptimizerCertificates}
+  \wedge \text{AntiFragmentationByTheorem} \\
+  &\wedge \text{NonCommutativityQuarantine}
+  \wedge \text{OracleDivergenceSafety} \\
+  &\wedge \text{LiquidationSpiralContainment}
+  \wedge \text{CrossLayerReplayParity}.
+\end{aligned}
 $$
 
 For teaching, it is also useful to compress the target into a shorter slogan:
 
 $$
-\text{TargetTagline}(Z)
-:=
-\text{Canonical}
-\wedge
-\text{Exact}
-\wedge
-\text{ValueAware}
-\wedge
-\text{ProofCarrying}
-\wedge
-\text{CrossLayerEquivalent}
-\wedge
-\text{FailClosedEverywhereImportant}.
+\begin{aligned}
+\text{TargetTagline}(Z) :={} &
+  \text{Canonical}
+  \wedge \text{Exact}
+  \wedge \text{ValueAware} \\
+  &\wedge \text{ProofCarrying}
+  \wedge \text{CrossLayerEquivalent} \\
+  &\wedge \text{FailClosedEverywhereImportant}.
+\end{aligned}
 $$
 
 The names `CrossLayerEquivalent` and `FailClosedEverywhereImportant` are pedagogical compressions. They summarize several narrower clauses rather than naming one already-promoted theorem.
@@ -333,11 +310,10 @@ The names `CrossLayerEquivalent` and `FailClosedEverywhereImportant` are pedagog
 Think of a vending machine that physically cannot dispense less than one item. The same idea applies here: instead of checking after the fact whether a fill met the user's minimum, the type system itself refuses to construct a "filled" object unless the proof exists. The central formula is:
 
 $$
-\text{ValidOutcome}(i)
-::=
-unfilled
-\;\mid\;
-filled(output,\; pf : output \ge min\_out(i)).
+\begin{aligned}
+\text{ValidOutcome}(i) ::={} &\; unfilled \\
+  \mid\;\; & filled(output,\; pf : output \ge min\_out(i)).
+\end{aligned}
 $$
 
 Then surplus non-negativity is structural:
@@ -350,9 +326,11 @@ $$
 This is a major strengthening. It turns the disaster state
 
 $$
-D_{\text{invalid-fill}}
-:=
-\{ q \mid filled(q) \wedge output(q) < min\_out(q) \}
+\begin{aligned}
+D_{\text{invalid-fill}} :=
+\{ q \mid\; & filled(q) \\
+  &\wedge\; output(q) < min\_out(q) \}
+\end{aligned}
 $$
 
 from "a state that must be filtered out later" into "a state that should never be admitted as a valid outcome object in the first place."
@@ -370,16 +348,14 @@ $$
 This blocks the disaster family
 
 $$
-D_{\text{ambiguous}}
-:=
-\left\{
-q \mid
-\exists a \ne b.\;
-feasible(a) \wedge feasible(b)
-\wedge score(a)=score(b)
-\wedge winner(a)
-\wedge winner(b)
-\right\}.
+\begin{aligned}
+D_{\text{ambiguous}} :=
+\big\{ q \mid\; & \exists a \ne b.\;
+  feasible(a) \wedge feasible(b) \\
+  &\wedge\; score(a)=score(b)
+  \wedge winner(a)
+  \wedge winner(b) \big\}.
+\end{aligned}
 $$
 
 This is exactly the difference between "the program happened to pick one route" and "there exists one semantically canonical route."
@@ -395,17 +371,21 @@ $$
 It is exact residue accounting:
 
 $$
-K(batch\_fee(s, amounts, fees))
-=
-K(s) + \sum_i FeeAwareGap(s_i, a_i, f_i).
+\begin{aligned}
+& K(batch\_fee(s, amounts, fees)) \\
+& \quad = K(s) + \sum_i FeeAwareGap(s_i, a_i, f_i).
+\end{aligned}
 $$
 
 The advantage is not cosmetic. It blocks silent-leak or unexplained-residue worlds such as
 
 $$
-D_{\text{fee-leak}}
-:=
-\{ q \mid \text{the system claims exact conservation but floor residue is discarded} \}.
+\begin{aligned}
+D_{\text{fee-leak}} :=
+\{ q \mid\; & \text{the system claims exact} \\
+  & \text{conservation but floor} \\
+  & \text{residue is discarded} \}.
+\end{aligned}
 $$
 
 This is the difference between "nothing obviously broke" and "every remainder has a place in the model."
@@ -415,17 +395,14 @@ This is the difference between "nothing obviously broke" and "every remainder ha
 One current narrowing of this target is already visible in the replayable settlement packet line. Its acceptance shell is of the form
 
 $$
-packet\_ok
-\leftrightarrow
-strong\_certificate\_ok
-\wedge
-feature\_extension\_ok
-\wedge
-module\_bundle\_ok
-\wedge
-full\_price\_rails\_ok
-\wedge
-value\_lane\_ok.
+\begin{aligned}
+packet\_ok \leftrightarrow{} &
+  strong\_certificate\_ok \\
+  &\wedge feature\_extension\_ok \\
+  &\wedge module\_bundle\_ok \\
+  &\wedge full\_price\_rails\_ok \\
+  &\wedge value\_lane\_ok.
+\end{aligned}
 $$
 
 That matters because token conservation alone does not settle every economic question. A system can conserve token counts and still be value-blind if it ignores price rails, LP liabilities, or declared valuation semantics.
@@ -433,9 +410,12 @@ That matters because token conservation alone does not settle every economic que
 The disaster family here is:
 
 $$
-D_{\text{value-blind}}
-:=
-\{ q \mid \text{settlement accepted without satisfying the declared value interpretation} \}.
+\begin{aligned}
+D_{\text{value-blind}} :=
+\{ q \mid\; & \text{settlement accepted without} \\
+  & \text{satisfying the declared} \\
+  & \text{value interpretation} \}.
+\end{aligned}
 $$
 
 ### 5. Proof-carrying optimizer certificates
@@ -443,7 +423,11 @@ $$
 In a traditional system, the optimizer says "route X wins" and you trust it. In a proof-carrying system, the optimizer says "route X wins, and here is the replayable evidence that X is optimal over the declared candidate domain." The evidence is checkable by anyone. The stronger pattern is:
 
 $$
-\text{ExecutableWinner}(c) \to \text{ProofOK}(c) \wedge \text{BindingOK}(c).
+\begin{aligned}
+\text{ExecutableWinner}(c) \to{} &
+  \text{ProofOK}(c) \\
+  &\wedge \text{BindingOK}(c).
+\end{aligned}
 $$
 
 This changes routing and optimization from "the runtime gave an answer" to "the runtime gave an answer together with a replayable reason that the answer is the right one on the declared candidate domain."
@@ -467,9 +451,11 @@ $$
 Suppose you need to move 100 units through one pool in one direction. Splitting the order into five 20-unit fragments can never beat executing one 100-unit operation, because the constant-product curve penalizes fragmentation. This clause turns that mathematical fact into a pruning rule: the router does not need to consider fragmented candidates at all, because they are theorem-dominated. The key law is:
 
 $$
-\text{SamePoolSameDirection}(F_1,\dots,F_n)
-\to
-Out(single(\sum_i F_i)) \ge OutSeq(F_1,\dots,F_n).
+\begin{aligned}
+& \text{SamePoolSameDirection}(F_1,\dots,F_n) \\
+& \quad \to Out(single(\textstyle\sum_i F_i))
+  \ge OutSeq(F_1,\dots,F_n).
+\end{aligned}
 $$
 
 This is not merely an optimization hint. It is a state-space pruning law. It says an entire family of fragmented candidates can be discarded without losing the canonical winner.
@@ -479,13 +465,19 @@ This is not merely an optimization hint. It is a state-space pruning law. It say
 In everyday arithmetic, 3 + 5 = 5 + 3. But in a liquidity pool, buying then selling is not the same as selling then buying, because each operation changes the price curve for the next. This clause makes that asymmetry explicit rather than assuming it away. The useful law is the negative guardrail:
 
 $$
-\text{OppositeDirection}(s_1,s_2) \to \neg AssumeCommutes(s_1,s_2).
+\begin{aligned}
+& \text{OppositeDirection}(s_1,s_2) \\
+& \quad \to \neg AssumeCommutes(s_1,s_2).
+\end{aligned}
 $$
 
 or in gap language,
 
 $$
-\text{OppositeDirection}(s_1,s_2) \to Gap(s_1,s_2) > 0.
+\begin{aligned}
+& \text{OppositeDirection}(s_1,s_2) \\
+& \quad \to Gap(s_1,s_2) > 0.
+\end{aligned}
 $$
 
 This prevents unsound canonicalization and unsound optimizer pruning.
@@ -497,27 +489,25 @@ A price oracle is the system's window into external market conditions. If the "p
 The core gate is:
 
 $$
-\text{RiskyOpsAllowed}
-:=
-oracle\_seen
-\wedge
-price > 0
-\wedge
-price\_pending > 0
-\wedge
-price\_pending = price
-\wedge
-\text{OracleFresh}
-\wedge
-\neg \text{RecoveryMode}.
+\begin{aligned}
+\text{RiskyOpsAllowed} :={} &
+  oracle\_seen
+  \wedge price > 0 \\
+  &\wedge price\_pending > 0
+  \wedge price\_pending = price \\
+  &\wedge \text{OracleFresh}
+  \wedge \neg \text{RecoveryMode}.
+\end{aligned}
 $$
 
 So the disaster family is:
 
 $$
-D_{\text{oracle-mismatch}}
-:=
-\{ q \mid risky(q) \wedge price\_pending(q) \ne price(q) \}.
+\begin{aligned}
+D_{\text{oracle-mismatch}} :=
+\{ q \mid\; & risky(q) \\
+  &\wedge\; price\_pending(q) \ne price(q) \}.
+\end{aligned}
 $$
 
 ### 9. Liquidation spiral containment
@@ -527,17 +517,14 @@ This clause needs explicit scoping. The target-shape note itself warns that the 
 A narrower, source-backed working reading is:
 
 $$
-\text{LiquidationAllowed}
-:=
-oracle\_seen
-\wedge
-price\_pending > 0
-\wedge
-debt > 0
-\wedge
-\neg \text{MCR\_OK}(collateral, debt, price\_pending, mcr)
-\wedge
-debt \le sp\_debt.
+\begin{aligned}
+\text{LiquidationAllowed} :={} &
+  oracle\_seen
+  \wedge price\_pending > 0 \\
+  &\wedge debt > 0 \\
+  &\wedge \neg \text{MCR\_OK}(collateral, debt, price\_pending, mcr) \\
+  &\wedge debt \le sp\_debt.
+\end{aligned}
 $$
 
 This does not prove the entire macro-dynamics of liquidation spirals. What it does do is make the next-step liquidation posture explicit and bounded.
@@ -567,9 +554,12 @@ $$
 This blocks drift worlds:
 
 $$
-D_{\text{drift}}
-:=
-\{ q \mid \text{two trusted layers reconstruct different winners, packets, or rejection reasons} \}.
+\begin{aligned}
+D_{\text{drift}} :=
+\{ q \mid\; & \text{two trusted layers reconstruct} \\
+  & \text{different winners, packets,} \\
+  & \text{or rejection reasons} \}.
+\end{aligned}
 $$
 
 ## Part IV: what changed, clause by clause
@@ -626,13 +616,12 @@ $$
 The disaster set is:
 
 $$
-D_{\text{partial-exact-out}}
-:=
-\left\{
-q \mid winner(A,q)
-\wedge
-\sum_{\ell \in Legs(A)} out(\ell) < Q
-\right\}.
+\begin{aligned}
+D_{\text{partial-exact-out}} :=
+\big\{ q \mid\; & winner(A,q) \\
+  &\wedge\; \textstyle\sum_{\ell \in Legs(A)} out(\ell) < Q
+\big\}.
+\end{aligned}
 $$
 
 Under the stronger shape, full allocation becomes part of admissibility and certificate meaning, not an after-the-fact sanity check.
@@ -700,9 +689,12 @@ This is a dangerous class because every local component can look sensible while 
 The sealed-bid disaster catalog adds another important lesson. Not every disaster is theft or insolvency. Some are terminal coordination failures:
 
 $$
-D_{\text{deadlock}}
-:=
-\{ q \mid phase\_closed(q) \wedge \neg Complete(q) \wedge Enabled(q)=\varnothing \}.
+\begin{aligned}
+D_{\text{deadlock}} :=
+\{ q \mid\; & phase\_closed(q) \\
+  &\wedge\; \neg Complete(q) \\
+  &\wedge\; Enabled(q) = \varnothing \}.
+\end{aligned}
 $$
 
 Named examples include the empty-auction deadlock and no-reveal deadlock. This is why good assurance work talks about disaster states, not only arithmetic invariant violations.
@@ -750,11 +742,17 @@ For a selected scenario, the automation pattern is usually:
 For example, with invalid fills:
 
 $$
-facts := \{ filled,\; output=93,\; min\_out=100 \}
+\begin{aligned}
+facts := \{ & filled,\; output=93, \\
+  & min\_out=100 \}
+\end{aligned}
 $$
 
 $$
-\text{CBCValidity} := filled(output,pf : output \ge min\_out)
+\begin{aligned}
+\text{CBCValidity} := filled(& output, \\
+  & pf : output \ge min\_out)
+\end{aligned}
 $$
 
 No witness $pf$ exists, so the filled state is ill-formed. The result is not "accepted then scored badly." The result is "rejected before it counts as a valid filled outcome."
@@ -835,7 +833,8 @@ $$
 such that the concrete transition relation refines the abstract one:
 
 $$
-c \to c' \;\Rightarrow\; \alpha(c) \to_{\text{shape}} \alpha(c').
+c \to c' \;\Rightarrow\;
+\alpha(c) \to_{\text{shape}} \alpha(c').
 $$
 
 If that abstraction is sound for the property in question, then proving an abstract invariant can rule out whole families of concrete bad states.
@@ -843,8 +842,10 @@ If that abstraction is sound for the property in question, then proving an abstr
 For example, if
 
 $$
-\forall c \in \operatorname{Reach}(M_{\text{concrete}}).\;
-\alpha(c) \notin D_{\text{shape}}
+\begin{aligned}
+& \forall c \in \operatorname{Reach}(M_{\text{concrete}}).\; \\
+& \quad \alpha(c) \notin D_{\text{shape}}
+\end{aligned}
 $$
 
 and the abstraction preserves the relevant danger predicate, then the concrete implementation inherits the safety result for that predicate.
