@@ -840,7 +840,6 @@ details.fp-faq summary:focus-visible {
   display: block;
   width: 100%;
   height: auto;
-  min-width: 680px;
 }
 
 .fp-zoomable {
@@ -984,6 +983,9 @@ details.fp-faq summary:focus-visible {
     border-right: 0;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+  }
+  .fp-diagram {
+    min-width: 680px;
   }
   .fp-callout {
     padding: var(--space-md);
