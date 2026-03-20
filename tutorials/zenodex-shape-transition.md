@@ -55,6 +55,8 @@ Now define a disaster set $D \subseteq Q$. A disaster state might be:
 - a non-canonical settlement packet,
 - a deadlock after a phase closes.
 
+A familiar physical example: an ATM that swallows your bank card. The machine's state space includes a state where the card is physically inside the reader, the session has timed out, and no authenticated owner is present. That state is reachable under the current design because the EMV protocol requires the card to stay inserted during the cryptographic handshake, and any fault during that window (network drop, PIN exhaustion, timeout) defaults to retain. A single architectural rule would make the disaster unreachable: use a dip reader that never fully ingests the card. The bad state stops being "filtered out by a timeout handler" and becomes "physically impossible to enter." That is exactly the move this tutorial studies at scale: not better error handling, but shapes that make disaster states unrepresentable.
+
 The basic assurance question is:
 
 $$
