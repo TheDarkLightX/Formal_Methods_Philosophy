@@ -837,15 +837,10 @@ details.fp-faq summary:focus-visible {
 }
 
 .fp-diagram {
+  display: block;
   width: 100%;
   height: auto;
-  display: block;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-.fp-diagram svg {
-  min-width: 600px;
+  min-width: 680px;
 }
 
 .fp-zoomable {
@@ -987,6 +982,8 @@ details.fp-faq summary:focus-visible {
     border-radius: 0;
     border-left: 0;
     border-right: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
   .fp-callout {
     padding: var(--space-md);

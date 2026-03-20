@@ -648,12 +648,12 @@ Under Shape++, full allocation becomes part of admissibility and certificate mea
 Four disaster families were derived clause by clause in Part III. Their one-line signatures are collected here to complete the catalog:
 
 $$
-\begin{array}{ll}
-D_{\text{invalid-fill}} & filled \wedge output < min\_out \\[4pt]
-D_{\text{fee-leak}} & \text{exact conservation claimed} \wedge \text{dust discarded} \\[4pt]
-D_{\text{oracle-mismatch}} & risky \wedge (price\_pending \ne price) \\[4pt]
-D_{\text{drift}} & obs_{\text{runtime}} \ne obs_{\text{replay}}
-\end{array}
+\begin{aligned}
+D_{\text{invalid-fill}} &:= filled \wedge output < min\_out \\[4pt]
+D_{\text{fee-leak}} &:= \text{exact conservation claimed} \wedge \text{dust discarded} \\[4pt]
+D_{\text{oracle-mismatch}} &:= risky \wedge (price\_pending \ne price) \\[4pt]
+D_{\text{drift}} &:= obs_{\text{runtime}} \ne obs_{\text{replay}}
+\end{aligned}
 $$
 
 What the catalog view adds is the collective observation: these four families share a common structure. In each case, two quantities that the system claims are consistent actually diverge (output vs. minimum, accounting vs. residue, pending vs. committed price, runtime vs. replay). Shape++ turns each divergence from a detectable symptom into an inadmissible construction.

@@ -778,6 +778,32 @@
     .metrics { grid-template-columns: 1fr; }
     .pipeline { grid-template-columns: 1fr 1fr; }
     .branch-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 26px; }
+    .eyebrow { font-size: 10px; }
+    .preset-btn { font-size: 13px; padding: 8px 12px; }
+    .clause-name { font-size: 13px; }
+    .clause-formula { font-size: 10px; }
+    .scenario-name { font-size: 13px; }
+    .scenario-formula { font-size: 10px; }
+    .stage-title { font-size: 15px; }
+    .stage-copy { font-size: 12px; }
+    .metric-value { font-size: 22px; }
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 10px; }
+    .pipeline { grid-template-columns: 1fr; gap: 8px; }
+    .pipeline::before { display: none; }
+    .stage { min-height: auto; padding: 10px; border-radius: 12px; }
+    .preset-row { padding: 0 14px 16px; gap: 6px; }
+    .preset-btn { font-size: 12px; padding: 7px 10px; }
+    .panel-head { padding: 14px 14px 10px; }
+    .panel-body { padding: 12px 14px; }
+    .clause-card { gap: 8px; padding: 10px; }
+    .clause-name { font-size: 12px; }
+    .scenario-card { padding: 10px; }
+    .venn-strip { padding: 8px 12px; }
+    .formula-line { font-size: 10px; }
   }
 </style>
 </head>
