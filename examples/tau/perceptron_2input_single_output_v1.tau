@@ -1,0 +1,35 @@
+# Tau-only 2-input perceptron experiment (smallest executable form)
+#
+# Unsigned model:
+#   score = (x1 * w1) + (x2 * w2) + bias
+#   class = step(score >= threshold)
+#
+# Domain restriction:
+# - x1, x2, w1, w2, bias, threshold are bounded to 0..127
+# - then each product is at most 16129 and the full sum is at most 32385
+# - so the arithmetic fits inside bv[16] without wraparound
+#
+# Stream mapping:
+# i1 = x1
+# i2 = x2
+# i3 = w1
+# i4 = w2
+# i5 = bias
+# i6 = threshold
+# i7 = class_claimed (sbf)
+#
+# Outputs:
+# o1 = perceptron_ok
+
+set charvar off
+
+always
+  (o1[t]:sbf = 1:sbf <->
+    ((i1[t]:bv[16] <= { #x007F }:bv[16]) &&
+     (i2[t]:bv[16] <= { #x007F }:bv[16]) &&
+     (i3[t]:bv[16] <= { #x007F }:bv[16]) &&
+     (i4[t]:bv[16] <= { #x007F }:bv[16]) &&
+     (i5[t]:bv[16] <= { #x007F }:bv[16]) &&
+     (i6[t]:bv[16] <= { #x007F }:bv[16]) &&
+     ((((i1[t]:bv[16] * i3[t]:bv[16]) + (i2[t]:bv[16] * i4[t]:bv[16]) + i5[t]:bv[16]) >= i6[t]:bv[16] && i7[t]:sbf = 1:sbf) ||
+      (((i1[t]:bv[16] * i3[t]:bv[16]) + (i2[t]:bv[16] * i4[t]:bv[16]) + i5[t]:bv[16]) < i6[t]:bv[16] && i7[t]:sbf = 0:sbf)))).

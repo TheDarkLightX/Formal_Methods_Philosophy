@@ -1,0 +1,29 @@
+# Tau-only 2-input perceptron with weights stored inside the Tau spec
+#
+# This is the smallest internal-parameter variant:
+# - the host supplies only x1, x2, threshold, and the claimed class
+# - the weights and bias live in the spec itself
+#
+# Internal parameters:
+#   w1 = 4
+#   w2 = 5
+#   bias = 1
+#
+# Stream mapping:
+# i1 = x1
+# i2 = x2
+# i3 = threshold
+# i4 = class_claimed (sbf)
+#
+# Outputs:
+# o1 = perceptron_internal_ok
+
+set charvar off
+
+always
+  (o1[t]:sbf = 1:sbf <->
+    ((i1[t]:bv[16] <= { #x007F }:bv[16]) &&
+     (i2[t]:bv[16] <= { #x007F }:bv[16]) &&
+     (i3[t]:bv[16] <= { #x007F }:bv[16]) &&
+     ((((i1[t]:bv[16] * { #x0004 }:bv[16]) + (i2[t]:bv[16] * { #x0005 }:bv[16]) + { #x0001 }:bv[16]) >= i3[t]:bv[16] && i4[t]:sbf = 1:sbf) ||
+      (((i1[t]:bv[16] * { #x0004 }:bv[16]) + (i2[t]:bv[16] * { #x0005 }:bv[16]) + { #x0001 }:bv[16]) < i3[t]:bv[16] && i4[t]:sbf = 0:sbf)))).

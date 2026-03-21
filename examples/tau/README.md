@@ -2,7 +2,9 @@
 
 This folder contains small, runnable Tau specifications that support the tutorials.
 
-Each file is a self-contained REPL transcript: it declares streams, runs a spec with the `r` command, feeds a demo input sequence, then quits.
+Most files in this folder are self-contained REPL transcripts: they declare streams, run a spec with the `r` command, feed a demo input sequence, then quit.
+
+Some newer examples, including the perceptron files used by Tutorial 21, are spec bodies rather than full transcripts. Those are meant to be driven by the local runner and trace-generation script, not pasted directly into the REPL by hand.
 
 ## Quick Start
 
@@ -148,3 +150,43 @@ Some specs model one step. To run multiple steps, the host "closes the loop" by 
 ### The Guardrails Pattern
 
 The host chooses *what* to do. Tau enforces *how* the update is shaped. This makes systems both adaptive and auditable.
+
+### Perceptron (external unsigned weights)
+
+**File:** `perceptron_2input_single_output_v1.tau`
+
+A smallest-form 2-input perceptron checker:
+- host provides `x1`, `x2`, `w1`, `w2`, `bias`, `threshold`, and a claimed class
+- Tau checks the bounded weighted-sum rule
+- useful for showing a classifier as an executable invariant
+
+### Perceptron (signed offset encoding)
+
+**File:** `perceptron_2input_signed_offset_v1.tau`
+
+A signed-style variant using offset encoding:
+- decoded logical value = encoded value minus `127`
+- Tau checks an equivalent unsigned inequality
+- useful for explaining how signed learning state can be serialized into Tau-friendly bounded integers
+
+### Perceptron (internal spec weights)
+
+**File:** `perceptron_2input_internal_weights_v1.tau`
+
+A variant where the weights and bias live inside the spec:
+- host provides only `x1`, `x2`, `threshold`, and the claimed class
+- Tau owns the classifier parameters
+- useful for contrasting external streams with internal parameters
+
+### Perceptron (stateful memory, explored branch)
+
+Files:
+- `perceptron_2input_learning_memory_v1.tau`
+- `perceptron_weight_memory_v1.tau`
+
+These files explore a stronger temporal story:
+- weights stored across time in Tau-visible state streams,
+- signed deltas applied step by step,
+- learning-style state transitions rather than only pointwise classifier checks.
+
+They are included as experimental branches, not as promoted replayed evidence in the public tutorial, because the recurrent variants were heavier under the current runner budget than the three faster classifier lanes.

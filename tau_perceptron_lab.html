@@ -1,0 +1,2314 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tau Perceptron Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet" />
+    <style>
+      :root {
+        --paper: #f5efe5;
+        --paper-strong: #fffaf2;
+        --ink: #18211d;
+        --muted: #5f655e;
+        --line: #d4c3ad;
+        --teal: #1e6e68;
+        --teal-soft: #d8ece9;
+        --copper: #b86636;
+        --gold: #e3b04a;
+        --rose: #c05b6d;
+        --olive: #7b8650;
+        --shadow: 0 22px 60px rgba(54, 35, 14, 0.12);
+        --radius-xl: 28px;
+        --radius-lg: 20px;
+        --radius-md: 14px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background:
+          radial-gradient(circle at top left, rgba(30, 110, 104, 0.16), transparent 26%),
+          radial-gradient(circle at top right, rgba(184, 102, 54, 0.14), transparent 24%),
+          linear-gradient(180deg, #fbf7f0 0%, #f3eadf 100%);
+        color: var(--ink);
+        font-family: "IBM Plex Sans", sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+      }
+
+      .lab-shell {
+        width: min(1320px, calc(100vw - 28px));
+        margin: 18px auto;
+        padding: 20px;
+        border: 1px solid rgba(107, 88, 63, 0.18);
+        border-radius: 34px;
+        background:
+          linear-gradient(180deg, rgba(255, 250, 242, 0.94), rgba(246, 237, 224, 0.97)),
+          repeating-linear-gradient(
+            0deg,
+            rgba(30, 110, 104, 0.04),
+            rgba(30, 110, 104, 0.04) 1px,
+            transparent 1px,
+            transparent 28px
+          );
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .hero-main,
+      .hero-side,
+      .panel,
+      .trace-card,
+      .metric {
+        border: 1px solid rgba(95, 101, 94, 0.18);
+        border-radius: var(--radius-xl);
+        background: rgba(255, 251, 245, 0.88);
+        box-shadow: 0 10px 32px rgba(50, 38, 20, 0.06);
+      }
+
+      .hero-main {
+        padding: 26px 28px 24px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-main::after {
+        content: "";
+        position: absolute;
+        inset: auto -40px -40px auto;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(30, 110, 104, 0.18), transparent 70%);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(30, 110, 104, 0.11);
+        color: var(--teal);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: "Fraunces", serif;
+        line-height: 1.03;
+      }
+
+      h1 {
+        margin-top: 16px;
+        font-size: clamp(34px, 5vw, 58px);
+        max-width: 10ch;
+      }
+
+      .hero-copy {
+        margin-top: 14px;
+        max-width: 62ch;
+        color: var(--muted);
+        line-height: 1.6;
+        font-size: 16px;
+      }
+
+      .tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .tag {
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(30, 110, 104, 0.18);
+        background: rgba(255, 255, 255, 0.72);
+        color: var(--ink);
+        font-size: 13px;
+      }
+
+      .hero-side {
+        padding: 22px;
+        display: grid;
+        gap: 14px;
+        align-content: start;
+      }
+
+      .hero-side .metric {
+        padding: 16px 18px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.84), rgba(245, 239, 229, 0.9));
+      }
+
+      .metric-label {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .metric-value {
+        margin-top: 8px;
+        font-size: 28px;
+        font-weight: 600;
+      }
+
+      .metric-note {
+        margin-top: 6px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .metrics-row {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 16px;
+      }
+
+      .metric {
+        padding: 18px;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+        gap: 16px;
+        margin-top: 16px;
+      }
+
+      .panel {
+        padding: 22px;
+      }
+
+      .panel-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        align-items: start;
+      }
+
+      .panel-kicker {
+        color: var(--teal);
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .panel-subcopy {
+        margin-top: 8px;
+        color: var(--muted);
+        line-height: 1.55;
+        font-size: 14px;
+      }
+
+      .mode-switch {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .mode-chip,
+      .preset-chip,
+      .step-chip,
+      .action-btn {
+        appearance: none;
+        border: 1px solid rgba(95, 101, 94, 0.2);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(247, 241, 233, 0.88));
+        color: var(--ink);
+        border-radius: 999px;
+        padding: 10px 15px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(47, 35, 20, 0.07);
+        transition: transform 140ms ease, background 140ms ease, border-color 140ms ease, box-shadow 140ms ease, color 140ms ease;
+      }
+
+      .mode-chip:hover,
+      .preset-chip:hover,
+      .step-chip:hover,
+      .action-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 28px rgba(47, 35, 20, 0.11);
+      }
+
+      .mode-chip.is-active,
+      .preset-chip.is-active,
+      .step-chip.is-active,
+      .action-btn.is-primary {
+        background: linear-gradient(135deg, #18211d 0%, #24463f 100%);
+        color: #fff;
+        border-color: var(--ink);
+        box-shadow: 0 16px 32px rgba(24, 33, 29, 0.18);
+      }
+
+      .action-btn:disabled {
+        cursor: progress;
+        opacity: 0.72;
+        transform: none;
+        box-shadow: 0 8px 20px rgba(47, 35, 20, 0.05);
+      }
+
+      .mode-chip:active,
+      .preset-chip:active,
+      .action-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 4px 10px rgba(47, 35, 20, 0.06);
+      }
+
+      .preset-chip[data-preset="Custom"] {
+        border-color: rgba(123, 134, 80, 0.32);
+      }
+
+      .preset-chip[data-preset="Custom"].is-active {
+        background: linear-gradient(135deg, #5a6430 0%, #7b8650 100%);
+        border-color: var(--olive);
+      }
+
+      @keyframes pulse-solved {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(30, 110, 104, 0); }
+        50% { box-shadow: 0 0 0 8px rgba(30, 110, 104, 0.18); }
+      }
+
+      .status-value.solved {
+        color: var(--teal);
+        animation: pulse-solved 1.5s ease-in-out 3;
+      }
+
+      .mode-chip[data-mode="signed"] {
+        border-color: rgba(184, 102, 54, 0.28);
+      }
+
+      .mode-chip[data-mode="internal"] {
+        border-color: rgba(123, 134, 80, 0.32);
+      }
+
+      .control-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .field {
+        display: grid;
+        gap: 8px;
+      }
+
+      .field label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+      }
+
+      .field input,
+      .field select {
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid rgba(95, 101, 94, 0.2);
+        background: rgba(255, 255, 255, 0.88);
+        padding: 12px 13px;
+        font: inherit;
+        color: var(--ink);
+      }
+
+      .field input:disabled {
+        color: rgba(24, 33, 29, 0.48);
+        background: rgba(243, 234, 223, 0.82);
+      }
+
+      .formula-card {
+        margin-top: 18px;
+        padding: 16px;
+        border-radius: var(--radius-lg);
+        background: linear-gradient(180deg, rgba(30, 110, 104, 0.08), rgba(30, 110, 104, 0.03));
+        border: 1px solid rgba(30, 110, 104, 0.14);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      }
+
+      .formula-card pre,
+      .trace-card pre,
+      .mono {
+        margin: 0;
+        white-space: pre-wrap;
+        word-break: break-word;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12.5px;
+        line-height: 1.62;
+      }
+
+      .status-band {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .status-cell {
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(95, 101, 94, 0.18);
+      }
+
+      .status-title {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 600;
+      }
+
+      .status-value {
+        margin-top: 7px;
+        font-size: 24px;
+        font-weight: 600;
+      }
+
+      .status-value.ok {
+        color: var(--teal);
+      }
+
+      .status-value.warn {
+        color: var(--copper);
+      }
+
+      .status-value.fail {
+        color: var(--rose);
+      }
+
+      .trace-list {
+        display: grid;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .trace-card {
+        padding: 16px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(247, 241, 233, 0.88));
+      }
+
+      .trace-card details {
+        margin-top: 12px;
+      }
+
+      .trace-card summary {
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--teal);
+      }
+
+      .trace-step-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .trace-step {
+        padding: 12px;
+        border-radius: 16px;
+        background: rgba(245, 239, 229, 0.86);
+        border: 1px solid rgba(95, 101, 94, 0.14);
+      }
+
+      .trace-step h4 {
+        font-size: 14px;
+        margin-bottom: 8px;
+      }
+
+      .trace-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .learning-top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .dataset-note {
+        margin-top: 16px;
+        padding: 16px;
+        border-radius: 18px;
+        background: rgba(184, 102, 54, 0.09);
+        border: 1px solid rgba(184, 102, 54, 0.16);
+        color: #6e4328;
+        line-height: 1.6;
+      }
+
+      .plot-frame {
+        margin-top: 18px;
+        padding: 18px;
+        border-radius: 24px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(242, 235, 223, 0.9)),
+          repeating-linear-gradient(
+            90deg,
+            rgba(30, 110, 104, 0.05),
+            rgba(30, 110, 104, 0.05) 1px,
+            transparent 1px,
+            transparent 42px
+          );
+        border: 1px solid rgba(30, 110, 104, 0.12);
+      }
+
+      #boundary-plot {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .training-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+        gap: 14px;
+        margin-top: 18px;
+      }
+
+      .mini-panel {
+        padding: 16px;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.76);
+        border: 1px solid rgba(95, 101, 94, 0.16);
+      }
+
+      .mini-title {
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 600;
+      }
+
+      .sample-ledger {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .sample-row {
+        display: grid;
+        grid-template-columns: 92px 72px 72px minmax(0, 1fr);
+        gap: 10px;
+        align-items: center;
+        padding: 11px 12px;
+        border-radius: 16px;
+        background: rgba(245, 239, 229, 0.8);
+        border: 1px solid rgba(95, 101, 94, 0.14);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+      }
+
+      .sample-row.is-current {
+        border-color: rgba(30, 110, 104, 0.35);
+        box-shadow: inset 0 0 0 1px rgba(30, 110, 104, 0.14);
+      }
+
+      .sample-row.is-wrong {
+        border-color: rgba(192, 91, 109, 0.28);
+        background: rgba(255, 244, 246, 0.88);
+      }
+
+      .sample-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 54px;
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: rgba(24, 33, 29, 0.08);
+      }
+
+      .sample-pill.good {
+        background: rgba(30, 110, 104, 0.14);
+        color: var(--teal);
+      }
+
+      .sample-pill.bad {
+        background: rgba(192, 91, 109, 0.12);
+        color: var(--rose);
+      }
+
+      .slider-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .slider-row label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--muted);
+        letter-spacing: 0.02em;
+        min-width: 100px;
+      }
+
+      .slider-row input[type="range"] {
+        flex: 1;
+        accent-color: var(--teal);
+        height: 6px;
+      }
+
+      .slider-row .val {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 13px;
+        min-width: 42px;
+        text-align: right;
+        color: var(--ink);
+      }
+
+      .slider-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px 20px;
+        margin-top: 14px;
+      }
+
+      @media (max-width: 720px) {
+        .slider-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .weight-plot-frame {
+        margin-top: 14px;
+        padding: 14px;
+        border-radius: 20px;
+        background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(242,235,223,0.9));
+        border: 1px solid rgba(30,110,104,0.12);
+      }
+
+      #weight-plot {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      #epoch-chart {
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-top: 14px;
+      }
+
+      .chart-note {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .history-grid {
+        display: grid;
+        gap: 10px;
+        margin-top: 16px;
+      }
+
+      .history-item {
+        padding: 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(95, 101, 94, 0.15);
+      }
+
+      .history-item strong {
+        color: var(--teal);
+      }
+
+      .footnote {
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .bridge-panel {
+        margin-top: 18px;
+        padding: 18px;
+        border-radius: 22px;
+        background:
+          radial-gradient(circle at top right, rgba(227, 176, 74, 0.15), transparent 36%),
+          linear-gradient(180deg, rgba(30, 110, 104, 0.08), rgba(255, 255, 255, 0.88));
+        border: 1px solid rgba(30, 110, 104, 0.14);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      }
+
+      .bridge-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .bridge-actions a {
+        text-decoration: none;
+      }
+
+      .bridge-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .bridge-cell {
+        padding: 13px 14px;
+        border-radius: 18px;
+        background: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(95, 101, 94, 0.14);
+      }
+
+      .bridge-cell strong {
+        display: block;
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      .bridge-cell span {
+        display: block;
+        margin-top: 7px;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: "IBM Plex Mono", monospace;
+      }
+
+      .bridge-copy {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+      }
+
+      .stack {
+        display: grid;
+        gap: 16px;
+      }
+
+      @media (max-width: 1080px) {
+        .hero,
+        .layout,
+        .metrics-row {
+          grid-template-columns: 1fr;
+        }
+
+        .status-band {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .training-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .lab-shell {
+          width: min(100vw - 14px, 100%);
+          margin: 7px auto;
+          padding: 12px;
+          border-radius: 24px;
+        }
+
+        .hero-main,
+        .hero-side,
+        .panel,
+        .metric {
+          border-radius: 22px;
+        }
+
+        .control-grid,
+        .status-band {
+          grid-template-columns: 1fr;
+        }
+
+        .bridge-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .sample-row {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        h1 {
+          max-width: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="lab-shell">
+      <section class="hero">
+        <div class="hero-main">
+          <div class="eyebrow">Tau Perceptron Lab</div>
+          <h1>Classifier logic, signed encodings, and a visible learning loop.</h1>
+          <p class="hero-copy">
+            This lab keeps two worlds separate on purpose. The upper half is backed by replayed Tau traces,
+            so every accepted step is evidence. The lower half is a host-side learning theater that makes the
+            weights move, the boundary rotate, and the signed state visible in Tau-friendly offset form.
+          </p>
+          <div class="tag-row">
+            <div class="tag">Replayable Tau traces</div>
+            <div class="tag">Unsigned and signed lanes</div>
+            <div class="tag">Internal-parameter variant</div>
+            <div class="tag">Host-side perceptron learning</div>
+          </div>
+        </div>
+        <aside class="hero-side">
+          <div class="metric">
+            <div class="metric-label">Certified Lanes</div>
+            <div class="metric-value" id="metric-certified">3</div>
+            <div class="metric-note">External unsigned weights, signed-offset encoding, and internal spec-stored weights.</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Training Presets</div>
+            <div class="metric-value">4</div>
+            <div class="metric-note">OR, AND, NAND, and XOR, including a visibly non-linearly-separable case.</div>
+          </div>
+          <div class="metric">
+            <div class="metric-label">Design Boundary</div>
+            <div class="metric-value">No Tau Redistribution</div>
+            <div class="metric-note">The page uses recorded traces and a browser demo, not a bundled Tau product.</div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="metrics-row" aria-label="Lab summary">
+        <div class="metric">
+          <div class="metric-label">Current Tau Lane</div>
+          <div class="metric-value" id="summary-mode">Unsigned external</div>
+          <div class="metric-note" id="summary-mode-note">Host provides weights and Tau checks the claim.</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Current Score</div>
+          <div class="metric-value" id="summary-score">24</div>
+          <div class="metric-note" id="summary-score-note">Weighted sum before thresholding.</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Learning Preset</div>
+          <div class="metric-value" id="summary-preset">OR</div>
+          <div class="metric-note" id="summary-training-note">A single perceptron can converge on this dataset.</div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Boundary Status</div>
+          <div class="metric-value" id="summary-boundary">Untrained</div>
+          <div class="metric-note" id="summary-boundary-note">The learning theater starts from zero weights.</div>
+        </div>
+      </section>
+
+      <section class="layout">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-kicker">Tau classifier workbench</div>
+              <h2>One step, three storage choices</h2>
+              <p class="panel-subcopy">
+                External unsigned weights, signed-offset weights, and internal parameters all implement the same
+                basic classifier relation. What changes is the interface boundary.
+              </p>
+            </div>
+          </div>
+
+          <div class="mode-switch" id="mode-switch" aria-label="Classifier mode">
+            <button class="mode-chip is-active" data-mode="unsigned">Unsigned external</button>
+            <button class="mode-chip" data-mode="signed">Signed offset</button>
+            <button class="mode-chip" data-mode="internal">Internal spec weights</button>
+          </div>
+
+          <div class="control-grid">
+            <div class="field">
+              <label for="x1-input">x1</label>
+              <input id="x1-input" type="number" />
+            </div>
+            <div class="field">
+              <label for="x2-input">x2</label>
+              <input id="x2-input" type="number" />
+            </div>
+            <div class="field">
+              <label for="w1-input">w1</label>
+              <input id="w1-input" type="number" />
+            </div>
+            <div class="field">
+              <label for="w2-input">w2</label>
+              <input id="w2-input" type="number" />
+            </div>
+            <div class="field">
+              <label for="bias-input">bias</label>
+              <input id="bias-input" type="number" />
+            </div>
+            <div class="field">
+              <label for="threshold-input">threshold</label>
+              <input id="threshold-input" type="number" />
+            </div>
+            <div class="field">
+              <label for="claim-input">claimed class</label>
+              <select id="claim-input">
+                <option value="0">0</option>
+                <option value="1">1</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="trace-select">load certified step</label>
+              <select id="trace-select"></select>
+            </div>
+          </div>
+
+          <div class="status-band">
+            <div class="status-cell">
+              <div class="status-title">Score</div>
+              <div class="status-value" id="status-score">24</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Actual class</div>
+              <div class="status-value" id="status-class">1</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Claimed class</div>
+              <div class="status-value" id="status-claim">1</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Tau-style acceptance</div>
+              <div class="status-value ok" id="status-accept">accept</div>
+            </div>
+          </div>
+
+          <div class="formula-card">
+            <pre id="formula-view"></pre>
+          </div>
+
+          <div class="formula-card">
+            <pre id="encoding-view"></pre>
+          </div>
+
+          <p class="footnote" id="classifier-footnote">
+            In the unsigned lane, the workbench mirrors the same bounded relation the Tau spec checks directly.
+          </p>
+
+          <section class="bridge-panel" aria-label="Optional local Tau bridge">
+            <div class="panel-kicker">Optional live local Tau run</div>
+            <h3 style="margin-top: 8px">Install Tau upstream, then let the lab call the local bridge</h3>
+            <p class="bridge-copy">
+              The site does not ship Tau. It can only talk to a localhost helper that the reader starts
+              deliberately after installing Tau from the official upstream repository.
+            </p>
+            <div class="bridge-actions">
+              <a
+                class="action-btn"
+                href="https://github.com/IDNI/tau-lang"
+                target="_blank"
+                rel="noreferrer noopener"
+                id="tau-install-link">Official Tau GitHub</a>
+              <a
+                class="action-btn"
+                href="https://github.com/TheDarkLightX/Formal_Methods_Philosophy/tree/main/examples/tau"
+                target="_blank"
+                rel="noreferrer noopener">Download spec files</a>
+              <button class="action-btn" id="bridge-check-btn">Check local bridge</button>
+              <button class="action-btn is-primary" id="bridge-run-btn">Run current step with local Tau</button>
+            </div>
+            <div class="bridge-grid">
+              <div class="bridge-cell">
+                <strong>Bridge</strong>
+                <span id="bridge-status">Unchecked</span>
+              </div>
+              <div class="bridge-cell">
+                <strong>Tau path</strong>
+                <span id="bridge-path">Not detected</span>
+              </div>
+              <div class="bridge-cell">
+                <strong>Mode</strong>
+                <span id="bridge-mode">Current workbench mode</span>
+              </div>
+            </div>
+            <div class="formula-card" style="margin-top: 14px">
+              <pre id="bridge-output">Local setup from the repo root:
+1. Install Tau from the official Tau GitHub.
+2. Run: python3 scripts/tau_local_bridge.py
+3. Click "Check local bridge", then "Run current step with local Tau".</pre>
+            </div>
+          </section>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-kicker">Certified trace ledger</div>
+              <h2>What the local Tau runs actually said</h2>
+              <p class="panel-subcopy">
+                These cards are populated from the recorded trace bundle generated by the local runner. They are the evidence layer.
+              </p>
+            </div>
+          </div>
+          <div class="trace-list" id="trace-list">
+            <div class="trace-card">Loading trace bundle…</div>
+          </div>
+        </section>
+      </section>
+
+      <section class="layout">
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-kicker">Learning theater</div>
+              <h2>Watch the boundary move</h2>
+              <p class="panel-subcopy">
+                This is a host-side learning loop. It uses signed weights and bias, then shows the offset-encoded Tau-facing form of the same state.
+              </p>
+            </div>
+          </div>
+
+          <div class="learning-top" id="preset-row">
+            <button class="preset-chip is-active" data-preset="OR">OR</button>
+            <button class="preset-chip" data-preset="AND">AND</button>
+            <button class="preset-chip" data-preset="NAND">NAND</button>
+            <button class="preset-chip" data-preset="XOR">XOR</button>
+            <button class="preset-chip" data-preset="Custom">Custom</button>
+          </div>
+
+          <div class="slider-grid">
+            <div class="slider-row">
+              <label for="lr-slider">Learning rate</label>
+              <input id="lr-slider" type="range" min="1" max="20" value="10" step="1" />
+              <span class="val" id="lr-val">1.0</span>
+            </div>
+            <div class="slider-row">
+              <label for="speed-slider">Auto speed</label>
+              <input id="speed-slider" type="range" min="1" max="5" value="3" step="1" />
+              <span class="val" id="speed-val">med</span>
+            </div>
+          </div>
+
+          <div class="learning-top">
+            <button class="action-btn is-primary" id="step-btn">Single step</button>
+            <button class="action-btn" id="epoch-btn">One epoch</button>
+            <button class="action-btn" id="burst-btn">Eight steps</button>
+            <button class="action-btn" id="autorun-btn">Auto train</button>
+            <button class="action-btn" id="stop-btn">Stop</button>
+            <button class="action-btn" id="reset-btn">Reset</button>
+          </div>
+
+          <div class="dataset-note" id="dataset-note">
+            OR is linearly separable. A single perceptron should converge quickly from zero weights.
+          </div>
+
+          <div class="plot-frame">
+            <svg id="boundary-plot" viewBox="0 0 580 390" role="img" aria-label="Perceptron decision boundary plot"></svg>
+          </div>
+
+          <div class="status-band">
+            <div class="status-cell">
+              <div class="status-title">Weights</div>
+              <div class="status-value" id="train-weights">0, 0</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Bias</div>
+              <div class="status-value" id="train-bias">0</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Current sample</div>
+              <div class="status-value" id="train-sample">(0,0)</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Prediction</div>
+              <div class="status-value" id="train-prediction">0</div>
+            </div>
+          </div>
+
+          <div class="status-band">
+            <div class="status-cell">
+              <div class="status-title">Accuracy</div>
+              <div class="status-value" id="train-accuracy">3/4</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Mistakes</div>
+              <div class="status-value" id="train-mistakes">1</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Min signed margin</div>
+              <div class="status-value" id="train-margin">0</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Autoplay</div>
+              <div class="status-value" id="train-autoplay">Idle</div>
+            </div>
+          </div>
+
+          <div class="formula-card">
+            <pre id="training-formula"></pre>
+          </div>
+
+          <div class="training-grid">
+            <section class="mini-panel" aria-label="Dataset ledger">
+              <div class="mini-title">Dataset ledger</div>
+              <div class="sample-ledger" id="sample-ledger"></div>
+            </section>
+            <section class="mini-panel" aria-label="Epoch error chart">
+              <div class="mini-title">Epoch error chart</div>
+              <svg id="epoch-chart" viewBox="0 0 360 220" role="img" aria-label="Epoch mistakes chart"></svg>
+              <p class="chart-note" id="epoch-note">
+                Each bar is the number of mistakes after one full pass through the current dataset.
+              </p>
+            </section>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div>
+              <div class="panel-kicker">State history</div>
+              <h2>Signed learning, Tau-facing encoding</h2>
+              <p class="panel-subcopy">
+                The learner updates signed weights. The lower readout shows how that same signed state would be serialized into the offset-encoded lane from the tutorial.
+              </p>
+            </div>
+          </div>
+
+          <div class="status-band">
+            <div class="status-cell">
+              <div class="status-title">Encoded w1</div>
+              <div class="status-value" id="encoded-w1">127</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Encoded w2</div>
+              <div class="status-value" id="encoded-w2">127</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Encoded bias</div>
+              <div class="status-value" id="encoded-bias">127</div>
+            </div>
+            <div class="status-cell">
+              <div class="status-title">Status</div>
+              <div class="status-value" id="train-status">Cold start</div>
+            </div>
+          </div>
+
+          <div class="weight-plot-frame">
+            <div class="mini-title">Weight trajectory (w1 vs w2)</div>
+            <svg id="weight-plot" viewBox="0 0 280 280" role="img" aria-label="Weight trajectory plot"></svg>
+          </div>
+
+          <div class="history-grid" id="history-grid"></div>
+
+          <p class="footnote">
+            XOR is here on purpose. A single perceptron cannot separate it with one line. A failed convergence story is still a useful experiment, because it teaches what this model class cannot express.
+          </p>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const traceSelect = document.getElementById("trace-select");
+      const traceList = document.getElementById("trace-list");
+      const modeSwitch = document.getElementById("mode-switch");
+      const bridgeEls = {
+        checkBtn: document.getElementById("bridge-check-btn"),
+        runBtn: document.getElementById("bridge-run-btn"),
+        status: document.getElementById("bridge-status"),
+        path: document.getElementById("bridge-path"),
+        mode: document.getElementById("bridge-mode"),
+        output: document.getElementById("bridge-output"),
+      };
+      const BRIDGE_URL = "http://127.0.0.1:8714";
+      const TAU_UPSTREAM_URL = "https://github.com/IDNI/tau-lang";
+      const inputs = {
+        x1: document.getElementById("x1-input"),
+        x2: document.getElementById("x2-input"),
+        w1: document.getElementById("w1-input"),
+        w2: document.getElementById("w2-input"),
+        bias: document.getElementById("bias-input"),
+        threshold: document.getElementById("threshold-input"),
+        claim: document.getElementById("claim-input"),
+      };
+
+      const classifierState = {
+        mode: "unsigned",
+        x1: 2,
+        x2: 3,
+        w1: 4,
+        w2: 5,
+        bias: 1,
+        threshold: 20,
+        claim: 1,
+      };
+
+      const bridgeState = {
+        checked: false,
+        available: false,
+        tauFound: false,
+        tauBinaryName: "",
+      };
+
+      const summaryEls = {
+        mode: document.getElementById("summary-mode"),
+        modeNote: document.getElementById("summary-mode-note"),
+        score: document.getElementById("summary-score"),
+        scoreNote: document.getElementById("summary-score-note"),
+        preset: document.getElementById("summary-preset"),
+        trainingNote: document.getElementById("summary-training-note"),
+        boundary: document.getElementById("summary-boundary"),
+        boundaryNote: document.getElementById("summary-boundary-note"),
+      };
+
+      const datasets = {
+        OR: {
+          note: "OR is linearly separable. A single perceptron should converge quickly from zero weights.",
+          samples: [
+            { x1: 0, x2: 0, y: 0 },
+            { x1: 0, x2: 1, y: 1 },
+            { x1: 1, x2: 0, y: 1 },
+            { x1: 1, x2: 1, y: 1 },
+          ],
+        },
+        AND: {
+          note: "AND is linearly separable, but it usually needs a negative bias before the last corner falls into place.",
+          samples: [
+            { x1: 0, x2: 0, y: 0 },
+            { x1: 0, x2: 1, y: 0 },
+            { x1: 1, x2: 0, y: 0 },
+            { x1: 1, x2: 1, y: 1 },
+          ],
+        },
+        NAND: {
+          note: "NAND is also linearly separable. The line flips the AND picture upside down.",
+          samples: [
+            { x1: 0, x2: 0, y: 1 },
+            { x1: 0, x2: 1, y: 1 },
+            { x1: 1, x2: 0, y: 1 },
+            { x1: 1, x2: 1, y: 0 },
+          ],
+        },
+        XOR: {
+          note: "XOR is not linearly separable. The perceptron will keep moving, but one straight boundary cannot classify all four corners correctly.",
+          samples: [
+            { x1: 0, x2: 0, y: 0 },
+            { x1: 0, x2: 1, y: 1 },
+            { x1: 1, x2: 0, y: 1 },
+            { x1: 1, x2: 1, y: 0 },
+          ],
+        },
+        Custom: {
+          note: "Click the decision plane to place points. Click = class 1 (teal), shift-click = class 0 (copper). The perceptron will try to learn whatever you draw.",
+          samples: [
+            { x1: 0.2, x2: 0.8, y: 1 },
+            { x1: 0.8, x2: 0.2, y: 1 },
+            { x1: 0.2, x2: 0.2, y: 0 },
+            { x1: 0.8, x2: 0.8, y: 0 },
+          ],
+        },
+      };
+
+      const speedMap = { 1: 400, 2: 260, 3: 180, 4: 100, 5: 50 };
+      const speedLabels = { 1: "slow", 2: "med-", 3: "med", 4: "fast", 5: "max" };
+      let autoSpeed = 180;
+
+      const trainer = {
+        preset: "OR",
+        weights: { w1: 0, w2: 0, b: 0 },
+        learningRate: 1,
+        sampleIndex: 0,
+        epoch: 0,
+        history: [],
+        epochMistakes: [],
+        lastUpdate: null,
+        autoplay: {
+          timer: null,
+          steps: 0,
+          cap: 48,
+          mode: "idle",
+        },
+      };
+
+      const historyGrid = document.getElementById("history-grid");
+      const datasetNote = document.getElementById("dataset-note");
+      const plot = document.getElementById("boundary-plot");
+      const trainingFormula = document.getElementById("training-formula");
+      const sampleLedger = document.getElementById("sample-ledger");
+      const epochChart = document.getElementById("epoch-chart");
+      const epochNote = document.getElementById("epoch-note");
+      const autorunBtn = document.getElementById("autorun-btn");
+      const stopBtn = document.getElementById("stop-btn");
+
+      const certifiedCases = [];
+
+      function stripAnsi(value) {
+        return value.replace(/\u001b\[[0-9;]*m/g, "");
+      }
+
+      function clampSigned(value) {
+        return Math.max(-127, Math.min(127, value));
+      }
+
+      function encodeSigned(value) {
+        return clampSigned(value) + 127;
+      }
+
+      function getClassifierConfig() {
+        if (classifierState.mode === "internal") {
+          return {
+            x1: classifierState.x1,
+            x2: classifierState.x2,
+            w1: 4,
+            w2: 5,
+            bias: 1,
+            threshold: classifierState.threshold,
+            claim: classifierState.claim,
+          };
+        }
+        return { ...classifierState };
+      }
+
+      function computeClassifierOutcome() {
+        const cfg = getClassifierConfig();
+        const score = (cfg.x1 * cfg.w1) + (cfg.x2 * cfg.w2) + cfg.bias;
+        const actualClass = score >= cfg.threshold ? 1 : 0;
+        let boundsOk = true;
+        let encodingLines = [];
+
+        if (classifierState.mode === "unsigned" || classifierState.mode === "internal") {
+          const values = [cfg.x1, cfg.x2, cfg.w1, cfg.w2, cfg.bias, cfg.threshold];
+          boundsOk = values.every((value) => Number.isInteger(value) && value >= 0 && value <= 127);
+          encodingLines.push("Unsigned lane");
+          encodingLines.push("Bounds: 0 <= x1, x2, w1, w2, bias, threshold <= 127");
+        } else {
+          const signedValues = [cfg.x1, cfg.x2, cfg.w1, cfg.w2, cfg.bias, cfg.threshold];
+          boundsOk = signedValues.every((value) => Number.isInteger(value) && value >= -127 && value <= 127);
+          encodingLines.push("Signed-offset lane");
+          encodingLines.push(
+            `Encoded: x1=${encodeSigned(cfg.x1)}, x2=${encodeSigned(cfg.x2)}, w1=${encodeSigned(cfg.w1)}, w2=${encodeSigned(cfg.w2)}, bias=${encodeSigned(cfg.bias)}, threshold=${encodeSigned(cfg.threshold)}`
+          );
+        }
+
+        return {
+          ...cfg,
+          score,
+          actualClass,
+          accepted: boundsOk && actualClass === cfg.claim,
+          boundsOk,
+          encodingLines,
+        };
+      }
+
+      function renderClassifier() {
+        const modeLabels = {
+          unsigned: "Unsigned external",
+          signed: "Signed offset",
+          internal: "Internal spec weights",
+        };
+        const modeNotes = {
+          unsigned: "Host provides x, weights, bias, and threshold as streams.",
+          signed: "Host thinks in signed values, Tau sees offset-encoded integers.",
+          internal: "The host no longer chooses the weights. The spec owns them.",
+        };
+
+        const cfg = getClassifierConfig();
+        inputs.x1.value = classifierState.x1;
+        inputs.x2.value = classifierState.x2;
+        inputs.w1.value = classifierState.mode === "internal" ? 4 : classifierState.w1;
+        inputs.w2.value = classifierState.mode === "internal" ? 5 : classifierState.w2;
+        inputs.bias.value = classifierState.mode === "internal" ? 1 : classifierState.bias;
+        inputs.threshold.value = classifierState.threshold;
+        inputs.claim.value = String(classifierState.claim);
+
+        const disableWeights = classifierState.mode === "internal";
+        inputs.w1.disabled = disableWeights;
+        inputs.w2.disabled = disableWeights;
+        inputs.bias.disabled = disableWeights;
+
+        const outcome = computeClassifierOutcome();
+
+        document.querySelectorAll(".mode-chip").forEach((chip) => {
+          chip.classList.toggle("is-active", chip.dataset.mode === classifierState.mode);
+        });
+
+        document.getElementById("status-score").textContent = String(outcome.score);
+        document.getElementById("status-class").textContent = String(outcome.actualClass);
+        document.getElementById("status-claim").textContent = String(outcome.claim);
+        const acceptEl = document.getElementById("status-accept");
+        acceptEl.textContent = outcome.accepted ? "accept" : "reject";
+        acceptEl.className = `status-value ${outcome.accepted ? "ok" : "fail"}`;
+
+        summaryEls.mode.textContent = modeLabels[classifierState.mode];
+        summaryEls.modeNote.textContent = modeNotes[classifierState.mode];
+        summaryEls.score.textContent = String(outcome.score);
+        summaryEls.scoreNote.textContent = outcome.boundsOk
+          ? "All bounded inputs are inside the active lane."
+          : "At least one input is outside the active lane's allowed range.";
+
+        const relation = classifierState.mode === "internal"
+          ? `score = 4*${outcome.x1} + 5*${outcome.x2} + 1 = ${outcome.score}`
+          : `score = ${outcome.x1}*${outcome.w1} + ${outcome.x2}*${outcome.w2} + ${outcome.bias} = ${outcome.score}`;
+
+        document.getElementById("formula-view").textContent =
+          [
+            relation,
+            `actual_class = 1 iff score >= threshold`,
+            `${outcome.score} ${outcome.score >= outcome.threshold ? ">=" : "<"} ${outcome.threshold}`,
+            `claim = ${outcome.claim}`,
+            `Tau-style acceptance = bounds_ok and (actual_class = claim)`,
+          ].join("\n");
+
+        document.getElementById("encoding-view").textContent = outcome.encodingLines.join("\n");
+        document.getElementById("classifier-footnote").textContent =
+          classifierState.mode === "signed"
+            ? "The signed view is shown in decoded numbers, but the encoded line is what would be handed to the signed-offset Tau lane."
+            : classifierState.mode === "internal"
+              ? "This lane uses the same classifier relation, but the weights are fixed inside the spec rather than supplied as streams."
+              : "In the unsigned lane, the workbench mirrors the same bounded relation the Tau spec checks directly.";
+        renderBridgeStatus();
+      }
+
+      function buildBridgePayload() {
+        const values = {
+          x1: Number(inputs.x1.value),
+          x2: Number(inputs.x2.value),
+          threshold: Number(inputs.threshold.value),
+          claim: Number(inputs.claim.value),
+        };
+        if (classifierState.mode !== "internal") {
+          values.w1 = Number(inputs.w1.value);
+          values.w2 = Number(inputs.w2.value);
+          values.bias = Number(inputs.bias.value);
+        }
+        return { mode: classifierState.mode, values };
+      }
+
+      function renderBridgeStatus() {
+        bridgeEls.mode.textContent = {
+          unsigned: "Unsigned external",
+          signed: "Signed offset",
+          internal: "Internal spec weights",
+        }[classifierState.mode];
+
+        if (!bridgeState.checked) {
+          bridgeEls.status.textContent = "Unchecked";
+          bridgeEls.path.textContent = "Not detected";
+          return;
+        }
+
+        if (!bridgeState.available) {
+          bridgeEls.status.textContent = "Offline";
+          bridgeEls.path.textContent = "Start python3 scripts/tau_local_bridge.py";
+          return;
+        }
+
+        if (!bridgeState.tauFound) {
+          bridgeEls.status.textContent = "Tau missing";
+          bridgeEls.path.textContent = "Install from official upstream";
+          return;
+        }
+
+        bridgeEls.status.textContent = "Ready";
+        bridgeEls.path.textContent = bridgeState.tauBinaryName || "Detected locally";
+      }
+
+      async function checkTauBridge(options = {}) {
+        const { silent = false } = options;
+        bridgeEls.checkBtn.disabled = true;
+        bridgeEls.status.textContent = "Checking";
+        try {
+          const response = await fetch(`${BRIDGE_URL}/health`);
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const data = await response.json();
+          bridgeState.checked = true;
+          bridgeState.available = true;
+          bridgeState.tauFound = Boolean(data.tau_found);
+          bridgeState.tauBinaryName = data.tau_binary_name || "";
+          renderBridgeStatus();
+          if (!silent) {
+            bridgeEls.output.textContent = data.tau_found
+              ? `Bridge reachable.\nLocal Tau binary: ${data.tau_binary_name || "detected"}\nCommand: ${data.command}\nSupported modes: ${(data.supported_modes || []).join(", ")}`
+              : `Bridge reachable, but Tau was not found.\nInstall Tau from ${data.tau_upstream_url}\nThen restart the bridge with: ${data.command}`;
+          }
+        } catch (error) {
+          bridgeState.checked = true;
+          bridgeState.available = false;
+          bridgeState.tauFound = false;
+          bridgeState.tauBinaryName = "";
+          renderBridgeStatus();
+          if (!silent) {
+            bridgeEls.output.textContent =
+              `Bridge not reachable at ${BRIDGE_URL}.\nFrom the repo root, run:\npython3 scripts/tau_local_bridge.py\n\nAfter that, click "Check local bridge" again.`;
+          }
+        } finally {
+          bridgeEls.checkBtn.disabled = false;
+          reportHeight();
+        }
+      }
+
+      async function runCurrentWithLocalTau() {
+        bridgeEls.runBtn.disabled = true;
+        bridgeEls.output.textContent = "Running the current workbench state through local Tau...";
+        try {
+          const response = await fetch(`${BRIDGE_URL}/run-perceptron`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(buildBridgePayload()),
+          });
+          const data = await response.json();
+          if (!response.ok || !data.ok) {
+            bridgeState.checked = true;
+            bridgeState.available = true;
+            bridgeState.tauFound = data.error !== "tau_not_found";
+            bridgeState.tauBinaryName = data.tau_binary_name || "";
+            renderBridgeStatus();
+            bridgeEls.output.textContent = [
+              "Local Tau run failed.",
+              data.message || data.error || `HTTP ${response.status}`,
+              data.hint || `Install Tau from ${TAU_UPSTREAM_URL}, start the bridge, then try again.`,
+            ].join("\n\n");
+            return;
+          }
+          bridgeState.checked = true;
+          bridgeState.available = true;
+          bridgeState.tauFound = true;
+          bridgeState.tauBinaryName = data.tau_binary_name || "";
+          renderBridgeStatus();
+          const outputs = data.outputs_by_step?.["0"] || data.outputs_by_step?.[0] || {};
+          bridgeEls.output.textContent = [
+            `spec = ${data.spec_relpath}`,
+            `mode = ${data.mode}`,
+            `tau_binary = ${data.tau_binary_name || "tau"}`,
+            `outputs = ${JSON.stringify(outputs)}`,
+            `derived = ${JSON.stringify(data.derived)}`,
+            "",
+            "trace excerpt:",
+            data.trace_excerpt || "(no trace excerpt)",
+          ].join("\n");
+        } catch (error) {
+          bridgeState.checked = true;
+          bridgeState.available = false;
+          bridgeState.tauFound = false;
+          bridgeState.tauBinaryName = "";
+          renderBridgeStatus();
+          bridgeEls.output.textContent = [
+            "Local Tau run failed.",
+            String(error.message || error),
+            "",
+            `Install Tau from ${TAU_UPSTREAM_URL}, start the bridge, then try again.`,
+          ].join("\n");
+        } finally {
+          bridgeEls.runBtn.disabled = false;
+          reportHeight();
+        }
+      }
+
+      function loadCertifiedStep(value) {
+        const [caseName, stepIndexRaw] = value.split(":");
+        const caseEntry = certifiedCases.find((entry) => entry.key === caseName);
+        if (!caseEntry) {
+          return;
+        }
+        const step = caseEntry.caseData.steps[Number(stepIndexRaw)];
+        if (!step) {
+          return;
+        }
+        if (caseName === "unsigned_external_weights") {
+          classifierState.mode = "unsigned";
+          classifierState.x1 = step.i1;
+          classifierState.x2 = step.i2;
+          classifierState.w1 = step.i3;
+          classifierState.w2 = step.i4;
+          classifierState.bias = step.i5;
+          classifierState.threshold = step.i6;
+          classifierState.claim = step.i7;
+        } else if (caseName === "signed_offset_external_weights") {
+          classifierState.mode = "signed";
+          classifierState.x1 = step.i1 - 127;
+          classifierState.x2 = step.i2 - 127;
+          classifierState.w1 = step.i3 - 127;
+          classifierState.w2 = step.i4 - 127;
+          classifierState.bias = step.i5 - 127;
+          classifierState.threshold = step.i6 - 127;
+          classifierState.claim = step.i7;
+        } else if (caseName === "internal_parameters") {
+          classifierState.mode = "internal";
+          classifierState.x1 = step.i1;
+          classifierState.x2 = step.i2;
+          classifierState.threshold = step.i3;
+          classifierState.claim = step.i4;
+        }
+        renderClassifier();
+      }
+
+      function renderTraceCards(data) {
+        traceList.innerHTML = "";
+        traceSelect.innerHTML = "";
+        certifiedCases.length = 0;
+
+        Object.entries(data.cases).forEach(([key, caseData]) => {
+          certifiedCases.push({ key, caseData });
+
+          caseData.steps.forEach((step, index) => {
+            const option = document.createElement("option");
+            option.value = `${key}:${index}`;
+            option.textContent = `${key.replaceAll("_", " ")} - step ${index}`;
+            traceSelect.appendChild(option);
+          });
+
+          const card = document.createElement("article");
+          card.className = "trace-card";
+
+          const title = document.createElement("h3");
+          title.textContent = key.replaceAll("_", " ");
+          card.appendChild(title);
+
+          const meta = document.createElement("div");
+          meta.className = "trace-meta";
+          meta.innerHTML = `
+            <span>spec: ${caseData.spec_relpath}</span>
+            <span>steps: ${caseData.steps.length}</span>
+            <span>outputs: ${Object.keys(caseData.outputs_by_step).length}</span>
+          `;
+          card.appendChild(meta);
+
+          const stepGrid = document.createElement("div");
+          stepGrid.className = "trace-step-grid";
+
+          caseData.steps.forEach((step, index) => {
+            const derived = caseData.derived[index];
+            const tile = document.createElement("div");
+            tile.className = "trace-step";
+            const outputEntry = caseData.outputs_by_step[String(index)] || caseData.outputs_by_step[index] || {};
+            tile.innerHTML = `
+              <h4>Step ${index}</h4>
+              <div class="mono">inputs: ${JSON.stringify(step)}</div>
+              <div class="mono">derived: ${JSON.stringify(derived)}</div>
+              <div class="mono">outputs: ${JSON.stringify(outputEntry)}</div>
+            `;
+            stepGrid.appendChild(tile);
+          });
+
+          card.appendChild(stepGrid);
+
+          const details = document.createElement("details");
+          details.innerHTML = `
+            <summary>Trace excerpt</summary>
+            <pre>${stripAnsi(caseData.stdout).split("\n").slice(0, 22).join("\n")}</pre>
+          `;
+          card.appendChild(details);
+          traceList.appendChild(card);
+        });
+
+        traceSelect.addEventListener("change", (event) => {
+          loadCertifiedStep(event.target.value);
+        });
+      }
+
+      function predictSample(sample) {
+        const score = (trainer.weights.w1 * sample.x1) + (trainer.weights.w2 * sample.x2) + trainer.weights.b;
+        return { score, prediction: score >= 0 ? 1 : 0 };
+      }
+
+      function signedMargin(sample, score) {
+        return sample.y === 1 ? score : -score;
+      }
+
+      function evaluateDataset() {
+        const samples = datasets[trainer.preset].samples;
+        const evaluations = samples.map((sample, index) => {
+          const { score, prediction } = predictSample(sample);
+          const correct = prediction === sample.y;
+          return {
+            index,
+            sample,
+            score,
+            prediction,
+            correct,
+            margin: signedMargin(sample, score),
+          };
+        });
+
+        const correctCount = evaluations.filter((entry) => entry.correct).length;
+        const mistakes = evaluations.length - correctCount;
+        const minMargin = evaluations.reduce((min, entry) => Math.min(min, entry.margin), Infinity);
+        return {
+          evaluations,
+          correctCount,
+          total: evaluations.length,
+          mistakes,
+          minMargin,
+          solved: mistakes === 0,
+        };
+      }
+
+      function datasetSolved() {
+        return evaluateDataset().solved;
+      }
+
+      function pushHistory(record) {
+        trainer.history.unshift(record);
+        trainer.history = trainer.history.slice(0, 8);
+      }
+
+      function pushEpochMetric() {
+        const evaluation = evaluateDataset();
+        trainer.epochMistakes.push({
+          epoch: trainer.epoch,
+          mistakes: evaluation.mistakes,
+          accuracy: `${evaluation.correctCount}/${evaluation.total}`,
+        });
+        trainer.epochMistakes = trainer.epochMistakes.slice(-18);
+      }
+
+      function stopAutoplay(reason = "Idle") {
+        if (trainer.autoplay.timer) {
+          window.clearInterval(trainer.autoplay.timer);
+        }
+        trainer.autoplay.timer = null;
+        trainer.autoplay.mode = reason;
+      }
+
+      function trainerStep(options = {}) {
+        const { silent = false } = options;
+        const samples = datasets[trainer.preset].samples;
+        const sample = samples[trainer.sampleIndex];
+        const { score, prediction } = predictSample(sample);
+        const error = sample.y - prediction;
+        const deltaW1 = trainer.learningRate * error * sample.x1;
+        const deltaW2 = trainer.learningRate * error * sample.x2;
+        const deltaB = trainer.learningRate * error;
+
+        trainer.weights.w1 = clampSigned(trainer.weights.w1 + deltaW1);
+        trainer.weights.w2 = clampSigned(trainer.weights.w2 + deltaW2);
+        trainer.weights.b = clampSigned(trainer.weights.b + deltaB);
+        trainer.lastUpdate = {
+          sample,
+          score,
+          prediction,
+          error,
+          deltaW1,
+          deltaW2,
+          deltaB,
+        };
+
+        pushHistory({
+          epoch: trainer.epoch,
+          sampleIndex: trainer.sampleIndex,
+          sample,
+          score,
+          prediction,
+          error,
+          weights: { ...trainer.weights },
+        });
+
+        trainer.sampleIndex += 1;
+        if (trainer.sampleIndex >= samples.length) {
+          trainer.sampleIndex = 0;
+          trainer.epoch += 1;
+          pushEpochMetric();
+        }
+
+        if (!silent) {
+          renderTraining();
+        }
+      }
+
+      function trainerEpoch() {
+        const samples = datasets[trainer.preset].samples;
+        for (let index = 0; index < samples.length; index += 1) {
+          trainerStep({ silent: true });
+        }
+        renderTraining();
+      }
+
+      function trainerBurst() {
+        for (let index = 0; index < 8; index += 1) {
+          trainerStep({ silent: true });
+        }
+        renderTraining();
+      }
+
+      function startAutoplay() {
+        stopAutoplay("Running");
+        trainer.autoplay.mode = "Running";
+        trainer.autoplay.steps = 0;
+        trainer.autoplay.timer = window.setInterval(() => {
+          const evaluation = evaluateDataset();
+          if (evaluation.solved) {
+            stopAutoplay("Solved");
+            renderTraining();
+            return;
+          }
+          if (trainer.autoplay.steps >= trainer.autoplay.cap) {
+            const unsolvable = trainer.preset === "XOR" || (trainer.preset === "Custom" && datasets.Custom.samples.length < 2);
+            stopAutoplay(unsolvable ? "Cap reached" : "Search cap");
+            renderTraining();
+            return;
+          }
+          trainer.autoplay.steps += 1;
+          trainerStep({ silent: true });
+          renderTraining();
+        }, autoSpeed);
+      }
+
+      function resetTrainer(preset = trainer.preset) {
+        stopAutoplay("Idle");
+        trainer.preset = preset;
+        trainer.weights = { w1: 0, w2: 0, b: 0 };
+        trainer.sampleIndex = 0;
+        trainer.epoch = 0;
+        trainer.history = [];
+        trainer.epochMistakes = [];
+        trainer.lastUpdate = null;
+        trainer.autoplay.steps = 0;
+        document.querySelectorAll(".preset-chip").forEach((chip) => {
+          chip.classList.toggle("is-active", chip.dataset.preset === trainer.preset);
+        });
+        renderTraining();
+      }
+
+      function lineSegment() {
+        const { w1, w2, b } = trainer.weights;
+        const points = [];
+        const candidates = [];
+
+        if (Math.abs(w2) > 1e-9) {
+          candidates.push({ x: 0, y: (-b) / w2 });
+          candidates.push({ x: 1, y: (-(w1 + b)) / w2 });
+        }
+        if (Math.abs(w1) > 1e-9) {
+          candidates.push({ x: (-b) / w1, y: 0 });
+          candidates.push({ x: (-(w2 + b)) / w1, y: 1 });
+        }
+
+        candidates.forEach((point) => {
+          if (point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1) {
+            if (!points.some((other) => Math.abs(other.x - point.x) < 1e-6 && Math.abs(other.y - point.y) < 1e-6)) {
+              points.push(point);
+            }
+          }
+        });
+        return points.slice(0, 2);
+      }
+
+      function buildRegionPolygons(segment, padding, size, toX, toY) {
+        if (segment.length < 2) return { poly1: "", poly0: "" };
+        const { w1, w2, b } = trainer.weights;
+        const corners = [
+          { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 1, y: 1 }, { x: 0, y: 1 },
+        ];
+        const s0 = segment[0], s1 = segment[1];
+        const classify = (pt) => (w1 * pt.x + w2 * pt.y + b) >= 0 ? 1 : 0;
+        const insertBetween = (edgeCorners) => {
+          const result = [];
+          for (let i = 0; i < edgeCorners.length; i++) {
+            result.push(edgeCorners[i]);
+            const next = edgeCorners[(i + 1) % edgeCorners.length];
+            for (const sp of [s0, s1]) {
+              const onEdge =
+                (Math.abs(sp.x - edgeCorners[i].x) < 1e-6 && Math.abs(sp.x - next.x) < 1e-6) ||
+                (Math.abs(sp.y - edgeCorners[i].y) < 1e-6 && Math.abs(sp.y - next.y) < 1e-6);
+              if (!onEdge) continue;
+              const d1 = Math.hypot(sp.x - edgeCorners[i].x, sp.y - edgeCorners[i].y);
+              const d2 = Math.hypot(next.x - edgeCorners[i].x, next.y - edgeCorners[i].y);
+              if (d1 > 1e-6 && d1 < d2 - 1e-6) result.push(sp);
+            }
+          }
+          return result;
+        };
+        const allPts = insertBetween(corners);
+        const class1 = [], class0 = [];
+        allPts.forEach((pt) => {
+          const c = classify(pt);
+          if (c === 1) class1.push(pt); else class0.push(pt);
+        });
+        [s0, s1].forEach((sp) => { class1.push(sp); class0.push(sp); });
+        const centroid = (pts) => ({
+          x: pts.reduce((s, p) => s + p.x, 0) / pts.length,
+          y: pts.reduce((s, p) => s + p.y, 0) / pts.length,
+        });
+        const sortByAngle = (pts) => {
+          const c = centroid(pts);
+          return pts.slice().sort((a, b) => Math.atan2(a.y - c.y, a.x - c.x) - Math.atan2(b.y - c.y, b.x - c.x));
+        };
+        const toPoints = (pts) => sortByAngle(pts).map((p) => `${toX(p.x)},${toY(p.y)}`).join(" ");
+        return {
+          poly1: class1.length >= 3 ? toPoints(class1) : "",
+          poly0: class0.length >= 3 ? toPoints(class0) : "",
+        };
+      }
+
+      function renderPlot() {
+        const samples = datasets[trainer.preset].samples;
+        const currentSample = samples[trainer.sampleIndex % samples.length];
+        const evaluation = evaluateDataset();
+        const solved = evaluation.solved;
+        const padding = 52;
+        const size = 286;
+        const toX = (x) => padding + (x * size);
+        const toY = (y) => padding + ((1 - y) * size);
+        const segment = lineSegment();
+        const ledgerX = padding + size + 26;
+        const maxLedgerItems = Math.min(evaluation.evaluations.length, 8);
+        const ledgerItemH = Math.min(50, Math.max(36, (size - 20) / maxLedgerItems));
+        const svgH = Math.max(390, padding + size + 40);
+
+        let svg = `
+          <defs>
+            <clipPath id="plot-clip">
+              <rect x="${padding}" y="${padding}" width="${size}" height="${size}" rx="18"></rect>
+            </clipPath>
+          </defs>
+          <rect x="0" y="0" width="580" height="${svgH}" rx="22" fill="rgba(255,255,255,0.68)"></rect>
+          <rect x="${padding}" y="${padding}" width="${size}" height="${size}" rx="18" fill="rgba(30,110,104,0.04)" stroke="rgba(30,110,104,0.18)"></rect>
+          <text x="${padding}" y="32" font-family="IBM Plex Mono" font-size="12" fill="#5f655e">decision plane</text>
+          <text x="${ledgerX + 20}" y="32" font-family="IBM Plex Mono" font-size="12" fill="#5f655e">dataset ledger</text>
+        `;
+
+        // Decision region shading
+        if (segment.length === 2) {
+          const { poly1, poly0 } = buildRegionPolygons(segment, padding, size, toX, toY);
+          if (poly1) svg += `<polygon points="${poly1}" fill="rgba(30,110,104,0.12)" clip-path="url(#plot-clip)" />`;
+          if (poly0) svg += `<polygon points="${poly0}" fill="rgba(184,102,54,0.10)" clip-path="url(#plot-clip)" />`;
+        }
+
+        // Grid + axis labels
+        for (let tick = 0; tick <= 4; tick += 1) {
+          const p = padding + ((tick / 4) * size);
+          const v = (tick / 4).toFixed(2).replace(/0$/, "");
+          svg += `<line x1="${p}" y1="${padding}" x2="${p}" y2="${padding + size}" stroke="rgba(95,101,94,0.10)" />`;
+          svg += `<line x1="${padding}" y1="${p}" x2="${padding + size}" y2="${p}" stroke="rgba(95,101,94,0.10)" />`;
+          svg += `<text x="${p}" y="${padding + size + 16}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#5f655e">${v}</text>`;
+          svg += `<text x="${padding - 8}" y="${p + 4}" text-anchor="end" font-family="IBM Plex Mono" font-size="10" fill="#5f655e">${(1 - tick / 4).toFixed(2).replace(/0$/, "")}</text>`;
+        }
+        svg += `<text x="${padding + size / 2}" y="${padding + size + 32}" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#5f655e">x1</text>`;
+        svg += `<text x="14" y="${padding + size / 2}" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#5f655e" transform="rotate(-90,14,${padding + size / 2})">x2</text>`;
+
+        // Boundary line
+        if (segment.length === 2) {
+          svg += `<line x1="${toX(segment[0].x)}" y1="${toY(segment[0].y)}" x2="${toX(segment[1].x)}" y2="${toY(segment[1].y)}" stroke="${solved ? "#1e6e68" : "#b86636"}" stroke-width="4" stroke-linecap="round" clip-path="url(#plot-clip)" />`;
+        } else {
+          svg += `<text x="${padding + 12}" y="${padding + size / 2}" font-family="IBM Plex Mono" font-size="12" fill="#b86636">weights are zero — no boundary yet</text>`;
+        }
+
+        // Data points
+        evaluation.evaluations.forEach((entry) => {
+          const sample = entry.sample;
+          const fill = sample.y === 1 ? "rgba(30,110,104,0.92)" : "rgba(184,102,54,0.92)";
+          const stroke = entry.correct ? "#18211d" : "#c05b6d";
+          const isCurrent = currentSample === sample;
+          const radius = isCurrent ? 15 : 12;
+          svg += `<circle cx="${toX(sample.x1)}" cy="${toY(sample.x2)}" r="${radius}" fill="${fill}" stroke="${stroke}" stroke-width="${isCurrent ? 3.5 : 2}" />`;
+          svg += `<text x="${toX(sample.x1)}" y="${toY(sample.x2) + 4}" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#fff" pointer-events="none">${sample.y}</text>`;
+        });
+
+        // Clickable overlay for custom dataset
+        if (trainer.preset === "Custom") {
+          svg += `<rect x="${padding}" y="${padding}" width="${size}" height="${size}" fill="transparent" class="plot-click-target" style="cursor:crosshair" />`;
+        }
+
+        // Dataset ledger (right side)
+        evaluation.evaluations.slice(0, maxLedgerItems).forEach((entry, index) => {
+          const sample = entry.sample;
+          const by = padding + 12 + (index * (ledgerItemH + 4));
+          const pillColor = entry.correct ? "rgba(30,110,104,0.14)" : "rgba(192,91,109,0.14)";
+          const pillText = entry.correct ? "ok" : "miss";
+          const pillTextColor = entry.correct ? "#1e6e68" : "#c05b6d";
+          svg += `<rect x="${ledgerX}" y="${by}" width="190" height="${ledgerItemH}" rx="14" fill="rgba(255,255,255,0.8)" stroke="rgba(95,101,94,0.14)" />`;
+          svg += `<text x="${ledgerX + 12}" y="${by + ledgerItemH / 2 - 5}" font-family="IBM Plex Mono" font-size="12" fill="#18211d">(${Number(sample.x1).toFixed(1)}, ${Number(sample.x2).toFixed(1)}) t=${sample.y}</text>`;
+          svg += `<text x="${ledgerX + 12}" y="${by + ledgerItemH / 2 + 10}" font-family="IBM Plex Mono" font-size="10" fill="#5f655e">s=${entry.score} p=${entry.prediction}</text>`;
+          svg += `<rect x="${ledgerX + 140}" y="${by + ledgerItemH / 2 - 8}" width="36" height="16" rx="8" fill="${pillColor}" />`;
+          svg += `<text x="${ledgerX + 158}" y="${by + ledgerItemH / 2 + 3}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="${pillTextColor}">${pillText}</text>`;
+        });
+        if (evaluation.evaluations.length > maxLedgerItems) {
+          svg += `<text x="${ledgerX + 12}" y="${padding + size - 4}" font-family="IBM Plex Mono" font-size="10" fill="#5f655e">+${evaluation.evaluations.length - maxLedgerItems} more</text>`;
+        }
+
+        plot.innerHTML = svg;
+      }
+
+      function renderSampleLedger(evaluation) {
+        sampleLedger.innerHTML = "";
+        evaluation.evaluations.forEach((entry) => {
+          const node = document.createElement("div");
+          node.className = `sample-row${entry.index === trainer.sampleIndex ? " is-current" : ""}${entry.correct ? "" : " is-wrong"}`;
+          node.innerHTML = `
+            <div>(${entry.sample.x1}, ${entry.sample.x2})</div>
+            <div>t ${entry.sample.y}</div>
+            <div>p ${entry.prediction}</div>
+            <div>
+              <span class="sample-pill ${entry.correct ? "good" : "bad"}">${entry.correct ? "match" : "miss"}</span>
+              score ${entry.score}, margin ${entry.margin}
+            </div>
+          `;
+          sampleLedger.appendChild(node);
+        });
+      }
+
+      function renderEpochChart() {
+        const history = trainer.epochMistakes;
+        const width = 360;
+        const height = 220;
+        const px = 36;
+        const py = 24;
+        const iw = width - (px * 2);
+        const ih = height - 70;
+        const maxM = Math.max(1, ...history.map((e) => e.mistakes), datasets[trainer.preset].samples.length);
+        let svg = `
+          <rect x="0" y="0" width="${width}" height="${height}" rx="18" fill="rgba(245,239,229,0.62)"></rect>
+          <line x1="${px}" y1="${py + ih}" x2="${width - px}" y2="${py + ih}" stroke="rgba(95,101,94,0.22)"></line>
+          <line x1="${px}" y1="${py}" x2="${px}" y2="${py + ih}" stroke="rgba(95,101,94,0.22)"></line>
+        `;
+
+        for (let t = 0; t <= maxM; t += 1) {
+          const y = py + ih - ((t / maxM) * ih);
+          svg += `<line x1="${px}" y1="${y}" x2="${width - px}" y2="${y}" stroke="rgba(95,101,94,0.06)"></line>`;
+          svg += `<text x="10" y="${y + 4}" font-family="IBM Plex Mono" font-size="10" fill="#5f655e">${t}</text>`;
+        }
+        svg += `<text x="8" y="14" font-family="IBM Plex Mono" font-size="9" fill="#5f655e">mistakes</text>`;
+        svg += `<text x="${px + iw / 2}" y="${height - 4}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#5f655e">epoch</text>`;
+
+        if (history.length === 0) {
+          svg += `<text x="${px + 10}" y="${py + ih / 2}" font-family="IBM Plex Mono" font-size="12" fill="#5f655e">run one epoch to log the first point</text>`;
+        } else if (history.length === 1) {
+          const x = px + iw / 2;
+          const y = py + ih - ((history[0].mistakes / maxM) * ih);
+          svg += `<circle cx="${x}" cy="${y}" r="5" fill="${history[0].mistakes === 0 ? "#1e6e68" : "#b86636"}" />`;
+        } else {
+          const pts = history.map((e, i) => {
+            const x = px + (i / (history.length - 1)) * iw;
+            const y = py + ih - ((e.mistakes / maxM) * ih);
+            return { x, y, m: e.mistakes };
+          });
+          // Area fill
+          const areaPath = `M${pts[0].x},${py + ih} ` + pts.map((p) => `L${p.x},${p.y}`).join(" ") + ` L${pts[pts.length - 1].x},${py + ih} Z`;
+          svg += `<path d="${areaPath}" fill="rgba(184,102,54,0.12)" />`;
+          // Line
+          const linePath = pts.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
+          svg += `<path d="${linePath}" fill="none" stroke="#b86636" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />`;
+          // Dots + epoch labels
+          pts.forEach((p, i) => {
+            svg += `<circle cx="${p.x}" cy="${p.y}" r="4" fill="${p.m === 0 ? "#1e6e68" : "#b86636"}" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" />`;
+            if (history.length <= 18 || i % Math.ceil(history.length / 12) === 0) {
+              svg += `<text x="${p.x}" y="${py + ih + 16}" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#5f655e">${history[i].epoch}</text>`;
+            }
+          });
+          // Zero line
+          if (history.some((e) => e.mistakes === 0)) {
+            svg += `<line x1="${px}" y1="${py + ih}" x2="${width - px}" y2="${py + ih}" stroke="rgba(30,110,104,0.35)" stroke-width="1.5" stroke-dasharray="4,3" />`;
+          }
+        }
+
+        epochChart.innerHTML = svg;
+      }
+
+      function renderWeightPlot() {
+        const wp = document.getElementById("weight-plot");
+        const allW1 = trainer.history.map((h) => h.weights.w1);
+        const allW2 = trainer.history.map((h) => h.weights.w2);
+        allW1.push(trainer.weights.w1);
+        allW2.push(trainer.weights.w2);
+        const maxAbs = Math.max(1, ...allW1.map(Math.abs), ...allW2.map(Math.abs)) * 1.2;
+        const s = 280, pad = 36;
+        const inner = s - 2 * pad;
+        const toX = (v) => pad + ((v + maxAbs) / (2 * maxAbs)) * inner;
+        const toY = (v) => pad + ((maxAbs - v) / (2 * maxAbs)) * inner;
+
+        let svg = `<rect x="0" y="0" width="${s}" height="${s}" rx="16" fill="rgba(245,239,229,0.5)" />`;
+        // Axes
+        svg += `<line x1="${toX(-maxAbs)}" y1="${toY(0)}" x2="${toX(maxAbs)}" y2="${toY(0)}" stroke="rgba(95,101,94,0.2)" />`;
+        svg += `<line x1="${toX(0)}" y1="${toY(-maxAbs)}" x2="${toX(0)}" y2="${toY(maxAbs)}" stroke="rgba(95,101,94,0.2)" />`;
+        svg += `<text x="${s - pad + 4}" y="${toY(0) + 4}" font-family="IBM Plex Mono" font-size="9" fill="#5f655e">w1</text>`;
+        svg += `<text x="${toX(0) + 4}" y="${pad - 4}" font-family="IBM Plex Mono" font-size="9" fill="#5f655e">w2</text>`;
+        // Origin marker
+        svg += `<circle cx="${toX(0)}" cy="${toY(0)}" r="3" fill="rgba(95,101,94,0.3)" />`;
+
+        if (trainer.history.length > 1) {
+          // Trail
+          const pts = trainer.history.slice().reverse().map((h) => `${toX(h.weights.w1)},${toY(h.weights.w2)}`);
+          svg += `<polyline points="${pts.join(" ")}" fill="none" stroke="rgba(30,110,104,0.45)" stroke-width="2" stroke-linejoin="round" />`;
+          // Dots along trail
+          trainer.history.slice().reverse().forEach((h, i) => {
+            const op = 0.15 + 0.85 * (i / trainer.history.length);
+            svg += `<circle cx="${toX(h.weights.w1)}" cy="${toY(h.weights.w2)}" r="3" fill="rgba(30,110,104,${op})" />`;
+          });
+        }
+        // Current position
+        svg += `<circle cx="${toX(trainer.weights.w1)}" cy="${toY(trainer.weights.w2)}" r="6" fill="#1e6e68" stroke="#fff" stroke-width="2" />`;
+        svg += `<text x="${toX(trainer.weights.w1) + 10}" y="${toY(trainer.weights.w2) + 4}" font-family="IBM Plex Mono" font-size="10" fill="#1e6e68">(${trainer.weights.w1}, ${trainer.weights.w2})</text>`;
+
+        wp.innerHTML = svg;
+      }
+
+      function renderTraining() {
+        const samples = datasets[trainer.preset].samples;
+        const currentSample = samples[trainer.sampleIndex];
+        const currentEval = predictSample(currentSample);
+        const evaluation = evaluateDataset();
+        const solved = evaluation.solved;
+        const isXor = trainer.preset === "XOR";
+        const lastUpdate = trainer.lastUpdate;
+
+        document.getElementById("train-weights").textContent = `${trainer.weights.w1}, ${trainer.weights.w2}`;
+        document.getElementById("train-bias").textContent = String(trainer.weights.b);
+        document.getElementById("train-sample").textContent = `(${currentSample.x1}, ${currentSample.x2})`;
+        document.getElementById("train-prediction").textContent = String(currentEval.prediction);
+        document.getElementById("train-accuracy").textContent = `${evaluation.correctCount}/${evaluation.total}`;
+        document.getElementById("train-mistakes").textContent = String(evaluation.mistakes);
+        document.getElementById("train-margin").textContent = String(evaluation.minMargin);
+        document.getElementById("train-autoplay").textContent = trainer.autoplay.mode;
+        document.getElementById("encoded-w1").textContent = String(encodeSigned(trainer.weights.w1));
+        document.getElementById("encoded-w2").textContent = String(encodeSigned(trainer.weights.w2));
+        document.getElementById("encoded-bias").textContent = String(encodeSigned(trainer.weights.b));
+        const statusEl = document.getElementById("train-status");
+        statusEl.textContent = solved ? "Converged" : isXor ? "Expected cycling" : "Still learning";
+        statusEl.className = `status-value${solved ? " solved" : ""}`;
+        datasetNote.textContent = datasets[trainer.preset].note;
+
+        summaryEls.preset.textContent = trainer.preset;
+        summaryEls.trainingNote.textContent = datasets[trainer.preset].note;
+        summaryEls.boundary.textContent = solved ? "Separating line found" : isXor ? "No single line exists" : "Boundary still moving";
+        summaryEls.boundaryNote.textContent = `Epoch ${trainer.epoch}, accuracy ${evaluation.correctCount}/${evaluation.total}, next sample index ${trainer.sampleIndex}.`;
+
+        trainingFormula.textContent =
+          [
+            `score = (${trainer.weights.w1})*x1 + (${trainer.weights.w2})*x2 + (${trainer.weights.b})`,
+            "prediction = 1 iff score >= 0",
+            "update: w' = w + (target - prediction) * x",
+            "update: b' = b + (target - prediction)",
+            `encoded state = (${encodeSigned(trainer.weights.w1)}, ${encodeSigned(trainer.weights.w2)}, ${encodeSigned(trainer.weights.b)})`,
+            lastUpdate
+              ? `last delta = (${lastUpdate.deltaW1}, ${lastUpdate.deltaW2}, ${lastUpdate.deltaB}) on point (${lastUpdate.sample.x1}, ${lastUpdate.sample.x2})`
+              : "last delta = none yet",
+          ].join("\n");
+
+        historyGrid.innerHTML = "";
+        if (trainer.history.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "history-item";
+          empty.innerHTML = "<strong>No steps yet.</strong> Run a step or an epoch to record the learner's state transitions.";
+          historyGrid.appendChild(empty);
+        } else {
+          trainer.history.forEach((entry) => {
+            const node = document.createElement("div");
+            node.className = "history-item";
+            node.innerHTML = `
+              <strong>epoch ${entry.epoch}, sample ${entry.sampleIndex}</strong><br />
+              point (${entry.sample.x1}, ${entry.sample.x2}) with target ${entry.sample.y}<br />
+              score ${entry.score}, prediction ${entry.prediction}, error ${entry.error}<br />
+              weights -> (${entry.weights.w1}, ${entry.weights.w2}), bias -> ${entry.weights.b}
+            `;
+            historyGrid.appendChild(node);
+          });
+        }
+
+        autorunBtn.classList.toggle("is-primary", trainer.autoplay.timer !== null);
+        stopBtn.classList.toggle("is-primary", trainer.autoplay.mode === "Stopped");
+        renderSampleLedger(evaluation);
+        renderEpochChart();
+        renderWeightPlot();
+        epochNote.textContent = trainer.epochMistakes.length === 0
+          ? "Each bar is the number of mistakes after one full pass through the current dataset."
+          : `Latest epoch ${trainer.epochMistakes[trainer.epochMistakes.length - 1].epoch} finished with ${trainer.epochMistakes[trainer.epochMistakes.length - 1].mistakes} mistake(s).`;
+        renderPlot();
+      }
+
+      function bindClassifierInputs() {
+        inputs.x1.addEventListener("input", () => {
+          classifierState.x1 = Number(inputs.x1.value);
+          renderClassifier();
+        });
+        inputs.x2.addEventListener("input", () => {
+          classifierState.x2 = Number(inputs.x2.value);
+          renderClassifier();
+        });
+        inputs.w1.addEventListener("input", () => {
+          classifierState.w1 = Number(inputs.w1.value);
+          renderClassifier();
+        });
+        inputs.w2.addEventListener("input", () => {
+          classifierState.w2 = Number(inputs.w2.value);
+          renderClassifier();
+        });
+        inputs.bias.addEventListener("input", () => {
+          classifierState.bias = Number(inputs.bias.value);
+          renderClassifier();
+        });
+        inputs.threshold.addEventListener("input", () => {
+          classifierState.threshold = Number(inputs.threshold.value);
+          renderClassifier();
+        });
+        inputs.claim.addEventListener("change", () => {
+          classifierState.claim = Number(inputs.claim.value);
+          renderClassifier();
+        });
+        modeSwitch.addEventListener("click", (event) => {
+          const chip = event.target.closest(".mode-chip");
+          if (!chip) {
+            return;
+          }
+          classifierState.mode = chip.dataset.mode;
+          renderClassifier();
+        });
+      }
+
+      function bindLearningControls() {
+        document.getElementById("step-btn").addEventListener("click", trainerStep);
+        document.getElementById("epoch-btn").addEventListener("click", trainerEpoch);
+        document.getElementById("burst-btn").addEventListener("click", trainerBurst);
+        autorunBtn.addEventListener("click", startAutoplay);
+        stopBtn.addEventListener("click", () => {
+          stopAutoplay("Stopped");
+          renderTraining();
+        });
+        document.getElementById("reset-btn").addEventListener("click", () => resetTrainer(trainer.preset));
+        document.getElementById("preset-row").addEventListener("click", (event) => {
+          const chip = event.target.closest(".preset-chip");
+          if (!chip) {
+            return;
+          }
+          resetTrainer(chip.dataset.preset);
+        });
+
+        // Learning rate slider
+        const lrSlider = document.getElementById("lr-slider");
+        const lrVal = document.getElementById("lr-val");
+        lrSlider.addEventListener("input", () => {
+          trainer.learningRate = Number(lrSlider.value) / 10;
+          lrVal.textContent = trainer.learningRate.toFixed(1);
+        });
+
+        // Speed slider
+        const speedSlider = document.getElementById("speed-slider");
+        const speedVal = document.getElementById("speed-val");
+        speedSlider.addEventListener("input", () => {
+          const level = Number(speedSlider.value);
+          autoSpeed = speedMap[level];
+          speedVal.textContent = speedLabels[level];
+          if (trainer.autoplay.timer) {
+            startAutoplay();
+          }
+        });
+
+        // Click-to-place for custom dataset
+        plot.addEventListener("click", (event) => {
+          if (trainer.preset !== "Custom") return;
+          const rect = plot.getBoundingClientRect();
+          const svgW = 580;
+          const svgH = plot.viewBox.baseVal.height || 390;
+          const scale = rect.width / svgW;
+          const padding = 52;
+          const size = 286;
+          const mx = (event.clientX - rect.left) / scale;
+          const my = (event.clientY - rect.top) / scale;
+          const x1 = (mx - padding) / size;
+          const x2 = 1 - (my - padding) / size;
+          if (x1 < -0.05 || x1 > 1.05 || x2 < -0.05 || x2 > 1.05) return;
+          const snapped_x1 = Math.round(x1 * 10) / 10;
+          const snapped_x2 = Math.round(x2 * 10) / 10;
+          const cls = event.shiftKey ? 0 : 1;
+          datasets.Custom.samples.push({ x1: snapped_x1, x2: snapped_x2, y: cls });
+          resetTrainer("Custom");
+        });
+
+        // Right-click to remove nearest point in custom mode
+        plot.addEventListener("contextmenu", (event) => {
+          if (trainer.preset !== "Custom") return;
+          event.preventDefault();
+          const rect = plot.getBoundingClientRect();
+          const scale = rect.width / 580;
+          const padding = 52;
+          const size = 286;
+          const mx = (event.clientX - rect.left) / scale;
+          const my = (event.clientY - rect.top) / scale;
+          const x1 = (mx - padding) / size;
+          const x2 = 1 - (my - padding) / size;
+          if (datasets.Custom.samples.length <= 1) return;
+          let nearest = 0, bestDist = Infinity;
+          datasets.Custom.samples.forEach((s, i) => {
+            const d = Math.hypot(s.x1 - x1, s.x2 - x2);
+            if (d < bestDist) { bestDist = d; nearest = i; }
+          });
+          if (bestDist < 0.2) {
+            datasets.Custom.samples.splice(nearest, 1);
+            resetTrainer("Custom");
+          }
+        });
+      }
+
+      function bindBridgeControls() {
+        bridgeEls.checkBtn.addEventListener("click", () => checkTauBridge());
+        bridgeEls.runBtn.addEventListener("click", runCurrentWithLocalTau);
+      }
+
+      async function loadTraceBundle() {
+        try {
+          const response = await fetch("assets/data/perceptron_tau_traces.json");
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+          }
+          const data = await response.json();
+          document.getElementById("metric-certified").textContent = String(Object.keys(data.cases).length);
+          renderTraceCards(data);
+          traceSelect.value = "unsigned_external_weights:0";
+        } catch (error) {
+          traceList.innerHTML = `<div class="trace-card">Could not load the trace bundle. The interactive workbench and learning theater still work, but the certified ledger is unavailable in this preview.</div>`;
+        }
+      }
+
+      function reportHeight() {
+        if (window.parent === window) {
+          return;
+        }
+        window.parent.postMessage({ type: "fp:iframe-height", height: document.body.scrollHeight }, "*");
+      }
+
+      bindClassifierInputs();
+      bindLearningControls();
+      bindBridgeControls();
+      renderClassifier();
+      renderTraining();
+      loadTraceBundle().finally(() => {
+        checkTauBridge({ silent: true });
+        renderClassifier();
+        reportHeight();
+      });
+
+      const resizeObserver = new ResizeObserver(() => reportHeight());
+      resizeObserver.observe(document.body);
+      window.addEventListener("load", reportHeight);
+      window.addEventListener("resize", reportHeight);
+      setTimeout(reportHeight, 250);
+      setTimeout(reportHeight, 1000);
+    </script>
+  </body>
+</html>

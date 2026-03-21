@@ -1,0 +1,65 @@
+# Tau-only guard for a monotone unsigned perceptron learning step
+#
+# Scope:
+# - This models a bounded positive-update fragment that can learn OR from zero
+#   weights with threshold 1.
+# - It does not model signed negative corrections. Those require either signed
+#   encoding or a host-computed update checked by Tau.
+#
+# Rule:
+#   score_before = (x1 * w1_before) + (x2 * w2_before)
+#   pred = step(score_before >= threshold)
+#
+# Accepted update cases:
+# 1. Correct negative, no update:
+#      pred = 0, target = 0
+#      w1_after = w1_before
+#      w2_after = w2_before
+# 2. Correct positive, no update:
+#      pred = 1, target = 1
+#      w1_after = w1_before
+#      w2_after = w2_before
+# 3. False negative on a positive example:
+#      pred = 0, target = 1
+#      w1_after = w1_before + x1
+#      w2_after = w2_before + x2
+#
+# Stream mapping:
+# i1 = x1                (0 or 1)
+# i2 = x2                (0 or 1)
+# i3 = target            (0 or 1)
+# i4 = w1_before
+# i5 = w2_before
+# i6 = threshold
+# i7 = w1_after_claimed
+# i8 = w2_after_claimed
+#
+# Outputs:
+# o1 = learning_guard_ok
+# o2 = score_before
+
+set charvar off
+
+always
+  ((i1[t]:bv[16] <= { #x0001 }:bv[16]) &&
+   (i2[t]:bv[16] <= { #x0001 }:bv[16]) &&
+   (i3[t]:bv[16] <= { #x0001 }:bv[16]) &&
+   (i4[t]:bv[16] <= { #x007F }:bv[16]) &&
+   (i5[t]:bv[16] <= { #x007F }:bv[16]) &&
+   (i6[t]:bv[16] <= { #x007F }:bv[16]) &&
+   (i7[t]:bv[16] <= { #x007F }:bv[16]) &&
+   (i8[t]:bv[16] <= { #x007F }:bv[16]) &&
+   (o2[t]:bv[16] = ((i1[t]:bv[16] * i4[t]:bv[16]) + (i2[t]:bv[16] * i5[t]:bv[16]))) &&
+   ((o1[t]:sbf = 1:sbf) <->
+     ((((o2[t]:bv[16] < i6[t]:bv[16]) &&
+        (i3[t]:bv[16] = { #x0000 }:bv[16]) &&
+        (i7[t]:bv[16] = i4[t]:bv[16]) &&
+        (i8[t]:bv[16] = i5[t]:bv[16])) ||
+       (((o2[t]:bv[16] >= i6[t]:bv[16]) &&
+         (i3[t]:bv[16] = { #x0001 }:bv[16]) &&
+         (i7[t]:bv[16] = i4[t]:bv[16]) &&
+         (i8[t]:bv[16] = i5[t]:bv[16]))) ||
+       (((o2[t]:bv[16] < i6[t]:bv[16]) &&
+         (i3[t]:bv[16] = { #x0001 }:bv[16]) &&
+         (i7[t]:bv[16] = (i4[t]:bv[16] + i1[t]:bv[16])) &&
+         (i8[t]:bv[16] = (i5[t]:bv[16] + i2[t]:bv[16]))))))).

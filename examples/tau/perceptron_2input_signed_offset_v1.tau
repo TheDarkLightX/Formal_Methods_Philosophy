@@ -1,0 +1,39 @@
+# Tau-only 2-input perceptron experiment with signed-style offset encoding
+#
+# Encoding:
+# - each scalar is stored as an unsigned bv[32] value in 0..254
+# - decoded logical value is (encoded - 127)
+#
+# Signed model in decoded space:
+#   score = (x1 * w1) + (x2 * w2) + bias
+#   class = step(score >= threshold)
+#
+# To avoid signed arithmetic, we use the equivalent unsigned comparison:
+#   (x1e*w1e + x2e*w2e + be + 32258) >= (127*(x1e + x2e + w1e + w2e) + te)
+#
+# where x?e, w?e, be, te are the encoded values.
+#
+# Stream mapping:
+# i1 = x1_encoded
+# i2 = x2_encoded
+# i3 = w1_encoded
+# i4 = w2_encoded
+# i5 = bias_encoded
+# i6 = threshold_encoded
+# i7 = class_claimed (sbf)
+#
+# Outputs:
+# o1 = perceptron_signed_offset_ok
+
+set charvar off
+
+always
+  (o1[t]:sbf = 1:sbf <->
+    ((i1[t]:bv[32] <= { #x000000FE }:bv[32]) &&
+     (i2[t]:bv[32] <= { #x000000FE }:bv[32]) &&
+     (i3[t]:bv[32] <= { #x000000FE }:bv[32]) &&
+     (i4[t]:bv[32] <= { #x000000FE }:bv[32]) &&
+     (i5[t]:bv[32] <= { #x000000FE }:bv[32]) &&
+     (i6[t]:bv[32] <= { #x000000FE }:bv[32]) &&
+     ((((i1[t]:bv[32] * i3[t]:bv[32]) + (i2[t]:bv[32] * i4[t]:bv[32]) + i5[t]:bv[32] + { #x00007E02 }:bv[32]) >= (((i1[t]:bv[32] + i2[t]:bv[32] + i3[t]:bv[32] + i4[t]:bv[32]) * { #x0000007F }:bv[32]) + i6[t]:bv[32]) && i7[t]:sbf = 1:sbf) ||
+      (((i1[t]:bv[32] * i3[t]:bv[32]) + (i2[t]:bv[32] * i4[t]:bv[32]) + i5[t]:bv[32] + { #x00007E02 }:bv[32]) < (((i1[t]:bv[32] + i2[t]:bv[32] + i3[t]:bv[32] + i4[t]:bv[32]) * { #x0000007F }:bv[32]) + i6[t]:bv[32]) && i7[t]:sbf = 0:sbf)))).

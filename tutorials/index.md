@@ -225,4 +225,14 @@ show_title: false
       counterexample search, synthesis, experiment design, and coverage limits in one formula family.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/perceptron-in-tau-language/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 21: A perceptron in Tau Language</h2>
+    <p class="fp-card-text">
+      Build a perceptron from formulas, execute bounded classifier specs in Tau, inspect real traces,
+      and then separate the replayable classifier lane from a host-side learning loop.
+    </p>
+  </a>
 </div>

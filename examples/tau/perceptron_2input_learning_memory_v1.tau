@@ -1,0 +1,64 @@
+# Tau-only 2-input perceptron learning memory experiment
+#
+# Purpose:
+# - keep the perceptron weights inside Tau-visible state streams,
+# - apply host-proposed signed deltas to those stored weights,
+# - expose the prediction and target match at each step.
+#
+# Model:
+# - x1, x2 are bits in {0,1}
+# - target is sbf in {0,1}
+# - weights and bias are signed values encoded as unsigned bv[16]:
+#     encode(z) = z + 127
+# - prediction uses the previous stored state
+# - proposed deltas are encoded as:
+#     126 = -1
+#     127 =  0
+#     128 = +1
+#
+# Stream mapping:
+# i1 = x1
+# i2 = x2
+# i3 = target
+# i4 = delta_w1_encoded
+# i5 = delta_w2_encoded
+# i6 = delta_bias_encoded
+#
+# Outputs:
+# o1 = stored_w1_encoded
+# o2 = stored_w2_encoded
+# o3 = stored_bias_encoded
+# o4 = prediction_from_previous_state
+# o5 = prediction_matches_target
+
+set charvar off
+
+bit01(x : bv[16]) := (x = { #x0000 }:bv[16]) || (x = { #x0001 }:bv[16]).
+
+delta_code_ok(d : bv[16]) := (d = { #x007E }:bv[16]) || (d = { #x007F }:bv[16]) || (d = { #x0080 }:bv[16]).
+
+delta_apply_ok(prev : bv[16], delta : bv[16], next : bv[16]) :=
+  ((delta = { #x007E }:bv[16]) && (prev > { #x0000 }:bv[16]) && (next = prev - { #x0001 }:bv[16])) ||
+  ((delta = { #x007F }:bv[16]) && (next = prev)) ||
+  ((delta = { #x0080 }:bv[16]) && (prev < { #x00FE }:bv[16]) && (next = prev + { #x0001 }:bv[16])).
+
+pred_one(prev_w1 : bv[16], prev_w2 : bv[16], prev_b : bv[16], x1 : bv[16], x2 : bv[16]) :=
+  ((x1 * prev_w1) + (x2 * prev_w2) + prev_b) >= ({ #x007F }:bv[16] * (x1 + x2 + { #x0001 }:bv[16])).
+
+always
+  (o1[0]:bv[16] = { #x007F }:bv[16]) &&
+  (o2[0]:bv[16] = { #x007F }:bv[16]) &&
+  (o3[0]:bv[16] = { #x007F }:bv[16]) &&
+  (o4[0]:sbf = 1:sbf <-> pred_one({ #x007F }:bv[16], { #x007F }:bv[16], { #x007F }:bv[16], i1[0]:bv[16], i2[0]:bv[16])) &&
+  (o5[0]:sbf = 1:sbf <-> (o4[0]:sbf = i3[0]:sbf)) &&
+  delta_apply_ok(o1[t-1]:bv[16], i4[t]:bv[16], o1[t]:bv[16]) &&
+  delta_apply_ok(o2[t-1]:bv[16], i5[t]:bv[16], o2[t]:bv[16]) &&
+  delta_apply_ok(o3[t-1]:bv[16], i6[t]:bv[16], o3[t]:bv[16]) &&
+  (o4[t]:sbf = 1:sbf <-> pred_one(o1[t-1]:bv[16], o2[t-1]:bv[16], o3[t-1]:bv[16], i1[t]:bv[16], i2[t]:bv[16])) &&
+  (o5[t]:sbf = 1:sbf <->
+    (bit01(i1[t]:bv[16]) &&
+     bit01(i2[t]:bv[16]) &&
+     delta_code_ok(i4[t]:bv[16]) &&
+     delta_code_ok(i5[t]:bv[16]) &&
+     delta_code_ok(i6[t]:bv[16]) &&
+     (o4[t]:sbf = i3[t]:sbf))).

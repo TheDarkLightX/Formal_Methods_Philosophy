@@ -1,0 +1,169 @@
+{
+  "generator": "scripts/generate_perceptron_tau_artifacts.py",
+  "tau_dex_root_name": "Autonomous Tau DEX",
+  "tau_bin_name": "tau",
+  "cases": {
+    "unsigned_external_weights": {
+      "spec_relpath": "examples/tau/perceptron_2input_single_output_v1.tau",
+      "steps": [
+        {
+          "i1": 2,
+          "i2": 3,
+          "i3": 4,
+          "i4": 5,
+          "i5": 1,
+          "i6": 20,
+          "i7": 1
+        },
+        {
+          "i1": 2,
+          "i2": 1,
+          "i3": 1,
+          "i4": 2,
+          "i5": 0,
+          "i6": 10,
+          "i7": 0
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1
+        },
+        "1": {
+          "o1": 1
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[16] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[16] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[16] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[16] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[16] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[16] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : sbf := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : sbf := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o1[t]:sbf = 1:sbf <-> ((i1[t]:bv[16] <= { #x007F }:bv[16]) && (i2[t]:bv[16] <= { #x007F }:bv[16]) && (i3[t]:bv[16] <= { #x007F }:bv[16]) && (i4[t]:bv[16] <= { #x007F }:bv[16]) && (i5[t]:bv[16] <= { #x007F }:bv[16]) && (i6[t]:bv[16] <= { #x007F }:bv[16]) && ((((i1[t]:bv[16] * i3[t]:bv[16]) + (i2[t]:bv[16] * i4[t]:bv[16]) + i5[t]:bv[16]) >= i6[t]:bv[16] && i7[t]:sbf = 1:sbf) || (((i1[t]:bv[16] * i3[t]:bv[16]) + (i2[t]:bv[16] * i4[t]:bv[16]) + i5[t]:bv[16]) < i6[t]:bv[16] && i7[t]:sbf = 0:sbf)))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \n(o1[t]:sbf' != 0 || { 127 }:bv[16] !< i2[t]:bv[16] && { 127 }:bv[16] !< i3[t]:bv[16] && { 127 }:bv[16] !< i4[t]:bv[16] && { 127 }:bv[16] !< i6[t]:bv[16] && { 127 }:bv[16] !< i5[t]:bv[16] && { 127 }:bv[16] !< i1[t]:bv[16] && (i7[t]:sbf' = 0 && i1[t]:bv[16]*i3[t]:bv[16]+i2[t]:bv[16]*i4[t]:bv[16]+i5[t]:bv[16] !< i6[t]:bv[16] || i7[t]:sbf = 0 && i1[t]:bv[16]*i3[t]:bv[16]+i2[t]:bv[16]*i4[t]:bv[16]+i5[t]:bv[16] < i6[t]:bv[16])) && (o1[t]:sbf' = 0 || { 127 }:bv[16] < i2[t]:bv[16] || { 127 }:bv[16] < i3[t]:bv[16] || { 127 }:bv[16] < i4[t]:bv[16] || { 127 }:bv[16] < i6[t]:bv[16] || { 127 }:bv[16] < i5[t]:bv[16] || { 127 }:bv[16] < i1[t]:bv[16] || (i7[t]:sbf' != 0 || i1[t]:bv[16]*i3[t]:bv[16]+i2[t]:bv[16]*i4[t]:bv[16]+i5[t]:bv[16] < i6[t]:bv[16]) && (i7[t]:sbf != 0 || i1[t]:bv[16]*i3[t]:bv[16]+i2[t]:bv[16]*i4[t]:bv[16]+i5[t]:bv[16] !< i6[t]:bv[16]))\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\nExecution step: 2\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[16] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[16] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[16] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[16] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[16] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[16] := in file(\"/tmp/tau-trace-path\")\ni7 : sbf := in file(\"/tmp/tau-trace-path\")\n\no1 : sbf := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o1[t]:sbf = 1:sbf <-> ((i1[t]:bv[16] <= { #x007F }:bv[16]) && (i2[t]:bv[16] <= { #x007F }:bv[16]) && (i3[t]:bv[16] <= { #x007F }:bv[16]) && (i4[t]:bv[16] <= { #x007F }:bv[16]) && (i5[t]:bv[16] <= { #x007F }:bv[16]) && (i6[t]:bv[16] <= { #x007F }:bv[16]) && ((((i1[t]:bv[16] * i3[t]:bv[16]) + (i2[t]:bv[16] * i4[t]:bv[16]) + i5[t]:bv[16]) >= i6[t]:bv[16] && i7[t]:sbf = 1:sbf) || (((i1[t]:bv[16] * i3[t]:bv[16]) + (i2[t]:bv[16] * i4[t]:bv[16]) + i5[t]:bv[16]) < i6[t]:bv[16] && i7[t]:sbf = 0:sbf)))))\nq\n",
+      "derived": [
+        {
+          "score": 24,
+          "threshold": 20,
+          "actual_class": 1,
+          "claimed_class": 1
+        },
+        {
+          "score": 4,
+          "threshold": 10,
+          "actual_class": 0,
+          "claimed_class": 0
+        }
+      ]
+    },
+    "signed_offset_external_weights": {
+      "spec_relpath": "examples/tau/perceptron_2input_signed_offset_v1.tau",
+      "steps": [
+        {
+          "i1": 129,
+          "i2": 130,
+          "i3": 131,
+          "i4": 132,
+          "i5": 128,
+          "i6": 127,
+          "i7": 1
+        },
+        {
+          "i1": 125,
+          "i2": 124,
+          "i3": 131,
+          "i4": 132,
+          "i5": 127,
+          "i6": 127,
+          "i7": 0
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1
+        },
+        "1": {
+          "o1": 1
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[32] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[32] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[32] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[32] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[32] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[32] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : sbf := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : sbf := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o1[t]:sbf = 1:sbf <-> ((i1[t]:bv[32] <= { #x000000FE }:bv[32]) && (i2[t]:bv[32] <= { #x000000FE }:bv[32]) && (i3[t]:bv[32] <= { #x000000FE }:bv[32]) && (i4[t]:bv[32] <= { #x000000FE }:bv[32]) && (i5[t]:bv[32] <= { #x000000FE }:bv[32]) && (i6[t]:bv[32] <= { #x000000FE }:bv[32]) && ((((i1[t]:bv[32] * i3[t]:bv[32]) + (i2[t]:bv[32] * i4[t]:bv[32]) + i5[t]:bv[32] + { #x00007E02 }:bv[32]) >= (((i1[t]:bv[32] + i2[t]:bv[32] + i3[t]:bv[32] + i4[t]:bv[32]) * { #x0000007F }:bv[32]) + i6[t]:bv[32]) && i7[t]:sbf = 1:sbf) || (((i1[t]:bv[32] * i3[t]:bv[32]) + (i2[t]:bv[32] * i4[t]:bv[32]) + i5[t]:bv[32] + { #x00007E02 }:bv[32]) < (((i1[t]:bv[32] + i2[t]:bv[32] + i3[t]:bv[32] + i4[t]:bv[32]) * { #x0000007F }:bv[32]) + i6[t]:bv[32]) && i7[t]:sbf = 0:sbf)))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \n(o1[t]:sbf' != 0 || { 254 }:bv[32] !< i4[t]:bv[32] && { 254 }:bv[32] !< i3[t]:bv[32] && { 254 }:bv[32] !< i5[t]:bv[32] && { 254 }:bv[32] !< i2[t]:bv[32] && { 254 }:bv[32] !< i1[t]:bv[32] && { 254 }:bv[32] !< i6[t]:bv[32] && (i7[t]:sbf' = 0 && i1[t]:bv[32]*i3[t]:bv[32]+i2[t]:bv[32]*i4[t]:bv[32]+i5[t]:bv[32]+{ 32258 }:bv[32] !< (i1[t]:bv[32]+i2[t]:bv[32]+i3[t]:bv[32]+i4[t]:bv[32])*{ 127 }:bv[32]+i6[t]:bv[32] || i7[t]:sbf = 0 && i1[t]:bv[32]*i3[t]:bv[32]+i2[t]:bv[32]*i4[t]:bv[32]+i5[t]:bv[32]+{ 32258 }:bv[32] < (i1[t]:bv[32]+i2[t]:bv[32]+i3[t]:bv[32]+i4[t]:bv[32])*{ 127 }:bv[32]+i6[t]:bv[32])) && (o1[t]:sbf' = 0 || { 254 }:bv[32] < i4[t]:bv[32] || { 254 }:bv[32] < i3[t]:bv[32] || { 254 }:bv[32] < i5[t]:bv[32] || { 254 }:bv[32] < i2[t]:bv[32] || { 254 }:bv[32] < i1[t]:bv[32] || { 254 }:bv[32] < i6[t]:bv[32] || (i7[t]:sbf' != 0 || i1[t]:bv[32]*i3[t]:bv[32]+i2[t]:bv[32]*i4[t]:bv[32]+i5[t]:bv[32]+{ 32258 }:bv[32] < (i1[t]:bv[32]+i2[t]:bv[32]+i3[t]:bv[32]+i4[t]:bv[32])*{ 127 }:bv[32]+i6[t]:bv[32]) && (i7[t]:sbf != 0 || i1[t]:bv[32]*i3[t]:bv[32]+i2[t]:bv[32]*i4[t]:bv[32]+i5[t]:bv[32]+{ 32258 }:bv[32] !< (i1[t]:bv[32]+i2[t]:bv[32]+i3[t]:bv[32]+i4[t]:bv[32])*{ 127 }:bv[32]+i6[t]:bv[32]))\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\nExecution step: 2\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[32] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[32] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[32] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[32] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[32] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[32] := in file(\"/tmp/tau-trace-path\")\ni7 : sbf := in file(\"/tmp/tau-trace-path\")\n\no1 : sbf := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o1[t]:sbf = 1:sbf <-> ((i1[t]:bv[32] <= { #x000000FE }:bv[32]) && (i2[t]:bv[32] <= { #x000000FE }:bv[32]) && (i3[t]:bv[32] <= { #x000000FE }:bv[32]) && (i4[t]:bv[32] <= { #x000000FE }:bv[32]) && (i5[t]:bv[32] <= { #x000000FE }:bv[32]) && (i6[t]:bv[32] <= { #x000000FE }:bv[32]) && ((((i1[t]:bv[32] * i3[t]:bv[32]) + (i2[t]:bv[32] * i4[t]:bv[32]) + i5[t]:bv[32] + { #x00007E02 }:bv[32]) >= (((i1[t]:bv[32] + i2[t]:bv[32] + i3[t]:bv[32] + i4[t]:bv[32]) * { #x0000007F }:bv[32]) + i6[t]:bv[32]) && i7[t]:sbf = 1:sbf) || (((i1[t]:bv[32] * i3[t]:bv[32]) + (i2[t]:bv[32] * i4[t]:bv[32]) + i5[t]:bv[32] + { #x00007E02 }:bv[32]) < (((i1[t]:bv[32] + i2[t]:bv[32] + i3[t]:bv[32] + i4[t]:bv[32]) * { #x0000007F }:bv[32]) + i6[t]:bv[32]) && i7[t]:sbf = 0:sbf)))))\nq\n",
+      "derived": [
+        {
+          "decoded": {
+            "x1": 2,
+            "x2": 3,
+            "w1": 4,
+            "w2": 5,
+            "bias": 1,
+            "threshold": 0
+          },
+          "score": 24,
+          "actual_class": 1,
+          "claimed_class": 1
+        },
+        {
+          "decoded": {
+            "x1": -2,
+            "x2": -3,
+            "w1": 4,
+            "w2": 5,
+            "bias": 0,
+            "threshold": 0
+          },
+          "score": -23,
+          "actual_class": 0,
+          "claimed_class": 0
+        }
+      ]
+    },
+    "internal_parameters": {
+      "spec_relpath": "examples/tau/perceptron_2input_internal_weights_v1.tau",
+      "steps": [
+        {
+          "i1": 2,
+          "i2": 3,
+          "i3": 20,
+          "i4": 1
+        },
+        {
+          "i1": 2,
+          "i2": 1,
+          "i3": 15,
+          "i4": 0
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1
+        },
+        "1": {
+          "o1": 1
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[16] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[16] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[16] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : sbf := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : sbf := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o1[t]:sbf = 1:sbf <-> ((i1[t]:bv[16] <= { #x007F }:bv[16]) && (i2[t]:bv[16] <= { #x007F }:bv[16]) && (i3[t]:bv[16] <= { #x007F }:bv[16]) && ((((i1[t]:bv[16] * { #x0004 }:bv[16]) + (i2[t]:bv[16] * { #x0005 }:bv[16]) + { #x0001 }:bv[16]) >= i3[t]:bv[16] && i4[t]:sbf = 1:sbf) || (((i1[t]:bv[16] * { #x0004 }:bv[16]) + (i2[t]:bv[16] * { #x0005 }:bv[16]) + { #x0001 }:bv[16]) < i3[t]:bv[16] && i4[t]:sbf = 0:sbf)))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \n(o1[t]:sbf' != 0 || { 127 }:bv[16] !< i2[t]:bv[16] && { 127 }:bv[16] !< i3[t]:bv[16] && { 127 }:bv[16] !< i1[t]:bv[16] && (i4[t]:sbf' = 0 && i1[t]:bv[16]*{ 4 }:bv[16]+i2[t]:bv[16]*{ 5 }:bv[16]+{ 1 }:bv[16] !< i3[t]:bv[16] || i4[t]:sbf = 0 && i1[t]:bv[16]*{ 4 }:bv[16]+i2[t]:bv[16]*{ 5 }:bv[16]+{ 1 }:bv[16] < i3[t]:bv[16])) && (o1[t]:sbf' = 0 || { 127 }:bv[16] < i2[t]:bv[16] || { 127 }:bv[16] < i3[t]:bv[16] || { 127 }:bv[16] < i1[t]:bv[16] || (i4[t]:sbf' != 0 || i1[t]:bv[16]*{ 4 }:bv[16]+i2[t]:bv[16]*{ 5 }:bv[16]+{ 1 }:bv[16] < i3[t]:bv[16]) && (i4[t]:sbf != 0 || i1[t]:bv[16]*{ 4 }:bv[16]+i2[t]:bv[16]*{ 5 }:bv[16]+{ 1 }:bv[16] !< i3[t]:bv[16]))\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\nExecution step: 2\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[16] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[16] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[16] := in file(\"/tmp/tau-trace-path\")\ni4 : sbf := in file(\"/tmp/tau-trace-path\")\n\no1 : sbf := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o1[t]:sbf = 1:sbf <-> ((i1[t]:bv[16] <= { #x007F }:bv[16]) && (i2[t]:bv[16] <= { #x007F }:bv[16]) && (i3[t]:bv[16] <= { #x007F }:bv[16]) && ((((i1[t]:bv[16] * { #x0004 }:bv[16]) + (i2[t]:bv[16] * { #x0005 }:bv[16]) + { #x0001 }:bv[16]) >= i3[t]:bv[16] && i4[t]:sbf = 1:sbf) || (((i1[t]:bv[16] * { #x0004 }:bv[16]) + (i2[t]:bv[16] * { #x0005 }:bv[16]) + { #x0001 }:bv[16]) < i3[t]:bv[16] && i4[t]:sbf = 0:sbf)))))\nq\n",
+      "derived": [
+        {
+          "internal_weights": {
+            "w1": 4,
+            "w2": 5,
+            "bias": 1
+          },
+          "score": 24,
+          "threshold": 20,
+          "actual_class": 1,
+          "claimed_class": 1
+        },
+        {
+          "internal_weights": {
+            "w1": 4,
+            "w2": 5,
+            "bias": 1
+          },
+          "score": 14,
+          "threshold": 15,
+          "actual_class": 0,
+          "claimed_class": 0
+        }
+      ]
+    }
+  }
+}
