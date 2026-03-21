@@ -201,8 +201,28 @@ show_title: false
   >
     <h2 class="fp-card-title">Tutorial 18: ZenoDEX shape transition</h2>
     <p class="fp-card-text">
-      Compare the old ZenoDEX shape with the stronger Shape++ target, then track how exact formulas,
+      Compare the old ZenoDEX shape with the achieved audited-domain Shape++, then track how exact formulas,
       proof-carrying boundaries, and chaos-engineering probes make disaster states unreachable.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/resolution-refutation-and-falsification/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 19: Resolution, refutation, and falsification</h2>
+    <p class="fp-card-text">
+      Put logical refutation and Popperian falsification side by side, then separate proof in a
+      closed formal world from corroboration in an open empirical world using explicit formulas.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/neuro-symbolic-witness-spaces/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 20: Neuro-symbolic reasoning and witness spaces</h2>
+    <p class="fp-card-text">
+      Treat LLMs as proposal priors and symbolic methods as semantic judges, then map proof search,
+      counterexample search, synthesis, experiment design, and coverage limits in one formula family.
     </p>
   </a>
 </div>
