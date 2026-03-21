@@ -31,7 +31,7 @@ This page makes that precise in formulas, pushes it as deep as it will go, and m
 
 ## Part I: one picture, one formula
 
-Suppose a model is given a task \(x\). It proposes a candidate object \(y\): a proof, a program, a test case, a temporal logic formula, an invariant, an abstraction, a patch, a fault scenario.
+Suppose a model is given a task $x$. It proposes a candidate object $y$: a proof, a program, a test case, a temporal logic formula, an invariant, an abstraction, a patch, a fault scenario.
 
 Let the model's proposal distribution be:
 
@@ -57,6 +57,20 @@ q_{NS}(y \mid x)
 q_N(y \mid x)\cdot \chi_S(y,x).
 $$
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Notation guide</p>
+  <ul>
+    <li>$x$ — the task or problem instance</li>
+    <li>$y$ — a candidate object proposed for that task</li>
+    <li>$N$ labels the neural proposer (the LLM); $S$ labels the symbolic checker</li>
+    <li>$q_N(y \mid x)$ — the model's proposal distribution over candidates $y$ given task $x$</li>
+    <li>$\chi_S(y, x)$ — admissibility gate: $1$ if the checker accepts, $0$ if it rejects</li>
+    <li>$q_{NS}(y \mid x)$ — the combined neuro-symbolic distribution</li>
+    <li>$\mid$ means "conditioned on"; $\propto$ means "proportional to"</li>
+  </ul>
+  <p>Throughout this tutorial: $w$ names a witness, $c$ a counterexample, $d$ a design, $a$ an adversary move, $u$ a generic candidate, $\theta$ a parameter vector. The symbols $\forall$, $\exists$, $\neg$, $\land$, and $\to$ mean "for all," "there exists," "not," "and," and "implies."</p>
+</div>
+
 That equation says three things at once:
 
 - the model provides search pressure (it concentrates probability on regions it considers promising),
@@ -81,7 +95,7 @@ $$
 \neg \exists u\; (U(u,X) \land B(u,X)).
 $$
 
-The neuro-symbolic pair is a direct instantiation. The LLM populates \(U\) by choosing which witnesses to propose. The checker defines \(B\) by deciding which proposals are semantically invalid. The combined system searches for witnesses that survive both: proposed by the model, accepted by the checker.
+The neuro-symbolic pair is a direct instantiation. The LLM populates $U$ by choosing which witnesses to propose. The checker defines $B$ by deciding which proposals are semantically invalid. The combined system searches for witnesses that survive both: proposed by the model, accepted by the checker.
 
 ## Part I.5: a worked example
 
@@ -91,9 +105,9 @@ $$
 \Phi = (A \lor B) \land (\neg A \lor C) \land (\neg B \lor \neg C).
 $$
 
-The task is to find a satisfying assignment.
+The task is to find a satisfying assignment. Here $\Phi$ is the formula, $A$, $B$, $C$ are Boolean variables, $\lor$ is "or," $\land$ is "and," $\neg$ is "not," $\top$ is true, $\bot$ is false, $\checkmark$ marks a satisfied clause, and $\times$ marks a failed one.
 
-The LLM proposes: \(A = \top,\; B = \bot,\; C = \top\).
+The LLM proposes: $A = \top,\; B = \bot,\; C = \top$.
 
 The checker evaluates each clause:
 
@@ -107,7 +121,7 @@ $$
 
 All clauses satisfied. The checker accepts. The combined system has found a witness.
 
-Now suppose the LLM proposes instead: \(A = \top,\; B = \top,\; C = \top\).
+Now suppose the LLM proposes instead: $A = \top,\; B = \top,\; C = \top$.
 
 $$
 \begin{aligned}
@@ -173,7 +187,7 @@ $$
 \Pr_{y \sim \mathcal{D}}\big[\mathrm{Check}(y,x) \to \mathrm{Valid}(y,x)\big] \ge 1 - \delta.
 $$
 
-The gap between "for all \(y\)" and "with high probability over \(y \sim \mathcal{D}\)" is exactly the gap between proof and corroboration from Tutorial 19. An LLM can approximate a checker with high accuracy. But accuracy is not soundness. A single adversarial or out-of-distribution input can violate the guarantee.
+The gap between "for all $y$" and "with high probability over $y \sim \mathcal{D}$" is exactly the gap between proof and corroboration from Tutorial 19. An LLM can approximate a checker with high accuracy. But accuracy is not soundness. A single adversarial or out-of-distribution input can violate the guarantee.
 
 So the sharp result is:
 
@@ -245,12 +259,11 @@ $$
 Abstraction discovery:
 
 $$
-\exists \alpha\;
-\big(
-\forall s,t\; (\mathrm{Step}_c(s,t) \rightarrow \mathrm{Step}_a(\alpha(s),\alpha(t)))
-\land
-\forall s\; (\mathrm{Bad}_c(s) \rightarrow \mathrm{Bad}_a(\alpha(s)))
+\begin{aligned}
+\exists \alpha\;\big(\;&\forall s,t\; (\mathrm{Step}_c(s,t) \to \mathrm{Step}_a(\alpha(s),\alpha(t))) \\
+&\land\; \forall s\; (\mathrm{Bad}_c(s) \to \mathrm{Bad}_a(\alpha(s)))
 \big).
+\end{aligned}
 $$
 
 The first large possibility frontier follows:
@@ -363,7 +376,7 @@ Each level adds one alternating quantifier. Each level is harder. Each level is 
 
 The most important practical neuro-symbolic pattern is not a single propose-check step. It is an iterated loop where the checker's feedback guides the next proposal.
 
-Let \(x_0\) be the model's initial candidate:
+Let $x_0$ be the model's initial candidate:
 
 $$
 x_0 \in \mathrm{InitialProposal}_N(x).
@@ -389,7 +402,7 @@ $$
 
 This is the counterexample-guided refinement loop. It appears under many names: CEGAR in model checking, counterexample-guided inductive synthesis in program synthesis, adversarial training in machine learning. The underlying shape is always the same.
 
-The key convergence question is whether the refinement operator makes progress. Define a measure \(\mu(x_t)\) of how far the current proposal is from the admissible region. Convergence is guaranteed if:
+The key convergence question is whether the refinement operator makes progress. Define a measure $\mu(x_t)$ of how far the current proposal is from the admissible region. Convergence is guaranteed if:
 
 $$
 \mu(x_{t+1}) < \mu(x_t) \quad \text{whenever } \chi_S(x_t, x) = 0.
@@ -405,7 +418,7 @@ The deeper insight is that the counterexample is not just a rejection signal. It
 
 An intelligent system does not only answer questions. It chooses what to test next.
 
-Let \(U_t\) be the current live witness space. After action \(a\) and observation \(o\):
+Let $U_t$ be the current live witness space. After action $a$ and observation $o$:
 
 $$
 U_{t+1}(a,o)
@@ -438,7 +451,7 @@ So the pair is not only a theorem machine. It can be an experiment design machin
 
 The main obstacle is not proposal quality alone. It is coverage.
 
-Define generator coverage over a witness family \(W\):
+Define generator coverage over a witness family $W$:
 
 $$
 \mathrm{Coverage}_N(W,x)
@@ -537,8 +550,10 @@ That pair explains why the combination beats brute-force symbolic search in prac
 There is a clean complexity-theoretic reading. An NP problem is one where a candidate witness can be verified in polynomial time. The LLM acts as a non-deterministic guesser: it proposes witnesses without exhaustive enumeration. The checker acts as the polynomial-time verifier. So the neuro-symbolic pair is essentially:
 
 $$
-\text{LLM} = \text{NP oracle (guess the certificate)}, \qquad
-\text{checker} = \text{P verifier (verify it)}.
+\begin{aligned}
+\text{LLM} &= \text{NP oracle (guess the certificate)}, \\
+\text{checker} &= \text{P verifier (verify it)}.
+\end{aligned}
 $$
 
 This is why the pattern fits NP-like search tasks naturally. If verification is cheap and the search space is huge but structured, the LLM's pattern-matching prior is exactly the kind of heuristic that concentrates search on promising candidates.
@@ -572,8 +587,10 @@ This is the same principle that makes proof assistants useful: the kernel is sma
 Real systems compose multiple proposer-checker stages. If two stages are available:
 
 $$
-\text{Stage 1: } (q_{N_1}, \chi_{S_1}) \qquad
-\text{Stage 2: } (q_{N_2}, \chi_{S_2})
+\begin{aligned}
+\text{Stage 1: } &(q_{N_1}, \chi_{S_1}) \\
+\text{Stage 2: } &(q_{N_2}, \chi_{S_2})
+\end{aligned}
 $$
 
 the composed checker is:
@@ -610,7 +627,7 @@ $$
 \Sigma_{w : W}\; \mathrm{Valid}(w,x).
 $$
 
-The witness \(w\) is a proof term. The checker verifies the typing judgment. "Propose a proof sketch and check it," "propose a program and verify it," and "propose an invariant and validate it" are the same type-theoretic operation: construct a term, then verify its type.
+The witness $w$ is a proof term. The checker verifies the typing judgment. "Propose a proof sketch and check it," "propose a program and verify it," and "propose an invariant and validate it" are the same type-theoretic operation: construct a term, then verify its type.
 
 This is the deepest reason why the neuro-symbolic split is not an engineering hack. It is the computational content of existential quantification itself. Finding a witness is constructing a proof term. Checking a witness is type checking. The LLM searches the space of proof terms. The checker verifies the typing derivation.
 
@@ -743,7 +760,7 @@ $$
 
 unless there is a coverage argument.
 
-This is the same gap Tutorial 19 identified between corroboration and proof. There it appeared as \(E \subsetneq E^*\): the evidence set is always a proper subset of the space of possible tests. Here it appears as the LLM's proposal distribution having blind spots: regions of the witness space where \(q_N(y \mid x) = 0\).
+This is the same gap Tutorial 19 identified between corroboration and proof. There it appeared as $E \subsetneq E^*$: the evidence set is always a proper subset of the space of possible tests. Here it appears as the LLM's proposal distribution having blind spots: regions of the witness space where $q_N(y \mid x) = 0$.
 
 The most dangerous mistake is to confuse "the model found no counterexample" with "no counterexample exists." The first is a statement about the model's coverage. The second is a statement about the world. One is bounded by the search. The other is bounded by reality.
 
@@ -800,8 +817,10 @@ So the bottom line is:
 The deepest working slogan is:
 
 $$
-\text{LLM} = \text{proposal prior}, \qquad
-\text{symbolic method} = \text{semantic judge}.
+\begin{aligned}
+\text{LLM} &= \text{proposal prior}, \\
+\text{symbolic method} &= \text{semantic judge}.
+\end{aligned}
 $$
 
 From that, three neuro-symbolic frontiers follow, one quantifier level deeper than the last:

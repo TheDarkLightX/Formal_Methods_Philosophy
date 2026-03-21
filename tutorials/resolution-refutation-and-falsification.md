@@ -22,10 +22,17 @@ The point of this page is to say that precisely, in formulas.
 
 One distinction matters immediately:
 
-- symbols like \(\models\) and \(\vdash\) are metalogical, they talk about truth-from-premises and derivability,
+- symbols like $\models$ and $\vdash$ are metalogical, they talk about truth-from-premises and derivability,
 - ordinary predicate logic writes the same idea using predicates and quantifiers inside the formula language.
 
 Both are useful. This page uses both, but it keeps them separate.
+
+Quick reading guide:
+
+- `Σ ⊨ P` means `P` is true in every model that satisfies `Σ`,
+- `Σ ⊢ P` means there is a formal derivation of `P` from `Σ` using the proof rules,
+- `⊨` is semantic entailment,
+- `⊢` is syntactic provability.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Assumption hygiene</p>
@@ -51,15 +58,22 @@ $$
 \frac{L \lor \Gamma \qquad \neg L \lor \Delta}{\Gamma \lor \Delta}
 $$
 
-where \(L\) is a literal and \(\Gamma,\Delta\) are disjunctions of literals.
+where $L$ is a literal and $\Gamma,\Delta$ are disjunctions of literals.
 
-This is a rule for removing an attacked middle term. If one clause says “either \(A\) or \(B\),” and another says “either not-\(A\) or \(C\),” then any model satisfying both must satisfy \(B \lor C\).
+So in this rule:
+
+- `L` is the attacked literal,
+- `¬L` is its negation,
+- `Γ` stands for “the rest of the first clause,”
+- `Δ` stands for “the rest of the second clause.”
+
+This is a rule for removing an attacked middle term. If one clause says “either $A$ or $B$,” and another says “either not-$A$ or $C$,” then any model satisfying both must satisfy $B \lor C$.
 
 Another way to say the same thing is this:
 
-- the first clause leaves two escape routes, \(A\) or \(B\),
-- the second clause shuts down the \(A\) route unless \(C\) is available,
-- so any surviving model must leave \(B\) or \(C\) open.
+- the first clause leaves two escape routes, $A$ or $B$,
+- the second clause shuts down the $A$ route unless $C$ is available,
+- so any surviving model must leave $B$ or $C$ open.
 
 That is why resolution feels like adversarial reasoning. It keeps squeezing away options until either some options remain or none do.
 
@@ -73,22 +87,26 @@ $$
 \neg \exists M \in \mathcal{M}\; (M \models \Sigma \land M \models \neg P).
 $$
 
+In plain English, the same formula says:
+
+`P follows from Sigma exactly when there is no model M in the model class under discussion that satisfies all of Sigma and also makes P false.`
+
 Read each symbol slowly:
 
-- \(\Sigma\) is the fixed set of premises,
-- \(P\) is the claim to be proved,
-- \(\mathcal{M}\) is the model class under consideration,
-- \(M \models \Sigma\) means model \(M\) satisfies all premises in \(\Sigma\),
-- \(M \models \neg P\) means model \(M\) is a counterexample to \(P\),
-- \(\neg \exists M\) means no such counterexample model exists.
+- `Σ` is the fixed set of premises,
+- `P` is the claim to be proved,
+- `𝓜` is the model class under consideration,
+- `M ⊨ Σ` means model `M` satisfies all premises in `Σ`,
+- `M ⊨ ¬P` means model `M` is a counterexample to `P`,
+- `¬∃M` means no such counterexample model exists.
 
 So the formula says:
 
-> \(P\) follows from \(\Sigma\) exactly when there is no allowed model in which the premises hold and \(P\) fails.
+> $P$ follows from $\Sigma$ exactly when there is no allowed model in which the premises hold and $P$ fails.
 
 That is the cleanest formal version of “closed formal world.” The world is closed because the premises, language, proof rules, and model class are fixed before the search begins.
 
-That formula is metalogical. If an ordinary predicate-logic version is wanted instead, it can be written by replacing \(\models\) with explicit predicates:
+That formula is metalogical. If an ordinary predicate-logic version is wanted instead, it can be written by replacing $\models$ with explicit predicates:
 
 $$
 \mathrm{ClosedFormalWorld}(\Sigma,P)
@@ -107,7 +125,7 @@ This says the same thing, but now the whole statement is written as one predicat
 
 ## Part II: proof by refutation
 
-Let \(\Sigma\) be a clause set and let \(P\) be the statement to prove.
+Let $\Sigma$ be a clause set and let $P$ be the statement to prove.
 
 The semantic form is:
 
@@ -121,11 +139,11 @@ This is the cleanest formula for the “closed formal world” idea.
 
 It says:
 
-- the premises are fixed, namely \(\Sigma\),
-- the candidate counterexamples are fixed, namely models \(M\),
-- the attack condition is fixed, namely satisfying both \(\Sigma\) and \(\neg P\).
+- the premises are fixed, namely $\Sigma$,
+- the candidate counterexamples are fixed, namely models $M$,
+- the attack condition is fixed, namely satisfying both $\Sigma$ and $\neg P$.
 
-If no such model exists, then \(P\) follows from \(\Sigma\).
+If no such model exists, then $P$ follows from $\Sigma$.
 
 This can be understood as failed counterexample search:
 
@@ -151,7 +169,7 @@ $$
 \Sigma \cup \{\neg P\} \vdash_{\mathrm{Res}} \Box
 $$
 
-where \(\Box\) is the empty clause.
+where $\Box$ is the empty clause.
 
 So the direct logical shape is:
 
@@ -171,7 +189,7 @@ $$
 \Sigma = \{A \lor B,\ \neg A\}
 $$
 
-and suppose the goal is to prove \(B\).
+and suppose the goal is to prove $B$.
 
 Add the negation of the goal:
 
@@ -229,7 +247,7 @@ $$
 
 ## Part III: what “closed” means in logic
 
-The closed-world part can be written explicitly by indexing entailment to a chosen model class \(\mathcal{C}\):
+The closed-world part can be written explicitly by indexing entailment to a chosen model class $\mathcal{C}$:
 
 $$
 \Sigma \models_{\mathcal{C}} P
@@ -239,10 +257,10 @@ $$
 
 Now everything is fixed:
 
-- the premises \(\Sigma\),
+- the premises $\Sigma$,
 - the language,
 - the rules,
-- the model class \(\mathcal{C}\).
+- the model class $\mathcal{C}$.
 
 So if the proof system is sound, then
 
@@ -266,7 +284,7 @@ $$
 
 No future experiment can reopen the matter unless the assumptions, language, or rules change.
 
-This is why proof is stronger than corroboration. In logic, the search space is not merely sampled. It is defined by the model class \(\mathcal{C}\). The quantifier really ranges over that whole class:
+This is why proof is stronger than corroboration. In logic, the search space is not merely sampled. It is defined by the model class $\mathcal{C}$. The quantifier really ranges over that whole class:
 
 $$
 \forall M \in \mathcal{C}.
@@ -278,7 +296,7 @@ That is the source of finality. If the system is sound and complete for the chos
 
 Now write the scientific side in the same style.
 
-Let \(T\) be a theory, and let \(E\) be the set of tests actually performed so far.
+Let $T$ be a theory, and let $E$ be the set of tests actually performed so far.
 
 Define corroboration by:
 
@@ -401,7 +419,7 @@ $$
 \neg \exists e \in E\; \mathrm{Falsifies}(e,T).
 $$
 
-So the common shape is real. The difference comes from what the universe \(U\) is.
+So the common shape is real. The difference comes from what the universe $U$ is.
 
 If the aim is to state the comparison only in ordinary predicate logic, the pair is:
 
@@ -439,7 +457,7 @@ $$
 \neg \exists M \; (M \models \Sigma \land M \models \neg P).
 $$
 
-So under fixed assumptions, “no counterexample exists” is equivalent to truth relative to \(\Sigma\).
+So under fixed assumptions, “no counterexample exists” is equivalent to truth relative to $\Sigma$.
 
 In science:
 
@@ -457,7 +475,7 @@ $$
 
 Why not?
 
-Because \(E\) is not the set of all possible future tests.
+Because $E$ is not the set of all possible future tests.
 
 That can be written as:
 
@@ -465,7 +483,7 @@ $$
 E \subsetneq E^{*}
 $$
 
-where \(E^{*}\) is the open-ended space of possible tests, measurements, and future experimental conditions.
+where $E^{*}$ is the open-ended space of possible tests, measurements, and future experimental conditions.
 
 So the stronger scientific truth condition would be:
 
@@ -473,7 +491,7 @@ $$
 \neg \exists e \in E^{*} \; \mathrm{Falsifies}(e,T),
 $$
 
-but science never possesses the whole \(E^{*}\) as a completed finite object.
+but science never possesses the whole $E^{*}$ as a completed finite object.
 
 So the contrast in quantifier scope is:
 
@@ -607,9 +625,9 @@ The two cases can be abstracted one level further.
 
 Let:
 
-- \(X\) be the object under attack, a claim, theory, program, or machine,
-- \(U\) be the searched universe of possible witnesses,
-- \(B(u,X)\) mean that witness \(u\) is bad for \(X\).
+- $X$ be the object under attack, a claim, theory, program, or machine,
+- $U$ be the searched universe of possible witnesses,
+- $B(u,X)$ mean that witness $u$ is bad for $X$.
 
 Then the master schema is:
 
@@ -719,7 +737,7 @@ $$
 
 The same schema becomes especially useful in software and protocol design.
 
-Let \(M_{old}\) and \(M_{new}\) be two shapes for the same system. If the new shape prunes the reachable state space, one wants:
+Let $M_{old}$ and $M_{new}$ be two shapes for the same system. If the new shape prunes the reachable state space, one wants:
 
 $$
 \forall s\;
@@ -770,7 +788,7 @@ That is one of the deepest bridges between proof search and system security.
 
 Chaos engineering fits naturally into the same family.
 
-Let \(f\) range over faults, delays, dropped messages, stale oracles, partial partitions, clock skew, and similar disturbances.
+Let $f$ range over faults, delays, dropped messages, stale oracles, partial partitions, clock skew, and similar disturbances.
 
 An ideal robustness property would be:
 
@@ -787,7 +805,7 @@ $$
 \big).
 $$
 
-This is a closed-world robustness claim over a fixed in-scope fault universe \(F\).
+This is a closed-world robustness claim over a fixed in-scope fault universe $F$.
 
 But ordinary chaos testing usually establishes only:
 
@@ -802,7 +820,7 @@ $$
 \big).
 $$
 
-That is useful, but weaker. The injected faults \(E_F\) are a tested subset, not necessarily the whole in-scope fault universe.
+That is useful, but weaker. The injected faults $E_F$ are a tested subset, not necessarily the whole in-scope fault universe.
 
 So chaos engineering is often Popperian:
 
@@ -817,19 +835,19 @@ Now bring in language models, search models, or other generative systems.
 
 Assumption D matters here. A generator can enlarge the searched subset. It cannot by itself prove that the full universe has been covered.
 
-Let \(G\) be a scenario generator and \(H\) be a verifier or checker. Then:
+Let $G$ be a scenario generator and $H$ be a verifier or checker. Then:
 
 $$
 \mathrm{GeneratedBy}(u,G,X)
 $$
 
-means generator \(G\) proposed witness \(u\) against object \(X\), and
+means generator $G$ proposed witness $u$ against object $X$, and
 
 $$
 \mathrm{AcceptedByChecker}(u,H,X)
 $$
 
-means the checker accepts \(u\) as a valid candidate scenario or counterexample attempt.
+means the checker accepts $u$ as a valid candidate scenario or counterexample attempt.
 
 The searched set induced by the generator-checker pair is:
 
@@ -954,7 +972,7 @@ That sentence is the shared spine behind:
 
 The next depth is reached when the witness is not just searched for, but chosen by an adversary against a system response.
 
-For a controller \(C\) facing an environment \(E\), safety can be written as:
+For a controller $C$ facing an environment $E$, safety can be written as:
 
 $$
 \forall e\;
@@ -1006,7 +1024,7 @@ This is where verification shades into synthesis and game theory.
 
 Reachability itself can be defined recursively.
 
-Let \(\mathrm{Init}(s)\) mean \(s\) is an initial state and \(\mathrm{Step}(s,t)\) mean the machine can move from \(s\) to \(t\).
+Let $\mathrm{Init}(s)$ mean $s$ is an initial state and $\mathrm{Step}(s,t)$ mean the machine can move from $s$ to $t$.
 
 Then reachable state is the least fixed point:
 
@@ -1060,7 +1078,7 @@ These are not identical notations, but they preserve the same adversarial struct
 
 A generator usually does not enumerate the whole witness space uniformly. It induces a distribution over candidates.
 
-Let \(G(u \mid X)\) be the probability or score that generator \(G\) proposes witness \(u\) against object \(X\).
+Let $G(u \mid X)$ be the probability or score that generator $G$ proposes witness $u$ against object $X$.
 
 Then the expected bad-witness yield is:
 
@@ -1074,7 +1092,7 @@ If the witness space is continuous, replace the sum with an integral.
 
 This does not prove safety. It measures how aggressively the generator concentrates on plausible defects.
 
-A stronger target is coverage over a witness family \(W\):
+A stronger target is coverage over a witness family $W$:
 
 $$
 \forall u\;
@@ -1083,7 +1101,7 @@ W(u,X) \rightarrow \Pr[G \text{ proposes } u \mid X] > 0
 \big).
 $$
 
-That says every relevant witness in family \(W\) is at least reachable by the generator.
+That says every relevant witness in family $W$ is at least reachable by the generator.
 
 Then a checker can be required to be sound:
 
@@ -1120,7 +1138,7 @@ Good generation improves search power. It does not erase the closed-world versus
 
 To go deeper, one should distinguish the world itself from the agent's world model.
 
-Let the agent's current possibility set be \(\Omega_t\). Let action \(a\) be taken and observation \(o\) be received. Then a standard logical update is:
+Let the agent's current possibility set be $\Omega_t$. Let action $a$ be taken and observation $o$ be received. Then a standard logical update is:
 
 $$
 \Omega_{t+1}
@@ -1195,7 +1213,7 @@ So an action perturbs the world model not only by moving a current state, but by
 
 The deepest common idea behind resolution and Popper is not merely “testing.” It is elimination of impossible worlds.
 
-Start with a universe of possibilities \(U_0\). Each constraint \(c\) defines a survivor operator:
+Start with a universe of possibilities $U_0$. Each constraint $c$ defines a survivor operator:
 
 $$
 I_c(X) := \{u \in X \mid \mathrm{Passes}(u,c)\}.
@@ -1221,7 +1239,7 @@ $$
 I_c(I_c(X)) = I_c(X)
 $$
 
-After constraints \(c_1,\dots,c_n\), the survivor set is:
+After constraints $c_1,\dots,c_n$, the survivor set is:
 
 $$
 U_n
@@ -1241,7 +1259,7 @@ This is the monotone shrinking core shared by:
 - guarded execution,
 - formal proofs of unreachability.
 
-Resolution under \(\neg P\) drives the model survivor set to empty:
+Resolution under $\neg P$ drives the model survivor set to empty:
 
 $$
 U_0 := \{M \mid M \models \Sigma \land M \models \neg P\}
@@ -1267,13 +1285,13 @@ The same mathematical gesture is happening. Possibility space is being carved do
 
 One can go even deeper and remove “theory” and “model” entirely.
 
-Let \(X_t\) be the support of what remains live at time \(t\). Then:
+Let $X_t$ be the support of what remains live at time $t$. Then:
 
 $$
 X_{t+1} = X_t \cap C_t
 $$
 
-where \(C_t\) is the set of candidates surviving the next constraint.
+where $C_t$ is the set of candidates surviving the next constraint.
 
 Equivalently:
 
@@ -1312,7 +1330,7 @@ p_{t+1}(x)
 \frac{p_t(x)\, f_t(x)}{\sum_y p_t(y)\, f_t(y)}
 $$
 
-where \(p_t(x)\) is the population share of type \(x\), and \(f_t(x)\) is its fitness.
+where $p_t(x)$ is the population share of type $x$, and $f_t(x)$ is its fitness.
 
 With mutation or variation:
 
@@ -1322,7 +1340,7 @@ p_{t+1}(x)
 \frac{\sum_y p_t(y)\, f_t(y)\, K_t(y,x)}{Z_t}
 $$
 
-where \(K_t(y,x)\) is the variation kernel and \(Z_t\) is the normalizing constant.
+where $K_t(y,x)$ is the variation kernel and $Z_t$ is the normalizing constant.
 
 That is not what resolution does.
 
@@ -1380,7 +1398,7 @@ $$
 B(x) \leftrightarrow J(x) < \tau
 $$
 
-for some threshold \(\tau\).
+for some threshold $\tau$.
 
 So:
 
@@ -1401,8 +1419,8 @@ $$
 
 where:
 
-- \(E_t\) expands, varies, proposes, or explores,
-- \(I_t\) prunes, rejects, falsifies, or guards.
+- $E_t$ expands, varies, proposes, or explores,
+- $I_t$ prunes, rejects, falsifies, or guards.
 
 Examples:
 
