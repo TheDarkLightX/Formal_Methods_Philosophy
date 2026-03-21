@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Witness Space Explorer</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --paper: #efe7d8;
+    --canvas: #f7f1e6;
+    --panel: rgba(255, 250, 241, 0.92);
+    --panel-strong: rgba(255, 247, 234, 0.98);
+    --ink: #2a2520;
+    --muted: #7a7064;
+    --line: rgba(42, 37, 32, 0.14);
+    --line-strong: rgba(42, 37, 32, 0.25);
+    --teal: #0f766e;
+    --teal-soft: rgba(15, 118, 110, 0.10);
+    --teal-med: rgba(15, 118, 110, 0.35);
+    --amber: #a04a08;
+    --amber-soft: rgba(160, 74, 8, 0.10);
+    --amber-med: rgba(160, 74, 8, 0.30);
+    --red: #a82218;
+    --red-soft: rgba(168, 34, 24, 0.10);
+    --green: #15803d;
+    --green-soft: rgba(34, 197, 94, 0.12);
+    --green-med: rgba(34, 197, 94, 0.30);
+    --slate: #4d443c;
+    --gap-bg: rgba(42, 37, 32, 0.08);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 14px 28px rgba(42, 34, 28, 0.08);
+    --font-body: "Source Sans 3", Georgia, serif;
+    --font-display: "Bitter", Georgia, serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1c1916;
+      --canvas: #141210;
+      --panel: rgba(32, 28, 24, 0.94);
+      --panel-strong: rgba(36, 32, 28, 0.98);
+      --ink: #e4dfda;
+      --muted: #9e968c;
+      --line: rgba(228, 223, 218, 0.12);
+      --line-strong: rgba(228, 223, 218, 0.22);
+      --teal: #2dd4bf;
+      --teal-soft: rgba(45, 212, 191, 0.12);
+      --teal-med: rgba(45, 212, 191, 0.30);
+      --amber: #f5b731;
+      --amber-soft: rgba(245, 183, 49, 0.12);
+      --amber-med: rgba(245, 183, 49, 0.30);
+      --red: #f87171;
+      --red-soft: rgba(248, 113, 113, 0.12);
+      --green: #4ade80;
+      --green-soft: rgba(74, 222, 128, 0.12);
+      --green-med: rgba(74, 222, 128, 0.30);
+      --slate: #c4bbb2;
+      --gap-bg: rgba(228, 223, 218, 0.06);
+      --shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(15, 118, 110, 0.06), transparent 36%),
+      radial-gradient(circle at bottom right, rgba(160, 74, 8, 0.06), transparent 32%),
+      var(--paper);
+    padding: 20px;
+    min-height: 100vh;
+  }
+
+  .app {
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0 0 20px;
+    line-height: 1.5;
+  }
+
+  .formula-bar {
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 16px;
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    margin: 0 0 20px;
+    color: var(--teal);
+  }
+
+  .main {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 20px;
+    align-items: start;
+  }
+
+  @media (max-width: 740px) {
+    .main { grid-template-columns: 1fr; }
+  }
+
+  /* ── Grid ── */
+  .grid-wrap {
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    gap: 2px;
+    aspect-ratio: 1;
+  }
+
+  .cell {
+    position: relative;
+    border-radius: 3px;
+    transition: background 0.15s, box-shadow 0.15s;
+    cursor: default;
+    aspect-ratio: 1;
+  }
+
+  .cell.admissible {
+    box-shadow: inset 0 0 0 1.5px var(--amber-med);
+  }
+
+  .cell .valid-dot {
+    display: none;
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.7;
+  }
+
+  .reveal-valid .cell.valid .valid-dot { display: block; }
+
+  .cell.gap-blocked {
+    background: var(--gap-bg) !important;
+  }
+  .cell.gap-blocked::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 3px,
+      rgba(42, 37, 32, 0.06) 3px,
+      rgba(42, 37, 32, 0.06) 5px
+    );
+    border-radius: 3px;
+  }
+
+  @keyframes flash-accept {
+    0% { box-shadow: inset 0 0 0 2.5px var(--green), 0 0 12px var(--green-med); }
+    100% { box-shadow: inset 0 0 0 1.5px var(--green-med); }
+  }
+  @keyframes flash-reject {
+    0% { box-shadow: inset 0 0 0 2.5px var(--red), 0 0 12px var(--red-soft); }
+    100% { box-shadow: none; }
+  }
+  @keyframes flash-hit {
+    0% { box-shadow: inset 0 0 0 3px var(--green), 0 0 18px var(--green-med); }
+    50% { box-shadow: inset 0 0 0 3px var(--green), 0 0 8px var(--green-med); }
+    100% { box-shadow: inset 0 0 0 2px var(--green); }
+  }
+
+  .cell.accepted { animation: flash-accept 0.5s ease-out forwards; }
+  .cell.rejected { animation: flash-reject 0.6s ease-out forwards; }
+  .cell.hit {
+    animation: flash-hit 0.8s ease-out forwards;
+    background: var(--green-soft) !important;
+  }
+  .cell.hit .valid-dot { display: block; opacity: 1; }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 12px 0 0;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .legend-swatch {
+    width: 14px; height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+
+  /* ── Controls ── */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .card {
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    box-shadow: var(--shadow);
+  }
+
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+  }
+
+  .control-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 0 0 10px;
+  }
+
+  .control-row label {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .control-row .value {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--teal);
+    min-width: 36px;
+    text-align: right;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    margin: 4px 0 8px;
+    accent-color: var(--teal);
+  }
+
+  .toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+  }
+
+  .toggle-row label {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* Toggle switch */
+  .switch {
+    position: relative;
+    width: 40px; height: 22px;
+    flex-shrink: 0;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .switch .slider {
+    position: absolute; inset: 0;
+    background: var(--line-strong);
+    border-radius: 11px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .switch .slider::before {
+    content: '';
+    position: absolute;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: white;
+    left: 3px; top: 3px;
+    transition: transform 0.2s;
+  }
+  .switch input:checked + .slider { background: var(--teal); }
+  .switch input:checked + .slider::before { transform: translateX(18px); }
+
+  /* Buttons */
+  .btn-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .btn-row.full { grid-template-columns: 1fr; }
+
+  button {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 700;
+    padding: 8px 12px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--panel);
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  button:hover {
+    background: var(--teal-soft);
+    border-color: var(--teal-med);
+  }
+  button.primary {
+    background: var(--teal);
+    color: white;
+    border-color: var(--teal);
+  }
+  button.primary:hover { opacity: 0.9; }
+  button.running {
+    background: var(--amber-soft);
+    border-color: var(--amber-med);
+    color: var(--amber);
+  }
+
+  /* Stats */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .stat {
+    text-align: center;
+    padding: 8px;
+    background: var(--teal-soft);
+    border-radius: var(--radius-sm);
+  }
+
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--teal);
+  }
+
+  .stat-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+  }
+
+  .stat.warn .stat-value { color: var(--amber); }
+  .stat.warn { background: var(--amber-soft); }
+
+  /* Event log */
+  .log {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted);
+    max-height: 120px;
+    overflow-y: auto;
+    line-height: 1.7;
+    padding: 8px;
+    background: rgba(42, 37, 32, 0.03);
+    border-radius: var(--radius-sm);
+  }
+  .log-accept { color: var(--green); }
+  .log-reject { color: var(--red); }
+  .log-hit { color: var(--green); font-weight: 600; }
+
+  /* Coverage warning */
+  .coverage-warn {
+    font-size: 12px;
+    padding: 8px 10px;
+    background: var(--amber-soft);
+    border: 1px solid var(--amber-med);
+    border-radius: var(--radius-sm);
+    color: var(--amber);
+    line-height: 1.4;
+    display: none;
+  }
+  .coverage-warn.visible { display: block; }
+</style>
+</head>
+<body>
+<div class="app">
+  <h1>Witness Space Explorer</h1>
+  <p class="subtitle">
+    Sample from the LLM's proposal distribution. Watch the checker accept or reject.
+    See how coverage gaps prevent discovery.
+  </p>
+
+  <div class="formula-bar">
+    q<sub>NS</sub>(y | x) &prop; q<sub>N</sub>(y | x) &middot; &chi;<sub>S</sub>(y, x)
+  </div>
+
+  <div class="main">
+    <div class="grid-wrap" id="grid-wrap">
+      <div class="grid" id="grid"></div>
+      <div class="legend">
+        <span class="legend-item">
+          <span class="legend-swatch" style="background: rgba(15, 118, 110, 0.35);"></span>
+          LLM proposal mass
+        </span>
+        <span class="legend-item">
+          <span class="legend-swatch" style="box-shadow: inset 0 0 0 2px rgba(160, 74, 8, 0.45); background: transparent;"></span>
+          Admissible region
+        </span>
+        <span class="legend-item">
+          <span class="legend-swatch" style="background: rgba(34, 197, 94, 0.3);"></span>
+          Valid witness found
+        </span>
+        <span class="legend-item">
+          <span class="legend-swatch" style="background: var(--gap-bg); background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(42,37,32,0.08) 2px, rgba(42,37,32,0.08) 4px);"></span>
+          Coverage gap
+        </span>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <div class="card">
+        <div class="card-title">Controls</div>
+
+        <div class="control-row">
+          <label>Temperature</label>
+          <span class="value" id="temp-val">1.0</span>
+        </div>
+        <input type="range" id="temperature" min="0.3" max="3.0" step="0.1" value="1.0">
+
+        <div class="toggle-row">
+          <label>Coverage gap</label>
+          <label class="switch">
+            <input type="checkbox" id="coverage-gap">
+            <span class="slider"></span>
+          </label>
+        </div>
+
+        <div class="toggle-row">
+          <label>Reveal valid witnesses</label>
+          <label class="switch">
+            <input type="checkbox" id="reveal-valid">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Sample</div>
+        <div class="btn-row">
+          <button class="primary" id="btn-1">Sample 1</button>
+          <button id="btn-10">Sample 10</button>
+        </div>
+        <div class="btn-row full" style="margin-top: 8px;">
+          <button id="btn-auto">Auto-sample</button>
+        </div>
+        <div class="btn-row full" style="margin-top: 8px;">
+          <button id="btn-reset">Reset</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Statistics</div>
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat-value" id="stat-proposals">0</div>
+            <div class="stat-label">Proposals</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="stat-accepted">0</div>
+            <div class="stat-label">Accepted</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="stat-hits">0</div>
+            <div class="stat-label">Valid hits</div>
+          </div>
+          <div class="stat" id="stat-coverage-card">
+            <div class="stat-value" id="stat-coverage">0%</div>
+            <div class="stat-label">Witnesses found</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="coverage-warn" id="coverage-warn">
+        Coverage gap active. Some valid witnesses have zero proposal probability and can never be found.
+      </div>
+
+      <div class="card">
+        <div class="card-title">Event log</div>
+        <div class="log" id="log"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const ROWS = 16, COLS = 16;
+
+// ── Admissible region: irregular ellipse ──
+const ADM_CX = 7.5, ADM_CY = 7.5, ADM_RX = 5.8, ADM_RY = 5.5;
+function isAdmissible(r, c) {
+  const dx = (c - ADM_CX) / ADM_RX;
+  const dy = (r - ADM_CY) / ADM_RY;
+  return dx * dx + dy * dy <= 1.0;
+}
+
+// ── Valid witnesses (ground truth) ──
+const VALID_SET = [
+  [4, 6], [5, 5], [5, 8], [6, 4], [6, 7], [7, 6],
+  [7, 9], [8, 5], [8, 8], [9, 7], [10, 6], [10, 8],
+  [7, 11], [9, 10]  // last two fall in coverage-gap columns
+];
+const validKey = (r, c) => `${r},${c}`;
+const validMap = new Set(VALID_SET.map(([r, c]) => validKey(r, c)));
+
+// ── LLM hot spots (Gaussian mixture) ──
+const HOT_SPOTS = [
+  { cr: 5, cc: 5, sigma: 2.8, weight: 1.0 },   // inside admissible
+  { cr: 8, cc: 9, sigma: 2.2, weight: 0.7 },    // near edge
+  { cr: 3, cc: 13, sigma: 2.0, weight: 0.5 },   // outside admissible
+];
+
+// Coverage gap columns
+const GAP_COLS = [10, 11, 12];
+
+// ── State ──
+let temperature = 1.0;
+let coverageGap = false;
+let autoInterval = null;
+let stats = { proposals: 0, accepted: 0, hits: 0 };
+let foundWitnesses = new Set();
+let cellEls = [];
+
+// ── Compute q_N ──
+function computeQN(r, c, temp) {
+  let val = 0;
+  for (const hs of HOT_SPOTS) {
+    const dist2 = (r - hs.cr) ** 2 + (c - hs.cc) ** 2;
+    const s = hs.sigma * temp;
+    val += hs.weight * Math.exp(-dist2 / (2 * s * s));
+  }
+  return val;
+}
+
+function buildDistribution() {
+  const dist = [];
+  let total = 0;
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      let p = computeQN(r, c, temperature);
+      if (coverageGap && GAP_COLS.includes(c)) p = 0;
+      dist.push({ r, c, p });
+      total += p;
+    }
+  }
+  // Normalize
+  if (total > 0) {
+    for (const d of dist) d.p /= total;
+  }
+  return dist;
+}
+
+// ── Sample from distribution ──
+function sampleOne(dist) {
+  const rand = Math.random();
+  let cumul = 0;
+  for (const d of dist) {
+    cumul += d.p;
+    if (rand <= cumul) return d;
+  }
+  return dist[dist.length - 1];
+}
+
+// ── Build grid ──
+function buildGrid() {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  cellEls = [];
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      const cell = document.createElement('div');
+      cell.className = 'cell';
+      cell.dataset.r = r;
+      cell.dataset.c = c;
+
+      if (isAdmissible(r, c)) cell.classList.add('admissible');
+      if (validMap.has(validKey(r, c))) {
+        cell.classList.add('valid');
+        const dot = document.createElement('span');
+        dot.className = 'valid-dot';
+        cell.appendChild(dot);
+      }
+
+      grid.appendChild(cell);
+      cellEls.push(cell);
+    }
+  }
+}
+
+// ── Update heatmap ──
+function updateHeatmap() {
+  const dist = buildDistribution();
+  let maxP = 0;
+  for (const d of dist) if (d.p > maxP) maxP = d.p;
+
+  for (let i = 0; i < dist.length; i++) {
+    const cell = cellEls[i];
+    const d = dist[i];
+    const intensity = maxP > 0 ? d.p / maxP : 0;
+
+    // Remove gap class first
+    cell.classList.remove('gap-blocked');
+
+    if (coverageGap && GAP_COLS.includes(d.c)) {
+      cell.classList.add('gap-blocked');
+      cell.style.background = '';
+    } else if (intensity > 0.01) {
+      const alpha = Math.min(intensity * 0.45, 0.45);
+      cell.style.background = `rgba(15, 118, 110, ${alpha})`;
+    } else {
+      cell.style.background = '';
+    }
+  }
+}
+
+// ── Perform one sample ──
+function doSample() {
+  const dist = buildDistribution();
+  const sample = sampleOne(dist);
+  const { r, c } = sample;
+  const idx = r * COLS + c;
+  const cell = cellEls[idx];
+  const adm = isAdmissible(r, c);
+  const valid = validMap.has(validKey(r, c));
+
+  stats.proposals++;
+
+  // Remove previous animation classes
+  cell.classList.remove('accepted', 'rejected', 'hit');
+  void cell.offsetWidth; // force reflow
+
+  if (adm) {
+    stats.accepted++;
+    if (valid) {
+      stats.hits++;
+      foundWitnesses.add(validKey(r, c));
+      cell.classList.add('hit');
+      addLog(`(${r},${c}) ACCEPT → VALID HIT`, 'hit');
+    } else {
+      cell.classList.add('accepted');
+      addLog(`(${r},${c}) ACCEPT (admissible)`, 'accept');
+    }
+  } else {
+    cell.classList.add('rejected');
+    addLog(`(${r},${c}) REJECT (outside boundary)`, 'reject');
+  }
+
+  updateStats();
+}
+
+// ── Stats ──
+function updateStats() {
+  document.getElementById('stat-proposals').textContent = stats.proposals;
+  document.getElementById('stat-accepted').textContent = stats.accepted;
+  document.getElementById('stat-hits').textContent = stats.hits;
+
+  // Coverage: how many of the valid witnesses have been found?
+  const totalValid = coverageGap
+    ? VALID_SET.filter(([, c]) => !GAP_COLS.includes(c)).length
+    : VALID_SET.length;
+  const reachableFound = [...foundWitnesses].filter(k => {
+    const [, cs] = k.split(',').map(Number);
+    return !coverageGap || !GAP_COLS.includes(cs);
+  }).length;
+  const pct = totalValid > 0 ? Math.round((reachableFound / totalValid) * 100) : 0;
+  document.getElementById('stat-coverage').textContent = `${reachableFound}/${totalValid}`;
+
+  // Warn if coverage gap is hiding witnesses
+  const card = document.getElementById('stat-coverage-card');
+  const unreachable = coverageGap
+    ? VALID_SET.filter(([, c]) => GAP_COLS.includes(c)).length
+    : 0;
+  if (unreachable > 0) {
+    card.classList.add('warn');
+  } else {
+    card.classList.remove('warn');
+  }
+}
+
+// ── Log ──
+function addLog(msg, type) {
+  const log = document.getElementById('log');
+  const line = document.createElement('div');
+  line.className = `log-${type}`;
+  line.textContent = msg;
+  log.prepend(line);
+  // Keep only last 40 entries
+  while (log.children.length > 40) log.removeChild(log.lastChild);
+}
+
+// ── Reset ──
+function reset() {
+  stats = { proposals: 0, accepted: 0, hits: 0 };
+  foundWitnesses.clear();
+  if (autoInterval) { clearInterval(autoInterval); autoInterval = null; }
+  document.getElementById('btn-auto').textContent = 'Auto-sample';
+  document.getElementById('btn-auto').classList.remove('running');
+  document.getElementById('log').innerHTML = '';
+
+  // Rebuild grid
+  buildGrid();
+  updateHeatmap();
+  updateStats();
+}
+
+// ── Event handlers ──
+document.getElementById('temperature').addEventListener('input', e => {
+  temperature = parseFloat(e.target.value);
+  document.getElementById('temp-val').textContent = temperature.toFixed(1);
+  updateHeatmap();
+});
+
+document.getElementById('coverage-gap').addEventListener('change', e => {
+  coverageGap = e.target.checked;
+  document.getElementById('coverage-warn').classList.toggle('visible', coverageGap);
+  updateHeatmap();
+  updateStats();
+});
+
+document.getElementById('reveal-valid').addEventListener('change', e => {
+  document.getElementById('grid-wrap').classList.toggle('reveal-valid', e.target.checked);
+});
+
+document.getElementById('btn-1').addEventListener('click', () => doSample());
+
+document.getElementById('btn-10').addEventListener('click', () => {
+  for (let i = 0; i < 10; i++) setTimeout(() => doSample(), i * 60);
+});
+
+document.getElementById('btn-auto').addEventListener('click', () => {
+  const btn = document.getElementById('btn-auto');
+  if (autoInterval) {
+    clearInterval(autoInterval);
+    autoInterval = null;
+    btn.textContent = 'Auto-sample';
+    btn.classList.remove('running');
+  } else {
+    autoInterval = setInterval(doSample, 120);
+    btn.textContent = 'Stop';
+    btn.classList.add('running');
+  }
+});
+
+document.getElementById('btn-reset').addEventListener('click', reset);
+
+// ── Init ──
+buildGrid();
+updateHeatmap();
+updateStats();
+</script>
+</body>
+</html>

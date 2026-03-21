@@ -1,0 +1,101 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 400"
+  role="img"
+  aria-labelledby="fp-scq-title fp-scq-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-scq-title">Soundness times coverage: where assurance lives</title>
+  <desc id="fp-scq-desc">
+    A two-by-two grid. Sound checker with full coverage yields proof. Sound checker
+    with partial coverage yields honest corroboration. Unsound checker with full coverage
+    is dangerous. Unsound checker with partial coverage is unreliable.
+  </desc>
+
+  <defs>
+    <filter id="fp-scq-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <!-- Card -->
+  <g filter="url(#fp-scq-shadow)">
+    <rect x="30" y="10" width="900" height="380" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="70" y="50" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Soundness &#xD7; Coverage: where assurance lives
+  </text>
+
+  <!-- Column headers -->
+  <text x="370" y="88" font-size="13" font-weight="800" fill="#1E293B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Full coverage</text>
+  <text x="370" y="106" font-size="11" fill="#64748B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x2200;w relevant &#x21D2; Pr(w) > 0</text>
+
+  <text x="680" y="88" font-size="13" font-weight="800" fill="#1E293B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Partial coverage</text>
+  <text x="680" y="106" font-size="11" fill="#64748B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">blind spots exist</text>
+
+  <!-- Row headers -->
+  <text x="175" y="200" font-size="13" font-weight="800" fill="#1E293B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Sound checker</text>
+  <text x="175" y="218" font-size="11" fill="#64748B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Check &#x21D2; Valid</text>
+
+  <text x="175" y="315" font-size="13" font-weight="800" fill="#1E293B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Unsound checker</text>
+  <text x="175" y="333" font-size="11" fill="#64748B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Check &#x219B; Valid</text>
+
+  <!-- Grid lines -->
+  <line x1="250" y1="120" x2="250" y2="375" stroke="#E2E8F0" stroke-width="2" />
+  <line x1="525" y1="120" x2="525" y2="375" stroke="#E2E8F0" stroke-width="2" />
+  <line x1="250" y1="260" x2="830" y2="260" stroke="#E2E8F0" stroke-width="2" />
+  <line x1="250" y1="120" x2="830" y2="120" stroke="#E2E8F0" stroke-width="2" />
+
+  <!-- Cell 1: Sound + Full → Proof (green) -->
+  <rect x="262" y="132" width="250" height="116" rx="14"
+    fill="rgba(34, 197, 94, 0.10)" />
+  <text x="387" y="175" font-size="20" font-weight="900" fill="#15803D" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Proof</text>
+  <text x="387" y="198" font-size="12" fill="#15803D" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">(in the limit)</text>
+  <text x="387" y="220" font-size="11" fill="#16A34A" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x2713; full assurance</text>
+
+  <!-- Highlight star -->
+  <rect x="268" y="138" width="44" height="22" rx="6"
+    fill="rgba(34, 197, 94, 0.25)" />
+  <text x="278" y="154" font-size="11" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">BEST</text>
+
+  <!-- Cell 2: Sound + Partial → Corroboration (blue) -->
+  <rect x="537" y="132" width="280" height="116" rx="14"
+    fill="rgba(59, 130, 246, 0.08)" />
+  <text x="677" y="175" font-size="20" font-weight="900" fill="#2563EB" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Corroboration</text>
+  <text x="677" y="198" font-size="12" fill="#2563EB" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">(honest but incomplete)</text>
+  <text x="677" y="220" font-size="11" fill="#3B82F6" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">sound search, might have missed</text>
+
+  <!-- Cell 3: Unsound + Full → Dangerous (red) -->
+  <rect x="262" y="272" width="250" height="96" rx="14"
+    fill="rgba(239, 68, 68, 0.08)" />
+  <text x="387" y="310" font-size="20" font-weight="900" fill="#DC2626" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Dangerous</text>
+  <text x="387" y="334" font-size="11" fill="#EF4444" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">false negatives slip through</text>
+
+  <!-- Cell 4: Unsound + Partial → Unreliable (gray) -->
+  <rect x="537" y="272" width="280" height="96" rx="14"
+    fill="rgba(15, 23, 42, 0.04)" />
+  <text x="677" y="310" font-size="20" font-weight="900" fill="#64748B" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Unreliable</text>
+  <text x="677" y="334" font-size="11" fill="#94A3B8" text-anchor="middle"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">neither sound nor complete</text>
+</svg>

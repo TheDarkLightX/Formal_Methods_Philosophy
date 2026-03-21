@@ -1,0 +1,146 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-nsf-title fp-nsf-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-nsf-title">The neuro-symbolic funnel: proposal mass meets admissibility</title>
+  <desc id="fp-nsf-desc">
+    Two overlapping regions inside the full candidate space. The teal region represents
+    high-probability proposals from the LLM. The amber region represents the checker's
+    admissible set. Their overlap is the neuro-symbolic distribution.
+  </desc>
+
+  <defs>
+    <filter id="fp-nsf-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <!-- Gradient for LLM heatmap feel -->
+    <radialGradient id="fp-nsf-llm-grad" cx="42%" cy="50%" r="45%">
+      <stop offset="0%" stop-color="rgba(15, 118, 110, 0.28)" />
+      <stop offset="60%" stop-color="rgba(15, 118, 110, 0.12)" />
+      <stop offset="100%" stop-color="rgba(15, 118, 110, 0.03)" />
+    </radialGradient>
+    <!-- Gradient for checker region -->
+    <radialGradient id="fp-nsf-chk-grad" cx="55%" cy="50%" r="40%">
+      <stop offset="0%" stop-color="rgba(160, 74, 8, 0.18)" />
+      <stop offset="70%" stop-color="rgba(160, 74, 8, 0.08)" />
+      <stop offset="100%" stop-color="rgba(160, 74, 8, 0.02)" />
+    </radialGradient>
+    <!-- Overlap highlight -->
+    <radialGradient id="fp-nsf-overlap-grad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(34, 197, 94, 0.25)" />
+      <stop offset="100%" stop-color="rgba(34, 197, 94, 0.10)" />
+    </radialGradient>
+    <!-- Clip for overlap region -->
+    <clipPath id="fp-nsf-clip-checker">
+      <ellipse cx="540" cy="210" rx="195" ry="130" />
+    </clipPath>
+  </defs>
+
+  <!-- Card background -->
+  <g filter="url(#fp-nsf-shadow)">
+    <rect x="30" y="10" width="900" height="400" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="70" y="52" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Proposal mass meets admissibility
+  </text>
+  <text x="70" y="72" font-size="12" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    The neuro-symbolic distribution lives where both regions overlap.
+  </text>
+
+  <!-- Full candidate space (outer boundary) -->
+  <rect x="80" y="90" width="800" height="280" rx="20"
+    fill="rgba(15, 23, 42, 0.025)" stroke="rgba(15, 23, 42, 0.12)" stroke-width="1.5"
+    stroke-dasharray="6 4" />
+  <text x="96" y="112" font-size="11" font-weight="700" fill="#94A3B8"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Full candidate space {y}
+  </text>
+
+  <!-- LLM proposal mass (teal blob, left-center) -->
+  <ellipse cx="380" cy="230" rx="220" ry="125"
+    fill="url(#fp-nsf-llm-grad)" stroke="rgba(15, 118, 110, 0.40)" stroke-width="2" />
+
+  <!-- Checker admissible region (amber blob, right-center) -->
+  <ellipse cx="540" cy="230" rx="195" ry="130"
+    fill="url(#fp-nsf-chk-grad)" stroke="rgba(160, 74, 8, 0.45)" stroke-width="2" />
+
+  <!-- Overlap region (green highlight, clipped to checker boundary) -->
+  <ellipse cx="380" cy="230" rx="220" ry="125"
+    fill="url(#fp-nsf-overlap-grad)" clip-path="url(#fp-nsf-clip-checker)" />
+  <ellipse cx="380" cy="230" rx="220" ry="125"
+    fill="none" stroke="rgba(34, 197, 94, 0.50)" stroke-width="2.5"
+    clip-path="url(#fp-nsf-clip-checker)"
+    stroke-dasharray="8 4" />
+
+  <!-- Labels for LLM region -->
+  <text x="230" y="195" font-size="14" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    q&#x2099;(y | x)
+  </text>
+  <text x="218" y="215" font-size="11" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    LLM proposal mass
+  </text>
+
+  <!-- Labels for checker region -->
+  <text x="630" y="195" font-size="14" font-weight="900" fill="#A04A08"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x3C7;&#x209B;(y, x) = 1
+  </text>
+  <text x="626" y="215" font-size="11" fill="#A04A08"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    admissible region
+  </text>
+
+  <!-- Label for overlap -->
+  <text x="432" y="236" font-size="15" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    q&#x2099;&#x209B;
+  </text>
+  <text x="418" y="256" font-size="11" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    neuro-symbolic
+  </text>
+  <text x="422" y="272" font-size="11" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    distribution
+  </text>
+
+  <!-- Annotations -->
+  <!-- Arrow: "proposed but invalid" -->
+  <line x1="240" y1="290" x2="210" y2="325" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2" />
+  <text x="130" y="342" font-size="10" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    proposed but invalid
+  </text>
+  <text x="142" y="356" font-size="10" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    (checker rejects)
+  </text>
+
+  <!-- Arrow: "valid but never proposed" -->
+  <line x1="680" y1="290" x2="715" y2="325" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="3 2" />
+  <text x="660" y="342" font-size="10" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    valid but never proposed
+  </text>
+  <text x="672" y="356" font-size="10" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    (coverage gap)
+  </text>
+
+  <!-- Bottom formula -->
+  <rect x="280" y="374" width="400" height="30" rx="10"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.25)" stroke-width="1" />
+  <text x="315" y="395" font-size="13" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    q&#x2099;&#x209B;(y | x) &#x221D; q&#x2099;(y | x) &#xB7; &#x3C7;&#x209B;(y, x)
+  </text>
+</svg>
