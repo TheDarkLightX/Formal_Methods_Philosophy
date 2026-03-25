@@ -1,0 +1,54 @@
+# Toy medical lab follow-up gate in the MPRD shape
+#
+# Purpose:
+# - show how a bounded guideline-shaped workflow can be expressed as Tau policy
+# - the host extracts structured facts from chart + lab inputs
+# - Tau decides which bounded follow-up class may execute
+#
+# Scope note:
+# - educational toy example only
+# - not a clinical guideline
+#
+# Stream mapping:
+# i1 = pathway_open (0 or 1)
+# i2 = red_flag_present (0 or 1)
+# i3 = abnormal_flag (0 or 1)
+# i4 = propose_watch (0 or 1)
+# i5 = propose_repeat_lab (0 or 1)
+# i6 = propose_human_review (0 or 1)
+# i7 = action_one_hot_ok (0 or 1)
+#
+# Outputs:
+# o1 = selected_action_allowed (0 or 1)
+# o2 = human_review_required (0 or 1)
+#
+# Hex decoder:
+# #x01 = 1  (true / flag set)
+# Encoding: (1-x)=NOT, x*y=AND, x+y=OR over non-overlapping products, x|y=bitwise OR
+
+set charvar off
+
+always
+  (o2[t]:bv[8] =
+    (i2[t]:bv[8] |
+     ({ #x01 }:bv[8] - i1[t]:bv[8]))) &&
+  (o1[t]:bv[8] =
+    ((i7[t]:bv[8] *
+      i4[t]:bv[8] *
+      ({ #x01 }:bv[8] - i5[t]:bv[8]) *
+      ({ #x01 }:bv[8] - i6[t]:bv[8]) *
+      i1[t]:bv[8] *
+      ({ #x01 }:bv[8] - i2[t]:bv[8]) *
+      ({ #x01 }:bv[8] - i3[t]:bv[8])) +
+     (i7[t]:bv[8] *
+      ({ #x01 }:bv[8] - i4[t]:bv[8]) *
+      i5[t]:bv[8] *
+      ({ #x01 }:bv[8] - i6[t]:bv[8]) *
+      i1[t]:bv[8] *
+      ({ #x01 }:bv[8] - i2[t]:bv[8]) *
+      i3[t]:bv[8]) +
+     (i7[t]:bv[8] *
+      ({ #x01 }:bv[8] - i4[t]:bv[8]) *
+      ({ #x01 }:bv[8] - i5[t]:bv[8]) *
+      i6[t]:bv[8] *
+      o2[t]:bv[8]))).

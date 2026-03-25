@@ -1,0 +1,49 @@
+# Educational wellness-plan gate in the MPRD shape
+#
+# Purpose:
+# - show "model proposes, rules decide" on a bounded non-clinical workflow
+# - the host computes the derived ceiling and evidence flags
+# - Tau decides whether the proposed action may execute
+#
+# Scope note:
+# - educational policy example only
+# - not medical advice
+#
+# Stream mapping:
+# i1 = data_complete (0 or 1)
+# i2 = within_guideline_scope (0 or 1)
+# i3 = identity_bound (0 or 1)
+# i4 = red_flags_clear (0 or 1)
+# i5 = formula_binding_ok (0 or 1)
+# i6 = request_le_ceiling (0 or 1)
+# i7 = propose_publish_plan (0 or 1)
+# i8 = propose_escalate_human (0 or 1)
+# i9 = action_one_hot_ok (0 or 1)
+#
+# Outputs:
+# o1 = selected_action_allowed (0 or 1)
+# o2 = auto_plan_open (0 or 1)
+#
+# Hex decoder:
+# #x01 = 1  (true / flag set)
+# Encoding: (1-x)=NOT, x*y=AND, x+y=OR over non-overlapping products
+
+set charvar off
+
+always
+  (o2[t]:bv[8] =
+    (i1[t]:bv[8] *
+     i2[t]:bv[8] *
+     i3[t]:bv[8] *
+     i4[t]:bv[8] *
+     i5[t]:bv[8] *
+     i6[t]:bv[8])) &&
+  (o1[t]:bv[8] =
+    ((i9[t]:bv[8] *
+      i7[t]:bv[8] *
+      ({ #x01 }:bv[8] - i8[t]:bv[8]) *
+      o2[t]:bv[8]) +
+     (i9[t]:bv[8] *
+      ({ #x01 }:bv[8] - i7[t]:bv[8]) *
+      i8[t]:bv[8] *
+      ({ #x01 }:bv[8] - o2[t]:bv[8])))).

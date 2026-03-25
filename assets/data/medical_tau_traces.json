@@ -1,0 +1,244 @@
+{
+  "generator": "scripts/generate_medical_tau_artifacts.py",
+  "tau_dex_root_name": "Autonomous Tau DEX",
+  "tau_bin_name": "tau",
+  "cases": {
+    "wellness_publish_ok": {
+      "family": "wellness",
+      "spec_relpath": "examples/tau/medical_wellness_deficit_gate_v1.tau",
+      "explanation": "All required facts are present and the proposal stays inside the computed ceiling, so the publish-plan action is allowed.",
+      "steps": [
+        {
+          "i1": 1,
+          "i2": 1,
+          "i3": 1,
+          "i4": 1,
+          "i5": 1,
+          "i6": 1,
+          "i7": 1,
+          "i8": 0,
+          "i9": 1
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1,
+          "o2": 1
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i8 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \ni9[t]:bv[8]*i7[t]:bv[8]*({ 1 }:bv[8]-i8[t]:bv[8])*o2[t]:bv[8]+i9[t]:bv[8]*({ 1 }:bv[8]-i7[t]:bv[8])*i8[t]:bv[8]*({ 1 }:bv[8]-o2[t]:bv[8]) = o1[t]:bv[8] && i1[t]:bv[8]*i2[t]:bv[8]*i3[t]:bv[8]*i4[t]:bv[8]*i5[t]:bv[8]*i6[t]:bv[8] = o2[t]:bv[8]\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni7 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni8 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\no1 : bv[8] := out file(\"/tmp/tau-trace-path\")\no2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\nq\n"
+    },
+    "wellness_escalate_on_missing_evidence": {
+      "family": "wellness",
+      "spec_relpath": "examples/tau/medical_wellness_deficit_gate_v1.tau",
+      "explanation": "The model proposes escalation because the request is not safely auto-actionable, and that escalation action is allowed.",
+      "steps": [
+        {
+          "i1": 1,
+          "i2": 1,
+          "i3": 1,
+          "i4": 1,
+          "i5": 0,
+          "i6": 0,
+          "i7": 0,
+          "i8": 1,
+          "i9": 1
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1,
+          "o2": 0
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i8 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \ni9[t]:bv[8]*i7[t]:bv[8]*({ 1 }:bv[8]-i8[t]:bv[8])*o2[t]:bv[8]+i9[t]:bv[8]*({ 1 }:bv[8]-i7[t]:bv[8])*i8[t]:bv[8]*({ 1 }:bv[8]-o2[t]:bv[8]) = o1[t]:bv[8] && i1[t]:bv[8]*i2[t]:bv[8]*i3[t]:bv[8]*i4[t]:bv[8]*i5[t]:bv[8]*i6[t]:bv[8] = o2[t]:bv[8]\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni7 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni8 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\no1 : bv[8] := out file(\"/tmp/tau-trace-path\")\no2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\nq\n"
+    },
+    "wellness_bad_publish_blocked": {
+      "family": "wellness",
+      "spec_relpath": "examples/tau/medical_wellness_deficit_gate_v1.tau",
+      "explanation": "The model proposes a publish action even though the safety gate is closed, so Tau denies execution.",
+      "steps": [
+        {
+          "i1": 1,
+          "i2": 1,
+          "i3": 1,
+          "i4": 1,
+          "i5": 0,
+          "i6": 0,
+          "i7": 1,
+          "i8": 0,
+          "i9": 1
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 0,
+          "o2": 0
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i8 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \ni9[t]:bv[8]*i7[t]:bv[8]*({ 1 }:bv[8]-i8[t]:bv[8])*o2[t]:bv[8]+i9[t]:bv[8]*({ 1 }:bv[8]-i7[t]:bv[8])*i8[t]:bv[8]*({ 1 }:bv[8]-o2[t]:bv[8]) = o1[t]:bv[8] && i1[t]:bv[8]*i2[t]:bv[8]*i3[t]:bv[8]*i4[t]:bv[8]*i5[t]:bv[8]*i6[t]:bv[8] = o2[t]:bv[8]\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni7 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni8 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\no1 : bv[8] := out file(\"/tmp/tau-trace-path\")\no2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\nq\n"
+    },
+    "lab_watch_ok": {
+      "family": "lab",
+      "spec_relpath": "examples/tau/medical_lab_followup_gate_toy_v1.tau",
+      "explanation": "Normal toy follow-up case, complete data, no red flags, no abnormal flag, so watch is allowed.",
+      "steps": [
+        {
+          "i1": 1,
+          "i2": 0,
+          "i3": 0,
+          "i4": 1,
+          "i5": 0,
+          "i6": 0,
+          "i7": 1
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1,
+          "o2": 0
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o2[t]:bv[8] = (i2[t]:bv[8] | ({ #x01 }:bv[8] - i1[t]:bv[8]))) && (o1[t]:bv[8] = ((i7[t]:bv[8] * i4[t]:bv[8] * ({ #x01 }:bv[8] - i5[t]:bv[8]) * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * ({ #x01 }:bv[8] - i3[t]:bv[8])) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * i5[t]:bv[8] * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * i3[t]:bv[8]) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * ({ #x01 }:bv[8] - i5[t]:bv[8]) * i6[t]:bv[8] * o2[t]:bv[8]))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \ni7[t]:bv[8]*i4[t]:bv[8]*({ 1 }:bv[8]-i5[t]:bv[8])*({ 1 }:bv[8]-i6[t]:bv[8])*i1[t]:bv[8]*({ 1 }:bv[8]-i2[t]:bv[8])*({ 1 }:bv[8]-i3[t]:bv[8])+i7[t]:bv[8]*({ 1 }:bv[8]-i4[t]:bv[8])*i5[t]:bv[8]*({ 1 }:bv[8]-i6[t]:bv[8])*i1[t]:bv[8]*({ 1 }:bv[8]-i2[t]:bv[8])*i3[t]:bv[8]+i7[t]:bv[8]*({ 1 }:bv[8]-i4[t]:bv[8])*({ 1 }:bv[8]-i5[t]:bv[8])*i6[t]:bv[8]*o2[t]:bv[8] = o1[t]:bv[8] && ({ 1 }:bv[8]-i1[t]:bv[8])|i2[t]:bv[8] = o2[t]:bv[8]\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\no1 : bv[8] := out file(\"/tmp/tau-trace-path\")\no2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o2[t]:bv[8] = (i2[t]:bv[8] | ({ #x01 }:bv[8] - i1[t]:bv[8]))) && (o1[t]:bv[8] = ((i7[t]:bv[8] * i4[t]:bv[8] * ({ #x01 }:bv[8] - i5[t]:bv[8]) * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * ({ #x01 }:bv[8] - i3[t]:bv[8])) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * i5[t]:bv[8] * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * i3[t]:bv[8]) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * ({ #x01 }:bv[8] - i5[t]:bv[8]) * i6[t]:bv[8] * o2[t]:bv[8]))))\nq\n"
+    },
+    "lab_repeat_ok": {
+      "family": "lab",
+      "spec_relpath": "examples/tau/medical_lab_followup_gate_toy_v1.tau",
+      "explanation": "Abnormal but non-red-flag toy case, complete and in scope, so repeat-lab is allowed.",
+      "steps": [
+        {
+          "i1": 1,
+          "i2": 0,
+          "i3": 1,
+          "i4": 0,
+          "i5": 1,
+          "i6": 0,
+          "i7": 1
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1,
+          "o2": 0
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o2[t]:bv[8] = (i2[t]:bv[8] | ({ #x01 }:bv[8] - i1[t]:bv[8]))) && (o1[t]:bv[8] = ((i7[t]:bv[8] * i4[t]:bv[8] * ({ #x01 }:bv[8] - i5[t]:bv[8]) * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * ({ #x01 }:bv[8] - i3[t]:bv[8])) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * i5[t]:bv[8] * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * i3[t]:bv[8]) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * ({ #x01 }:bv[8] - i5[t]:bv[8]) * i6[t]:bv[8] * o2[t]:bv[8]))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \ni7[t]:bv[8]*i4[t]:bv[8]*({ 1 }:bv[8]-i5[t]:bv[8])*({ 1 }:bv[8]-i6[t]:bv[8])*i1[t]:bv[8]*({ 1 }:bv[8]-i2[t]:bv[8])*({ 1 }:bv[8]-i3[t]:bv[8])+i7[t]:bv[8]*({ 1 }:bv[8]-i4[t]:bv[8])*i5[t]:bv[8]*({ 1 }:bv[8]-i6[t]:bv[8])*i1[t]:bv[8]*({ 1 }:bv[8]-i2[t]:bv[8])*i3[t]:bv[8]+i7[t]:bv[8]*({ 1 }:bv[8]-i4[t]:bv[8])*({ 1 }:bv[8]-i5[t]:bv[8])*i6[t]:bv[8]*o2[t]:bv[8] = o1[t]:bv[8] && ({ 1 }:bv[8]-i1[t]:bv[8])|i2[t]:bv[8] = o2[t]:bv[8]\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\no1 : bv[8] := out file(\"/tmp/tau-trace-path\")\no2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o2[t]:bv[8] = (i2[t]:bv[8] | ({ #x01 }:bv[8] - i1[t]:bv[8]))) && (o1[t]:bv[8] = ((i7[t]:bv[8] * i4[t]:bv[8] * ({ #x01 }:bv[8] - i5[t]:bv[8]) * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * ({ #x01 }:bv[8] - i3[t]:bv[8])) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * i5[t]:bv[8] * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * i3[t]:bv[8]) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * ({ #x01 }:bv[8] - i5[t]:bv[8]) * i6[t]:bv[8] * o2[t]:bv[8]))))\nq\n"
+    },
+    "lab_human_review_ok": {
+      "family": "lab",
+      "spec_relpath": "examples/tau/medical_lab_followup_gate_toy_v1.tau",
+      "explanation": "A red flag is present, so the only permitted execution-class action is human review.",
+      "steps": [
+        {
+          "i1": 1,
+          "i2": 1,
+          "i3": 1,
+          "i4": 0,
+          "i5": 0,
+          "i6": 1,
+          "i7": 1
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1,
+          "o2": 1
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o2[t]:bv[8] = (i2[t]:bv[8] | ({ #x01 }:bv[8] - i1[t]:bv[8]))) && (o1[t]:bv[8] = ((i7[t]:bv[8] * i4[t]:bv[8] * ({ #x01 }:bv[8] - i5[t]:bv[8]) * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * ({ #x01 }:bv[8] - i3[t]:bv[8])) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * i5[t]:bv[8] * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * i3[t]:bv[8]) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * ({ #x01 }:bv[8] - i5[t]:bv[8]) * i6[t]:bv[8] * o2[t]:bv[8]))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \ni7[t]:bv[8]*i4[t]:bv[8]*({ 1 }:bv[8]-i5[t]:bv[8])*({ 1 }:bv[8]-i6[t]:bv[8])*i1[t]:bv[8]*({ 1 }:bv[8]-i2[t]:bv[8])*({ 1 }:bv[8]-i3[t]:bv[8])+i7[t]:bv[8]*({ 1 }:bv[8]-i4[t]:bv[8])*i5[t]:bv[8]*({ 1 }:bv[8]-i6[t]:bv[8])*i1[t]:bv[8]*({ 1 }:bv[8]-i2[t]:bv[8])*i3[t]:bv[8]+i7[t]:bv[8]*({ 1 }:bv[8]-i4[t]:bv[8])*({ 1 }:bv[8]-i5[t]:bv[8])*i6[t]:bv[8]*o2[t]:bv[8] = o1[t]:bv[8] && ({ 1 }:bv[8]-i1[t]:bv[8])|i2[t]:bv[8] = o2[t]:bv[8]\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\no1 : bv[8] := out file(\"/tmp/tau-trace-path\")\no2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o2[t]:bv[8] = (i2[t]:bv[8] | ({ #x01 }:bv[8] - i1[t]:bv[8]))) && (o1[t]:bv[8] = ((i7[t]:bv[8] * i4[t]:bv[8] * ({ #x01 }:bv[8] - i5[t]:bv[8]) * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * ({ #x01 }:bv[8] - i3[t]:bv[8])) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * i5[t]:bv[8] * ({ #x01 }:bv[8] - i6[t]:bv[8]) * i1[t]:bv[8] * ({ #x01 }:bv[8] - i2[t]:bv[8]) * i3[t]:bv[8]) + (i7[t]:bv[8] * ({ #x01 }:bv[8] - i4[t]:bv[8]) * ({ #x01 }:bv[8] - i5[t]:bv[8]) * i6[t]:bv[8] * o2[t]:bv[8]))))\nq\n"
+    },
+    "refill_ok": {
+      "family": "refill",
+      "spec_relpath": "examples/tau/medical_refill_gate_toy_v1.tau",
+      "explanation": "All bounded refill safety flags are true, so the refill action is allowed.",
+      "steps": [
+        {
+          "i1": 1,
+          "i2": 1,
+          "i3": 1,
+          "i4": 1,
+          "i5": 1,
+          "i6": 1,
+          "i7": 1,
+          "i8": 0,
+          "i9": 1
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1,
+          "o2": 1
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i8 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \ni9[t]:bv[8]*i7[t]:bv[8]*({ 1 }:bv[8]-i8[t]:bv[8])*o2[t]:bv[8]+i9[t]:bv[8]*({ 1 }:bv[8]-i7[t]:bv[8])*i8[t]:bv[8]*({ 1 }:bv[8]-o2[t]:bv[8]) = o1[t]:bv[8] && i1[t]:bv[8]*i2[t]:bv[8]*i3[t]:bv[8]*i4[t]:bv[8]*i5[t]:bv[8]*i6[t]:bv[8] = o2[t]:bv[8]\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni7 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni8 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\no1 : bv[8] := out file(\"/tmp/tau-trace-path\")\no2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\nq\n"
+    },
+    "refill_hold_and_review_ok": {
+      "family": "refill",
+      "spec_relpath": "examples/tau/medical_refill_gate_toy_v1.tau",
+      "explanation": "The automatic refill lane is closed, so the bounded hold-and-review action is the permitted path.",
+      "steps": [
+        {
+          "i1": 1,
+          "i2": 1,
+          "i3": 0,
+          "i4": 1,
+          "i5": 0,
+          "i6": 1,
+          "i7": 0,
+          "i8": 1,
+          "i9": 1
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 1,
+          "o2": 0
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i8 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \ni9[t]:bv[8]*i7[t]:bv[8]*({ 1 }:bv[8]-i8[t]:bv[8])*o2[t]:bv[8]+i9[t]:bv[8]*({ 1 }:bv[8]-i7[t]:bv[8])*i8[t]:bv[8]*({ 1 }:bv[8]-o2[t]:bv[8]) = o1[t]:bv[8] && i1[t]:bv[8]*i2[t]:bv[8]*i3[t]:bv[8]*i4[t]:bv[8]*i5[t]:bv[8]*i6[t]:bv[8] = o2[t]:bv[8]\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni7 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni8 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\no1 : bv[8] := out file(\"/tmp/tau-trace-path\")\no2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\nq\n"
+    },
+    "refill_bad_refill_blocked": {
+      "family": "refill",
+      "spec_relpath": "examples/tau/medical_refill_gate_toy_v1.tau",
+      "explanation": "The model asks for an automatic refill even though the refill lane is closed, so Tau denies it.",
+      "steps": [
+        {
+          "i1": 1,
+          "i2": 1,
+          "i3": 0,
+          "i4": 1,
+          "i5": 0,
+          "i6": 1,
+          "i7": 1,
+          "i8": 0,
+          "i9": 1
+        }
+      ],
+      "outputs_by_step": {
+        "0": {
+          "o1": 0,
+          "o2": 0
+        }
+      },
+      "stdout": "\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m # Auto-generated Tau REPL harness\nWelcome to the Tau Language Framework version 0.7.0-alpha (1d4bd3a6) by IDNI AG.\nThis product is protected by patents and copyright. By using this product, you agree to the license terms. To view the license run \"tau --license\".\n\nFor documentation, open issues and reporting issues please visit https://github.com/IDNI/tau-lang/\n\nFor built-in help, type \"help\" or \"help command\".\n\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i1 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i2 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i3 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i4 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i5 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i6 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i7 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i8 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m i9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o1 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m o2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m r ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\n\nTemporal normalization of always specification reached fixpoint after 0 steps, yielding the result: \ni9[t]:bv[8]*i7[t]:bv[8]*({ 1 }:bv[8]-i8[t]:bv[8])*o2[t]:bv[8]+i9[t]:bv[8]*({ 1 }:bv[8]-i7[t]:bv[8])*i8[t]:bv[8]*({ 1 }:bv[8]-o2[t]:bv[8]) = o1[t]:bv[8] && i1[t]:bv[8]*i2[t]:bv[8]*i3[t]:bv[8]*i4[t]:bv[8]*i5[t]:bv[8]*i6[t]:bv[8] = o2[t]:bv[8]\n\n-----------------------------------------------------------------------------------------------------------\nPlease provide requested input, or press ENTER to terminate                                               |\nIf no input is requested, press ENTER to continue to the next execution step, or type q(uit) to terminate |\n-----------------------------------------------------------------------------------------------------------\n\nExecution step: 0\n\nExecution step: 1\n\n\u001b[106m[ trace ]\u001b[0m \u001b[97;1mtau>\u001b[0m q\nQuit.\n\n",
+      "stderr": "",
+      "repl_script": "# Auto-generated Tau REPL harness\n\ni1 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni2 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni3 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni4 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni5 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni6 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni7 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni8 : bv[8] := in file(\"/tmp/tau-trace-path\")\ni9 : bv[8] := in file(\"/tmp/tau-trace-path\")\n\no1 : bv[8] := out file(\"/tmp/tau-trace-path\")\no2 : bv[8] := out file(\"/tmp/tau-trace-path\")\n\n\nr ((o2[t]:bv[8] = (i1[t]:bv[8] * i2[t]:bv[8] * i3[t]:bv[8] * i4[t]:bv[8] * i5[t]:bv[8] * i6[t]:bv[8])) && (o1[t]:bv[8] = ((i9[t]:bv[8] * i7[t]:bv[8] * ({ #x01 }:bv[8] - i8[t]:bv[8]) * o2[t]:bv[8]) + (i9[t]:bv[8] * ({ #x01 }:bv[8] - i7[t]:bv[8]) * i8[t]:bv[8] * ({ #x01 }:bv[8] - o2[t]:bv[8])))))\nq\n"
+    }
+  }
+}

@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Decidable Medical Machines Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Albert+Sans:wght@400;500;600;700;800&family=Baskervville:ital@0;1&display=swap"
+      rel="stylesheet" />
+    <style>
+      :root {
+        --paper: #f7f4ec;
+        --paper-deep: #fffdf8;
+        --ink: #112128;
+        --muted: #55656d;
+        --edge: rgba(17, 33, 40, 0.12);
+        --teal: #1f7a78;
+        --teal-soft: #ddf3ef;
+        --copper: #b7682b;
+        --copper-soft: #fde8d5;
+        --rose: #b84c5a;
+        --rose-soft: #fde1e3;
+        --shadow: 0 26px 60px rgba(23, 37, 44, 0.14);
+        --radius-lg: 28px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        color: var(--ink);
+        background:
+          radial-gradient(circle at top left, rgba(31, 122, 120, 0.18), transparent 28%),
+          radial-gradient(circle at top right, rgba(183, 104, 43, 0.16), transparent 22%),
+          linear-gradient(180deg, #f4efe5 0%, #f8f5ed 40%, #f2f5f4 100%);
+        font-family: "Albert Sans", sans-serif;
+        overflow-x: hidden;
+      }
+
+      body {
+        padding: 28px;
+      }
+
+      .shell {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: grid;
+        gap: 20px;
+      }
+
+      .hero,
+      .panel,
+      .trace-card,
+      .lens-card {
+        background: rgba(255, 253, 247, 0.9);
+        border: 1px solid var(--edge);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(10px);
+      }
+
+      .hero {
+        padding: 28px;
+        display: grid;
+        gap: 18px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), rgba(17, 33, 40, 0.04) calc(100% - 1px)),
+          linear-gradient(180deg, transparent 0, transparent 33px, rgba(17, 33, 40, 0.04) 34px);
+        background-size: 34px 34px;
+        pointer-events: none;
+        opacity: 0.38;
+      }
+
+      .hero > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        justify-content: space-between;
+        align-items: end;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--teal);
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 12px;
+        height: 12px;
+        border-radius: 999px;
+        background: var(--teal);
+        box-shadow: 0 0 0 7px rgba(31, 122, 120, 0.12);
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: "Baskervville", serif;
+        line-height: 1.03;
+      }
+
+      h1 {
+        font-size: clamp(2.1rem, 3vw, 3.35rem);
+        max-width: 15ch;
+      }
+
+      p {
+        margin: 0;
+        line-height: 1.68;
+        color: var(--muted);
+      }
+
+      .hero-copy {
+        max-width: 74ch;
+      }
+
+      .mode-tabs,
+      .hero-links,
+      .action-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .tab,
+      .link-btn,
+      .sync-btn {
+        appearance: none;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        font: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          background 180ms ease,
+          color 180ms ease,
+          border-color 180ms ease;
+      }
+
+      .tab,
+      .link-btn,
+      .sync-btn {
+        padding: 11px 16px;
+      }
+
+      .tab {
+        background: rgba(255, 255, 255, 0.82);
+        border-color: rgba(31, 122, 120, 0.16);
+        color: var(--ink);
+      }
+
+      .tab.active {
+        background: linear-gradient(135deg, #1f7a78, #145b5a);
+        color: white;
+        box-shadow: 0 16px 30px rgba(31, 122, 120, 0.26);
+      }
+
+      .tab:hover,
+      .link-btn:hover,
+      .sync-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .link-btn {
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.82);
+        border-color: rgba(17, 33, 40, 0.08);
+        color: var(--ink);
+      }
+
+      .link-btn strong {
+        color: var(--teal);
+      }
+
+      .sync-btn {
+        background: linear-gradient(135deg, #c56c32, #a4501d);
+        color: white;
+        box-shadow: 0 14px 24px rgba(183, 104, 43, 0.22);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.92fr) minmax(360px, 1.08fr);
+        gap: 20px;
+      }
+
+      .panel {
+        padding: 24px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .panel-header {
+        display: grid;
+        gap: 8px;
+      }
+
+      .section-label {
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--teal);
+      }
+
+      .metric-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .metric {
+        padding: 16px;
+        background: var(--paper-deep);
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(17, 33, 40, 0.08);
+      }
+
+      .metric-label {
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      .metric-value {
+        margin-top: 6px;
+        font-size: 1.35rem;
+        font-weight: 800;
+      }
+
+      .metric.good .metric-value {
+        color: var(--teal);
+      }
+
+      .metric.warn .metric-value {
+        color: var(--copper);
+      }
+
+      .metric.bad .metric-value {
+        color: var(--rose);
+      }
+
+      .form-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .field {
+        display: grid;
+        gap: 7px;
+      }
+
+      .field label,
+      .field legend {
+        font-size: 0.96rem;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .field span.note {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      input[type="number"],
+      select {
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid rgba(17, 33, 40, 0.12);
+        background: rgba(255, 255, 255, 0.88);
+        padding: 12px 14px;
+        font: inherit;
+        color: var(--ink);
+      }
+
+      input[type="range"] {
+        width: 100%;
+        accent-color: var(--teal);
+      }
+
+      .inline-pair,
+      .toggle-row {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .toggle-card,
+      .radio-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 12px 14px;
+        background: var(--paper-deep);
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(17, 33, 40, 0.08);
+      }
+
+      .toggle-card strong,
+      .radio-card strong {
+        display: block;
+      }
+
+      .toggle-card span,
+      .radio-card span {
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .toggle {
+        position: relative;
+        width: 56px;
+        height: 32px;
+        flex: 0 0 auto;
+      }
+
+      .toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        inset: 0;
+        border-radius: 999px;
+        background: rgba(17, 33, 40, 0.16);
+        transition: background 160ms ease;
+      }
+
+      .slider::after {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 4px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: white;
+        box-shadow: 0 5px 12px rgba(17, 33, 40, 0.2);
+        transition: transform 160ms ease;
+      }
+
+      .toggle input:checked + .slider {
+        background: var(--teal);
+      }
+
+      .toggle input:checked + .slider::after {
+        transform: translateX(22px);
+      }
+
+      .radio-stack {
+        display: grid;
+        gap: 10px;
+      }
+
+      .radio-card {
+        cursor: pointer;
+      }
+
+      .radio-card input {
+        margin: 0;
+        accent-color: var(--teal);
+      }
+
+      .trace-grid,
+      .lens-grid {
+        display: grid;
+        gap: 14px;
+      }
+
+      .lens-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .lens-card {
+        padding: 18px;
+        border-radius: var(--radius-md);
+      }
+
+      .lens-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+      }
+
+      .formula,
+      .fsm-list,
+      .tree-list {
+        padding: 14px 16px;
+        background: rgba(17, 33, 40, 0.04);
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(17, 33, 40, 0.06);
+        color: var(--ink);
+        overflow-x: auto;
+        white-space: pre-wrap;
+        font-size: 0.95rem;
+        line-height: 1.64;
+      }
+
+      .route {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .route-step {
+        position: relative;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.86);
+        border: 1px solid rgba(17, 33, 40, 0.1);
+        font-weight: 700;
+      }
+
+      .route-step.active {
+        background: var(--teal-soft);
+        color: var(--teal);
+        border-color: rgba(31, 122, 120, 0.2);
+      }
+
+      .route-step.alert {
+        background: var(--rose-soft);
+        color: var(--rose);
+        border-color: rgba(184, 76, 90, 0.18);
+      }
+
+      .trace-card {
+        padding: 18px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .trace-card h3 {
+        font-size: 1.1rem;
+      }
+
+      .badge-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .badge {
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.77rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .badge.good {
+        background: var(--teal-soft);
+        color: var(--teal);
+      }
+
+      .badge.warn {
+        background: var(--copper-soft);
+        color: var(--copper);
+      }
+
+      .badge.bad {
+        background: var(--rose-soft);
+        color: var(--rose);
+      }
+
+      .spec-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--teal);
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .footnote {
+        font-size: 0.92rem;
+      }
+
+      @media (max-width: 980px) {
+        body {
+          padding: 18px;
+        }
+
+        .layout {
+          grid-template-columns: 1fr;
+        }
+
+        .metric-row,
+        .lens-grid,
+        .inline-pair,
+        .toggle-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <section class="hero">
+        <div class="hero-top">
+          <div>
+            <div class="eyebrow">Decidable Medical Machines Lab</div>
+            <h1>One calculator, one kidney workflow, five equivalent views.</h1>
+          </div>
+          <div class="hero-links">
+            <a class="link-btn" id="primary-link" href="./examples/tau/medical_max_calorie_deficit_formula_v1.tau"><strong>Download spec</strong></a>
+            <a class="link-btn" href="./assets/data/medical_decidable_tau_traces.json"><strong>Replay traces</strong></a>
+            <a class="link-btn" id="source-link" href="https://github.com/TheDarkLightX/MaxCaloricDeficitCalc"><strong>Primary source</strong></a>
+          </div>
+        </div>
+        <p class="hero-copy">
+          The left side behaves like a small machine. The right side keeps the math, logic, decision-tree, finite-state, and Tau views aligned.
+          The calorie lane fits directly inside bounded integer arithmetic. The kidney lane uses the official adult eGFR equation in host-side computation, then passes a bounded flag surface into a Tau-shaped follow-up gate.
+        </p>
+        <div class="mode-tabs">
+          <button class="tab active" data-mode="calorie">Calorie calculator</button>
+          <button class="tab" data-mode="kidney">Kidney follow-up</button>
+        </div>
+      </section>
+
+      <div class="layout">
+        <section class="panel">
+          <div class="panel-header">
+            <div class="section-label">Interactive machine</div>
+            <h2 id="panel-title">Max calorie deficit as a total arithmetic function</h2>
+            <p id="panel-copy">
+              This lane keeps the machine tiny: read two inputs, compute one derived quantity, then check whether a claimed result matches the formula exactly.
+            </p>
+          </div>
+
+          <div class="metric-row" id="metric-row"></div>
+
+          <div class="form-grid" id="controls"></div>
+
+          <div class="panel-header">
+            <div class="section-label">Execution route</div>
+            <div class="route" id="route"></div>
+          </div>
+
+          <p class="footnote" id="footnote"></p>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <div class="section-label">Same object, different surfaces</div>
+            <h2 id="lens-title">Formula, logic, tree, machine, Tau</h2>
+            <p id="lens-copy">
+              The notation changes, but the object does not. This panel shows the same bounded decision shape through several lenses at once.
+            </p>
+          </div>
+
+          <div class="lens-grid" id="lens-grid"></div>
+
+          <div class="panel-header">
+            <div class="section-label">Recorded Tau cases</div>
+            <p id="trace-copy">
+              These cards come from real local Tau runs. They are evidence that the public teaching specs execute and return the expected bounded verdicts.
+            </p>
+          </div>
+          <div class="trace-grid" id="trace-grid"></div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const MODES = {
+        calorie: {
+          title: "Max calorie deficit as a total arithmetic function",
+          copy:
+            "This lane starts with a pure calculator. The surrounding interface is a small state machine, but the mathematical core is a total function from bounded inputs to one bounded output.",
+          primaryLink: "./examples/tau/medical_max_calorie_deficit_formula_v1.tau",
+          sourceLink: "https://github.com/TheDarkLightX/MaxCaloricDeficitCalc",
+          sourceLabel: "Primary source",
+          footnote:
+            "Educational scope: the tutorial treats the displayed result as the integer floor of the formula. The Tau file validates that exact bounded arithmetic claim.",
+          lenses(state) {
+            const bps = Math.round(state.bodyFatPercent * 100);
+            const exact = 31.4 * state.weight * (bps / 10000);
+            const floorValue = Math.floor(exact);
+            return [
+              {
+                title: "Math",
+                body:
+                  "fat_mass_lb = weight_lb · body_fat_fraction\n" +
+                  "max_deficit = floor(31.4 · weight_lb · body_fat_fraction)\n\n" +
+                  `Current exact value: ${exact.toFixed(2)} kcal/day\n` +
+                  `Current floor value: ${floorValue} kcal/day`,
+              },
+              {
+                title: "Logic",
+                body:
+                  "CorrectClaim(w,b,m) ↔ m = floor(31.4 · w · b)\n" +
+                  "Accept(w,b,m) ↔ InRange(w,b,m) ∧ CorrectClaim(w,b,m)\n\n" +
+                  `Current claim: ${state.claimedDeficit}\n` +
+                  `Current verdict: ${state.accepted ? "accept" : "reject"}`,
+              },
+              {
+                title: "Decision tree",
+                body:
+                  "1. inputs present?\n" +
+                  "2. inputs in range?\n" +
+                  "3. claimed result matches formula?\n" +
+                  "4. if yes, display verified result\n" +
+                  "5. if no, reject or recompute",
+              },
+              {
+                title: "Finite-state machine",
+                body:
+                  "Start → ReadWeight → ReadBodyFat → ComputeFatMass → ComputeMaxDeficit → VerifyClaim → Done",
+              },
+              {
+                title: "Tau",
+                body:
+                  "100000 · claimed ≤ 314 · weight · bodyfat_bps < 100000 · (claimed + 1)\n" +
+                  "o1 = 1 iff the floor relation holds\n" +
+                  "o2 = 1 iff inputs stay inside the bounded teaching range",
+              },
+              {
+                title: "Ordinary code",
+                body:
+                  "double fatMass = weight * bodyFatFraction;\n" +
+                  "int maxDeficit = floor(31.4 * fatMass);\n\n" +
+                  "A spreadsheet keeps the same shape with cells instead of variables.",
+              },
+            ];
+          },
+          route(state) {
+            return [
+              { label: "Read inputs", tone: "active" },
+              { label: "Compute fat mass", tone: "active" },
+              { label: "Compute max deficit", tone: "active" },
+              { label: "Verify claim", tone: state.accepted ? "active" : "alert" },
+              { label: state.accepted ? "Accept" : "Reject", tone: state.accepted ? "active" : "alert" },
+            ];
+          },
+          metrics(state) {
+            return [
+              {
+                label: "Verdict",
+                value: state.accepted ? "Accept" : "Reject",
+                tone: state.accepted ? "good" : state.inputsInRange ? "bad" : "warn",
+              },
+              {
+                label: "Exact value",
+                value: `${state.exactValue.toFixed(2)} kcal`,
+                tone: "good",
+              },
+              {
+                label: "Floor result",
+                value: `${state.floorValue}`,
+                tone: state.claimedDeficit === state.floorValue ? "good" : "warn",
+              },
+            ];
+          },
+          controls(state) {
+            return `
+              <div class="field">
+                <label for="weight">Body weight (lb)</label>
+                <input id="weight" type="number" min="0" max="500" step="1" value="${state.weight}" />
+              </div>
+              <div class="field">
+                <label for="body-fat-range">Body fat percent</label>
+                <input id="body-fat-range" type="range" min="1" max="50" step="0.1" value="${state.bodyFatPercent}" />
+                <span class="note">Current value: <strong>${state.bodyFatPercent.toFixed(1)}%</strong></span>
+              </div>
+              <div class="inline-pair">
+                <div class="field">
+                  <label for="claimed-deficit">Claimed max deficit (kcal/day)</label>
+                  <input id="claimed-deficit" type="number" min="0" max="20000" step="1" value="${state.claimedDeficit}" />
+                </div>
+                <div class="field">
+                  <label>Host encoding</label>
+                  <div class="formula">bodyfat_bps = round(body_fat_percent × 100)\nCurrent basis-point value: ${state.bodyFatBps}</div>
+                </div>
+              </div>
+              <div class="action-row">
+                <button class="sync-btn" id="sync-claim">Set claim to computed floor</button>
+              </div>
+            `;
+          },
+        },
+        kidney: {
+          title: "Kidney follow-up as compute, classify, then gate",
+          copy:
+            "This lane uses the official adult creatinine-based eGFR equation in host-side computation, then collapses the numeric result into a bounded flag surface for a replayable Tau follow-up gate.",
+          primaryLink: "./examples/tau/medical_egfr_followup_gate_v1.tau",
+          sourceLink:
+            "https://www.niddk.nih.gov/research-funding/research-programs/kidney-clinical-research-epidemiology/laboratory/glomerular-filtration-rate-equations/adults",
+          sourceLabel: "Official eGFR source",
+          footnote:
+            "Educational scope: the eGFR calculator step uses the adult NIDDK equation, but the watch / repeat-lab / human-review policy shown here is a teaching policy, not clinical guidance.",
+          lenses(state) {
+            return [
+              {
+                title: "Math",
+                body:
+                  "eGFR = 142 · min(SCr/κ,1)^α · max(SCr/κ,1)^(-1.200) · 0.9938^Age · 1.012 [if female]\n\n" +
+                  `Current eGFR: ${state.egfr.toFixed(2)}\n` +
+                  `Below 60 flag: ${state.below60 ? "1" : "0"}`,
+              },
+              {
+                title: "Logic",
+                body:
+                  "Below60(eGFR) ↔ eGFR < 60\n" +
+                  "HumanReviewRequired(s) ↔ RedFlag(s) ∨ ¬Complete(s) ∨ ¬Fresh(s)\n" +
+                  "Allow(s, watch) ↔ OneHot(s) ∧ ¬HumanReviewRequired(s) ∧ ¬Below60(s)\n" +
+                  "Allow(s, repeat_lab) ↔ OneHot(s) ∧ ¬HumanReviewRequired(s) ∧ Below60(s)\n" +
+                  "Allow(s, human_review) ↔ OneHot(s) ∧ HumanReviewRequired(s)",
+              },
+              {
+                title: "Decision tree",
+                body:
+                  "1. read creatinine, age, and sex\n" +
+                  "2. compute eGFR\n" +
+                  "3. if result missing, stale, or red-flagged → human review\n" +
+                  "4. else if eGFR < 60 → repeat lab\n" +
+                  "5. else → watch",
+              },
+              {
+                title: "Finite-state machine",
+                body:
+                  "Start → ReadLab → ReadAgeSex → ComputeEGFR → ClassifyBelow60 → ChooseAction → Done",
+              },
+              {
+                title: "Tau",
+                body:
+                  "The host computes eGFR exactly.\n" +
+                  "Tau receives only bounded flags: complete, fresh, red_flag, egfr_below_60, and one proposed action.\n" +
+                  "That keeps the policy lane replayable and fail-closed.",
+              },
+              {
+                title: "Ordinary code",
+                body:
+                  "double egfr = ckdepi2021(scr, age, sex);\n" +
+                  "bool below60 = egfr < 60.0;\n" +
+                  "Action next = policy(complete, fresh, redFlag, below60, proposedAction);",
+              },
+            ];
+          },
+          route(state) {
+            const endLabel = state.allowed
+              ? state.action === "human_review"
+                ? "Escalate human"
+                : "Allow bounded action"
+              : "Block proposal";
+            return [
+              { label: "Read lab", tone: "active" },
+              { label: "Compute eGFR", tone: "active" },
+              { label: "Classify below 60", tone: state.below60 ? "alert" : "active" },
+              { label: "Check freshness + red flags", tone: state.humanReviewRequired ? "alert" : "active" },
+              { label: endLabel, tone: state.allowed ? "active" : "alert" },
+            ];
+          },
+          metrics(state) {
+            return [
+              {
+                label: "Current eGFR",
+                value: state.egfr.toFixed(2),
+                tone: state.below60 ? "warn" : "good",
+              },
+              {
+                label: "Proposed action",
+                value: state.action.replace("_", " "),
+                tone: state.allowed ? "good" : "warn",
+              },
+              {
+                label: "Gate verdict",
+                value: state.allowed ? "Allow" : "Deny",
+                tone: state.allowed ? "good" : "bad",
+              },
+            ];
+          },
+          controls(state) {
+            return `
+              <div class="inline-pair">
+                <div class="field">
+                  <label for="creatinine">Serum creatinine (mg/dL)</label>
+                  <input id="creatinine" type="number" min="0.1" max="8" step="0.1" value="${state.creatinine}" />
+                </div>
+                <div class="field">
+                  <label for="age">Age (years)</label>
+                  <input id="age" type="number" min="18" max="100" step="1" value="${state.age}" />
+                </div>
+              </div>
+              <div class="inline-pair">
+                <div class="field">
+                  <label for="sex">Sex used by the equation</label>
+                  <select id="sex">
+                    <option value="female" ${state.sex === "female" ? "selected" : ""}>Female</option>
+                    <option value="male" ${state.sex === "male" ? "selected" : ""}>Male</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>Host-computed flag</label>
+                  <div class="formula">egfr_below_60 = ${state.below60 ? "1" : "0"}\nThis is the bounded fact passed into Tau.</div>
+                </div>
+              </div>
+              <div class="toggle-row">
+                ${toggleCard("result-complete", "Result complete", "All required fields are bound.", state.complete)}
+                ${toggleCard("result-fresh", "Result fresh", "The result is recent enough for the policy lane.", state.fresh)}
+              </div>
+              <div class="toggle-row">
+                ${toggleCard("red-flag", "Red flag present", "An urgent or out-of-scope condition is present.", state.redFlag)}
+                <div class="radio-stack">
+                  ${radioCard("action", "watch", "Watch", "No immediate bounded follow-up beyond monitoring.", state.action)}
+                  ${radioCard("action", "repeat_lab", "Repeat lab", "Educational repeat-lab lane when eGFR is below 60.", state.action)}
+                  ${radioCard("action", "human_review", "Human review", "Safe escalation lane when automation should stop.", state.action)}
+                </div>
+              </div>
+            `;
+          },
+        },
+      };
+
+      function toggleCard(id, title, copy, checked) {
+        return `
+          <label class="toggle-card" for="${id}">
+            <div>
+              <strong>${title}</strong>
+              <span>${copy}</span>
+            </div>
+            <span class="toggle">
+              <input id="${id}" type="checkbox" ${checked ? "checked" : ""} />
+              <span class="slider"></span>
+            </span>
+          </label>
+        `;
+      }
+
+      function radioCard(name, value, title, copy, current) {
+        return `
+          <label class="radio-card">
+            <div>
+              <strong>${title}</strong>
+              <span>${copy}</span>
+            </div>
+            <input type="radio" name="${name}" value="${value}" ${current === value ? "checked" : ""} />
+          </label>
+        `;
+      }
+
+      const state = {
+        mode: "calorie",
+        calorie: {
+          weight: 180,
+          bodyFatPercent: 20.0,
+          claimedDeficit: 1130,
+        },
+        kidney: {
+          creatinine: 1.1,
+          age: 55,
+          sex: "female",
+          complete: true,
+          fresh: true,
+          redFlag: false,
+          action: "repeat_lab",
+        },
+      };
+
+      let traceBundle = { cases: {} };
+
+      function computeCalorie() {
+        const view = state.calorie;
+        const bodyFatBps = Math.round(view.bodyFatPercent * 100);
+        const exactValue = 31.4 * view.weight * (bodyFatBps / 10000);
+        const floorValue = Math.floor(exactValue);
+        const inputsInRange =
+          view.weight >= 0 &&
+          view.weight <= 500 &&
+          bodyFatBps >= 0 &&
+          bodyFatBps <= 10000 &&
+          view.claimedDeficit >= 0 &&
+          view.claimedDeficit <= 20000;
+        const accepted = inputsInRange && view.claimedDeficit === floorValue;
+        return {
+          ...view,
+          bodyFatBps,
+          exactValue,
+          floorValue,
+          inputsInRange,
+          accepted,
+        };
+      }
+
+      function computeEgfr({ creatinine, age, sex }) {
+        const female = sex === "female";
+        const kappa = female ? 0.7 : 0.9;
+        const alpha = female ? -0.241 : -0.302;
+        let value =
+          142 *
+          Math.pow(Math.min(creatinine / kappa, 1), alpha) *
+          Math.pow(Math.max(creatinine / kappa, 1), -1.2) *
+          Math.pow(0.9938, age);
+        if (female) {
+          value *= 1.012;
+        }
+        return value;
+      }
+
+      function computeKidney() {
+        const view = state.kidney;
+        const egfr = computeEgfr(view);
+        const below60 = egfr < 60;
+        const humanReviewRequired = view.redFlag || !view.complete || !view.fresh;
+        const allowed =
+          (view.action === "watch" && !humanReviewRequired && !below60) ||
+          (view.action === "repeat_lab" && !humanReviewRequired && below60) ||
+          (view.action === "human_review" && humanReviewRequired);
+        return {
+          ...view,
+          egfr,
+          below60,
+          humanReviewRequired,
+          allowed,
+        };
+      }
+
+      function currentComputed() {
+        return state.mode === "calorie" ? computeCalorie() : computeKidney();
+      }
+
+      function renderMetrics(metrics) {
+        const row = document.getElementById("metric-row");
+        row.innerHTML = metrics
+          .map(
+            (metric) => `
+              <div class="metric ${metric.tone}">
+                <div class="metric-label">${escapeHtml(metric.label)}</div>
+                <div class="metric-value">${escapeHtml(String(metric.value))}</div>
+              </div>`
+          )
+          .join("");
+      }
+
+      function renderRoute(route) {
+        const container = document.getElementById("route");
+        container.innerHTML = route
+          .map(
+            (step) => `
+              <div class="route-step ${step.tone || ""}">${escapeHtml(step.label)}</div>`
+          )
+          .join("");
+      }
+
+      function renderLenses(lenses) {
+        const grid = document.getElementById("lens-grid");
+        grid.innerHTML = lenses
+          .map(
+            (lens) => `
+              <article class="lens-card">
+                <h3>${escapeHtml(lens.title)}</h3>
+                <div class="formula">${escapeHtml(lens.body)}</div>
+              </article>`
+          )
+          .join("");
+      }
+
+      function summarizeCaseOutputs(caseData) {
+        const outputs = caseData.outputs_by_step?.["0"] || caseData.outputs_by_step?.[0] || {};
+        const values = Object.entries(outputs)
+          .map(([key, value]) => `${key} = ${value}`)
+          .join(", ");
+        return values || "No archived outputs found";
+      }
+
+      function renderTraces() {
+        const traceGrid = document.getElementById("trace-grid");
+        const family = state.mode;
+        const cards = Object.entries(traceBundle.cases || {})
+          .filter(([, value]) => value.family === family)
+          .map(([name, value]) => {
+            const outputs = value.outputs_by_step?.[0] || value.outputs_by_step?.["0"] || {};
+            const verdict =
+              outputs.o1 === 1
+                ? { label: "allowed", tone: "good" }
+                : outputs.o2 === 0
+                  ? { label: "blocked", tone: "bad" }
+                  : { label: "review path", tone: "warn" };
+            return `
+              <article class="trace-card">
+                <div class="badge-row">
+                  <span class="badge ${verdict.tone}">${escapeHtml(verdict.label)}</span>
+                  <span class="badge warn">${escapeHtml(family)}</span>
+                </div>
+                <h3>${escapeHtml(titleCase(name))}</h3>
+                <p>${escapeHtml(value.explanation)}</p>
+                <div class="formula">${escapeHtml(`Inputs: ${JSON.stringify(value.steps[0])}\nOutputs: ${summarizeCaseOutputs(value)}`)}</div>
+                <a class="spec-link" href="./${encodeURI(value.spec_relpath)}">Open spec</a>
+              </article>
+            `;
+          });
+        traceGrid.innerHTML = cards.join("");
+      }
+
+      function titleCase(text) {
+        return text
+          .replace(/_/g, " ")
+          .replace(/([a-z])([A-Z])/g, "$1 $2")
+          .replace(/\b\w/g, (match) => match.toUpperCase());
+      }
+
+      function escapeHtml(text) {
+        return String(text)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;");
+      }
+
+      function render() {
+        const mode = MODES[state.mode];
+        const computed = currentComputed();
+
+        document.getElementById("panel-title").textContent = mode.title;
+        document.getElementById("panel-copy").textContent = mode.copy;
+        document.getElementById("lens-title").textContent = "Formula, logic, tree, machine, and Tau";
+        document.getElementById("lens-copy").textContent =
+          state.mode === "calorie"
+            ? "The same calculator appears as arithmetic, a correctness predicate, a tiny decision tree, a user-interface state machine, and a Tau floor checker."
+            : "The same kidney workflow appears as an official host-side equation, a classification flag, a bounded action gate, and a replayable Tau policy.";
+        document.getElementById("primary-link").href = mode.primaryLink;
+        document.getElementById("source-link").href = mode.sourceLink;
+        document.getElementById("source-link").innerHTML = `<strong>${mode.sourceLabel}</strong>`;
+        document.getElementById("footnote").textContent = mode.footnote;
+
+        renderMetrics(mode.metrics(computed));
+        document.getElementById("controls").innerHTML = mode.controls(computed);
+        renderRoute(mode.route(computed));
+        renderLenses(mode.lenses(computed));
+        renderTraces();
+
+        document.querySelectorAll(".tab").forEach((tab) => {
+          tab.classList.toggle("active", tab.dataset.mode === state.mode);
+        });
+
+        bindModeEvents();
+      }
+
+      function bindModeEvents() {
+        if (state.mode === "calorie") {
+          document.getElementById("weight").addEventListener("input", (event) => {
+            state.calorie.weight = Number(event.target.value || 0);
+            render();
+          });
+          document.getElementById("body-fat-range").addEventListener("input", (event) => {
+            state.calorie.bodyFatPercent = Number(event.target.value || 0);
+            render();
+          });
+          document.getElementById("claimed-deficit").addEventListener("input", (event) => {
+            state.calorie.claimedDeficit = Number(event.target.value || 0);
+            render();
+          });
+          document.getElementById("sync-claim").addEventListener("click", () => {
+            state.calorie.claimedDeficit = computeCalorie().floorValue;
+            render();
+          });
+        } else {
+          document.getElementById("creatinine").addEventListener("input", (event) => {
+            state.kidney.creatinine = Number(event.target.value || 0);
+            render();
+          });
+          document.getElementById("age").addEventListener("input", (event) => {
+            state.kidney.age = Number(event.target.value || 0);
+            render();
+          });
+          document.getElementById("sex").addEventListener("change", (event) => {
+            state.kidney.sex = event.target.value;
+            render();
+          });
+          document.getElementById("result-complete").addEventListener("change", (event) => {
+            state.kidney.complete = event.target.checked;
+            render();
+          });
+          document.getElementById("result-fresh").addEventListener("change", (event) => {
+            state.kidney.fresh = event.target.checked;
+            render();
+          });
+          document.getElementById("red-flag").addEventListener("change", (event) => {
+            state.kidney.redFlag = event.target.checked;
+            render();
+          });
+          document.querySelectorAll('input[name="action"]').forEach((input) => {
+            input.addEventListener("change", (event) => {
+              if (event.target.checked) {
+                state.kidney.action = event.target.value;
+                render();
+              }
+            });
+          });
+        }
+      }
+
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          state.mode = tab.dataset.mode;
+          render();
+        });
+      });
+
+      fetch("./assets/data/medical_decidable_tau_traces.json")
+        .then((response) => response.json())
+        .then((data) => {
+          traceBundle = data;
+          render();
+        })
+        .catch(() => {
+          render();
+        });
+    </script>
+  </body>
+</html>

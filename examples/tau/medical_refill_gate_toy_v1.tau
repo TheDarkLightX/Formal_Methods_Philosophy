@@ -1,0 +1,49 @@
+# Toy medication refill gate in the MPRD shape
+#
+# Purpose:
+# - show a bounded authorization workflow with freshness, identity, and safety flags
+# - the host computes the boolean evidence
+# - Tau decides whether refill or hold-and-review is the allowed action
+#
+# Scope note:
+# - educational toy example only
+# - not medication advice
+#
+# Stream mapping:
+# i1 = identity_bound (0 or 1)
+# i2 = medication_on_allowlist (0 or 1)
+# i3 = allergies_clear (0 or 1)
+# i4 = dose_within_limit (0 or 1)
+# i5 = labs_fresh (0 or 1)
+# i6 = refill_window_ok (0 or 1)
+# i7 = propose_refill (0 or 1)
+# i8 = propose_hold_and_review (0 or 1)
+# i9 = action_one_hot_ok (0 or 1)
+#
+# Outputs:
+# o1 = selected_action_allowed (0 or 1)
+# o2 = auto_refill_open (0 or 1)
+#
+# Hex decoder:
+# #x01 = 1  (true / flag set)
+# Encoding: (1-x)=NOT, x*y=AND, x+y=OR over non-overlapping products
+
+set charvar off
+
+always
+  (o2[t]:bv[8] =
+    (i1[t]:bv[8] *
+     i2[t]:bv[8] *
+     i3[t]:bv[8] *
+     i4[t]:bv[8] *
+     i5[t]:bv[8] *
+     i6[t]:bv[8])) &&
+  (o1[t]:bv[8] =
+    ((i9[t]:bv[8] *
+      i7[t]:bv[8] *
+      ({ #x01 }:bv[8] - i8[t]:bv[8]) *
+      o2[t]:bv[8]) +
+     (i9[t]:bv[8] *
+      ({ #x01 }:bv[8] - i7[t]:bv[8]) *
+      i8[t]:bv[8] *
+      ({ #x01 }:bv[8] - o2[t]:bv[8])))).

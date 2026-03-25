@@ -190,3 +190,41 @@ These files explore a stronger temporal story:
 - learning-style state transitions rather than only pointwise classifier checks.
 
 They are included as experimental branches, not as promoted replayed evidence in the public tutorial, because the recurrent variants were heavier under the current runner budget than the three faster classifier lanes.
+
+### Medical deciders in the MPRD shape
+
+Files:
+- `medical_wellness_deficit_gate_v1.tau`
+- `medical_lab_followup_gate_toy_v1.tau`
+- `medical_refill_gate_toy_v1.tau`
+
+These files support the medical MPRD tutorial.
+
+They are deliberately scoped as educational policy examples:
+- the host computes structured facts and evidence flags,
+- Tau validates the bounded allow or deny logic,
+- the examples are not clinical guidance or medical advice.
+
+The pattern mirrors MPRD:
+- model or host proposes a bounded action,
+- policy decides whether that action is allowed,
+- the safe fallback is usually escalation to a human rather than autonomous execution.
+
+### Decidable medical machines
+
+Files:
+- `medical_max_calorie_deficit_formula_v1.tau`
+- `medical_max_calorie_deficit_calculator_v1.tau`
+- `medical_egfr_followup_gate_v1.tau`
+
+These files support the decidable medical machines tutorial.
+
+They split into two teaching lanes:
+- `medical_max_calorie_deficit_formula_v1.tau` is a **checker**: it validates a claimed deficit against the floor of the formula
+- `medical_max_calorie_deficit_calculator_v1.tau` is a **direct calculator**: the solver synthesizes the exact integer floor as an output, so the user gets an answer without supplying a claim
+- `medical_egfr_followup_gate_v1.tau` follows the host-computes / Tau-validates pattern for a kidney follow-up workflow
+
+Together they show:
+- a simple calculator as an exact total function,
+- a medical-style decision tree as a finite action gate,
+- and the boundary where Tau should validate policy even when the richer numeric equation is computed outside Tau.

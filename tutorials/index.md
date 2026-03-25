@@ -235,4 +235,24 @@ show_title: false
       and then separate the replayable classifier lane from a host-side learning loop.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/medical-deciders-mprd-and-tau/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 22: Medical deciders, MPRD, and Tau</h2>
+    <p class="fp-card-text">
+      Map bounded medical workflows into the MPRD shape, then use educational Tau policies to separate
+      model proposals from execution authority through fail-closed guideline gates and human escalation paths.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/decidable-medical-machines/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 23: Decidable medical machines, from formulas to Tau</h2>
+    <p class="fp-card-text">
+      Start with a calorie calculator and a kidney follow-up workflow, then view each one as math,
+      logic, a decision tree, a finite-state machine, ordinary code, and a downloadable Tau spec.
+    </p>
+  </a>
 </div>

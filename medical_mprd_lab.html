@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Medical MPRD Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet" />
+    <style>
+      :root {
+        --ink: #162327;
+        --muted: #4f666a;
+        --panel: rgba(255, 252, 245, 0.88);
+        --panel-strong: rgba(255, 255, 255, 0.95);
+        --edge: rgba(42, 92, 92, 0.18);
+        --teal: #1f7a7a;
+        --teal-soft: #dff4f1;
+        --amber: #ca7b2d;
+        --amber-soft: #fff0d8;
+        --rose: #b64747;
+        --rose-soft: #fde4e1;
+        --shadow: 0 22px 50px rgba(17, 40, 46, 0.14);
+        --radius-lg: 26px;
+        --radius-md: 18px;
+        --radius-sm: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background:
+          radial-gradient(circle at top left, rgba(31, 122, 122, 0.18), transparent 30%),
+          radial-gradient(circle at top right, rgba(202, 123, 45, 0.15), transparent 26%),
+          linear-gradient(180deg, #f7f4eb 0%, #f2f6f5 100%);
+        color: var(--ink);
+        font-family: "IBM Plex Sans", sans-serif;
+        overflow-x: hidden;
+      }
+
+      body {
+        padding: 28px;
+      }
+
+      .shell {
+        max-width: 1240px;
+        margin: 0 auto;
+        display: grid;
+        gap: 20px;
+      }
+
+      .hero,
+      .panel,
+      .trace-card {
+        background: var(--panel);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--edge);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow);
+      }
+
+      .hero {
+        padding: 26px 28px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .hero-top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px 18px;
+        align-items: end;
+        justify-content: space-between;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--teal);
+      }
+
+      .eyebrow::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: var(--teal);
+        box-shadow: 0 0 0 6px rgba(31, 122, 122, 0.12);
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        font-family: "Fraunces", serif;
+        line-height: 1.05;
+      }
+
+      h1 {
+        font-size: clamp(2rem, 3vw, 3.2rem);
+      }
+
+      .hero p,
+      .panel p,
+      .trace-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .mode-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .mode-tab,
+      .action-btn,
+      .link-btn {
+        appearance: none;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 11px 16px;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        transition:
+          transform 180ms ease,
+          box-shadow 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease,
+          color 180ms ease;
+      }
+
+      .mode-tab {
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--ink);
+        border-color: rgba(31, 122, 122, 0.12);
+      }
+
+      .mode-tab:hover,
+      .action-btn:hover,
+      .link-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .mode-tab.is-active {
+        background: linear-gradient(135deg, #1f7a7a, #155f5f);
+        color: white;
+        box-shadow: 0 16px 30px rgba(31, 122, 122, 0.25);
+      }
+
+      .hero-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .link-btn {
+        text-decoration: none;
+        background: rgba(255, 255, 255, 0.78);
+        color: var(--ink);
+        border-color: rgba(22, 35, 39, 0.08);
+      }
+
+      .link-btn strong {
+        color: var(--teal);
+      }
+
+      .main-grid {
+        display: grid;
+        grid-template-columns: minmax(320px, 0.9fr) minmax(360px, 1.1fr);
+        gap: 20px;
+      }
+
+      .panel {
+        padding: 24px;
+        display: grid;
+        gap: 18px;
+      }
+
+      .panel-header {
+        display: grid;
+        gap: 8px;
+      }
+
+      .metric-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .metric {
+        background: var(--panel-strong);
+        border-radius: var(--radius-md);
+        padding: 16px;
+        border: 1px solid rgba(31, 122, 122, 0.08);
+      }
+
+      .metric-label {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--muted);
+      }
+
+      .metric-value {
+        margin-top: 6px;
+        font-size: 1.35rem;
+        font-weight: 700;
+      }
+
+      .fact-grid {
+        display: grid;
+        gap: 10px;
+      }
+
+      .fact-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        background: var(--panel-strong);
+        border: 1px solid rgba(22, 35, 39, 0.07);
+        border-radius: var(--radius-md);
+        padding: 12px 14px;
+      }
+
+      .fact-copy {
+        display: grid;
+        gap: 3px;
+      }
+
+      .fact-copy span {
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .toggle {
+        position: relative;
+        width: 54px;
+        height: 30px;
+        flex: 0 0 auto;
+      }
+
+      .toggle input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        inset: 0;
+        border-radius: 999px;
+        background: rgba(22, 35, 39, 0.18);
+        transition: background 180ms ease;
+      }
+
+      .slider::before {
+        content: "";
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        left: 3px;
+        top: 3px;
+        border-radius: 50%;
+        background: white;
+        transition: transform 180ms ease;
+        box-shadow: 0 4px 10px rgba(17, 40, 46, 0.16);
+      }
+
+      .toggle input:checked + .slider {
+        background: linear-gradient(135deg, #1f7a7a, #36a3a3);
+      }
+
+      .toggle input:checked + .slider::before {
+        transform: translateX(24px);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .action-btn {
+        background: white;
+        border-color: rgba(22, 35, 39, 0.08);
+        color: var(--ink);
+      }
+
+      .action-btn.is-active {
+        background: linear-gradient(135deg, #162327, #24444b);
+        color: white;
+        box-shadow: 0 18px 30px rgba(22, 35, 39, 0.2);
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .chip {
+        border-radius: 999px;
+        padding: 7px 11px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .chip.good {
+        background: var(--teal-soft);
+        color: #0d5b5b;
+      }
+
+      .chip.warn {
+        background: var(--amber-soft);
+        color: #7f4c18;
+      }
+
+      .chip.bad {
+        background: var(--rose-soft);
+        color: #8c2d2d;
+      }
+
+      .decision-ladder {
+        display: grid;
+        gap: 12px;
+      }
+
+      .ladder-step {
+        display: grid;
+        gap: 6px;
+        padding: 16px;
+        background: var(--panel-strong);
+        border-radius: var(--radius-md);
+        border: 1px solid rgba(22, 35, 39, 0.07);
+      }
+
+      .ladder-step strong {
+        color: var(--ink);
+      }
+
+      .ladder-step code,
+      .formula-card code,
+      .trace-code {
+        font-family: "IBM Plex Sans", monospace;
+        font-size: 0.95rem;
+      }
+
+      .formula-card {
+        background: linear-gradient(180deg, rgba(23, 70, 69, 0.96), rgba(18, 46, 51, 0.96));
+        color: rgba(250, 252, 252, 0.94);
+        border-radius: var(--radius-md);
+        padding: 18px;
+        display: grid;
+        gap: 10px;
+      }
+
+      .formula-card p {
+        color: rgba(241, 247, 247, 0.72);
+      }
+
+      .formula-card code {
+        white-space: pre-wrap;
+        line-height: 1.7;
+      }
+
+      .trace-grid {
+        display: grid;
+        gap: 12px;
+      }
+
+      .trace-card {
+        padding: 18px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .trace-card-head {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .trace-state {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .trace-state.good {
+        background: var(--teal-soft);
+        color: #0d5b5b;
+      }
+
+      .trace-state.bad {
+        background: var(--rose-soft);
+        color: #8c2d2d;
+      }
+
+      .trace-grid pre {
+        margin: 0;
+        white-space: pre-wrap;
+      }
+
+      .trace-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .trace-meta span {
+        background: rgba(31, 122, 122, 0.08);
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-size: 0.84rem;
+        color: var(--muted);
+      }
+
+      .trace-code {
+        background: #13252a;
+        color: #e8f4f4;
+        border-radius: 16px;
+        padding: 14px;
+        overflow-x: auto;
+      }
+
+      @media (max-width: 980px) {
+        body {
+          padding: 18px;
+        }
+
+        .main-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .metric-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="shell">
+      <section class="hero">
+        <div class="hero-top">
+          <div>
+            <div class="eyebrow">Medical MPRD Lab</div>
+            <h1>Bounded medical actions, governed by policy instead of model confidence</h1>
+          </div>
+          <div class="hero-links">
+            <a class="link-btn" href="./tutorials/medical-deciders-mprd-and-tau/"><strong>Read tutorial</strong></a>
+            <a class="link-btn" href="./assets/data/medical_tau_traces.json"><strong>Trace bundle</strong></a>
+            <a class="link-btn" id="spec-link" href="./examples/tau/medical_wellness_deficit_gate_v1.tau"><strong>Download spec</strong></a>
+          </div>
+        </div>
+        <p>
+          This lab keeps the architecture explicit. A model proposes one bounded action, a Tau-shaped policy gate decides, and the executor only sees the action that survives. The examples are educational software shapes, not medical guidance.
+        </p>
+        <div class="mode-tabs" id="mode-tabs" aria-label="Scenario families"></div>
+      </section>
+
+      <div class="main-grid">
+        <section class="panel">
+          <div class="panel-header">
+            <h2 id="mode-title">Wellness planning</h2>
+            <p id="mode-summary"></p>
+          </div>
+
+          <div class="metric-row">
+            <div class="metric">
+              <div class="metric-label">Policy lane</div>
+              <div class="metric-value" id="metric-lane">Closed</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Selected action</div>
+              <div class="metric-value" id="metric-action">None</div>
+            </div>
+            <div class="metric">
+              <div class="metric-label">Executor result</div>
+              <div class="metric-value" id="metric-result">Blocked</div>
+            </div>
+          </div>
+
+          <div>
+            <h3>Structured facts from the host</h3>
+            <p id="facts-copy"></p>
+          </div>
+          <div class="fact-grid" id="fact-grid"></div>
+
+          <div>
+            <h3>One bounded proposal from the model</h3>
+            <p>The proposal menu is finite on purpose. The model does not get to invent a new execution class.</p>
+          </div>
+          <div class="actions" id="action-buttons"></div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-header">
+            <h2>Decision surface</h2>
+            <p id="policy-copy"></p>
+          </div>
+
+          <div class="chips" id="status-chips"></div>
+
+          <div class="decision-ladder" id="decision-ladder"></div>
+
+          <div class="formula-card">
+            <h3>Policy formula</h3>
+            <p id="formula-caption"></p>
+            <code id="formula-code"></code>
+          </div>
+        </section>
+      </div>
+
+      <section class="panel">
+        <div class="panel-header">
+          <h2>Recorded Tau cases</h2>
+          <p>
+            These cards come from locally executed Tau traces. They do not prove clinical correctness. They prove that the public educational specs execute and return the expected allow or deny shape on bounded cases.
+          </p>
+        </div>
+        <div class="trace-grid" id="trace-grid"></div>
+      </section>
+    </div>
+
+    <script>
+      const MODES = {
+        wellness: {
+          label: "Wellness plan",
+          title: "Educational wellness planning gate",
+          summary:
+            "A host-computed ceiling exists. The model may propose either a publish-plan action or a human-escalation action. Tau allows publication only when the safety lane is open.",
+          factsCopy:
+            "Each switch is a host-produced evidence flag. Tau does not guess facts, it checks the bounded decision structure built on those facts.",
+          policyCopy:
+            "This is the smallest MPRD pattern: one bounded menu, one allow rule, one safe fallback.",
+          specHref: "./examples/tau/medical_wellness_deficit_gate_v1.tau",
+          formulaCaption: "Allow publish only when the auto lane is open. Otherwise only escalation survives.",
+          formula:
+            "AutoPlanOpen(s) <-> DataComplete(s) /\\ WithinScope(s) /\\ IdentityBound(s) /\\ RedFlagsClear(s) /\\ FormulaBound(s) /\\ RequestLeCeiling(s)\n\nAllow(s, publish_plan) <-> OneHot(s) /\\ AutoPlanOpen(s)\nAllow(s, escalate_human) <-> OneHot(s) /\\ ~AutoPlanOpen(s)",
+          facts: [
+            ["dataComplete", "Data complete", "The host has all required inputs for this bounded educational workflow.", true],
+            ["withinScope", "Within scope", "The case fits the narrow rule set instead of needing open-ended judgment.", true],
+            ["identityBound", "Identity bound", "The structured facts are tied to the intended person and record.", true],
+            ["redFlagsClear", "Red flags clear", "No blocker forces immediate human attention.", true],
+            ["formulaBound", "Formula binding ok", "The derived value is bound to the approved formula or source.", true],
+            ["requestLeCeiling", "Request <= ceiling", "The proposed plan does not exceed the computed ceiling.", true],
+          ],
+          actions: [
+            ["publishPlan", "Publish plan"],
+            ["escalateHuman", "Escalate to human"],
+          ],
+          evaluate(state) {
+            const autoPlanOpen =
+              state.dataComplete &&
+              state.withinScope &&
+              state.identityBound &&
+              state.redFlagsClear &&
+              state.formulaBound &&
+              state.requestLeCeiling;
+            const oneHot = Number(Boolean(state.publishPlan)) + Number(Boolean(state.escalateHuman)) === 1;
+            const allow =
+              oneHot &&
+              ((state.publishPlan && autoPlanOpen) ||
+                (state.escalateHuman && !autoPlanOpen));
+            const executorText = allow
+              ? state.publishPlan
+                ? "Educational plan may publish"
+                : "Escalate to human review"
+              : "Blocked by Tau policy";
+            const blockers = [];
+            if (!state.dataComplete) blockers.push("missing data");
+            if (!state.withinScope) blockers.push("out of scope");
+            if (!state.identityBound) blockers.push("identity unbound");
+            if (!state.redFlagsClear) blockers.push("red flags present");
+            if (!state.formulaBound) blockers.push("formula binding missing");
+            if (!state.requestLeCeiling) blockers.push("request exceeds ceiling");
+            if (!oneHot) blockers.push("action menu not one-hot");
+            return {
+              lane: autoPlanOpen ? "Open" : "Closed",
+              humanReviewRequired: !autoPlanOpen,
+              allow,
+              executorText,
+              blockers,
+              chips: [
+                autoPlanOpen ? ["good", "Auto lane open"] : ["warn", "Auto lane closed"],
+                oneHot ? ["good", "Action one-hot"] : ["bad", "Action menu invalid"],
+                allow ? ["good", "Policy allows selected action"] : ["bad", "Policy denies selected action"],
+              ],
+              ladder: [
+                ["Model proposal", state.publishPlan ? "publish_plan" : state.escalateHuman ? "escalate_human" : "none"],
+                ["Structured facts", autoPlanOpen ? "All required safety clauses are true." : "At least one required clause is false."],
+                ["Policy verdict", allow ? "Allowed" : "Denied"],
+                ["Executor", executorText],
+              ],
+            };
+          },
+        },
+        lab: {
+          label: "Lab follow-up",
+          title: "Toy lab follow-up gate",
+          summary:
+            "The host distills the chart into bounded flags. The model chooses one of watch, repeat-lab, or human-review. Tau decides which class is admissible.",
+          factsCopy:
+            "This mode shows why many guideline pathways are really classifier-plus-gate machines once the raw chart is reduced to structured facts.",
+          policyCopy:
+            "Red flags and missing evidence do not merely deny automation. They route the case into a bounded human-review action.",
+          specHref: "./examples/tau/medical_lab_followup_gate_toy_v1.tau",
+          formulaCaption: "Watch and repeat-lab are narrow automated classes. Human review is the safe route when the bounded lane closes.",
+          formula:
+            "Allow(s, watch) <-> Complete(s) /\\ Fresh(s) /\\ ~RedFlag(s) /\\ ~Abnormal(s)\nAllow(s, repeat_lab) <-> Complete(s) /\\ Fresh(s) /\\ ~RedFlag(s) /\\ Abnormal(s)\nHumanReviewRequired(s) <-> RedFlag(s) \\/ ~Complete(s) \\/ ~Fresh(s)\nAllow(s, human_review) <-> HumanReviewRequired(s)",
+          facts: [
+            ["dataComplete", "Data complete", "Required facts exist for this bounded pathway.", true],
+            ["withinScope", "Within scope", "The case still fits the toy pathway instead of needing a broader judgment.", true],
+            ["identityBound", "Identity bound", "The extracted facts are tied to the intended patient record.", true],
+            ["resultFresh", "Result fresh", "The result is recent enough for this bounded workflow.", true],
+            ["redFlagPresent", "Red flag present", "A blocker that forces human review.", false],
+            ["abnormalFlag", "Abnormal flag", "A non-red-flag abnormality is present.", false],
+          ],
+          actions: [
+            ["watchAction", "Watch"],
+            ["repeatLab", "Repeat lab"],
+            ["humanReview", "Human review"],
+          ],
+          evaluate(state) {
+            const complete = state.dataComplete && state.withinScope && state.identityBound;
+            const humanReviewRequired =
+              state.redFlagPresent || !complete || !state.resultFresh;
+            const oneHot =
+              Number(Boolean(state.watchAction)) +
+                Number(Boolean(state.repeatLab)) +
+                Number(Boolean(state.humanReview)) ===
+              1;
+            const allow =
+              oneHot &&
+              ((state.watchAction &&
+                complete &&
+                state.resultFresh &&
+                !state.redFlagPresent &&
+                !state.abnormalFlag) ||
+                (state.repeatLab &&
+                  complete &&
+                  state.resultFresh &&
+                  !state.redFlagPresent &&
+                  state.abnormalFlag) ||
+                (state.humanReview && humanReviewRequired));
+            const executorText = allow
+              ? state.watchAction
+                ? "Continue watchful lane"
+                : state.repeatLab
+                  ? "Schedule repeat-lab lane"
+                  : "Escalate to human reviewer"
+              : "Blocked by Tau policy";
+            const blockers = [];
+            if (!state.dataComplete) blockers.push("missing data");
+            if (!state.withinScope) blockers.push("out of scope");
+            if (!state.identityBound) blockers.push("identity unbound");
+            if (!state.resultFresh) blockers.push("result stale");
+            if (state.redFlagPresent) blockers.push("red flag present");
+            if (!oneHot) blockers.push("action menu not one-hot");
+            return {
+              lane: humanReviewRequired ? "Escalate" : "Auto",
+              humanReviewRequired,
+              allow,
+              executorText,
+              blockers,
+              chips: [
+                humanReviewRequired ? ["warn", "Human review required"] : ["good", "Auto lane open"],
+                state.abnormalFlag ? ["warn", "Abnormal flag true"] : ["good", "No abnormal flag"],
+                allow ? ["good", "Policy allows selected action"] : ["bad", "Policy denies selected action"],
+              ],
+              ladder: [
+                ["Model proposal", state.watchAction ? "watch" : state.repeatLab ? "repeat_lab" : state.humanReview ? "human_review" : "none"],
+                ["Structured facts", humanReviewRequired ? "This case exits the automated path." : "This case remains in the bounded automated path."],
+                ["Policy verdict", allow ? "Allowed" : "Denied"],
+                ["Executor", executorText],
+              ],
+            };
+          },
+        },
+        refill: {
+          label: "Refill gate",
+          title: "Toy refill authorization gate",
+          summary:
+            "A refill request is allowed only when the bounded safety lane stays open. Otherwise the only permitted action is hold-and-review.",
+          factsCopy:
+            "This is a classic bounded healthcare authorization pattern: identity, allowlist, freshness, limits, and a safe fallback.",
+          policyCopy:
+            "The point is not a specific medication rule. The point is the shape of a rate-limited, audited, fail-closed gate.",
+          specHref: "./examples/tau/medical_refill_gate_toy_v1.tau",
+          formulaCaption: "Auto-refill is a conjunction gate. Hold-and-review is the safe alternative action class.",
+          formula:
+            "AutoRefillOpen(s) <-> IdentityBound(s) /\\ AllowlistOk(s) /\\ AllergiesClear(s) /\\ DoseWithinLimit(s) /\\ LabsFresh(s) /\\ RefillWindowOk(s)\nAllow(s, refill) <-> OneHot(s) /\\ AutoRefillOpen(s)\nAllow(s, hold_and_review) <-> OneHot(s) /\\ ~AutoRefillOpen(s)",
+          facts: [
+            ["identityBound", "Identity bound", "The request is tied to the right person and record.", true],
+            ["allowlistOk", "Medication allowlist ok", "The request is inside the bounded allowed menu.", true],
+            ["allergiesClear", "Allergies clear", "No known blocker in the bounded rule set.", true],
+            ["doseWithinLimit", "Dose within limit", "The requested amount remains inside policy bounds.", true],
+            ["labsFresh", "Labs fresh", "Supporting labs are fresh enough for this bounded lane.", true],
+            ["refillWindowOk", "Refill window ok", "The request is not early or temporally blocked.", true],
+          ],
+          actions: [
+            ["refillAction", "Refill"],
+            ["holdReview", "Hold and review"],
+          ],
+          evaluate(state) {
+            const autoRefillOpen =
+              state.identityBound &&
+              state.allowlistOk &&
+              state.allergiesClear &&
+              state.doseWithinLimit &&
+              state.labsFresh &&
+              state.refillWindowOk;
+            const oneHot = Number(Boolean(state.refillAction)) + Number(Boolean(state.holdReview)) === 1;
+            const allow =
+              oneHot &&
+              ((state.refillAction && autoRefillOpen) ||
+                (state.holdReview && !autoRefillOpen));
+            const executorText = allow
+              ? state.refillAction
+                ? "Refill may execute"
+                : "Route to hold-and-review"
+              : "Blocked by Tau policy";
+            const blockers = [];
+            if (!state.identityBound) blockers.push("identity unbound");
+            if (!state.allowlistOk) blockers.push("not on allowlist");
+            if (!state.allergiesClear) blockers.push("allergy blocker");
+            if (!state.doseWithinLimit) blockers.push("dose over limit");
+            if (!state.labsFresh) blockers.push("labs stale");
+            if (!state.refillWindowOk) blockers.push("refill window closed");
+            if (!oneHot) blockers.push("action menu not one-hot");
+            return {
+              lane: autoRefillOpen ? "Open" : "Closed",
+              humanReviewRequired: !autoRefillOpen,
+              allow,
+              executorText,
+              blockers,
+              chips: [
+                autoRefillOpen ? ["good", "Auto-refill lane open"] : ["warn", "Auto-refill lane closed"],
+                oneHot ? ["good", "Action one-hot"] : ["bad", "Action menu invalid"],
+                allow ? ["good", "Policy allows selected action"] : ["bad", "Policy denies selected action"],
+              ],
+              ladder: [
+                ["Model proposal", state.refillAction ? "refill" : state.holdReview ? "hold_and_review" : "none"],
+                ["Structured facts", autoRefillOpen ? "All refill safety clauses are true." : "At least one refill safety clause is false."],
+                ["Policy verdict", allow ? "Allowed" : "Denied"],
+                ["Executor", executorText],
+              ],
+            };
+          },
+        },
+      };
+
+      const state = {};
+      let traceBundle = null;
+      let currentMode = "wellness";
+
+      const els = {
+        modeTabs: document.getElementById("mode-tabs"),
+        modeTitle: document.getElementById("mode-title"),
+        modeSummary: document.getElementById("mode-summary"),
+        factsCopy: document.getElementById("facts-copy"),
+        policyCopy: document.getElementById("policy-copy"),
+        factGrid: document.getElementById("fact-grid"),
+        actionButtons: document.getElementById("action-buttons"),
+        metricLane: document.getElementById("metric-lane"),
+        metricAction: document.getElementById("metric-action"),
+        metricResult: document.getElementById("metric-result"),
+        statusChips: document.getElementById("status-chips"),
+        decisionLadder: document.getElementById("decision-ladder"),
+        formulaCaption: document.getElementById("formula-caption"),
+        formulaCode: document.getElementById("formula-code"),
+        traceGrid: document.getElementById("trace-grid"),
+        specLink: document.getElementById("spec-link"),
+      };
+
+      function titleCase(text) {
+        return text
+          .replace(/([a-z])([A-Z])/g, "$1 $2")
+          .replace(/_/g, " ")
+          .toLowerCase();
+      }
+
+      function notifyParentHeight() {
+        const height = Math.max(
+          document.documentElement.scrollHeight,
+          document.body.scrollHeight
+        );
+        window.parent.postMessage({ type: "fp:iframe-height", height }, "*");
+      }
+
+      function initStateForMode(modeKey) {
+        const mode = MODES[modeKey];
+        const next = {};
+        for (const [key, , , defaultValue] of mode.facts) {
+          next[key] = Boolean(defaultValue);
+        }
+        for (const [actionKey] of mode.actions) {
+          next[actionKey] = false;
+        }
+        next[mode.actions[0][0]] = true;
+        state[modeKey] = next;
+      }
+
+      function ensureModeState(modeKey) {
+        if (!state[modeKey]) {
+          initStateForMode(modeKey);
+        }
+        return state[modeKey];
+      }
+
+      function renderModeTabs() {
+        els.modeTabs.innerHTML = "";
+        Object.entries(MODES).forEach(([key, mode]) => {
+          const button = document.createElement("button");
+          button.className = "mode-tab" + (key === currentMode ? " is-active" : "");
+          button.type = "button";
+          button.textContent = mode.label;
+          button.addEventListener("click", () => {
+            currentMode = key;
+            render();
+          });
+          els.modeTabs.appendChild(button);
+        });
+      }
+
+      function renderFacts(modeKey, modeState) {
+        const mode = MODES[modeKey];
+        els.factGrid.innerHTML = "";
+        mode.facts.forEach(([key, label, description]) => {
+          const wrapper = document.createElement("label");
+          wrapper.className = "fact-toggle";
+
+          const copy = document.createElement("div");
+          copy.className = "fact-copy";
+          const strong = document.createElement("strong");
+          strong.textContent = label;
+          const span = document.createElement("span");
+          span.textContent = description;
+          copy.append(strong, span);
+
+          const toggle = document.createElement("div");
+          toggle.className = "toggle";
+          const input = document.createElement("input");
+          input.type = "checkbox";
+          input.checked = Boolean(modeState[key]);
+          input.addEventListener("change", () => {
+            modeState[key] = input.checked;
+            render();
+          });
+          const slider = document.createElement("span");
+          slider.className = "slider";
+          toggle.append(input, slider);
+
+          wrapper.append(copy, toggle);
+          els.factGrid.appendChild(wrapper);
+        });
+      }
+
+      function renderActions(modeKey, modeState) {
+        const mode = MODES[modeKey];
+        els.actionButtons.innerHTML = "";
+        mode.actions.forEach(([key, label]) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "action-btn" + (modeState[key] ? " is-active" : "");
+          button.textContent = label;
+          button.addEventListener("click", () => {
+            mode.actions.forEach(([actionKey]) => {
+              modeState[actionKey] = actionKey === key;
+            });
+            render();
+          });
+          els.actionButtons.appendChild(button);
+        });
+      }
+
+      function renderDecision(modeKey, result, modeState) {
+        els.metricLane.textContent = result.lane;
+        const selectedAction =
+          Object.entries(modeState)
+            .filter(([key, value]) => value && MODES[modeKey].actions.some(([actionKey]) => actionKey === key))
+            .map(([key]) => titleCase(key))[0] || "None";
+        els.metricAction.textContent = selectedAction;
+        els.metricResult.textContent = result.allow ? "Allowed" : "Blocked";
+
+        els.statusChips.innerHTML = "";
+        result.chips.forEach(([klass, text]) => {
+          const chip = document.createElement("span");
+          chip.className = `chip ${klass}`;
+          chip.textContent = text;
+          els.statusChips.appendChild(chip);
+        });
+        if (result.blockers.length > 0) {
+          const chip = document.createElement("span");
+          chip.className = "chip bad";
+          chip.textContent = "Blockers: " + result.blockers.join(", ");
+          els.statusChips.appendChild(chip);
+        }
+
+        els.decisionLadder.innerHTML = "";
+        result.ladder.forEach(([title, body]) => {
+          const div = document.createElement("div");
+          div.className = "ladder-step";
+          const strong = document.createElement("strong");
+          strong.textContent = title;
+          const p = document.createElement("p");
+          p.textContent = body;
+          div.append(strong, p);
+          els.decisionLadder.appendChild(div);
+        });
+      }
+
+      function renderTraces(modeKey) {
+        els.traceGrid.innerHTML = "";
+        if (!traceBundle || !traceBundle.cases) {
+          const card = document.createElement("div");
+          card.className = "trace-card";
+          card.innerHTML = "<p>Trace bundle not loaded.</p>";
+          els.traceGrid.appendChild(card);
+          return;
+        }
+        const relevant = Object.entries(traceBundle.cases).filter(
+          ([, value]) => value.family === modeKey
+        );
+        relevant.forEach(([name, value]) => {
+          const outputs = value.outputs_by_step["0"] || value.outputs_by_step[0] || {};
+          const allow = outputs.o1 === 1;
+          const aux = outputs.o2 === 1;
+          const card = document.createElement("div");
+          card.className = "trace-card";
+
+          const head = document.createElement("div");
+          head.className = "trace-card-head";
+          const titleWrap = document.createElement("div");
+          const title = document.createElement("h3");
+          title.textContent = titleCase(name);
+          const caption = document.createElement("p");
+          caption.textContent = value.explanation;
+          titleWrap.append(title, caption);
+          const status = document.createElement("span");
+          status.className = "trace-state " + (allow ? "good" : "bad");
+          status.textContent = allow ? "Allowed" : "Denied";
+          head.append(titleWrap, status);
+
+          const meta = document.createElement("div");
+          meta.className = "trace-meta";
+          const spec = document.createElement("span");
+          spec.textContent = value.spec_relpath.split("/").pop();
+          const o1 = document.createElement("span");
+          o1.textContent = `o1 = ${outputs.o1}`;
+          const o2 = document.createElement("span");
+          o2.textContent = `o2 = ${typeof outputs.o2 === "number" ? outputs.o2 : "n/a"}`;
+          const auxTag = document.createElement("span");
+          auxTag.textContent = aux ? "secondary gate open" : "secondary gate closed";
+          meta.append(spec, o1, o2, auxTag);
+
+          const inputPre = document.createElement("pre");
+          inputPre.className = "trace-code";
+          inputPre.textContent = JSON.stringify(value.steps[0], null, 2);
+
+          card.append(head, meta, inputPre);
+          els.traceGrid.appendChild(card);
+        });
+      }
+
+      function render() {
+        const mode = MODES[currentMode];
+        const modeState = ensureModeState(currentMode);
+
+        els.modeTitle.textContent = mode.title;
+        els.modeSummary.textContent = mode.summary;
+        els.factsCopy.textContent = mode.factsCopy;
+        els.policyCopy.textContent = mode.policyCopy;
+        els.formulaCaption.textContent = mode.formulaCaption;
+        els.formulaCode.textContent = mode.formula;
+        els.specLink.href = mode.specHref;
+
+        renderModeTabs();
+        renderFacts(currentMode, modeState);
+        renderActions(currentMode, modeState);
+        renderDecision(currentMode, mode.evaluate(modeState), modeState);
+        renderTraces(currentMode);
+        notifyParentHeight();
+      }
+
+      async function loadTraceBundle() {
+        try {
+          const response = await fetch("./assets/data/medical_tau_traces.json", {
+            cache: "no-store",
+          });
+          if (!response.ok) {
+            throw new Error("trace bundle missing");
+          }
+          traceBundle = await response.json();
+        } catch (error) {
+          traceBundle = null;
+        }
+      }
+
+      window.addEventListener("resize", notifyParentHeight);
+      new ResizeObserver(notifyParentHeight).observe(document.body);
+
+      (async function main() {
+        Object.keys(MODES).forEach(initStateForMode);
+        await loadTraceBundle();
+        render();
+      })();
+    </script>
+  </body>
+</html>

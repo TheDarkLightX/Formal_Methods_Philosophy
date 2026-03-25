@@ -1,0 +1,67 @@
+# Educational kidney follow-up gate in the MPRD shape
+#
+# Purpose:
+# - show how a bounded kidney-result workflow becomes a decision tree
+# - let the host compute eGFR from the official equation
+# - let Tau validate the bounded follow-up class
+#
+# Scope note:
+# - educational policy example only
+# - not clinical guidance
+#
+# Host/Tau split:
+# - host computes eGFR from creatinine, age, and sex
+# - host reduces that numeric result to the bounded flag egfr_below_60
+# - Tau checks the replayable action policy
+#
+# Stream mapping:
+# i1 = result_complete (0 or 1)
+# i2 = result_fresh (0 or 1)
+# i3 = red_flag_present (0 or 1)
+# i4 = egfr_below_60 (0 or 1)
+# i5 = propose_watch (0 or 1)
+# i6 = propose_repeat_lab (0 or 1)
+# i7 = propose_human_review (0 or 1)
+# i8 = action_one_hot_ok (0 or 1)
+#
+# Outputs:
+# o1 = selected_action_allowed (0 or 1)
+# o2 = human_review_required (0 or 1)
+#
+# Hex decoder:
+# #x01 = 1  (true / flag set)
+# All inputs and outputs are 0-or-1 flags in bv[8]
+# Arithmetic: (1 - x) encodes NOT for 0/1 values
+#             x * y encodes AND for 0/1 values
+#             x + y encodes OR for non-overlapping 0/1 products
+#             x | y encodes bitwise OR
+
+set charvar off
+
+always
+  (o2[t]:bv[8] =
+    (i3[t]:bv[8] |
+     ({ #x01 }:bv[8] - i1[t]:bv[8]) |
+     ({ #x01 }:bv[8] - i2[t]:bv[8]))) &&
+  (o1[t]:bv[8] =
+    ((i8[t]:bv[8] *
+      i5[t]:bv[8] *
+      ({ #x01 }:bv[8] - i6[t]:bv[8]) *
+      ({ #x01 }:bv[8] - i7[t]:bv[8]) *
+      i1[t]:bv[8] *
+      i2[t]:bv[8] *
+      ({ #x01 }:bv[8] - i3[t]:bv[8]) *
+      ({ #x01 }:bv[8] - i4[t]:bv[8])) +
+     (i8[t]:bv[8] *
+      ({ #x01 }:bv[8] - i5[t]:bv[8]) *
+      i6[t]:bv[8] *
+      ({ #x01 }:bv[8] - i7[t]:bv[8]) *
+      i1[t]:bv[8] *
+      i2[t]:bv[8] *
+      ({ #x01 }:bv[8] - i3[t]:bv[8]) *
+      i4[t]:bv[8]) +
+     (i8[t]:bv[8] *
+      ({ #x01 }:bv[8] - i5[t]:bv[8]) *
+      ({ #x01 }:bv[8] - i6[t]:bv[8]) *
+      i7[t]:bv[8] *
+      o2[t]:bv[8]))).

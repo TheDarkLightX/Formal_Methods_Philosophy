@@ -1,0 +1,54 @@
+# Educational max-calorie-deficit direct calculator
+#
+# Purpose:
+# - compute the exact integer floor of the max calorie deficit formula
+# - the solver finds the unique output satisfying the floor constraint
+# - no claimed value needed: Tau synthesizes the answer directly
+#
+# Scope note:
+# - educational wellness example only
+# - not medical advice
+#
+# Formula shape:
+# max_deficit_kcal = floor(31.4 * bodyweight_lb * bodyfat_fraction)
+#
+# Encoding:
+# - body fat arrives in basis points, so 20.00% is entered as 2000
+# - the floor is expressed as the integer sandwich:
+#     100000 * result <= 314 * weight * bodyfat_bps < 100000 * (result + 1)
+#
+# Contrast with the checker version (medical_max_calorie_deficit_formula_v1.tau):
+# - the checker takes the deficit as input i3 and validates it
+# - this calculator outputs the deficit as o1, letting the solver find it
+#
+# When inputs are out of range, o1 is explicitly set to 0.
+#
+# Stream mapping:
+# i1 = bodyweight_lb
+# i2 = bodyfat_bps
+#
+# Outputs:
+# o1 = max_deficit_kcal (exact integer floor, or 0 if out of range)
+# o2 = inputs_in_range (0 or 1)
+#
+# Hex decoder:
+# #x000001F4 = 500     (max weight_lb)
+# #x00002710 = 10000   (max bodyfat_bps, i.e. 100%)
+# #x000186A0 = 100000  (floor divisor)
+# #x0000013A = 314     (31.4 * 10, numerator scaling)
+# #x00000001 = 1       (floor upper bound offset)
+
+set charvar off
+
+always
+  (((o2[t]:bv[8] = { #x01 }:bv[8]) <->
+     ((i1[t]:bv[32] <= { #x000001F4 }:bv[32]) &&
+      (i2[t]:bv[32] <= { #x00002710 }:bv[32])))) &&
+  ((o2[t]:bv[8] = { #x00 }:bv[8]) ||
+     ((({ #x000186A0 }:bv[32] * o1[t]:bv[32]) <=
+       (({ #x0000013A }:bv[32] * i1[t]:bv[32]) * i2[t]:bv[32])) &&
+      ((({ #x0000013A }:bv[32] * i1[t]:bv[32]) * i2[t]:bv[32]) <
+       ({ #x000186A0 }:bv[32] * (o1[t]:bv[32] + { #x00000001 }:bv[32]))))) &&
+  ((o2[t]:bv[8] = { #x01 }:bv[8]) ||
+     (o1[t]:bv[32] = { #x00000000 }:bv[32])) &&
+  ((o2[t]:bv[8] = { #x00 }:bv[8]) || (o2[t]:bv[8] = { #x01 }:bv[8])).
