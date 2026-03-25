@@ -74,7 +74,12 @@ This is why medicine so often looks like finite-state or decision-tree software:
 MPRD states a safety invariant in public documentation:
 
 $$
-\forall\ \text{executed\_action}:\ \mathrm{Allowed}(\mathrm{policy}, \mathrm{state}, \mathrm{action}) = \mathrm{true}
+\forall a_{\mathrm{exec}} \;
+\bigl(
+\mathrm{Executed}(a_{\mathrm{exec}})
+\rightarrow
+\mathrm{Allowed}(\mathrm{policy}, \mathrm{state}, a_{\mathrm{exec}})
+\bigr)
 $$
 
 In plain English:
@@ -82,6 +87,14 @@ In plain English:
 Every executed action must already have passed policy.
 
 This principle maps directly to bounded medical workflows.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">MPRD pipeline in medicine</p>
+  {% include diagrams/medical-mprd-pipeline.svg %}
+  <figcaption class="fp-figure-caption">
+    Evidence flows through the proposer to the policy gate. Only approved actions reach the executor. Denied or out-of-scope proposals route to escalation.
+  </figcaption>
+</figure>
 
 Assumption A:
 An institution has a versioned guideline or policy artifact \(G\), a trusted fact-extraction layer \(E\), and a bounded action menu \(A\).
@@ -105,7 +118,9 @@ $$
 $$
 
 $$
-\mathrm{Execute}(\mathrm{bundle}) \Rightarrow \mathrm{ValidDecision}(\mathrm{bundle}, \mathrm{registry\_state}) = \mathrm{true}
+\mathrm{Execute}(b)
+\Rightarrow
+\mathrm{ValidDecision}(b,r) = \mathrm{true}
 $$
 
 The interpretation is exact:
@@ -126,9 +141,12 @@ The formulas above use a small vocabulary repeatedly.
 | \(G\) | governing policy or guideline artifact |
 | \(\mathrm{Facts}\) | structured facts extracted from chart, labs, and provenance |
 | \(a\) | one proposed action |
+| \(a_{\mathrm{exec}}\) | the action that actually gets executed |
+| \(b\) | an execution bundle |
 | \(\mathrm{Candidates}\) | bounded action menu proposed by the model |
 | \(\mathrm{Allowed}(G,\mathrm{Facts},a)\) | policy says action \(a\) is allowed |
 | \(\mathrm{Sel}(G,\mathrm{Facts},\mathrm{Candidates})\) | deterministic selector returns one action |
+| \(r\) | registry or execution state tracked by the executor |
 | \(\Rightarrow\) | implication, read as "if ... then ..." |
 | \(\land\) | conjunction, read as "and" |
 | \(a \in \mathrm{Candidates}\) | the selected action actually comes from the candidate set |
@@ -237,14 +255,20 @@ It is "allow automation or escalate to a human".
 That can be formalized:
 
 $$
-\mathrm{MissingEvidence}(s) \lor \mathrm{OutOfScope}(s) \Rightarrow \mathrm{Allow}(G,s,\mathrm{human\_review})
+\mathrm{MissingEvidence}(s) \lor \mathrm{OutOfScope}(s)
+\Rightarrow
+\mathrm{Allow}(G,s,a_{\mathrm{review}})
 $$
 
 and
 
 $$
-\mathrm{MissingEvidence}(s) \lor \mathrm{OutOfScope}(s) \Rightarrow \neg \mathrm{Allow}(G,s,\mathrm{auto\_execute})
+\mathrm{MissingEvidence}(s) \lor \mathrm{OutOfScope}(s)
+\Rightarrow
+\neg \mathrm{Allow}(G,s,a_{\mathrm{auto}})
 $$
+
+Here \(a_{\mathrm{review}}\) denotes the human-review action, and \(a_{\mathrm{auto}}\) denotes an automatic execution action.
 
 This is the core fail-closed guarantee.
 
@@ -299,12 +323,18 @@ $$
 $$
 
 $$
-\mathrm{Allow}(s,\mathrm{publish\_plan}) \Leftrightarrow \mathrm{OneHot}(s) \land \mathrm{AutoPlanOpen}(s)
+\mathrm{Allow}(s,a_{\mathrm{plan}})
+\Leftrightarrow
+\mathrm{OneHot}(s) \land \mathrm{AutoPlanOpen}(s)
 $$
 
 $$
-\mathrm{Allow}(s,\mathrm{escalate\_human}) \Leftrightarrow \mathrm{OneHot}(s) \land \neg \mathrm{AutoPlanOpen}(s)
+\mathrm{Allow}(s,a_{\mathrm{escalate}})
+\Leftrightarrow
+\mathrm{OneHot}(s) \land \neg \mathrm{AutoPlanOpen}(s)
 $$
+
+Here \(a_{\mathrm{plan}}\) is the publish-plan action, and \(a_{\mathrm{escalate}}\) is the human-escalation action.
 
 The lesson here is not about nutrition but about architecture:
 the model cannot publish merely because it made a proposal.
@@ -326,11 +356,15 @@ In the public replay lane, the host side compresses several lower-level checks i
 The policy says:
 
 $$
-\mathrm{Allow}(s,\mathrm{watch}) \Leftrightarrow \mathrm{Complete}(s) \land \mathrm{Fresh}(s) \land \neg \mathrm{RedFlag}(s) \land \neg \mathrm{Abnormal}(s)
+\mathrm{Allow}(s,a_{\mathrm{watch}})
+\Leftrightarrow
+\mathrm{Complete}(s) \land \mathrm{Fresh}(s) \land \neg \mathrm{RedFlag}(s) \land \neg \mathrm{Abnormal}(s)
 $$
 
 $$
-\mathrm{Allow}(s,\mathrm{repeat\_lab}) \Leftrightarrow \mathrm{Complete}(s) \land \mathrm{Fresh}(s) \land \neg \mathrm{RedFlag}(s) \land \mathrm{Abnormal}(s)
+\mathrm{Allow}(s,a_{\mathrm{repeat}})
+\Leftrightarrow
+\mathrm{Complete}(s) \land \mathrm{Fresh}(s) \land \neg \mathrm{RedFlag}(s) \land \mathrm{Abnormal}(s)
 $$
 
 $$
@@ -338,8 +372,12 @@ $$
 $$
 
 $$
-\mathrm{Allow}(s,\mathrm{human\_review}) \Leftrightarrow \mathrm{HumanReviewRequired}(s)
+\mathrm{Allow}(s,a_{\mathrm{review}})
+\Leftrightarrow
+\mathrm{HumanReviewRequired}(s)
 $$
+
+The action names are \(a_{\mathrm{watch}}\) for observe, \(a_{\mathrm{repeat}}\) for repeat the lab, and \(a_{\mathrm{review}}\) for route to human review.
 
 These are simplified examples, but the underlying pattern is genuine.
 Many guideline pathways reduce to exactly this pattern once the structured facts are extracted.
@@ -361,10 +399,12 @@ $$
 $$
 
 $$
-\mathrm{Allow}(s,\mathrm{hold\_and\_review}) \Leftrightarrow \mathrm{OneHot}(s) \land \neg \mathrm{AutoRefillOpen}(s)
+\mathrm{Allow}(s,a_{\mathrm{hold}})
+\Leftrightarrow
+\mathrm{OneHot}(s) \land \neg \mathrm{AutoRefillOpen}(s)
 $$
 
-Again, the safe fallback is explicit.
+Here \(a_{\mathrm{hold}}\) means hold the refill and route it to review. Again, the safe fallback is explicit.
 
 ## Part VII: what the Tau traces show
 
@@ -424,7 +464,9 @@ $$
 and its fail-closed dual:
 
 $$
-\neg \mathrm{ClinicalReady}(s,G) \Rightarrow \neg \mathrm{Allow}(G,s,\mathrm{auto\_execute})
+\neg \mathrm{ClinicalReady}(s,G)
+\Rightarrow
+\neg \mathrm{Allow}(G,s,a_{\mathrm{auto}})
 $$
 
 If those bindings are missing, the system must not proceed without explicit authorization.
@@ -446,13 +488,17 @@ These are precisely the failure modes MPRD prevents.
 The core fail-closed pattern is:
 
 $$
-\mathrm{MissingEvidence}(s) \lor \mathrm{BindingFailure}(s) \lor \mathrm{OutOfScope}(s) \Rightarrow \neg \mathrm{Allow}(G,s,\mathrm{auto\_execute})
+\mathrm{MissingEvidence}(s) \lor \mathrm{BindingFailure}(s) \lor \mathrm{OutOfScope}(s)
+\Rightarrow
+\neg \mathrm{Allow}(G,s,a_{\mathrm{auto}})
 $$
 
 If a human-review action exists, then:
 
 $$
-\mathrm{MissingEvidence}(s) \lor \mathrm{BindingFailure}(s) \lor \mathrm{OutOfScope}(s) \Rightarrow \mathrm{Allow}(G,s,\mathrm{human\_review})
+\mathrm{MissingEvidence}(s) \lor \mathrm{BindingFailure}(s) \lor \mathrm{OutOfScope}(s)
+\Rightarrow
+\mathrm{Allow}(G,s,a_{\mathrm{review}})
 $$
 
 That is how disaster states get pruned from the reachable set.

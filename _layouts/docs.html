@@ -224,7 +224,12 @@
           processEscapes: true,
         },
         output: {
-          displayOverflow: "scale",
+          displayOverflow: "linebreak",
+          linebreaks: {
+            inline: true,
+            width: "100%",
+            lineleading: 0.2,
+          },
         },
         options: {
           skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],

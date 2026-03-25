@@ -111,7 +111,7 @@ $$
 In the production ZK profile, the execution gate is phrased as:
 
 $$
-\text{Execute}(\text{bundle}) \Rightarrow \text{ValidDecision}(\text{bundle}, \text{registry\_state}) = \text{true}
+\text{Execute}(b) \Rightarrow \text{ValidDecision}(b, r) = \text{true}
 $$
 
 with selector correctness scoped as:
@@ -394,8 +394,10 @@ The invariant rail runs after every state transition. It checks three categories
 **3. Transition-level conservation.** Specific action outcomes must satisfy conservation laws. For example, after `SettleOpsPayroll`:
 
 $$
-\text{payout\_total} + \text{carry\_to\_reserve} = \text{ops\_payroll\_pool}
+p_{\mathrm{total}} + c_{\mathrm{reserve}} = o_{\mathrm{pool}}
 $$
+
+Here \(p_{\mathrm{total}}\) is the payout total, \(c_{\mathrm{reserve}}\) is the carry sent back to reserve, and \(o_{\mathrm{pool}}\) is the original operations-payroll pool.
 
 If any invariant fails, the rail returns an `InvariantCounterexampleV6` containing the violation ID, the step index, the state hash, and the full action trace.
 

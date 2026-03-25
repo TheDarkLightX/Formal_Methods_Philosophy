@@ -161,8 +161,10 @@ $$
 where $Q$ is a set of states, $q_0$ is the initial state, $\Sigma$ is the set of actions, $\to$ is the transition relation, and $I$ is a set of invariants. The current state record is
 
 $$
-\sigma = (\text{state}, \; \text{authorized}, \; \text{choice}, \; \text{resource\_ok}, \; \text{delivered})
+\sigma = (\text{state}, \; \text{authorized}, \; \text{choice}, \; r_{\mathrm{ok}}, \; \text{delivered})
 $$
+
+Here \(r_{\mathrm{ok}}\) means the execution resource check passed.
 
 For the shared archetype from Part I, the abstract state set is:
 
@@ -216,7 +218,7 @@ $$
 \text{Execute}
 :=
 (\text{state} = \text{Executing})
-\wedge \text{resource\_ok}
+\wedge r_{\mathrm{ok}}
 \wedge (\text{state}' = \text{Delivered})
 $$
 
@@ -400,25 +402,27 @@ $$
 The runtime CPMM implements this through exact integer arithmetic:
 
 $$
-\text{fee\_total} = \left\lceil \frac{\text{amount\_in} \cdot \text{fee\_bps}}{10000} \right\rceil
+f_{\mathrm{total}} = \left\lceil \frac{a_{\mathrm{in}} \cdot f_{\mathrm{bps}}}{10000} \right\rceil
 \qquad
-\text{net\_in} = \text{amount\_in} - \text{fee\_total}
+n_{\mathrm{in}} = a_{\mathrm{in}} - f_{\mathrm{total}}
 $$
 
 $$
-\text{amount\_out}
+a_{\mathrm{out}}
 =
 \left\lfloor
-\frac{\text{reserve\_out} \cdot \text{net\_in}}
-{\text{reserve\_in} + \text{net\_in}}
+\frac{r_{\mathrm{out}} \cdot n_{\mathrm{in}}}
+{r_{\mathrm{in}} + n_{\mathrm{in}}}
 \right\rfloor
 $$
 
 $$
-K_{\text{before}} = \text{reserve\_in}\cdot\text{reserve\_out}
+K_{\text{before}} = r_{\mathrm{in}} \cdot r_{\mathrm{out}}
 \qquad
-K_{\text{after}} = (\text{reserve\_in} + \text{amount\_in})\cdot(\text{reserve\_out} - \text{amount\_out})
+K_{\text{after}} = (r_{\mathrm{in}} + a_{\mathrm{in}})\cdot(r_{\mathrm{out}} - a_{\mathrm{out}})
 $$
+
+Here \(a_{\mathrm{in}}\) and \(a_{\mathrm{out}}\) are input and output amounts, \(f_{\mathrm{bps}}\) is the fee rate in basis points, \(f_{\mathrm{total}}\) is the rounded fee, \(n_{\mathrm{in}}\) is net input, and \(r_{\mathrm{in}}, r_{\mathrm{out}}\) are reserves.
 
 This is not merely "swap code." It is a shape clause: valid swaps must preserve or increase the protected reserve product.
 

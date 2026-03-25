@@ -107,6 +107,14 @@ $$
 
 The rest of the tutorial demonstrates each correspondence with concrete examples.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">One object, four lenses</p>
+  {% include diagrams/medical-four-lenses.svg %}
+  <figcaption class="fp-figure-caption">
+    The central decidable machine can be read as a composition formula, a decision tree, a finite-state machine, or a set of logical predicates. All four describe the same computation.
+  </figcaption>
+</figure>
+
 ## Part III: example A, the max-calorie-deficit calculator
 
 The first example is the user's own calculator:
@@ -260,15 +268,15 @@ Body fat is encoded in basis points, so \(20.00\%\) becomes \(2000\).
 Then:
 
 $$
-31.4 \cdot w \cdot \frac{\mathrm{bf\_bps}}{10000}
+31.4 \cdot w \cdot \frac{b_{\mathrm{bps}}}{10000}
 =
-\frac{314 \cdot w \cdot \mathrm{bf\_bps}}{100000}
+\frac{314 \cdot w \cdot b_{\mathrm{bps}}}{100000}
 $$
 
 To express the floor relation without floating point, the Tau checker uses:
 
 $$
-100000 \cdot m \le 314 \cdot w \cdot \mathrm{bf\_bps} < 100000 \cdot (m+1)
+100000 \cdot m \le 314 \cdot w \cdot b_{\mathrm{bps}} < 100000 \cdot (m+1)
 $$
 
 That is why this example is especially good for Tau.
@@ -305,7 +313,7 @@ always
 Reading guide:
 
 1. The `o2` biconditional is the range check. The hex constants decode as: `#x1F4` = 500, `#x2710` = 10000, `#x4E20` = 20000.
-2. The `o1` biconditional is the floor relation. `#x186A0` = 100000, `#x13A` = 314. It checks \(100000 \cdot \mathrm{claimed} \le 314 \cdot w \cdot \mathrm{bf\_bps} < 100000 \cdot (\mathrm{claimed}+1)\).
+2. The `o1` biconditional is the floor relation. `#x186A0` = 100000, `#x13A` = 314. It checks \(100000 \cdot m_{\mathrm{claim}} \le 314 \cdot w \cdot b_{\mathrm{bps}} < 100000 \cdot (m_{\mathrm{claim}}+1)\).
 3. The final two disjunctions restrict both outputs to 0 or 1.
 
 <div class="fp-callout fp-callout-note">
@@ -428,15 +436,21 @@ $$
 $$
 
 $$
-\mathrm{Allow}(s,\mathrm{watch}) \Leftrightarrow \mathrm{OneHot}(s) \land \neg \mathrm{HumanReviewRequired}(s) \land \neg \mathrm{Below60}(s)
+\mathrm{Allow}(s,a_{\mathrm{watch}})
+\Leftrightarrow
+\mathrm{OneHot}(s) \land \neg \mathrm{HumanReviewRequired}(s) \land \neg \mathrm{Below60}(s)
 $$
 
 $$
-\mathrm{Allow}(s,\mathrm{repeat\_lab}) \Leftrightarrow \mathrm{OneHot}(s) \land \neg \mathrm{HumanReviewRequired}(s) \land \mathrm{Below60}(s)
+\mathrm{Allow}(s,a_{\mathrm{repeat}})
+\Leftrightarrow
+\mathrm{OneHot}(s) \land \neg \mathrm{HumanReviewRequired}(s) \land \mathrm{Below60}(s)
 $$
 
 $$
-\mathrm{Allow}(s,\mathrm{human\_review}) \Leftrightarrow \mathrm{OneHot}(s) \land \mathrm{HumanReviewRequired}(s)
+\mathrm{Allow}(s,a_{\mathrm{review}})
+\Leftrightarrow
+\mathrm{OneHot}(s) \land \mathrm{HumanReviewRequired}(s)
 $$
 
 Though simplified for teaching, the pipeline structure mirrors real workflows:
@@ -466,20 +480,30 @@ The kidney follow-up gate has the same shape as a small decision tree:
 The leaves are:
 
 $$
-\neg \mathrm{Complete}(s) \lor \neg \mathrm{Fresh}(s) \Rightarrow \mathrm{human\_review}
+\neg \mathrm{Complete}(s) \lor \neg \mathrm{Fresh}(s)
+\Rightarrow
+a_{\mathrm{review}}
 $$
 
 $$
-\mathrm{RedFlag}(s) \Rightarrow \mathrm{human\_review}
+\mathrm{RedFlag}(s)
+\Rightarrow
+a_{\mathrm{review}}
 $$
 
 $$
-\mathrm{Below60}(s) \land \neg \mathrm{RedFlag}(s) \Rightarrow \mathrm{repeat\_lab}
+\mathrm{Below60}(s) \land \neg \mathrm{RedFlag}(s)
+\Rightarrow
+a_{\mathrm{repeat}}
 $$
 
 $$
-\neg \mathrm{Below60}(s) \land \neg \mathrm{RedFlag}(s) \Rightarrow \mathrm{watch}
+\neg \mathrm{Below60}(s) \land \neg \mathrm{RedFlag}(s)
+\Rightarrow
+a_{\mathrm{watch}}
 $$
+
+Here \(b_{\mathrm{bps}}\) means body-fat percentage encoded in basis points, \(a_{\mathrm{watch}}\) means observe, \(a_{\mathrm{repeat}}\) means repeat the lab, and \(a_{\mathrm{review}}\) means route to human review.
 
 Every input combination reaches exactly one leaf.
 
@@ -520,6 +544,14 @@ $$
 $$
 
 This split clarifies the architectural boundary between computation and validation.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Host computes, Tau validates</p>
+  {% include diagrams/medical-host-tau-split.svg %}
+  <figcaption class="fp-figure-caption">
+    The host handles rich arithmetic (eGFR equation, classification). Tau receives bounded boolean flags across the boundary and validates the action policy.
+  </figcaption>
+</figure>
 
 - some bounded arithmetic objects fit fully inside Tau,
 - some official equations are better handled by host computation plus Tau validation.
@@ -591,6 +623,14 @@ The two examples above already show four recurring shapes. [Tutorial 22]({{ '/tu
 The same shapes appear across many medical workflows: potassium follow-up trees, HbA1c monitoring and retest windows, CBC or anemia follow-up routing, and refill authorization under explicit freshness and identity rules.
 
 They differ medically but share a common software architecture.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Medical software shapes and how they compose</p>
+  {% include diagrams/medical-shape-composition.svg %}
+  <figcaption class="fp-figure-caption">
+    The calorie lane uses a single calculator shape. The kidney lane composes three shapes into a pipeline: calculator, classifier, and gate.
+  </figcaption>
+</figure>
 
 ## Part VI: why decidability matters in medicine and wellness software
 
