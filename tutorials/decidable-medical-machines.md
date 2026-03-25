@@ -36,7 +36,7 @@ $$
 f : X \to Y
 $$
 
-It takes an input from \(X\) and always returns an output in \(Y\).
+It takes an input from `X` and always returns an output in `Y`.
 
 If the output is a yes or no verdict, the function becomes a decision procedure:
 
@@ -44,7 +44,7 @@ $$
 d : X \to \{0,1\}
 $$
 
-A predicate \(P\) is decidable exactly when some total Boolean program decides it:
+A predicate `P` is decidable exactly when some total Boolean program decides it:
 
 $$
 \mathrm{Decidable}(P) \Leftrightarrow \exists d \ \forall x \ (d(x)\downarrow \land (d(x)=1 \Leftrightarrow P(x)))
@@ -60,11 +60,11 @@ $$
 
 with:
 
-- \(Q\), a finite set of states,
-- \(\Sigma\), the input alphabet,
-- \(\delta\), the transition rule,
-- \(q_0\), the start state,
-- \(F\), the set of final states.
+- `Q`, a finite set of states,
+- `Σ`, the input alphabet,
+- `δ`, the transition rule,
+- `q0`, the start state,
+- `F`, the set of final states.
 
 For the bounded workflows in this tutorial, decidability means:
 
@@ -128,10 +128,10 @@ A person wants a bounded estimate of the largest calorie deficit that still stay
 
 Let:
 
-- \(w\) = body weight in pounds,
-- \(b\) = body-fat fraction, so \(20\%\) is \(0.20\),
-- \(f\) = fat mass in pounds,
-- \(m\) = maximum deficit in kcal/day.
+- `w` = body weight in pounds,
+- `b` = body-fat fraction, so `20%` is `0.20`,
+- `f` = fat mass in pounds,
+- `m` = maximum deficit in kcal/day.
 
 Then the formulas are:
 
@@ -167,7 +167,7 @@ $$
 \mathrm{MaxDeficit}(w,b,m) \Leftrightarrow m = \lfloor 31.4 \cdot w \cdot b \rfloor
 $$
 
-If a program claims some output \(m\), the checker question is:
+If a program claims some output `m`, the checker question is:
 
 $$
 \mathrm{CorrectClaim}(w,b,m) \Leftrightarrow m = \lfloor 31.4 \cdot w \cdot b \rfloor
@@ -264,7 +264,7 @@ The host or user supplies the claim; Tau validates it.
 
 Because the public teaching lane uses bounded integers, the formula is checked in scaled exact arithmetic.
 
-Body fat is encoded in basis points, so \(20.00\%\) becomes \(2000\).
+Body fat is encoded in basis points, so `20.00%` becomes `2000`.
 Then:
 
 $$
@@ -313,7 +313,7 @@ always
 Reading guide:
 
 1. The `o2` biconditional is the range check. The hex constants decode as: `#x1F4` = 500, `#x2710` = 10000, `#x4E20` = 20000.
-2. The `o1` biconditional is the floor relation. `#x186A0` = 100000, `#x13A` = 314. It checks \(100000 \cdot m_{\mathrm{claim}} \le 314 \cdot w \cdot b_{\mathrm{bps}} < 100000 \cdot (m_{\mathrm{claim}}+1)\).
+2. The `o1` biconditional is the floor relation. `#x186A0` = 100000, `#x13A` = 314. It checks `100000 · m_claim ≤ 314 · w · b_bps < 100000 · (m_claim + 1)`.
 3. The final two disjunctions restrict both outputs to 0 or 1.
 
 <div class="fp-callout fp-callout-note">
@@ -339,7 +339,7 @@ Output: o1 = 1130 kcal/day</code></pre>
 
 The second example is closer to ordinary medicine.
 
-A patient gets a serum creatinine result, for example \(1.1\ \mathrm{mg/dL}\).
+A patient gets a serum creatinine result, for example `1.1 mg/dL`.
 That result is not yet the same thing as a follow-up decision.
 A machine still has to:
 
@@ -357,8 +357,8 @@ $$
 
 with:
 
-- \(\kappa = 0.7\) for females or \(0.9\) for males,
-- \(\alpha = -0.241\) for females or \(-0.302\) for males,
+- `κ = 0.7` for females or `0.9` for males,
+- `α = -0.241` for females or `-0.302` for males,
 - SCr = serum creatinine in mg/dL.
 
 Source:
@@ -369,15 +369,15 @@ Creatinine alone is not enough: the equation depends on age and sex, so the host
 ### A concrete worked example
 
 Assumption K1:
-adult female, age \(55\), serum creatinine \(1.1\ \mathrm{mg/dL}\), using the NIDDK adult 2021 CKD-EPI creatinine equation.
+adult female, age `55`, serum creatinine `1.1 mg/dL`, using the NIDDK adult 2021 CKD-EPI creatinine equation.
 
-For females, \(\kappa = 0.7\) and \(\alpha = -0.241\).
+For females, `κ = 0.7` and `α = -0.241`.
 
 $$
 \mathrm{SCr}/\kappa = 1.1 / 0.7 \approx 1.5714
 $$
 
-Since \(\mathrm{SCr}/\kappa > 1\):
+Since `SCr/κ > 1`:
 
 $$
 \min(\mathrm{SCr}/\kappa,\,1) = 1, \quad \max(\mathrm{SCr}/\kappa,\,1) \approx 1.5714
@@ -395,7 +395,7 @@ $$
 0.9938^{55} \approx 0.7099
 $$
 
-Assembling the equation with the female multiplier \(1.012\):
+Assembling the equation with the female multiplier `1.012`:
 
 $$
 \mathrm{eGFR} = 142 \times 1 \times 0.5893 \times 0.7099 \times 1.012 \approx 59.34
@@ -407,7 +407,7 @@ $$
 \mathrm{KidneyEstimate}(\mathrm{creatinine},\mathrm{age},\mathrm{sex}) = \mathrm{eGFR}
 $$
 
-The National Kidney Foundation's patient-facing guidance also states that an eGFR below \(60\) for three months or more, or an eGFR above \(60\) with kidney damage, can indicate chronic kidney disease. Urine albumin context also matters.
+The National Kidney Foundation's patient-facing guidance also states that an eGFR below `60` for three months or more, or an eGFR above `60` with kidney damage, can indicate chronic kidney disease. Urine albumin context also matters.
 
 Source:
 - [NKF eGFR overview](https://www.kidney.org/kidney-failure-risk-factor-estimated-glomerular-filtration-rate-egfr)
@@ -503,7 +503,7 @@ $$
 a_{\mathrm{watch}}
 $$
 
-Here \(b_{\mathrm{bps}}\) means body-fat percentage encoded in basis points, \(a_{\mathrm{watch}}\) means observe, \(a_{\mathrm{repeat}}\) means repeat the lab, and \(a_{\mathrm{review}}\) means route to human review.
+Here `b_bps` means body-fat percentage encoded in basis points, `a_watch` means observe, `a_repeat` means repeat the lab, and `a_review` means route to human review.
 
 Every input combination reaches exactly one leaf.
 
@@ -613,12 +613,10 @@ Reading guide:
 
 The two examples above already show four recurring shapes. [Tutorial 22]({{ '/tutorials/medical-deciders-mprd-and-tau/' | relative_url }}) develops the full taxonomy; here is the short version with local pointers.
 
-| Shape | Formula | Local example |
-|---|---|---|
-| Calculator | \(f : X \to Y\) | max calorie deficit |
-| Calculator + classifier | \(g(f(x)) \in K\) | creatinine → eGFR → `below_60` band |
-| Classifier + gate | \(\mathrm{Allow}(a,s) \Leftrightarrow P_1(s) \land \dots \land P_n(s)\) | watch / repeat_lab / human_review |
-| Temporal gate | \(\mathrm{Fresh}(x,t) \Leftrightarrow t - \mathrm{time}(x) \le \Delta\) | stale lab → human_review |
+- `Calculator`: `f : X → Y`, local example: max calorie deficit
+- `Calculator + classifier`: `g(f(x)) ∈ K`, local example: creatinine → eGFR → `below_60` band
+- `Classifier + gate`: `Allow(a,s) ⇔ P1(s) ∧ ... ∧ Pn(s)`, local example: watch / repeat_lab / human_review
+- `Temporal gate`: `Fresh(x,t) ⇔ t - time(x) ≤ Δ`, local example: stale lab → human_review
 
 The same shapes appear across many medical workflows: potassium follow-up trees, HbA1c monitoring and retest windows, CBC or anemia follow-up routing, and refill authorization under explicit freshness and identity rules.
 
@@ -743,7 +741,7 @@ $$
 314 \cdot 180 \cdot 2000 = 113{,}040{,}000 < 113{,}100{,}000 = 100000 \cdot 1131
 $$
 
-Both inequalities hold, so \(\mathrm{o1} = 1\).
+Both inequalities hold, so `o1 = 1`.
 
 For the bad claim:
 
@@ -751,7 +749,7 @@ $$
 100000 \cdot 1200 = 120{,}000{,}000 > 113{,}040{,}000 = 314 \cdot 180 \cdot 2000
 $$
 
-The lower bound fails, so \(\mathrm{o1} = 0\). The range check still passes (\(\mathrm{o2} = 1\)) because all three inputs are within bounds.
+The lower bound fails, so `o1 = 0`. The range check still passes (`o2 = 1`) because all three inputs are within bounds.
 
 ### Kidney trace walkthrough
 
@@ -770,21 +768,21 @@ Two cases show how the gate blocks a wrong action class and allows the right one
 | **o1** | **0** | **1** |
 | o2 | 0 | 0 |
 
-In the bad_watch case, the model proposes watch even though eGFR is below 60. The watch branch of the Tau spec has the factor \((1 - \mathrm{i4})\):
+In the `bad_watch` case, the model proposes watch even though eGFR is below 60. The watch branch of the Tau spec has the factor `1 - i4`:
 
 $$
 1 - 1 = 0
 $$
 
-That zero kills the entire watch product, so \(\mathrm{o1} = 0\). The gate denies the action.
+That zero kills the entire watch product, so `o1 = 0`. The gate denies the action.
 
-In the repeat_ok case, the model instead proposes repeat_lab. The repeat branch has the factor \(\mathrm{i4}\):
+In the `repeat_ok` case, the model instead proposes `repeat_lab`. The repeat branch has the factor `i4`:
 
 $$
 \mathrm{i4} = 1
 $$
 
-All other factors in the repeat product are also 1, so \(\mathrm{o1} = 1\). The gate allows the action.
+All other factors in the repeat product are also 1, so `o1 = 1`. The gate allows the action.
 
 ## Part IX: interactive lab
 

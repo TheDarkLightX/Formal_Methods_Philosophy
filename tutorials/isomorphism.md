@@ -105,7 +105,7 @@ Formally, fix a *signature* (the operations and relations in view). A structure 
 - interpretations of the signature's relation symbols on $|A|$,
 - and (optionally) constants.
 
-An **isomorphism** $f : |A| \to |B|$ between structures $A$ and $B$ (with the same signature) is a bijection such that:
+An **isomorphism** `f : |A| → |B|` between structures `A` and `B` (with the same signature) is a bijection such that:
 
 - for every operation $op$, $f(op_A(a_1,\dots,a_n)) = op_B(f(a_1),\dots,f(a_n))$,
 - for every relation $R$, $R_A(a_1,\dots,a_n)$ holds iff $R_B(f(a_1),\dots,f(a_n))$ holds,
@@ -139,7 +139,7 @@ One way to make this precise is to name a function:
 
 - Concrete states live in a big space $C$.
 - Abstract states live in a smaller space $A$.
-- An abstraction is a map $\alpha : C \to A$.
+- An abstraction is a map `α : C → A`.
 
 In general, $\alpha$ is many-to-one. Different concrete states collapse to the same abstract state.
 That is not a bug. It is the point: the abstraction forgets what does not matter for the property in view.
@@ -196,7 +196,7 @@ These lenses are related, but not always by literal isomorphisms. The relationsh
 A finite-state machine can be written in at least three ways that are "the same" up to a choice of naming/ordering:
 
 - as a directed graph (states as nodes, transitions as edges),
-- as a transition function $\delta : S \times \Sigma \to S$,
+- as a transition function `δ : S × Σ → S`,
 - as an adjacency matrix (after choosing an ordering of the states).
 
 Each representation is just a different way of storing the same structure.
@@ -291,16 +291,16 @@ For intuitionistic propositional logic and the simply typed lambda calculus, com
 
 | Logic | Types (programming) | Meaning as a construction |
 |---|---|---|
-| $A \land B$ | product `A × B` | a pair: "I have an `A` and a `B`" |
-| $A \lor B$ | sum `Either A B` | a tagged choice: "left with `A` or right with `B`" |
-| $A \to B$ | function `A → B` | a function that turns evidence for `A` into evidence for `B` |
+| `A ∧ B` | product `A × B` | a pair: "I have an `A` and a `B`" |
+| `A ∨ B` | sum `Either A B` | a tagged choice: "left with `A` or right with `B`" |
+| `A → B` | function `A → B` | a function that turns evidence for `A` into evidence for `B` |
 | `True` | `Unit` | trivial evidence |
 | `False` | `Void` | impossible evidence |
 
 One consequence is a very practical transfer trick:
 if a program inhabits a certain type, then (in the corresponding logic) it is a proof of the corresponding proposition, and vice versa.
 
-Example: the logical theorem $A \land B \to B \land A$ corresponds to the program that swaps a pair:
+Example: the logical theorem `A ∧ B → B ∧ A` corresponds to the program that swaps a pair:
 
 ```
 swap : (A × B) → (B × A)
@@ -448,7 +448,7 @@ In lock-based concurrency, deadlock is a pattern of circular waiting.
 Thread A waits for something held by thread B, thread B waits for something held by thread C, and eventually some thread waits for something held by A.
 
 That situation can be captured as a directed "wait-for" graph.
-Vertices represent threads. An edge $A \to B$ means A is waiting for B.
+Vertices represent threads. An edge `A → B` means A is waiting for B.
 
 In that model, a deadlock corresponds to a directed cycle.
 Once the problem is phrased as "is there a cycle?", graph algorithms apply immediately.

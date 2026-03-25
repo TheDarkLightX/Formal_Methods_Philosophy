@@ -159,7 +159,7 @@ $$
 
 is always true, it is enough to check the two possible assignments:
 
-| $P$ | $\neg P$ | $P \lor \neg P$ |
+| `P` | `¬P` | `P ∨ ¬P` |
 |---|---|---|
 | T | F | T |
 | F | T | T |

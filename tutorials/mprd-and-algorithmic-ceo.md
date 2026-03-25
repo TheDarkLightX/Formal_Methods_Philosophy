@@ -138,11 +138,11 @@ Each invariant has the same logical shape: **trigger condition => required conse
 
 | Notation | Read as | Role in this section |
 |---|---|---|
-| $\forall p, s, a$ | for every policy, state, action | universal scope |
-| $\Rightarrow$ | implies, if ... then | obligation |
-| $\land$ | both must hold | conjunction |
-| $\Box$ | always, at every step | temporal safety |
-| $\in$ | belongs to set | status membership |
+| `∀ p, s, a` | for every policy, state, action | universal scope |
+| `⇒` | implies, if ... then | obligation |
+| `∧` | both must hold | conjunction |
+| `□` | always, at every step | temporal safety |
+| `∈` | belongs to set | status membership |
 
 Name legend:
 
@@ -397,7 +397,7 @@ $$
 p_{\mathrm{total}} + c_{\mathrm{reserve}} = o_{\mathrm{pool}}
 $$
 
-Here \(p_{\mathrm{total}}\) is the payout total, \(c_{\mathrm{reserve}}\) is the carry sent back to reserve, and \(o_{\mathrm{pool}}\) is the original operations-payroll pool.
+Here `p_total` is the payout total, `c_reserve` is the carry sent back to reserve, and `o_pool` is the original operations-payroll pool.
 
 If any invariant fails, the rail returns an `InvariantCounterexampleV6` containing the violation ID, the step index, the state hash, and the full action trace.
 

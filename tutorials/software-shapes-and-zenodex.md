@@ -164,7 +164,7 @@ $$
 \sigma = (\text{state}, \; \text{authorized}, \; \text{choice}, \; r_{\mathrm{ok}}, \; \text{delivered})
 $$
 
-Here \(r_{\mathrm{ok}}\) means the execution resource check passed.
+Here `r_ok` means the execution resource check passed.
 
 For the shared archetype from Part I, the abstract state set is:
 
@@ -265,10 +265,10 @@ These abstract invariants instantiate into concrete rules for each machine:
 
 | Machine | Invariant instance |
 |---|---|
-| **Arcade** | $\text{StartPressed} \rightarrow \text{credit} > 0$ |
-| **ATM** | $\text{cashDispensed} \rightarrow (\text{authenticated} \wedge \text{fundsApproved})$ |
-| **Elevator** | $\text{moving} \rightarrow \text{doorsClosed}$ |
-| **Vending** | $\text{vend} \rightarrow (\text{credit} \ge \text{price}(\text{choice}) \wedge \text{stocked}(\text{choice}))$ |
+| **Arcade** | `StartPressed → credit > 0` |
+| **ATM** | `cashDispensed → (authenticated ∧ fundsApproved)` |
+| **Elevator** | `moving → doorsClosed` |
+| **Vending** | `vend → (credit ≥ price(choice) ∧ stocked(choice))` |
 
 The distinction between `Authorized` and `ChoiceReady` is deliberate. In many real systems, passing the gate and exposing the usable control surface are not the same event. At an ATM, the card and PIN may be accepted before the menu finishes rendering. In a vending machine, credit may register before the machine confirms which slots are available. Keeping those phases separate makes the shape more precise without making it large.
 
@@ -422,7 +422,7 @@ K_{\text{before}} = r_{\mathrm{in}} \cdot r_{\mathrm{out}}
 K_{\text{after}} = (r_{\mathrm{in}} + a_{\mathrm{in}})\cdot(r_{\mathrm{out}} - a_{\mathrm{out}})
 $$
 
-Here \(a_{\mathrm{in}}\) and \(a_{\mathrm{out}}\) are input and output amounts, \(f_{\mathrm{bps}}\) is the fee rate in basis points, \(f_{\mathrm{total}}\) is the rounded fee, \(n_{\mathrm{in}}\) is net input, and \(r_{\mathrm{in}}, r_{\mathrm{out}}\) are reserves.
+Here `a_in` and `a_out` are input and output amounts, `f_bps` is the fee rate in basis points, `f_total` is the rounded fee, `n_in` is net input, and `r_in`, `r_out` are reserves.
 
 This is not merely "swap code." It is a shape clause: valid swaps must preserve or increase the protected reserve product.
 

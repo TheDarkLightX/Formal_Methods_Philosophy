@@ -186,16 +186,16 @@ Logic notation can look alien on first contact. This reference card covers every
 
 | Symbol | Name | Read as | Example |
 |---|---|---|---|
-| $\forall$ | Universal quantifier | "for every" | $\forall x.\; x + 0 = x$ |
-| $\exists$ | Existential quantifier | "there exists" | $\exists x.\; x + x = S(S(0))$ |
-| $\rightarrow$ | Implication | "if … then" | $S(x) = S(y) \rightarrow x = y$ |
-| $\wedge$ | Conjunction | "and" | $\varphi(0) \wedge \forall x.(\varphi(x) \rightarrow \varphi(S(x)))$ |
-| $\vee$ | Disjunction | "or" | $P \vee Q$ |
-| $\neg$ | Negation | "not" | $\neg(S(x) = 0)$ |
-| $S(x)$ | Successor | "the number after $x$" | $S(0) = 1$ |
-| $0$ | Zero | "zero" | The starting point |
-| $+$ | Addition | "plus" | $x + S(y) = S(x + y)$ |
-| $=$ | Equality | "equals" | $S(S(0)) + S(0) = S(S(S(0)))$ |
+| `∀` | Universal quantifier | "for every" | `∀x. x + 0 = x` |
+| `∃` | Existential quantifier | "there exists" | `∃x. x + x = S(S(0))` |
+| `→` | Implication | "if … then" | `S(x) = S(y) → x = y` |
+| `∧` | Conjunction | "and" | `φ(0) ∧ ∀x.(φ(x) → φ(S(x)))` |
+| `∨` | Disjunction | "or" | `P ∨ Q` |
+| `¬` | Negation | "not" | `¬(S(x) = 0)` |
+| `S(x)` | Successor | "the number after x" | `S(0) = 1` |
+| `0` | Zero | "zero" | The starting point |
+| `+` | Addition | "plus" | `x + S(y) = S(x + y)` |
+| `=` | Equality | "equals" | `S(S(0)) + S(0) = S(S(S(0)))` |
 
 ### How to read a formula aloud
 
@@ -345,13 +345,13 @@ This expressiveness matters because the decision procedure reduces every Presbur
 
 | Sentence | English | True? |
 |---|---|---|
-| $\forall x.\; x + 0 = x$ | Zero is an additive identity | Yes (Axiom 3) |
-| $\exists x.\; x + x = S(S(S(S(0))))$ | Is 4 even? | Yes ($x = 2$) |
-| $\exists x.\; x + x = S(S(S(0)))$ | Is 3 even? | No |
-| $\exists x.\; S(x) = 0$ | Is 0 a successor? | No (Axiom 1) |
-| $\forall x.\;\exists y.\; x = y + y \;\vee\; x = S(y + y)$ | Every number is even or odd | Yes |
-| $\forall x.\;\exists y.\; x + y = S(S(S(S(S(0)))))$ | Can every number reach 5? | No ($x = 6$ fails) |
-| $\exists x.\;\exists y.\; S(S(S(0))) + x = y + y$ | Is some number ≥ 3 even? | Yes ($x = 1$, $y = 2$) |
+| `∀x. x + 0 = x` | Zero is an additive identity | Yes (Axiom 3) |
+| `∃x. x + x = S(S(S(S(0))))` | Is 4 even? | Yes (`x = 2`) |
+| `∃x. x + x = S(S(S(0)))` | Is 3 even? | No |
+| `∃x. S(x) = 0` | Is 0 a successor? | No (Axiom 1) |
+| `∀x. ∃y. x = y + y ∨ x = S(y + y)` | Every number is even or odd | Yes |
+| `∀x. ∃y. x + y = S(S(S(S(S(0)))))` | Can every number reach 5? | No (`x = 6` fails) |
+| `∃x. ∃y. S(S(S(0))) + x = y + y` | Is some number ≥ 3 even? | Yes (`x = 1`, `y = 2`) |
 
 Every one of these questions has a definite, algorithmically computable answer. That is decidability.
 
@@ -395,17 +395,17 @@ Presburger arithmetic avoids all three of these. Its completeness and decidabili
 
 ## Part VII: the boundary, and what multiplication destroys
 
-The difference between Presburger and Peano arithmetic is exactly one operation: $\times$.
+The difference between Presburger and Peano arithmetic is exactly one operation: `×`.
 
-| Feature | Presburger ($0, S, +$) | Peano ($0, S, +, \times$) |
+| Feature | Presburger (`0, S, +`) | Peano (`0, S, +, ×`) |
 |---|---|---|
 | Complete | Yes | No (Gödel) |
 | Decidable | Yes | No |
 | Can express primality | No | Yes |
 | Can encode computation | No | Yes |
-| Induction scope | Formulas in $\{0, S, +\}$ | All first-order formulas |
+| Induction scope | Formulas in `{0, S, +}` | All first-order formulas |
 
-The loss of decidability is not gradual. It is a sharp boundary. The moment you can write $x \times y = z$ as a formula, you can encode arbitrary computation, and the halting problem infects the theory.
+The loss of decidability is not gradual. It is a sharp boundary. The moment a formula can write `x × y = z`, it can encode arbitrary computation, and the halting problem infects the theory.
 
 To see the boundary concretely, consider primality. In Peano arithmetic, "$x$ is prime" is expressible:
 
@@ -550,10 +550,10 @@ There is a deep correspondence between logic and computation discovered independ
 |---|---|
 | Proposition | Type |
 | Proof | Program |
-| $A \rightarrow B$ | Function from $A$ to $B$ |
-| $A \wedge B$ | Pair $(A, B)$ |
-| $\exists x.\,\varphi(x)$ | A pair: the witness $x$ and a proof that $\varphi(x)$ holds |
-| $\forall x.\,\varphi(x)$ | A function that, given any $x$, produces a proof of $\varphi(x)$ |
+| `A → B` | Function from `A` to `B` |
+| `A ∧ B` | Pair `(A, B)` |
+| `∃x. φ(x)` | A pair: the witness `x` and a proof that `φ(x)` holds |
+| `∀x. φ(x)` | A function that, given any `x`, produces a proof of `φ(x)` |
 
 Under this correspondence:
 

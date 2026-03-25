@@ -97,7 +97,7 @@ This principle maps directly to bounded medical workflows.
 </figure>
 
 Assumption A:
-An institution has a versioned guideline or policy artifact \(G\), a trusted fact-extraction layer \(E\), and a bounded action menu \(A\).
+An institution has a versioned guideline or policy artifact `G`, a trusted fact-extraction layer `E`, and a bounded action menu `A`.
 
 Then the medical MPRD pipeline can be written as:
 
@@ -136,20 +136,18 @@ This is much closer to **doctor-like micro-workflows** than to full-scale medica
 
 The formulas above use a small vocabulary repeatedly.
 
-| Symbol | Meaning |
-|---|---|
-| \(G\) | governing policy or guideline artifact |
-| \(\mathrm{Facts}\) | structured facts extracted from chart, labs, and provenance |
-| \(a\) | one proposed action |
-| \(a_{\mathrm{exec}}\) | the action that actually gets executed |
-| \(b\) | an execution bundle |
-| \(\mathrm{Candidates}\) | bounded action menu proposed by the model |
-| \(\mathrm{Allowed}(G,\mathrm{Facts},a)\) | policy says action \(a\) is allowed |
-| \(\mathrm{Sel}(G,\mathrm{Facts},\mathrm{Candidates})\) | deterministic selector returns one action |
-| \(r\) | registry or execution state tracked by the executor |
-| \(\Rightarrow\) | implication, read as "if ... then ..." |
-| \(\land\) | conjunction, read as "and" |
-| \(a \in \mathrm{Candidates}\) | the selected action actually comes from the candidate set |
+- `G`: governing policy or guideline artifact
+- `Facts`: structured facts extracted from chart, labs, and provenance
+- `a`: one proposed action
+- `a_exec`: the action that actually gets executed
+- `b`: an execution bundle
+- `Candidates`: bounded action menu proposed by the model
+- `Allowed(G, Facts, a)`: policy says action `a` is allowed
+- `Sel(G, Facts, Candidates)`: deterministic selector returns one action
+- `r`: registry or execution state tracked by the executor
+- `⇒`: implication, read as "if ... then ..."
+- `∧`: conjunction, read as "and"
+- `a ∈ Candidates`: the selected action actually comes from the candidate set
 
 The important separation is:
 
@@ -268,7 +266,7 @@ $$
 \neg \mathrm{Allow}(G,s,a_{\mathrm{auto}})
 $$
 
-Here \(a_{\mathrm{review}}\) denotes the human-review action, and \(a_{\mathrm{auto}}\) denotes an automatic execution action.
+Here `a_review` denotes the human-review action, and `a_auto` denotes an automatic execution action.
 
 This is the core fail-closed guarantee.
 
@@ -334,7 +332,7 @@ $$
 \mathrm{OneHot}(s) \land \neg \mathrm{AutoPlanOpen}(s)
 $$
 
-Here \(a_{\mathrm{plan}}\) is the publish-plan action, and \(a_{\mathrm{escalate}}\) is the human-escalation action.
+Here `a_plan` is the publish-plan action, and `a_escalate` is the human-escalation action.
 
 The lesson here is not about nutrition but about architecture:
 the model cannot publish merely because it made a proposal.
@@ -377,7 +375,7 @@ $$
 \mathrm{HumanReviewRequired}(s)
 $$
 
-The action names are \(a_{\mathrm{watch}}\) for observe, \(a_{\mathrm{repeat}}\) for repeat the lab, and \(a_{\mathrm{review}}\) for route to human review.
+The action names are `a_watch` for observe, `a_repeat` for repeat the lab, and `a_review` for route to human review.
 
 These are simplified examples, but the underlying pattern is genuine.
 Many guideline pathways reduce to exactly this pattern once the structured facts are extracted.
@@ -404,7 +402,7 @@ $$
 \mathrm{OneHot}(s) \land \neg \mathrm{AutoRefillOpen}(s)
 $$
 
-Here \(a_{\mathrm{hold}}\) means hold the refill and route it to review. Again, the safe fallback is explicit.
+Here `a_hold` means hold the refill and route it to review. Again, the safe fallback is explicit.
 
 ## Part VII: what the Tau traces show
 
