@@ -255,4 +255,14 @@ show_title: false
       logic, a decision tree, a finite-state machine, ordinary code, and a downloadable Tau spec.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/rices-theorem-and-consciousness/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 24: Consciousness, computationalism, and Rice's theorem</h2>
+    <p class="fp-card-text">
+      Make one controversial argument precise: if consciousness is a nontrivial semantic property of computation,
+      then no general Turing-machine detector can decide it from arbitrary program descriptions.
+    </p>
+  </a>
 </div>
