@@ -62,6 +62,8 @@ The same symbols recur throughout the page.
 - `Σ*` is the set of all finite transcripts over some alphabet `Σ`.
 - `Trace_{Π,k}(p)` is the transcript produced by running protocol `Π` for `k` steps against program `p`.
 - `R` is a transcript classifier.
+- `F` is a restricted family of programs.
+- `Score_{Π,k}(p)` is a heuristic or evidential score derived from the transcript.
 
 Read it slowly:
 
@@ -387,9 +389,37 @@ This is the correct formal lesson:
 
 > No fixed computable pipeline that maps bounded transcripts, self-reports, or output traces to a perfect yes-or-no consciousness verdict can be universally correct on arbitrary programs, if consciousness is a nontrivial semantic property of computation.
 
-That still leaves room for weaker claims.
+That still leaves room for weaker claims, and it helps to separate them cleanly.
 
-A transcript classifier might still be:
+### Three levels of claim
+
+Level 1, ruled out by the theorem:
+
+$$
+\forall p \in \mathbb{N}\;
+\bigl(R(Trace_{\Pi,k}(p)) = Conscious(\llbracket p \rrbracket)\bigr)
+$$
+
+This is the universal perfect detector claim. Under the theorem's assumptions, it fails.
+
+Level 2, not ruled out:
+
+$$
+\exists F \subsetneq \mathbb{N}\; \forall p \in F\;
+\bigl(R(Trace_{\Pi,k}(p)) = Conscious(\llbracket p \rrbracket)\bigr)
+$$
+
+This says the detector works on some restricted family `F`, not on all possible programs. Rice does not forbid that.
+
+Level 3, also not ruled out:
+
+$$
+Score_{\Pi,k}(p) := R(Trace_{\Pi,k}(p)) \in [0,1]
+$$
+
+This is not a proof-producing detector at all. It is an empirical score, ranking, or evidential signal.
+
+So a transcript classifier might still be:
 
 - a heuristic,
 - a restricted-domain predictor,
@@ -397,6 +427,38 @@ A transcript classifier might still be:
 - or an empirical correlate on a narrow family of systems.
 
 Rice blocks the universal perfect detector, not every possible empirical research program.
+
+### Self-report is not the same as experience
+
+For example, define a simple transcript-level predicate:
+
+$$
+SaysAfraid_{\Pi,k}(p)
+$$
+
+to mean the bounded transcript contains claims like "I am afraid" or "I feel anxious".
+
+That transcript predicate is not the same thing as a phenomenal predicate such as:
+
+$$
+Fear_x(\llbracket p \rrbracket)
+$$
+
+In general, neither of these implications follows from Rice's theorem alone:
+
+$$
+SaysAfraid_{\Pi,k}(p) \rightarrow Fear_x(\llbracket p \rrbracket)
+$$
+
+$$
+Fear_x(\llbracket p \rrbracket) \rightarrow SaysAfraid_{\Pi,k}(p)
+$$
+
+So the careful reading is:
+
+- transcript analysis may reveal linguistic dispositions, self-models, or behavior patterns,
+- transcript analysis may contribute evidence inside a broader empirical theory,
+- but transcript analysis does not become a universal perfect detector merely because the transcript is emotionally vivid.
 
 The same point applies to affective labels such as fear or anxiety.
 
