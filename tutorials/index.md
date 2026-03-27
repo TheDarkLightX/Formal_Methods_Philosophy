@@ -262,7 +262,7 @@ show_title: false
     <h2 class="fp-card-title">Tutorial 24: Consciousness, computationalism, and Rice's theorem</h2>
     <p class="fp-card-text">
       Make one controversial argument precise: if consciousness is a nontrivial semantic property of computation,
-      then no general Turing-machine detector can decide it from arbitrary program descriptions.
+      then no general Turing-machine detector can decide it from arbitrary encodings of programs.
     </p>
   </a>
 </div>

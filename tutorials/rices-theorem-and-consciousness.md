@@ -2,7 +2,7 @@
 title: "Consciousness, computationalism, and Rice's theorem"
 layout: docs
 kicker: Tutorial 24
-description: "A scoped formal argument: if consciousness is a nontrivial semantic property of computation, then no general Turing-machine detector can decide it from arbitrary program descriptions."
+description: "A scoped formal argument: if consciousness is a nontrivial semantic property of computation, then no general Turing-machine detector can decide it from arbitrary encodings of programs, such as source text, bytecode, or machine descriptions."
 ---
 
 This tutorial explains one precise argument:
@@ -23,16 +23,20 @@ This page separates:
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Assumption Hygiene</p>
   <ul>
-    <li><strong>Scope A:</strong> the formal argument here is about program descriptions and the partial computable functions they denote.</li>
+    <li><strong>Scope A:</strong> the formal argument here is about encodings of programs, for example source text, bytecode, or Turing-machine descriptions, and the partial computable functions they denote.</li>
     <li><strong>Scope B:</strong> the theorem targets a <em>general perfect detector</em>, not weaker empirical indicators, heuristics, or restricted-domain classifiers.</li>
     <li><strong>Scope C:</strong> "consciousness" is treated here as a formal predicate only under the explicit assumptions below. The theorem does not establish that such a predicate exists in the actual world.</li>
     <li><strong>Scope D:</strong> if a theory of consciousness depends on embodiment, substrate, causal topology, resource bounds, or interaction history in a way not captured by function semantics, Rice's theorem does not directly apply.</li>
   </ul>
 </div>
 
-## Part I: the target claim
+## Part I: the question
 
-The target conclusion is:
+The starting question is:
+
+> Can there be a general algorithm which takes an encoding of any program, for example source text, bytecode, or a machine description, and correctly decides whether that program is conscious?
+
+Under the assumptions below, the conclusion will be no. The derived conclusion is:
 
 $$
 \neg \exists D \in TM \; \forall p \in \mathbb{N}\;
@@ -60,7 +64,7 @@ Read it slowly:
 - `⟦p⟧` is the partial computable function computed by `p`,
 - `Conscious(⟦p⟧)` means that function has the target property,
 - `D` is a supposed detector,
-- the formula says no Turing machine `D` correctly decides the property for every program.
+- the formula says no Turing machine `D` correctly decides the property for every program encoding.
 
 This is a statement of **undecidability**.
 
@@ -73,7 +77,9 @@ It does **not** say:
 
 It says something narrower and sharper:
 
-> there is no total general algorithm that decides the property from arbitrary program descriptions, under the assumptions below.
+> there is no total general algorithm that decides the property from arbitrary encodings of programs, for example source text, bytecode, or machine descriptions, under the assumptions below.
+
+That is different from saying something about finite outputs, chat transcripts, or self-reports. A program encoding names the whole program. A transcript is only one finite observation of its behavior.
 
 ## Part II: Rice's theorem
 
@@ -334,7 +340,7 @@ Those do not follow from Rice's theorem alone.
 
 The correct consequence is:
 
-> Any theory of consciousness that is simultaneously computationalist, semantic in the Rice sense, and nontrivial is committed to the impossibility of a general perfect consciousness detector over arbitrary program descriptions.
+> Any theory of consciousness that is simultaneously computationalist, semantic in the Rice sense, and nontrivial is committed to the impossibility of a general perfect consciousness detector over arbitrary encodings of programs.
 
 That is a real theoretical burden.
 
