@@ -57,6 +57,11 @@ The same symbols recur throughout the page.
 - `∀` means "for every".
 - `¬` means "not".
 - `↔` means "if and only if".
+- `Π` is a fixed interrogation protocol.
+- `k` is a bounded number of interaction steps.
+- `Σ*` is the set of all finite transcripts over some alphabet `Σ`.
+- `Trace_{Π,k}(p)` is the transcript produced by running protocol `Π` for `k` steps against program `p`.
+- `R` is a transcript classifier.
 
 Read it slowly:
 
@@ -336,7 +341,93 @@ So one must be careful with stronger slogans like:
 
 Those do not follow from Rice's theorem alone.
 
-## Part IX: the correct philosophical consequence
+## Part IX: what about researchers analyzing LLM outputs?
+
+This is the practical case many readers care about.
+
+Suppose a researcher does not inspect source code directly. Instead, the researcher runs a fixed interrogation protocol, collects a transcript, and then feeds that transcript into a classifier.
+
+Write:
+
+$$
+Trace_{\Pi,k} : \mathbb{N} \to \Sigma^\ast
+$$
+
+for a computable procedure that, given a program index `p`, runs protocol `Π` for `k` bounded interaction steps and returns a finite transcript, and write:
+
+$$
+R : \Sigma^\ast \to \mathbf{2}
+$$
+
+for a computable transcript classifier.
+
+If someone claimed this transcript-analysis pipeline were a perfect general detector, the claim would be:
+
+$$
+\forall p \in \mathbb{N}\;
+\bigl(R(Trace_{\Pi,k}(p)) = Conscious(\llbracket p \rrbracket)\bigr)
+$$
+
+But then one could define:
+
+$$
+D(p) := R(Trace_{\Pi,k}(p))
+$$
+
+and obtain:
+
+$$
+\forall p \in \mathbb{N}\;
+\bigl(D(p) = Conscious(\llbracket p \rrbracket)\bigr)
+$$
+
+So any total computable perfect detector from bounded transcripts would immediately induce a total computable perfect detector from program encodings. Under the assumptions of the theorem, that is impossible.
+
+This is the correct formal lesson:
+
+> No fixed computable pipeline that maps bounded transcripts, self-reports, or output traces to a perfect yes-or-no consciousness verdict can be universally correct on arbitrary programs, if consciousness is a nontrivial semantic property of computation.
+
+That still leaves room for weaker claims.
+
+A transcript classifier might still be:
+
+- a heuristic,
+- a restricted-domain predictor,
+- a tool for ranking hypotheses,
+- or an empirical correlate on a narrow family of systems.
+
+Rice blocks the universal perfect detector, not every possible empirical research program.
+
+The same point applies to affective labels such as fear or anxiety.
+
+Suppose, for a fixed kind of episode or prompt context `x`, one writes a property:
+
+$$
+Fear_x : (\mathbb{N} \rightharpoonup \mathbb{N}) \to \mathbf{2}
+$$
+
+or
+
+$$
+Anxiety_x : (\mathbb{N} \rightharpoonup \mathbb{N}) \to \mathbf{2}
+$$
+
+If either property is treated as semantic and nontrivial, then the same Rice-style conclusion follows:
+
+$$
+\mathrm{Semantic}(Fear_x)
+\land
+\mathrm{NonTrivial}(Fear_x)
+\rightarrow
+\neg \exists D \in TM\; \forall p \in \mathbb{N}\;
+\bigl(D(p)=1 \leftrightarrow Fear_x(\llbracket p \rrbracket)\bigr)
+$$
+
+and likewise for `Anxiety_x`.
+
+So a transcript containing lines like "I am scared" or "I feel anxious" may be observationally interesting, but it cannot by itself become a universal perfect detector of genuine fear, anxiety, or consciousness.
+
+## Part X: the correct philosophical consequence
 
 The correct consequence is:
 
@@ -354,7 +445,7 @@ It does **not** mean the theory is false.
 
 It means the theory comes with an undecidability consequence.
 
-## Part X: the shortest final statement
+## Part XI: the shortest final statement
 
 The shortest theorem-level summary is:
 
