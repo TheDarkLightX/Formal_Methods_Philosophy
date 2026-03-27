@@ -35,6 +35,8 @@ The strongest bounded results in this repo support a careful claim:
 
 That is a conditional claim.
 
+Every exact compiler reported below is exact on a bounded frontier or corpus that is named in the corresponding experiment.
+
 It does not say every verifier will compile cheaply.
 
 It does not say the compiled object should replace the exact verifier.
@@ -313,7 +315,7 @@ This tutorial should not be read as claiming:
 
 - every neuro-symbolic loop should become a verifier-compiler loop,
 - every verifier has a tiny quotient,
-- or verifier compilation is always more valuable than plain CEGIS.
+- or verifier compilation will outperform plain CEGIS in every domain.
 
 There are important failure modes.
 
