@@ -2,7 +2,7 @@
 title: "Neuro-symbolic reasoning and witness spaces"
 layout: docs
 kicker: Tutorial 20
-description: LLMs can propose patterns, proofs, tests, abstractions, and repairs. Symbolic methods decide what those proposals mean and which ones survive.
+description: LLMs search the existential side of hard problems by proposing witnesses, designs, tests, and repairs. Symbolic methods enforce the universal side by checking what survives for all relevant cases.
 ---
 
 This tutorial is about the cleanest way to think about pairing a language model with symbolic methods:
@@ -13,9 +13,13 @@ This tutorial is about the cleanest way to think about pairing a language model 
 
 That is the heart of neuro-symbolic reasoning.
 
-The working slogan is:
+The working slogans are:
 
 > LLMs are priors over candidate structure. Symbolic methods are truth filters over semantics.
+
+and:
+
+> Creativity belongs on the existential side. Trust belongs on the universal side.
 
 This page makes that precise in formulas, pushes it as deep as it will go, and marks where it stops.
 
@@ -97,7 +101,65 @@ $$
 
 The neuro-symbolic pair is a direct instantiation. The LLM populates $U$ by choosing which witnesses to propose. The checker defines $B$ by deciding which proposals are semantically invalid. The combined system searches for witnesses that survive both: proposed by the model, accepted by the checker.
 
-## Part I.5: a worked example
+## Part I.5: existential engines and universal verifiers
+
+The shortest high-leverage reading is this:
+
+$$
+\text{LLM} = \exists\text{-engine}
+\qquad
+\text{formal tool} = \forall\text{-verifier}
+$$
+
+Many useful tasks have one of these shapes:
+
+$$
+\exists x\; \mathrm{Witness}(x)
+$$
+
+$$
+\neg \exists c\; \mathrm{Counterexample}(c)
+$$
+
+$$
+\exists x\; \forall y\; \mathrm{Spec}(x,y)
+$$
+
+The first is pure existential search. The second is universal correctness phrased as absence of a counterexample. The third is the mixed design shape that matters most in engineering.
+
+Read
+
+$$
+\exists x\; \forall y\; \mathrm{Spec}(x,y)
+$$
+
+as:
+
+- there exists a candidate design, proof, program, invariant, policy, or parameter vector `x`,
+- such that for every relevant case, attack, input, execution, or environment move `y`,
+- the specification still holds.
+
+This is where the division of labor becomes especially valuable:
+
+- the LLM searches for `x`,
+- the formal tool checks the `∀y` side,
+- if the check fails, it returns a witness `y` that drives the next refinement.
+
+So the practical loop is:
+
+$$
+\text{propose } x
+\;\to\;
+\text{check } \forall y\; \mathrm{Spec}(x,y)
+\;\to\;
+\text{get counterexample } y
+\;\to\;
+\text{refine } x
+$$
+
+That is the deepest operational meaning of "neuro-symbolic" in this tutorial. The model is strongest on the existential side, where search, reformulation, and creativity matter. The symbolic side is strongest on the universal side, where trust must survive adversarial and edge-case pressure.
+
+## Part I.75: a worked example
 
 Make it concrete. Consider a small satisfiability problem:
 

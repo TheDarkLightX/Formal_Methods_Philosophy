@@ -221,7 +221,7 @@ show_title: false
   >
     <h2 class="fp-card-title">Tutorial 20: Neuro-symbolic reasoning and witness spaces</h2>
     <p class="fp-card-text">
-      Treat LLMs as proposal priors and symbolic methods as semantic judges, then map proof search,
+      Treat LLMs as existential engines and symbolic methods as universal verifiers, then map proof search,
       counterexample search, synthesis, experiment design, and coverage limits in one formula family.
     </p>
   </a>
