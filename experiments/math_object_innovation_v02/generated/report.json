@@ -1,0 +1,38 @@
+{
+  "discovery_domain": "obligation-targeted witness routing on exhaustive 4x4 boolean relations",
+  "exhaustive_4x4": {
+    "first_opt_failure": null,
+    "pair_matches_opt_checks": 45392,
+    "pair_matches_opt_steps": 65536,
+    "pair_matches_route": 65536,
+    "relation_count": 65536
+  },
+  "holdout_5x5": [
+    {
+      "density": 0.3,
+      "pair_matches_opt_checks": 799,
+      "pair_matches_opt_steps": 1000,
+      "pair_matches_route": 1000,
+      "trials": 1000
+    },
+    {
+      "density": 0.5,
+      "pair_matches_opt_checks": 628,
+      "pair_matches_opt_steps": 1000,
+      "pair_matches_route": 1000,
+      "trials": 1000
+    },
+    {
+      "density": 0.7,
+      "pair_matches_opt_checks": 607,
+      "pair_matches_opt_steps": 1000,
+      "pair_matches_route": 1000,
+      "trials": 1000
+    }
+  ],
+  "holdout_domain": "random 5x5 boolean relations",
+  "oracle_dependent": false,
+  "strongest_claim": "The closure-guided coupled policy factors exactly into an obligation-only controller plus a witness router. On exhaustive 4x4 domains, that routed controller preserves the full coupled-policy behavior, and the induced policy remains exact-optimal for total steps, though not for total checks, against the unrestricted obligation-only optimum.",
+  "survivor": "obligation-targeted witness routing",
+  "tier": "descriptive_oracle"
+}

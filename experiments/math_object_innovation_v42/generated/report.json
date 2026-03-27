@@ -1,0 +1,220 @@
+{
+  "all_feasible_partitions": [
+    {
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "region_count": 5,
+      "total_cost": 23
+    },
+    {
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10
+        ],
+        [
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "region_count": 6,
+      "total_cost": 27
+    }
+  ],
+  "atom_count": 576,
+  "best_partition": [
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      12
+    ]
+  ],
+  "best_region_count": 5,
+  "best_region_summaries": [
+    {
+      "cost": 4,
+      "default_label": "(0, 0, 0, 0)",
+      "label_count": 5,
+      "language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ]
+      },
+      "row_count": 5,
+      "scores": [
+        7
+      ]
+    },
+    {
+      "cost": 5,
+      "default_label": "(0, 0, 0, 0)",
+      "label_count": 5,
+      "language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[6] and err[9]",
+          "err[3] and err[9]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] AND err[10] AND err[12] and not err[9]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+        ]
+      },
+      "row_count": 18,
+      "scores": [
+        8
+      ]
+    },
+    {
+      "cost": 8,
+      "default_label": "(1, 0, 1, 0)",
+      "label_count": 8,
+      "language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "not err[8] and not err[12]",
+          "err[6] and err[9] and not err[10]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ]
+      },
+      "row_count": 10,
+      "scores": [
+        9
+      ]
+    },
+    {
+      "cost": 5,
+      "default_label": "(1, 0, 1, 1)",
+      "label_count": 6,
+      "language": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 1, 0, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "row_count": 12,
+      "scores": [
+        10,
+        11
+      ]
+    },
+    {
+      "cost": 1,
+      "default_label": "(1, 0, 1, 1)",
+      "label_count": 2,
+      "language": {
+        "(1, 1, 1, 0)": [
+          "err[12]"
+        ]
+      },
+      "row_count": 2,
+      "scores": [
+        12
+      ]
+    }
+  ],
+  "best_total_cost": 23,
+  "discovery_domain": "contiguous score-abstraction search over exact mixed-sign witness regions on the hard v38 feature frontier",
+  "feasible_partition_count": 2,
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states from v29 to v41",
+  "nontrivial_scores": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "oracle_dependent": true,
+  "strongest_claim": "In the searched contiguous score-abstraction space, the best exact mixed-sign witness partition is (7), (8), (9), (10,11), (12), which lowers total witness cost from 27 to 23. No coarser contiguous partition is exact.",
+  "survivor": "score-abstraction witness frontier",
+  "tier": "descriptive_oracle"
+}

@@ -1,0 +1,73 @@
+{
+  "basis": [
+    3,
+    6,
+    8,
+    9,
+    10,
+    12
+  ],
+  "discovery_domain": "ordered active-prefix compiler search over the irredundant monotone refill basis",
+  "holdout_domain": "the same 13 holdout fact states from v29 to v31",
+  "k3": {
+    "best_bad_mass": 1,
+    "best_bucket_count": 100,
+    "best_order": [
+      3,
+      6,
+      8,
+      9,
+      12,
+      10
+    ],
+    "exact_order_count": 0,
+    "example_exact_order": null
+  },
+  "k4": {
+    "best_bad_mass": 0,
+    "best_bucket_count": 112,
+    "best_order": [
+      3,
+      6,
+      8,
+      9,
+      10,
+      12
+    ],
+    "exact_order_count": 504,
+    "example_exact_order": [
+      3,
+      6,
+      8,
+      9,
+      10,
+      12
+    ]
+  },
+  "k5": {
+    "best_bad_mass": 0,
+    "best_bucket_count": 114,
+    "best_order": [
+      3,
+      6,
+      8,
+      9,
+      10,
+      12
+    ],
+    "exact_order_count": 720,
+    "example_exact_order": [
+      3,
+      6,
+      8,
+      9,
+      10,
+      12
+    ]
+  },
+  "oracle_dependent": true,
+  "strongest_claim": "In the monotone refill transfer case, the essential six-bit basis admits an ordered compiler law. No order is exact with only the first 3 active basis bits, some orders are exact with the first 4 active basis bits, and every order is exact with the first 5 active basis bits.",
+  "survivor": "ordered refill basis compiler frontier",
+  "tier": "descriptive_oracle",
+  "viable_behavior_count": 130
+}

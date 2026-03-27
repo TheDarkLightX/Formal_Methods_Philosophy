@@ -1,0 +1,558 @@
+{
+  "basis_faithful": {
+    "best_slot_compiler": {
+      "all_positive": {
+        "cost": 3,
+        "language": {
+          "ADD_BUNDLE": [
+            "slot_a and not slot_b"
+          ],
+          "ADD_BUNDLE+DROP_BUNDLE": [
+            "slot_b"
+          ],
+          "FLIP_BUNDLE": [
+            "not slot_a"
+          ]
+        }
+      },
+      "left": [
+        "add[3]",
+        "add[6]",
+        "add[10]"
+      ],
+      "pair_count": 6,
+      "residual_default": {
+        "cost": 2,
+        "default_label": "ADD_BUNDLE",
+        "language": {
+          "ADD_BUNDLE+DROP_BUNDLE": [
+            "slot_b"
+          ],
+          "FLIP_BUNDLE": [
+            "not slot_a"
+          ]
+        }
+      },
+      "right": [
+        "add[8]",
+        "drop[12]"
+      ],
+      "slot_cost": 5
+    },
+    "best_slot_cost": 5
+  },
+  "discovery_domain": "comparison between the smallest exact label-only slot quotient and the smallest exact basis-faithful slot quotient over the raw primitive edit features",
+  "holdout_domain": "the five residual patch formulas from the v49 core-plus-patch frontier",
+  "label_only": {
+    "best_ordered": [
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "slot_a and not slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "left": [
+          "add[10]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "right": [
+          "add[8]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "slot_a and not slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "left": [
+          "add[10]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "right": [
+          "drop[12]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "slot_a and not slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "left": [
+          "add[3]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "right": [
+          "add[8]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "slot_a and not slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "left": [
+          "add[3]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "right": [
+          "drop[12]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "slot_a and not slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "left": [
+          "add[6]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "right": [
+          "add[8]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "slot_a and not slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "left": [
+          "add[6]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_b"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_a"
+            ]
+          }
+        },
+        "right": [
+          "drop[12]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "not slot_a and slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "left": [
+          "add[8]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "right": [
+          "add[10]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "not slot_a and slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "left": [
+          "add[8]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "right": [
+          "add[3]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "not slot_a and slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "left": [
+          "add[8]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "right": [
+          "add[6]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "not slot_a and slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "left": [
+          "drop[12]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "right": [
+          "add[10]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "not slot_a and slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "left": [
+          "drop[12]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "right": [
+          "add[3]"
+        ],
+        "slot_cost": 2
+      },
+      {
+        "all_positive": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "not slot_a and slot_b"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "left": [
+          "drop[12]"
+        ],
+        "residual_default": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "slot_a"
+            ],
+            "FLIP_BUNDLE": [
+              "not slot_b"
+            ]
+          }
+        },
+        "right": [
+          "add[6]"
+        ],
+        "slot_cost": 2
+      }
+    ],
+    "best_slot_cost": 2,
+    "best_unordered": [
+      {
+        "slot_cost": 2,
+        "slots": [
+          [
+            "add[10]"
+          ],
+          [
+            "add[8]"
+          ]
+        ]
+      },
+      {
+        "slot_cost": 2,
+        "slots": [
+          [
+            "add[10]"
+          ],
+          [
+            "drop[12]"
+          ]
+        ]
+      },
+      {
+        "slot_cost": 2,
+        "slots": [
+          [
+            "add[3]"
+          ],
+          [
+            "add[8]"
+          ]
+        ]
+      },
+      {
+        "slot_cost": 2,
+        "slots": [
+          [
+            "add[3]"
+          ],
+          [
+            "drop[12]"
+          ]
+        ]
+      },
+      {
+        "slot_cost": 2,
+        "slots": [
+          [
+            "add[6]"
+          ],
+          [
+            "add[8]"
+          ]
+        ]
+      },
+      {
+        "slot_cost": 2,
+        "slots": [
+          [
+            "add[6]"
+          ],
+          [
+            "drop[12]"
+          ]
+        ]
+      }
+    ],
+    "ordered_best_count": 12,
+    "survivor_count": 1234,
+    "unordered_best_count": 6
+  },
+  "oracle_dependent": true,
+  "primitive_features": [
+    "add[3]",
+    "add[6]",
+    "add[8]",
+    "add[10]",
+    "drop[12]",
+    "flip[6]",
+    "flip[8]",
+    "flip[9]",
+    "flip[12]"
+  ],
+  "strongest_claim": "On the exact five residual patch formulas, direct label compilation admits exact singleton-slot quotients of total slot cost 2, while the smallest exact basis-faithful slot quotient has slot cost 5. Predictive compression is strictly cheaper than structure-preserving compression on this bounded residual family.",
+  "survivor": "quotient boundary frontier",
+  "target_pair_count": 6,
+  "tier": "symbolic_state_compiler"
+}

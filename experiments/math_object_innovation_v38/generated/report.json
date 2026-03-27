@@ -1,0 +1,304 @@
+{
+  "baseline_local_depths": {
+    "0": 0,
+    "1": 0,
+    "10": 1,
+    "11": 1,
+    "12": 1,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 2,
+    "8": 3,
+    "9": 4
+  },
+  "baseline_max_depth": 4,
+  "baseline_weighted_cost": 118,
+  "basis": [
+    3,
+    6,
+    8,
+    9,
+    10,
+    12
+  ],
+  "best_active_score_count": 6,
+  "best_bucket_total": 51,
+  "best_by_max_depth": {
+    "2": {
+      "active_score_count": 6,
+      "bucket_total": 51,
+      "local_depths": {
+        "0": 0,
+        "1": 0,
+        "10": 1,
+        "11": 1,
+        "12": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 2,
+        "8": 2,
+        "9": 2
+      },
+      "order": [
+        "err[6] AND err[10] AND err[12]",
+        "err[3]",
+        "err[9] AND err[10] AND err[12]",
+        "err[6]",
+        "err[8]",
+        "err[9]",
+        "err[10]",
+        "err[12]"
+      ],
+      "primitives": [
+        {
+          "insert_position": 0,
+          "name": "err[6] AND err[10] AND err[12]"
+        },
+        {
+          "insert_position": 2,
+          "name": "err[9] AND err[10] AND err[12]"
+        }
+      ],
+      "weighted_cost": 80
+    },
+    "3": {
+      "active_score_count": 6,
+      "bucket_total": 51,
+      "local_depths": {
+        "0": 0,
+        "1": 0,
+        "10": 1,
+        "11": 1,
+        "12": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 1,
+        "8": 2,
+        "9": 3
+      },
+      "order": [
+        "err[3] AND err[6]",
+        "err[3]",
+        "err[6]",
+        "err[8]",
+        "err[9]",
+        "err[10] AND err[12]",
+        "err[10]",
+        "err[12]"
+      ],
+      "primitives": [
+        {
+          "insert_position": 0,
+          "name": "err[3] AND err[6]"
+        },
+        {
+          "insert_position": 5,
+          "name": "err[10] AND err[12]"
+        }
+      ],
+      "weighted_cost": 85
+    },
+    "4": {
+      "active_score_count": 6,
+      "bucket_total": 49,
+      "local_depths": {
+        "0": 0,
+        "1": 0,
+        "10": 1,
+        "11": 1,
+        "12": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 2,
+        "8": 2,
+        "9": 4
+      },
+      "order": [
+        "err[3]",
+        "err[6]",
+        "err[8]",
+        "err[9]",
+        "err[3] OR err[8]",
+        "err[10] AND err[12]",
+        "err[10]",
+        "err[12]"
+      ],
+      "primitives": [
+        {
+          "insert_position": 4,
+          "name": "err[3] OR err[8]"
+        },
+        {
+          "insert_position": 5,
+          "name": "err[10] AND err[12]"
+        }
+      ],
+      "weighted_cost": 100
+    },
+    "5": {
+      "active_score_count": 6,
+      "bucket_total": 51,
+      "local_depths": {
+        "0": 0,
+        "1": 0,
+        "10": 1,
+        "11": 1,
+        "12": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 1,
+        "8": 3,
+        "9": 5
+      },
+      "order": [
+        "err[3] AND err[6]",
+        "err[3] AND err[9]",
+        "err[3]",
+        "err[6]",
+        "err[8]",
+        "err[9]",
+        "err[10]",
+        "err[12]"
+      ],
+      "primitives": [
+        {
+          "insert_position": 0,
+          "name": "err[3] AND err[6]"
+        },
+        {
+          "insert_position": 1,
+          "name": "err[3] AND err[9]"
+        }
+      ],
+      "weighted_cost": 123
+    },
+    "6": {
+      "active_score_count": 6,
+      "bucket_total": 49,
+      "local_depths": {
+        "0": 0,
+        "1": 0,
+        "10": 1,
+        "11": 1,
+        "12": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 2,
+        "8": 3,
+        "9": 6
+      },
+      "order": [
+        "err[3]",
+        "err[6]",
+        "err[8]",
+        "err[9]",
+        "err[3] OR err[8] OR err[10]",
+        "err[3] OR err[8] OR err[12]",
+        "err[10]",
+        "err[12]"
+      ],
+      "primitives": [
+        {
+          "insert_position": 4,
+          "name": "err[3] OR err[8] OR err[10]"
+        },
+        {
+          "insert_position": 5,
+          "name": "err[3] OR err[8] OR err[12]"
+        }
+      ],
+      "weighted_cost": 138
+    }
+  },
+  "best_local_depths": {
+    "0": 0,
+    "1": 0,
+    "10": 1,
+    "11": 1,
+    "12": 1,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 2,
+    "8": 2,
+    "9": 2
+  },
+  "best_max_depth": 2,
+  "best_order": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "best_primitives": [
+    {
+      "insert_position": 0,
+      "name": "err[6] AND err[10] AND err[12]",
+      "op": "and",
+      "subset": [
+        6,
+        10,
+        12
+      ]
+    },
+    {
+      "insert_position": 2,
+      "name": "err[9] AND err[10] AND err[12]",
+      "op": "and",
+      "subset": [
+        9,
+        10,
+        12
+      ]
+    }
+  ],
+  "best_weighted_cost": 80,
+  "discovery_domain": "two-shortcut concept-market search on the hard monotone refill transfer frontier",
+  "exact_with_max_depth_1": false,
+  "holdout_domain": "the same 13 holdout fact states from v29 to v37",
+  "oracle_dependent": true,
+  "score_counts": {
+    "0": 1,
+    "1": 5,
+    "10": 5,
+    "11": 7,
+    "12": 2,
+    "2": 14,
+    "3": 14,
+    "4": 8,
+    "5": 12,
+    "6": 29,
+    "7": 5,
+    "8": 18,
+    "9": 10
+  },
+  "searched_candidate_count": 135240,
+  "strongest_claim": "In the hard monotone refill transfer case, two inserted pure shortcut concepts improve the exact ladder again. The best searched pair is err[6] AND err[10] AND err[12] together with err[9] AND err[10] AND err[12], which lowers weighted cost from 118 to 80 and lowers maximum depth from 4 to 2. No exact pair in the searched grammar reaches maximum depth 1.",
+  "survivor": "refill two-concept ladder frontier",
+  "tier": "descriptive_oracle",
+  "viable_behavior_count": 130
+}

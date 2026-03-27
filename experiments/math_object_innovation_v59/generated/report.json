@@ -1,0 +1,60 @@
+{
+  "best_slot_compiler": {
+    "all_positive": {
+      "cost": 3,
+      "language": {
+        "ADD_BUNDLE": [
+          "slot_a and not slot_b"
+        ],
+        "ADD_BUNDLE+DROP_BUNDLE": [
+          "slot_b"
+        ],
+        "FLIP_BUNDLE": [
+          "not slot_a"
+        ]
+      }
+    },
+    "left": [
+      "add[3]",
+      "add[6]",
+      "add[10]"
+    ],
+    "pair_count": 6,
+    "residual_default": {
+      "cost": 2,
+      "default_label": "ADD_BUNDLE",
+      "language": {
+        "ADD_BUNDLE+DROP_BUNDLE": [
+          "slot_b"
+        ],
+        "FLIP_BUNDLE": [
+          "not slot_a"
+        ]
+      }
+    },
+    "right": [
+      "add[8]",
+      "drop[12]"
+    ],
+    "slot_cost": 5
+  },
+  "discovery_domain": "slot-template search over raw primitive edit features, constrained to exactly reproduce the v57 primitive basis family and to compile the residual labels directly",
+  "holdout_domain": "the five residual patch formulas from the v49 core-plus-patch frontier",
+  "oracle_dependent": true,
+  "primitive_features": [
+    "add[3]",
+    "add[6]",
+    "add[8]",
+    "add[10]",
+    "drop[12]",
+    "flip[6]",
+    "flip[8]",
+    "flip[9]",
+    "flip[12]"
+  ],
+  "strongest_claim": "The exact v58 role template also compiles the residual labels directly. Up to slot swap, slot_a = any(add[3], add[6], add[10]) and slot_b = any(add[8], drop[12]), with an exact all-positive cost 3 and residual-default cost 2.",
+  "survivor": "role-slot compiler frontier",
+  "survivor_count": 2,
+  "target_pair_count": 6,
+  "tier": "symbolic_state_compiler"
+}

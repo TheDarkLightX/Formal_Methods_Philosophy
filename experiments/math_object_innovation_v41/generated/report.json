@@ -1,0 +1,177 @@
+{
+  "atom_count": 576,
+  "best_score_choices": {
+    "10": {
+      "covers": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ]
+      },
+      "default_label": "(1, 0, 1, 1)"
+    },
+    "11": {
+      "covers": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 1, 0, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "default_label": "(1, 0, 1, 1)"
+    },
+    "12": {
+      "covers": {
+        "(1, 1, 1, 0)": [
+          "err[12]"
+        ]
+      },
+      "default_label": "(1, 0, 1, 1)"
+    },
+    "7": {
+      "covers": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ]
+      },
+      "default_label": "(0, 0, 0, 0)"
+    },
+    "8": {
+      "covers": {
+        "(0, 0, 0, 0)": [
+          "not err[6] AND err[10] AND err[12] and not err[9] AND err[10] AND err[12] and not err[8]",
+          "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]"
+        ],
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] AND err[10] AND err[12] and not err[9]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+        ]
+      },
+      "default_label": "(0, 0, 1, 0)"
+    },
+    "9": {
+      "covers": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "not err[8] and not err[12]",
+          "err[6] and err[9] and not err[10]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ]
+      },
+      "default_label": "(1, 0, 1, 0)"
+    }
+  },
+  "best_shared_schema_count": 20,
+  "best_shared_schemas": [
+    "err[12]",
+    "err[3]",
+    "err[3] and err[12]",
+    "err[3] and err[6]",
+    "err[3] and err[8]",
+    "err[6]",
+    "err[6] AND err[10] AND err[12] and not err[9]",
+    "err[6] and err[10]",
+    "err[6] and err[9] and not err[10]",
+    "err[6] and not err[9]",
+    "err[8]",
+    "err[8] and err[12]",
+    "err[9]",
+    "not err[3] and err[6]",
+    "not err[3] and err[8]",
+    "not err[3] and err[9] AND err[10] AND err[12] and not err[6]",
+    "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]",
+    "not err[6] AND err[10] AND err[12] and not err[9] AND err[10] AND err[12] and not err[8]",
+    "not err[6] and not err[9] and not err[10]",
+    "not err[8] and not err[12]"
+  ],
+  "choice_count_by_score": {
+    "10": 1,
+    "11": 6,
+    "12": 2,
+    "7": 5,
+    "8": 13,
+    "9": 1
+  },
+  "discovery_domain": "global schema-sharing search over score-local mixed-sign witness languages on the hard v38 feature frontier",
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states from v29 to v40",
+  "nontrivial_scores": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "oracle_dependent": true,
+  "score_best_costs": {
+    "10": 4,
+    "11": 5,
+    "12": 1,
+    "7": 4,
+    "8": 5,
+    "9": 8
+  },
+  "strongest_claim": "In the searched grammar, the exact score-local mixed-sign witness frontier from v40 compresses to a global library of only 20 distinct witness schemas, improving on the raw local mixed-sign cost of 27.",
+  "survivor": "global witness-schema frontier",
+  "tier": "descriptive_oracle",
+  "total_mixed_cost": 27
+}

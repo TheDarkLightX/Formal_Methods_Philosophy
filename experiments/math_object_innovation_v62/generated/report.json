@@ -1,0 +1,174 @@
+{
+  "cross_product_matches_label_only": true,
+  "discovery_domain": "shared semantic control law for the exact v59 structure-preserving slot roles and the exact v60 minimal label-only quotient family",
+  "holdout_domain": "the same primitive edit features induced by the five residual patch formulas",
+  "label_only_unordered_best": [
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[10]"
+        ],
+        [
+          "add[8]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[10]"
+        ],
+        [
+          "drop[12]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[3]"
+        ],
+        [
+          "add[8]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[3]"
+        ],
+        [
+          "drop[12]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[6]"
+        ],
+        [
+          "add[8]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[6]"
+        ],
+        [
+          "drop[12]"
+        ]
+      ]
+    }
+  ],
+  "oracle_dependent": true,
+  "primitive_count": 9,
+  "semantic_cross_product": [
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[10]"
+        ],
+        [
+          "add[8]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[10]"
+        ],
+        [
+          "drop[12]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[3]"
+        ],
+        [
+          "add[8]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[3]"
+        ],
+        [
+          "drop[12]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[6]"
+        ],
+        [
+          "add[8]"
+        ]
+      ]
+    },
+    {
+      "slot_cost": 2,
+      "slots": [
+        [
+          "add[6]"
+        ],
+        [
+          "drop[12]"
+        ]
+      ]
+    }
+  ],
+  "strongest_claim": "The same two-feature support-profile partition governs both exact objectives from v60. ADD_ANCHOR iff has_AB, MIX_DISCRIM iff not has_AB and has_MIX, and OTHER iff not has_MIX. This partition exactly matches the v59 slot roles and its singleton cross product exactly equals the unordered minimal label-only quotients.",
+  "support_partition": {
+    "ADD_ANCHOR": [
+      "add[10]",
+      "add[3]",
+      "add[6]"
+    ],
+    "MIX_DISCRIM": [
+      "add[8]",
+      "drop[12]"
+    ],
+    "OTHER": [
+      "flip[12]",
+      "flip[6]",
+      "flip[8]",
+      "flip[9]"
+    ]
+  },
+  "support_to_structure": {
+    "ADD_ANCHOR": [
+      "slot_a"
+    ],
+    "MIX_DISCRIM": [
+      "slot_b"
+    ],
+    "OTHER": [
+      "other"
+    ]
+  },
+  "survivor": "shared role semantics frontier",
+  "tier": "descriptive_oracle"
+}

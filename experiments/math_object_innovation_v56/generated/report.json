@@ -1,0 +1,109 @@
+{
+  "all_features": [
+    "has_add",
+    "has_drop",
+    "has_flip"
+  ],
+  "all_positive": {
+    "basis_size": 2,
+    "exact_bases": [
+      {
+        "atom_count": 8,
+        "features": [
+          "has_add",
+          "has_drop"
+        ],
+        "language": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "has_add and not has_drop"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "has_drop"
+            ],
+            "FLIP_BUNDLE": [
+              "not has_add"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "has_drop",
+          "has_flip"
+        ],
+        "language": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "not has_drop and not has_flip"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "has_drop"
+            ],
+            "FLIP_BUNDLE": [
+              "has_flip"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "discovery_domain": "feature-basis minimization for the exact v55 direct delta compiler over the five residual patch formulas",
+  "holdout_domain": "the five residual patch formulas from the v49 core-plus-patch frontier",
+  "labels": [
+    "ADD_BUNDLE",
+    "ADD_BUNDLE+DROP_BUNDLE",
+    "FLIP_BUNDLE"
+  ],
+  "oracle_dependent": true,
+  "residual_default": {
+    "basis_size": 2,
+    "exact_bases": [
+      {
+        "atom_count": 8,
+        "features": [
+          "has_add",
+          "has_drop"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "has_drop"
+            ],
+            "FLIP_BUNDLE": [
+              "not has_add"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "has_drop",
+          "has_flip"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "has_drop"
+            ],
+            "FLIP_BUNDLE": [
+              "has_flip"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "row_count": 5,
+  "strongest_claim": "On the exact five residual patch formulas, the direct residual family compiler has exact minimal feature bases of size 2. The surviving bases are {has_add, has_drop} and {has_drop, has_flip}, and no singleton basis is exact.",
+  "survivor": "direct delta basis frontier",
+  "tier": "symbolic_state_compiler"
+}

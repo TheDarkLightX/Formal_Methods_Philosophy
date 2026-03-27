@@ -1,0 +1,268 @@
+{
+  "best_failure_by_size": {
+    "1": {
+      "bad_mass": 22,
+      "features": [
+        "err[(1, 0, 1, 0)]"
+      ]
+    },
+    "2": {
+      "bad_mass": 18,
+      "features": [
+        "err[(0, 0, 1, 0)]",
+        "err[(0, 0, 1, 1)]"
+      ]
+    },
+    "3": {
+      "bad_mass": 12,
+      "features": [
+        "err[(0, 0, 1, 0)]",
+        "err[(0, 0, 1, 1)]",
+        "err[(1, 0, 1, 0)]"
+      ]
+    },
+    "4": {
+      "bad_mass": 6,
+      "features": [
+        "err[(0, 0, 1, 0)]",
+        "err[(0, 0, 1, 1)]",
+        "err[(0, 1, 1, 0)]",
+        "err[(1, 0, 1, 0)]"
+      ]
+    },
+    "5": {
+      "bad_mass": 3,
+      "features": [
+        "err[(0, 0, 1, 1)]",
+        "err[(0, 1, 1, 0)]",
+        "err[(1, 0, 1, 0)]",
+        "err[(1, 0, 1, 1)]",
+        "err[(1, 1, 1, 0)]"
+      ]
+    }
+  },
+  "discovery_domain": "monotone refill-style MPRD controller family with residual consistency and holdout error-basis search",
+  "guard_count": 14,
+  "hold_blocks": [
+    {
+      "hold_score": 12,
+      "label_counts": {
+        "(1, 0, 1, 1)": 1,
+        "(1, 1, 1, 0)": 1
+      }
+    },
+    {
+      "hold_score": 11,
+      "label_counts": {
+        "(0, 0, 1, 1)": 1,
+        "(0, 1, 1, 0)": 1,
+        "(1, 0, 0, 1)": 1,
+        "(1, 0, 1, 0)": 2,
+        "(1, 0, 1, 1)": 1,
+        "(1, 1, 0, 0)": 1
+      }
+    },
+    {
+      "hold_score": 10,
+      "label_counts": {
+        "(0, 0, 1, 1)": 1,
+        "(0, 1, 1, 0)": 1,
+        "(1, 0, 0, 1)": 1,
+        "(1, 0, 1, 0)": 1,
+        "(1, 0, 1, 1)": 1
+      }
+    },
+    {
+      "hold_score": 9,
+      "label_counts": {
+        "(0, 0, 0, 1)": 1,
+        "(0, 0, 1, 0)": 2,
+        "(0, 0, 1, 1)": 1,
+        "(0, 1, 0, 0)": 1,
+        "(0, 1, 1, 0)": 1,
+        "(1, 0, 0, 0)": 2,
+        "(1, 0, 0, 1)": 1,
+        "(1, 0, 1, 0)": 1
+      }
+    },
+    {
+      "hold_score": 8,
+      "label_counts": {
+        "(0, 0, 0, 0)": 12,
+        "(0, 0, 0, 1)": 1,
+        "(0, 0, 1, 0)": 2,
+        "(0, 1, 0, 0)": 1,
+        "(1, 0, 0, 0)": 2
+      }
+    },
+    {
+      "hold_score": 7,
+      "label_counts": {
+        "(0, 0, 0, 0)": 1,
+        "(0, 0, 0, 1)": 1,
+        "(0, 0, 1, 0)": 1,
+        "(0, 1, 0, 0)": 1,
+        "(1, 0, 0, 0)": 1
+      }
+    },
+    {
+      "hold_score": 6,
+      "label_counts": {
+        "(0, 0, 0, 0)": 29
+      }
+    },
+    {
+      "hold_score": 5,
+      "label_counts": {
+        "(0, 0, 0, 0)": 12
+      }
+    },
+    {
+      "hold_score": 4,
+      "label_counts": {
+        "(0, 0, 0, 0)": 8
+      }
+    },
+    {
+      "hold_score": 3,
+      "label_counts": {
+        "(0, 0, 0, 0)": 14
+      }
+    },
+    {
+      "hold_score": 2,
+      "label_counts": {
+        "(0, 0, 0, 0)": 14
+      }
+    },
+    {
+      "hold_score": 1,
+      "label_counts": {
+        "(0, 0, 0, 0)": 5
+      }
+    },
+    {
+      "hold_score": 0,
+      "label_counts": {
+        "(0, 0, 0, 0)": 1
+      }
+    }
+  ],
+  "holdout_domain": "the 13 holdout fact states induced by the chosen 3-state training set",
+  "holdout_states": [
+    [
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      1,
+      1
+    ],
+    [
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      1,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      1
+    ],
+    [
+      1,
+      0,
+      1,
+      0
+    ],
+    [
+      1,
+      0,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      0,
+      0
+    ],
+    [
+      1,
+      1,
+      1,
+      0
+    ]
+  ],
+  "oracle_dependent": true,
+  "smallest_exact_semantic_basis_bucket_count": 115,
+  "smallest_exact_semantic_basis_features": [
+    "err[(0, 0, 1, 1)]",
+    "err[(0, 1, 1, 0)]",
+    "err[(1, 0, 0, 1)]",
+    "err[(1, 0, 1, 0)]",
+    "err[(1, 0, 1, 1)]",
+    "err[(1, 1, 1, 0)]"
+  ],
+  "smallest_exact_semantic_basis_size": 6,
+  "strongest_claim": "In the searched monotone refill-style MPRD controller family, the verifier-compiler transfer is substantially more expensive than in the abstract verifier frontier. No exact semantic repair exists with 5 holdout error bits or fewer, and the first exact semantic basis in the searched library appears at 6 error bits.",
+  "survivor": "monotone refill transfer frontier",
+  "tier": "descriptive_oracle",
+  "train_states": [
+    [
+      1,
+      1,
+      1,
+      1
+    ],
+    [
+      0,
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      0,
+      1
+    ]
+  ],
+  "unique_behavior_count": 1640,
+  "viable_behavior_count": 130
+}

@@ -1,0 +1,135 @@
+{
+  "best_family_count": 2,
+  "best_family_subset": [
+    "ADD_LITERAL",
+    "FLIP_SIGN"
+  ],
+  "best_patch_assignments": [
+    {
+      "core": "err[6]",
+      "families": [
+        "ADD_LITERAL"
+      ],
+      "ops": [
+        {
+          "family": "ADD_LITERAL",
+          "feature": "err[10]",
+          "kind": "ATOM",
+          "sign": "NEG"
+        },
+        {
+          "family": "ADD_LITERAL",
+          "feature": "err[9]",
+          "kind": "ATOM",
+          "sign": "POS"
+        }
+      ],
+      "patch": "err[6] and err[9] and not err[10]"
+    },
+    {
+      "core": "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]",
+      "families": [
+        "FLIP_SIGN"
+      ],
+      "ops": [
+        {
+          "family": "FLIP_SIGN",
+          "feature": "err[9] AND err[10] AND err[12]",
+          "from_sign": "NEG",
+          "kind": "AND3",
+          "to_sign": "POS"
+        }
+      ],
+      "patch": "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+    },
+    {
+      "core": "err[12]",
+      "families": [
+        "ADD_LITERAL",
+        "FLIP_SIGN"
+      ],
+      "ops": [
+        {
+          "family": "FLIP_SIGN",
+          "feature": "err[12]",
+          "from_sign": "POS",
+          "kind": "ATOM",
+          "to_sign": "NEG"
+        },
+        {
+          "family": "ADD_LITERAL",
+          "feature": "err[8]",
+          "kind": "ATOM",
+          "sign": "NEG"
+        }
+      ],
+      "patch": "not err[8] and not err[12]"
+    },
+    {
+      "core": "err[12]",
+      "families": [
+        "ADD_LITERAL"
+      ],
+      "ops": [
+        {
+          "family": "ADD_LITERAL",
+          "feature": "err[10]",
+          "kind": "ATOM",
+          "sign": "POS"
+        },
+        {
+          "family": "ADD_LITERAL",
+          "feature": "err[3]",
+          "kind": "ATOM",
+          "sign": "NEG"
+        },
+        {
+          "family": "ADD_LITERAL",
+          "feature": "err[6]",
+          "kind": "ATOM",
+          "sign": "NEG"
+        }
+      ],
+      "patch": "not err[3] and not err[6] and err[10] and err[12]"
+    },
+    {
+      "core": "err[6] and err[10]",
+      "families": [
+        "ADD_LITERAL",
+        "FLIP_SIGN"
+      ],
+      "ops": [
+        {
+          "family": "ADD_LITERAL",
+          "feature": "err[3]",
+          "kind": "ATOM",
+          "sign": "NEG"
+        },
+        {
+          "family": "FLIP_SIGN",
+          "feature": "err[6]",
+          "from_sign": "POS",
+          "kind": "ATOM",
+          "to_sign": "NEG"
+        },
+        {
+          "family": "ADD_LITERAL",
+          "feature": "err[8]",
+          "kind": "ATOM",
+          "sign": "NEG"
+        }
+      ],
+      "patch": "not err[3] and not err[6] and not err[8] and err[10]"
+    }
+  ],
+  "best_total_ops": 11,
+  "discovery_domain": "semantic macro-family search over the shared exact core from v49, using ADD_LITERAL, DROP_LITERAL, and FLIP_SIGN as candidate families",
+  "holdout_domain": "the five residual patch formulas from the v49 core-plus-patch frontier",
+  "oracle_dependent": true,
+  "patch_count": 5,
+  "search_count": 1419857,
+  "shared_core_size": 17,
+  "strongest_claim": "Over the v49 shared exact core, the five residual patch formulas are exactly scriptable using only two semantic macro families, ADD_LITERAL and FLIP_SIGN, and no exact one-family solution exists in the searched model.",
+  "survivor": "semantic macro-family frontier",
+  "tier": "descriptive_oracle"
+}

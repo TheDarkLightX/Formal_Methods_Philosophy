@@ -1,0 +1,91 @@
+{
+  "best_fibers": [
+    {
+      "family_subset": [
+        "FLIP_BUNDLE"
+      ],
+      "ops": 3,
+      "patch_indexes": [
+        0,
+        1,
+        2
+      ],
+      "patches": [
+        {
+          "core": "not err[6] and not err[9] and not err[10]",
+          "patch": "err[6] and err[9] and not err[10]",
+          "used_families": [
+            "FLIP_BUNDLE"
+          ]
+        },
+        {
+          "core": "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]",
+          "patch": "not err[3] and err[9] AND err[10] AND err[12] and not err[6]",
+          "used_families": [
+            "FLIP_BUNDLE"
+          ]
+        },
+        {
+          "core": "err[8] and err[12]",
+          "patch": "not err[8] and not err[12]",
+          "used_families": [
+            "FLIP_BUNDLE"
+          ]
+        }
+      ]
+    },
+    {
+      "family_subset": [
+        "ADD_BUNDLE"
+      ],
+      "ops": 1,
+      "patch_indexes": [
+        3
+      ],
+      "patches": [
+        {
+          "core": "err[12]",
+          "patch": "not err[3] and not err[6] and err[10] and err[12]",
+          "used_families": [
+            "ADD_BUNDLE"
+          ]
+        }
+      ]
+    },
+    {
+      "family_subset": [
+        "ADD_BUNDLE",
+        "DROP_BUNDLE"
+      ],
+      "ops": 2,
+      "patch_indexes": [
+        4
+      ],
+      "patches": [
+        {
+          "core": "err[12]",
+          "patch": "not err[3] and not err[6] and not err[8] and err[10]",
+          "used_families": [
+            "ADD_BUNDLE",
+            "DROP_BUNDLE"
+          ]
+        }
+      ]
+    }
+  ],
+  "best_score": {
+    "fiber_count": 3,
+    "mixed_fiber_count": 1,
+    "mixed_patch_count": 1,
+    "total_family_count": 4,
+    "total_ops": 6
+  },
+  "discovery_domain": "explanation-fiber decomposition over the five residual semantic patches from v49, using bundled macro families ADD_BUNDLE, DROP_BUNDLE, and FLIP_BUNDLE",
+  "holdout_domain": "the five residual patch formulas from the v49 core-plus-patch frontier",
+  "oracle_dependent": true,
+  "partition_count": 52,
+  "patch_count": 5,
+  "strongest_claim": "The five residual semantic patches admit an exact explanation-fiber decomposition with only one mixed patch: three patches lie in a pure FLIP_BUNDLE fiber, one lies in a pure ADD_BUNDLE fiber, and only one requires a mixed ADD_BUNDLE plus DROP_BUNDLE singleton fiber.",
+  "survivor": "semantic fiber decomposition frontier",
+  "tier": "descriptive_oracle"
+}

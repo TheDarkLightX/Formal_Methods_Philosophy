@@ -275,4 +275,24 @@ show_title: false
       counterexample search, certificate compression, quantified games, quotients, and fixed-point reasoning.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/galois-loops-and-obligation-carving/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 26: Galois loops and obligation carving</h2>
+    <p class="fp-card-text">
+      Reframe CEGIS through a Galois and FCA lens, prove the bounded obligation-side policy-improvement loop, show its
+      measured power on finite relation universes, and sharpen the next frontier into controller compression.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/verifier-compiler-loops/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 27: Verifier-compiler loops</h2>
+    <p class="fp-card-text">
+      Start from plain CEGIS, then ask when verifier behavior itself can be compressed into a reusable symbolic controller
+      for routing, ranking, and fail-closed pre-screening without replacing the exact gate.
+    </p>
+  </a>
 </div>

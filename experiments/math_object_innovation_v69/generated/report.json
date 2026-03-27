@@ -1,0 +1,178 @@
+{
+  "cost_histogram": [
+    {
+      "cost": 3,
+      "count": 8832
+    },
+    {
+      "cost": 4,
+      "count": 18432
+    },
+    {
+      "cost": 5,
+      "count": 13056
+    },
+    {
+      "cost": 6,
+      "count": 3360
+    }
+  ],
+  "discovery_domain": "labeled four-role support tables with one distinct realized support signature per role at width 4",
+  "holdout_domain": "the full width-4 abstract support-table family",
+  "oracle_dependent": true,
+  "profile_histogram": [
+    {
+      "cost": 3,
+      "count": 384,
+      "example": {
+        "cost": 3,
+        "ordered_subset": [
+          0,
+          3,
+          5,
+          9
+        ],
+        "raw_role_sizes": [
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "profile": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "cost": 3,
+      "count": 4608,
+      "example": {
+        "cost": 3,
+        "ordered_subset": [
+          0,
+          1,
+          6,
+          10
+        ],
+        "raw_role_sizes": [
+          2,
+          1,
+          1,
+          1
+        ]
+      },
+      "profile": [
+        1,
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "cost": 3,
+      "count": 3840,
+      "example": {
+        "cost": 3,
+        "ordered_subset": [
+          0,
+          1,
+          2,
+          4
+        ],
+        "raw_role_sizes": [
+          3,
+          1,
+          1,
+          1
+        ]
+      },
+      "profile": [
+        1,
+        1,
+        1,
+        3
+      ]
+    },
+    {
+      "cost": 4,
+      "count": 18432,
+      "example": {
+        "cost": 4,
+        "ordered_subset": [
+          0,
+          1,
+          2,
+          5
+        ],
+        "raw_role_sizes": [
+          2,
+          2,
+          1,
+          1
+        ]
+      },
+      "profile": [
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "cost": 5,
+      "count": 13056,
+      "example": {
+        "cost": 5,
+        "ordered_subset": [
+          0,
+          1,
+          2,
+          7
+        ],
+        "raw_role_sizes": [
+          2,
+          2,
+          2,
+          1
+        ]
+      },
+      "profile": [
+        1,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "cost": 6,
+      "count": 3360,
+      "example": {
+        "cost": 6,
+        "ordered_subset": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "raw_role_sizes": [
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "profile": [
+        2,
+        2,
+        2,
+        2
+      ]
+    }
+  ],
+  "strongest_claim": "On the exhaustive width-4 four-role support-table family, only six sorted minimal unique-support profiles occur, and the exact minimal compiler cost is determined by that profile, equivalently by the sum of its three smallest entries.",
+  "survivor": "width4 support-profile frontier",
+  "tier": "descriptive_oracle"
+}

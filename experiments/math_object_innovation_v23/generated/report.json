@@ -1,0 +1,39 @@
+{
+  "best_repair_feature": {
+    "cost": [
+      0,
+      4
+    ],
+    "kind": "numeric_equality",
+    "mixed_bucket_partition": {
+      "False": [
+        "fail_1915"
+      ],
+      "True": [
+        "fail_828"
+      ]
+    },
+    "name": "num_eq[4]"
+  },
+  "discovery_domain": "single-feature repair search for the mixed `holdout_6_hits = 859` bucket in the residual-consistent repair-program frontier",
+  "frontier_size": 7104,
+  "holdout_domain": "same weighted 5x5 and 6x6 score coordinates used in v15 through v22",
+  "mixed_bucket_labels": [
+    "fail_1915",
+    "fail_828"
+  ],
+  "mixed_bucket_size": 672,
+  "mixed_bucket_value": 859,
+  "oracle_dependent": true,
+  "repair_logic_formulas": [
+    "Let E(x) := p1_4(x) = p2_4(x), the equality of the fifth numeric slot of params_1 and params_2.",
+    "Safe(x) \u2194 H6(x) > 869",
+    "Fail_13116(x) \u2194 865 < H6(x) \u2264 869",
+    "Fail_1915(x) \u2194 H6(x) = 865 \u2228 (H6(x) = 859 \u2227 \u00acE(x))",
+    "Fail_828(x) \u2194 H6(x) \u2208 {864, 863, 858} \u2228 (H6(x) = 859 \u2227 E(x))"
+  ],
+  "strongest_claim": "The only scalar obstruction on the `holdout_6_hits` side is the mixed bucket `859`, and in the searched simple feature library it is repaired by exactly one single-feature coordinate, `num_eq[4]`, the equality of the fifth numeric slot between `params_1` and `params_2`. The pair `(holdout_6_hits, num_eq[4])` is an exact quotient for the full refuter partition in this bounded model.",
+  "survivor": "mixed-bucket repair frontier",
+  "survivor_count": 1,
+  "tier": "descriptive_oracle"
+}

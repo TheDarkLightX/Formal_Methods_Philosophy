@@ -1,0 +1,46 @@
+{
+  "all_positive": {
+    "cost": 3,
+    "language": {
+      "ADD_BUNDLE": [
+        "has_add and not has_drop"
+      ],
+      "ADD_BUNDLE+DROP_BUNDLE": [
+        "has_drop"
+      ],
+      "FLIP_BUNDLE": [
+        "has_flip"
+      ]
+    }
+  },
+  "atom_count": 26,
+  "discovery_domain": "certificate-language search over the exact v53 explanation-fiber labels, using patch-summary features has_add, has_drop, and has_flip",
+  "feature_names": [
+    "has_add",
+    "has_drop",
+    "has_flip"
+  ],
+  "holdout_domain": "the five residual patches labeled by the exact v53 fiber decomposition",
+  "labels": [
+    "ADD_BUNDLE",
+    "ADD_BUNDLE+DROP_BUNDLE",
+    "FLIP_BUNDLE"
+  ],
+  "oracle_dependent": true,
+  "residual_default": {
+    "cost": 2,
+    "default_label": "ADD_BUNDLE",
+    "language": {
+      "ADD_BUNDLE+DROP_BUNDLE": [
+        "has_drop"
+      ],
+      "FLIP_BUNDLE": [
+        "has_flip"
+      ]
+    }
+  },
+  "row_count": 5,
+  "strongest_claim": "On the exact v53 fiber labels, the smallest exact all-positive certificate language has cost 3, while a positive-certificate plus residual-default language has cost 2 over the patch-summary features has_add, has_drop, and has_flip.",
+  "survivor": "fiber-certificate frontier",
+  "tier": "descriptive_oracle"
+}

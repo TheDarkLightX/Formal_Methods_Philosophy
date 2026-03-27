@@ -1,0 +1,134 @@
+{
+  "chosen_pair": [
+    "count_private_roles",
+    "max_support_size"
+  ],
+  "chosen_pair_map": [
+    {
+      "features": [
+        0,
+        2
+      ],
+      "profile": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "features": [
+        1,
+        2
+      ],
+      "profile": [
+        1,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "features": [
+        2,
+        2
+      ],
+      "profile": [
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "features": [
+        3,
+        2
+      ],
+      "profile": [
+        1,
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "features": [
+        3,
+        3
+      ],
+      "profile": [
+        1,
+        1,
+        1,
+        3
+      ]
+    },
+    {
+      "features": [
+        4,
+        1
+      ],
+      "profile": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "discovery_domain": "minimal exact basis for reconstructing the width-4 support-profile frontier from v69, within the searched profile-derived statistic library",
+  "holdout_domain": "the exact six-profile width-4 frontier from v69",
+  "oracle_dependent": true,
+  "pair_exact": [
+    [
+      "count_private_roles",
+      "count_size2_roles"
+    ],
+    [
+      "count_private_roles",
+      "count_size3_roles"
+    ],
+    [
+      "count_private_roles",
+      "max_support_size"
+    ],
+    [
+      "count_private_roles",
+      "sum_support_sizes"
+    ],
+    [
+      "count_size2_roles",
+      "count_size3_roles"
+    ],
+    [
+      "count_size2_roles",
+      "max_support_size"
+    ],
+    [
+      "count_size2_roles",
+      "sum_support_sizes"
+    ],
+    [
+      "count_size3_roles",
+      "sum_support_sizes"
+    ],
+    [
+      "max_support_size",
+      "sum_support_sizes"
+    ],
+    [
+      "max_support_size",
+      "sum_three_smallest"
+    ],
+    [
+      "sum_support_sizes",
+      "sum_three_smallest"
+    ]
+  ],
+  "row_count": 6,
+  "singleton_exact": [],
+  "strongest_claim": "On the exact width-4 support-profile frontier from v69, no searched singleton scalar reconstructs the full six-profile law, but the pair (count_private_roles, max_support_size) does so exactly.",
+  "survivor": "width4 profile-pair law frontier",
+  "tier": "descriptive_oracle"
+}

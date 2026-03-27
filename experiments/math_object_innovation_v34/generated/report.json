@@ -1,0 +1,123 @@
+{
+  "active_score_count": 6,
+  "average_depth_denominator": 130,
+  "average_depth_numerator": 118,
+  "basis": [
+    3,
+    6,
+    8,
+    9,
+    10,
+    12
+  ],
+  "best_by_max_depth": {
+    "4": {
+      "active_score_count": 6,
+      "bucket_total": 51,
+      "local_depths": {
+        "0": 0,
+        "1": 0,
+        "10": 1,
+        "11": 1,
+        "12": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 2,
+        "8": 3,
+        "9": 4
+      },
+      "order": [
+        3,
+        6,
+        8,
+        9,
+        10,
+        12
+      ],
+      "weighted_cost": 118
+    },
+    "5": {
+      "active_score_count": 6,
+      "bucket_total": 52,
+      "local_depths": {
+        "0": 0,
+        "1": 0,
+        "10": 3,
+        "11": 2,
+        "12": 1,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "7": 5,
+        "8": 4,
+        "9": 4
+      },
+      "order": [
+        3,
+        9,
+        10,
+        12,
+        6,
+        8
+      ],
+      "weighted_cost": 168
+    }
+  },
+  "best_local_depths": {
+    "0": 0,
+    "1": 0,
+    "10": 1,
+    "11": 1,
+    "12": 1,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 2,
+    "8": 3,
+    "9": 4
+  },
+  "best_order": [
+    3,
+    6,
+    8,
+    9,
+    10,
+    12
+  ],
+  "bucket_total": 51,
+  "discovery_domain": "regional explanation-ladder search on the monotone refill transfer frontier",
+  "exact_with_max_depth_3": false,
+  "global_k4_cost": 520,
+  "global_k5_cost": 650,
+  "holdout_domain": "the same 13 holdout fact states from v29 to v33",
+  "max_depth": 4,
+  "oracle_dependent": true,
+  "score_counts": {
+    "0": 1,
+    "1": 5,
+    "10": 5,
+    "11": 7,
+    "12": 2,
+    "2": 14,
+    "3": 14,
+    "4": 8,
+    "5": 12,
+    "6": 29,
+    "7": 5,
+    "8": 18,
+    "9": 10
+  },
+  "scorewise_lower_bound": 108,
+  "strongest_claim": "In the monotone refill transfer case, a regional explanation ladder beats any global depth assignment by a large margin. The best exact ladder uses order (3,6,8,9,10,12), reaches weighted cost 118 with maximum depth 4, and no exact regional ladder exists with maximum depth 3.",
+  "survivor": "regional refill ladder frontier",
+  "tier": "descriptive_oracle",
+  "viable_behavior_count": 130,
+  "weighted_cost": 118
+}

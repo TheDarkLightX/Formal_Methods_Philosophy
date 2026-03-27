@@ -1,0 +1,314 @@
+{
+  "atom_count": 576,
+  "best_partition": [
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      12
+    ]
+  ],
+  "best_region_count": 5,
+  "best_region_summaries": [
+    {
+      "cost": 4,
+      "default_label": "(0, 0, 0, 0)",
+      "label_count": 5,
+      "row_count": 5,
+      "scores": [
+        7
+      ]
+    },
+    {
+      "cost": 5,
+      "default_label": "(0, 0, 0, 0)",
+      "label_count": 5,
+      "row_count": 18,
+      "scores": [
+        8
+      ]
+    },
+    {
+      "cost": 8,
+      "default_label": "(1, 0, 1, 0)",
+      "label_count": 8,
+      "row_count": 10,
+      "scores": [
+        9
+      ]
+    },
+    {
+      "cost": 5,
+      "default_label": "(1, 0, 1, 1)",
+      "label_count": 6,
+      "row_count": 12,
+      "scores": [
+        10,
+        11
+      ]
+    },
+    {
+      "cost": 1,
+      "default_label": "(1, 0, 1, 1)",
+      "label_count": 2,
+      "row_count": 2,
+      "scores": [
+        12
+      ]
+    }
+  ],
+  "best_total_cost": 23,
+  "discovery_domain": "unconstrained score-partition search over exact mixed-sign witness regions on the hard v38 feature frontier",
+  "feasible_partition_count": 10,
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states from v29 to v42",
+  "nontrivial_scores": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "oracle_dependent": true,
+  "partition_count": 203,
+  "strongest_claim": "In the searched unconstrained score-partition space, only 10 of 203 set partitions are exact, and the same partition from v42, (7), (8), (9), (10,11), (12), remains optimal with total witness cost 23.",
+  "survivor": "unconstrained score-abstraction boundary frontier",
+  "tier": "descriptive_oracle",
+  "top_feasible_partitions": [
+    {
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "region_count": 5,
+      "total_cost": 23
+    },
+    {
+      "partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "region_count": 4,
+      "total_cost": 24
+    },
+    {
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9,
+          12
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "region_count": 4,
+      "total_cost": 25
+    },
+    {
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          12
+        ],
+        [
+          11
+        ]
+      ],
+      "region_count": 5,
+      "total_cost": 27
+    },
+    {
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10
+        ],
+        [
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "region_count": 6,
+      "total_cost": 27
+    },
+    {
+      "partition": [
+        [
+          7,
+          11
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          12
+        ]
+      ],
+      "region_count": 4,
+      "total_cost": 28
+    },
+    {
+      "partition": [
+        [
+          7,
+          11
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10
+        ],
+        [
+          12
+        ]
+      ],
+      "region_count": 5,
+      "total_cost": 28
+    },
+    {
+      "partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10
+        ],
+        [
+          11
+        ]
+      ],
+      "region_count": 5,
+      "total_cost": 28
+    },
+    {
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9,
+          12
+        ],
+        [
+          10
+        ],
+        [
+          11
+        ]
+      ],
+      "region_count": 5,
+      "total_cost": 29
+    },
+    {
+      "partition": [
+        [
+          7,
+          11
+        ],
+        [
+          8
+        ],
+        [
+          9,
+          12
+        ],
+        [
+          10
+        ]
+      ],
+      "region_count": 4,
+      "total_cost": 30
+    }
+  ]
+}

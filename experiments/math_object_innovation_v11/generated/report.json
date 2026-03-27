@@ -1,0 +1,374 @@
+{
+  "candidate_count_fixing_at_least_one_residual": 184,
+  "discovery_domain": "single third tie-break clause above the exact bounded two-clause controller, preserving exhaustive reachable nonterminal 4x4 states",
+  "holdout_domain": "sampled 5x5 and 6x6 roots with fixed seeds 99 and 123",
+  "oracle_dependent": false,
+  "residual_case_count": 3,
+  "residual_cases": [
+    {
+      "density": 0.5,
+      "domain": "5x5",
+      "target": 2,
+      "two_clause_choice": 3
+    },
+    {
+      "density": 0.5,
+      "domain": "6x6",
+      "target": 3,
+      "two_clause_choice": 4
+    },
+    {
+      "density": 0.7,
+      "domain": "6x6",
+      "target": 3,
+      "two_clause_choice": 5
+    }
+  ],
+  "safe_candidates_fixing_all_residuals": [],
+  "state_total": 320927,
+  "strongest_claim": "Within the tested single-clause tie-break family, many clauses repair the last sampled larger-root residuals, but none repairs all of them while preserving every exhaustive reachable nonterminal 4x4 state of the exact bounded two-clause core. The next frontier is therefore a richer controller language, not another single local tie-break clause in this family.",
+  "survivor": "third-clause tie-break frontier",
+  "tier": "descriptive_symbolic_controller",
+  "top_residual_only_candidates": [
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 0,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_bestsingleton_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 0,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_childsum_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 0,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 0,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next_childsum"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 1,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_bestsingleton_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 1,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_childsum_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 1,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 1,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next_childsum"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 2,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_bestsingleton_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 2,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_childsum_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 2,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 2,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next_childsum"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 2,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 0,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_bestsingleton_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 2,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 0,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_childsum_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 2,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 0,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 2,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 0,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next_childsum"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 2,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 1,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_bestsingleton_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 2,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 1,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_childsum_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 2,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 1,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "params": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 2,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 1,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next_childsum"
+      },
+      "residual_fix_count": 3,
+      "residual_fix_mask": [
+        1,
+        1,
+        1
+      ]
+    }
+  ]
+}

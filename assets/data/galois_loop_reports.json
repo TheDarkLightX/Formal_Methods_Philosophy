@@ -1,0 +1,82 @@
+{
+  "receipts": {
+    "exhaustive_3x3": {
+      "boc_online_checks_avg": 3.095703125,
+      "boc_online_checks_total": 1585,
+      "boc_steps_avg": 1.408203125,
+      "boc_steps_total": 721,
+      "lattice_steps_avg": 1.408203125,
+      "lattice_steps_total": 721,
+      "plain_online_checks_avg": 4.224609375,
+      "plain_online_checks_total": 2163,
+      "plain_steps_avg": 1.408203125,
+      "plain_steps_total": 721,
+      "relation_count": 512
+    },
+    "exhaustive_3x4": {
+      "boc_online_checks_avg": 4.6015625,
+      "boc_online_checks_total": 18848,
+      "boc_steps_avg": 1.629638671875,
+      "boc_steps_total": 6675,
+      "lattice_steps_avg": 1.629638671875,
+      "lattice_steps_total": 6675,
+      "plain_online_checks_avg": 6.5185546875,
+      "plain_online_checks_total": 26700,
+      "plain_steps_avg": 1.629638671875,
+      "plain_steps_total": 6675,
+      "relation_count": 4096
+    },
+    "random_6x8_seed17_trials1000": {
+      "rows": [
+        {
+          "boc_online_checks_avg": 13.838,
+          "boc_online_checks_total": 13838,
+          "boc_steps_avg": 2.05,
+          "boc_steps_total": 2050,
+          "density": 0.3,
+          "lattice_steps_avg": 2.05,
+          "lattice_steps_total": 2050,
+          "plain_online_checks_avg": 16.4,
+          "plain_online_checks_total": 16400,
+          "plain_steps_avg": 2.05,
+          "plain_steps_total": 2050,
+          "trials": 1000
+        },
+        {
+          "boc_online_checks_avg": 15.113,
+          "boc_online_checks_total": 15113,
+          "boc_steps_avg": 2.578,
+          "boc_steps_total": 2578,
+          "density": 0.5,
+          "lattice_steps_avg": 2.578,
+          "lattice_steps_total": 2578,
+          "plain_online_checks_avg": 20.624,
+          "plain_online_checks_total": 20624,
+          "plain_steps_avg": 2.578,
+          "plain_steps_total": 2578,
+          "trials": 1000
+        },
+        {
+          "boc_online_checks_avg": 13.9,
+          "boc_online_checks_total": 13900,
+          "boc_steps_avg": 2.864,
+          "boc_steps_total": 2864,
+          "density": 0.7,
+          "lattice_steps_avg": 2.864,
+          "lattice_steps_total": 2864,
+          "plain_online_checks_avg": 22.912,
+          "plain_online_checks_total": 22912,
+          "plain_steps_avg": 2.864,
+          "plain_steps_total": 2864,
+          "trials": 1000
+        }
+      ],
+      "seed": 17,
+      "trials": 1000,
+      "x_size": 6,
+      "y_size": 8
+    }
+  },
+  "source_script": "scripts/generate_galois_loop_artifacts.py",
+  "tutorial": "galois-loops-and-obligation-carving"
+}

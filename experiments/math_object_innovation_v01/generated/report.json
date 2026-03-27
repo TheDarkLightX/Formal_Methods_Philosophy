@@ -1,0 +1,426 @@
+{
+  "coupled_exhaustive": {
+    "avg_checks": 5.0489501953125,
+    "avg_steps": 1.3632049560546875,
+    "first_check_failure": null,
+    "first_failure": null,
+    "first_step_failure": null,
+    "fixed_proposer": "pick_best_singleton_candidate",
+    "optimal_checks_hits": 65536,
+    "optimal_steps_hits": 65536,
+    "optimality_scope": "The coupled policy is compared against the bounded optimum under the fixed singleton-closure proposer. Step and check optimality are computed independently, with the non-primary metric used only as a tiebreak.",
+    "relation_count": 65536,
+    "x_size": 4,
+    "y_size": 4
+  },
+  "discovery_domain": "finite boolean relations Spec : X x Y -> {0,1} with exhaustive scheduler comparison on 3x3, 3x4, and 4x4 domains",
+  "exhaustive": [
+    {
+      "closure_first_check_failure": null,
+      "closure_first_failure": null,
+      "closure_first_step_failure": null,
+      "fixed_proposer": "pick_min_candidate",
+      "optimality_scope": "Verifier policies are compared under the fixed proposer x_t = min(C_t). Step and check optimality are computed independently, with the non-primary metric used only as a tiebreak.",
+      "relation_count": 512,
+      "schedulers": {
+        "closure": {
+          "avg_checks": 3.134765625,
+          "avg_steps": 1.25,
+          "optimal_checks_hits": 512,
+          "optimal_steps_hits": 512
+        },
+        "cut": {
+          "avg_checks": 3.150390625,
+          "avg_steps": 1.25,
+          "optimal_checks_hits": 504,
+          "optimal_steps_hits": 512
+        },
+        "live": {
+          "avg_checks": 3.134765625,
+          "avg_steps": 1.25,
+          "optimal_checks_hits": 512,
+          "optimal_steps_hits": 512
+        },
+        "smallest": {
+          "avg_checks": 3.431640625,
+          "avg_steps": 1.408203125,
+          "optimal_checks_hits": 412,
+          "optimal_steps_hits": 434
+        }
+      },
+      "x_size": 3,
+      "y_size": 3
+    },
+    {
+      "closure_first_check_failure": null,
+      "closure_first_failure": null,
+      "closure_first_step_failure": null,
+      "fixed_proposer": "pick_min_candidate",
+      "optimality_scope": "Verifier policies are compared under the fixed proposer x_t = min(C_t). Step and check optimality are computed independently, with the non-primary metric used only as a tiebreak.",
+      "relation_count": 4096,
+      "schedulers": {
+        "closure": {
+          "avg_checks": 4.2060546875,
+          "avg_steps": 1.37451171875,
+          "optimal_checks_hits": 4096,
+          "optimal_steps_hits": 4096
+        },
+        "cut": {
+          "avg_checks": 4.240234375,
+          "avg_steps": 1.37451171875,
+          "optimal_checks_hits": 3978,
+          "optimal_steps_hits": 4096
+        },
+        "live": {
+          "avg_checks": 4.2060546875,
+          "avg_steps": 1.37451171875,
+          "optimal_checks_hits": 4096,
+          "optimal_steps_hits": 4096
+        },
+        "smallest": {
+          "avg_checks": 4.8330078125,
+          "avg_steps": 1.629638671875,
+          "optimal_checks_hits": 2865,
+          "optimal_steps_hits": 3114
+        }
+      },
+      "x_size": 3,
+      "y_size": 4
+    },
+    {
+      "closure_first_check_failure": {
+        "closure": {
+          "checks": 9,
+          "steps": 3
+        },
+        "mask": 9180,
+        "optimal": {
+          "checks": 7,
+          "steps": 2
+        },
+        "table": [
+          [
+            0,
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            0,
+            0
+          ],
+          [
+            0,
+            1,
+            0,
+            0
+          ]
+        ]
+      },
+      "closure_first_failure": {
+        "closure": {
+          "checks": 7,
+          "steps": 3
+        },
+        "mask": 6120,
+        "optimal": {
+          "checks": 7,
+          "steps": 2
+        },
+        "table": [
+          [
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "closure_first_step_failure": {
+        "closure": {
+          "checks": 7,
+          "steps": 3
+        },
+        "mask": 6120,
+        "optimal": {
+          "checks": 7,
+          "steps": 2
+        },
+        "table": [
+          [
+            0,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            1,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "fixed_proposer": "pick_min_candidate",
+      "optimality_scope": "Verifier policies are compared under the fixed proposer x_t = min(C_t). Step and check optimality are computed independently, with the non-primary metric used only as a tiebreak.",
+      "relation_count": 65536,
+      "schedulers": {
+        "closure": {
+          "avg_checks": 4.892822265625,
+          "avg_steps": 1.5792694091796875,
+          "optimal_checks_hits": 65146,
+          "optimal_steps_hits": 64731
+        },
+        "cut": {
+          "avg_checks": 4.9553375244140625,
+          "avg_steps": 1.5792694091796875,
+          "optimal_checks_hits": 61826,
+          "optimal_steps_hits": 64731
+        },
+        "live": {
+          "avg_checks": 4.892822265625,
+          "avg_steps": 1.5792694091796875,
+          "optimal_checks_hits": 65146,
+          "optimal_steps_hits": 64731
+        },
+        "smallest": {
+          "avg_checks": 5.6243133544921875,
+          "avg_steps": 1.8331146240234375,
+          "optimal_checks_hits": 42836,
+          "optimal_steps_hits": 49482
+        }
+      },
+      "x_size": 4,
+      "y_size": 4
+    }
+  ],
+  "failed_branch": "state representation alone as the primary source of leverage",
+  "holdout": [
+    {
+      "domain": "5x5",
+      "rows": [
+        {
+          "coupled_closure": {
+            "avg_checks": 6.219,
+            "avg_steps": 1.388
+          },
+          "density": 0.3,
+          "schedulers": {
+            "closure": {
+              "avg_checks": 5.934,
+              "avg_steps": 1.404
+            },
+            "cut": {
+              "avg_checks": 6.039,
+              "avg_steps": 1.403
+            },
+            "live": {
+              "avg_checks": 5.934,
+              "avg_steps": 1.404
+            },
+            "smallest": {
+              "avg_checks": 7.695,
+              "avg_steps": 1.881
+            }
+          },
+          "trials": 1000,
+          "x_size": 5,
+          "y_size": 5
+        },
+        {
+          "coupled_closure": {
+            "avg_checks": 7.068,
+            "avg_steps": 1.6
+          },
+          "density": 0.5,
+          "schedulers": {
+            "closure": {
+              "avg_checks": 6.746,
+              "avg_steps": 1.781
+            },
+            "cut": {
+              "avg_checks": 6.869,
+              "avg_steps": 1.777
+            },
+            "live": {
+              "avg_checks": 6.748,
+              "avg_steps": 1.781
+            },
+            "smallest": {
+              "avg_checks": 8.106,
+              "avg_steps": 2.147
+            }
+          },
+          "trials": 1000,
+          "x_size": 5,
+          "y_size": 5
+        },
+        {
+          "coupled_closure": {
+            "avg_checks": 5.656,
+            "avg_steps": 0.999
+          },
+          "density": 0.7,
+          "schedulers": {
+            "closure": {
+              "avg_checks": 6.31,
+              "avg_steps": 1.726
+            },
+            "cut": {
+              "avg_checks": 6.369,
+              "avg_steps": 1.723
+            },
+            "live": {
+              "avg_checks": 6.311,
+              "avg_steps": 1.726
+            },
+            "smallest": {
+              "avg_checks": 6.961,
+              "avg_steps": 1.898
+            }
+          },
+          "trials": 1000,
+          "x_size": 5,
+          "y_size": 5
+        }
+      ]
+    },
+    {
+      "domain": "6x6",
+      "rows": [
+        {
+          "coupled_closure": {
+            "avg_checks": 7.8,
+            "avg_steps": 1.464
+          },
+          "density": 0.3,
+          "schedulers": {
+            "closure": {
+              "avg_checks": 7.468,
+              "avg_steps": 1.472
+            },
+            "cut": {
+              "avg_checks": 7.598,
+              "avg_steps": 1.472
+            },
+            "live": {
+              "avg_checks": 7.472,
+              "avg_steps": 1.472
+            },
+            "smallest": {
+              "avg_checks": 10.058,
+              "avg_steps": 2.026
+            }
+          },
+          "trials": 500,
+          "x_size": 6,
+          "y_size": 6
+        },
+        {
+          "coupled_closure": {
+            "avg_checks": 9.438,
+            "avg_steps": 1.87
+          },
+          "density": 0.5,
+          "schedulers": {
+            "closure": {
+              "avg_checks": 9.044,
+              "avg_steps": 2.048
+            },
+            "cut": {
+              "avg_checks": 9.272,
+              "avg_steps": 2.036
+            },
+            "live": {
+              "avg_checks": 9.044,
+              "avg_steps": 2.048
+            },
+            "smallest": {
+              "avg_checks": 11.312,
+              "avg_steps": 2.538
+            }
+          },
+          "trials": 500,
+          "x_size": 6,
+          "y_size": 6
+        },
+        {
+          "coupled_closure": {
+            "avg_checks": 7.898,
+            "avg_steps": 1.316
+          },
+          "density": 0.7,
+          "schedulers": {
+            "closure": {
+              "avg_checks": 8.768,
+              "avg_steps": 2.078
+            },
+            "cut": {
+              "avg_checks": 8.852,
+              "avg_steps": 2.064
+            },
+            "live": {
+              "avg_checks": 8.768,
+              "avg_steps": 2.078
+            },
+            "smallest": {
+              "avg_checks": 9.97,
+              "avg_steps": 2.35
+            }
+          },
+          "trials": 500,
+          "x_size": 6,
+          "y_size": 6
+        }
+      ]
+    }
+  ],
+  "holdout_domain": "random boolean relations on 5x5 and 6x6 domains",
+  "oracle_dependent": false,
+  "scope_notes": [
+    "The exhaustive verifier-policy tables hold the proposer fixed to x_t = min(C_t).",
+    "The coupled 4x4 table holds the proposer fixed to the singleton-closure chooser.",
+    "Step and check optimality are computed independently, with the other metric used only as a tiebreak."
+  ],
+  "strongest_claim": "In the bounded domains checked here, closure geometry matters twice: with a fixed min-candidate proposer, closure-gain and live-burden scheduling tie as the strongest tested local verifier policies, and with the singleton-closure proposer held fixed, the coupled closure policy matches the bounded step-optimal and check-optimal results on every 4x4 relation checked exhaustively.",
+  "survivor": "closure-guided coupled policy",
+  "tier": "descriptive_oracle"
+}

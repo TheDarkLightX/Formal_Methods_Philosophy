@@ -1,0 +1,46 @@
+{
+  "discovery_domain": "transfer of the support-signature role law across two exact bounded frontiers",
+  "domain_a": {
+    "features": [
+      "has_v41",
+      "has_v46"
+    ],
+    "language": {
+      "CORE": [
+        "has_v41 and has_v46"
+      ],
+      "V41_PATCH": [
+        "not has_v46"
+      ],
+      "V46_PATCH": [
+        "not has_v41"
+      ]
+    },
+    "role_count": 3,
+    "row_count": 22
+  },
+  "domain_b": {
+    "features": [
+      "has_AB",
+      "has_MIX"
+    ],
+    "language": {
+      "ADD_ANCHOR": [
+        "has_AB"
+      ],
+      "MIX_DISCRIM": [
+        "not has_AB and has_MIX"
+      ],
+      "OTHER": [
+        "not has_MIX"
+      ]
+    },
+    "role_count": 3,
+    "row_count": 9
+  },
+  "holdout_domain": "domain A: v49 core-plus-patch roles; domain B: v62 primitive roles",
+  "oracle_dependent": true,
+  "strongest_claim": "Both bounded domains compile exactly by two-bit support signatures. The v62 support-profile law is therefore not isolated, it transfers to a second exact frontier as a generic support-signature role law.",
+  "survivor": "support-signature transfer frontier",
+  "tier": "descriptive_oracle"
+}

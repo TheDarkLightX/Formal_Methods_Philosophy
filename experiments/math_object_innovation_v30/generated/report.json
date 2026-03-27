@@ -1,0 +1,46 @@
+{
+  "closure_missing_bits": [
+    5,
+    11
+  ],
+  "discovery_domain": "Horn-closed basis minimization for the monotone refill transfer frontier",
+  "holdout_domain": "the same 13 holdout fact states from v29",
+  "horn_implication_count": 59,
+  "oracle_dependent": true,
+  "smallest_exact_horn_closed_basis": [
+    3,
+    6,
+    8,
+    9,
+    10,
+    12
+  ],
+  "smallest_exact_horn_closed_basis_size": 6,
+  "smallest_exact_horn_closed_bucket_count": 115,
+  "strongest_claim": "In the monotone refill transfer case, the 6-bit exact semantic basis from v29 remains minimal even after allowing closure under all exact single- and pair-Horn implications among the holdout error bits. Its Horn closure expands to 11 of the 13 error bits, but no basis of size 5 or less is exact.",
+  "survivor": "horn-closed refill basis frontier",
+  "tier": "descriptive_oracle",
+  "v29_basis": [
+    3,
+    6,
+    8,
+    9,
+    10,
+    12
+  ],
+  "v29_basis_closure": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    12
+  ],
+  "v29_basis_closure_size": 11,
+  "viable_behavior_count": 130
+}

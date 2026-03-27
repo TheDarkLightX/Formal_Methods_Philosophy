@@ -1,0 +1,132 @@
+{
+  "common_result": {
+    "all_domains_minimal_literal_cost": true,
+    "all_domains_single_branch_inexact": true,
+    "all_domains_two_branch_compilers": true,
+    "domain_count": 3
+  },
+  "discovery_domain": "minimal residual-default support compilers across three exact bounded frontiers",
+  "domain_a": {
+    "features": [
+      "has_v41",
+      "has_v46"
+    ],
+    "minimal_literal_cost": 2,
+    "minimal_winner_count": 1,
+    "preferred_compiler": {
+      "branch_count": 2,
+      "branches": [
+        {
+          "atom": "not has_v46",
+          "label": "V41_PATCH",
+          "literal_count": 1
+        },
+        {
+          "atom": "not has_v41",
+          "label": "V46_PATCH",
+          "literal_count": 1
+        }
+      ],
+      "default_label": "CORE",
+      "total_literal_cost": 2
+    },
+    "realized_signatures": {
+      "01": [
+        "V46_PATCH"
+      ],
+      "10": [
+        "V41_PATCH"
+      ],
+      "11": [
+        "CORE"
+      ]
+    },
+    "role_count": 3,
+    "row_count": 22,
+    "single_branch_exact": false
+  },
+  "domain_b": {
+    "features": [
+      "has_AB",
+      "has_MIX"
+    ],
+    "minimal_literal_cost": 2,
+    "minimal_winner_count": 1,
+    "preferred_compiler": {
+      "branch_count": 2,
+      "branches": [
+        {
+          "atom": "has_AB",
+          "label": "ADD_ANCHOR",
+          "literal_count": 1
+        },
+        {
+          "atom": "not has_MIX",
+          "label": "OTHER",
+          "literal_count": 1
+        }
+      ],
+      "default_label": "MIX_DISCRIM",
+      "total_literal_cost": 2
+    },
+    "realized_signatures": {
+      "00": [
+        "OTHER"
+      ],
+      "01": [
+        "MIX_DISCRIM"
+      ],
+      "11": [
+        "ADD_ANCHOR"
+      ]
+    },
+    "role_count": 3,
+    "row_count": 9,
+    "single_branch_exact": false
+  },
+  "domain_c": {
+    "features": [
+      "has_add",
+      "has_drop",
+      "has_flip"
+    ],
+    "minimal_literal_cost": 2,
+    "minimal_winner_count": 2,
+    "preferred_compiler": {
+      "branch_count": 2,
+      "branches": [
+        {
+          "atom": "has_drop",
+          "label": "ADD_BUNDLE+DROP_BUNDLE",
+          "literal_count": 1
+        },
+        {
+          "atom": "has_flip",
+          "label": "FLIP_BUNDLE",
+          "literal_count": 1
+        }
+      ],
+      "default_label": "ADD_BUNDLE",
+      "total_literal_cost": 2
+    },
+    "realized_signatures": {
+      "001": [
+        "FLIP_BUNDLE"
+      ],
+      "100": [
+        "ADD_BUNDLE"
+      ],
+      "110": [
+        "ADD_BUNDLE+DROP_BUNDLE"
+      ]
+    },
+    "role_count": 3,
+    "row_count": 5,
+    "single_branch_exact": false
+  },
+  "holdout_domain": "domain A: v49 core-plus-patch roles; domain B: v62 primitive roles; domain C: v55 direct delta roles",
+  "oracle_dependent": true,
+  "strongest_claim": "All three bounded domains admit exact residual-default support compilers with two single-literal branches and total literal cost 2, while no exact single-branch support compiler exists on any domain. The support-signature line therefore upgrades from a transferred role law to a tiny reusable support-literal compiler family.",
+  "survivor": "support-literal compiler frontier",
+  "tier": "descriptive_oracle"
+}

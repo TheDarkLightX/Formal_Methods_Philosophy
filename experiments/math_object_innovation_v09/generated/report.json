@@ -1,0 +1,151 @@
+{
+  "best_safe_repair": {
+    "changed_state_count": 0,
+    "first_core_violation": null,
+    "holdout_5_buckets": {
+      "5:0.3": 1000,
+      "5:0.5": 998,
+      "5:0.7": 1000
+    },
+    "holdout_5_hits": 2998,
+    "holdout_5_total": 3000,
+    "holdout_6_buckets": {
+      "6:0.3": 300,
+      "6:0.5": 298,
+      "6:0.7": 297
+    },
+    "holdout_6_hits": 895,
+    "holdout_6_total": 900,
+    "repair_params": {
+      "child_cut_min": 0,
+      "child_gain_min": 2,
+      "gain_loss": 1,
+      "next_delta": 1,
+      "next_mode": "eq"
+    },
+    "safe_on_4x4": true
+  },
+  "core_clause": {
+    "child_cut_min": 0,
+    "child_gain_min": 2,
+    "gain_loss": 1,
+    "next_delta": 1,
+    "next_mode": "eq"
+  },
+  "discovery_domain": "bounded-core-preserving repair over a small family of second dominance clauses",
+  "holdout_5_total": 3000,
+  "holdout_6_total": 900,
+  "oracle_dependent": false,
+  "safe_repair_count": 4,
+  "searched_repair_count": 8,
+  "state_total": 320927,
+  "strongest_claim": "An exact bounded dominance clause can be treated as a verified core, and a second repair clause can be searched under the hard constraint that it never changes any exhaustive 4x4 state. The best safe repair, if any, improves sampled 5x5/6x6 roots without weakening the verified core.",
+  "survivor": "core-preserving repair frontier",
+  "tier": "descriptive_symbolic_controller",
+  "top_safe_repairs": [
+    {
+      "changed_state_count": 0,
+      "first_core_violation": null,
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 998,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2998,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 297
+      },
+      "holdout_6_hits": 895,
+      "holdout_6_total": 900,
+      "repair_params": {
+        "child_cut_min": 0,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "eq"
+      },
+      "safe_on_4x4": true
+    },
+    {
+      "changed_state_count": 0,
+      "first_core_violation": null,
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 998,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2998,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 297
+      },
+      "holdout_6_hits": 895,
+      "holdout_6_total": 900,
+      "repair_params": {
+        "child_cut_min": 0,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "ge"
+      },
+      "safe_on_4x4": true
+    },
+    {
+      "changed_state_count": 0,
+      "first_core_violation": null,
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 998,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2998,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 297
+      },
+      "holdout_6_hits": 895,
+      "holdout_6_total": 900,
+      "repair_params": {
+        "child_cut_min": 1,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "eq"
+      },
+      "safe_on_4x4": true
+    },
+    {
+      "changed_state_count": 0,
+      "first_core_violation": null,
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 998,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2998,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 297
+      },
+      "holdout_6_hits": 895,
+      "holdout_6_total": 900,
+      "repair_params": {
+        "child_cut_min": 1,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "ge"
+      },
+      "safe_on_4x4": true
+    }
+  ]
+}

@@ -1,0 +1,467 @@
+{
+  "best_single_proposer": {
+    "bank_size": 1,
+    "calls": 2,
+    "holdout_5_hits": 2945,
+    "holdout_6_hits": 876,
+    "name": "childsum",
+    "safe_pair": {
+      "clause_1": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 1,
+        "min_child_sum_drop": 2,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_bestsingleton_next"
+      },
+      "clause_2": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 4,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_bestsingleton_next"
+      }
+    }
+  },
+  "best_two_proposer_portfolio": {
+    "bank_size": 2,
+    "calls": 3,
+    "holdout_5_hits": 2945,
+    "holdout_6_hits": 876,
+    "name": "childsum+aggressive",
+    "rounds": 2,
+    "safe_pair": {
+      "clause_1": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 1,
+        "min_child_sum_drop": 2,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_bestsingleton_next"
+      },
+      "clause_2": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 4,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_bestsingleton_next"
+      }
+    }
+  },
+  "discovery_domain": "multi-proposer search over residual-consistent repair-program pairs with a shared exhaustive 4x4 verifier bank",
+  "oracle_dependent": false,
+  "pair_count": 7104,
+  "portfolios": {
+    "aggressive+bestsingleton_rank": {
+      "bank_size": 4,
+      "calls": 5,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 3,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "childsum+aggressive": {
+      "bank_size": 2,
+      "calls": 3,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 2,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 2,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "childsum+bestsingleton_rank": {
+      "bank_size": 2,
+      "calls": 3,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 2,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 2,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "lex+aggressive": {
+      "bank_size": 4,
+      "calls": 5,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 3,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "lex+bestsingleton_rank": {
+      "bank_size": 4,
+      "calls": 5,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 3,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "lex+childsum": {
+      "bank_size": 3,
+      "calls": 4,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 2,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 2,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "lex+singleton": {
+      "bank_size": 4,
+      "calls": 5,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 3,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "singleton+aggressive": {
+      "bank_size": 4,
+      "calls": 5,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 3,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "singleton+bestsingleton_rank": {
+      "bank_size": 4,
+      "calls": 5,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 3,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "singleton+childsum": {
+      "bank_size": 3,
+      "calls": 4,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "rounds": 2,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 2,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    }
+  },
+  "single_proposers": {
+    "aggressive": {
+      "bank_size": 2,
+      "calls": 3,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "bestsingleton_rank": {
+      "bank_size": 2,
+      "calls": 3,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "childsum": {
+      "bank_size": 1,
+      "calls": 2,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 2,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "lex": {
+      "bank_size": 2,
+      "calls": 3,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    },
+    "singleton": {
+      "bank_size": 2,
+      "calls": 3,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "safe_pair": {
+        "clause_1": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 1,
+          "min_child_sum_drop": 0,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        },
+        "clause_2": {
+          "cut_gain_min": 1,
+          "max_child_cut_drop": 1,
+          "min_child_best_singleton_gain": 0,
+          "min_child_sum_drop": 4,
+          "next_size_drop_min": 1,
+          "origin_guard": "any",
+          "rank": "cut_bestsingleton_next"
+        }
+      }
+    }
+  },
+  "strongest_claim": "In this bounded repair-program search, proposer multiplicity helps only when it adds ranking diversity. A shared counterexample bank lets all proposers reuse refutations, but the best single proposer still dominates most portfolios in exact verifier calls.",
+  "survivor": "shared-bank multi-proposer frontier",
+  "tier": "descriptive_symbolic_controller"
+}

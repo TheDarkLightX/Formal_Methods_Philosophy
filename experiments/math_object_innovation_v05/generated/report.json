@@ -1,0 +1,117 @@
+{
+  "base_formula": [
+    "neg:gain",
+    "neg:child_best_gain"
+  ],
+  "discovery_domain": "root-state controller distillation for improved obligation policies on exhaustive 4x4 boolean relations",
+  "failure_motif": {
+    "count": 144,
+    "signature_multiset": [
+      [
+        1,
+        3,
+        2,
+        3
+      ],
+      [
+        1,
+        3,
+        2,
+        3
+      ],
+      [
+        2,
+        1,
+        1,
+        2
+      ],
+      [
+        2,
+        1,
+        1,
+        2
+      ]
+    ],
+    "unique_failure_motifs": 1
+  },
+  "oracle_dependent": false,
+  "sample_failure": {
+    "chosen": 2,
+    "mask": 4830,
+    "rows": [
+      [
+        0,
+        {
+          "child_best_cut": 2,
+          "child_best_gain": 3,
+          "child_best_singleton": 3,
+          "child_sum_singleton": 4,
+          "cut": 2,
+          "gain": 1,
+          "next_size": 2,
+          "next_uncovered": 3,
+          "witness_best_singleton": 3,
+          "witness_worst_singleton": 1,
+          "y": 0
+        }
+      ],
+      [
+        1,
+        {
+          "child_best_cut": 2,
+          "child_best_gain": 3,
+          "child_best_singleton": 3,
+          "child_sum_singleton": 4,
+          "cut": 2,
+          "gain": 1,
+          "next_size": 2,
+          "next_uncovered": 3,
+          "witness_best_singleton": 3,
+          "witness_worst_singleton": 1,
+          "y": 1
+        }
+      ],
+      [
+        2,
+        {
+          "child_best_cut": 1,
+          "child_best_gain": 1,
+          "child_best_singleton": 3,
+          "child_sum_singleton": 6,
+          "cut": 2,
+          "gain": 2,
+          "next_size": 2,
+          "next_uncovered": 2,
+          "witness_best_singleton": 1,
+          "witness_worst_singleton": 1,
+          "y": 2
+        }
+      ],
+      [
+        3,
+        {
+          "child_best_cut": 1,
+          "child_best_gain": 1,
+          "child_best_singleton": 3,
+          "child_sum_singleton": 6,
+          "cut": 2,
+          "gain": 2,
+          "next_size": 2,
+          "next_uncovered": 2,
+          "witness_best_singleton": 1,
+          "witness_worst_singleton": 1,
+          "y": 3
+        }
+      ]
+    ],
+    "target": 0
+  },
+  "strongest_claim": "On exhaustive 4x4 nonterminal root states, the improved bounded controller admits an exact two-branch symbolic compression: use the flat base rule except on one repeated failure motif, where the controller switches to the smaller obligation of the lower-gain, higher-child-gain pair.",
+  "survivor": "motif-carved symbolic controller",
+  "tier": "descriptive_symbolic_controller",
+  "validation": {
+    "first_failure": null,
+    "hits": 65535,
+    "total": 65535
+  }
+}

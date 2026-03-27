@@ -1,0 +1,82 @@
+{
+  "atom_count": 17,
+  "best_by_size": {
+    "1": {
+      "best_safe_support": 288,
+      "sample_solutions": [
+        [
+          [
+            "holdout_total",
+            3821
+          ]
+        ],
+        [
+          [
+            "holdout_5_hits",
+            2945
+          ]
+        ],
+        [
+          [
+            "holdout_6_hits",
+            876
+          ]
+        ]
+      ],
+      "solution_count": 3
+    }
+  },
+  "discovery_domain": "minimal safe-region certificate search over the residual-consistent repair-program frontier",
+  "first_region_certificate_size": 1,
+  "first_region_solution_count": 3,
+  "frontier_size": 7104,
+  "holdout_domain": "same weighted 5x5 and 6x6 frontier summary used in v15",
+  "oracle_dependent": false,
+  "safe_count": 288,
+  "sample_region_certificates": [
+    [
+      [
+        "holdout_total",
+        3821
+      ]
+    ],
+    [
+      [
+        "holdout_5_hits",
+        2945
+      ]
+    ],
+    [
+      [
+        "holdout_6_hits",
+        876
+      ]
+    ]
+  ],
+  "strongest_claim": "Within the residual-consistent repair-program frontier, there exist size-1 region certificates in the searched atom language. In particular, the top-score atom isolates a whole safe region of 288 repair programs with zero unsafe spillover in this bounded model.",
+  "survivor": "safe-region certificate frontier",
+  "tier": "descriptive_symbolic_controller",
+  "winner": {
+    "clause_1": [
+      1,
+      1,
+      2,
+      2,
+      1,
+      "core",
+      "cut_next_childsum"
+    ],
+    "clause_2": [
+      1,
+      1,
+      1,
+      4,
+      0,
+      "any",
+      "cut_next_childsum"
+    ],
+    "holdout_5_hits": 2945,
+    "holdout_6_hits": 876,
+    "holdout_total": 3821
+  }
+}

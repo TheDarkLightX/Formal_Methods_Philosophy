@@ -1,0 +1,503 @@
+{
+  "all_positive": {
+    "basis_size": 2,
+    "exact_bases": [
+      {
+        "atom_count": 8,
+        "features": [
+          "add[3]",
+          "add[8]"
+        ],
+        "language": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "add[3] and not add[8]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "add[8]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[3]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[3]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "add[3] and not drop[12]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "drop[12]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[3]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[6]",
+          "add[8]"
+        ],
+        "language": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "add[6] and not add[8]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "add[8]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[6]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[6]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "add[6] and not drop[12]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "drop[12]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[6]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[8]",
+          "add[10]"
+        ],
+        "language": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "not add[8] and add[10]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "add[8]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[10]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[10]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 3,
+          "language": {
+            "ADD_BUNDLE": [
+              "add[10] and not drop[12]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "drop[12]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[10]"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "discovery_domain": "feature-basis minimization for the residual-family compiler over raw observed edit primitives derived from the five residual patch formulas",
+  "holdout_domain": "the five residual patch formulas from the v49 core-plus-patch frontier",
+  "labels": [
+    "ADD_BUNDLE",
+    "ADD_BUNDLE+DROP_BUNDLE",
+    "FLIP_BUNDLE"
+  ],
+  "oracle_dependent": true,
+  "primitive_features": [
+    "add[3]",
+    "add[6]",
+    "add[8]",
+    "add[10]",
+    "drop[12]",
+    "flip[6]",
+    "flip[8]",
+    "flip[9]",
+    "flip[12]"
+  ],
+  "residual_default": {
+    "basis_size": 2,
+    "exact_bases": [
+      {
+        "atom_count": 8,
+        "features": [
+          "add[3]",
+          "add[8]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "add[8]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[3]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[3]",
+          "add[8]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE+DROP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[3] and not add[8]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[3]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[3]",
+          "add[8]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "FLIP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[3] and not add[8]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "add[8]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[3]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "drop[12]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[3]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[3]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE+DROP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[3] and not drop[12]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[3]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[3]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "FLIP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[3] and not drop[12]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "drop[12]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[6]",
+          "add[8]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "add[8]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[6]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[6]",
+          "add[8]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE+DROP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[6] and not add[8]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[6]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[6]",
+          "add[8]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "FLIP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[6] and not add[8]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "add[8]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[6]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "drop[12]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[6]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[6]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE+DROP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[6] and not drop[12]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[6]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[6]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "FLIP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[6] and not drop[12]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "drop[12]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[8]",
+          "add[10]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "add[8]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[10]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[8]",
+          "add[10]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE+DROP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "not add[8] and add[10]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[10]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[8]",
+          "add[10]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "FLIP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "not add[8] and add[10]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "add[8]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[10]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE",
+          "language": {
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "drop[12]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[10]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[10]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "ADD_BUNDLE+DROP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[10] and not drop[12]"
+            ],
+            "FLIP_BUNDLE": [
+              "not add[10]"
+            ]
+          }
+        }
+      },
+      {
+        "atom_count": 8,
+        "features": [
+          "add[10]",
+          "drop[12]"
+        ],
+        "language": {
+          "cost": 2,
+          "default_label": "FLIP_BUNDLE",
+          "language": {
+            "ADD_BUNDLE": [
+              "add[10] and not drop[12]"
+            ],
+            "ADD_BUNDLE+DROP_BUNDLE": [
+              "drop[12]"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  "row_count": 5,
+  "strongest_claim": "On the exact five residual patch formulas, the direct residual-family compiler survives on exact raw observed primitive bases of size 2. No singleton primitive basis is exact, and the surviving minimal all-positive bases are exactly {add[3], add[8]}, {add[3], drop[12]}, {add[6], add[8]}, {add[6], drop[12]}, {add[8], add[10]}, and {add[10], drop[12]}.",
+  "survivor": "raw edit-basis frontier",
+  "tier": "symbolic_state_compiler"
+}

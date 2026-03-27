@@ -1,0 +1,262 @@
+{
+  "discovery_domain": "labeled four-role support tables with one distinct realized signature per role, exhaustively for widths 2 and 3",
+  "holdout_domain": "abstract support-table family only",
+  "oracle_dependent": true,
+  "strongest_claim": "The three-role support law fails immediately for four roles. At width 2, all 24 labeled tables require total literal cost 6. At width 3, the exact minimal total-literal-cost ladder is {3: 192, 4: 576, 5: 576, 6: 336}, with 192 single-literal star cases.",
+  "survivor": "four-role support cost frontier",
+  "tier": "descriptive_oracle",
+  "width2": {
+    "first_examples": {
+      "6": {
+        "signatures": {
+          "A": [
+            0,
+            0
+          ],
+          "B": [
+            0,
+            1
+          ],
+          "C": [
+            1,
+            0
+          ],
+          "D": [
+            1,
+            1
+          ]
+        },
+        "witness": {
+          "branches": [
+            {
+              "atom": "not s0 and s1",
+              "label": "B",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0 and not s1",
+              "label": "C",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0 and s1",
+              "label": "D",
+              "literal_count": 2
+            }
+          ],
+          "default_label": "A"
+        }
+      }
+    },
+    "minimal_total_literal_cost_histogram": [
+      {
+        "cost": 6,
+        "count": 24
+      }
+    ],
+    "single_literal_star_count": 0,
+    "table_count": 24,
+    "width": 2
+  },
+  "width3": {
+    "first_examples": {
+      "3": {
+        "signatures": {
+          "A": [
+            0,
+            0,
+            0
+          ],
+          "B": [
+            0,
+            0,
+            1
+          ],
+          "C": [
+            0,
+            1,
+            0
+          ],
+          "D": [
+            1,
+            0,
+            0
+          ]
+        },
+        "witness": {
+          "branches": [
+            {
+              "atom": "s2",
+              "label": "B",
+              "literal_count": 1
+            },
+            {
+              "atom": "s1",
+              "label": "C",
+              "literal_count": 1
+            },
+            {
+              "atom": "s0",
+              "label": "D",
+              "literal_count": 1
+            }
+          ],
+          "default_label": "A"
+        }
+      },
+      "4": {
+        "signatures": {
+          "A": [
+            0,
+            0,
+            0
+          ],
+          "B": [
+            0,
+            0,
+            1
+          ],
+          "C": [
+            0,
+            1,
+            0
+          ],
+          "D": [
+            1,
+            0,
+            1
+          ]
+        },
+        "witness": {
+          "branches": [
+            {
+              "atom": "not s0 and s2",
+              "label": "B",
+              "literal_count": 2
+            },
+            {
+              "atom": "s1",
+              "label": "C",
+              "literal_count": 1
+            },
+            {
+              "atom": "s0",
+              "label": "D",
+              "literal_count": 1
+            }
+          ],
+          "default_label": "A"
+        }
+      },
+      "5": {
+        "signatures": {
+          "A": [
+            0,
+            0,
+            0
+          ],
+          "B": [
+            0,
+            0,
+            1
+          ],
+          "C": [
+            0,
+            1,
+            0
+          ],
+          "D": [
+            1,
+            1,
+            1
+          ]
+        },
+        "witness": {
+          "branches": [
+            {
+              "atom": "not s0 and s2",
+              "label": "B",
+              "literal_count": 2
+            },
+            {
+              "atom": "not s0 and s1",
+              "label": "C",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0",
+              "label": "D",
+              "literal_count": 1
+            }
+          ],
+          "default_label": "A"
+        }
+      },
+      "6": {
+        "signatures": {
+          "A": [
+            0,
+            0,
+            0
+          ],
+          "B": [
+            0,
+            0,
+            1
+          ],
+          "C": [
+            0,
+            1,
+            0
+          ],
+          "D": [
+            0,
+            1,
+            1
+          ]
+        },
+        "witness": {
+          "branches": [
+            {
+              "atom": "not s1 and s2",
+              "label": "B",
+              "literal_count": 2
+            },
+            {
+              "atom": "s1 and not s2",
+              "label": "C",
+              "literal_count": 2
+            },
+            {
+              "atom": "s1 and s2",
+              "label": "D",
+              "literal_count": 2
+            }
+          ],
+          "default_label": "A"
+        }
+      }
+    },
+    "minimal_total_literal_cost_histogram": [
+      {
+        "cost": 3,
+        "count": 192
+      },
+      {
+        "cost": 4,
+        "count": 576
+      },
+      {
+        "cost": 5,
+        "count": 576
+      },
+      {
+        "cost": 6,
+        "count": 336
+      }
+    ],
+    "single_literal_star_count": 192,
+    "table_count": 1680,
+    "width": 3
+  }
+}

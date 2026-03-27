@@ -1,0 +1,218 @@
+{
+  "abstract_counts": [
+    {
+      "exact": 24,
+      "total": 24,
+      "width": 2
+    },
+    {
+      "exact": 336,
+      "total": 336,
+      "width": 3
+    },
+    {
+      "exact": 3360,
+      "total": 3360,
+      "width": 4
+    },
+    {
+      "exact": 29760,
+      "total": 29760,
+      "width": 5
+    },
+    {
+      "exact": 249984,
+      "total": 249984,
+      "width": 6
+    },
+    {
+      "exact": 2048256,
+      "total": 2048256,
+      "width": 7
+    }
+  ],
+  "discovery_domain": "all labeled three-role support tables with one distinct realized signature per role, exhaustively for widths 2 through 7",
+  "domain_instances": {
+    "domain_a": {
+      "compiler": {
+        "branches": [
+          {
+            "atom": "not has_v46",
+            "label": "V41_PATCH"
+          },
+          {
+            "atom": "not has_v41",
+            "label": "V46_PATCH"
+          }
+        ],
+        "default_label": "CORE"
+      },
+      "features": [
+        "has_v41",
+        "has_v46"
+      ],
+      "realized_signatures": {
+        "01": [
+          "V46_PATCH"
+        ],
+        "10": [
+          "V41_PATCH"
+        ],
+        "11": [
+          "CORE"
+        ]
+      },
+      "star_witness": {
+        "branches": [
+          {
+            "all_private_literals": [
+              [
+                1,
+                0
+              ]
+            ],
+            "feature_index": 1,
+            "label": "V41_PATCH",
+            "value": 0
+          },
+          {
+            "all_private_literals": [
+              [
+                0,
+                0
+              ]
+            ],
+            "feature_index": 0,
+            "label": "V46_PATCH",
+            "value": 0
+          }
+        ],
+        "default_label": "CORE"
+      }
+    },
+    "domain_b": {
+      "compiler": {
+        "branches": [
+          {
+            "atom": "has_AB",
+            "label": "ADD_ANCHOR"
+          },
+          {
+            "atom": "not has_MIX",
+            "label": "OTHER"
+          }
+        ],
+        "default_label": "MIX_DISCRIM"
+      },
+      "features": [
+        "has_AB",
+        "has_MIX"
+      ],
+      "realized_signatures": {
+        "00": [
+          "OTHER"
+        ],
+        "01": [
+          "MIX_DISCRIM"
+        ],
+        "11": [
+          "ADD_ANCHOR"
+        ]
+      },
+      "star_witness": {
+        "branches": [
+          {
+            "all_private_literals": [
+              [
+                0,
+                1
+              ]
+            ],
+            "feature_index": 0,
+            "label": "ADD_ANCHOR",
+            "value": 1
+          },
+          {
+            "all_private_literals": [
+              [
+                1,
+                0
+              ]
+            ],
+            "feature_index": 1,
+            "label": "OTHER",
+            "value": 0
+          }
+        ],
+        "default_label": "MIX_DISCRIM"
+      }
+    },
+    "domain_c": {
+      "compiler": {
+        "branches": [
+          {
+            "atom": "has_drop",
+            "label": "ADD_BUNDLE+DROP_BUNDLE"
+          },
+          {
+            "atom": "has_flip",
+            "label": "FLIP_BUNDLE"
+          }
+        ],
+        "default_label": "ADD_BUNDLE"
+      },
+      "features": [
+        "has_add",
+        "has_drop",
+        "has_flip"
+      ],
+      "realized_signatures": {
+        "001": [
+          "FLIP_BUNDLE"
+        ],
+        "100": [
+          "ADD_BUNDLE"
+        ],
+        "110": [
+          "ADD_BUNDLE+DROP_BUNDLE"
+        ]
+      },
+      "star_witness": {
+        "branches": [
+          {
+            "all_private_literals": [
+              [
+                1,
+                1
+              ]
+            ],
+            "feature_index": 1,
+            "label": "ADD_BUNDLE+DROP_BUNDLE",
+            "value": 1
+          },
+          {
+            "all_private_literals": [
+              [
+                0,
+                0
+              ],
+              [
+                2,
+                1
+              ]
+            ],
+            "feature_index": 2,
+            "label": "FLIP_BUNDLE",
+            "value": 1
+          }
+        ],
+        "default_label": "ADD_BUNDLE"
+      }
+    }
+  },
+  "holdout_domain": "the three live support domains from v64",
+  "oracle_dependent": true,
+  "strongest_claim": "Every labeled three-role support table with distinct realized signatures in widths 2 through 7 admits an exact residual-default compiler with two single literals. Equivalently, every such table admits a private-literal star witness. The v64 domains are exact instances of this bounded law.",
+  "survivor": "three-signature support law frontier",
+  "tier": "descriptive_oracle"
+}

@@ -1,0 +1,17 @@
+{
+  "discovery_domain": "semantic repair search for the toy MPRD lab-followup transfer frontier",
+  "holdout_domain": "the 5 holdout fact states induced by the chosen 3-state training set",
+  "oracle_dependent": true,
+  "smallest_exact_semantic_repair_bucket_count": 31,
+  "smallest_exact_semantic_repair_count": 4,
+  "smallest_exact_semantic_repair_features": [
+    "err[(0, 0, 1)]",
+    "err[(0, 1, 0)]",
+    "err[(0, 1, 1)]",
+    "err[(1, 1, 0)]"
+  ],
+  "strongest_claim": "In the toy MPRD lab-followup transfer case, the first exact repair also appears in a semantic feature library, not only in raw predicted-action features. No exact semantic repair exists with `1`, `2`, or `3` features, and the first exact repair appears at `4` mistake-indicator bits: `err[(0, 0, 1)]`, `err[(0, 1, 0)]`, `err[(0, 1, 1)]`, and `err[(1, 1, 0)]`.",
+  "survivor": "MPRD semantic repair frontier",
+  "tier": "descriptive_oracle",
+  "viable_behavior_count": 164
+}

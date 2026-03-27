@@ -1,0 +1,115 @@
+{
+  "atom_count": 17,
+  "discovery_domain": "minimal exact certificate search over the residual-consistent repair-program frontier",
+  "frontier_size": 7104,
+  "holdout_domain": "same weighted 5x5 and 6x6 frontier summary used in v15",
+  "minimal_certificate_size": 6,
+  "oracle_dependent": false,
+  "sample_certificates": [
+    [
+      [
+        "holdout_total",
+        3821
+      ],
+      [
+        "c1.max_child_cut_drop",
+        2
+      ],
+      [
+        "c1.min_child_sum_drop",
+        2
+      ],
+      [
+        "c1.origin_guard",
+        "core"
+      ],
+      [
+        "c1.rank",
+        "cut_next_childsum"
+      ],
+      [
+        "c2.rank",
+        "cut_next_childsum"
+      ]
+    ],
+    [
+      [
+        "holdout_5_hits",
+        2945
+      ],
+      [
+        "c1.max_child_cut_drop",
+        2
+      ],
+      [
+        "c1.min_child_sum_drop",
+        2
+      ],
+      [
+        "c1.origin_guard",
+        "core"
+      ],
+      [
+        "c1.rank",
+        "cut_next_childsum"
+      ],
+      [
+        "c2.rank",
+        "cut_next_childsum"
+      ]
+    ],
+    [
+      [
+        "holdout_6_hits",
+        876
+      ],
+      [
+        "c1.max_child_cut_drop",
+        2
+      ],
+      [
+        "c1.min_child_sum_drop",
+        2
+      ],
+      [
+        "c1.origin_guard",
+        "core"
+      ],
+      [
+        "c1.rank",
+        "cut_next_childsum"
+      ],
+      [
+        "c2.rank",
+        "cut_next_childsum"
+      ]
+    ]
+  ],
+  "solution_count_at_min_size": 3,
+  "strongest_claim": "Within the residual-consistent repair-program frontier, the safe winner is not isolated by any conjunction of at most five atomic winner-features. There exist exact isolating certificates of size six, so the staged loop does admit a small sound certificate language for the winning repair program in this bounded model.",
+  "survivor": "winner-certificate language frontier",
+  "tier": "descriptive_symbolic_controller",
+  "winner": {
+    "clause_1": [
+      1,
+      1,
+      2,
+      2,
+      1,
+      "core",
+      "cut_next_childsum"
+    ],
+    "clause_2": [
+      1,
+      1,
+      1,
+      4,
+      0,
+      "any",
+      "cut_next_childsum"
+    ],
+    "holdout_5_hits": 2945,
+    "holdout_6_hits": 876,
+    "holdout_total": 3821
+  }
+}

@@ -1,0 +1,169 @@
+{
+  "discovery_domain": "exact scalar-block analysis over the residual-consistent repair-program frontier",
+  "frontier_size": 7104,
+  "holdout_5_blocks": [
+    {
+      "count": 288,
+      "safe": 288,
+      "unsafe": 0,
+      "value": 2945
+    },
+    {
+      "count": 288,
+      "safe": 0,
+      "unsafe": 288,
+      "value": 2927
+    },
+    {
+      "count": 288,
+      "safe": 0,
+      "unsafe": 288,
+      "value": 2910
+    },
+    {
+      "count": 48,
+      "safe": 0,
+      "unsafe": 48,
+      "value": 2899
+    },
+    {
+      "count": 2112,
+      "safe": 0,
+      "unsafe": 2112,
+      "value": 2898
+    },
+    {
+      "count": 288,
+      "safe": 0,
+      "unsafe": 288,
+      "value": 2893
+    },
+    {
+      "count": 144,
+      "safe": 0,
+      "unsafe": 144,
+      "value": 2882
+    },
+    {
+      "count": 3648,
+      "safe": 0,
+      "unsafe": 3648,
+      "value": 2881
+    }
+  ],
+  "holdout_5_exact_collapse": true,
+  "holdout_6_blocks": [
+    {
+      "count": 288,
+      "safe": 288,
+      "unsafe": 0,
+      "value": 876
+    },
+    {
+      "count": 288,
+      "safe": 0,
+      "unsafe": 288,
+      "value": 869
+    },
+    {
+      "count": 288,
+      "safe": 0,
+      "unsafe": 288,
+      "value": 865
+    },
+    {
+      "count": 1920,
+      "safe": 0,
+      "unsafe": 1920,
+      "value": 864
+    },
+    {
+      "count": 240,
+      "safe": 0,
+      "unsafe": 240,
+      "value": 863
+    },
+    {
+      "count": 672,
+      "safe": 0,
+      "unsafe": 672,
+      "value": 859
+    },
+    {
+      "count": 3408,
+      "safe": 0,
+      "unsafe": 3408,
+      "value": 858
+    }
+  ],
+  "holdout_6_exact_collapse": true,
+  "holdout_domain": "same weighted 5x5 and 6x6 frontier summary used in v15",
+  "holdout_total_blocks": [
+    {
+      "count": 288,
+      "safe": 288,
+      "unsafe": 0,
+      "value": 3821
+    },
+    {
+      "count": 288,
+      "safe": 0,
+      "unsafe": 288,
+      "value": 3796
+    },
+    {
+      "count": 288,
+      "safe": 0,
+      "unsafe": 288,
+      "value": 3775
+    },
+    {
+      "count": 48,
+      "safe": 0,
+      "unsafe": 48,
+      "value": 3763
+    },
+    {
+      "count": 1872,
+      "safe": 0,
+      "unsafe": 1872,
+      "value": 3762
+    },
+    {
+      "count": 240,
+      "safe": 0,
+      "unsafe": 240,
+      "value": 3761
+    },
+    {
+      "count": 288,
+      "safe": 0,
+      "unsafe": 288,
+      "value": 3752
+    },
+    {
+      "count": 48,
+      "safe": 0,
+      "unsafe": 48,
+      "value": 3741
+    },
+    {
+      "count": 432,
+      "safe": 0,
+      "unsafe": 432,
+      "value": 3740
+    },
+    {
+      "count": 3312,
+      "safe": 0,
+      "unsafe": 3312,
+      "value": 3739
+    }
+  ],
+  "holdout_total_exact_collapse": true,
+  "oracle_dependent": false,
+  "safe_count": 288,
+  "strongest_claim": "Within the residual-consistent repair-program frontier, exact bounded safety coincides with the maximal score block. In this model, safety is equivalent to `holdout_total = 3821`, and equivalently to `holdout_5_hits = 2945` and `holdout_6_hits = 876`.",
+  "survivor": "score-safety collapse frontier",
+  "tier": "descriptive_symbolic_controller"
+}

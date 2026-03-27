@@ -1,0 +1,114 @@
+{
+  "atom_count_4": 1696,
+  "atom_count_5": 3488,
+  "best_partition_4": [
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      12
+    ]
+  ],
+  "best_partition_5": [
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      12
+    ]
+  ],
+  "best_region_count_4": 5,
+  "best_region_count_5": 5,
+  "best_total_cost_4": 22,
+  "best_total_cost_5": 22,
+  "discovery_domain": "comparison of unconstrained score-partition witness frontiers on the hard v38 feature space, using conjunction atoms of 1 to 4 versus 1 to 5 signed literals",
+  "feasible_partition_count_4": 15,
+  "feasible_partition_count_5": 15,
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states from v29 to v44",
+  "nontrivial_scores": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "oracle_dependent": true,
+  "partition_count": 203,
+  "same_feasible_partition_set": true,
+  "secondary_partition_improvement_count": 2,
+  "secondary_partition_improvements": [
+    {
+      "cost_4": 24,
+      "cost_5": 23,
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9,
+          10,
+          12
+        ],
+        [
+          11
+        ]
+      ]
+    },
+    {
+      "cost_4": 25,
+      "cost_5": 24,
+      "partition": [
+        [
+          7,
+          11
+        ],
+        [
+          8
+        ],
+        [
+          9,
+          10,
+          12
+        ]
+      ]
+    }
+  ],
+  "strongest_claim": "Allowing conjunction atoms of 1 to 5 signed literals does not improve the best exact hard-frontier witness object from v44: the feasible partition set stays the same, the best partition stays the same, and the best total witness cost stays 22.",
+  "survivor": "five-literal witness-grammar boundary frontier",
+  "tier": "descriptive_oracle"
+}

@@ -1,0 +1,170 @@
+{
+  "block_count": 10,
+  "blocks": [
+    {
+      "count": 288,
+      "holdout_total": 3821,
+      "pure_block": true,
+      "top_first_failure": null,
+      "top_first_failure_count": 288,
+      "unique_first_failures": 1
+    },
+    {
+      "count": 288,
+      "holdout_total": 3796,
+      "pure_block": true,
+      "top_first_failure": {
+        "candidates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mask": 13116,
+        "target": 0
+      },
+      "top_first_failure_count": 288,
+      "unique_first_failures": 1
+    },
+    {
+      "count": 288,
+      "holdout_total": 3775,
+      "pure_block": true,
+      "top_first_failure": {
+        "candidates": [
+          0,
+          1,
+          2
+        ],
+        "mask": 1915,
+        "target": 2
+      },
+      "top_first_failure_count": 288,
+      "unique_first_failures": 1
+    },
+    {
+      "count": 48,
+      "holdout_total": 3763,
+      "pure_block": true,
+      "top_first_failure": {
+        "candidates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mask": 828,
+        "target": 0
+      },
+      "top_first_failure_count": 48,
+      "unique_first_failures": 1
+    },
+    {
+      "count": 1872,
+      "holdout_total": 3762,
+      "pure_block": true,
+      "top_first_failure": {
+        "candidates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mask": 828,
+        "target": 0
+      },
+      "top_first_failure_count": 1872,
+      "unique_first_failures": 1
+    },
+    {
+      "count": 240,
+      "holdout_total": 3761,
+      "pure_block": true,
+      "top_first_failure": {
+        "candidates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mask": 828,
+        "target": 0
+      },
+      "top_first_failure_count": 240,
+      "unique_first_failures": 1
+    },
+    {
+      "count": 288,
+      "holdout_total": 3752,
+      "pure_block": true,
+      "top_first_failure": {
+        "candidates": [
+          0,
+          1,
+          2
+        ],
+        "mask": 1915,
+        "target": 2
+      },
+      "top_first_failure_count": 288,
+      "unique_first_failures": 1
+    },
+    {
+      "count": 48,
+      "holdout_total": 3741,
+      "pure_block": true,
+      "top_first_failure": {
+        "candidates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mask": 828,
+        "target": 0
+      },
+      "top_first_failure_count": 48,
+      "unique_first_failures": 1
+    },
+    {
+      "count": 432,
+      "holdout_total": 3740,
+      "pure_block": true,
+      "top_first_failure": {
+        "candidates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mask": 828,
+        "target": 0
+      },
+      "top_first_failure_count": 432,
+      "unique_first_failures": 1
+    },
+    {
+      "count": 3312,
+      "holdout_total": 3739,
+      "pure_block": true,
+      "top_first_failure": {
+        "candidates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mask": 828,
+        "target": 0
+      },
+      "top_first_failure_count": 3312,
+      "unique_first_failures": 1
+    }
+  ],
+  "discovery_domain": "score-block anti-certificate analysis over the residual-consistent repair-program frontier",
+  "holdout_domain": "same weighted 5x5 and 6x6 frontier summary used in v15",
+  "oracle_dependent": false,
+  "strongest_claim": "In the bounded residual-consistent frontier, the top score block is exactly safe and the next major lower blocks are pure in a second sense: each is refuted by a single shared first verifier counterexample pattern. The frontier therefore has a staircase geometry, one score block and one dominant refuter at a time.",
+  "survivor": "score-block staircase frontier",
+  "tier": "descriptive_symbolic_controller"
+}

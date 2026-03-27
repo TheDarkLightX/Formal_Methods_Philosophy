@@ -1,0 +1,149 @@
+{
+  "chosen_cost_map": [
+    {
+      "cost": 6,
+      "features": [
+        0
+      ]
+    },
+    {
+      "cost": 5,
+      "features": [
+        1
+      ]
+    },
+    {
+      "cost": 4,
+      "features": [
+        2
+      ]
+    },
+    {
+      "cost": 3,
+      "features": [
+        3
+      ]
+    },
+    {
+      "cost": 3,
+      "features": [
+        4
+      ]
+    }
+  ],
+  "chosen_cost_scalar": [
+    "count_private_roles"
+  ],
+  "chosen_profile_map": [
+    {
+      "features": [
+        0,
+        2
+      ],
+      "profile": [
+        2,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "features": [
+        1,
+        2
+      ],
+      "profile": [
+        1,
+        2,
+        2,
+        2
+      ]
+    },
+    {
+      "features": [
+        2,
+        2
+      ],
+      "profile": [
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "features": [
+        3,
+        2
+      ],
+      "profile": [
+        1,
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "features": [
+        3,
+        3
+      ],
+      "profile": [
+        1,
+        1,
+        1,
+        3
+      ]
+    },
+    {
+      "features": [
+        4,
+        1
+      ],
+      "profile": [
+        1,
+        1,
+        1,
+        1
+      ]
+    }
+  ],
+  "chosen_profile_pair": [
+    "count_private_roles",
+    "max_support_size"
+  ],
+  "cost_singleton_exact": [
+    "count_private_roles",
+    "count_size2_roles"
+  ],
+  "discovery_domain": "cube-orbit quotiented width-4 four-role support tables, with profile-derived support-count coordinates",
+  "holdout_domain": "the full width-4 unlabeled orbit family",
+  "oracle_dependent": true,
+  "orbit_count": 19,
+  "profile_pair_exact": [
+    [
+      "count_private_roles",
+      "count_size2_roles"
+    ],
+    [
+      "count_private_roles",
+      "count_size3_roles"
+    ],
+    [
+      "count_private_roles",
+      "max_support_size"
+    ],
+    [
+      "count_size2_roles",
+      "count_size3_roles"
+    ],
+    [
+      "count_size2_roles",
+      "max_support_size"
+    ]
+  ],
+  "profile_singleton_exact": [],
+  "strongest_claim": "On the width-4 unlabeled orbit family, the same support-count coordinates from v70 and v71 survive unchanged: exact cost is determined by count_private_roles alone, and the pair (count_private_roles, max_support_size) reconstructs the full support profile exactly.",
+  "survivor": "width4 orbit support-count transfer frontier",
+  "tier": "descriptive_oracle"
+}

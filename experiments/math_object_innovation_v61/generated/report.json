@@ -1,0 +1,61 @@
+{
+  "discovery_domain": "minimal semantic explanation of the exact v59 slot roles over primitive metadata features",
+  "holdout_domain": "the primitive-role dataset induced by the exact v59 slot compiler",
+  "metadata_features": [
+    "is_add",
+    "is_drop",
+    "is_flip",
+    "has_AB",
+    "has_MIX",
+    "has_FLIP",
+    "count_1",
+    "count_2"
+  ],
+  "oracle_dependent": true,
+  "positive_basis_size": 2,
+  "positive_winner_count": 9,
+  "preferred_support_profile_all_positive": {
+    "features": [
+      "has_AB",
+      "has_MIX"
+    ],
+    "language": {
+      "cost": 3,
+      "language": {
+        "other": [
+          "not has_MIX"
+        ],
+        "slot_a": [
+          "has_AB"
+        ],
+        "slot_b": [
+          "not has_AB and has_MIX"
+        ]
+      }
+    }
+  },
+  "preferred_support_profile_residual_default": {
+    "features": [
+      "has_AB",
+      "has_MIX"
+    ],
+    "language": {
+      "cost": 2,
+      "default_label": "other",
+      "language": {
+        "slot_a": [
+          "has_AB"
+        ],
+        "slot_b": [
+          "not has_AB and has_MIX"
+        ]
+      }
+    }
+  },
+  "residual_basis_size": 2,
+  "residual_winner_count": 27,
+  "row_count": 9,
+  "strongest_claim": "The exact v59 slot roles admit exact semantic explanations on a two-feature metadata basis. A natural support-profile explanation uses {has_AB, has_MIX}: slot_a iff has_AB, slot_b iff has_MIX and not has_AB, and other iff not has_MIX.",
+  "survivor": "semantic slot frontier",
+  "tier": "descriptive_oracle"
+}

@@ -1,0 +1,86 @@
+{
+  "discovery_domain": "policy iteration over obligation-targeted witness routing on exhaustive 4x4 boolean relations",
+  "exhaustive_4x4": {
+    "exact_hits": {
+      "pi0": 45392,
+      "pi1": 65512,
+      "pi2": 65536
+    },
+    "first_failure_pi2": null,
+    "relation_count": 65536,
+    "step_hits": {
+      "pi0": 65536,
+      "pi1": 65536,
+      "pi2": 65536
+    }
+  },
+  "holdout_5x5": [
+    {
+      "density": 0.3,
+      "exact_hits": {
+        "pi0": 788,
+        "pi1": 1000,
+        "pi2": 1000
+      },
+      "n": 5,
+      "trials": 1000
+    },
+    {
+      "density": 0.5,
+      "exact_hits": {
+        "pi0": 613,
+        "pi1": 998,
+        "pi2": 1000
+      },
+      "n": 5,
+      "trials": 1000
+    },
+    {
+      "density": 0.7,
+      "exact_hits": {
+        "pi0": 596,
+        "pi1": 999,
+        "pi2": 1000
+      },
+      "n": 5,
+      "trials": 1000
+    }
+  ],
+  "holdout_6x6": [
+    {
+      "density": 0.3,
+      "exact_hits": {
+        "pi0": 150,
+        "pi1": 200,
+        "pi2": 200
+      },
+      "n": 6,
+      "trials": 200
+    },
+    {
+      "density": 0.5,
+      "exact_hits": {
+        "pi0": 111,
+        "pi1": 200,
+        "pi2": 200
+      },
+      "n": 6,
+      "trials": 200
+    },
+    {
+      "density": 0.7,
+      "exact_hits": {
+        "pi0": 97,
+        "pi1": 199,
+        "pi2": 200
+      },
+      "n": 6,
+      "trials": 200
+    }
+  ],
+  "holdout_domain": "random 5x5 and 6x6 boolean relations",
+  "oracle_dependent": false,
+  "strongest_claim": "Two rounds of policy improvement over the routed obligation controller reached the exact bounded-optimal check policy on every exhaustive 4x4 relation tested, and on all 5x5 and 6x6 random holdouts sampled in this cycle.",
+  "survivor": "obligation-side policy iteration",
+  "tier": "descriptive_oracle"
+}

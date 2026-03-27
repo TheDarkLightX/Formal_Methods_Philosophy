@@ -1,0 +1,190 @@
+{
+  "discovery_domain": "cross-frontier witness-template mining over the exact shared schema libraries from v41 and v46",
+  "holdout_domain": "the bounded hard-frontier witness-schema libraries from v41 and v46",
+  "largest_typed_buckets": [
+    {
+      "count": 5,
+      "schemas": [
+        "err[12]",
+        "err[3]",
+        "err[6]",
+        "err[8]",
+        "err[9]"
+      ],
+      "template": "ATOM1_1"
+    },
+    {
+      "count": 5,
+      "schemas": [
+        "err[3] and err[12]",
+        "err[3] and err[6]",
+        "err[3] and err[8]",
+        "err[6] and err[10]",
+        "err[8] and err[12]"
+      ],
+      "template": "ATOM1_1 and ATOM1_2"
+    },
+    {
+      "count": 2,
+      "schemas": [
+        "not err[3] and err[6]",
+        "not err[3] and err[8]"
+      ],
+      "template": "not ATOM1_1 and ATOM1_2"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "err[6] AND err[10] AND err[12] and not err[9]"
+      ],
+      "template": "AND3_1 and not ATOM1_2"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "err[6] and err[9] and not err[10]"
+      ],
+      "template": "ATOM1_1 and ATOM1_2 and not ATOM1_3"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "err[6] and not err[9]"
+      ],
+      "template": "ATOM1_1 and not ATOM1_2"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "not err[6] AND err[10] AND err[12] and not err[9] AND err[10] AND err[12] and not err[8]"
+      ],
+      "template": "not AND3_1 and not AND3_2 and not ATOM1_3"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+      ],
+      "template": "not ATOM1_1 and AND3_2 and not ATOM1_3"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]"
+      ],
+      "template": "not ATOM1_1 and not AND3_2 and not ATOM1_3"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "not err[8] and not err[12]"
+      ],
+      "template": "not ATOM1_1 and not ATOM1_2"
+    }
+  ],
+  "largest_untyped_buckets": [
+    {
+      "count": 5,
+      "schemas": [
+        "err[12]",
+        "err[3]",
+        "err[6]",
+        "err[8]",
+        "err[9]"
+      ],
+      "template": "F1"
+    },
+    {
+      "count": 5,
+      "schemas": [
+        "err[3] and err[12]",
+        "err[3] and err[6]",
+        "err[3] and err[8]",
+        "err[6] and err[10]",
+        "err[8] and err[12]"
+      ],
+      "template": "F1 and F2"
+    },
+    {
+      "count": 3,
+      "schemas": [
+        "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]",
+        "not err[6] AND err[10] AND err[12] and not err[9] AND err[10] AND err[12] and not err[8]",
+        "not err[6] and not err[9] and not err[10]"
+      ],
+      "template": "not F1 and not F2 and not F3"
+    },
+    {
+      "count": 2,
+      "schemas": [
+        "err[6] AND err[10] AND err[12] and not err[9]",
+        "err[6] and not err[9]"
+      ],
+      "template": "F1 and not F2"
+    },
+    {
+      "count": 2,
+      "schemas": [
+        "not err[3] and err[6]",
+        "not err[3] and err[8]"
+      ],
+      "template": "not F1 and F2"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "err[6] and err[9] and not err[10]"
+      ],
+      "template": "F1 and F2 and not F3"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+      ],
+      "template": "not F1 and F2 and not F3"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "not err[8] and not err[12]"
+      ],
+      "template": "not F1 and not F2"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "not err[3] and not err[6] and err[10] and err[12]"
+      ],
+      "template": "not F1 and not F2 and F3 and F4"
+    },
+    {
+      "count": 1,
+      "schemas": [
+        "not err[3] and not err[6] and not err[8] and err[10]"
+      ],
+      "template": "not F1 and not F2 and not F3 and F4"
+    }
+  ],
+  "oracle_dependent": true,
+  "source_frontiers": {
+    "shared_schema_count": 17,
+    "union_schema_count": 22,
+    "v41_schema_count": 20,
+    "v46_schema_count": 19
+  },
+  "strongest_claim": "The two exact global witness-schema frontiers from v41 and v46 contain 22 unique formulas in union, but those formulas collapse to 10 untyped conjunction-shape templates, or 13 typed templates when feature kind is retained.",
+  "survivor": "cross-frontier witness-template frontier",
+  "tier": "descriptive_oracle",
+  "typed_template_count": 13,
+  "untyped_template_count": 10,
+  "v41_only": [
+    "err[6] and err[9] and not err[10]",
+    "not err[3] and err[9] AND err[10] AND err[12] and not err[6]",
+    "not err[8] and not err[12]"
+  ],
+  "v46_only": [
+    "not err[3] and not err[6] and err[10] and err[12]",
+    "not err[3] and not err[6] and not err[8] and err[10]"
+  ]
+}

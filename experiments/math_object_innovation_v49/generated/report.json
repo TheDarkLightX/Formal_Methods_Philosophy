@@ -1,0 +1,74 @@
+{
+  "core_schema_count": 17,
+  "core_schemas": [
+    "err[12]",
+    "err[3]",
+    "err[3] and err[12]",
+    "err[3] and err[6]",
+    "err[3] and err[8]",
+    "err[6]",
+    "err[6] AND err[10] AND err[12] and not err[9]",
+    "err[6] and err[10]",
+    "err[6] and not err[9]",
+    "err[8]",
+    "err[8] and err[12]",
+    "err[9]",
+    "not err[3] and err[6]",
+    "not err[3] and err[8]",
+    "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]",
+    "not err[6] AND err[10] AND err[12] and not err[9] AND err[10] AND err[12] and not err[8]",
+    "not err[6] and not err[9] and not err[10]"
+  ],
+  "discovery_domain": "core-plus-patch decomposition over the exact global witness-schema libraries from v41 and v46",
+  "holdout_domain": "the bounded hard-frontier witness-schema libraries from v41 and v46",
+  "oracle_dependent": true,
+  "residual_template_count": 5,
+  "residual_template_irreducible": true,
+  "residual_templates": [
+    {
+      "schemas": [
+        "err[6] and err[9] and not err[10]"
+      ],
+      "template": "F1 and F2 and not F3"
+    },
+    {
+      "schemas": [
+        "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+      ],
+      "template": "not F1 and F2 and not F3"
+    },
+    {
+      "schemas": [
+        "not err[8] and not err[12]"
+      ],
+      "template": "not F1 and not F2"
+    },
+    {
+      "schemas": [
+        "not err[3] and not err[6] and err[10] and err[12]"
+      ],
+      "template": "not F1 and not F2 and F3 and F4"
+    },
+    {
+      "schemas": [
+        "not err[3] and not err[6] and not err[8] and err[10]"
+      ],
+      "template": "not F1 and not F2 and not F3 and F4"
+    }
+  ],
+  "residual_union_count": 5,
+  "strongest_claim": "The exact global witness-schema frontiers from v41 and v46 decompose into a shared exact core of 17 schemas plus five frontier-specific patch schemas, and those five patches are already template-irreducible in the searched conjunction-shape grammar.",
+  "survivor": "cross-frontier core-plus-patch frontier",
+  "tier": "descriptive_oracle",
+  "v41_only_schemas": [
+    "err[6] and err[9] and not err[10]",
+    "not err[3] and err[9] AND err[10] AND err[12] and not err[6]",
+    "not err[8] and not err[12]"
+  ],
+  "v41_patch_count": 3,
+  "v46_only_schemas": [
+    "not err[3] and not err[6] and err[10] and err[12]",
+    "not err[3] and not err[6] and not err[8] and err[10]"
+  ],
+  "v46_patch_count": 2
+}

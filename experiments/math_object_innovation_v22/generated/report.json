@@ -1,0 +1,319 @@
+{
+  "discovery_domain": "exact arithmetic decision-list search for the scalar refuter quotient over the residual-consistent repair-program frontier",
+  "frontier_size": 7104,
+  "holdout_domain": "same weighted 5x5 and 6x6 score coordinates used in v15 through v21",
+  "oracle_dependent": true,
+  "scalar_results": {
+    "holdout_5_hits": {
+      "buckets": [
+        {
+          "labels": [
+            "safe"
+          ],
+          "pure": true,
+          "value": 2945
+        },
+        {
+          "labels": [
+            "fail_13116"
+          ],
+          "pure": true,
+          "value": 2927
+        },
+        {
+          "labels": [
+            "fail_1915"
+          ],
+          "pure": true,
+          "value": 2910
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 2899
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 2898
+        },
+        {
+          "labels": [
+            "fail_1915"
+          ],
+          "pure": true,
+          "value": 2893
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 2882
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 2881
+        }
+      ],
+      "decision_list": [
+        "if holdout_5_hits > 2927 then safe",
+        "else if holdout_5_hits > 2910 then fail_13116",
+        "else if holdout_5_hits mod 17 = 3 then fail_1915",
+        "else fail_828"
+      ],
+      "logic_formulas": [
+        "Safe(x) \u2194 H5(x) > 2927",
+        "Fail_13116(x) \u2194 2910 < H5(x) \u2264 2927",
+        "Fail_1915(x) \u2194 H5(x) \u2264 2910 \u2227 H5(x) \u2261 3 (mod 17)",
+        "Fail_828(x) \u2194 H5(x) \u2264 2910 \u2227 H5(x) \u2262 3 (mod 17)"
+      ],
+      "minimal_exact_decision_list": {
+        "best": {
+          "cost": [
+            3,
+            17,
+            1,
+            0,
+            [
+              "holdout_5_hits > 2927",
+              "holdout_5_hits > 2910",
+              "holdout_5_hits mod 17 = 3"
+            ]
+          ],
+          "decision_list": [
+            {
+              "kind": "gt",
+              "label": "safe",
+              "modulus": null,
+              "residue": null,
+              "text": "holdout_5_hits > 2927"
+            },
+            {
+              "kind": "gt",
+              "label": "fail_13116",
+              "modulus": null,
+              "residue": null,
+              "text": "holdout_5_hits > 2910"
+            },
+            {
+              "kind": "mod",
+              "label": "fail_1915",
+              "modulus": 17,
+              "residue": 3,
+              "text": "holdout_5_hits mod 17 = 3"
+            }
+          ],
+          "default": "fail_828"
+        },
+        "minimal_length": 3,
+        "solution_count": 9
+      },
+      "pure_scalar_partition": true
+    },
+    "holdout_6_hits": {
+      "buckets": [
+        {
+          "labels": [
+            "safe"
+          ],
+          "pure": true,
+          "value": 876
+        },
+        {
+          "labels": [
+            "fail_13116"
+          ],
+          "pure": true,
+          "value": 869
+        },
+        {
+          "labels": [
+            "fail_1915"
+          ],
+          "pure": true,
+          "value": 865
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 864
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 863
+        },
+        {
+          "labels": [
+            "fail_1915",
+            "fail_828"
+          ],
+          "pure": false,
+          "value": 859
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 858
+        }
+      ],
+      "impossibility_witness": "\u2203x,y. holdout_6_hits(x) = holdout_6_hits(y) \u2227 Label(x) \u2260 Label(y)",
+      "mixed_buckets": [
+        {
+          "labels": [
+            "fail_1915",
+            "fail_828"
+          ],
+          "pure": false,
+          "value": 859
+        }
+      ],
+      "pure_scalar_partition": false
+    },
+    "holdout_total": {
+      "buckets": [
+        {
+          "labels": [
+            "safe"
+          ],
+          "pure": true,
+          "value": 3821
+        },
+        {
+          "labels": [
+            "fail_13116"
+          ],
+          "pure": true,
+          "value": 3796
+        },
+        {
+          "labels": [
+            "fail_1915"
+          ],
+          "pure": true,
+          "value": 3775
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 3763
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 3762
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 3761
+        },
+        {
+          "labels": [
+            "fail_1915"
+          ],
+          "pure": true,
+          "value": 3752
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 3741
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 3740
+        },
+        {
+          "labels": [
+            "fail_828"
+          ],
+          "pure": true,
+          "value": 3739
+        }
+      ],
+      "decision_list": [
+        "if holdout_total > 3796 then safe",
+        "else if holdout_total > 3775 then fail_13116",
+        "else if holdout_total mod 23 = 3 then fail_1915",
+        "else fail_828"
+      ],
+      "logic_formulas": [
+        "Safe(x) \u2194 T(x) > 3796",
+        "Fail_13116(x) \u2194 3775 < T(x) \u2264 3796",
+        "Fail_1915(x) \u2194 T(x) \u2264 3775 \u2227 T(x) \u2261 3 (mod 23)",
+        "Fail_828(x) \u2194 T(x) \u2264 3775 \u2227 T(x) \u2262 3 (mod 23)"
+      ],
+      "minimal_exact_decision_list": {
+        "best": {
+          "cost": [
+            3,
+            23,
+            1,
+            0,
+            [
+              "holdout_total > 3796",
+              "holdout_total > 3775",
+              "holdout_total mod 23 = 3"
+            ]
+          ],
+          "decision_list": [
+            {
+              "kind": "gt",
+              "label": "safe",
+              "modulus": null,
+              "residue": null,
+              "text": "holdout_total > 3796"
+            },
+            {
+              "kind": "gt",
+              "label": "fail_13116",
+              "modulus": null,
+              "residue": null,
+              "text": "holdout_total > 3775"
+            },
+            {
+              "kind": "mod",
+              "label": "fail_1915",
+              "modulus": 23,
+              "residue": 3,
+              "text": "holdout_total mod 23 = 3"
+            }
+          ],
+          "default": "fail_828"
+        },
+        "minimal_length": 3,
+        "solution_count": 9
+      },
+      "pure_scalar_partition": true
+    }
+  },
+  "strongest_claim": "Within the residual-consistent repair-program frontier, the full first-refuter label admits exact arithmetic decision lists of length 3 over `holdout_total` and over `holdout_5_hits`. Representative bounded formulas are `T > 3796`, then `T > 3775`, then `T \u2261 3 (mod 23)` for `holdout_total`, and `H5 > 2927`, then `H5 > 2910`, then `H5 \u2261 3 (mod 17)` for `holdout_5_hits`. `holdout_6_hits` cannot support any exact scalar-only classifier because the value `859` is mixed.",
+  "survivor": "arithmetic refuter logic frontier",
+  "tier": "descriptive_oracle"
+}

@@ -1,0 +1,73 @@
+{
+  "all_positive_basis_count": 6,
+  "all_templates": [
+    {
+      "left": [
+        "add[10]",
+        "add[3]",
+        "add[6]"
+      ],
+      "right": [
+        "add[8]",
+        "drop[12]"
+      ],
+      "slot_cost": 5,
+      "unused": []
+    },
+    {
+      "left": [
+        "add[8]",
+        "drop[12]"
+      ],
+      "right": [
+        "add[10]",
+        "add[3]",
+        "add[6]"
+      ],
+      "slot_cost": 5,
+      "unused": []
+    }
+  ],
+  "best_template": {
+    "left": [
+      "add[10]",
+      "add[3]",
+      "add[6]"
+    ],
+    "right": [
+      "add[8]",
+      "drop[12]"
+    ],
+    "slot_cost": 5,
+    "unused": []
+  },
+  "discovery_domain": "role-template compression over the exact raw primitive basis family from v57",
+  "holdout_domain": "the exact v57 all-positive and residual-default primitive basis families",
+  "oracle_dependent": true,
+  "primitive_features": [
+    "add[10]",
+    "add[3]",
+    "add[6]",
+    "add[8]",
+    "drop[12]"
+  ],
+  "residual_default_analysis": {
+    "count": 18,
+    "default_labels": [
+      "ADD_BUNDLE",
+      "ADD_BUNDLE+DROP_BUNDLE",
+      "FLIP_BUNDLE"
+    ],
+    "per_default_pair_count": {
+      "ADD_BUNDLE": 6,
+      "ADD_BUNDLE+DROP_BUNDLE": 6,
+      "FLIP_BUNDLE": 6
+    },
+    "same_pair_family_per_default": true
+  },
+  "residual_default_count": 18,
+  "strongest_claim": "The six exact raw primitive all-positive bases from v57 collapse exactly to a two-slot product template, unique up to slot swap: one slot is {add[3], add[6], add[10]} and the other is {add[8], drop[12]}. The residual-default family is the same pair template crossed with all three default labels.",
+  "survivor": "primitive basis template frontier",
+  "template_count": 2,
+  "tier": "descriptive_oracle"
+}

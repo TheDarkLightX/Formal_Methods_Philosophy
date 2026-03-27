@@ -1,0 +1,98 @@
+{
+  "all_positive": {
+    "cost": 3,
+    "language": {
+      "ADD_BUNDLE": [
+        "has_add and not has_drop"
+      ],
+      "ADD_BUNDLE+DROP_BUNDLE": [
+        "has_drop"
+      ],
+      "FLIP_BUNDLE": [
+        "has_flip"
+      ]
+    }
+  },
+  "atom_count": 26,
+  "discovery_domain": "certificate-language search over the exact five residual patch formulas, using direct symbolic delta features has_add, has_drop, and has_flip derived from each core -> patch edit",
+  "feature_names": [
+    "has_add",
+    "has_drop",
+    "has_flip"
+  ],
+  "holdout_domain": "the five residual patch formulas from the v49 core-plus-patch frontier",
+  "labels": [
+    "ADD_BUNDLE",
+    "ADD_BUNDLE+DROP_BUNDLE",
+    "FLIP_BUNDLE"
+  ],
+  "oracle_dependent": true,
+  "residual_default": {
+    "cost": 2,
+    "default_label": "ADD_BUNDLE",
+    "language": {
+      "ADD_BUNDLE+DROP_BUNDLE": [
+        "has_drop"
+      ],
+      "FLIP_BUNDLE": [
+        "has_flip"
+      ]
+    }
+  },
+  "row_count": 5,
+  "rows": [
+    {
+      "core": "not err[6] and not err[9] and not err[10]",
+      "features": {
+        "has_add": false,
+        "has_drop": false,
+        "has_flip": true
+      },
+      "label": "FLIP_BUNDLE",
+      "patch": "err[6] and err[9] and not err[10]"
+    },
+    {
+      "core": "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]",
+      "features": {
+        "has_add": false,
+        "has_drop": false,
+        "has_flip": true
+      },
+      "label": "FLIP_BUNDLE",
+      "patch": "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+    },
+    {
+      "core": "err[8] and err[12]",
+      "features": {
+        "has_add": false,
+        "has_drop": false,
+        "has_flip": true
+      },
+      "label": "FLIP_BUNDLE",
+      "patch": "not err[8] and not err[12]"
+    },
+    {
+      "core": "err[12]",
+      "features": {
+        "has_add": true,
+        "has_drop": false,
+        "has_flip": false
+      },
+      "label": "ADD_BUNDLE",
+      "patch": "not err[3] and not err[6] and err[10] and err[12]"
+    },
+    {
+      "core": "err[12]",
+      "features": {
+        "has_add": true,
+        "has_drop": true,
+        "has_flip": false
+      },
+      "label": "ADD_BUNDLE+DROP_BUNDLE",
+      "patch": "not err[3] and not err[6] and not err[8] and err[10]"
+    }
+  ],
+  "strongest_claim": "On the exact five residual patch formulas, the family split FLIP_BUNDLE / ADD_BUNDLE / ADD_BUNDLE+DROP_BUNDLE can be compiled directly from symbolic patch-state delta features. The smallest exact all-positive language has cost 3, and a positive-certificate plus residual-default language has cost 2.",
+  "survivor": "direct delta-certificate frontier",
+  "tier": "symbolic_state_compiler"
+}

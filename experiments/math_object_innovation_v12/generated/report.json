@@ -1,0 +1,70 @@
+{
+  "candidate_clause_count": 184,
+  "discovery_domain": "CEGIS over ordered pairs of residual tie-break clauses above the exact bounded two-clause controller",
+  "holdout_domain": "sampled 5x5 and 6x6 roots with fixed seeds 99 and 123",
+  "iterations": [
+    {
+      "bank_size": 0,
+      "counterexample": {
+        "candidates": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "mask": 828,
+        "target": 0
+      },
+      "iteration": 1,
+      "viable_pair_count": 7104
+    },
+    {
+      "bank_size": 1,
+      "counterexample": {
+        "candidates": [
+          0,
+          1,
+          2
+        ],
+        "mask": 1915,
+        "target": 2
+      },
+      "iteration": 2,
+      "viable_pair_count": 1152
+    },
+    {
+      "bank_size": 2,
+      "iteration": 3,
+      "viable_pair_count": 576
+    }
+  ],
+  "oracle_dependent": false,
+  "residual_case_count": 3,
+  "safe_pair": {
+    "clause_1": {
+      "cut_gain_min": 1,
+      "max_child_cut_drop": 1,
+      "min_child_best_singleton_gain": 1,
+      "min_child_sum_drop": 0,
+      "next_size_drop_min": 1,
+      "origin_guard": "any",
+      "rank": "cut_bestsingleton_next"
+    },
+    "clause_2": {
+      "cut_gain_min": 1,
+      "max_child_cut_drop": 1,
+      "min_child_best_singleton_gain": 0,
+      "min_child_sum_drop": 4,
+      "next_size_drop_min": 1,
+      "origin_guard": "any",
+      "rank": "cut_bestsingleton_next"
+    },
+    "holdout_5_hits": 2945,
+    "holdout_6_hits": 876
+  },
+  "second_slot_clause_count": 72,
+  "state_total": 320927,
+  "strongest_claim": "A short repair program over the tie-break clause language does exist: a CEGIS loop finds a safe ordered clause pair after two banked 4x4 counterexamples. But the lexicographically simplest safe pair generalizes poorly on larger sampled roots, so the next loop must optimize safety and larger-domain ranking separately.",
+  "survivor": "repair-program CEGIS frontier",
+  "tier": "descriptive_symbolic_controller"
+}

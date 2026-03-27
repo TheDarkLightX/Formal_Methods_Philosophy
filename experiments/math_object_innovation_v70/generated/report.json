@@ -1,0 +1,49 @@
+{
+  "chosen_scalar": [
+    "count_private_roles"
+  ],
+  "chosen_scalar_map": [
+    {
+      "cost": 6,
+      "features": [
+        0
+      ]
+    },
+    {
+      "cost": 5,
+      "features": [
+        1
+      ]
+    },
+    {
+      "cost": 4,
+      "features": [
+        2
+      ]
+    },
+    {
+      "cost": 3,
+      "features": [
+        3
+      ]
+    },
+    {
+      "cost": 3,
+      "features": [
+        4
+      ]
+    }
+  ],
+  "discovery_domain": "minimal exact scalar basis for the width-4 support-profile frontier from v69, within the searched profile-derived statistic library",
+  "holdout_domain": "the exact six-profile width-4 frontier from v69",
+  "oracle_dependent": true,
+  "row_count": 6,
+  "singleton_exact": [
+    "count_private_roles",
+    "count_size2_roles",
+    "sum_three_smallest"
+  ],
+  "strongest_claim": "On the exact width-4 support-profile frontier from v69, the minimal compiler cost is already determined by one scalar: the number of roles with minimal unique-support size 1. Equivalently, private-role counts 4 or 3 map to cost 3, count 2 maps to cost 4, count 1 maps to cost 5, and count 0 maps to cost 6.",
+  "survivor": "width4 support-count law frontier",
+  "tier": "descriptive_oracle"
+}

@@ -1,0 +1,34 @@
+{
+  "discovery_domain": "exact mixed support-plus-geometry pair bases for the width-4 orbit family, within the widened tuple-aware feature library",
+  "holdout_domain": "the full width-4 unlabeled orbit family",
+  "mixed_feature_count": 8,
+  "nontrivial_pair_exact": [
+    [
+      "count_private_roles",
+      "distance_multiset"
+    ],
+    [
+      "count_size2_roles",
+      "distance_multiset"
+    ]
+  ],
+  "oracle_dependent": true,
+  "orbit_count": 19,
+  "pair_exact": [
+    [
+      "count_private_roles",
+      "distance_multiset"
+    ],
+    [
+      "count_size2_roles",
+      "distance_multiset"
+    ],
+    [
+      "profile",
+      "distance_multiset"
+    ]
+  ],
+  "strongest_claim": "On the full width-4 unlabeled orbit family, within the searched mixed tuple-aware library, the only nontrivial exact pair bases are (count_private_roles, distance_multiset) and (count_size2_roles, distance_multiset).",
+  "survivor": "width4 mixed-basis uniqueness frontier",
+  "tier": "descriptive_oracle"
+}

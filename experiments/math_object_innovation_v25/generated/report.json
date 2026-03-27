@@ -1,0 +1,177 @@
+{
+  "discovery_domain": "minimality certificate for the repaired verifier compiler over the bounded `(H6, E)` quotient",
+  "exact_min_guard_count": 4,
+  "holdout_domain": "same weighted 5x5 and 6x6 score coordinates used in v15 through v24",
+  "lower_bound_explanation": [
+    "Every pure atom for `safe` is singleton, so any exact decision list needs at least one dedicated branch for `safe`.",
+    "Every pure atom for `fail_13116` is singleton, so any exact decision list needs at least one dedicated branch for `fail_13116`.",
+    "The two `fail_1915` states, `(859, False)` and `(865, False)`, are covered only by distinct singleton pure atoms in this grammar.",
+    "Therefore any exact decision list needs at least 1 + 1 + 2 = 4 labeled guards before the default `fail_828` branch."
+  ],
+  "no_exact_solution_leq_3": true,
+  "oracle_dependent": true,
+  "pure_atom_summary": {
+    "fail_13116": [
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": false,
+            "H6": 869
+          }
+        ],
+        "guard": "H6 = 869"
+      }
+    ],
+    "fail_1915": [
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": false,
+            "H6": 859
+          }
+        ],
+        "guard": "H6 = 859 and E = False"
+      },
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": false,
+            "H6": 865
+          }
+        ],
+        "guard": "H6 = 865"
+      }
+    ],
+    "fail_828": [
+      {
+        "cover_size": 4,
+        "covered_states": [
+          {
+            "E": true,
+            "H6": 858
+          },
+          {
+            "E": true,
+            "H6": 859
+          },
+          {
+            "E": true,
+            "H6": 863
+          },
+          {
+            "E": true,
+            "H6": 864
+          }
+        ],
+        "guard": "E = True"
+      },
+      {
+        "cover_size": 2,
+        "covered_states": [
+          {
+            "E": false,
+            "H6": 858
+          },
+          {
+            "E": true,
+            "H6": 858
+          }
+        ],
+        "guard": "H6 = 858"
+      },
+      {
+        "cover_size": 2,
+        "covered_states": [
+          {
+            "E": false,
+            "H6": 864
+          },
+          {
+            "E": true,
+            "H6": 864
+          }
+        ],
+        "guard": "H6 = 864"
+      },
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": false,
+            "H6": 858
+          }
+        ],
+        "guard": "H6 = 858 and E = False"
+      },
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": true,
+            "H6": 858
+          }
+        ],
+        "guard": "H6 = 858 and E = True"
+      },
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": true,
+            "H6": 859
+          }
+        ],
+        "guard": "H6 = 859 and E = True"
+      },
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": true,
+            "H6": 863
+          }
+        ],
+        "guard": "H6 = 863"
+      },
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": false,
+            "H6": 864
+          }
+        ],
+        "guard": "H6 = 864 and E = False"
+      },
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": true,
+            "H6": 864
+          }
+        ],
+        "guard": "H6 = 864 and E = True"
+      }
+    ],
+    "safe": [
+      {
+        "cover_size": 1,
+        "covered_states": [
+          {
+            "E": false,
+            "H6": 876
+          }
+        ],
+        "guard": "H6 > 869"
+      }
+    ]
+  },
+  "quotient_state_count": 10,
+  "strongest_claim": "In the repaired `(H6, E)` quotient, the `v24` compiler is minimal in the searched guard language. There is no exact decision list with 3 guards or fewer, and the pure-atom geometry explains why: `safe` needs one singleton guard, `fail_13116` needs one singleton guard, and the two `fail_1915` states require two distinct singleton guards.",
+  "survivor": "verifier compiler lower-bound frontier",
+  "tier": "descriptive_oracle"
+}

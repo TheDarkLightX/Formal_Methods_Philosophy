@@ -1,0 +1,111 @@
+{
+  "discovery_domain": "MPRD-shaped toy lab-followup controller family with residual consistency, score blocks, and behavior-feature repair search",
+  "guard_count": 26,
+  "hold_blocks": [
+    {
+      "hold_score": 5,
+      "label_counts": {
+        "safe": 1
+      }
+    },
+    {
+      "hold_score": 4,
+      "label_counts": {
+        "(0, 0, 1)": 2,
+        "(0, 1, 0)": 2,
+        "(0, 1, 1)": 2,
+        "(1, 1, 0)": 2,
+        "(1, 1, 1)": 2
+      }
+    },
+    {
+      "hold_score": 3,
+      "label_counts": {
+        "(0, 0, 1)": 11,
+        "(0, 1, 0)": 8,
+        "(0, 1, 1)": 5,
+        "(1, 1, 0)": 4
+      }
+    },
+    {
+      "hold_score": 2,
+      "label_counts": {
+        "(0, 0, 1)": 26,
+        "(0, 1, 0)": 15,
+        "(0, 1, 1)": 7
+      }
+    },
+    {
+      "hold_score": 1,
+      "label_counts": {
+        "(0, 0, 1)": 34,
+        "(0, 1, 0)": 15
+      }
+    },
+    {
+      "hold_score": 0,
+      "label_counts": {
+        "(0, 0, 1)": 28
+      }
+    }
+  ],
+  "holdout_domain": "the 5 holdout fact states induced by the chosen 3-state training set",
+  "holdout_states": [
+    [
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      1
+    ]
+  ],
+  "oracle_dependent": true,
+  "smallest_exact_repair_bucket_count": 113,
+  "smallest_exact_repair_feature_count": 4,
+  "smallest_exact_repair_features": [
+    "pred[(0, 0, 1)]",
+    "pred[(0, 1, 0)]",
+    "pred[(0, 1, 1)]",
+    "pred[(1, 1, 0)]"
+  ],
+  "strongest_claim": "In the searched toy MPRD lab-followup controller family, the quotient-and-repair loop does not transfer as cheaply as in the abstract verifier frontier. On the residual-consistent unique-behavior frontier, `holdout score + 1`, `+2`, and `+3` simple behavior features are all insufficient to recover the full first-refuter partition. The first exact repair in the searched library appears at 4 predicted-action features: `pred[(0, 0, 1)]`, `pred[(0, 1, 0)]`, `pred[(0, 1, 1)]`, and `pred[(1, 1, 0)]`.",
+  "survivor": "MPRD transfer boundary frontier",
+  "tier": "descriptive_oracle",
+  "train_states": [
+    [
+      1,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      1
+    ],
+    [
+      0,
+      0,
+      0
+    ]
+  ],
+  "unique_behavior_count": 5283,
+  "viable_behavior_count": 164
+}

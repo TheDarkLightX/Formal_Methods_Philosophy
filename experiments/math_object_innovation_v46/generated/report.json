@@ -1,0 +1,166 @@
+{
+  "atom_count": 1696,
+  "best_partition": [
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      12
+    ]
+  ],
+  "best_region_choices": {
+    "10,11": {
+      "covers": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 1, 0, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "default_label": "(1, 0, 1, 1)"
+    },
+    "12": {
+      "covers": {
+        "(1, 1, 1, 0)": [
+          "err[12]"
+        ]
+      },
+      "default_label": "(1, 0, 1, 1)"
+    },
+    "7": {
+      "covers": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ]
+      },
+      "default_label": "(0, 0, 0, 0)"
+    },
+    "8": {
+      "covers": {
+        "(0, 0, 0, 0)": [
+          "not err[6] AND err[10] AND err[12] and not err[9] AND err[10] AND err[12] and not err[8]",
+          "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]"
+        ],
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] AND err[10] AND err[12] and not err[9]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not err[6] and err[10] and err[12]"
+        ]
+      },
+      "default_label": "(0, 0, 1, 0)"
+    },
+    "9": {
+      "covers": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not err[3] and not err[6] and not err[8] and err[10]"
+        ]
+      },
+      "default_label": "(0, 0, 1, 0)"
+    }
+  },
+  "best_shared_schema_count": 19,
+  "best_shared_schemas": [
+    "err[12]",
+    "err[3]",
+    "err[3] and err[12]",
+    "err[3] and err[6]",
+    "err[3] and err[8]",
+    "err[6]",
+    "err[6] AND err[10] AND err[12] and not err[9]",
+    "err[6] and err[10]",
+    "err[6] and not err[9]",
+    "err[8]",
+    "err[8] and err[12]",
+    "err[9]",
+    "not err[3] and err[6]",
+    "not err[3] and err[8]",
+    "not err[3] and not err[6] and err[10] and err[12]",
+    "not err[3] and not err[6] and not err[8] and err[10]",
+    "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]",
+    "not err[6] AND err[10] AND err[12] and not err[9] AND err[10] AND err[12] and not err[8]",
+    "not err[6] and not err[9] and not err[10]"
+  ],
+  "choice_count_by_region": {
+    "10,11": 1,
+    "12": 2,
+    "7": 5,
+    "8": 13,
+    "9": 1
+  },
+  "discovery_domain": "global schema-sharing search over the exact v44 score-abstraction partition, using positive-cover plus residual-default witness regions with conjunction atoms of 1 to 4 signed literals",
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states from v29 to v45",
+  "oracle_dependent": true,
+  "region_best_costs": {
+    "10,11": 5,
+    "12": 1,
+    "7": 4,
+    "8": 5,
+    "9": 7
+  },
+  "strongest_claim": "On the exact v44 score partition, the best positive-cover plus residual-default witness regions have raw local cost 22 but compress to a shared global schema library of only 19 formulas.",
+  "survivor": "global witness-synthesis frontier",
+  "tier": "descriptive_oracle",
+  "total_region_cost": 22
+}

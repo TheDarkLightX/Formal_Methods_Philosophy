@@ -1,0 +1,41 @@
+{
+  "candidate_bank_pattern_count": 0,
+  "discovery_domain": "exact teaching-bank synthesis over residual-consistent repair-program pairs and unique reachable 4x4 state patterns",
+  "first_safe_rank_without_bank": 1,
+  "holdout_domain": "sampled 5x5 and 6x6 roots with fixed seeds 99 and 123",
+  "minimal_bank": [],
+  "minimal_bank_size": 0,
+  "oracle_dependent": false,
+  "raw_state_count": 320927,
+  "singleton_bank_count": 0,
+  "strongest_claim": "Within the bounded repair-program search, the staged bank-then-rank loop collapses further than expected. The top holdout-ranked residual-consistent repair program is already safe on the exhaustive reachable 4x4 verifier, so the exact minimal teaching bank size for the winner is 0 in this bounded model.",
+  "survivor": "minimal-bank synthesis frontier",
+  "target_safe_pair": {
+    "clause_1": {
+      "cut_gain_min": 1,
+      "max_child_cut_drop": 2,
+      "min_child_best_singleton_gain": 1,
+      "min_child_sum_drop": 2,
+      "next_size_drop_min": 1,
+      "origin_guard": "core",
+      "rank": "cut_next_childsum"
+    },
+    "clause_2": {
+      "cut_gain_min": 1,
+      "max_child_cut_drop": 1,
+      "min_child_best_singleton_gain": 0,
+      "min_child_sum_drop": 4,
+      "next_size_drop_min": 1,
+      "origin_guard": "any",
+      "rank": "cut_next_childsum"
+    },
+    "holdout_5_hits": 2945,
+    "holdout_6_hits": 876,
+    "holdout_total": 3821,
+    "rank": 1
+  },
+  "tier": "descriptive_symbolic_controller",
+  "unique_pattern_count": 4263,
+  "unsafe_prefix_size": 0,
+  "viable_pair_count_without_bank": 7104
+}

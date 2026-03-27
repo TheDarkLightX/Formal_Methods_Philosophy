@@ -1,0 +1,395 @@
+{
+  "discovery_domain": "earliest-error symbolic compiler law for the toy MPRD transfer frontier",
+  "earliest_error_exact": true,
+  "four_bit_basis_bucket_count": 31,
+  "four_bit_basis_exact": true,
+  "four_bit_results": [
+    {
+      "bucket_count": 31,
+      "exact": true,
+      "indices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "witness": null
+    },
+    {
+      "bucket_count": 31,
+      "exact": true,
+      "indices": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "witness": null
+    },
+    {
+      "bucket_count": 31,
+      "exact": true,
+      "indices": [
+        0,
+        1,
+        3,
+        4
+      ],
+      "witness": null
+    },
+    {
+      "bucket_count": 31,
+      "exact": true,
+      "indices": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "witness": null
+    },
+    {
+      "bucket_count": 31,
+      "exact": true,
+      "indices": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "witness": null
+    }
+  ],
+  "holdout_domain": "the 5 ordered holdout fact states induced by the chosen 3-state training set",
+  "holdout_order": [
+    [
+      0,
+      0,
+      1
+    ],
+    [
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      0
+    ],
+    [
+      1,
+      1,
+      1
+    ]
+  ],
+  "logic_formulas": [
+    "Let e_i(x) be the error bit on the i-th holdout state h_i.",
+    "Safe(x) \u2194 \u00ace_1(x) \u2227 \u00ace_2(x) \u2227 \u00ace_3(x) \u2227 \u00ace_4(x) \u2227 \u00ace_5(x).",
+    "FirstRefuter(x) = h_i \u2194 \u00ace_1(x) \u2227 ... \u2227 \u00ace_{i-1}(x) \u2227 e_i(x).",
+    "S(x) = 5 - (e_1(x) + e_2(x) + e_3(x) + e_4(x) + e_5(x)).",
+    "So e_5(x) = 5 - S(x) - e_1(x) - e_2(x) - e_3(x) - e_4(x)."
+  ],
+  "oracle_dependent": true,
+  "strongest_claim": "In the toy MPRD lab-followup transfer case, the first-refuter label is exactly the earliest holdout error in the fixed holdout order. The basis `holdout score + (e1,e2,e3,e4)` is exact, and every searched three-bit subbasis fails. So the semantic repair basis from v27 compresses further into an earliest-error compiler law with a minimal ordered-error basis.",
+  "survivor": "earliest-error compiler frontier",
+  "three_bit_results": [
+    {
+      "bucket_count": 24,
+      "exact": false,
+      "indices": [
+        0,
+        1,
+        2
+      ],
+      "witness": {
+        "key": [
+          4,
+          false,
+          false,
+          false
+        ],
+        "labels": [
+          [
+            1,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "bucket_count": 24,
+      "exact": false,
+      "indices": [
+        0,
+        1,
+        3
+      ],
+      "witness": {
+        "key": [
+          3,
+          false,
+          false,
+          true
+        ],
+        "labels": [
+          [
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "bucket_count": 23,
+      "exact": false,
+      "indices": [
+        0,
+        1,
+        4
+      ],
+      "witness": {
+        "key": [
+          3,
+          false,
+          false,
+          true
+        ],
+        "labels": [
+          [
+            0,
+            1,
+            1
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "bucket_count": 23,
+      "exact": false,
+      "indices": [
+        0,
+        2,
+        3
+      ],
+      "witness": {
+        "key": [
+          3,
+          false,
+          false,
+          true
+        ],
+        "labels": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "bucket_count": 24,
+      "exact": false,
+      "indices": [
+        0,
+        2,
+        4
+      ],
+      "witness": {
+        "key": [
+          3,
+          false,
+          false,
+          true
+        ],
+        "labels": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "bucket_count": 24,
+      "exact": false,
+      "indices": [
+        0,
+        3,
+        4
+      ],
+      "witness": {
+        "key": [
+          2,
+          false,
+          true,
+          true
+        ],
+        "labels": [
+          [
+            0,
+            1,
+            0
+          ],
+          [
+            0,
+            1,
+            1
+          ]
+        ]
+      }
+    },
+    {
+      "bucket_count": 23,
+      "exact": false,
+      "indices": [
+        1,
+        2,
+        3
+      ],
+      "witness": {
+        "key": [
+          3,
+          false,
+          false,
+          true
+        ],
+        "labels": [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "bucket_count": 24,
+      "exact": false,
+      "indices": [
+        1,
+        2,
+        4
+      ],
+      "witness": {
+        "key": [
+          3,
+          false,
+          false,
+          true
+        ],
+        "labels": [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            1,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "bucket_count": 24,
+      "exact": false,
+      "indices": [
+        1,
+        3,
+        4
+      ],
+      "witness": {
+        "key": [
+          1,
+          true,
+          true,
+          true
+        ],
+        "labels": [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            1,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "bucket_count": 23,
+      "exact": false,
+      "indices": [
+        2,
+        3,
+        4
+      ],
+      "witness": {
+        "key": [
+          1,
+          true,
+          true,
+          true
+        ],
+        "labels": [
+          [
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            1,
+            0
+          ]
+        ]
+      }
+    }
+  ],
+  "tier": "descriptive_oracle",
+  "viable_behavior_count": 164
+}

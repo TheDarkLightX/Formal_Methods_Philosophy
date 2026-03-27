@@ -1,0 +1,197 @@
+{
+  "baseline_local_depths": {
+    "0": 0,
+    "1": 0,
+    "10": 1,
+    "11": 1,
+    "12": 1,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+    "6": 0,
+    "7": 2,
+    "8": 3,
+    "9": 4
+  },
+  "baseline_max_depth": 4,
+  "baseline_order": [
+    "err[3]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "baseline_weighted_cost": 118,
+  "basis": [
+    3,
+    6,
+    8,
+    9,
+    10,
+    12
+  ],
+  "discovery_domain": "single-primitive concept-market search on the hard monotone refill transfer frontier",
+  "fixed_order_insertion_search": {
+    "best_active_score_count": 6,
+    "best_bucket_total": 51,
+    "best_by_max_depth": {
+      "3": {
+        "active_score_count": 6,
+        "bucket_total": 51,
+        "insert_position": 4,
+        "local_depths": {
+          "0": 0,
+          "1": 0,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 2,
+          "8": 2,
+          "9": 3
+        },
+        "order": [
+          "err[3]",
+          "err[6]",
+          "err[8]",
+          "err[9]",
+          "err[10] AND err[12]",
+          "err[10]",
+          "err[12]"
+        ],
+        "primitive": "err[10] AND err[12]",
+        "weighted_cost": 90
+      },
+      "4": {
+        "active_score_count": 6,
+        "bucket_total": 51,
+        "insert_position": 0,
+        "local_depths": {
+          "0": 0,
+          "1": 0,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 1,
+          "8": 3,
+          "9": 4
+        },
+        "order": [
+          "err[3] AND err[6]",
+          "err[3]",
+          "err[6]",
+          "err[8]",
+          "err[9]",
+          "err[10]",
+          "err[12]"
+        ],
+        "primitive": "err[3] AND err[6]",
+        "weighted_cost": 113
+      },
+      "5": {
+        "active_score_count": 6,
+        "bucket_total": 51,
+        "insert_position": 2,
+        "local_depths": {
+          "0": 0,
+          "1": 0,
+          "10": 1,
+          "11": 1,
+          "12": 1,
+          "2": 0,
+          "3": 0,
+          "4": 0,
+          "5": 0,
+          "6": 0,
+          "7": 2,
+          "8": 3,
+          "9": 5
+        },
+        "order": [
+          "err[3]",
+          "err[6]",
+          "err[3] AND err[9]",
+          "err[8]",
+          "err[9]",
+          "err[10]",
+          "err[12]"
+        ],
+        "primitive": "err[3] AND err[9]",
+        "weighted_cost": 128
+      }
+    },
+    "best_insert_position": 4,
+    "best_local_depths": {
+      "0": 0,
+      "1": 0,
+      "10": 1,
+      "11": 1,
+      "12": 1,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6": 0,
+      "7": 2,
+      "8": 2,
+      "9": 3
+    },
+    "best_max_depth": 3,
+    "best_order": [
+      "err[3]",
+      "err[6]",
+      "err[8]",
+      "err[9]",
+      "err[10] AND err[12]",
+      "err[10]",
+      "err[12]"
+    ],
+    "best_primitive": "err[10] AND err[12]",
+    "best_primitive_op": "and",
+    "best_primitive_subset": [
+      10,
+      12
+    ],
+    "best_weighted_cost": 90,
+    "exact_with_max_depth_2": false,
+    "searched_candidate_count": 490
+  },
+  "holdout_domain": "the same 13 holdout fact states from v29 to v34",
+  "oracle_dependent": true,
+  "replacement_search": {
+    "best_exact": null,
+    "exact_count": 0,
+    "searched_language_count": 70,
+    "searched_order_count": 4560
+  },
+  "score_counts": {
+    "0": 1,
+    "1": 5,
+    "10": 5,
+    "11": 7,
+    "12": 2,
+    "2": 14,
+    "3": 14,
+    "4": 8,
+    "5": 12,
+    "6": 29,
+    "7": 5,
+    "8": 18,
+    "9": 10
+  },
+  "strongest_claim": "In the hard monotone refill transfer case, simple pure concept invention is real but fragile. In the searched fixed-order insertion grammar, the best exact ladder inserts err[10] AND err[12] before err[10], lowering weighted cost from 118 to 90 and reducing maximum depth from 4 to 3. In the searched replacement grammar, no single 2- or 3-bit pure AND or OR primitive yields any exact ladder at all.",
+  "survivor": "refill concept-market frontier",
+  "tier": "descriptive_oracle",
+  "viable_behavior_count": 130
+}

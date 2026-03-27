@@ -1,0 +1,74 @@
+{
+  "controller_rule": {
+    "base_formula": [
+      "neg:gain",
+      "neg:child_best_gain"
+    ],
+    "exception": "switch away from the base winner when another obligation trades exactly one unit of immediate gain for at least +2 child_best_gain, +1 child_best_cut, and +1 next_uncovered"
+  },
+  "discovery_domain": "lookahead-dominance controller distilled from bounded policy-improvement failures",
+  "exhaustive_4x4_roots": {
+    "hits": 65535,
+    "total": 65535
+  },
+  "exhaustive_4x4_states": {
+    "hits": 320927,
+    "total": 320927
+  },
+  "holdout_5x5_roots": [
+    {
+      "base_hits": 998,
+      "density": 0.3,
+      "dominance_hits": 999,
+      "n": 5,
+      "total": 1000,
+      "trials": 1000
+    },
+    {
+      "base_hits": 983,
+      "density": 0.5,
+      "dominance_hits": 996,
+      "n": 5,
+      "total": 1000,
+      "trials": 1000
+    },
+    {
+      "base_hits": 992,
+      "density": 0.7,
+      "dominance_hits": 999,
+      "n": 5,
+      "total": 1000,
+      "trials": 1000
+    }
+  ],
+  "holdout_6x6_roots": [
+    {
+      "base_hits": 300,
+      "density": 0.3,
+      "dominance_hits": 300,
+      "n": 6,
+      "total": 300,
+      "trials": 300
+    },
+    {
+      "base_hits": 289,
+      "density": 0.5,
+      "dominance_hits": 298,
+      "n": 6,
+      "total": 300,
+      "trials": 300
+    },
+    {
+      "base_hits": 292,
+      "density": 0.7,
+      "dominance_hits": 296,
+      "n": 6,
+      "total": 300,
+      "trials": 300
+    }
+  ],
+  "oracle_dependent": false,
+  "strongest_claim": "The exact 4x4 motif exception compresses further into a generic lookahead-dominance controller. That controller is exact on exhaustive 4x4 roots and reachable states, and it improves the flat base controller on sampled 5x5 and 6x6 roots.",
+  "survivor": "lookahead-dominance controller",
+  "tier": "descriptive_symbolic_controller"
+}

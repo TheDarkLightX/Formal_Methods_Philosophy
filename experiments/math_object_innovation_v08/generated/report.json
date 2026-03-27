@@ -1,0 +1,391 @@
+{
+  "best_exact_clause": {
+    "holdout_5_buckets": {
+      "5:0.3": 1000,
+      "5:0.5": 998,
+      "5:0.7": 1000
+    },
+    "holdout_5_hits": 2998,
+    "holdout_5_total": 3000,
+    "holdout_6_buckets": {
+      "6:0.3": 300,
+      "6:0.5": 298,
+      "6:0.7": 297
+    },
+    "holdout_6_hits": 895,
+    "holdout_6_total": 900,
+    "params": {
+      "child_cut_min": 0,
+      "child_gain_min": 2,
+      "gain_loss": 1,
+      "next_delta": 1,
+      "next_mode": "eq"
+    },
+    "state_hits": 320927,
+    "state_total": 320927
+  },
+  "discovery_domain": "search over a small family of lookahead-dominance clauses",
+  "exact_on_4x4_state_count": 4,
+  "holdout_5_total": 3000,
+  "holdout_6_total": 900,
+  "oracle_dependent": false,
+  "searched_clause_count": 18,
+  "state_total": 320927,
+  "strongest_claim": "The mined lookahead-dominance controller is not an isolated exact clause. A small family of nearby dominance clauses stays exact on exhaustive 4x4 states, and some members generalize better than others on larger sampled roots.",
+  "survivor": "dominance-clause family frontier",
+  "tier": "descriptive_symbolic_controller",
+  "top_exact_clauses": [
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 998,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2998,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 297
+      },
+      "holdout_6_hits": 895,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 0,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "eq"
+      },
+      "state_hits": 320927,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 998,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2998,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 297
+      },
+      "holdout_6_hits": 895,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 0,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "ge"
+      },
+      "state_hits": 320927,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 999,
+        "5:0.5": 996,
+        "5:0.7": 999
+      },
+      "holdout_5_hits": 2994,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 296
+      },
+      "holdout_6_hits": 894,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 1,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "eq"
+      },
+      "state_hits": 320927,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 999,
+        "5:0.5": 996,
+        "5:0.7": 999
+      },
+      "holdout_5_hits": 2994,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 296
+      },
+      "holdout_6_hits": 894,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 1,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "ge"
+      },
+      "state_hits": 320927,
+      "state_total": 320927
+    }
+  ],
+  "top_overall_clauses": [
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 998,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2998,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 297
+      },
+      "holdout_6_hits": 895,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 0,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "eq"
+      },
+      "state_hits": 320927,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 998,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2998,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 297
+      },
+      "holdout_6_hits": 895,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 0,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "ge"
+      },
+      "state_hits": 320927,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 999,
+        "5:0.5": 996,
+        "5:0.7": 999
+      },
+      "holdout_5_hits": 2994,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 296
+      },
+      "holdout_6_hits": 894,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 1,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "eq"
+      },
+      "state_hits": 320927,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 999,
+        "5:0.5": 996,
+        "5:0.7": 999
+      },
+      "holdout_5_hits": 2994,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 298,
+        "6:0.7": 296
+      },
+      "holdout_6_hits": 894,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 1,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "ge"
+      },
+      "state_hits": 320927,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 998,
+        "5:0.5": 985,
+        "5:0.7": 994
+      },
+      "holdout_5_hits": 2977,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 293,
+        "6:0.7": 292
+      },
+      "holdout_6_hits": 885,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 2,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "eq"
+      },
+      "state_hits": 320783,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 998,
+        "5:0.5": 985,
+        "5:0.7": 994
+      },
+      "holdout_5_hits": 2977,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 293,
+        "6:0.7": 292
+      },
+      "holdout_6_hits": 885,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 2,
+        "child_gain_min": 2,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "ge"
+      },
+      "state_hits": 320783,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 999,
+        "5:0.5": 984,
+        "5:0.7": 992
+      },
+      "holdout_5_hits": 2975,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 291,
+        "6:0.7": 292
+      },
+      "holdout_6_hits": 883,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 0,
+        "child_gain_min": 3,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "eq"
+      },
+      "state_hits": 320783,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 999,
+        "5:0.5": 984,
+        "5:0.7": 992
+      },
+      "holdout_5_hits": 2975,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 291,
+        "6:0.7": 292
+      },
+      "holdout_6_hits": 883,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 0,
+        "child_gain_min": 3,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "ge"
+      },
+      "state_hits": 320783,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 998,
+        "5:0.5": 983,
+        "5:0.7": 992
+      },
+      "holdout_5_hits": 2973,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 291,
+        "6:0.7": 292
+      },
+      "holdout_6_hits": 883,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 1,
+        "child_gain_min": 3,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "eq"
+      },
+      "state_hits": 320783,
+      "state_total": 320927
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 998,
+        "5:0.5": 983,
+        "5:0.7": 992
+      },
+      "holdout_5_hits": 2973,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 291,
+        "6:0.7": 292
+      },
+      "holdout_6_hits": 883,
+      "holdout_6_total": 900,
+      "params": {
+        "child_cut_min": 1,
+        "child_gain_min": 3,
+        "gain_loss": 1,
+        "next_delta": 1,
+        "next_mode": "ge"
+      },
+      "state_hits": 320783,
+      "state_total": 320927
+    }
+  ]
+}

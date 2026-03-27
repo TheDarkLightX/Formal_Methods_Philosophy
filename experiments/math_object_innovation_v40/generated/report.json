@@ -1,0 +1,330 @@
+{
+  "all_positive_failure_scores": [
+    9,
+    10
+  ],
+  "atom_count": 576,
+  "discovery_domain": "score-local mixed-sign witness-language search on the hard v38 feature frontier",
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states from v29 to v39",
+  "nontrivial_score_count": 6,
+  "nontrivial_scores": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "oracle_dependent": true,
+  "score_summaries": {
+    "10": {
+      "all_positive_cost": null,
+      "all_positive_possible": false,
+      "best_default_label": "(1, 0, 1, 1)",
+      "best_mixed_cost": 4,
+      "best_mixed_language": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ]
+      },
+      "block_size": 5,
+      "label_count": 5,
+      "labels": [
+        "(0, 0, 1, 1)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)"
+      ],
+      "missing_positive_labels": [
+        "(1, 0, 1, 1)"
+      ],
+      "positive_covers": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 0, 1, 1)": null
+      }
+    },
+    "11": {
+      "all_positive_cost": 6,
+      "all_positive_possible": true,
+      "best_default_label": "(0, 0, 1, 1)",
+      "best_mixed_cost": 5,
+      "best_mixed_language": {
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 0, 1, 1)": [
+          "err[10] and err[12]"
+        ],
+        "(1, 1, 0, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "block_size": 7,
+      "label_count": 6,
+      "labels": [
+        "(0, 0, 1, 1)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)",
+        "(1, 1, 0, 0)"
+      ],
+      "missing_positive_labels": [],
+      "positive_covers": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 0, 1, 1)": [
+          "err[10] and err[12]"
+        ],
+        "(1, 1, 0, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      }
+    },
+    "12": {
+      "all_positive_cost": 2,
+      "all_positive_possible": true,
+      "best_default_label": "(1, 0, 1, 1)",
+      "best_mixed_cost": 1,
+      "best_mixed_language": {
+        "(1, 1, 1, 0)": [
+          "err[12]"
+        ]
+      },
+      "block_size": 2,
+      "label_count": 2,
+      "labels": [
+        "(1, 0, 1, 1)",
+        "(1, 1, 1, 0)"
+      ],
+      "missing_positive_labels": [],
+      "positive_covers": {
+        "(1, 0, 1, 1)": [
+          "err[10]"
+        ],
+        "(1, 1, 1, 0)": [
+          "err[12]"
+        ]
+      }
+    },
+    "7": {
+      "all_positive_cost": 5,
+      "all_positive_possible": true,
+      "best_default_label": "(0, 0, 0, 0)",
+      "best_mixed_cost": 4,
+      "best_mixed_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ]
+      },
+      "block_size": 5,
+      "label_count": 5,
+      "labels": [
+        "(0, 0, 0, 0)",
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 1, 0, 0)",
+        "(1, 0, 0, 0)"
+      ],
+      "missing_positive_labels": [],
+      "positive_covers": {
+        "(0, 0, 0, 0)": [
+          "not err[6] and not err[8]"
+        ],
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ]
+      }
+    },
+    "8": {
+      "all_positive_cost": 7,
+      "all_positive_possible": true,
+      "best_default_label": "(0, 0, 0, 0)",
+      "best_mixed_cost": 5,
+      "best_mixed_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[6] and err[9]",
+          "err[3] and err[9]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] AND err[10] AND err[12] and not err[9]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+        ]
+      },
+      "block_size": 18,
+      "label_count": 5,
+      "labels": [
+        "(0, 0, 0, 0)",
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 1, 0, 0)",
+        "(1, 0, 0, 0)"
+      ],
+      "missing_positive_labels": [],
+      "positive_covers": {
+        "(0, 0, 0, 0)": [
+          "not err[12]",
+          "not err[10]"
+        ],
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[6] and err[9]",
+          "err[3] and err[9]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] AND err[10] AND err[12] and not err[9]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+        ]
+      }
+    },
+    "9": {
+      "all_positive_cost": null,
+      "all_positive_possible": false,
+      "best_default_label": "(1, 0, 1, 0)",
+      "best_mixed_cost": 8,
+      "best_mixed_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "not err[8] and not err[12]",
+          "err[6] and err[9] and not err[10]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ]
+      },
+      "block_size": 10,
+      "label_count": 8,
+      "labels": [
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 0, 1, 1)",
+        "(0, 1, 0, 0)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)"
+      ],
+      "missing_positive_labels": [
+        "(1, 0, 1, 0)"
+      ],
+      "positive_covers": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "not err[8] and not err[12]",
+          "err[6] and err[9] and not err[10]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ],
+        "(1, 0, 1, 0)": null
+      }
+    }
+  },
+  "strongest_claim": "In the searched witness-atom grammar over the hard v38 feature space, every nontrivial score block admits an exact mixed-sign witness language, with total mixed-sign cost 27 across the six nontrivial score blocks. All-positive witness languages already fail on score 9 and score 10 in the same grammar.",
+  "survivor": "score-local mixed-sign witness frontier",
+  "tier": "descriptive_oracle",
+  "total_mixed_cost": 27
+}

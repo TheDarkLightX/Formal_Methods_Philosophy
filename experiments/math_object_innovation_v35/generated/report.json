@@ -1,0 +1,42 @@
+{
+  "all_positive_cost": 7,
+  "best_default_label": "fail_828",
+  "best_mixed_cost": 4,
+  "best_mixed_language": {
+    "fail_13116": [
+      "H6 = 869"
+    ],
+    "fail_1915": [
+      "H6 = 859 and E = False",
+      "H6 = 865"
+    ],
+    "safe": [
+      "H6 > 869"
+    ]
+  },
+  "discovery_domain": "mixed-sign certificate-language search on the repaired verifier frontier",
+  "holdout_domain": "the same 10 reachable quotient states over `(H6, E)` used in v24 and v25",
+  "label_count": 4,
+  "oracle_dependent": true,
+  "positive_covers": {
+    "fail_13116": [
+      "H6 = 869"
+    ],
+    "fail_1915": [
+      "H6 = 859 and E = False",
+      "H6 = 865"
+    ],
+    "fail_828": [
+      "E = True",
+      "H6 = 858",
+      "H6 = 864"
+    ],
+    "safe": [
+      "H6 > 869"
+    ]
+  },
+  "state_count": 10,
+  "strongest_claim": "On the repaired verifier frontier, the smallest exact all-positive certificate language uses 7 pure guards, but the smallest exact mixed-sign language uses only 4 by certifying `safe`, `fail_13116`, and `fail_1915` positively and leaving `fail_828` as the default residual class.",
+  "survivor": "mixed-sign label language frontier",
+  "tier": "descriptive_oracle"
+}

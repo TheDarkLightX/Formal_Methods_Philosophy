@@ -1,0 +1,47 @@
+{
+  "best_partition": [
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      12
+    ]
+  ],
+  "discovery_domain": "comparison of global witness-schema synthesis on the exact v44 partition, using conjunction atoms of 1 to 4 versus 1 to 5 signed literals",
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states from v29 to v46",
+  "oracle_dependent": true,
+  "strongest_claim": "Allowing conjunction atoms of 1 to 5 signed literals does not improve the main global witness object from v46: the exact partition stays the same, total region cost stays 22, and the best shared global schema count stays 19.",
+  "summary_4": {
+    "atom_count": 1696,
+    "best_shared_schema_count": 19,
+    "total_region_cost": 22
+  },
+  "summary_5": {
+    "atom_count": 3488,
+    "best_shared_schema_count": 19,
+    "total_region_cost": 22
+  },
+  "survivor": "global witness-synthesis grammar boundary frontier",
+  "tier": "descriptive_oracle"
+}

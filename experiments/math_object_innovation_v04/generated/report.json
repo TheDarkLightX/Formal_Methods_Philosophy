@@ -1,0 +1,183 @@
+{
+  "best_opt_formula": {
+    "first_failure": {
+      "chosen": 2,
+      "mask": 4830,
+      "target": 0
+    },
+    "formula": [
+      "max_gain",
+      "max_child_best_gain"
+    ],
+    "hits": 65391,
+    "total": 65535
+  },
+  "best_pi2_formula": {
+    "first_failure": {
+      "chosen": 2,
+      "mask": 4830,
+      "target": 0
+    },
+    "formula": [
+      "max_gain",
+      "max_child_best_gain"
+    ],
+    "hits": 65391,
+    "total": 65535
+  },
+  "dataset_size": 65535,
+  "discovery_domain": "controller compression for improved obligation policies on exhaustive 4x4 roots",
+  "oracle_dependent": false,
+  "sample_size": 2048,
+  "search_family": {
+    "beam_width": 8,
+    "explored_formulas_opt": 316,
+    "explored_formulas_pi2": 316,
+    "feature_count": 10,
+    "formula_depth_max": 3,
+    "signed_feature_count": 20
+  },
+  "strongest_claim": "Within the tested family of local lexicographic obligation scores of depth at most 3, no direct score exactly reproduced the improved controller on exhaustive 4x4 roots. The best formulas came close, which turns controller compression into the next concrete frontier.",
+  "survivor": "controller compression frontier",
+  "tier": "frontier_probe",
+  "top_opt_formulas": [
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "max_gain",
+        "max_child_best_gain"
+      ],
+      "hits": 65391,
+      "total": 65535
+    },
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "min_next_uncovered",
+        "max_child_best_gain"
+      ],
+      "hits": 65391,
+      "total": 65535
+    },
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "max_gain",
+        "max_child_best_gain",
+        "max_next_uncovered"
+      ],
+      "hits": 65391,
+      "total": 65535
+    },
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "max_gain",
+        "max_child_best_gain",
+        "min_child_best_gain"
+      ],
+      "hits": 65391,
+      "total": 65535
+    },
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "max_gain",
+        "max_child_best_gain",
+        "min_gain"
+      ],
+      "hits": 65391,
+      "total": 65535
+    }
+  ],
+  "top_pi2_formulas": [
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "max_gain",
+        "max_child_best_gain"
+      ],
+      "hits": 65391,
+      "total": 65535
+    },
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "min_next_uncovered",
+        "max_child_best_gain"
+      ],
+      "hits": 65391,
+      "total": 65535
+    },
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "max_gain",
+        "max_child_best_gain",
+        "max_next_uncovered"
+      ],
+      "hits": 65391,
+      "total": 65535
+    },
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "max_gain",
+        "max_child_best_gain",
+        "min_child_best_gain"
+      ],
+      "hits": 65391,
+      "total": 65535
+    },
+    {
+      "first_failure": {
+        "chosen": 2,
+        "mask": 4830,
+        "target": 0
+      },
+      "formula": [
+        "max_gain",
+        "max_child_best_gain",
+        "min_gain"
+      ],
+      "hits": 65391,
+      "total": 65535
+    }
+  ]
+}

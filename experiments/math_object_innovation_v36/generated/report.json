@@ -1,0 +1,164 @@
+{
+  "baseline_all_positive_cost": 7,
+  "baseline_covers": {
+    "fail_13116": [
+      1,
+      [
+        "H6 = 869"
+      ]
+    ],
+    "fail_1915": [
+      2,
+      [
+        "H6 = 859 and E = False",
+        "H6 = 865"
+      ]
+    ],
+    "fail_828": [
+      3,
+      [
+        "E = True",
+        "H6 = 858",
+        "H6 = 864"
+      ]
+    ],
+    "safe": [
+      1,
+      [
+        "H6 > 869"
+      ]
+    ]
+  },
+  "best_one_primitive": {
+    "covers": {
+      "fail_13116": [
+        "H6 = 869"
+      ],
+      "fail_1915": [
+        "H6 = 859 and E = False",
+        "H6 = 865"
+      ],
+      "fail_828": [
+        "E = True OR H6 = 858 OR H6 = 864"
+      ],
+      "safe": [
+        "H6 > 869"
+      ]
+    },
+    "primitive": {
+      "cover_states": [
+        {
+          "E": false,
+          "H6": 858
+        },
+        {
+          "E": true,
+          "H6": 858
+        },
+        {
+          "E": true,
+          "H6": 859
+        },
+        {
+          "E": true,
+          "H6": 863
+        },
+        {
+          "E": false,
+          "H6": 864
+        },
+        {
+          "E": true,
+          "H6": 864
+        }
+      ],
+      "formula": "E = True OR H6 = 858 OR H6 = 864",
+      "label": "fail_828",
+      "parts": [
+        "E = True",
+        "H6 = 858",
+        "H6 = 864"
+      ]
+    },
+    "total_cost": 5
+  },
+  "best_two_primitives": {
+    "covers": {
+      "fail_13116": [
+        "H6 = 869"
+      ],
+      "fail_1915": [
+        "H6 = 859 and E = False OR H6 = 865"
+      ],
+      "fail_828": [
+        "E = True OR H6 = 858 OR H6 = 864"
+      ],
+      "safe": [
+        "H6 > 869"
+      ]
+    },
+    "primitives": [
+      {
+        "cover_states": [
+          {
+            "E": false,
+            "H6": 859
+          },
+          {
+            "E": false,
+            "H6": 865
+          }
+        ],
+        "formula": "H6 = 859 and E = False OR H6 = 865",
+        "label": "fail_1915",
+        "parts": [
+          "H6 = 859 and E = False",
+          "H6 = 865"
+        ]
+      },
+      {
+        "cover_states": [
+          {
+            "E": false,
+            "H6": 858
+          },
+          {
+            "E": true,
+            "H6": 858
+          },
+          {
+            "E": true,
+            "H6": 859
+          },
+          {
+            "E": true,
+            "H6": 863
+          },
+          {
+            "E": false,
+            "H6": 864
+          },
+          {
+            "E": true,
+            "H6": 864
+          }
+        ],
+        "formula": "E = True OR H6 = 858 OR H6 = 864",
+        "label": "fail_828",
+        "parts": [
+          "E = True",
+          "H6 = 858",
+          "H6 = 864"
+        ]
+      }
+    ],
+    "total_cost": 4
+  },
+  "candidate_primitive_count": 103,
+  "discovery_domain": "primitive-invention search over exact label-pure unions on the repaired verifier frontier",
+  "holdout_domain": "the same 10 reachable quotient states over `(H6, E)` used in v24, v25, and v35",
+  "oracle_dependent": true,
+  "strongest_claim": "On the repaired verifier frontier, bounded primitive invention improves the all-positive exact label language. One invented pure primitive lowers cost from 7 to 5, and two invented pure primitives lower cost from 7 to 4, matching the best mixed-sign language from v35.",
+  "survivor": "primitive-invention label frontier",
+  "tier": "descriptive_oracle"
+}

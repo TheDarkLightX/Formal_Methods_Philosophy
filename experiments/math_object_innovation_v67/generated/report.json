@@ -1,0 +1,269 @@
+{
+  "cost_histogram": [
+    {
+      "cost": 3,
+      "count": 192
+    },
+    {
+      "cost": 4,
+      "count": 576
+    },
+    {
+      "cost": 5,
+      "count": 576
+    },
+    {
+      "cost": 6,
+      "count": 336
+    }
+  ],
+  "discovery_domain": "labeled four-role support tables with one distinct realized support signature per role at width 3, quotiented by cube automorphisms",
+  "holdout_domain": "the width-3 abstract support-table family from v66",
+  "oracle_dependent": true,
+  "orbit_atlas": [
+    {
+      "edge_count": 4,
+      "labeled_table_count": 144,
+      "orbit_size": 6,
+      "representative": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "sample_witness": {
+        "ordered_subset": [
+          0,
+          1,
+          4,
+          5
+        ],
+        "witness": {
+          "branches": [
+            {
+              "atom": "not s0 and s2",
+              "label": "B",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0 and not s2",
+              "label": "C",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0 and s2",
+              "label": "D",
+              "literal_count": 2
+            }
+          ],
+          "default_label": "A"
+        }
+      },
+      "uniform_cost": 6
+    },
+    {
+      "edge_count": 3,
+      "labeled_table_count": 192,
+      "orbit_size": 8,
+      "representative": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "sample_witness": {
+        "ordered_subset": [
+          0,
+          1,
+          2,
+          4
+        ],
+        "witness": {
+          "branches": [
+            {
+              "atom": "s2",
+              "label": "B",
+              "literal_count": 1
+            },
+            {
+              "atom": "s1",
+              "label": "C",
+              "literal_count": 1
+            },
+            {
+              "atom": "s0",
+              "label": "D",
+              "literal_count": 1
+            }
+          ],
+          "default_label": "A"
+        }
+      },
+      "uniform_cost": 3
+    },
+    {
+      "edge_count": 3,
+      "labeled_table_count": 576,
+      "orbit_size": 24,
+      "representative": [
+        0,
+        1,
+        2,
+        5
+      ],
+      "sample_witness": {
+        "ordered_subset": [
+          0,
+          1,
+          3,
+          4
+        ],
+        "witness": {
+          "branches": [
+            {
+              "atom": "not s1 and s2",
+              "label": "B",
+              "literal_count": 2
+            },
+            {
+              "atom": "s1",
+              "label": "C",
+              "literal_count": 1
+            },
+            {
+              "atom": "s0",
+              "label": "D",
+              "literal_count": 1
+            }
+          ],
+          "default_label": "A"
+        }
+      },
+      "uniform_cost": 4
+    },
+    {
+      "edge_count": 2,
+      "labeled_table_count": 576,
+      "orbit_size": 24,
+      "representative": [
+        0,
+        1,
+        2,
+        7
+      ],
+      "sample_witness": {
+        "ordered_subset": [
+          0,
+          2,
+          3,
+          5
+        ],
+        "witness": {
+          "branches": [
+            {
+              "atom": "s1 and not s2",
+              "label": "B",
+              "literal_count": 2
+            },
+            {
+              "atom": "not s0 and s2",
+              "label": "C",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0",
+              "label": "D",
+              "literal_count": 1
+            }
+          ],
+          "default_label": "A"
+        }
+      },
+      "uniform_cost": 5
+    },
+    {
+      "edge_count": 2,
+      "labeled_table_count": 144,
+      "orbit_size": 6,
+      "representative": [
+        0,
+        1,
+        6,
+        7
+      ],
+      "sample_witness": {
+        "ordered_subset": [
+          0,
+          3,
+          4,
+          7
+        ],
+        "witness": {
+          "branches": [
+            {
+              "atom": "not s0 and s1",
+              "label": "B",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0 and not s1",
+              "label": "C",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0 and s1",
+              "label": "D",
+              "literal_count": 2
+            }
+          ],
+          "default_label": "A"
+        }
+      },
+      "uniform_cost": 6
+    },
+    {
+      "edge_count": 0,
+      "labeled_table_count": 48,
+      "orbit_size": 2,
+      "representative": [
+        0,
+        3,
+        5,
+        6
+      ],
+      "sample_witness": {
+        "ordered_subset": [
+          1,
+          2,
+          4,
+          7
+        ],
+        "witness": {
+          "branches": [
+            {
+              "atom": "not s0 and s1",
+              "label": "B",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0 and not s1",
+              "label": "C",
+              "literal_count": 2
+            },
+            {
+              "atom": "s0 and s1",
+              "label": "D",
+              "literal_count": 2
+            }
+          ],
+          "default_label": "A"
+        }
+      },
+      "uniform_cost": 6
+    }
+  ],
+  "orbit_count": 6,
+  "strongest_claim": "The width-3 four-role support frontier collapses exactly to six cube-orbit classes, and each orbit has a uniform exact minimal compiler cost. The v66 cost ladder is therefore a small exact geometry atlas, not just a histogram.",
+  "survivor": "width3 four-role geometry frontier",
+  "tier": "descriptive_oracle"
+}

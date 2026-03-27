@@ -1,0 +1,287 @@
+{
+  "chosen_triple": [
+    "count_private_roles",
+    "max_degree",
+    "diameter"
+  ],
+  "chosen_triple_map": [
+    {
+      "features": [
+        0,
+        0,
+        2
+      ],
+      "representative": [
+        0,
+        3,
+        5,
+        6
+      ]
+    },
+    {
+      "features": [
+        0,
+        0,
+        3
+      ],
+      "representative": [
+        0,
+        3,
+        13,
+        14
+      ]
+    },
+    {
+      "features": [
+        0,
+        0,
+        4
+      ],
+      "representative": [
+        0,
+        3,
+        12,
+        15
+      ]
+    },
+    {
+      "features": [
+        0,
+        1,
+        3
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        7
+      ]
+    },
+    {
+      "features": [
+        0,
+        1,
+        4
+      ],
+      "representative": [
+        0,
+        1,
+        14,
+        15
+      ]
+    },
+    {
+      "features": [
+        0,
+        2,
+        2
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "features": [
+        1,
+        0,
+        3
+      ],
+      "representative": [
+        0,
+        3,
+        5,
+        14
+      ]
+    },
+    {
+      "features": [
+        1,
+        1,
+        4
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        15
+      ]
+    },
+    {
+      "features": [
+        1,
+        2,
+        3
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        7
+      ]
+    },
+    {
+      "features": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        15
+      ]
+    },
+    {
+      "features": [
+        2,
+        0,
+        4
+      ],
+      "representative": [
+        0,
+        3,
+        5,
+        10
+      ]
+    },
+    {
+      "features": [
+        2,
+        1,
+        3
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        11
+      ]
+    },
+    {
+      "features": [
+        2,
+        1,
+        4
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        14
+      ]
+    },
+    {
+      "features": [
+        2,
+        2,
+        3
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        5
+      ]
+    },
+    {
+      "features": [
+        2,
+        2,
+        4
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        13
+      ]
+    },
+    {
+      "features": [
+        3,
+        1,
+        3
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        10
+      ]
+    },
+    {
+      "features": [
+        3,
+        2,
+        3
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        12
+      ]
+    },
+    {
+      "features": [
+        3,
+        3,
+        2
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "features": [
+        4,
+        0,
+        2
+      ],
+      "representative": [
+        0,
+        3,
+        5,
+        9
+      ]
+    }
+  ],
+  "discovery_domain": "minimal exact scalar support-plus-geometry basis for the width-4 orbit family, within the searched scalar feature library",
+  "holdout_domain": "the full width-4 unlabeled orbit family",
+  "oracle_dependent": true,
+  "orbit_count": 19,
+  "pair_exact": [],
+  "singleton_exact": [],
+  "strongest_claim": "On the width-4 unlabeled orbit family, no searched singleton or pair of scalar support-plus-geometry features reconstructs the orbit class exactly, but the triple (count_private_roles, max_degree, diameter) does.",
+  "survivor": "width4 orbit scalarized mixed-law frontier",
+  "tier": "descriptive_oracle",
+  "triple_exact": [
+    [
+      "count_private_roles",
+      "max_degree",
+      "diameter"
+    ],
+    [
+      "count_private_roles",
+      "isolated_count",
+      "diameter"
+    ],
+    [
+      "count_size2_roles",
+      "max_degree",
+      "diameter"
+    ],
+    [
+      "count_size2_roles",
+      "isolated_count",
+      "diameter"
+    ]
+  ]
+}

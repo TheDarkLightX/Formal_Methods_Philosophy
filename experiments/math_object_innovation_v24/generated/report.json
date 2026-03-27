@@ -1,0 +1,77 @@
+{
+  "decision_list": [
+    "if H6 = 859 and E = False then fail_1915",
+    "if H6 = 865 then fail_1915",
+    "if H6 = 869 then fail_13116",
+    "if H6 > 869 then safe",
+    "else fail_828"
+  ],
+  "discovery_domain": "minimal exact decision-list compilation of the repaired `(holdout_6_hits, num_eq[4])` verifier quotient",
+  "frontier_size": 7104,
+  "guard_count": 4,
+  "holdout_domain": "same weighted 5x5 and 6x6 score coordinates used in v15 through v23",
+  "logic_formulas": [
+    "Let E(x) := p1_4(x) = p2_4(x).",
+    "Safe(x) \u2194 H6(x) = 876",
+    "Fail_13116(x) \u2194 H6(x) = 869",
+    "Fail_1915(x) \u2194 H6(x) = 865 \u2228 (H6(x) = 859 \u2227 \u00acE(x))",
+    "Fail_828(x) \u2194 \u00acSafe(x) \u2227 \u00acFail_13116(x) \u2227 \u00acFail_1915(x)"
+  ],
+  "oracle_dependent": true,
+  "quotient_state_count": 10,
+  "state_rows": [
+    {
+      "E": false,
+      "H6": 858,
+      "label": "fail_828"
+    },
+    {
+      "E": true,
+      "H6": 858,
+      "label": "fail_828"
+    },
+    {
+      "E": false,
+      "H6": 859,
+      "label": "fail_1915"
+    },
+    {
+      "E": true,
+      "H6": 859,
+      "label": "fail_828"
+    },
+    {
+      "E": true,
+      "H6": 863,
+      "label": "fail_828"
+    },
+    {
+      "E": false,
+      "H6": 864,
+      "label": "fail_828"
+    },
+    {
+      "E": true,
+      "H6": 864,
+      "label": "fail_828"
+    },
+    {
+      "E": false,
+      "H6": 865,
+      "label": "fail_1915"
+    },
+    {
+      "E": false,
+      "H6": 869,
+      "label": "fail_13116"
+    },
+    {
+      "E": false,
+      "H6": 876,
+      "label": "safe"
+    }
+  ],
+  "strongest_claim": "After repairing the `holdout_6_hits` quotient with `E(x) := p1_4(x) = p2_4(x)`, the verifier side compiles to a minimal exact bounded decision list with 4 guards: `H6 = 859 \u2227 E = False`, `H6 = 865`, `H6 = 869`, and `H6 = 876`, with default `fail_828`. So the repaired quotient is not only exact, it is compiler-small.",
+  "survivor": "repaired verifier compiler frontier",
+  "tier": "descriptive_oracle"
+}

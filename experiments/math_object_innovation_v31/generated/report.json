@@ -1,0 +1,105 @@
+{
+  "basis": [
+    3,
+    6,
+    8,
+    9,
+    10,
+    12
+  ],
+  "basis_bucket_count": 115,
+  "basis_exact": true,
+  "discovery_domain": "irredundancy analysis for the Horn-closed semantic basis in the monotone refill transfer frontier",
+  "drop_results": [
+    {
+      "bucket_count": 89,
+      "dropped_bit": 3,
+      "exact": false,
+      "first_mixed_bucket": {
+        "hold_score": 7,
+        "labels": [
+          "(0, 0, 1, 0)",
+          "(0, 1, 0, 0)"
+        ]
+      }
+    },
+    {
+      "bucket_count": 91,
+      "dropped_bit": 6,
+      "exact": false,
+      "first_mixed_bucket": {
+        "hold_score": 8,
+        "labels": [
+          "(0, 0, 1, 0)",
+          "(1, 0, 0, 0)"
+        ]
+      }
+    },
+    {
+      "bucket_count": 92,
+      "dropped_bit": 8,
+      "exact": false,
+      "first_mixed_bucket": {
+        "hold_score": 7,
+        "labels": [
+          "(0, 0, 0, 0)",
+          "(1, 0, 0, 0)"
+        ]
+      }
+    },
+    {
+      "bucket_count": 100,
+      "dropped_bit": 9,
+      "exact": false,
+      "first_mixed_bucket": {
+        "hold_score": 10,
+        "labels": [
+          "(1, 0, 1, 0)",
+          "(1, 0, 1, 1)"
+        ]
+      }
+    },
+    {
+      "bucket_count": 101,
+      "dropped_bit": 10,
+      "exact": false,
+      "first_mixed_bucket": {
+        "hold_score": 11,
+        "labels": [
+          "(1, 0, 1, 1)",
+          "(1, 1, 0, 0)"
+        ]
+      }
+    },
+    {
+      "bucket_count": 104,
+      "dropped_bit": 12,
+      "exact": false,
+      "first_mixed_bucket": {
+        "hold_score": 8,
+        "labels": [
+          "(0, 0, 0, 0)",
+          "(1, 0, 0, 0)"
+        ]
+      }
+    }
+  ],
+  "holdout_domain": "the same 13 holdout fact states from v29 and v30",
+  "missing_bit_results": [
+    {
+      "bucket_count": 130,
+      "exact": true,
+      "extra_bit": 5
+    },
+    {
+      "bucket_count": 130,
+      "exact": true,
+      "extra_bit": 11
+    }
+  ],
+  "oracle_dependent": true,
+  "strongest_claim": "In the monotone refill transfer case, the 6-bit Horn-closed semantic basis is irredundant: dropping any retained bit destroys exact first-refuter classification. The two non-derivable bits from v30 are not required for exact classification. Adding either one can split already-pure buckets, but it does not improve label exactness.",
+  "survivor": "irredundant refill Horn basis frontier",
+  "tier": "descriptive_oracle",
+  "viable_behavior_count": 130
+}

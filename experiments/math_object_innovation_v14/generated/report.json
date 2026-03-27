@@ -1,0 +1,65 @@
+{
+  "bank_size": 2,
+  "discovery_domain": "bank-then-rank search over viable repair-program pairs",
+  "first_safe_pair": {
+    "clause_1": {
+      "cut_gain_min": 1,
+      "max_child_cut_drop": 2,
+      "min_child_best_singleton_gain": 1,
+      "min_child_sum_drop": 2,
+      "next_size_drop_min": 1,
+      "origin_guard": "core",
+      "rank": "cut_next_childsum"
+    },
+    "clause_2": {
+      "cut_gain_min": 1,
+      "max_child_cut_drop": 1,
+      "min_child_best_singleton_gain": 0,
+      "min_child_sum_drop": 4,
+      "next_size_drop_min": 1,
+      "origin_guard": "any",
+      "rank": "cut_next_childsum"
+    },
+    "first_failure": null,
+    "holdout_5_hits": 2945,
+    "holdout_6_hits": 876,
+    "holdout_total": 3821,
+    "rank": 1,
+    "safe": true
+  },
+  "first_safe_rank": 1,
+  "holdout_domain": "sampled 5x5 and 6x6 roots with fixed seeds 99 and 123",
+  "oracle_dependent": false,
+  "strongest_claim": "After the bounded counterexample bank from v12 is learned, the top larger-domain ranked viable repair program is already safe on the exhaustive reachable 4x4 verifier. In this bounded slice, safety synthesis and larger-domain ranking cleanly separate into a two-stage loop.",
+  "survivor": "bank-then-rank frontier",
+  "tier": "descriptive_symbolic_controller",
+  "top_ranked_prefix": [
+    {
+      "clause_1": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 2,
+        "min_child_best_singleton_gain": 1,
+        "min_child_sum_drop": 2,
+        "next_size_drop_min": 1,
+        "origin_guard": "core",
+        "rank": "cut_next_childsum"
+      },
+      "clause_2": {
+        "cut_gain_min": 1,
+        "max_child_cut_drop": 1,
+        "min_child_best_singleton_gain": 0,
+        "min_child_sum_drop": 4,
+        "next_size_drop_min": 1,
+        "origin_guard": "any",
+        "rank": "cut_next_childsum"
+      },
+      "first_failure": null,
+      "holdout_5_hits": 2945,
+      "holdout_6_hits": 876,
+      "holdout_total": 3821,
+      "rank": 1,
+      "safe": true
+    }
+  ],
+  "viable_pair_count": 576
+}

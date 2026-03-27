@@ -1,0 +1,147 @@
+{
+  "best_family_count": 2,
+  "best_family_subset": [
+    "ADD_BUNDLE",
+    "FLIP_BUNDLE"
+  ],
+  "best_patch_assignments": [
+    {
+      "core": "err[6]",
+      "families": [
+        "ADD_BUNDLE"
+      ],
+      "ops": [
+        {
+          "family": "ADD_BUNDLE",
+          "literals": [
+            {
+              "feature": "err[10]",
+              "sign": "NEG"
+            },
+            {
+              "feature": "err[9]",
+              "sign": "POS"
+            }
+          ]
+        }
+      ],
+      "patch": "err[6] and err[9] and not err[10]"
+    },
+    {
+      "core": "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]",
+      "families": [
+        "FLIP_BUNDLE"
+      ],
+      "ops": [
+        {
+          "family": "FLIP_BUNDLE",
+          "literals": [
+            {
+              "feature": "err[9] AND err[10] AND err[12]",
+              "from_sign": "NEG",
+              "to_sign": "POS"
+            }
+          ]
+        }
+      ],
+      "patch": "not err[3] and err[9] AND err[10] AND err[12] and not err[6]"
+    },
+    {
+      "core": "err[8] and err[12]",
+      "families": [
+        "FLIP_BUNDLE"
+      ],
+      "ops": [
+        {
+          "family": "FLIP_BUNDLE",
+          "literals": [
+            {
+              "feature": "err[12]",
+              "from_sign": "POS",
+              "to_sign": "NEG"
+            },
+            {
+              "feature": "err[8]",
+              "from_sign": "POS",
+              "to_sign": "NEG"
+            }
+          ]
+        }
+      ],
+      "patch": "not err[8] and not err[12]"
+    },
+    {
+      "core": "err[12]",
+      "families": [
+        "ADD_BUNDLE"
+      ],
+      "ops": [
+        {
+          "family": "ADD_BUNDLE",
+          "literals": [
+            {
+              "feature": "err[10]",
+              "sign": "POS"
+            },
+            {
+              "feature": "err[3]",
+              "sign": "NEG"
+            },
+            {
+              "feature": "err[6]",
+              "sign": "NEG"
+            }
+          ]
+        }
+      ],
+      "patch": "not err[3] and not err[6] and err[10] and err[12]"
+    },
+    {
+      "core": "err[3]",
+      "families": [
+        "ADD_BUNDLE",
+        "FLIP_BUNDLE"
+      ],
+      "ops": [
+        {
+          "family": "ADD_BUNDLE",
+          "literals": [
+            {
+              "feature": "err[10]",
+              "sign": "POS"
+            },
+            {
+              "feature": "err[6]",
+              "sign": "NEG"
+            },
+            {
+              "feature": "err[8]",
+              "sign": "NEG"
+            }
+          ]
+        },
+        {
+          "family": "FLIP_BUNDLE",
+          "literals": [
+            {
+              "feature": "err[3]",
+              "from_sign": "POS",
+              "to_sign": "NEG"
+            }
+          ]
+        }
+      ],
+      "patch": "not err[3] and not err[6] and not err[8] and err[10]"
+    }
+  ],
+  "best_total_macro_instances": 6,
+  "discovery_domain": "semantic bundle-macro search over the shared exact core from v49, using ADD_BUNDLE, DROP_BUNDLE, and FLIP_BUNDLE as candidate families",
+  "holdout_domain": "the five residual patch formulas from the v49 core-plus-patch frontier",
+  "oracle_dependent": true,
+  "patch_count": 5,
+  "search_count": 1419857,
+  "shared_core_size": 17,
+  "strongest_claim": "Over the v49 shared exact core, the five residual patch formulas are exactly scriptable using only two bundle-macro families, ADD_BUNDLE and FLIP_BUNDLE, and the best total macro-instance count drops from 11 in v51 to 7.",
+  "survivor": "bundle semantic-macro frontier",
+  "tier": "descriptive_oracle"
+}

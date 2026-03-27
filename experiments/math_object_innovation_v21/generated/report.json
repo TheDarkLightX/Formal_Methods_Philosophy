@@ -1,0 +1,424 @@
+{
+  "discovery_domain": "scalar quotient analysis of the first-refuter partition over the residual-consistent repair-program frontier",
+  "frontier_size": 7104,
+  "holdout_5_blocks": [
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "kind": "safe"
+        }
+      ],
+      "value": 2945
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 13116,
+          "target": 0
+        }
+      ],
+      "value": 2927
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2
+          ],
+          "kind": "fail",
+          "mask": 1915,
+          "target": 2
+        }
+      ],
+      "value": 2910
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 2899
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 2898
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2
+          ],
+          "kind": "fail",
+          "mask": 1915,
+          "target": 2
+        }
+      ],
+      "value": 2893
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 2882
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 2881
+    }
+  ],
+  "holdout_5_exact_refuter_quotient": true,
+  "holdout_6_blocks": [
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "kind": "safe"
+        }
+      ],
+      "value": 876
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 13116,
+          "target": 0
+        }
+      ],
+      "value": 869
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2
+          ],
+          "kind": "fail",
+          "mask": 1915,
+          "target": 2
+        }
+      ],
+      "value": 865
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 864
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 863
+    },
+    {
+      "label_count": 2,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2
+          ],
+          "kind": "fail",
+          "mask": 1915,
+          "target": 2
+        },
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 859
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 858
+    }
+  ],
+  "holdout_6_exact_refuter_quotient": false,
+  "holdout_domain": "same weighted 5x5 and 6x6 frontier summary used in v15",
+  "holdout_total_blocks": [
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "kind": "safe"
+        }
+      ],
+      "value": 3821
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 13116,
+          "target": 0
+        }
+      ],
+      "value": 3796
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2
+          ],
+          "kind": "fail",
+          "mask": 1915,
+          "target": 2
+        }
+      ],
+      "value": 3775
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 3763
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 3762
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 3761
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2
+          ],
+          "kind": "fail",
+          "mask": 1915,
+          "target": 2
+        }
+      ],
+      "value": 3752
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 3741
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 3740
+    },
+    {
+      "label_count": 1,
+      "labels": [
+        {
+          "candidates": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "kind": "fail",
+          "mask": 828,
+          "target": 0
+        }
+      ],
+      "value": 3739
+    }
+  ],
+  "holdout_total_exact_refuter_quotient": true,
+  "oracle_dependent": false,
+  "strongest_claim": "Within the residual-consistent repair-program frontier, the full first-refuter label is an exact function of `holdout_total`, and also of `holdout_5_hits`, but not of `holdout_6_hits`. So the bounded refuter partition admits a one-dimensional quotient by at least two different scalar coordinates.",
+  "survivor": "scalar refuter quotient frontier",
+  "tier": "descriptive_symbolic_controller"
+}

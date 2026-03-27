@@ -1,0 +1,183 @@
+{
+  "all_safe_repairs": [
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 999,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2999,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 299,
+        "6:0.7": 299
+      },
+      "holdout_6_hits": 898,
+      "holdout_6_total": 900,
+      "repair_clause": {
+        "child_cut_min": 0,
+        "child_gain_min": 3,
+        "gain_loss": 2,
+        "next_delta": 2,
+        "next_mode": "eq"
+      }
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 999,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2999,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 299,
+        "6:0.7": 299
+      },
+      "holdout_6_hits": 898,
+      "holdout_6_total": 900,
+      "repair_clause": {
+        "child_cut_min": 0,
+        "child_gain_min": 3,
+        "gain_loss": 2,
+        "next_delta": 2,
+        "next_mode": "ge"
+      }
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 999,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2999,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 299,
+        "6:0.7": 298
+      },
+      "holdout_6_hits": 897,
+      "holdout_6_total": 900,
+      "repair_clause": {
+        "child_cut_min": 1,
+        "child_gain_min": 3,
+        "gain_loss": 2,
+        "next_delta": 2,
+        "next_mode": "eq"
+      }
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 999,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2999,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 299,
+        "6:0.7": 298
+      },
+      "holdout_6_hits": 897,
+      "holdout_6_total": 900,
+      "repair_clause": {
+        "child_cut_min": 1,
+        "child_gain_min": 3,
+        "gain_loss": 2,
+        "next_delta": 2,
+        "next_mode": "ge"
+      }
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 999,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2999,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 299,
+        "6:0.7": 298
+      },
+      "holdout_6_hits": 897,
+      "holdout_6_total": 900,
+      "repair_clause": {
+        "child_cut_min": 2,
+        "child_gain_min": 3,
+        "gain_loss": 2,
+        "next_delta": 2,
+        "next_mode": "eq"
+      }
+    },
+    {
+      "holdout_5_buckets": {
+        "5:0.3": 1000,
+        "5:0.5": 999,
+        "5:0.7": 1000
+      },
+      "holdout_5_hits": 2999,
+      "holdout_5_total": 3000,
+      "holdout_6_buckets": {
+        "6:0.3": 300,
+        "6:0.5": 299,
+        "6:0.7": 298
+      },
+      "holdout_6_hits": 897,
+      "holdout_6_total": 900,
+      "repair_clause": {
+        "child_cut_min": 2,
+        "child_gain_min": 3,
+        "gain_loss": 2,
+        "next_delta": 2,
+        "next_mode": "ge"
+      }
+    }
+  ],
+  "best_two_clause_language": {
+    "holdout_5_buckets": {
+      "5:0.3": 1000,
+      "5:0.5": 999,
+      "5:0.7": 1000
+    },
+    "holdout_5_hits": 2999,
+    "holdout_5_total": 3000,
+    "holdout_6_buckets": {
+      "6:0.3": 300,
+      "6:0.5": 299,
+      "6:0.7": 299
+    },
+    "holdout_6_hits": 898,
+    "holdout_6_total": 900,
+    "repair_clause": {
+      "child_cut_min": 0,
+      "child_gain_min": 3,
+      "gain_loss": 2,
+      "next_delta": 2,
+      "next_mode": "eq"
+    }
+  },
+  "core_clause": {
+    "child_cut_min": 0,
+    "child_gain_min": 2,
+    "gain_loss": 1,
+    "next_delta": 1,
+    "next_mode": "eq"
+  },
+  "core_holdout_5_hits": 2998,
+  "core_holdout_6_hits": 895,
+  "discovery_domain": "core-plus-repair two-clause dominance language with hard 4x4 preservation",
+  "holdout_5_total": 3000,
+  "holdout_6_total": 900,
+  "oracle_dependent": false,
+  "safe_repair_count": 6,
+  "state_total": 320927,
+  "strongest_claim": "A second deeper-lookahead dominance clause can be added on top of the exact 4x4 core without changing any exhaustive 4x4 reachable state, and this two-clause language improves larger sampled roots beyond the best single exact clause.",
+  "survivor": "two-clause dominance language",
+  "tier": "descriptive_symbolic_controller"
+}

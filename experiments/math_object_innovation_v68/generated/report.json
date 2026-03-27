@@ -1,0 +1,106 @@
+{
+  "chosen_pair": [
+    "edge_count",
+    "max_degree"
+  ],
+  "chosen_pair_map": [
+    {
+      "cost": 6,
+      "features": [
+        0,
+        0
+      ]
+    },
+    {
+      "cost": 6,
+      "features": [
+        2,
+        1
+      ]
+    },
+    {
+      "cost": 5,
+      "features": [
+        2,
+        2
+      ]
+    },
+    {
+      "cost": 4,
+      "features": [
+        3,
+        2
+      ]
+    },
+    {
+      "cost": 3,
+      "features": [
+        3,
+        3
+      ]
+    },
+    {
+      "cost": 6,
+      "features": [
+        4,
+        2
+      ]
+    }
+  ],
+  "discovery_domain": "minimal exact invariant basis for the width-3 four-role orbit-cost atlas from v67, within the searched graph-invariant library",
+  "holdout_domain": "the exact six-orbit width-3 atlas from v67",
+  "oracle_dependent": true,
+  "pair_exact": [
+    [
+      "edge_count",
+      "max_degree"
+    ],
+    [
+      "edge_count",
+      "leaf_count"
+    ],
+    [
+      "edge_count",
+      "degree_sequence"
+    ],
+    [
+      "max_degree",
+      "degree_sequence"
+    ],
+    [
+      "leaf_count",
+      "isolated_count"
+    ],
+    [
+      "leaf_count",
+      "connected"
+    ],
+    [
+      "leaf_count",
+      "component_sizes"
+    ],
+    [
+      "leaf_count",
+      "degree_sequence"
+    ],
+    [
+      "isolated_count",
+      "degree_sequence"
+    ],
+    [
+      "connected",
+      "degree_sequence"
+    ],
+    [
+      "component_sizes",
+      "degree_sequence"
+    ]
+  ],
+  "row_count": 6,
+  "singleton_exact": [
+    "degree_sequence"
+  ],
+  "strongest_claim": "On the exact v67 orbit atlas, no searched singleton scalar invariant is exact, but the pair (edge_count, max_degree) predicts the orbit cost exactly: (3,3)->3, (3,2)->4, (2,2)->5, and all other pairs map to cost 6.",
+  "survivor": "width3 invariant law frontier",
+  "tier": "descriptive_oracle"
+}

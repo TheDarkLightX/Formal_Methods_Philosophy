@@ -1,0 +1,387 @@
+{
+  "chosen_pair": [
+    "count_private_roles",
+    "distance_multiset"
+  ],
+  "chosen_pair_map": [
+    {
+      "features": [
+        0,
+        [
+          1,
+          1,
+          1,
+          1,
+          2,
+          2
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "features": [
+        0,
+        [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        7
+      ]
+    },
+    {
+      "features": [
+        0,
+        [
+          1,
+          1,
+          3,
+          3,
+          4,
+          4
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        14,
+        15
+      ]
+    },
+    {
+      "features": [
+        0,
+        [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      ],
+      "representative": [
+        0,
+        3,
+        5,
+        6
+      ]
+    },
+    {
+      "features": [
+        0,
+        [
+          2,
+          2,
+          2,
+          2,
+          4,
+          4
+        ]
+      ],
+      "representative": [
+        0,
+        3,
+        12,
+        15
+      ]
+    },
+    {
+      "features": [
+        0,
+        [
+          2,
+          2,
+          3,
+          3,
+          3,
+          3
+        ]
+      ],
+      "representative": [
+        0,
+        3,
+        13,
+        14
+      ]
+    },
+    {
+      "features": [
+        1,
+        [
+          1,
+          1,
+          2,
+          2,
+          2,
+          3
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        7
+      ]
+    },
+    {
+      "features": [
+        1,
+        [
+          1,
+          1,
+          2,
+          3,
+          3,
+          4
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        15
+      ]
+    },
+    {
+      "features": [
+        1,
+        [
+          1,
+          2,
+          2,
+          3,
+          3,
+          4
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        15
+      ]
+    },
+    {
+      "features": [
+        1,
+        [
+          2,
+          2,
+          2,
+          3,
+          3,
+          3
+        ]
+      ],
+      "representative": [
+        0,
+        3,
+        5,
+        14
+      ]
+    },
+    {
+      "features": [
+        2,
+        [
+          1,
+          1,
+          1,
+          2,
+          2,
+          3
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        5
+      ]
+    },
+    {
+      "features": [
+        2,
+        [
+          1,
+          1,
+          2,
+          2,
+          3,
+          4
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        13
+      ]
+    },
+    {
+      "features": [
+        2,
+        [
+          1,
+          1,
+          2,
+          3,
+          3,
+          4
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        14
+      ]
+    },
+    {
+      "features": [
+        2,
+        [
+          1,
+          2,
+          2,
+          3,
+          3,
+          3
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        11
+      ]
+    },
+    {
+      "features": [
+        2,
+        [
+          2,
+          2,
+          2,
+          2,
+          2,
+          4
+        ]
+      ],
+      "representative": [
+        0,
+        3,
+        5,
+        10
+      ]
+    },
+    {
+      "features": [
+        3,
+        [
+          1,
+          1,
+          1,
+          2,
+          2,
+          2
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "features": [
+        3,
+        [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        2,
+        12
+      ]
+    },
+    {
+      "features": [
+        3,
+        [
+          1,
+          2,
+          2,
+          2,
+          3,
+          3
+        ]
+      ],
+      "representative": [
+        0,
+        1,
+        6,
+        10
+      ]
+    },
+    {
+      "features": [
+        4,
+        [
+          2,
+          2,
+          2,
+          2,
+          2,
+          2
+        ]
+      ],
+      "representative": [
+        0,
+        3,
+        5,
+        9
+      ]
+    }
+  ],
+  "discovery_domain": "minimal exact mixed support-plus-geometry basis for the width-4 orbit family, within the searched support-count and distance library",
+  "holdout_domain": "the full width-4 unlabeled orbit family",
+  "oracle_dependent": true,
+  "orbit_count": 19,
+  "pair_exact": [
+    [
+      "count_private_roles",
+      "distance_multiset"
+    ],
+    [
+      "count_size2_roles",
+      "distance_multiset"
+    ]
+  ],
+  "singleton_exact": [],
+  "strongest_claim": "On the width-4 unlabeled orbit family, support counts alone do not determine the orbit class, but the pair (count_private_roles, distance_multiset) does so exactly.",
+  "survivor": "width4 orbit mixed-basis frontier",
+  "tier": "descriptive_oracle"
+}

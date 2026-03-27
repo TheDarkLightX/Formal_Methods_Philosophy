@@ -1,0 +1,212 @@
+{
+  "bucket_count": 6,
+  "discovery_domain": "bucket-specialized proposer rankings over the cached residual-consistent repair-program frontier",
+  "global_ranker": {
+    "calls": 1,
+    "winner_pair": {
+      "clause_1": [
+        1,
+        1,
+        2,
+        2,
+        1,
+        "core",
+        "cut_next_childsum"
+      ],
+      "clause_2": [
+        1,
+        1,
+        1,
+        4,
+        0,
+        "any",
+        "cut_next_childsum"
+      ]
+    },
+    "winner_safe": true
+  },
+  "holdout_domain": "weighted sampled root buckets induced by seeds 99 and 123",
+  "oracle_dependent": false,
+  "pair_count": 7104,
+  "specialized_rankers": {
+    "5:0.3": {
+      "top_pair": {
+        "clause_1": [
+          1,
+          1,
+          2,
+          2,
+          1,
+          "core",
+          "cut_next_childsum"
+        ],
+        "clause_2": [
+          1,
+          1,
+          1,
+          4,
+          0,
+          "any",
+          "cut_next_childsum"
+        ],
+        "holdout_5_hits": 2945,
+        "holdout_6_hits": 876,
+        "holdout_total": 3821
+      },
+      "top_pair_bucket_hits": 1000,
+      "top_pair_safe": true,
+      "winner_bucket_hits": 1000,
+      "winner_rank": 1
+    },
+    "5:0.5": {
+      "top_pair": {
+        "clause_1": [
+          1,
+          1,
+          2,
+          2,
+          1,
+          "core",
+          "cut_next_childsum"
+        ],
+        "clause_2": [
+          1,
+          1,
+          1,
+          4,
+          0,
+          "any",
+          "cut_next_childsum"
+        ],
+        "holdout_5_hits": 2945,
+        "holdout_6_hits": 876,
+        "holdout_total": 3821
+      },
+      "top_pair_bucket_hits": 991,
+      "top_pair_safe": true,
+      "winner_bucket_hits": 991,
+      "winner_rank": 1
+    },
+    "5:0.7": {
+      "top_pair": {
+        "clause_1": [
+          1,
+          1,
+          2,
+          2,
+          1,
+          "core",
+          "cut_next_childsum"
+        ],
+        "clause_2": [
+          1,
+          1,
+          1,
+          4,
+          0,
+          "any",
+          "cut_next_childsum"
+        ],
+        "holdout_5_hits": 2945,
+        "holdout_6_hits": 876,
+        "holdout_total": 3821
+      },
+      "top_pair_bucket_hits": 954,
+      "top_pair_safe": true,
+      "winner_bucket_hits": 954,
+      "winner_rank": 1
+    },
+    "6:0.3": {
+      "top_pair": {
+        "clause_1": [
+          1,
+          1,
+          2,
+          2,
+          1,
+          "core",
+          "cut_next_childsum"
+        ],
+        "clause_2": [
+          1,
+          1,
+          1,
+          4,
+          0,
+          "any",
+          "cut_next_childsum"
+        ],
+        "holdout_5_hits": 2945,
+        "holdout_6_hits": 876,
+        "holdout_total": 3821
+      },
+      "top_pair_bucket_hits": 300,
+      "top_pair_safe": true,
+      "winner_bucket_hits": 300,
+      "winner_rank": 1
+    },
+    "6:0.5": {
+      "top_pair": {
+        "clause_1": [
+          1,
+          1,
+          2,
+          2,
+          1,
+          "core",
+          "cut_next_childsum"
+        ],
+        "clause_2": [
+          1,
+          1,
+          1,
+          4,
+          0,
+          "any",
+          "cut_next_childsum"
+        ],
+        "holdout_5_hits": 2945,
+        "holdout_6_hits": 876,
+        "holdout_total": 3821
+      },
+      "top_pair_bucket_hits": 294,
+      "top_pair_safe": true,
+      "winner_bucket_hits": 294,
+      "winner_rank": 1
+    },
+    "6:0.7": {
+      "top_pair": {
+        "clause_1": [
+          1,
+          1,
+          2,
+          2,
+          1,
+          "core",
+          "cut_next_childsum"
+        ],
+        "clause_2": [
+          1,
+          1,
+          1,
+          4,
+          0,
+          "any",
+          "cut_next_childsum"
+        ],
+        "holdout_5_hits": 2945,
+        "holdout_6_hits": 876,
+        "holdout_total": 3821
+      },
+      "top_pair_bucket_hits": 282,
+      "top_pair_safe": true,
+      "winner_bucket_hits": 282,
+      "winner_rank": 1
+    }
+  },
+  "specialized_top_safe_count": 6,
+  "strongest_claim": "Because the globally ranked residual-consistent frontier already yields a safe pair at call 1, obligation-fiber specialization cannot strictly improve exact-safe discovery in this bounded model. The remaining bounded question is whether specialization preserves the global safe winner at rank 1 or instead distorts it.",
+  "survivor": "obligation-fiber proposer frontier",
+  "tier": "descriptive_symbolic_controller",
+  "winner_ties_at_rank_1_count": 6
+}
