@@ -265,4 +265,14 @@ show_title: false
       then no general Turing-machine detector can decide it from arbitrary encodings of programs.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/quantifier-factoring-and-neuro-symbolic-loops/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 25: Quantifier factoring and neuro-symbolic loop engineering</h2>
+    <p class="fp-card-text">
+      Start from "LLM = existential engine, formal tool = universal verifier", then push downward into
+      counterexample search, certificate compression, quantified games, quotients, and fixed-point reasoning.
+    </p>
+  </a>
 </div>
