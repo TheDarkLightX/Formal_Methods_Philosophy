@@ -1,0 +1,134 @@
+<svg class="fp-diagram" viewBox="0 0 960 320" role="img"
+     aria-labelledby="fp-mprd-pipe-title fp-mprd-pipe-desc"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <title id="fp-mprd-pipe-title">MPRD pipeline in medicine</title>
+  <desc id="fp-mprd-pipe-desc">Horizontal pipeline showing how evidence flows through a proposer, policy gate, and executor to produce an auditable action, with a deny/escalate path below the policy gate.</desc>
+
+  <defs>
+    <filter id="fp-mprd-pipe-shadow" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12"
+                    flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-mprd-pipe-arrow" markerWidth="12" markerHeight="12"
+            refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <!-- outer card -->
+  <g filter="url(#fp-mprd-pipe-shadow)">
+    <rect x="16" y="16" width="928" height="288" rx="26"
+          fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <!-- title -->
+    <text x="40" y="56"
+          font-size="16" font-weight="900" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">MPRD pipeline in medicine</text>
+
+    <!-- subtitle -->
+    <text x="40" y="76"
+          font-size="11" fill="#475569"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">model proposes, policy decides, executor acts</text>
+
+    <!-- ===== Box 1: Evidence ===== -->
+    <rect x="100" y="155" width="130" height="50" rx="12"
+          fill="rgba(59, 130, 246, 0.08)"
+          stroke="rgba(59, 130, 246, 0.22)" stroke-width="1.5" />
+    <text x="165" y="176"
+          font-size="14" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">Evidence</text>
+    <text x="165" y="194"
+          font-size="11" fill="#475569"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">E(chart, labs, G)</text>
+
+    <!-- Arrow 1 → 2 -->
+    <line x1="230" y1="180" x2="270" y2="180"
+          stroke="#3B82F6" stroke-width="4"
+          marker-end="url(#fp-mprd-pipe-arrow)" stroke-linecap="round" />
+
+    <!-- ===== Box 2: Proposer ===== -->
+    <rect x="270" y="155" width="130" height="50" rx="12"
+          fill="rgba(249, 115, 22, 0.08)"
+          stroke="rgba(249, 115, 22, 0.22)" stroke-width="1.5" />
+    <text x="335" y="176"
+          font-size="14" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">Proposer</text>
+    <text x="335" y="194"
+          font-size="11" fill="#475569"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">model &#x2192; candidates</text>
+
+    <!-- Arrow 2 → 3 -->
+    <line x1="400" y1="180" x2="480" y2="180"
+          stroke="#3B82F6" stroke-width="4"
+          marker-end="url(#fp-mprd-pipe-arrow)" stroke-linecap="round" />
+
+    <!-- ===== Box 3: Policy Gate ===== -->
+    <rect x="480" y="155" width="160" height="50" rx="12"
+          fill="rgba(239, 68, 68, 0.08)"
+          stroke="rgba(239, 68, 68, 0.22)" stroke-width="1.5" />
+    <text x="560" y="176"
+          font-size="14" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">Policy Gate</text>
+    <text x="560" y="194"
+          font-size="11" fill="#475569"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">Allowed(G, Facts, a)</text>
+
+    <!-- Arrow 3 → 4 -->
+    <line x1="640" y1="180" x2="690" y2="180"
+          stroke="#3B82F6" stroke-width="4"
+          marker-end="url(#fp-mprd-pipe-arrow)" stroke-linecap="round" />
+
+    <!-- ===== Box 4: Executor ===== -->
+    <rect x="690" y="155" width="130" height="50" rx="12"
+          fill="rgba(34, 197, 94, 0.08)"
+          stroke="rgba(34, 197, 94, 0.22)" stroke-width="1.5" />
+    <text x="755" y="176"
+          font-size="14" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">Executor</text>
+    <text x="755" y="194"
+          font-size="11" fill="#475569"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">narrow action only</text>
+
+    <!-- Arrow 4 → 5 -->
+    <line x1="820" y1="180" x2="860" y2="180"
+          stroke="#3B82F6" stroke-width="4"
+          marker-end="url(#fp-mprd-pipe-arrow)" stroke-linecap="round" />
+
+    <!-- ===== Box 5: Action ===== -->
+    <rect x="860" y="155" width="130" height="50" rx="12"
+          fill="rgba(59, 130, 246, 0.08)"
+          stroke="rgba(59, 130, 246, 0.22)" stroke-width="1.5" />
+    <text x="925" y="176"
+          font-size="14" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">Action</text>
+    <text x="925" y="194"
+          font-size="11" fill="#475569"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">auditable result</text>
+
+    <!-- ===== Deny path: dashed arrow down from Policy Gate ===== -->
+    <line x1="560" y1="205" x2="560" y2="235"
+          stroke="rgba(15, 23, 42, 0.45)" stroke-width="2"
+          stroke-dasharray="8,6" stroke-linecap="round" />
+
+    <!-- Deny pill -->
+    <rect x="500" y="235" width="120" height="30" rx="14"
+          fill="rgba(239, 68, 68, 0.10)"
+          stroke="rgba(239, 68, 68, 0.22)" stroke-width="1.5" />
+    <text x="560" y="255"
+          font-size="11" font-weight="600" fill="#DC2626"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">Deny / Escalate</text>
+
+  </g>
+</svg>

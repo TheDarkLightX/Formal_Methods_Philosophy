@@ -1,0 +1,126 @@
+<svg class="fp-diagram" viewBox="0 0 960 300" role="img"
+     aria-labelledby="fp-hosttau-title fp-hosttau-desc"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <title id="fp-hosttau-title">Host computes, Tau validates</title>
+  <desc id="fp-hosttau-desc">Architectural boundary diagram showing the host side performing rich arithmetic (eGFR equation, classification) and the Tau side performing bounded validation (policy gate, action selection), connected by boolean flags that cross the boundary.</desc>
+
+  <defs>
+    <filter id="fp-hosttau-shadow" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12"
+                    flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-hosttau-arrow" markerWidth="12" markerHeight="12"
+            refX="10" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <!-- outer card -->
+  <g filter="url(#fp-hosttau-shadow)">
+    <rect x="16" y="16" width="928" height="268" rx="26"
+          fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <!-- title -->
+    <text x="40" y="52"
+          font-size="16" font-weight="900" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">Host computes, Tau validates</text>
+
+    <!-- subtitle -->
+    <text x="40" y="72"
+          font-size="11" fill="#475569"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">the architectural boundary</text>
+
+    <!-- ===== Left zone: Host territory ===== -->
+    <rect x="60" y="88" width="390" height="180" rx="16"
+          fill="rgba(15, 23, 42, 0.03)" stroke="none" />
+
+    <text x="80" y="110"
+          font-size="14" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">Host (rich arithmetic)</text>
+
+    <!-- Box 1: eGFR equation -->
+    <rect x="80" y="122" width="350" height="48" rx="12"
+          fill="rgba(249, 115, 22, 0.08)"
+          stroke="rgba(249, 115, 22, 0.22)" stroke-width="1.5" />
+    <text x="100" y="143"
+          font-size="13" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">eGFR equation</text>
+    <text x="100" y="160"
+          font-size="11" fill="#475569"
+          font-family="JetBrains Mono, Menlo, monospace">142 &#xD7; min(...)&#x1D45; &#xD7; ...</text>
+
+    <!-- Arrow Box 1 → Box 2 -->
+    <line x1="255" y1="170" x2="255" y2="192"
+          stroke="#3B82F6" stroke-width="3"
+          marker-end="url(#fp-hosttau-arrow)" stroke-linecap="round" />
+
+    <!-- Box 2: Classification -->
+    <rect x="80" y="196" width="350" height="48" rx="12"
+          fill="rgba(249, 115, 22, 0.08)"
+          stroke="rgba(249, 115, 22, 0.22)" stroke-width="1.5" />
+    <text x="100" y="217"
+          font-size="13" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">Classification</text>
+    <text x="100" y="234"
+          font-size="11" fill="#475569"
+          font-family="JetBrains Mono, Menlo, monospace">eGFR &#x2192; below_60 flag</text>
+
+    <!-- ===== Dashed vertical boundary ===== -->
+    <line x1="480" y1="88" x2="480" y2="268"
+          stroke="#3B82F6" stroke-width="2"
+          stroke-dasharray="12,8" />
+
+    <text x="480" y="82"
+          font-size="11" fill="#3B82F6"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+          text-anchor="middle">boundary</text>
+
+    <!-- ===== Right zone: Tau territory ===== -->
+    <rect x="510" y="88" width="390" height="180" rx="16"
+          fill="rgba(59, 130, 246, 0.03)" stroke="none" />
+
+    <text x="530" y="110"
+          font-size="14" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">Tau (bounded validation)</text>
+
+    <!-- Box 3: Policy gate -->
+    <rect x="530" y="122" width="350" height="48" rx="12"
+          fill="rgba(59, 130, 246, 0.08)"
+          stroke="rgba(59, 130, 246, 0.22)" stroke-width="1.5" />
+    <text x="550" y="143"
+          font-size="13" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">Policy gate</text>
+    <text x="550" y="160"
+          font-size="11" fill="#475569"
+          font-family="JetBrains Mono, Menlo, monospace">Allow(a,s) &#x27FA; P&#x2081; &#x2227;...&#x2227; P&#x2099;</text>
+
+    <!-- Arrow Box 3 → Box 4 -->
+    <line x1="705" y1="170" x2="705" y2="192"
+          stroke="#3B82F6" stroke-width="3"
+          marker-end="url(#fp-hosttau-arrow)" stroke-linecap="round" />
+
+    <!-- Box 4: Action -->
+    <rect x="530" y="196" width="350" height="48" rx="12"
+          fill="rgba(34, 197, 94, 0.08)"
+          stroke="rgba(34, 197, 94, 0.22)" stroke-width="1.5" />
+    <text x="550" y="217"
+          font-size="13" font-weight="700" fill="#1E293B"
+          font-family="Atkinson Hyperlegible, system-ui, sans-serif">Action</text>
+    <text x="550" y="234"
+          font-size="11" fill="#475569"
+          font-family="JetBrains Mono, Menlo, monospace">watch / repeat / review</text>
+
+    <!-- ===== Cross-boundary arrow: Classification → Policy gate ===== -->
+    <line x1="430" y1="220" x2="520" y2="146"
+          stroke="#3B82F6" stroke-width="3"
+          marker-end="url(#fp-hosttau-arrow)" stroke-linecap="round" />
+
+    <!-- Label on cross-boundary arrow -->
+    <text x="480" y="172"
+          font-size="10" fill="#3B82F6"
+          font-family="JetBrains Mono, Menlo, monospace"
+          text-anchor="middle">boolean flags</text>
+
+  </g>
+</svg>

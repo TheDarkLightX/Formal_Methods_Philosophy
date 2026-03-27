@@ -1,0 +1,107 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 480"
+  role="img"
+  aria-labelledby="fp-fourlenses-title fp-fourlenses-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-fourlenses-title">One object, four lenses</title>
+  <desc id="fp-fourlenses-desc">
+    A single decidable machine viewed through four equivalent representations:
+    composition, decision tree, finite-state machine, and logic. Arrows radiate
+    from the central object to each lens, showing isomorphism.
+  </desc>
+
+  <defs>
+    <filter id="fp-fourlenses-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-fourlenses-arrow" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <!-- ── Outer card ──────────────────────────────── -->
+  <g filter="url(#fp-fourlenses-shadow)">
+    <rect x="20" y="16" width="920" height="448" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+
+    <!-- ── Title block ───────────────────────────── -->
+    <text x="50" y="52" font-size="16" font-weight="900" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">One object, four lenses</text>
+    <text x="50" y="70" font-size="11" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">every view describes the same computation</text>
+
+    <!-- ── Center box: Decidable Machine ─────────── -->
+    <rect x="380" y="210" width="200" height="60" rx="16"
+      fill="rgba(59,130,246,0.15)" stroke="#3B82F6" stroke-width="1.5" />
+    <text x="480" y="236" text-anchor="middle"
+      font-size="13" font-weight="700" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Decidable Machine</text>
+    <text x="480" y="254" text-anchor="middle"
+      font-size="11" fill="#475569"
+      font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">same object</text>
+
+    <!-- ── Top-left satellite: Composition ───────── -->
+    <rect x="80" y="65" width="200" height="70" rx="12"
+      fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.5" />
+    <text x="180" y="95" text-anchor="middle"
+      font-size="13" font-weight="700" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Composition</text>
+    <text x="180" y="118" text-anchor="middle"
+      font-size="11" fill="#475569"
+      font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">Policy(Classify(Compute(x)))</text>
+
+    <!-- ── Top-right satellite: Decision Tree ────── -->
+    <rect x="640" y="65" width="200" height="70" rx="12"
+      fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.5" />
+    <text x="740" y="95" text-anchor="middle"
+      font-size="13" font-weight="700" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Decision Tree</text>
+    <text x="740" y="118" text-anchor="middle"
+      font-size="11" fill="#475569"
+      font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">facts &#x2192; branch &#x2192; leaf</text>
+
+    <!-- ── Bottom-left satellite: Finite-State Machine ── -->
+    <rect x="80" y="325" width="200" height="70" rx="12"
+      fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.5" />
+    <text x="180" y="355" text-anchor="middle"
+      font-size="13" font-weight="700" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Finite-State Machine</text>
+    <text x="180" y="378" text-anchor="middle"
+      font-size="11" fill="#475569"
+      font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">Start &#x2192; Read &#x2192; ... &#x2192; Done</text>
+
+    <!-- ── Bottom-right satellite: Logic ─────────── -->
+    <rect x="640" y="325" width="200" height="70" rx="12"
+      fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.5" />
+    <text x="740" y="355" text-anchor="middle"
+      font-size="13" font-weight="700" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Logic</text>
+    <text x="740" y="378" text-anchor="middle"
+      font-size="11" fill="#475569"
+      font-family="JetBrains Mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace">Allow(a,s) &#x27FA; P&#x2081; &#x2227; ... &#x2227; P&#x2099;</text>
+
+    <!-- ── Arrows: center → satellites (curved) ──── -->
+
+    <!-- Center → Top-left (Composition) -->
+    <path d="M 400,210 C 360,170 260,140 260,135"
+      fill="none" stroke="#3B82F6" stroke-width="3"
+      marker-end="url(#fp-fourlenses-arrow)" stroke-linecap="round" />
+
+    <!-- Center → Top-right (Decision Tree) -->
+    <path d="M 560,210 C 600,170 660,140 660,135"
+      fill="none" stroke="#3B82F6" stroke-width="3"
+      marker-end="url(#fp-fourlenses-arrow)" stroke-linecap="round" />
+
+    <!-- Center → Bottom-left (FSM) -->
+    <path d="M 400,270 C 360,310 260,330 260,325"
+      fill="none" stroke="#3B82F6" stroke-width="3"
+      marker-end="url(#fp-fourlenses-arrow)" stroke-linecap="round" />
+
+    <!-- Center → Bottom-right (Logic) -->
+    <path d="M 560,270 C 600,310 660,330 660,325"
+      fill="none" stroke="#3B82F6" stroke-width="3"
+      marker-end="url(#fp-fourlenses-arrow)" stroke-linecap="round" />
+
+  </g>
+</svg>
