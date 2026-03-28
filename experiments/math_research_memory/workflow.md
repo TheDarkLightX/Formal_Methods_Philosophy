@@ -2561,3 +2561,44 @@ Next frontier after v96:
 - search the smallest exact repair-language grammar above the decoder graph
 - or move to a richer bounded bug corpus and test whether the same decoder law
   survives
+
+## 2026-03-28, shared repair-language template
+
+- New structural target:
+  - compress the two exact decoder graphs from `v96` into one shared language
+    plus family-specific deltas
+- Bounded domain:
+  - the two exact software decoder graphs from `v96`
+  - edge universe:
+    - `3` observations
+    - `3` fields
+    - `9` possible edges
+  - exhaustive base-graph search:
+    - `512` candidates
+  - exact models:
+    - additive deltas
+    - signed add/remove edits
+- Strongest bounded results:
+  - unique minimum in both models:
+    - shared base:
+      - `guard_obs -> guard`
+      - `bounds_obs -> bounds`
+      - `transform_obs -> transform`
+    - separable delta:
+      - none
+    - overlap delta:
+      - `transform_obs -> bounds`
+  - additive total cost:
+    - `4`
+  - signed-edit total cost:
+    - `4`
+- Strongest correction learned:
+  - the two `v96` decoders do not need separate grammars
+  - they compress to one local base template plus one sparse overlap patch
+
+Next frontier after v97:
+
+- search the smallest exact patch-program macro language that realizes the
+  shared template
+- or move to a richer bounded bug corpus and test whether the same
+  base-plus-one-delta law survives

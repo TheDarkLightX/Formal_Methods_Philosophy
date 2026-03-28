@@ -2523,3 +2523,29 @@ New next ideas:
 
 - minimal repair-language discovery above the decoder graph
 - richer bounded bug corpora to test whether the one-extra-edge law persists
+
+Current refinement:
+
+- the two exact decoders from `v96` now compress to one shared repair-language
+  template
+- exact bounded law:
+  - base:
+    - `guard_obs -> guard`
+    - `bounds_obs -> bounds`
+    - `transform_obs -> transform`
+  - overlap delta:
+    - `transform_obs -> bounds`
+  - total template cost:
+    - `4`
+
+Why this matters:
+
+- the software branch now has a genuine language object above the decoder graph
+- separable and overlap do not need different grammars
+- they need one shared local grammar plus one sparse patch
+
+New next ideas:
+
+- patch-program macro discovery on top of the shared template
+- richer bounded bug corpora to test whether the same base-plus-one-delta law
+  survives

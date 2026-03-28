@@ -2902,3 +2902,37 @@ Boundary learned:
 
 - overlap does not destroy local decoding
 - it inserts one extra dependency edge into the decoder graph
+
+### New survivor: shared repair-language template
+
+Bounded result:
+
+- bounded domain:
+  - the two exact decoder graphs from `v96`
+  - `9` possible decoder edges
+- searched object:
+  - shared base decoder graph plus family deltas
+  - both additive and signed-edit template models
+- strongest result:
+  - unique minimum in both models:
+    - base:
+      - `guard_obs -> guard`
+      - `bounds_obs -> bounds`
+      - `transform_obs -> transform`
+    - separable family:
+      - no delta
+    - overlap family:
+      - `transform_obs -> bounds`
+  - total cost:
+    - `4`
+
+Why it mattered:
+
+- this is the first exact shared repair-language grammar in the software branch
+- the two family decoders from `v96` are not isolated objects
+- they compress into one common base language with one sparse family patch
+
+Boundary learned:
+
+- overlap does not need a new grammar family
+- it only adds one delta edge to the shared base template
