@@ -2369,6 +2369,36 @@ So the sharpest hard-frontier law is now:
 - once residual budget is large enough, the old `v83` frontier had already
   found the right object
 
+The next bounded comparison tested whether the unchanged high-residual end was
+still blocked only by literal width.
+
+Strict certificates widened again, from the `1..5` literal grammar to the
+`1..6` literal grammar, while residual-default witness regions stayed in the
+`1..4` grammar.
+
+This time nothing moved at budgets `3`, `4`, or `5`.
+
+The exact high-residual ladder stayed:
+
+- budget `3`:
+  - shared schemas `20`
+  - total cost `24`
+- budget `4`:
+  - shared schemas `19`
+  - total cost `23`
+- budget `5`:
+  - shared schemas `19`
+  - total cost `22`
+
+So the current hard-frontier law is sharper still:
+
+- the low-residual regime was grammar-blocked
+- the high-residual regime is locally saturated along this literal-width axis
+- the next honest move is no longer “one more literal”
+- it is either:
+  - transfer to a second hard frontier
+  - or a genuinely richer certificate language
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

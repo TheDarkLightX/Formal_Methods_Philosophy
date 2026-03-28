@@ -2422,3 +2422,40 @@ Boundary learned:
 - the next honest step is:
   - transfer the same widened-certificate search to a second hard frontier
   - or search richer certificate grammars for budgets `3` and above
+
+### New survivor: high-residual widened-certificate saturation boundary
+
+Bounded result:
+
+- bounded domain:
+  - the same hard `v38` witness frontier reused through `v85`
+- searched object:
+  - high-residual slice of the partition-aware residual-budget frontier
+  - residual-default witnesses in the `1..4` literal grammar
+  - strict certificates widened from `1..5` to `1..6` literals
+- strongest result:
+  - budgets `3`, `4`, and `5` do not move at all
+  - exact high-residual ladder stays:
+    - `3`:
+      - shared schemas `20`
+      - total cost `24`
+    - `4`:
+      - shared schemas `19`
+      - total cost `23`
+    - `5`:
+      - shared schemas `19`
+      - total cost `22`
+
+Why it mattered:
+
+- this turns the `v85` high end from an empirical plateau into an exact
+  saturation boundary
+- the remaining obstruction in that regime is no longer exposed by this
+  literal-width increase
+
+Boundary learned:
+
+- the next honest move is no longer another small width increase
+- it is:
+  - transfer to a second hard frontier
+  - or a genuinely richer certificate language

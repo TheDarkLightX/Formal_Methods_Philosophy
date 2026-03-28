@@ -2246,3 +2246,23 @@ New next ideas:
 
 - transfer the widened-certificate joint search to a second hard frontier
 - or search a richer certificate grammar that might move budgets `3` and above
+
+Current refinement:
+
+- widening strict certificates from `1..5` to `1..6` literals does not move
+  budgets `3`, `4`, or `5`
+- exact high-residual ladder stays:
+  - `20,24`
+  - `19,23`
+  - `19,22`
+
+Why this matters:
+
+- the low-residual regime was grammar-sensitive
+- the high-residual regime is now locally saturated on the current
+  literal-width axis
+
+New next ideas:
+
+- transfer the widened-certificate search to a second hard frontier
+- or switch to a richer certificate language rather than one more literal

@@ -2036,3 +2036,40 @@ Next frontier after v85:
 
 - transfer the same widened-certificate joint search to a second hard frontier,
 - or search whether a richer certificate grammar moves budgets `3` and above
+
+## 2026-03-27, high-residual widened-certificate saturation boundary
+
+- New structural target:
+  - isolate the unchanged high-residual end of `v85` and test whether widening
+    strict certificates again, from `1..5` to `1..6` literals, moves budgets
+    `3`, `4`, or `5`
+- Bounded domain:
+  - the same hard `v38` feature frontier reused through `v85`
+  - same partition-aware residual-budget search
+  - residual-default witness regions stay in the `1..4` literal grammar
+  - strict certificate regions widen from `1..5` to `1..6` literals
+  - scope only budgets:
+    - `3`
+    - `4`
+    - `5`
+- Strongest bounded results:
+  - nothing moves
+  - exact high-residual ladder stays:
+    - `3`:
+      - shared schemas `20`
+      - total cost `24`
+    - `4`:
+      - shared schemas `19`
+      - total cost `23`
+    - `5`:
+      - shared schemas `19`
+      - total cost `22`
+- Strongest correction learned:
+  - the low-residual regime in `v85` was grammar-blocked
+  - the high-residual regime is now locally saturated against another literal
+    widening
+
+Next frontier after v86:
+
+- transfer the widened-certificate search to a second hard frontier,
+- or switch from wider conjunctions to a genuinely richer certificate language
