@@ -1,0 +1,211 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-vcf-title fp-vcf-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-vcf-title">Fail-closed compiled front-end architecture</title>
+  <desc id="fp-vcf-desc">
+    Many proposals flow through a compiled symbolic pre-screen.
+    Obvious rejects are filtered, ambiguous cases escalated,
+    and strong candidates pass to the exact verifier for final authority.
+  </desc>
+
+  <defs>
+    <filter id="fp-vcf-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-vcf-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+    <marker id="fp-vcf-arrow-red" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#A82218" fill-opacity="0.8" />
+    </marker>
+    <marker id="fp-vcf-arrow-amber" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#C2410C" fill-opacity="0.8" />
+    </marker>
+    <marker id="fp-vcf-arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#15803D" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-vcf-shadow)">
+    <rect x="20" y="10" width="920" height="400" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="48" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Fail-closed compiled front-end
+  </text>
+  <text x="60" y="66" font-size="12" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    The compiled controller does triage.  The exact verifier owns execution authority.
+  </text>
+
+  <!-- ===== Left: Many proposers ===== -->
+  <rect x="50" y="90" width="130" height="230" rx="16"
+    fill="rgba(15, 118, 110, 0.06)" stroke="rgba(15, 118, 110, 0.20)" />
+  <text x="66" y="114" font-size="12" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Proposers
+  </text>
+  <!-- Many arrow lines coming from left -->
+  <rect x="68" y="130" width="95" height="22" rx="6"
+    fill="rgba(15, 118, 110, 0.12)" stroke="rgba(15, 118, 110, 0.25)" />
+  <text x="78" y="145" font-size="9" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">LLM proposals</text>
+  <rect x="68" y="160" width="95" height="22" rx="6"
+    fill="rgba(15, 118, 110, 0.12)" stroke="rgba(15, 118, 110, 0.25)" />
+  <text x="78" y="175" font-size="9" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">code patches</text>
+  <rect x="68" y="190" width="95" height="22" rx="6"
+    fill="rgba(15, 118, 110, 0.12)" stroke="rgba(15, 118, 110, 0.25)" />
+  <text x="78" y="205" font-size="9" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">action plans</text>
+  <rect x="68" y="220" width="95" height="22" rx="6"
+    fill="rgba(15, 118, 110, 0.12)" stroke="rgba(15, 118, 110, 0.25)" />
+  <text x="78" y="235" font-size="9" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">configurations</text>
+  <text x="80" y="272" font-size="24" fill="rgba(15, 118, 110, 0.3)"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x22EE;</text>
+  <text x="70" y="310" font-size="10" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">high volume</text>
+
+  <!-- Arrow: many -> compiled controller -->
+  <path d="M185 200 H230" stroke="#3B82F6" stroke-width="3"
+    marker-end="url(#fp-vcf-arrow)" stroke-linecap="round" />
+
+  <!-- ===== Center: Compiled controller ===== -->
+  <rect x="240" y="100" width="200" height="210" rx="20"
+    fill="rgba(34, 197, 94, 0.06)" stroke="rgba(34, 197, 94, 0.25)" stroke-width="2" />
+  <text x="265" y="128" font-size="14" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Compiled controller
+  </text>
+  <text x="265" y="148" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    C(q(x), r(x))
+  </text>
+
+  <!-- Three output lanes -->
+  <!-- Reject lane -->
+  <rect x="260" y="168" width="160" height="32" rx="8"
+    fill="rgba(168, 34, 24, 0.10)" stroke="rgba(168, 34, 24, 0.25)" />
+  <text x="275" y="189" font-size="11" font-weight="700" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x2717;  Obvious reject
+  </text>
+
+  <!-- Escalate lane -->
+  <rect x="260" y="208" width="160" height="32" rx="8"
+    fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.25)" />
+  <text x="275" y="229" font-size="11" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    ?  Ambiguous
+  </text>
+
+  <!-- Pass lane -->
+  <rect x="260" y="248" width="160" height="32" rx="8"
+    fill="rgba(34, 197, 94, 0.10)" stroke="rgba(34, 197, 94, 0.25)" />
+  <text x="275" y="269" font-size="11" font-weight="700" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x2713;  Likely safe
+  </text>
+
+  <text x="270" y="300" font-size="10" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    cheap, symbolic, fast
+  </text>
+
+  <!-- Reject arrow out (down-right) -->
+  <path d="M425 184 H490" stroke="#A82218" stroke-width="2.5"
+    marker-end="url(#fp-vcf-arrow-red)" stroke-linecap="round" />
+
+  <!-- Reject box -->
+  <rect x="500" y="170" width="100" height="30" rx="8"
+    fill="rgba(168, 34, 24, 0.08)" stroke="rgba(168, 34, 24, 0.20)" />
+  <text x="515" y="190" font-size="11" font-weight="700" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Rejected</text>
+
+  <!-- Escalate arrow -->
+  <path d="M425 224 H490" stroke="#C2410C" stroke-width="2.5"
+    marker-end="url(#fp-vcf-arrow-amber)" stroke-linecap="round" />
+
+  <!-- Escalate box -->
+  <rect x="500" y="210" width="100" height="30" rx="8"
+    fill="rgba(249, 115, 22, 0.08)" stroke="rgba(249, 115, 22, 0.20)" />
+  <text x="512" y="230" font-size="11" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Escalated</text>
+
+  <!-- Pass-through arrow to exact verifier -->
+  <path d="M425 264 H625" stroke="#15803D" stroke-width="3"
+    marker-end="url(#fp-vcf-arrow-green)" stroke-linecap="round" />
+  <text x="490" y="258" font-size="10" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">pass to exact check</text>
+
+  <!-- ===== Right: Exact verifier ===== -->
+  <rect x="640" y="100" width="265" height="210" rx="20"
+    fill="rgba(160, 74, 8, 0.06)" stroke="rgba(160, 74, 8, 0.25)" stroke-width="2" />
+  <text x="665" y="128" font-size="14" font-weight="900" fill="#A04A08"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Exact verifier
+  </text>
+  <text x="665" y="148" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    L(x) &#x2208; &#x039B;   (trusted, expensive)
+  </text>
+  <text x="665" y="172" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x2022; Solver, model checker, Tau engine
+  </text>
+  <text x="665" y="190" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x2022; Policy gate, test harness
+  </text>
+  <text x="665" y="208" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x2022; Medical guideline checker
+  </text>
+
+  <!-- Final output -->
+  <rect x="670" y="228" width="100" height="30" rx="8"
+    fill="rgba(34, 197, 94, 0.15)" stroke="rgba(34, 197, 94, 0.35)" />
+  <text x="685" y="248" font-size="11" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x2713; Execute</text>
+
+  <rect x="780" y="228" width="100" height="30" rx="8"
+    fill="rgba(168, 34, 24, 0.10)" stroke="rgba(168, 34, 24, 0.25)" />
+  <text x="800" y="248" font-size="11" font-weight="900" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x2717; Reject</text>
+
+  <text x="668" y="290" font-size="10" font-weight="700" fill="#A04A08"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Execution authority stays here
+  </text>
+
+  <!-- ===== Bottom: benefit summary ===== -->
+  <line x1="50" y1="335" x2="900" y2="335" stroke="#E2E8F0" stroke-width="1" />
+
+  <rect x="70" y="352" width="230" height="40" rx="10"
+    fill="rgba(15, 118, 110, 0.06)" stroke="rgba(15, 118, 110, 0.15)" />
+  <text x="88" y="377" font-size="11" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x2460; Lower verifier load
+  </text>
+
+  <rect x="315" y="352" width="230" height="40" rx="10"
+    fill="rgba(34, 197, 94, 0.06)" stroke="rgba(34, 197, 94, 0.15)" />
+  <text x="333" y="377" font-size="11" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x2461; Better proposer feedback
+  </text>
+
+  <rect x="560" y="352" width="230" height="40" rx="10"
+    fill="rgba(59, 130, 246, 0.06)" stroke="rgba(59, 130, 246, 0.15)" />
+  <text x="578" y="377" font-size="11" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x2462; Interpretable formulas
+  </text>
+</svg>

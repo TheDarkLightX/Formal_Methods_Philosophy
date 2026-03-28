@@ -1,0 +1,198 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 480"
+  role="img"
+  aria-labelledby="fp-qr-title fp-qr-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-qr-title">Quotient-repair verifier compilation pipeline</title>
+  <desc id="fp-qr-desc">
+    Proposals are mapped to a coarse quotient q(x), mixed buckets are repaired
+    with a second coordinate r(x), and the result compiles into a small symbolic
+    controller C(q,r) that routes proposals before the exact verifier.
+  </desc>
+
+  <defs>
+    <filter id="fp-qr-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-qr-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+    <marker id="fp-qr-arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#15803D" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-qr-shadow)">
+    <rect x="20" y="10" width="920" height="460" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="50" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Quotient &#x2192; repair &#x2192; compile
+  </text>
+  <text x="60" y="70" font-size="12" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Compress verifier behavior into a reusable symbolic controller.
+  </text>
+
+  <!-- ===== Row 1: Proposal space -> Quotient ===== -->
+
+  <!-- Proposal space X -->
+  <rect x="55" y="95" width="180" height="130" rx="18"
+    fill="rgba(15, 118, 110, 0.08)" stroke="rgba(15, 118, 110, 0.22)" />
+  <text x="75" y="120" font-size="13" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    X  (proposals)
+  </text>
+  <!-- Scattered dots -->
+  <circle cx="100" cy="155" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="125" cy="145" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="150" cy="160" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="170" cy="142" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="115" cy="175" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="145" cy="185" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="185" cy="170" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="200" cy="155" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="90" cy="190" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="175" cy="195" r="5" fill="rgba(15, 118, 110, 0.5)" />
+  <text x="75" y="215" font-size="10" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">many candidates</text>
+
+  <!-- Arrow: q(x) -->
+  <path d="M240 160 H295" stroke="#3B82F6" stroke-width="3"
+    marker-end="url(#fp-qr-arrow)" stroke-linecap="round" />
+  <text x="248" y="150" font-size="12" font-weight="700" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">q(x)</text>
+
+  <!-- Quotient Q: grouped buckets -->
+  <rect x="305" y="95" width="240" height="130" rx="18"
+    fill="rgba(59, 130, 246, 0.06)" stroke="rgba(59, 130, 246, 0.18)" />
+  <text x="325" y="118" font-size="13" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Q  (quotient buckets)
+  </text>
+
+  <!-- Pure bucket (green border) -->
+  <rect x="320" y="130" width="65" height="80" rx="10"
+    fill="rgba(34, 197, 94, 0.10)" stroke="rgba(34, 197, 94, 0.35)" stroke-width="1.5" />
+  <circle cx="340" cy="158" r="4" fill="#15803D" />
+  <circle cx="358" cy="152" r="4" fill="#15803D" />
+  <circle cx="345" cy="178" r="4" fill="#15803D" />
+  <text x="325" y="202" font-size="8" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">pure: safe</text>
+
+  <!-- Pure bucket (red border) -->
+  <rect x="395" y="130" width="65" height="80" rx="10"
+    fill="rgba(168, 34, 24, 0.08)" stroke="rgba(168, 34, 24, 0.30)" stroke-width="1.5" />
+  <circle cx="415" cy="158" r="4" fill="#A82218" />
+  <circle cx="433" cy="152" r="4" fill="#A82218" />
+  <circle cx="420" cy="178" r="4" fill="#A82218" />
+  <text x="396" y="202" font-size="8" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">pure: unsafe</text>
+
+  <!-- MIXED bucket (striped / both colors) -->
+  <rect x="470" y="130" width="65" height="80" rx="10"
+    fill="rgba(249, 115, 22, 0.10)" stroke="rgba(249, 115, 22, 0.40)" stroke-width="2"
+    stroke-dasharray="5 3" />
+  <circle cx="490" cy="155" r="4" fill="#15803D" />
+  <circle cx="508" cy="150" r="4" fill="#A82218" />
+  <circle cx="495" cy="175" r="4" fill="#15803D" />
+  <circle cx="515" cy="172" r="4" fill="#A82218" />
+  <text x="475" y="202" font-size="8" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">MIXED!</text>
+
+  <!-- ===== Row 2: Repair ===== -->
+
+  <!-- Arrow down from mixed bucket -->
+  <path d="M503 215 L503 260" stroke="#C2410C" stroke-width="2.5"
+    marker-end="url(#fp-qr-arrow)" stroke-linecap="round" />
+  <text x="512" y="242" font-size="10" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">repair</text>
+
+  <!-- Repair coordinate box -->
+  <rect x="400" y="268" width="210" height="85" rx="16"
+    fill="rgba(249, 115, 22, 0.06)" stroke="rgba(249, 115, 22, 0.22)" />
+  <text x="420" y="293" font-size="12" font-weight="900" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Add repair r(x)
+  </text>
+  <text x="420" y="312" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    (q, r) makes mixed buckets pure
+  </text>
+
+  <!-- Split buckets after repair -->
+  <rect x="425" y="322" width="32" height="22" rx="5"
+    fill="rgba(34, 197, 94, 0.20)" stroke="rgba(34, 197, 94, 0.40)" />
+  <circle cx="441" cy="333" r="3" fill="#15803D" />
+  <rect x="465" y="322" width="32" height="22" rx="5"
+    fill="rgba(168, 34, 24, 0.15)" stroke="rgba(168, 34, 24, 0.35)" />
+  <circle cx="481" cy="333" r="3" fill="#A82218" />
+
+  <!-- Arrow from pure buckets + repaired -> Compiler -->
+  <path d="M615 195 C 660 195, 660 300, 680 300"
+    stroke="#3B82F6" stroke-width="2.5" fill="none"
+    marker-end="url(#fp-qr-arrow)" stroke-linecap="round" />
+  <path d="M550 300 H620" stroke="#3B82F6" stroke-width="2.5" fill="none" stroke-linecap="round" />
+
+  <!-- ===== Row 2-right: Compiled controller ===== -->
+  <rect x="635" y="258" width="260" height="100" rx="18"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.25)" stroke-width="2" />
+  <text x="660" y="286" font-size="14" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    C(q(x), r(x))
+  </text>
+  <text x="660" y="306" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Compiled symbolic controller
+  </text>
+  <text x="660" y="325" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Cheap routing, ranking, triage
+  </text>
+  <text x="660" y="345" font-size="10" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x2200;x, C(q(x),r(x)) = L(x)  on bounded model
+  </text>
+
+  <!-- ===== Bottom: safety formula ===== -->
+  <rect x="130" y="400" width="700" height="40" rx="12"
+    fill="rgba(168, 34, 24, 0.05)" stroke="rgba(168, 34, 24, 0.15)" />
+  <text x="160" y="426" font-size="13" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Safety:  Execute(x) &#x2192; Label(x) = safe &#x2227; L(x) = safe
+  </text>
+  <text x="640" y="426" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    exact verifier still owns authority
+  </text>
+
+  <!-- Top-right: verifier label -->
+  <rect x="660" y="95" width="250" height="105" rx="16"
+    fill="rgba(160, 74, 8, 0.06)" stroke="rgba(160, 74, 8, 0.18)" />
+  <text x="680" y="120" font-size="13" font-weight="900" fill="#A04A08"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    L : X &#x2192; &#x039B;
+  </text>
+  <text x="680" y="140" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Exact verifier label
+  </text>
+  <text x="680" y="162" font-size="10" fill="#A04A08"
+    font-family="JetBrains Mono, monospace">safe</text>
+  <text x="730" y="162" font-size="10" fill="#A04A08"
+    font-family="JetBrains Mono, monospace">fail_828</text>
+  <text x="680" y="180" font-size="10" fill="#A04A08"
+    font-family="JetBrains Mono, monospace">fail_1915</text>
+  <text x="760" y="180" font-size="10" fill="#A04A08"
+    font-family="JetBrains Mono, monospace">fail_13116</text>
+
+  <!-- Arrow from L down to compiled controller region -->
+  <path d="M785 205 L785 253" stroke="#A04A08" stroke-width="2"
+    marker-end="url(#fp-qr-arrow)" stroke-linecap="round" stroke-dasharray="5 3" />
+  <text x="793" y="232" font-size="9" fill="#A04A08"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">teaches</text>
+</svg>
