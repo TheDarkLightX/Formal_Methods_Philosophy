@@ -1702,3 +1702,37 @@ Next frontier after v77:
   only comparing known survivors,
 - or repeat the same phase-diagram comparison on a harder frontier where the
   current exact families do not all tie at cost `4`
+
+## 2026-03-27, hard witness-language phase diagram
+
+- New structural target:
+  - repeat the `v77` phase-diagram comparison on a harder bounded witness
+    frontier where the exact families should separate instead of tie
+- Bounded domain:
+  - the hard refill witness frontier from `v40`, `v44`, and `v46`
+  - same `13` holdout states
+  - same `v38` feature surface
+- Strongest bounded results:
+  - score-local residual-default witnesses:
+    - cost `27`
+  - merged-region residual-default witnesses:
+    - cost `22`
+  - shared global witness-schema language:
+    - size `19`
+  - local all-positive witnesses already fail on:
+    - `9`
+    - `10`
+- Strongest correction learned:
+  - the harder frontier does not merely show several tied exact language
+    families
+  - it orders witness contracts strictly:
+    - local
+    - then merged-region
+    - then shared-schema
+
+Next frontier after v78:
+
+- search directly over a wider bounded witness-language family on the same hard
+  frontier,
+- or compare witness-cover languages against certificate or decomposition
+  languages on a shared bounded corpus

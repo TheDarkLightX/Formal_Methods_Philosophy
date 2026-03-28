@@ -2105,3 +2105,42 @@ Boundary learned:
   - direct search over a larger bounded witness-language family
   - or the same phase-diagram comparison on a harder frontier where the current
     exact families no longer tie at cost `4`
+
+### New survivor: hard witness-language phase diagram
+
+Bounded result:
+
+- bounded domain:
+  - the hard refill witness frontier reused from `v40`, `v44`, and `v46`
+- compared exact language families:
+  - score-local residual-default witnesses
+  - merged-region residual-default witnesses
+  - shared global witness-schema language
+- strongest result:
+  - the harder frontier yields a strict exact ladder:
+    - score-local residual-default witnesses:
+      - cost `27`
+    - merged-region residual-default witnesses:
+      - cost `22`
+    - shared global witness-schema language:
+      - size `19`
+  - local all-positive witnesses already fail on:
+    - `9`
+    - `10`
+
+Why it mattered:
+
+- `v77` showed a frontier where several exact language families tie once the
+  witness contract is fixed
+- this harder frontier shows a stronger phenomenon:
+  widening the witness contract strictly lowers exact description size
+
+Boundary learned:
+
+- the compared families are still previously surviving exact objects rather than
+  a direct larger-grammar language search
+- the next honest step is:
+  - direct search over a wider witness-language family on the same hard
+    frontier
+  - or comparison against certificate or decomposition languages, not only
+    witness-cover languages

@@ -2105,6 +2105,29 @@ It depends on what counts as a valid local witness.
 That is the sharpest current reason to treat verifier-compilers as one important
 child of a larger program rather than as the final umbrella.
 
+The harder refill frontier then sharpens the same point.
+
+There the exact families no longer tie.
+
+Instead they form a strict bounded ladder:
+
+- score-local residual-default witnesses:
+  - cost `27`
+- merged-region residual-default witnesses:
+  - cost `22`
+- shared global witness-schema language:
+  - size `19`
+
+Local all-positive witnesses already fail on the hardest score blocks:
+
+- `9`
+- `10`
+
+So on the harder frontier, widening the local witness contract does not merely
+change which exact family is preferred.
+
+It strictly lowers the exact description size.
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

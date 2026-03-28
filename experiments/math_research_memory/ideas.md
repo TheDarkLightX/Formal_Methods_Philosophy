@@ -2043,3 +2043,27 @@ Next ideas:
 - repeat the same phase-diagram comparison on a harder frontier
 - test whether some frontiers favor certificate languages or decomposition
   languages over compilers and positive covers
+
+Current refinement:
+
+- the harder refill witness frontier no longer gives only a tie among exact
+  families
+- it yields a strict ladder:
+  - score-local residual-default witnesses:
+    - `27`
+  - merged-region residual-default witnesses:
+    - `22`
+  - shared global witness-schema language:
+    - `19`
+- local all-positive witnesses already fail on:
+  - `9`
+  - `10`
+
+New next ideas:
+
+- search directly over a wider bounded witness-language grammar on the hard
+  frontier
+- compare witness-cover languages against certificate languages on one shared
+  bounded corpus
+- compare witness-cover languages against decomposition languages on one shared
+  bounded corpus

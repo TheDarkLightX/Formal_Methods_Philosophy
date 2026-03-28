@@ -1,0 +1,94 @@
+{
+  "discovery_domain": "hard-frontier minimal witness-language phase diagram over the v38 refill feature surface",
+  "families": [
+    {
+      "contract": "exact score-local positive-cover plus residual-default witnesses on each nontrivial score block",
+      "cost_metric": "total positive witness count across nontrivial score blocks",
+      "description_cost": 27,
+      "family": "score_local_mixed_witnesses",
+      "region_count": 6,
+      "shared_schema": false,
+      "source_cycle": "v40"
+    },
+    {
+      "contract": "exact merged-region positive-cover plus residual-default witnesses on the best exact score partition",
+      "cost_metric": "total positive witness count across exact merged regions",
+      "description_cost": 22,
+      "family": "merged_region_mixed_witnesses",
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "region_count": 5,
+      "shared_schema": false,
+      "source_cycle": "v44"
+    },
+    {
+      "contract": "exact shared witness-schema library over the best exact merged-region partition",
+      "cost_metric": "distinct shared witness schemas",
+      "description_cost": 19,
+      "family": "shared_schema_witness_language",
+      "partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "region_count": 5,
+      "shared_schema": true,
+      "source_cycle": "v46"
+    }
+  ],
+  "holdout_domain": "the same 13 holdout fact states used from v29 through v46",
+  "local_all_positive_failure_scores": [
+    9,
+    10
+  ],
+  "oracle_dependent": true,
+  "strict_cost_ladder": [
+    {
+      "cost_metric": "total positive witness count across nontrivial score blocks",
+      "description_cost": 27,
+      "family": "score_local_mixed_witnesses"
+    },
+    {
+      "cost_metric": "total positive witness count across exact merged regions",
+      "description_cost": 22,
+      "family": "merged_region_mixed_witnesses"
+    },
+    {
+      "cost_metric": "distinct shared witness schemas",
+      "description_cost": 19,
+      "family": "shared_schema_witness_language"
+    }
+  ],
+  "strongest_claim": "On the hard refill witness frontier, minimal witness-language discovery yields a strict bounded ladder once the witness contract is widened. Exact score-local residual-default witnesses cost 27, exact merged-region residual-default witnesses cost 22 on partition `(7), (8), (9), (10,11), (12)`, and the best exact shared witness-schema library over that same partition has size 19. Local all-positive witnesses already fail on scores 9 and 10. So the harder frontier does not merely tie several exact families. It orders them.",
+  "survivor": "hard witness-language phase diagram",
+  "tier": "descriptive_oracle"
+}
