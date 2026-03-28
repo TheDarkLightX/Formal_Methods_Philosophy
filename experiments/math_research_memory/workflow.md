@@ -2411,3 +2411,60 @@ Next frontier after v93:
 - translate the staged-carving lesson back into software engineering loops
 - test obligation-fibered repair or certificate-carrying repair on a bounded bug
   corpus instead of staying in Tau-specific temporal detail
+
+## 2026-03-28, dependency-aware obligation-fibered repair
+
+- New structural target:
+  - move back to the main frontier, software-engineering loops
+  - test whether failure-obligation fibers beat monolithic patch search on a
+    bounded bug corpus
+  - identify the first exact correction once fibers overlap
+- Bounded domain:
+  - two tiny patch corpora with three edit sites:
+    - `guard`
+    - `bounds`
+    - `transform`
+  - `27` patches per corpus
+  - three unit-test fibers:
+    - `guard`
+    - `bounds`
+    - `transform`
+  - corpora:
+    - `separable_patch_family`
+    - `overlap_patch_family`
+- Strongest bounded results:
+  - separable family:
+    - monolithic average evaluation cost:
+      - `39.0`
+    - naive fibered average cost:
+      - `15.0`
+    - dependency-aware fibered average cost:
+      - `9.0`
+    - exact gold recovery:
+      - naive:
+        - `27 / 27`
+      - dependency-aware:
+        - `27 / 27`
+  - overlap family:
+    - monolithic average evaluation cost:
+      - `35.851851851851855`
+    - naive fibered average cost:
+      - `15.0`
+    - dependency-aware fibered average cost:
+      - `9.0`
+    - exact gold recovery:
+      - naive:
+        - `16 / 27`
+      - dependency-aware:
+        - `27 / 27`
+- Strongest correction learned:
+  - independent fibering is not the end state
+  - the first exact fix is dependency-aware fibering:
+    - solve `transform` first
+    - then solve `guard` and `bounds` conditioned on it
+
+Next frontier after v94:
+
+- compare certificate-carrying repair against the same bounded corpus
+- or search the smallest exact repair-language grammar once the fiber dependency
+  graph is known

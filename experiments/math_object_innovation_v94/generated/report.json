@@ -1,0 +1,134 @@
+{
+  "discovery_domain": "bounded software-engineering patch corpora with three edit sites (guard, bounds, transform), compared under monolithic patch search, naive obligation-fibered repair, and dependency-aware obligation-fibered repair",
+  "families": [
+    {
+      "candidate_count": 27,
+      "dependency_fiber_average_eval_cost": 9.0,
+      "dependency_fiber_exact_gold_count": 27,
+      "dependency_fiber_exact_gold_ratio": 1.0,
+      "family": "separable_patch_family",
+      "monolithic_average_eval_cost": 39.0,
+      "monolithic_common_test_order": [
+        "guard",
+        "bounds",
+        "transform"
+      ],
+      "monolithic_worst_eval_cost": 39,
+      "naive_ambiguous_examples": [],
+      "naive_fiber_average_eval_cost": 15.0,
+      "naive_fiber_exact_gold_count": 27,
+      "naive_fiber_exact_gold_ratio": 1.0
+    },
+    {
+      "candidate_count": 27,
+      "dependency_fiber_average_eval_cost": 9.0,
+      "dependency_fiber_exact_gold_count": 27,
+      "dependency_fiber_exact_gold_ratio": 1.0,
+      "family": "overlap_patch_family",
+      "monolithic_average_eval_cost": 35.851851851851855,
+      "monolithic_common_test_order": [
+        "guard",
+        "bounds",
+        "transform"
+      ],
+      "monolithic_worst_eval_cost": 39,
+      "naive_ambiguous_examples": [
+        {
+          "gold": {
+            "bounds": "reject_negative",
+            "guard": "ignore_flag",
+            "transform": "add_one"
+          },
+          "naive_bounds_keep": [
+            "reject_negative"
+          ],
+          "naive_guard_keep": [],
+          "naive_product_size": 0,
+          "naive_transform_keep": [
+            "add_one"
+          ]
+        },
+        {
+          "gold": {
+            "bounds": "clamp_zero",
+            "guard": "ignore_flag",
+            "transform": "add_one"
+          },
+          "naive_bounds_keep": [
+            "absolute_value",
+            "clamp_zero"
+          ],
+          "naive_guard_keep": [],
+          "naive_product_size": 0,
+          "naive_transform_keep": [
+            "add_one"
+          ]
+        },
+        {
+          "gold": {
+            "bounds": "absolute_value",
+            "guard": "ignore_flag",
+            "transform": "identity"
+          },
+          "naive_bounds_keep": [
+            "absolute_value",
+            "clamp_zero"
+          ],
+          "naive_guard_keep": [
+            "ignore_flag"
+          ],
+          "naive_product_size": 2,
+          "naive_transform_keep": [
+            "identity"
+          ]
+        },
+        {
+          "gold": {
+            "bounds": "absolute_value",
+            "guard": "ignore_flag",
+            "transform": "add_one"
+          },
+          "naive_bounds_keep": [
+            "absolute_value"
+          ],
+          "naive_guard_keep": [],
+          "naive_product_size": 0,
+          "naive_transform_keep": [
+            "add_one"
+          ]
+        },
+        {
+          "gold": {
+            "bounds": "absolute_value",
+            "guard": "ignore_flag",
+            "transform": "square"
+          },
+          "naive_bounds_keep": [
+            "absolute_value",
+            "clamp_zero"
+          ],
+          "naive_guard_keep": [
+            "ignore_flag"
+          ],
+          "naive_product_size": 2,
+          "naive_transform_keep": [
+            "square"
+          ]
+        }
+      ],
+      "naive_fiber_average_eval_cost": 15.0,
+      "naive_fiber_exact_gold_count": 16,
+      "naive_fiber_exact_gold_ratio": 0.5925925925925926
+    }
+  ],
+  "holdout_domain": "exhaustive over both 27-patch corpora and all gold patches inside each corpus",
+  "oracle_dependent": true,
+  "software_loop_ranking_hint": [
+    "obligation_fibered_repair",
+    "certificate_carrying_repair",
+    "minimal_repair_language_discovery"
+  ],
+  "strongest_claim": "On a bounded patch corpus with overlapping failure fibers, naive independent fiber repair stops being exact, but a dependency-aware fiber loop that solves transform before bounds regains exactness while preserving the low local evaluation cost that makes fibered repair attractive.",
+  "survivor": "dependency-aware obligation-fibered repair",
+  "tier": "descriptive_oracle"
+}

@@ -2434,3 +2434,34 @@ New next ideas:
 - obligation-fibered repair on a bounded bug corpus
 - certificate-carrying repair on the same corpus
 - minimal repair-language discovery after failure fibers stabilize
+
+Current refinement:
+
+- the first software-engineering-shaped mainline survivor is
+  dependency-aware obligation-fibered repair
+- exact bounded law:
+  - separable family:
+    - monolithic:
+      - `39.0`
+    - dependency-aware fibered:
+      - `9.0`
+      - exact on `27 / 27`
+  - overlap family:
+    - naive fibered:
+      - exact on `16 / 27`
+    - dependency-aware fibered:
+      - exact on `27 / 27`
+      - average cost:
+        - `9.0`
+
+Why this matters:
+
+- the first useful correction beyond plain fibering is not a wider test grammar
+- it is a dependency edge between fibers
+- that is exactly the kind of search-object shift that moved the frontier in
+  earlier branches too
+
+New next ideas:
+
+- certificate-carrying repair on the same bounded patch corpus
+- minimal repair-language discovery with the fiber dependency graph fixed

@@ -2774,3 +2774,52 @@ Boundary learned:
 - Tau did produce a useful side-branch law
 - but the main frontier should now move back to higher-leverage software loops,
   not stay inside Tau-specific detail
+
+### New survivor: dependency-aware obligation-fibered repair
+
+Bounded result:
+
+- bounded domain:
+  - two software-shaped patch corpora with three edit sites:
+    - `guard`
+    - `bounds`
+    - `transform`
+  - `27` patches per corpus
+  - three unit-test fibers
+- searched object:
+  - monolithic patch search
+  - naive independent fiber repair
+  - dependency-aware fiber repair
+- strongest result:
+  - on the separable corpus:
+    - monolithic average cost:
+      - `39.0`
+    - naive fibered:
+      - exact on `27 / 27`
+      - cost:
+        - `15.0`
+    - dependency-aware:
+      - exact on `27 / 27`
+      - cost:
+        - `9.0`
+  - on the overlap corpus:
+    - monolithic average cost:
+      - `35.851851851851855`
+    - naive fibered:
+      - exact on `16 / 27`
+    - dependency-aware:
+      - exact on `27 / 27`
+      - cost:
+        - `9.0`
+
+Why it mattered:
+
+- this is the first software-engineering-shaped survivor in the current main
+  line
+- it shows the next object is not only a verifier-side quotient
+- it is a dependency graph over repair fibers
+
+Boundary learned:
+
+- naive independent fibering is not enough once failure fibers overlap
+- the first exact correction is dependency-aware fibering
