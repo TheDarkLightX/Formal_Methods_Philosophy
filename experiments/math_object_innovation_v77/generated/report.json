@@ -1,0 +1,128 @@
+{
+  "discovery_domain": "semantics-aware minimal witness-language comparison on the repaired 10-state `(H6, E)` verifier frontier",
+  "families": [
+    {
+      "default_label": null,
+      "description_cost": 7,
+      "family": "positive_atom_cover",
+      "fully_positive": true,
+      "invented_primitives": false,
+      "ordered": false,
+      "positive_label_count": 4,
+      "positive_labels": [
+        "fail_13116",
+        "fail_1915",
+        "fail_828",
+        "safe"
+      ],
+      "positive_witness_count": 7,
+      "source_cycle": "v35"
+    },
+    {
+      "default_label": "fail_828",
+      "description_cost": 4,
+      "family": "mixed_atom_cover",
+      "fully_positive": false,
+      "invented_primitives": false,
+      "ordered": false,
+      "positive_label_count": 3,
+      "positive_labels": [
+        "fail_13116",
+        "fail_1915",
+        "safe"
+      ],
+      "positive_witness_count": 4,
+      "source_cycle": "v35"
+    },
+    {
+      "default_label": null,
+      "description_cost": 4,
+      "family": "positive_invented_cover",
+      "fully_positive": true,
+      "invented_primitives": true,
+      "ordered": false,
+      "positive_label_count": 4,
+      "positive_labels": [
+        "fail_13116",
+        "fail_1915",
+        "fail_828",
+        "safe"
+      ],
+      "positive_witness_count": 4,
+      "source_cycle": "v36"
+    },
+    {
+      "default_label": "fail_828",
+      "description_cost": 4,
+      "family": "ordered_decision_list",
+      "fully_positive": false,
+      "invented_primitives": false,
+      "ordered": true,
+      "positive_label_count": 3,
+      "positive_labels": [
+        "fail_13116",
+        "fail_1915",
+        "safe"
+      ],
+      "positive_witness_count": 4,
+      "source_cycle": "v24"
+    }
+  ],
+  "frontier_state_count": 10,
+  "holdout_domain": "the same repaired verifier quotient states used in v24, v35, and v36",
+  "oracle_dependent": true,
+  "semantic_optima": {
+    "all_positive_unordered": {
+      "default_label": null,
+      "description_cost": 4,
+      "family": "positive_invented_cover",
+      "fully_positive": true,
+      "invented_primitives": true,
+      "ordered": false,
+      "positive_label_count": 4,
+      "positive_labels": [
+        "fail_13116",
+        "fail_1915",
+        "fail_828",
+        "safe"
+      ],
+      "positive_witness_count": 4,
+      "source_cycle": "v36"
+    },
+    "ordered_exact_classifier": {
+      "default_label": "fail_828",
+      "description_cost": 4,
+      "family": "ordered_decision_list",
+      "fully_positive": false,
+      "invented_primitives": false,
+      "ordered": true,
+      "positive_label_count": 3,
+      "positive_labels": [
+        "fail_13116",
+        "fail_1915",
+        "safe"
+      ],
+      "positive_witness_count": 4,
+      "source_cycle": "v24"
+    },
+    "residual_default_unordered": {
+      "default_label": "fail_828",
+      "description_cost": 4,
+      "family": "mixed_atom_cover",
+      "fully_positive": false,
+      "invented_primitives": false,
+      "ordered": false,
+      "positive_label_count": 3,
+      "positive_labels": [
+        "fail_13116",
+        "fail_1915",
+        "safe"
+      ],
+      "positive_witness_count": 4,
+      "source_cycle": "v35"
+    }
+  },
+  "strongest_claim": "On the repaired verifier frontier, minimal exact language search does not return one universally best family. Instead the optimum depends on the local witness contract: the smallest exact all-positive unordered language is the invented positive-cover family from v36 with cost 4, the smallest exact unordered residual-default language is the mixed atom-cover family from v35 with cost 4, and the smallest exact ordered classifier is the decision-list compiler from v24 with 4 guards. This is bounded evidence for minimal witness-language discovery as a meta-loop above verifier compilation.",
+  "survivor": "minimal witness-language phase diagram",
+  "tier": "descriptive_oracle"
+}

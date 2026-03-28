@@ -1664,3 +1664,41 @@ Next frontier after v76:
   - the current three-scalar law
   - the current rigid mixed basis family
 - or prove stronger minimality inside an even wider geometric invariant library
+
+## 2026-03-27, minimal witness-language phase diagram
+
+- New structural target:
+  - compare several exact language families side by side on one fixed repaired
+    verifier frontier
+  - ask for the smallest exact language once the local witness contract is
+    fixed
+- Bounded domain:
+  - the repaired `10`-state `(H6, E)` verifier frontier from `v24`, `v35`, and
+    `v36`
+- Strongest bounded results:
+  - exact compared families:
+    - pure positive atom covers
+    - mixed residual-default atom covers
+    - invented positive covers
+    - ordered decision-list compiler
+  - smallest all-positive unordered language:
+    - invented positive-cover family
+    - cost `4`
+  - smallest unordered residual-default language:
+    - mixed atom-cover family
+    - cost `4`
+  - smallest ordered exact classifier:
+    - decision-list compiler
+    - guard count `4`
+- Strongest correction learned:
+  - on this bounded frontier, "best exact language" is not absolute
+  - the optimum depends on what is allowed to count as a local witness
+  - verifier compilation is therefore best read as one child of a larger
+    `minimal witness-language discovery` program
+
+Next frontier after v77:
+
+- search directly over a larger bounded family of witness languages instead of
+  only comparing known survivors,
+- or repeat the same phase-diagram comparison on a harder frontier where the
+  current exact families do not all tie at cost `4`

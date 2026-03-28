@@ -2064,3 +2064,44 @@ Boundary learned:
 - the next honest step is the first width-`4` phenomenon that escapes both:
   - the current three-scalar law
   - the current rigid mixed basis family
+
+### New survivor: minimal witness-language phase diagram
+
+Bounded result:
+
+- bounded domain:
+  - the repaired `10`-state `(H6, E)` verifier frontier reused from `v24`,
+    `v35`, and `v36`
+- compared exact language families:
+  - pure positive atom covers
+  - mixed atom covers with residual default
+  - invented positive covers
+  - ordered decision-list compiler
+- strongest result:
+  - no single universally best exact language survives once the witness
+    semantics are fixed
+  - smallest all-positive unordered language:
+    - invented positive-cover family
+    - cost `4`
+  - smallest unordered residual-default language:
+    - mixed atom-cover family
+    - cost `4`
+  - smallest ordered exact classifier:
+    - decision-list compiler
+    - guard count `4`
+
+Why it mattered:
+
+- this is the first explicit bounded phase diagram in the repo for
+  `minimal witness-language discovery`
+- verifier compilation is still a strong survivor, but it now sits inside a
+  larger exact language-selection problem
+
+Boundary learned:
+
+- this result compares only four already-surviving language families on one
+  bounded frontier
+- the next honest step is:
+  - direct search over a larger bounded witness-language family
+  - or the same phase-diagram comparison on a harder frontier where the current
+    exact families no longer tie at cost `4`

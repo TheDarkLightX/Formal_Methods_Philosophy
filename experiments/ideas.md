@@ -2003,3 +2003,43 @@ Next ideas:
 - search for the first width-`4` orbit feature that escapes both:
   - the current three-scalar law
   - the current rigid mixed basis family
+
+### Minimal witness-language discovery frontier
+
+Hypothesis:
+
+- the deeper object is often not only the witness or the compiler
+- it is the smallest exact language in which local witnessing is allowed
+
+Current status:
+
+- first bounded survivor now exists on the repaired `10`-state verifier
+  frontier
+- exact compared families:
+  - pure positive atom covers
+  - mixed residual-default atom covers
+  - invented positive covers
+  - ordered decision-list compiler
+- exact phase diagram:
+  - smallest all-positive unordered language:
+    - invented positive-cover family
+    - cost `4`
+  - smallest unordered residual-default language:
+    - mixed atom-cover family
+    - cost `4`
+  - smallest ordered exact classifier:
+    - decision-list compiler
+    - guard count `4`
+
+Why this matters:
+
+- this is the first explicit bounded evidence that verifier compilation is one
+  child of a larger exact language-selection problem
+- the answer to "best exact language" depends on the local witness contract
+
+Next ideas:
+
+- search over a larger bounded family of witness languages directly
+- repeat the same phase-diagram comparison on a harder frontier
+- test whether some frontiers favor certificate languages or decomposition
+  languages over compilers and positive covers

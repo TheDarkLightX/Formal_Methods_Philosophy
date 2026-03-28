@@ -2066,7 +2066,46 @@ The unconstrained score-partition result adds a boundary:
 
 - the current score abstraction is robust even after the contiguity restriction is removed.
 
-### 6. Meta-loop synthesis
+### 6. Minimal witness-language discovery
+
+There is a stronger umbrella above verifier compilation:
+
+> search for the smallest exact language in which local witnessing is allowed.
+
+That language does not need to be a decision-list language.
+
+It may instead be:
+
+- an all-positive witness language,
+- a residual-default witness language,
+- an ordered classifier language,
+- or some richer certificate or policy language.
+
+The bounded `v77` phase diagram gives the first explicit evidence for this
+umbrella on one fixed repaired verifier frontier.
+
+On the same `10` exact quotient states, three different optima survive once the
+local witness contract is fixed:
+
+- smallest all-positive unordered language:
+  - invented positive-cover family
+  - cost `4`
+- smallest unordered residual-default language:
+  - mixed atom-cover family
+  - cost `4`
+- smallest ordered exact classifier:
+  - decision-list compiler
+  - guard count `4`
+
+So the answer to "what is the best exact language?" is not absolute even on
+this bounded frontier.
+
+It depends on what counts as a valid local witness.
+
+That is the sharpest current reason to treat verifier-compilers as one important
+child of a larger program rather than as the final umbrella.
+
+### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:
 
