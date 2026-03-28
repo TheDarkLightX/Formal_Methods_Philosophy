@@ -2592,3 +2592,46 @@ Boundary learned:
 - it is:
   - a richer certificate language
   - or a semantic invariant explaining the merged residual region
+
+### New survivor: lab-followup unsafe earliest-error residual law
+
+Bounded result:
+
+- bounded domain:
+  - the full unsafe block of the toy lab-followup frontier
+  - holdout scores:
+    - `0`
+    - `1`
+    - `2`
+    - `3`
+    - `4`
+- searched object:
+  - exact all-positive and residual-default witness languages
+  - `1..4` signed conjunctions over the five ordered holdout error bits
+- strongest result:
+  - exact score-free earliest-error residual-default language:
+    - default:
+      - `(0,0,1)`
+    - certify:
+      - `(0,1,0)` by `not e1 and e2`
+      - `(0,1,1)` by `not e1 and not e2 and e3`
+      - `(1,1,0)` by `not e1 and not e2 and not e3 and e4`
+      - `(1,1,1)` by `not e1 and not e2 and not e3 and not e4`
+  - unsafe behavior count:
+    - `163`
+  - exact residual-default cost:
+    - `4`
+  - exact all-positive cost:
+    - `5`
+
+Why it mattered:
+
+- this gives a semantic explanation for the merged residual region from `v88`
+- the lab-followup transfer frontier now has a direct score-free explanatory
+  law, not only a residual-budget optimum
+
+Boundary learned:
+
+- the next honest move is:
+  - compare this explanatory law against a richer certificate language
+  - or search for an analogous score-free law on the refill frontier

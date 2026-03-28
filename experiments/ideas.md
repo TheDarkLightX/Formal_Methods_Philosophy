@@ -2334,3 +2334,22 @@ New next ideas:
 
 - compare the transfer ladder against a richer certificate language
 - or search for a semantic invariant explaining the merged residual region
+
+Current refinement:
+
+- the merged residual region on the lab-followup frontier is explained by a
+  score-free earliest-error residual-default law on the whole unsafe block
+- exact residual-default cost:
+  - `4`
+- exact all-positive cost:
+  - `5`
+
+Why this matters:
+
+- the lab-followup transfer object now has a direct explanatory law
+- this is stronger than only knowing that budget `1` is optimal
+
+New next ideas:
+
+- compare this explanatory law against a richer certificate language
+- or search for an analogous score-free law on the refill frontier

@@ -2506,6 +2506,33 @@ That makes the contrast with refill sharper:
 - the merged residual region in lab-followup looks structural, not merely
   grammatical
 
+The next bounded step was explanatory rather than grammatical.
+
+On the full unsafe block of the lab-followup frontier, scores `0,1,2,3,4`,
+there is already an exact score-free earliest-error residual law:
+
+- default:
+  - `h1`
+- certify `h2` by:
+  - `not e1 and e2`
+- certify `h3` by:
+  - `not e1 and not e2 and e3`
+- certify `h4` by:
+  - `not e1 and not e2 and not e3 and e4`
+- certify `h5` by:
+  - `not e1 and not e2 and not e3 and not e4`
+
+This law is exact on all `163` unsafe behaviors.
+
+Its residual-default cost is `4`.
+
+The best exact all-positive presentation on the same unsafe block costs `5`.
+
+So the merged residual region from `v88` is no longer only an empirical optimum.
+
+It is explained by a direct score-free earliest-error language on the unsafe
+block itself.
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

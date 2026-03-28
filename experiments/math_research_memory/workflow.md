@@ -2202,3 +2202,43 @@ Next frontier after v89:
 
 - compare the transfer ladder against a richer certificate language,
 - or search for a semantic invariant explaining the merged residual region
+
+## 2026-03-27, lab-followup unsafe earliest-error residual law
+
+- New structural target:
+  - explain the merged residual region from `v88` semantically rather than by
+    more grammar widening
+  - search for a score-free exact language on the whole unsafe block
+- Bounded domain:
+  - the full unsafe block of the toy lab-followup frontier
+  - holdout scores:
+    - `0`
+    - `1`
+    - `2`
+    - `3`
+    - `4`
+  - signed conjunction grammar of width `1` to `4` over the five ordered
+    holdout error bits
+- Strongest bounded results:
+  - exact score-free earliest-error residual-default language:
+    - default:
+      - `(0,0,1)`
+    - certify:
+      - `(0,1,0)` by `not e1 and e2`
+      - `(0,1,1)` by `not e1 and not e2 and e3`
+      - `(1,1,0)` by `not e1 and not e2 and not e3 and e4`
+      - `(1,1,1)` by `not e1 and not e2 and not e3 and not e4`
+  - unsafe behavior count:
+    - `163`
+  - exact residual-default cost:
+    - `4`
+  - exact all-positive cost:
+    - `5`
+- Strongest correction learned:
+  - the merged residual region from `v88` is explained by a direct score-free
+    earliest-error law on the unsafe block
+
+Next frontier after v90:
+
+- compare this explanatory law against a richer certificate language,
+- or search for an analogous score-free law on the refill frontier

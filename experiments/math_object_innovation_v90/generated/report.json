@@ -1,0 +1,44 @@
+{
+  "direct_earliest_error_check": {
+    "default_label": "(0, 0, 1)",
+    "formula_map": {
+      "(0, 1, 0)": "not e1 and e2",
+      "(0, 1, 1)": "not e1 and not e2 and e3",
+      "(1, 1, 0)": "not e1 and not e2 and not e3 and e4",
+      "(1, 1, 1)": "not e1 and not e2 and not e3 and not e4"
+    },
+    "mismatch_count": 0,
+    "mismatches": []
+  },
+  "discovery_domain": "score-free earliest-error residual-language search on the unsafe block of the toy lab-followup MPRD frontier",
+  "feature_count": 5,
+  "feature_names": [
+    "e1",
+    "e2",
+    "e3",
+    "e4",
+    "e5"
+  ],
+  "holdout_domain": "the 5 ordered holdout fact states induced by the chosen 3-state training set",
+  "label_counts": {
+    "(0, 0, 1)": 101,
+    "(0, 1, 0)": 40,
+    "(0, 1, 1)": 14,
+    "(1, 1, 0)": 6,
+    "(1, 1, 1)": 2
+  },
+  "minimal_residual_defaults": [
+    "(0, 0, 1)",
+    "(0, 1, 0)",
+    "(0, 1, 1)",
+    "(1, 1, 0)",
+    "(1, 1, 1)"
+  ],
+  "oracle_dependent": true,
+  "smallest_exact_all_positive_cost": 5,
+  "smallest_exact_residual_cost": 4,
+  "strongest_claim": "On the unsafe block of the toy lab-followup MPRD frontier, the first-refuter labels admit an exact score-free earliest-error residual-default law in the 1-to-4 literal signed-conjunction grammar. Defaulting to the first holdout state and certifying the later holdout states by earliest-error clauses yields exact cost 4, while the best exact all-positive presentation costs 5. This explains why the partition-aware transfer frontier from v88 prefers one merged residual-default region.",
+  "survivor": "lab-followup unsafe earliest-error residual law",
+  "tier": "descriptive_oracle",
+  "unsafe_behavior_count": 163
+}
