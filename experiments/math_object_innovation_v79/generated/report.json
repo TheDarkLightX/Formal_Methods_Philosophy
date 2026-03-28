@@ -1,0 +1,274 @@
+{
+  "best_partition": [
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      12
+    ]
+  ],
+  "bit_fiber_shared_schema_count": 21,
+  "bit_fiber_total_cost": 24,
+  "discovery_domain": "exact bit-fiber decomposition search on the hard v44 merged-region witness frontier",
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states used from v29 through v46",
+  "label_level_shared_schema_count": 19,
+  "label_level_total_cost": 22,
+  "oracle_dependent": true,
+  "region_reports": [
+    {
+      "bit_summaries": [
+        {
+          "bit": 0,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "not err[3] and err[8]"
+          ]
+        },
+        {
+          "bit": 1,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "not err[3] and err[6]"
+          ]
+        },
+        {
+          "bit": 2,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "err[3] and err[6]"
+          ]
+        },
+        {
+          "bit": 3,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "err[3] and err[8]"
+          ]
+        }
+      ],
+      "bit_total_cost": 4,
+      "label_level_cost": 4,
+      "scores": [
+        7
+      ]
+    },
+    {
+      "bit_summaries": [
+        {
+          "bit": 0,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "not err[3] and not err[6] and err[10] and err[12]"
+          ]
+        },
+        {
+          "bit": 1,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "err[6] AND err[10] AND err[12] and not err[9]"
+          ]
+        },
+        {
+          "bit": 2,
+          "cost": 2,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "err[6] and err[9]",
+            "err[3] and err[9]"
+          ]
+        },
+        {
+          "bit": 3,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "err[3] and err[8]"
+          ]
+        }
+      ],
+      "bit_total_cost": 5,
+      "label_level_cost": 5,
+      "scores": [
+        8
+      ]
+    },
+    {
+      "bit_summaries": [
+        {
+          "bit": 0,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "not err[3] and not err[6]"
+          ]
+        },
+        {
+          "bit": 1,
+          "cost": 2,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "err[6] and err[10]",
+            "err[6] and not err[9]"
+          ]
+        },
+        {
+          "bit": 2,
+          "cost": 2,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "not err[8] and err[10]",
+            "err[6] and err[9]"
+          ]
+        },
+        {
+          "bit": 3,
+          "cost": 2,
+          "default_bit": 1,
+          "positive_witnesses": [
+            "not err[3] and not err[8]",
+            "not err[9] AND err[10] AND err[12] and err[9]"
+          ]
+        }
+      ],
+      "bit_total_cost": 7,
+      "label_level_cost": 7,
+      "scores": [
+        9
+      ]
+    },
+    {
+      "bit_summaries": [
+        {
+          "bit": 0,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "not err[3] and not err[6]"
+          ]
+        },
+        {
+          "bit": 1,
+          "cost": 2,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "err[6]",
+            "not err[9] and not err[10]"
+          ]
+        },
+        {
+          "bit": 2,
+          "cost": 2,
+          "default_bit": 1,
+          "positive_witnesses": [
+            "err[8]",
+            "not err[6] and not err[9] and not err[10]"
+          ]
+        },
+        {
+          "bit": 3,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "not err[6] and not err[9] and err[10]"
+          ]
+        }
+      ],
+      "bit_total_cost": 6,
+      "label_level_cost": 5,
+      "scores": [
+        10,
+        11
+      ]
+    },
+    {
+      "bit_summaries": [
+        {
+          "bit": 0,
+          "cost": 0,
+          "default_bit": 1,
+          "positive_witnesses": []
+        },
+        {
+          "bit": 1,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "err[12]"
+          ]
+        },
+        {
+          "bit": 2,
+          "cost": 0,
+          "default_bit": 1,
+          "positive_witnesses": []
+        },
+        {
+          "bit": 3,
+          "cost": 1,
+          "default_bit": 0,
+          "positive_witnesses": [
+            "err[10]"
+          ]
+        }
+      ],
+      "bit_total_cost": 2,
+      "label_level_cost": 1,
+      "scores": [
+        12
+      ]
+    }
+  ],
+  "shared_schemas": [
+    "err[10]",
+    "err[12]",
+    "err[3] and err[6]",
+    "err[3] and err[8]",
+    "err[3] and err[9]",
+    "err[6]",
+    "err[6] AND err[10] AND err[12] and not err[9]",
+    "err[6] and err[10]",
+    "err[6] and err[9]",
+    "err[6] and not err[9]",
+    "err[8]",
+    "not err[3] and err[6]",
+    "not err[3] and err[8]",
+    "not err[3] and not err[6]",
+    "not err[3] and not err[6] and err[10] and err[12]",
+    "not err[3] and not err[8]",
+    "not err[6] and not err[9] and err[10]",
+    "not err[6] and not err[9] and not err[10]",
+    "not err[8] and err[10]",
+    "not err[9] AND err[10] AND err[12] and err[9]",
+    "not err[9] and not err[10]"
+  ],
+  "strongest_claim": "On the hard refill witness frontier, exact bit-fiber decomposition does not beat the existing label-level witness languages. Over the exact v44 partition, the best exact bitwise decomposition has total cost 24, compared with label-level cost 22, and its shared schema library has size 21, compared with the label-level shared-schema cost 19 from v46. So decomposition is available, but it is strictly worse than the current label-level witness language on this bounded frontier.",
+  "survivor": "hard decomposition-language boundary",
+  "tier": "descriptive_oracle"
+}

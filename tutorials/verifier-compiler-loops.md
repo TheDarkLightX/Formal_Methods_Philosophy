@@ -2128,6 +2128,25 @@ change which exact family is preferred.
 
 It strictly lowers the exact description size.
 
+The next bounded comparison checked whether exact decomposition should replace
+the label-level witness language on that same hard partition.
+
+It did not.
+
+Exact bit-fiber decomposition survives, but it is strictly worse:
+
+- bit-fiber total cost:
+  - `24`
+- label-level total cost:
+  - `22`
+- bit-fiber shared schema count:
+  - `21`
+- label-level shared schema count:
+  - `19`
+
+So on the current hard frontier, decomposition is a real exact family, but not
+the best exact language family.
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

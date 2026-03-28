@@ -2144,3 +2144,40 @@ Boundary learned:
     frontier
   - or comparison against certificate or decomposition languages, not only
     witness-cover languages
+
+### New survivor: hard decomposition-language boundary
+
+Bounded result:
+
+- bounded domain:
+  - the same hard merged-region witness frontier from `v44` and `v46`
+- compared families:
+  - exact bit-fiber decomposition
+  - exact label-level witness language
+- strongest result:
+  - bit-fiber decomposition survives exactly
+  - but it is strictly worse:
+    - bit-fiber total cost:
+      - `24`
+    - label-level total cost:
+      - `22`
+    - bit-fiber shared schema count:
+      - `21`
+    - label-level shared schema count:
+      - `19`
+
+Why it mattered:
+
+- the next family comparison is now grounded
+- decomposition is not only imaginable, it is executable and exact on the same
+  bounded corpus
+- but on this frontier it does not beat the current label-level witness
+  language
+
+Boundary learned:
+
+- this compares raw bit-fiber decomposition against the current label-level
+  witness family
+- the next honest step is:
+  - certificate-language comparison on the same hard frontier
+  - or richer decomposition languages that are not limited to raw label bits

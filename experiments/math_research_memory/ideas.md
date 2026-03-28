@@ -2067,3 +2067,18 @@ New next ideas:
   bounded corpus
 - compare witness-cover languages against decomposition languages on one shared
   bounded corpus
+
+New boundary learned:
+
+- on the same hard merged-region frontier, exact bit-fiber decomposition is
+  available but worse than the current label-level witness language:
+  - total cost:
+    - `24` vs `22`
+  - shared schema count:
+    - `21` vs `19`
+
+Refined next ideas:
+
+- compare witness-cover languages against certificate languages on the same hard
+  frontier
+- search richer decomposition languages that are not limited to raw label bits

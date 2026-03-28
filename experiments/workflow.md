@@ -1736,3 +1736,38 @@ Next frontier after v78:
   frontier,
 - or compare witness-cover languages against certificate or decomposition
   languages on a shared bounded corpus
+
+## 2026-03-27, hard decomposition-language boundary
+
+- New structural target:
+  - compare the current hard label-level witness language against an exact
+    decomposition language on the same merged-region partition
+- Bounded domain:
+  - the hard merged-region witness frontier from `v44` and `v46`
+  - same exact partition:
+    - `(7)`
+    - `(8)`
+    - `(9)`
+    - `(10,11)`
+    - `(12)`
+- Strongest bounded results:
+  - exact bit-fiber decomposition exists
+  - but it is strictly worse than the current label-level witness language:
+    - bit-fiber total cost:
+      - `24`
+    - label-level total cost:
+      - `22`
+    - bit-fiber shared schema count:
+      - `21`
+    - label-level shared schema count:
+      - `19`
+- Strongest correction learned:
+  - the next family comparison is no longer hypothetical
+  - decomposition is a real exact option on the hard frontier
+  - but it is not yet the winning language family there
+
+Next frontier after v79:
+
+- compare against certificate languages on the same hard frontier,
+- or search richer decomposition languages that are not limited to raw label
+  bits
