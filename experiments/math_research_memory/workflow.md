@@ -1984,3 +1984,55 @@ Next frontier after v84:
   grammar,
 - or compare the widened certificate grammar against the current
   partition-aware residual-budget witness language on a second hard frontier
+
+## 2026-03-27, hard widened-certificate partition-aware residual-budget frontier
+
+- New structural target:
+  - rerun the full `v83` joint search after widening only the strict
+    certificate side from the `1..4` literal grammar to the `1..5` literal
+    grammar
+- Bounded domain:
+  - the same hard `v38` feature frontier reused through `v84`
+  - search all score partitions of:
+    - `7`
+    - `8`
+    - `9`
+    - `10`
+    - `11`
+    - `12`
+  - residual-default witness regions remain in the `1..4` literal grammar
+  - strict certificate regions widen to the `1..5` literal grammar
+- Strongest bounded results:
+  - a zero-residual exact rung now exists
+  - widened exact ladder:
+    - `0`:
+      - shared schemas `25`
+      - total cost `29`
+    - `1`:
+      - shared schemas `23`
+      - total cost `27`
+    - `2`:
+      - shared schemas `21`
+      - total cost `25`
+    - `3`:
+      - shared schemas `20`
+      - total cost `24`
+    - `4`:
+      - shared schemas `19`
+      - total cost `23`
+    - `5`:
+      - shared schemas `19`
+      - total cost `22`
+  - compared with `v83`:
+    - budgets `1` and `2` improve by one schema and one cost unit
+    - budgets `3` and above are unchanged
+- Strongest correction learned:
+  - the localized `v84` grammar relief does move the full joint frontier
+  - but only in the low-residual regime
+  - once residual budget is large enough, the old `v83` object was already
+    stable
+
+Next frontier after v85:
+
+- transfer the same widened-certificate joint search to a second hard frontier,
+- or search whether a richer certificate grammar moves budgets `3` and above

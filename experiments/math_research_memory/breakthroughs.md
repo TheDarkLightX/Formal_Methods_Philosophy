@@ -2384,3 +2384,41 @@ Boundary learned:
   - rerun the joint search under the widened certificate grammar
   - or test whether the same localized grammar wall appears on a second hard
     frontier
+
+### New survivor: hard widened-certificate partition-aware residual-budget frontier
+
+Bounded result:
+
+- bounded domain:
+  - the same hard `v38` witness frontier reused through `v84`
+- searched object:
+  - full `v83` joint search over score partitions and residual budgets
+  - residual-default witness regions in the `1..4` literal grammar
+  - strict certificate regions in the widened `1..5` literal grammar
+- strongest result:
+  - a zero-residual exact rung now exists:
+    - shared schemas `25`
+    - total cost `29`
+    - partition:
+      - `(7,12)`
+      - `(8)`
+      - `(9)`
+      - `(10,11)`
+  - budgets `1` and `2` improve over `v83` by:
+    - one schema
+    - one total-cost unit
+  - budgets `3`, `4`, and `5` are unchanged
+
+Why it mattered:
+
+- this shows the localized `v84` grammar relief was not only a local artifact
+- it changes the actual hard-frontier joint search
+- but only in the low-residual regime
+
+Boundary learned:
+
+- the widened certificate grammar does not move the high-residual end of the
+  frontier
+- the next honest step is:
+  - transfer the same widened-certificate search to a second hard frontier
+  - or search richer certificate grammars for budgets `3` and above

@@ -2225,3 +2225,24 @@ New next ideas:
 - rerun the full `v83` joint search in the widened certificate grammar
 - compare that widened grammar against the current partition-aware
   residual-budget witness language on a second hard frontier
+
+Current refinement:
+
+- the localized `v84` grammar relief does propagate to the full joint frontier
+- widening only the strict certificate side to `1..5` literals creates:
+  - a zero-residual exact rung
+- and improves:
+  - budget `1`
+  - budget `2`
+- but budgets `3` and above stay fixed
+
+Why this matters:
+
+- the current hard-frontier ceiling was partly grammatical
+- but only the low-residual regime was actually blocked by that grammar
+- the higher-residual part of the frontier already had the right object
+
+New next ideas:
+
+- transfer the widened-certificate joint search to a second hard frontier
+- or search a richer certificate grammar that might move budgets `3` and above

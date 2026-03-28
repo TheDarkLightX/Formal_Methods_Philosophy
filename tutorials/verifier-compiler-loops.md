@@ -2314,6 +2314,61 @@ It is partly a grammar wall, localized at `(10,11)`.
 That is still a bounded critical-region result, not yet a full rerun of the
 joint `v83` search in the widened grammar.
 
+The next bounded comparison did that full rerun.
+
+Residual-default witness regions stayed in the `1..4` literal grammar, while
+strict certificate regions widened to the `1..5` literal grammar.
+
+This time the localized `v84` change propagated to the full joint frontier, but
+only at low residual budgets.
+
+The widened exact ladder became:
+
+- budget `0`:
+  - shared schemas `25`
+  - total cost `29`
+  - partition:
+    - `(7,12)`
+    - `(8)`
+    - `(9)`
+    - `(10,11)`
+- budget `1`:
+  - shared schemas `23`
+  - total cost `27`
+  - same partition
+- budget `2`:
+  - shared schemas `21`
+  - total cost `25`
+  - same partition
+- budget `3`:
+  - shared schemas `20`
+  - total cost `24`
+  - same partition
+- budget `4`:
+  - shared schemas `19`
+  - total cost `23`
+  - same partition
+- budget `5`:
+  - shared schemas `19`
+  - total cost `22`
+  - original five-region all-residual partition returns
+
+Compared with `v83`:
+
+- a zero-residual exact rung now exists
+- budgets `1` and `2` each improve by:
+  - one schema
+  - one total-cost unit
+- budgets `3`, `4`, and `5` do not move
+
+So the sharpest hard-frontier law is now:
+
+- the old ceiling was partly grammatical
+- widening certificates changes the actual joint frontier
+- but only in the low-residual regime
+- once residual budget is large enough, the old `v83` frontier had already
+  found the right object
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

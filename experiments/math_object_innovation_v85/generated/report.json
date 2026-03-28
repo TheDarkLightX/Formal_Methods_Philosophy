@@ -1,0 +1,242 @@
+{
+  "budget_ladder": [
+    {
+      "cost_gain_over_v83": null,
+      "feasible_configuration_count": 15,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [],
+      "optimal_shared_schema_count": 25,
+      "optimal_total_cost": 29,
+      "residual_region_count": 0,
+      "schema_gain_over_v83": null
+    },
+    {
+      "cost_gain_over_v83": 1,
+      "feasible_configuration_count": 67,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          8
+        ]
+      ],
+      "optimal_shared_schema_count": 23,
+      "optimal_total_cost": 27,
+      "residual_region_count": 1,
+      "schema_gain_over_v83": 1
+    },
+    {
+      "cost_gain_over_v83": 1,
+      "feasible_configuration_count": 120,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          8
+        ],
+        [
+          9
+        ]
+      ],
+      "optimal_shared_schema_count": 21,
+      "optimal_total_cost": 25,
+      "residual_region_count": 2,
+      "schema_gain_over_v83": 1
+    },
+    {
+      "cost_gain_over_v83": 0,
+      "feasible_configuration_count": 109,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ]
+      ],
+      "optimal_shared_schema_count": 20,
+      "optimal_total_cost": 24,
+      "residual_region_count": 3,
+      "schema_gain_over_v83": 0
+    },
+    {
+      "cost_gain_over_v83": 0,
+      "feasible_configuration_count": 52,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_shared_schema_count": 19,
+      "optimal_total_cost": 23,
+      "residual_region_count": 4,
+      "schema_gain_over_v83": 0
+    },
+    {
+      "cost_gain_over_v83": 0,
+      "feasible_configuration_count": 12,
+      "optimal_partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "optimal_region_count": 5,
+      "optimal_residual_regions": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "optimal_shared_schema_count": 19,
+      "optimal_total_cost": 22,
+      "residual_region_count": 5,
+      "schema_gain_over_v83": 0
+    }
+  ],
+  "discovery_domain": "joint search over score partitions and exact residual-region budgets on the hard v38 feature frontier, keeping residual-default witnesses in the 1-to-4 literal grammar while widening strict certificates to the 1-to-5 literal grammar",
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states used from v29 through v84",
+  "nontrivial_scores": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "oracle_dependent": true,
+  "strongest_claim": "On the hard refill witness frontier, widening the strict certificate side from the 1-to-4 literal conjunction grammar to the 1-to-5 literal grammar changes the full partition-aware residual-budget search, not only the local critical-region slice. The new joint frontier should be read off the exact budget ladder in this report, including whether a zero-residual all-positive partition now exists.",
+  "survivor": "hard widened-certificate partition-aware residual-budget frontier",
+  "tier": "descriptive_oracle",
+  "zero_residual_partition_exists": true
+}
