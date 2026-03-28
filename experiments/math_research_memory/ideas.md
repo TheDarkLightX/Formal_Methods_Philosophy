@@ -2465,3 +2465,33 @@ New next ideas:
 
 - certificate-carrying repair on the same bounded patch corpus
 - minimal repair-language discovery with the fiber dependency graph fixed
+
+Current refinement:
+
+- certificate-carrying repair survived on the same `v94` patch corpora
+- exact bounded law:
+  - no singleton certificate basis is exact
+  - no pair certificate basis is exact
+  - the unique minimal exact witness basis on both corpora is:
+    - `guard`
+    - `bounds`
+    - `transform`
+  - verification cost:
+    - `3`
+  - versus dependency-aware search:
+    - `9.0`
+
+Why this matters:
+
+- the main software line has now moved from:
+  - search over patch space
+  - to search over repair fibers
+  - to direct verification of patch-plus-witness
+- that is the same deeper pattern already seen in the verifier-compiler branch
+
+New next ideas:
+
+- minimal repair-language discovery on top of the `v94` dependency graph and
+  the `v95` witness basis
+- or a richer bounded corpus where certificate bases might compress below one
+  token per local fiber

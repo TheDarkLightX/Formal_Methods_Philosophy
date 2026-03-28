@@ -1,0 +1,185 @@
+{
+  "discovery_domain": "bounded software-engineering patch corpora with three local failure fibers, searching minimal exact certificate bases over local observation tokens",
+  "families": [
+    {
+      "basis_scan": [
+        {
+          "basis": [
+            "guard"
+          ],
+          "exact": false,
+          "key_count": 3,
+          "max_bucket": 9,
+          "size": 1
+        },
+        {
+          "basis": [
+            "bounds"
+          ],
+          "exact": false,
+          "key_count": 3,
+          "max_bucket": 9,
+          "size": 1
+        },
+        {
+          "basis": [
+            "transform"
+          ],
+          "exact": false,
+          "key_count": 3,
+          "max_bucket": 9,
+          "size": 1
+        },
+        {
+          "basis": [
+            "guard",
+            "bounds"
+          ],
+          "exact": false,
+          "key_count": 9,
+          "max_bucket": 3,
+          "size": 2
+        },
+        {
+          "basis": [
+            "guard",
+            "transform"
+          ],
+          "exact": false,
+          "key_count": 9,
+          "max_bucket": 3,
+          "size": 2
+        },
+        {
+          "basis": [
+            "bounds",
+            "transform"
+          ],
+          "exact": false,
+          "key_count": 9,
+          "max_bucket": 3,
+          "size": 2
+        },
+        {
+          "basis": [
+            "guard",
+            "bounds",
+            "transform"
+          ],
+          "exact": true,
+          "key_count": 27,
+          "max_bucket": 1,
+          "size": 3
+        }
+      ],
+      "candidate_count": 27,
+      "certificate_verification_cost": 3,
+      "family": "separable_patch_family",
+      "minimal_exact_certificate_bases": [
+        [
+          "guard",
+          "bounds",
+          "transform"
+        ]
+      ],
+      "minimal_exact_certificate_size": 3,
+      "v94_dependency_fiber_average_eval_cost": 9.0,
+      "v94_monolithic_average_eval_cost": 39.0
+    },
+    {
+      "basis_scan": [
+        {
+          "basis": [
+            "guard"
+          ],
+          "exact": false,
+          "key_count": 4,
+          "max_bucket": 9,
+          "size": 1
+        },
+        {
+          "basis": [
+            "bounds"
+          ],
+          "exact": false,
+          "key_count": 4,
+          "max_bucket": 9,
+          "size": 1
+        },
+        {
+          "basis": [
+            "transform"
+          ],
+          "exact": false,
+          "key_count": 3,
+          "max_bucket": 9,
+          "size": 1
+        },
+        {
+          "basis": [
+            "guard",
+            "bounds"
+          ],
+          "exact": false,
+          "key_count": 14,
+          "max_bucket": 3,
+          "size": 2
+        },
+        {
+          "basis": [
+            "guard",
+            "transform"
+          ],
+          "exact": false,
+          "key_count": 9,
+          "max_bucket": 3,
+          "size": 2
+        },
+        {
+          "basis": [
+            "bounds",
+            "transform"
+          ],
+          "exact": false,
+          "key_count": 9,
+          "max_bucket": 3,
+          "size": 2
+        },
+        {
+          "basis": [
+            "guard",
+            "bounds",
+            "transform"
+          ],
+          "exact": true,
+          "key_count": 27,
+          "max_bucket": 1,
+          "size": 3
+        }
+      ],
+      "candidate_count": 27,
+      "certificate_verification_cost": 3,
+      "family": "overlap_patch_family",
+      "minimal_exact_certificate_bases": [
+        [
+          "guard",
+          "bounds",
+          "transform"
+        ]
+      ],
+      "minimal_exact_certificate_size": 3,
+      "v94_dependency_fiber_average_eval_cost": 9.0,
+      "v94_monolithic_average_eval_cost": 35.851851851851855
+    }
+  ],
+  "holdout_domain": "exhaustive over both 27-patch corpora and all observation-token subsets",
+  "oracle_dependent": true,
+  "software_loop_ranking_hint": [
+    "certificate_carrying_repair",
+    "obligation_fibered_repair",
+    "minimal_repair_language_discovery"
+  ],
+  "strongest_claim": "On the bounded patch corpora from v94, carrying a local certificate over fiber observations reduces verification from dependency-aware search cost 9 to direct verification cost 3, and no singleton or pair basis is exact on either corpus.",
+  "survivor": "certificate-carrying repair basis",
+  "tier": "descriptive_oracle"
+}

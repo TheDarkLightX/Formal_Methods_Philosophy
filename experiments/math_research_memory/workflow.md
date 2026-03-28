@@ -2468,3 +2468,53 @@ Next frontier after v94:
 - compare certificate-carrying repair against the same bounded corpus
 - or search the smallest exact repair-language grammar once the fiber dependency
   graph is known
+
+## 2026-03-28, certificate-carrying repair basis
+
+- New structural target:
+  - push past dependency-aware fiber search
+  - ask whether patch-plus-witness beats search over repair fibers on the same
+    bounded software corpus
+- Bounded domain:
+  - the two `27`-patch corpora from `v94`
+  - local observation tokens:
+    - `guard`
+    - `bounds`
+    - `transform`
+  - searched certificate bases:
+    - all singleton, pair, and triple subsets of those three tokens
+- Strongest bounded results:
+  - separable family:
+    - no singleton exact
+    - no pair exact
+    - unique minimal exact basis:
+      - `guard`
+      - `bounds`
+      - `transform`
+    - certificate verification cost:
+      - `3`
+    - `v94` dependency-aware cost:
+      - `9.0`
+  - overlap family:
+    - no singleton exact
+    - no pair exact
+    - unique minimal exact basis:
+      - `guard`
+      - `bounds`
+      - `transform`
+    - certificate verification cost:
+      - `3`
+    - `v94` dependency-aware cost:
+      - `9.0`
+- Strongest correction learned:
+  - once the proposer can carry a local witness, direct verification beats even
+    dependency-aware fiber search
+  - the exact lower bound on this corpus is:
+    - three local observation tokens
+
+Next frontier after v95:
+
+- search the smallest exact repair-language grammar on top of the `v94` fiber
+  graph and the `v95` witness basis
+- or test whether the same certificate-carrying law survives on a richer
+  bounded software bug corpus

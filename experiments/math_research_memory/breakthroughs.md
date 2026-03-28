@@ -2823,3 +2823,43 @@ Boundary learned:
 
 - naive independent fibering is not enough once failure fibers overlap
 - the first exact correction is dependency-aware fibering
+
+### New survivor: certificate-carrying repair basis
+
+Bounded result:
+
+- bounded domain:
+  - the two bounded software patch corpora from `v94`
+  - three local observation tokens:
+    - `guard`
+    - `bounds`
+    - `transform`
+- searched object:
+  - minimal exact certificate bases over those local tokens
+- strongest result:
+  - on both corpora:
+    - no singleton basis is exact
+    - no pair basis is exact
+    - the unique minimal exact basis is:
+      - `guard`
+      - `bounds`
+      - `transform`
+  - certificate verification cost:
+    - `3`
+  - `v94` dependency-aware search cost:
+    - `9.0`
+
+Why it mattered:
+
+- this is the first exact software-engineering witness-language result in the
+  current main line
+- it upgrades the object from:
+  - search over repair fibers
+  - to direct verification of patch-plus-witness
+
+Boundary learned:
+
+- on this bounded corpus, patch-plus-witness strictly beats dependency-aware
+  fiber search
+- but the witness language still has a clean exact lower bound:
+  - three local observation tokens
