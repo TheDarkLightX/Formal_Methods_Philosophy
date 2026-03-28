@@ -2495,3 +2495,31 @@ New next ideas:
   the `v95` witness basis
 - or a richer bounded corpus where certificate bases might compress below one
   token per local fiber
+
+Current refinement:
+
+- the witness basis from `v95` now compiles back into the patch through a tiny
+  exact decoder graph
+- exact bounded law:
+  - separable family:
+    - minimal exact decoder cost:
+      - `3`
+  - overlap family:
+    - minimal exact decoder cost:
+      - `4`
+    - unique extra dependency:
+      - `transform_obs -> bounds`
+
+Why this matters:
+
+- the software line has now moved from:
+  - patch search
+  - to dependency-aware fiber search
+  - to witness verification
+  - to witness-to-patch compilation
+- that is the strongest current software-shaped loop object in the repo
+
+New next ideas:
+
+- minimal repair-language discovery above the decoder graph
+- richer bounded bug corpora to test whether the one-extra-edge law persists

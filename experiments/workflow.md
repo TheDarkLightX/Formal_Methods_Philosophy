@@ -2518,3 +2518,46 @@ Next frontier after v95:
   graph and the `v95` witness basis
 - or test whether the same certificate-carrying law survives on a richer
   bounded software bug corpus
+
+## 2026-03-28, certificate-to-patch decoder graph
+
+- New structural target:
+  - push past witness verification
+  - ask whether the carried witness from `v95` compiles back into the patch
+    through a tiny exact symbolic decoder
+- Bounded domain:
+  - the same two `27`-patch software corpora from `v94` and `v95`
+  - witness observations:
+    - `guard_obs`
+    - `bounds_obs`
+    - `transform_obs`
+  - decoder search:
+    - all nonempty observation-subset assignments to:
+      - `guard`
+      - `bounds`
+      - `transform`
+- Strongest bounded results:
+  - separable family:
+    - minimal exact decoder cost:
+      - `3`
+    - unique minimal decoder:
+      - `guard <- guard_obs`
+      - `bounds <- bounds_obs`
+      - `transform <- transform_obs`
+  - overlap family:
+    - minimal exact decoder cost:
+      - `4`
+    - unique minimal decoder:
+      - `guard <- guard_obs`
+      - `bounds <- bounds_obs, transform_obs`
+      - `transform <- transform_obs`
+- Strongest correction learned:
+  - overlap does not require two extra decoder dependencies
+  - it requires exactly one:
+    - `transform_obs -> bounds`
+
+Next frontier after v96:
+
+- search the smallest exact repair-language grammar above the decoder graph
+- or move to a richer bounded bug corpus and test whether the same decoder law
+  survives

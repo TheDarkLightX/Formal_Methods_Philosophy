@@ -2863,3 +2863,42 @@ Boundary learned:
   fiber search
 - but the witness language still has a clean exact lower bound:
   - three local observation tokens
+
+### New survivor: certificate-to-patch decoder graph
+
+Bounded result:
+
+- bounded domain:
+  - the same two software patch corpora from `v94` and `v95`
+  - three witness observations:
+    - `guard_obs`
+    - `bounds_obs`
+    - `transform_obs`
+- searched object:
+  - exact symbolic decoders from witness observations back to patch fields
+- strongest result:
+  - separable family:
+    - unique minimal exact decoder cost:
+      - `3`
+    - decoder:
+      - `guard <- guard_obs`
+      - `bounds <- bounds_obs`
+      - `transform <- transform_obs`
+  - overlap family:
+    - unique minimal exact decoder cost:
+      - `4`
+    - decoder:
+      - `guard <- guard_obs`
+      - `bounds <- bounds_obs, transform_obs`
+      - `transform <- transform_obs`
+
+Why it mattered:
+
+- this is the first exact repair-language compiler in the software branch
+- the witness from `v95` no longer only verifies the patch
+- it now compiles back into the patch through a tiny decoder graph
+
+Boundary learned:
+
+- overlap does not destroy local decoding
+- it inserts one extra dependency edge into the decoder graph

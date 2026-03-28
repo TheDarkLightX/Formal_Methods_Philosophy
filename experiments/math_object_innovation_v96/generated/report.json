@@ -1,0 +1,72 @@
+{
+  "discovery_domain": "bounded software patch corpora from v94/v95, searching exact symbolic decoders from carried certificate observations back to patch fields",
+  "families": [
+    {
+      "candidate_count": 27,
+      "exact_decoder_cost_histogram": {
+        "3": 1,
+        "4": 6,
+        "5": 15,
+        "6": 20,
+        "7": 15,
+        "8": 6,
+        "9": 1
+      },
+      "family": "separable_patch_family",
+      "minimal_exact_decoder_cost": 3,
+      "minimal_exact_decoder_count": 1,
+      "minimal_exact_decoders": [
+        {
+          "assignment": {
+            "bounds": [
+              "bounds_obs"
+            ],
+            "guard": [
+              "guard_obs"
+            ],
+            "transform": [
+              "transform_obs"
+            ]
+          },
+          "cost": 3
+        }
+      ]
+    },
+    {
+      "candidate_count": 27,
+      "exact_decoder_cost_histogram": {
+        "4": 1,
+        "5": 5,
+        "6": 10,
+        "7": 10,
+        "8": 5,
+        "9": 1
+      },
+      "family": "overlap_patch_family",
+      "minimal_exact_decoder_cost": 4,
+      "minimal_exact_decoder_count": 1,
+      "minimal_exact_decoders": [
+        {
+          "assignment": {
+            "bounds": [
+              "bounds_obs",
+              "transform_obs"
+            ],
+            "guard": [
+              "guard_obs"
+            ],
+            "transform": [
+              "transform_obs"
+            ]
+          },
+          "cost": 4
+        }
+      ]
+    }
+  ],
+  "holdout_domain": "exhaustive over both 27-patch corpora and all nonempty observation-subset decoders",
+  "oracle_dependent": true,
+  "strongest_claim": "On the bounded software corpora, the carried witness from v95 compiles back into the patch via a tiny exact decoder graph. The separable family has minimal decoder cost 3, one observation per field, while the overlap family has minimal cost 4, requiring exactly one extra dependency edge from transform observation into the bounds decoder.",
+  "survivor": "certificate-to-patch decoder graph",
+  "tier": "symbolic_state_compiler"
+}
