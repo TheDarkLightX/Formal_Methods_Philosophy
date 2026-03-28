@@ -2286,3 +2286,28 @@ New next ideas:
 
 - transfer the widened-certificate search to a second hard frontier
 - or switch to a genuinely richer certificate language
+
+Current refinement:
+
+- the partition-aware residual-budget witness-language loop does transfer to
+  the toy lab-followup MPRD frontier
+- but it transfers as a different exact object
+- exact schema-first ladder:
+  - `0 -> (5,5)`
+  - `1 -> (4,4)`
+  - `2 -> (4,5)`
+  - `3 -> (4,7)`
+  - `4 -> (6,10)`
+- best exact budget is one merged residual-default region over:
+  - `(1,2,3,4)`
+
+Why this matters:
+
+- transfer is real, but the residual-budget law shape is not invariant
+- the right object on this frontier is one merged exception layer, not a
+  descending residual ladder
+
+New next ideas:
+
+- compare this transfer object against a richer certificate language
+- or explain semantically why the merged residual region is the optimum here

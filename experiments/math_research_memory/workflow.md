@@ -2110,3 +2110,52 @@ Next frontier after v87:
 
 - transfer the widened-certificate search to a second hard frontier,
 - or switch from wider conjunctions to a genuinely richer certificate language
+
+## 2026-03-27, lab-followup partition-aware residual-budget transfer frontier
+
+- New structural target:
+  - transfer the partition-aware residual-budget witness-language loop to a
+    second bounded domain
+  - use the earlier toy lab-followup MPRD frontier rather than the refill
+    frontier
+- Bounded domain:
+  - residual-consistent unique-behavior frontier from `v26`
+  - mixed score blocks:
+    - `1`
+    - `2`
+    - `3`
+    - `4`
+  - holdout error bits over the five lab-followup holdout states
+  - signed conjunction grammar of width `1` to `4`
+  - same grammar for strict certificates and residual-default witnesses
+- Strongest bounded results:
+  - exact schema-first ladder:
+    - `0`:
+      - shared schemas `5`
+      - total cost `5`
+    - `1`:
+      - shared schemas `4`
+      - total cost `4`
+    - `2`:
+      - shared schemas `4`
+      - total cost `5`
+    - `3`:
+      - shared schemas `4`
+      - total cost `7`
+    - `4`:
+      - shared schemas `6`
+      - total cost `10`
+  - best exact budget is:
+    - `1`
+  - best exact partition is one merged residual-default region:
+    - `(1,2,3,4)`
+- Strongest correction learned:
+  - the loop transfers, but not with the same residual-budget shape
+  - on this frontier, one merged residual region is enough
+  - forcing larger exact residual budgets does not improve schema count and
+    worsens total cost
+
+Next frontier after v88:
+
+- compare this transfer object against a richer certificate language,
+- or search for a semantic invariant that explains the merged residual region

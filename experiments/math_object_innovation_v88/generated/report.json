@@ -1,0 +1,159 @@
+{
+  "best_budget": 1,
+  "best_budget_shared_schema_count": 4,
+  "best_budget_total_cost": 4,
+  "discovery_domain": "partition-aware residual-budget witness-language transfer search on the toy lab-followup MPRD frontier, using 1-to-4-literal signed conjunctions over holdout error bits for both strict certificates and residual-default witnesses",
+  "feature_count": 5,
+  "feature_names": [
+    "err[(0, 0, 1)]",
+    "err[(0, 1, 0)]",
+    "err[(0, 1, 1)]",
+    "err[(1, 1, 0)]",
+    "err[(1, 1, 1)]"
+  ],
+  "holdout_domain": "the 5 holdout fact states induced by the chosen 3-state training set",
+  "nontrivial_scores": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "oracle_dependent": true,
+  "residual_budget_ladder": [
+    {
+      "feasible_configuration_count": 15,
+      "optimal_partition": [
+        [
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_region_count": 1,
+      "optimal_residual_regions": [],
+      "optimal_shared_schema_count": 5,
+      "optimal_total_cost": 5,
+      "residual_region_count": 0
+    },
+    {
+      "feasible_configuration_count": 37,
+      "optimal_partition": [
+        [
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_region_count": 1,
+      "optimal_residual_regions": [
+        [
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_shared_schema_count": 4,
+      "optimal_total_cost": 4,
+      "residual_region_count": 1
+    },
+    {
+      "feasible_configuration_count": 31,
+      "optimal_partition": [
+        [
+          1
+        ],
+        [
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_region_count": 2,
+      "optimal_residual_regions": [
+        [
+          1
+        ],
+        [
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_shared_schema_count": 4,
+      "optimal_total_cost": 5,
+      "residual_region_count": 2
+    },
+    {
+      "feasible_configuration_count": 10,
+      "optimal_partition": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "optimal_region_count": 3,
+      "optimal_residual_regions": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "optimal_shared_schema_count": 4,
+      "optimal_total_cost": 7,
+      "residual_region_count": 3
+    },
+    {
+      "feasible_configuration_count": 1,
+      "optimal_partition": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ]
+      ],
+      "optimal_shared_schema_count": 6,
+      "optimal_total_cost": 10,
+      "residual_region_count": 4
+    }
+  ],
+  "strongest_claim": "On the toy lab-followup MPRD frontier, the partition-aware residual-budget witness-language loop transfers, but its exact geometry differs from the refill frontier. In the 1-to-4 literal signed-conjunction grammar over holdout error bits, a single merged residual-default region over all mixed score blocks lowers the best exact presentation from shared-schema cost 5 and total cost 5 to shared-schema cost 4 and total cost 4. Additional exact residual regions do not improve schema count and strictly worsen total cost. So residual structure transfers here as one merged exception layer rather than as a descending residual-budget ladder.",
+  "survivor": "lab-followup partition-aware residual-budget transfer frontier",
+  "tier": "descriptive_oracle"
+}

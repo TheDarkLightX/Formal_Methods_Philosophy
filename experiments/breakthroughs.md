@@ -2496,3 +2496,56 @@ Boundary learned:
 - the next honest move is:
   - transfer to a second hard frontier
   - or a genuinely richer certificate language
+
+### New survivor: lab-followup partition-aware residual-budget transfer frontier
+
+Bounded result:
+
+- bounded domain:
+  - the residual-consistent unique-behavior frontier from `v26`
+  - mixed score blocks:
+    - `1`
+    - `2`
+    - `3`
+    - `4`
+- searched object:
+  - partition-aware residual-budget witness-language search
+  - `1..4` signed conjunctions over the five holdout error bits
+  - same grammar for strict certificates and residual-default witnesses
+- strongest result:
+  - exact schema-first ladder:
+    - `0`:
+      - shared schemas `5`
+      - total cost `5`
+    - `1`:
+      - shared schemas `4`
+      - total cost `4`
+    - `2`:
+      - shared schemas `4`
+      - total cost `5`
+    - `3`:
+      - shared schemas `4`
+      - total cost `7`
+    - `4`:
+      - shared schemas `6`
+      - total cost `10`
+  - best exact budget is:
+    - `1`
+  - best partition:
+    - one merged residual-default region over:
+      - `(1,2,3,4)`
+
+Why it mattered:
+
+- this is a real transfer result for the residual-budget witness-language loop
+- the same loop shape survives on a second domain
+- but the exact geometry changes sharply:
+  - refill preferred a descending ladder
+  - lab-followup prefers one merged exception layer
+
+Boundary learned:
+
+- transfer does not preserve the same residual-budget law shape
+- the next honest move is:
+  - compare this transfer object against a richer certificate language
+  - or explain semantically why one merged residual region is optimal here

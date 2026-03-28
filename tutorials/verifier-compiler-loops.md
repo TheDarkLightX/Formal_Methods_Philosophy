@@ -2426,6 +2426,50 @@ literal-width axis:
 
 That is the honest stopping point for this grammar family on this frontier.
 
+The next honest move after that closure was transfer.
+
+The same partition-aware residual-budget search was moved to the earlier toy
+lab-followup MPRD frontier, using the mixed score blocks `1,2,3,4` and the
+same `1..4` signed-conjunction witness grammar over holdout error bits.
+
+This time the loop survived, but with a different exact geometry.
+
+The schema-first ladder became:
+
+- budget `0`:
+  - shared schemas `5`
+  - total cost `5`
+  - one merged strict-certificate region
+- budget `1`:
+  - shared schemas `4`
+  - total cost `4`
+  - one merged residual-default region over all mixed scores
+- budget `2`:
+  - shared schemas `4`
+  - total cost `5`
+- budget `3`:
+  - shared schemas `4`
+  - total cost `7`
+- budget `4`:
+  - shared schemas `6`
+  - total cost `10`
+
+So the transfer law is not “the same ladder in a second domain”.
+
+It is sharper:
+
+- residual structure transfers
+- but here it transfers as one merged exception layer
+- after budget `1`, extra exact residual regions do not improve schema count
+  and they worsen total cost
+
+That contrast matters.
+
+The refill frontier preferred progressively larger residual budgets.
+
+The lab-followup frontier prefers a single merged residual region and then
+stops.
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:
