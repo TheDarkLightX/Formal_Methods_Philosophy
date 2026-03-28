@@ -2100,3 +2100,34 @@ New next ideas:
 - search richer certificate languages on the same hard frontier
 - test certificate languages that allow a small amount of local residual
   structure
+
+Current refinement:
+
+- the hard certificate comparison now sharpens into a residual-budget ladder on
+  the same partition
+- exactness returns as soon as one region is allowed residual-default
+  witnessing
+- that first residual region is forced:
+  - `(10,11)`
+- best exact total cost then drops strictly with residual budget:
+  - `1`:
+    - `28`
+  - `2`:
+    - `26`
+  - `3`:
+    - `24`
+  - `4`:
+    - `23`
+  - `5`:
+    - `22`
+
+Why this matters:
+
+- residual structure on the hard frontier is locally budgetable
+- the right object is now more precise than "certificate versus witness"
+- it is an exact residual-budgeted witness language
+
+New next ideas:
+
+- compare this local ladder against a more global shared-schema optimization
+- search richer certificate grammars with local residual structure

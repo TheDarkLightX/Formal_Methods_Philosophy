@@ -1804,3 +1804,48 @@ Next frontier after v80:
 - compare against richer certificate languages on the same bounded corpus,
 - or search certificate languages with a small amount of local residual
   structure
+
+## 2026-03-27, hard local residual-budget ladder
+
+- New structural target:
+  - measure how much local residual-default structure is needed to recover
+    exactness on the same hard merged-region partition from `v44`
+- Bounded domain:
+  - the hard merged-region witness frontier from `v44` and `v80`
+  - same exact partition:
+    - `(7)`
+    - `(8)`
+    - `(9)`
+    - `(10,11)`
+    - `(12)`
+  - same `1` to `4` signed-literal conjunction grammar
+- Strongest bounded results:
+  - `0` residual regions:
+    - impossible
+  - exactness returns at:
+    - `1` residual region
+  - that first residual region is forced:
+    - `(10,11)`
+  - best exact total cost by residual budget:
+    - `1`:
+      - `28`
+    - `2`:
+      - `26`
+    - `3`:
+      - `24`
+    - `4`:
+      - `23`
+    - `5`:
+      - `22`
+- Strongest correction learned:
+  - the hard certificate boundary is not only a yes-no statement
+  - residual structure is locally budgetable on this frontier
+  - one residual region is already enough for exactness
+  - but the first such region is forced by the obstruction at `(10,11)`
+
+Next frontier after v81:
+
+- compare this local residual-budget ladder against a more global shared-schema
+  optimization,
+- or search richer certificate languages that carry local residual structure
+  more efficiently

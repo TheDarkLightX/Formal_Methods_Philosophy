@@ -1,0 +1,193 @@
+{
+  "best_partition": [
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      12
+    ]
+  ],
+  "discovery_domain": "exact local residual-budget search on the hard v44 merged-region partition, mixing residual-default witness regions with all-positive certificate regions",
+  "holdout_domain": "the same 13 holdout fact states used from v29 through v46",
+  "mandatory_residual_regions": [
+    [
+      10,
+      11
+    ]
+  ],
+  "minimum_exact_residual_region_count": 1,
+  "oracle_dependent": true,
+  "residual_budget_ladder": [
+    {
+      "feasible_subset_count": 0,
+      "optimal_shared_schema_count": null,
+      "optimal_subsets": [],
+      "optimal_total_cost": null,
+      "residual_region_count": 0
+    },
+    {
+      "feasible_subset_count": 1,
+      "optimal_shared_schema_count": 26,
+      "optimal_subsets": [
+        [
+          [
+            10,
+            11
+          ]
+        ]
+      ],
+      "optimal_total_cost": 28,
+      "residual_region_count": 1
+    },
+    {
+      "feasible_subset_count": 4,
+      "optimal_shared_schema_count": 24,
+      "optimal_subsets": [
+        [
+          [
+            8
+          ],
+          [
+            10,
+            11
+          ]
+        ],
+        [
+          [
+            9
+          ],
+          [
+            10,
+            11
+          ]
+        ]
+      ],
+      "optimal_total_cost": 26,
+      "residual_region_count": 2
+    },
+    {
+      "feasible_subset_count": 6,
+      "optimal_shared_schema_count": 22,
+      "optimal_subsets": [
+        [
+          [
+            8
+          ],
+          [
+            9
+          ],
+          [
+            10,
+            11
+          ]
+        ]
+      ],
+      "optimal_total_cost": 24,
+      "residual_region_count": 3
+    },
+    {
+      "feasible_subset_count": 4,
+      "optimal_shared_schema_count": 21,
+      "optimal_subsets": [
+        [
+          [
+            7
+          ],
+          [
+            8
+          ],
+          [
+            9
+          ],
+          [
+            10,
+            11
+          ]
+        ],
+        [
+          [
+            8
+          ],
+          [
+            9
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            12
+          ]
+        ]
+      ],
+      "optimal_total_cost": 23,
+      "residual_region_count": 4
+    },
+    {
+      "feasible_subset_count": 1,
+      "optimal_shared_schema_count": 20,
+      "optimal_subsets": [
+        [
+          [
+            7
+          ],
+          [
+            8
+          ],
+          [
+            9
+          ],
+          [
+            10,
+            11
+          ],
+          [
+            12
+          ]
+        ]
+      ],
+      "optimal_total_cost": 22,
+      "residual_region_count": 5
+    }
+  ],
+  "strict_cost_ladder": [
+    {
+      "optimal_shared_schema_count": 26,
+      "optimal_total_cost": 28,
+      "residual_region_count": 1
+    },
+    {
+      "optimal_shared_schema_count": 24,
+      "optimal_total_cost": 26,
+      "residual_region_count": 2
+    },
+    {
+      "optimal_shared_schema_count": 22,
+      "optimal_total_cost": 24,
+      "residual_region_count": 3
+    },
+    {
+      "optimal_shared_schema_count": 21,
+      "optimal_total_cost": 23,
+      "residual_region_count": 4
+    },
+    {
+      "optimal_shared_schema_count": 20,
+      "optimal_total_cost": 22,
+      "residual_region_count": 5
+    }
+  ],
+  "strongest_claim": "On the hard merged-region witness frontier, exactness in the searched 1-to-4-literal conjunction grammar already returns once a single region is allowed residual-default witnessing, but that region is forced to be `(10,11)`. As the residual budget rises from 1 to 5 regions, the best exact total cost drops strictly from 28 to 26 to 24 to 23 to 22. So residual structure on this frontier is locally budgetable rather than all-or-nothing.",
+  "survivor": "hard local residual-budget ladder",
+  "tier": "descriptive_oracle"
+}

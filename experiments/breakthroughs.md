@@ -2213,3 +2213,45 @@ Boundary learned:
 - the next honest step is:
   - richer certificate languages on the same bounded corpus
   - or certificate languages with a small amount of local residual structure
+
+### New survivor: hard local residual-budget ladder
+
+Bounded result:
+
+- bounded domain:
+  - the same hard merged-region witness frontier from `v44` and `v80`
+- compared families:
+  - all-positive certificate regions
+  - residual-default witness regions
+  - mixed locally on the exact `v44` partition
+- strongest result:
+  - strict all-positive certification is impossible
+  - exactness already returns once:
+    - `1` residual region is allowed
+  - that first residual region is forced:
+    - `(10,11)`
+  - best exact total cost then drops strictly with residual budget:
+    - `1`:
+      - `28`
+    - `2`:
+      - `26`
+    - `3`:
+      - `24`
+    - `4`:
+      - `23`
+    - `5`:
+      - `22`
+
+Why it mattered:
+
+- this strengthens `v80` from a hard failure into an exact ladder
+- on this frontier residual structure is neither free nor all-or-nothing
+- it has a bounded entry threshold and then a strict cost curve
+
+Boundary learned:
+
+- this is still local residual budgeting on one fixed partition
+- the next honest step is:
+  - compare against a more global shared-schema optimization on the same hard
+    frontier
+  - or search richer certificate languages with local residual structure

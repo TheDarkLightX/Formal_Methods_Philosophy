@@ -2170,6 +2170,38 @@ compression trick.
 
 They are necessary in the searched certificate grammar.
 
+The next bounded comparison asked how much local residual structure is actually
+needed on that same hard partition.
+
+Strict all-positive certification is impossible, but exactness already returns
+once one region is allowed residual-default witnessing.
+
+That first residual region is forced:
+
+- `(10,11)`
+
+Then the best exact cost falls in a strict residual-budget ladder:
+
+- `1` residual region:
+  - cost `28`
+  - shared schemas `26`
+- `2` residual regions:
+  - cost `26`
+  - shared schemas `24`
+- `3` residual regions:
+  - cost `24`
+  - shared schemas `22`
+- `4` residual regions:
+  - cost `23`
+  - shared schemas `21`
+- `5` residual regions:
+  - cost `22`
+  - shared schemas `20`
+
+So on this hard frontier, residual structure is locally budgetable.
+
+It is not an all-or-nothing switch.
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:
