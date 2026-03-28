@@ -2255,3 +2255,49 @@ Boundary learned:
   - compare against a more global shared-schema optimization on the same hard
     frontier
   - or search richer certificate languages with local residual structure
+
+### New survivor: hard residual-budget schema ladder
+
+Bounded result:
+
+- bounded domain:
+  - the same hard merged-region witness frontier from `v44`, `v46`, `v80`, and
+    `v81`
+- compared objects:
+  - fixed residual budgets on the exact `v44` partition
+  - global shared-schema optimization across all regions at each budget
+- strongest result:
+  - strict all-positive certification is still impossible
+  - best exact shared-schema count by residual budget:
+    - `1`:
+      - `25`
+    - `2`:
+      - `23`
+    - `3`:
+      - `21`
+    - `4`:
+      - `20`
+    - `5`:
+      - `19`
+  - the same exact total-cost ladder survives:
+    - `28`
+    - `26`
+    - `24`
+    - `23`
+    - `22`
+  - every feasible rung improves by exactly `1` schema relative to `v81`
+
+Why it mattered:
+
+- this strengthens the hard residual-budget line from a local accounting result
+  into a global schema-sharing law
+- the full residual budget does not just approach the older witness optimum
+- it lands exactly on the `v46` shared-schema optimum
+
+Boundary learned:
+
+- this is still a fixed-partition result on one hard frontier
+- the next honest step is:
+  - richer certificate grammars with local residual structure on the same hard
+    frontier
+  - or transfer of the global residual-budget law to a second hard frontier

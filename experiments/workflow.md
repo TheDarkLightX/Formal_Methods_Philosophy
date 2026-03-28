@@ -1849,3 +1849,49 @@ Next frontier after v81:
   optimization,
 - or search richer certificate languages that carry local residual structure
   more efficiently
+
+## 2026-03-27, hard residual-budget schema ladder
+
+- New structural target:
+  - keep the exact `v81` hard partition and residual-budget setting, but switch
+    the objective from local witness count to global shared-schema count
+- Bounded domain:
+  - the same hard merged-region witness frontier from `v44`, `v46`, `v80`, and
+    `v81`
+  - same exact partition:
+    - `(7)`
+    - `(8)`
+    - `(9)`
+    - `(10,11)`
+    - `(12)`
+- Strongest bounded results:
+  - strict all-positive certification is still impossible
+  - best exact shared-schema count by residual budget:
+    - `1`:
+      - `25`
+    - `2`:
+      - `23`
+    - `3`:
+      - `21`
+    - `4`:
+      - `20`
+    - `5`:
+      - `19`
+  - the same total-cost ladder survives:
+    - `28`
+    - `26`
+    - `24`
+    - `23`
+    - `22`
+  - every feasible rung improves by exactly `1` schema relative to `v81`
+- Strongest correction learned:
+  - local residual budgeting was not the end of the hard-frontier story
+  - the same ladder survives under a stronger global objective
+  - the full-budget endpoint recovers the earlier `v46` global optimum
+
+Next frontier after v82:
+
+- search richer certificate grammars with local residual structure on the same
+  hard frontier,
+- or test whether a comparable global residual-budget law survives on a second
+  hard frontier

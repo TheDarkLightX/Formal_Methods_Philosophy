@@ -2131,3 +2131,34 @@ New next ideas:
 
 - compare this local ladder against a more global shared-schema optimization
 - search richer certificate grammars with local residual structure
+
+Current refinement:
+
+- the same hard residual-budget ladder survives after switching to a global
+  shared-schema objective
+- exact shared-schema count by residual budget is:
+  - `1`:
+    - `25`
+  - `2`:
+    - `23`
+  - `3`:
+    - `21`
+  - `4`:
+    - `20`
+  - `5`:
+    - `19`
+- every feasible rung improves by exactly `1` schema relative to `v81`
+- the full-budget endpoint recovers the earlier `v46` global optimum
+
+Why this matters:
+
+- the hard residual-budget story is now global, not only local
+- schema sharing remains a live source of compression even after the budget
+  ladder is known
+
+New next ideas:
+
+- search richer certificate grammars with local residual structure on the same
+  hard frontier
+- test whether a comparable global residual-budget law survives on a second
+  hard frontier

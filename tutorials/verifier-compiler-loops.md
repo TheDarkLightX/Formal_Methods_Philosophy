@@ -2202,6 +2202,34 @@ So on this hard frontier, residual structure is locally budgetable.
 
 It is not an all-or-nothing switch.
 
+The next bounded comparison kept the same hard partition and the same residual
+budget, but changed the objective from local witness count to global
+schema-sharing cost.
+
+That sharpened every feasible rung by one more schema:
+
+- `1` residual region:
+  - shared schemas `25`
+  - total cost `28`
+- `2` residual regions:
+  - shared schemas `23`
+  - total cost `26`
+- `3` residual regions:
+  - shared schemas `21`
+  - total cost `24`
+- `4` residual regions:
+  - shared schemas `20`
+  - total cost `23`
+- `5` residual regions:
+  - shared schemas `19`
+  - total cost `22`
+
+So the hard frontier has a stronger law than `v81` alone suggested:
+
+- the residual-budget ladder survives under global schema sharing
+- every feasible rung improves by exactly one schema
+- and the full-budget endpoint lands on the earlier global optimum `19`
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:
