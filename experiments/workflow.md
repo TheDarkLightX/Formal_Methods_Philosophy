@@ -2159,3 +2159,46 @@ Next frontier after v88:
 
 - compare this transfer object against a richer certificate language,
 - or search for a semantic invariant that explains the merged residual region
+
+## 2026-03-27, lab-followup widened-certificate saturation boundary
+
+- New structural target:
+  - test whether the merged residual-default transfer object from `v88` is only
+    a `1..4` strict-certificate grammar artifact
+  - widen strict certificates from `1..4` to `1..5` literals while keeping
+    residual-default witnesses at `1..4`
+- Bounded domain:
+  - the same lab-followup partition-aware residual-budget frontier from `v88`
+  - mixed score blocks:
+    - `1`
+    - `2`
+    - `3`
+    - `4`
+- Strongest bounded results:
+  - nothing moves
+  - exact ladder stays:
+    - `0`:
+      - shared schemas `5`
+      - total cost `5`
+    - `1`:
+      - shared schemas `4`
+      - total cost `4`
+    - `2`:
+      - shared schemas `4`
+      - total cost `5`
+    - `3`:
+      - shared schemas `4`
+      - total cost `7`
+    - `4`:
+      - shared schemas `6`
+      - total cost `10`
+- Strongest correction learned:
+  - the merged residual region from `v88` is structural on this bounded
+    frontier
+  - the whole lab-followup transfer ladder is already locally saturated on this
+    literal-width axis
+
+Next frontier after v89:
+
+- compare the transfer ladder against a richer certificate language,
+- or search for a semantic invariant explaining the merged residual region

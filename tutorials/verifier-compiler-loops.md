@@ -2470,6 +2470,42 @@ The refill frontier preferred progressively larger residual budgets.
 The lab-followup frontier prefers a single merged residual region and then
 stops.
 
+The next bounded check asked whether that merged transfer object was only a
+`1..4` strict-certificate artifact.
+
+Strict certificates were widened to the full `1..5` literal grammar, while
+residual-default witnesses stayed in the `1..4` grammar.
+
+Nothing moved.
+
+The exact ladder stayed:
+
+- budget `0`:
+  - shared schemas `5`
+  - total cost `5`
+- budget `1`:
+  - shared schemas `4`
+  - total cost `4`
+- budget `2`:
+  - shared schemas `4`
+  - total cost `5`
+- budget `3`:
+  - shared schemas `4`
+  - total cost `7`
+- budget `4`:
+  - shared schemas `6`
+  - total cost `10`
+
+So the lab-followup transfer object is already locally saturated on this
+literal-width axis as well.
+
+That makes the contrast with refill sharper:
+
+- refill had a grammar-sensitive low-residual regime
+- lab-followup does not
+- the merged residual region in lab-followup looks structural, not merely
+  grammatical
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

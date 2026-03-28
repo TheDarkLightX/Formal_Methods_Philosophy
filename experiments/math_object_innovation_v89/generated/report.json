@@ -1,0 +1,167 @@
+{
+  "discovery_domain": "lab-followup partition-aware residual-budget transfer frontier, keeping residual-default witnesses in the 1-to-4 literal grammar while widening strict certificates from the 1-to-4 literal grammar to the 1-to-5 literal grammar",
+  "feature_count": 5,
+  "feature_names": [
+    "err[(0, 0, 1)]",
+    "err[(0, 1, 0)]",
+    "err[(0, 1, 1)]",
+    "err[(1, 1, 0)]",
+    "err[(1, 1, 1)]"
+  ],
+  "holdout_domain": "the 5 holdout fact states induced by the chosen 3-state training set",
+  "moved_budgets": [],
+  "nontrivial_scores": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "oracle_dependent": true,
+  "residual_budget_ladder": [
+    {
+      "cost_gain_over_v88": 0,
+      "feasible_configuration_count": 15,
+      "optimal_partition": [
+        [
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_region_count": 1,
+      "optimal_residual_regions": [],
+      "optimal_shared_schema_count": 5,
+      "optimal_total_cost": 5,
+      "residual_region_count": 0,
+      "schema_gain_over_v88": 0
+    },
+    {
+      "cost_gain_over_v88": 0,
+      "feasible_configuration_count": 37,
+      "optimal_partition": [
+        [
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_region_count": 1,
+      "optimal_residual_regions": [
+        [
+          1,
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_shared_schema_count": 4,
+      "optimal_total_cost": 4,
+      "residual_region_count": 1,
+      "schema_gain_over_v88": 0
+    },
+    {
+      "cost_gain_over_v88": 0,
+      "feasible_configuration_count": 31,
+      "optimal_partition": [
+        [
+          1
+        ],
+        [
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_region_count": 2,
+      "optimal_residual_regions": [
+        [
+          1
+        ],
+        [
+          2,
+          3,
+          4
+        ]
+      ],
+      "optimal_shared_schema_count": 4,
+      "optimal_total_cost": 5,
+      "residual_region_count": 2,
+      "schema_gain_over_v88": 0
+    },
+    {
+      "cost_gain_over_v88": 0,
+      "feasible_configuration_count": 10,
+      "optimal_partition": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "optimal_region_count": 3,
+      "optimal_residual_regions": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3,
+          4
+        ]
+      ],
+      "optimal_shared_schema_count": 4,
+      "optimal_total_cost": 7,
+      "residual_region_count": 3,
+      "schema_gain_over_v88": 0
+    },
+    {
+      "cost_gain_over_v88": 0,
+      "feasible_configuration_count": 1,
+      "optimal_partition": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          1
+        ],
+        [
+          2
+        ],
+        [
+          3
+        ],
+        [
+          4
+        ]
+      ],
+      "optimal_shared_schema_count": 6,
+      "optimal_total_cost": 10,
+      "residual_region_count": 4,
+      "schema_gain_over_v88": 0
+    }
+  ],
+  "strongest_claim": "On the toy lab-followup MPRD frontier, widening strict certificates from the 1-to-4 literal conjunction grammar to the full 1-to-5 literal conjunction grammar does not move any rung of the partition-aware residual-budget ladder. The merged residual-default region over all mixed score blocks remains exactly optimal, so the transfer object from v88 is already locally saturated on this literal-width axis.",
+  "survivor": "lab-followup widened-certificate saturation boundary",
+  "tier": "descriptive_oracle"
+}

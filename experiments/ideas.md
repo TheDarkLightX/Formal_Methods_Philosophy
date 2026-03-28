@@ -2311,3 +2311,26 @@ New next ideas:
 
 - compare this transfer object against a richer certificate language
 - or explain semantically why the merged residual region is the optimum here
+
+Current refinement:
+
+- widening strict certificates from `1..4` to `1..5` literals does not move
+  any rung of the lab-followup transfer ladder
+- exact ladder stays:
+  - `0 -> (5,5)`
+  - `1 -> (4,4)`
+  - `2 -> (4,5)`
+  - `3 -> (4,7)`
+  - `4 -> (6,10)`
+
+Why this matters:
+
+- the merged residual region from `v88` is not a narrow certificate-width
+  artifact
+- the lab-followup transfer object is already locally saturated on this
+  literal-width axis
+
+New next ideas:
+
+- compare the transfer ladder against a richer certificate language
+- or search for a semantic invariant explaining the merged residual region

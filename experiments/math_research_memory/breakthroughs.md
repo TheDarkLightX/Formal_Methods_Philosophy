@@ -2549,3 +2549,46 @@ Boundary learned:
 - the next honest move is:
   - compare this transfer object against a richer certificate language
   - or explain semantically why one merged residual region is optimal here
+
+### New survivor: lab-followup widened-certificate saturation boundary
+
+Bounded result:
+
+- bounded domain:
+  - the exact lab-followup transfer frontier from `v88`
+- searched object:
+  - same partition-aware residual-budget search
+  - residual-default witnesses stay in the `1..4` literal grammar
+  - strict certificates widen from `1..4` to `1..5` literals
+- strongest result:
+  - nothing moves
+  - exact ladder stays:
+    - `0`:
+      - shared schemas `5`
+      - total cost `5`
+    - `1`:
+      - shared schemas `4`
+      - total cost `4`
+    - `2`:
+      - shared schemas `4`
+      - total cost `5`
+    - `3`:
+      - shared schemas `4`
+      - total cost `7`
+    - `4`:
+      - shared schemas `6`
+      - total cost `10`
+
+Why it mattered:
+
+- this shows the merged transfer object from `v88` is not a `1..4`
+  certificate-grammar artifact
+- the whole lab-followup ladder is already locally saturated on this
+  literal-width axis
+
+Boundary learned:
+
+- the next honest move is not one more literal on this frontier
+- it is:
+  - a richer certificate language
+  - or a semantic invariant explaining the merged residual region
