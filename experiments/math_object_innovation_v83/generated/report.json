@@ -1,0 +1,216 @@
+{
+  "budget_ladder": [
+    {
+      "cost_gain_over_v82": 0,
+      "feasible_configuration_count": 45,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          8
+        ]
+      ],
+      "optimal_shared_schema_count": 24,
+      "optimal_total_cost": 28,
+      "residual_region_count": 1,
+      "schema_gain_over_v82": 1
+    },
+    {
+      "cost_gain_over_v82": 0,
+      "feasible_configuration_count": 95,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9,
+          10
+        ],
+        [
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          8
+        ],
+        [
+          9,
+          10
+        ]
+      ],
+      "optimal_shared_schema_count": 22,
+      "optimal_total_cost": 26,
+      "residual_region_count": 2,
+      "schema_gain_over_v82": 1
+    },
+    {
+      "cost_gain_over_v82": 0,
+      "feasible_configuration_count": 97,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_shared_schema_count": 20,
+      "optimal_total_cost": 24,
+      "residual_region_count": 3,
+      "schema_gain_over_v82": 1
+    },
+    {
+      "cost_gain_over_v82": 0,
+      "feasible_configuration_count": 50,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_shared_schema_count": 19,
+      "optimal_total_cost": 23,
+      "residual_region_count": 4,
+      "schema_gain_over_v82": 1
+    },
+    {
+      "cost_gain_over_v82": 0,
+      "feasible_configuration_count": 12,
+      "optimal_partition": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "optimal_region_count": 5,
+      "optimal_residual_regions": [
+        [
+          7
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ],
+        [
+          12
+        ]
+      ],
+      "optimal_shared_schema_count": 19,
+      "optimal_total_cost": 22,
+      "residual_region_count": 5,
+      "schema_gain_over_v82": 0
+    }
+  ],
+  "discovery_domain": "joint search over score partitions and exact residual-region budgets on the hard v38 feature frontier, optimizing global shared-schema count",
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states used from v29 through v46",
+  "nontrivial_scores": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "oracle_dependent": true,
+  "strongest_claim": "On the hard refill witness frontier, the fixed v44 partition from v81 and v82 is not globally optimal once score partition and residual structure are searched jointly. For residual budgets 1 through 4, the best global shared-schema counts become 24, 22, 20, 19, each improving v82 by one schema at the same exact total cost. The winning low-budget partitions merge scores as `(7,12)` and `(9,10)` before returning to the original five-region partition at budget 5.",
+  "survivor": "hard partition-aware residual-budget frontier",
+  "tier": "descriptive_oracle"
+}

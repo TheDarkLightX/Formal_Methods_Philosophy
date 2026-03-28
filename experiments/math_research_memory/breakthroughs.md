@@ -2301,3 +2301,52 @@ Boundary learned:
   - richer certificate grammars with local residual structure on the same hard
     frontier
   - or transfer of the global residual-budget law to a second hard frontier
+
+### New survivor: hard partition-aware residual-budget frontier
+
+Bounded result:
+
+- bounded domain:
+  - the same hard `v38` witness frontier from `v44` through `v82`
+- searched object:
+  - score partition
+  - exact residual-region budget
+  - global shared-schema objective
+- strongest result:
+  - the fixed `v44` partition is not globally optimal for budgets `1` through
+    `4`
+  - best exact shared-schema ladder becomes:
+    - `1`:
+      - `24`
+    - `2`:
+      - `22`
+    - `3`:
+      - `20`
+    - `4`:
+      - `19`
+    - `5`:
+      - `19`
+  - exact total-cost ladder remains:
+    - `28`
+    - `26`
+    - `24`
+    - `23`
+    - `22`
+  - low-budget optima merge scores as:
+    - `(7,12)`
+    - `(9,10)`
+
+Why it mattered:
+
+- this is the first hard-frontier result where partition itself becomes part of
+  the residual-budget loop
+- the earlier fixed partition was a survivor, but not the global optimum under
+  the stronger shared-schema objective
+
+Boundary learned:
+
+- this is still one hard frontier in one grammar
+- the next honest step is:
+  - richer certificate grammars on the same joint search
+  - or transfer of the same partition-aware residual-budget search to a second
+    hard frontier

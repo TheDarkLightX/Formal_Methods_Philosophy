@@ -1895,3 +1895,52 @@ Next frontier after v82:
   hard frontier,
 - or test whether a comparable global residual-budget law survives on a second
   hard frontier
+
+## 2026-03-27, hard partition-aware residual-budget frontier
+
+- New structural target:
+  - drop the fixed `v44` partition and search score partition plus
+    residual-default placement jointly under the global shared-schema objective
+- Bounded domain:
+  - the same hard `v38` feature frontier from `v44` to `v82`
+  - same nontrivial scores:
+    - `7`
+    - `8`
+    - `9`
+    - `10`
+    - `11`
+    - `12`
+  - same `1` to `4` signed-literal conjunction grammar
+- Strongest bounded results:
+  - the fixed `v44` partition is not globally optimal for budgets `1` through
+    `4`
+  - best exact shared-schema ladder becomes:
+    - `1`:
+      - `24`
+    - `2`:
+      - `22`
+    - `3`:
+      - `20`
+    - `4`:
+      - `19`
+    - `5`:
+      - `19`
+  - exact total-cost ladder stays:
+    - `28`
+    - `26`
+    - `24`
+    - `23`
+    - `22`
+  - winning low-budget partitions merge scores as:
+    - `(7,12)`
+    - `(9,10)`
+- Strongest correction learned:
+  - the hard residual-budget law survives
+  - but it was overconditioned on a fixed partition
+  - the right object is partition-aware residual budgeting
+
+Next frontier after v83:
+
+- test whether the same partition-aware effect survives in a richer certificate
+  grammar,
+- or transfer the same joint search to a second hard frontier

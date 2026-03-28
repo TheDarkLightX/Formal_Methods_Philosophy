@@ -2162,3 +2162,41 @@ New next ideas:
   hard frontier
 - test whether a comparable global residual-budget law survives on a second
   hard frontier
+
+Current refinement:
+
+- the hard residual-budget law was still overconditioned on the fixed `v44`
+  partition
+- once score partition and residual structure are searched jointly, the best
+  shared-schema ladder becomes:
+  - `1`:
+    - `24`
+  - `2`:
+    - `22`
+  - `3`:
+    - `20`
+  - `4`:
+    - `19`
+  - `5`:
+    - `19`
+- exact total cost stays:
+  - `28`
+  - `26`
+  - `24`
+  - `23`
+  - `22`
+- low budgets prefer merged score regions:
+  - `(7,12)`
+  - `(9,10)`
+
+Why this matters:
+
+- the hard-frontier object is now partition-aware, not only budget-aware
+- the earlier fixed partition was informative but not globally optimal under
+  the stronger schema objective
+
+New next ideas:
+
+- test the same joint search in a richer certificate grammar
+- transfer the same partition-aware residual-budget search to a second hard
+  frontier

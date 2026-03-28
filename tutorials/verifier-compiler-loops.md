@@ -2230,6 +2230,51 @@ So the hard frontier has a stronger law than `v81` alone suggested:
 - every feasible rung improves by exactly one schema
 - and the full-budget endpoint lands on the earlier global optimum `19`
 
+The next bounded comparison removed one more hidden assumption:
+
+- that the old `v44` score partition should stay fixed while residual budget is
+  varied
+
+That assumption fails on the same hard frontier.
+
+Once score partition and residual structure are searched jointly, the best
+shared-schema ladder becomes:
+
+- budget `1`:
+  - shared schemas `24`
+  - total cost `28`
+  - partition:
+    - `(7,12)`
+    - `(8)`
+    - `(9,10)`
+    - `(11)`
+- budget `2`:
+  - shared schemas `22`
+  - total cost `26`
+  - same partition
+- budget `3`:
+  - shared schemas `20`
+  - total cost `24`
+  - partition:
+    - `(7,12)`
+    - `(8)`
+    - `(9)`
+    - `(10,11)`
+- budget `4`:
+  - shared schemas `19`
+  - total cost `23`
+  - same four-region partition
+- budget `5`:
+  - shared schemas `19`
+  - total cost `22`
+  - original five-region partition returns
+
+So the sharper hard-frontier law is now:
+
+- fixed-partition residual budgeting was not globally optimal
+- low residual budgets want merged score regions
+- the old `v44` partition only returns at full residual budget
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:
