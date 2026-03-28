@@ -1,0 +1,216 @@
+{
+  "axis_summary": {
+    "new_search_axis": {
+      "cycles": 9,
+      "gain_cycles": 5,
+      "gain_events": 16
+    },
+    "same_axis_widening": {
+      "cycles": 5,
+      "gain_cycles": 2,
+      "gain_events": 4
+    }
+  },
+  "class_summary": [
+    {
+      "boundary_cycles": 1,
+      "cycles": 6,
+      "gain_cycles": 5,
+      "gain_events": 16,
+      "intervention_class": "new_axis",
+      "saturation_cycles": 0
+    },
+    {
+      "boundary_cycles": 0,
+      "cycles": 5,
+      "gain_cycles": 2,
+      "gain_events": 4,
+      "intervention_class": "grammar_widening",
+      "saturation_cycles": 3
+    },
+    {
+      "boundary_cycles": 2,
+      "cycles": 2,
+      "gain_cycles": 0,
+      "gain_events": 0,
+      "intervention_class": "comparison_family",
+      "saturation_cycles": 0
+    },
+    {
+      "boundary_cycles": 0,
+      "cycles": 1,
+      "gain_cycles": 0,
+      "gain_events": 0,
+      "intervention_class": "family_comparison",
+      "saturation_cycles": 0
+    }
+  ],
+  "discovery_domain": "meta-analysis of frontier-moving interventions across the mature witness-language, residual-budget, transfer, and explanatory-law line from v78 to v91",
+  "event_count": 14,
+  "events": [
+    {
+      "adds_new_search_axis": true,
+      "cycle": "v78",
+      "gain_events": 0,
+      "intervention": "minimal witness-language phase diagram on the hard frontier",
+      "intervention_class": "family_comparison",
+      "outcome": "baseline_ordering",
+      "why": "established the first strict family ladder, 27 -> 22 -> 19, without changing the incumbent yet"
+    },
+    {
+      "adds_new_search_axis": true,
+      "cycle": "v79",
+      "gain_events": 0,
+      "intervention": "exact bit-fiber decomposition against the current label-level language",
+      "intervention_class": "comparison_family",
+      "outcome": "boundary",
+      "why": "showed decomposition is exact but loses, 24/21 versus 22/19"
+    },
+    {
+      "adds_new_search_axis": true,
+      "cycle": "v80",
+      "gain_events": 0,
+      "intervention": "strict all-positive certificates against the same hard partition",
+      "intervention_class": "comparison_family",
+      "outcome": "boundary",
+      "why": "showed strict certification fails exactness on region (10,11)"
+    },
+    {
+      "adds_new_search_axis": true,
+      "cycle": "v81",
+      "gain_events": 5,
+      "intervention": "residual-budget search on the hard merged partition",
+      "intervention_class": "new_axis",
+      "outcome": "frontier_gain",
+      "why": "introduced the residual-budget ladder, 28 -> 26 -> 24 -> 23 -> 22"
+    },
+    {
+      "adds_new_search_axis": true,
+      "cycle": "v82",
+      "gain_events": 5,
+      "intervention": "global schema sharing on the residual-budget ladder",
+      "intervention_class": "new_axis",
+      "outcome": "frontier_gain",
+      "why": "improved every feasible rung by exactly one shared schema, 25 -> 23 -> 21 -> 20 -> 19"
+    },
+    {
+      "adds_new_search_axis": true,
+      "cycle": "v83",
+      "gain_events": 4,
+      "intervention": "joint partition plus residual-budget search",
+      "intervention_class": "new_axis",
+      "outcome": "frontier_gain",
+      "why": "improved shared-schema counts on budgets 1 through 4 by making partition part of the search"
+    },
+    {
+      "adds_new_search_axis": false,
+      "cycle": "v84",
+      "gain_events": 1,
+      "intervention": "local certificate widening from 1..4 to 1..5 literals",
+      "intervention_class": "grammar_widening",
+      "outcome": "localized_gain",
+      "why": "moved exactly one critical region, (10,11), from impossible to exact cost 6"
+    },
+    {
+      "adds_new_search_axis": false,
+      "cycle": "v85",
+      "gain_events": 3,
+      "intervention": "global widened-certificate search on the joint partition-aware frontier",
+      "intervention_class": "grammar_widening",
+      "outcome": "frontier_gain",
+      "why": "opened the low-residual regime globally, adding budget 0 and improving budgets 1 and 2"
+    },
+    {
+      "adds_new_search_axis": false,
+      "cycle": "v86",
+      "gain_events": 0,
+      "intervention": "high-residual widening from 1..5 to 1..6 literals",
+      "intervention_class": "grammar_widening",
+      "outcome": "saturation",
+      "why": "did not move budgets 3 through 5"
+    },
+    {
+      "adds_new_search_axis": false,
+      "cycle": "v87",
+      "gain_events": 0,
+      "intervention": "low-residual widening from 1..5 to 1..6 literals",
+      "intervention_class": "grammar_widening",
+      "outcome": "saturation",
+      "why": "did not move budgets 0 through 2"
+    },
+    {
+      "adds_new_search_axis": true,
+      "cycle": "v88",
+      "gain_events": 1,
+      "intervention": "transfer the joint partition-aware residual-budget loop to lab-followup",
+      "intervention_class": "new_axis",
+      "outcome": "frontier_gain",
+      "why": "produced a new exact transfer object, one merged residual region with best cost 4"
+    },
+    {
+      "adds_new_search_axis": false,
+      "cycle": "v89",
+      "gain_events": 0,
+      "intervention": "lab-followup widened certificates from 1..4 to 1..5 literals",
+      "intervention_class": "grammar_widening",
+      "outcome": "saturation",
+      "why": "did not move any rung of the lab-followup ladder"
+    },
+    {
+      "adds_new_search_axis": true,
+      "cycle": "v90",
+      "gain_events": 1,
+      "intervention": "score-free semantic explanation search on the full lab-followup unsafe block",
+      "intervention_class": "new_axis",
+      "outcome": "frontier_gain",
+      "why": "found an exact earliest-error residual-default law with cost 4 versus best all-positive cost 5"
+    },
+    {
+      "adds_new_search_axis": true,
+      "cycle": "v91",
+      "gain_events": 0,
+      "intervention": "score-free merged-subunion search on the refill frontier",
+      "intervention_class": "new_axis",
+      "outcome": "boundary",
+      "why": "showed refill does not admit a whole-block score-free law, only sparse exact islands up to size 3"
+    }
+  ],
+  "holdout_domain": "the published exact hard-frontier and lab-followup frontier cycles from v78 to v91",
+  "next_family_ranking": [
+    {
+      "family": "temporal_monitor_cell_obligation_carving",
+      "first_experiment": "bounded monitor-cell carving on medical_retest_protocol_tracker_v1.tau, comparing flat trace counterexamples against monitor-cell carving",
+      "new_axis": "temporal obligation cells rather than flat examples or static score regions",
+      "rank": 1
+    },
+    {
+      "family": "temporal_minimal_witness_language_discovery",
+      "first_experiment": "phase diagram over temporal witness contracts on the retest tracker safety fragment",
+      "new_axis": "minimal witness languages over monitor cells, prefix cylinders, and residual-default temporal contracts",
+      "rank": 2
+    },
+    {
+      "family": "semantic_predicate_invention",
+      "first_experiment": "search a tiny semantic predicate grammar that enlarges the maximal exact refill merged subset beyond (9,10,12)",
+      "new_axis": "invent new exact predicates when literal-width sweeps saturate",
+      "rank": 3
+    },
+    {
+      "family": "explanation_fiber_decomposition_for_temporal_specs",
+      "first_experiment": "split the retest tracker into three fibers and search exact local witness languages on each",
+      "new_axis": "decompose temporal specs into override, transition, and progress fibers before witness search",
+      "rank": 4
+    }
+  ],
+  "oracle_dependent": true,
+  "outcome_counts": {
+    "baseline_ordering": 1,
+    "boundary": 3,
+    "frontier_gain": 6,
+    "localized_gain": 1,
+    "saturation": 3
+  },
+  "strongest_claim": "Across the mature witness-language line from v78 to v91, the biggest exact frontier gains came from adding new structural search axes, residual budgets, global schema sharing, joint partition search, transfer as a first-class object, and semantic explanation search, rather than from widening the existing formula grammar. New-axis interventions account for 5 of the 6 frontier-gain cycles and 16 of the 21 gain-events in this bounded corpus, while grammar widening yields only one local slice gain, one partial global gain, and then saturates. The next honest rabbit hole is therefore temporal obligation geometry, especially monitor-cell obligation carving on Tau specs.",
+  "survivor": "unlock taxonomy for the mature witness-language line",
+  "tier": "descriptive_oracle"
+}

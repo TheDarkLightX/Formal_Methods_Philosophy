@@ -2297,3 +2297,55 @@ Next frontier after v91:
 - try a richer score-free certificate language on the refill frontier,
 - or search for a small semantic grammar that enlarges the maximal exact refill
   merged subset
+
+## 2026-03-28, unlock taxonomy for the mature witness-language line
+
+- New structural target:
+  - identify which intervention types actually moved the mature frontier from
+    `v78` to `v91`
+  - separate real unlocks from local grammar gains and saturation checks
+- Bounded domain:
+  - the published hard-frontier, transfer, and explanatory-law cycles:
+    - `v78` through `v91`
+- Strongest bounded results:
+  - total events:
+    - `14`
+  - new-axis interventions:
+    - cycles:
+      - `9`
+    - gain cycles:
+      - `5`
+    - gain-events:
+      - `16`
+  - same-axis widening:
+    - cycles:
+      - `5`
+    - gain cycles:
+      - `2`
+    - gain-events:
+      - `4`
+  - grammar widening:
+    - one local gain
+    - one partial global gain
+    - three saturation cycles
+  - strongest next family ranking:
+    - `temporal_monitor_cell_obligation_carving`
+    - `temporal_minimal_witness_language_discovery`
+    - `semantic_predicate_invention`
+    - `explanation_fiber_decomposition_for_temporal_specs`
+- Strongest correction learned:
+  - the mature line moved when the object of search changed:
+    - residual budgets
+    - schema sharing
+    - partitions
+    - transfer objects
+    - semantic explanations
+  - the line usually did not move much when the old formula grammar was merely
+    widened
+
+Next frontier after v92:
+
+- package `v93` as temporal monitor-cell obligation carving on the Tau retest
+  tracker safety fragment
+- or search a small semantic predicate grammar that enlarges the maximal exact
+  refill merged subset beyond `(9,10,12)`

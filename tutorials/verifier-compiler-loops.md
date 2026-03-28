@@ -5,6 +5,26 @@ kicker: Tutorial 27
 description: "Learn when a neuro-symbolic loop can compile verifier behavior into a small symbolic controller, how that differs from plain CEGIS, and how to use the pattern safely in practice."
 ---
 
+<details open>
+<summary><strong>Road map</strong></summary>
+
+This tutorial asks when a neuro-symbolic loop can compile verifier behavior into a reusable symbolic controller.
+
+- **Parts I-IV** &#x2014; Baseline CEGIS, label functions, quotient and repair coordinates
+- **Parts V-VI** &#x2014; The verifier-compiler loop itself and why it is stronger than plain CEGIS
+- **Parts VII-IX** &#x2014; When the pattern is general, when it is not, and practical use (MPRD, code gen, medical gates)
+- **Part X** &#x2014; Bounded evidence: 47 levels from tiny compilers to support-table laws
+- **Part XI** &#x2014; Transfer tests: easy frontier, lab-followup, hard refill
+- **Part XII** &#x2014; The deepest takeaway
+
+**Interactive:** Try the [Verifier-Compiler Lab]({{ '/verifier_compiler_lab.html' | relative_url }}) to step through the quotient-repair-compile pipeline.
+
+</details>
+
+<div class="fp-diagram-wrap" style="margin: 2rem 0">
+  {% include diagrams/verifier-compiler-frontend.svg %}
+</div>
+
 This tutorial starts from a practical question.
 
 Suppose there are:
@@ -99,6 +119,10 @@ In the bounded experiments in this repo, examples of `L(x)` included:
 - `fail_13116`.
 
 That is already richer than ordinary CEGIS state.
+
+<div class="fp-diagram-wrap" style="margin: 2rem 0">
+  {% include diagrams/quotient-repair-pipeline.svg %}
+</div>
 
 ## Part III: quotient first
 
@@ -2579,6 +2603,37 @@ score-free law.
 
 On the refill side, the same search finds only sparse exact merged islands, not
 one unified explanatory block.
+
+That makes the next meta-question unavoidable:
+
+> which kinds of interventions actually moved the mature frontier, and which
+> kinds mostly exposed ceilings?
+
+The bounded `v78` to `v91` meta-scan answers that cleanly.
+
+The biggest exact gains came from adding new structural search axes:
+
+- residual-budget search,
+- global schema sharing,
+- joint partition search,
+- transfer as a first-class exact object,
+- score-free semantic explanation search.
+
+By contrast, grammar widening was much weaker:
+
+- one local critical-region gain,
+- one partial global low-residual gain,
+- then saturation.
+
+So the later line teaches a sharper rule:
+
+> the frontier moved when the object of search changed.
+
+That points to the next honest rabbit hole:
+
+- temporal obligation geometry on Tau specs,
+
+not another literal-width sweep on the current static witness languages.
 
 ### 7. Meta-loop synthesis
 

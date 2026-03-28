@@ -2380,3 +2380,33 @@ New next ideas:
 - search a small semantic grammar that might enlarge the maximal exact refill
   merged subset
 - or compare that semantic line directly against richer certificate families
+
+Current refinement:
+
+- the mature witness-language line from `v78` to `v91` can now be summarized by
+  one meta-rule:
+  - the biggest exact gains came from adding a new search object
+  - they did not mostly come from widening the current grammar
+- exact counts:
+  - new-axis interventions:
+    - `9` cycles
+    - `5` gain cycles
+    - `16` gain-events
+  - same-axis widening:
+    - `5` cycles
+    - `2` gain cycles
+    - `4` gain-events
+
+Why this matters:
+
+- it gives a concrete criterion for choosing the next rabbit hole
+- the next move should search over a deeper object than:
+  - candidate
+  - formula
+  - fixed partition
+
+New next ideas:
+
+- temporal monitor-cell obligation carving on Tau specs
+- minimal witness-language discovery over temporal cells
+- semantic predicate invention for refill, if the temporal line stalls

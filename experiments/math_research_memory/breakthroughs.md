@@ -2682,3 +2682,47 @@ Boundary learned:
 - the next honest move is:
   - a richer score-free certificate language on refill
   - or a small semantic grammar that enlarges the maximal exact refill subunion
+
+### New survivor: unlock taxonomy for the mature witness-language line
+
+Bounded result:
+
+- bounded domain:
+  - the published mature witness-language line:
+    - `v78` through `v91`
+- searched object:
+  - intervention taxonomy over:
+    - family comparisons
+    - residual-budget search
+    - schema sharing
+    - partition search
+    - grammar widening
+    - transfer
+    - semantic explanation search
+- strongest result:
+  - new-axis interventions:
+    - cycles:
+      - `9`
+    - gain cycles:
+      - `5`
+    - gain-events:
+      - `16`
+  - same-axis widening:
+    - cycles:
+      - `5`
+    - gain cycles:
+      - `2`
+    - gain-events:
+      - `4`
+
+Why it mattered:
+
+- this turns the recent progression into a cleaner law
+- the mature frontier moved when the object of search changed
+- it usually did not move much when the current grammar was only widened
+
+Boundary learned:
+
+- the next honest loop family should add a deeper search object
+- the strongest next target is:
+  - temporal monitor-cell obligation carving on Tau specs
