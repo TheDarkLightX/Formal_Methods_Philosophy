@@ -2726,3 +2726,51 @@ Boundary learned:
 - the next honest loop family should add a deeper search object
 - the strongest next target is:
   - temporal monitor-cell obligation carving on Tau specs
+
+### New survivor: staged temporal monitor-cell obligation quotient
+
+Bounded result:
+
+- bounded domain:
+  - the safety-action fragment of
+    `medical_retest_protocol_tracker_v1.tau`
+  - ordered decision-list controller family over four semantic predicates
+  - total candidates:
+    - `5832`
+- searched object:
+  - flat two-step trace obligations
+  - symbolic monitor-cell obligations
+  - staged comparison after flat step-1 carving
+- strongest result:
+  - raw whole-family comparison:
+    - flat behavior classes:
+      - `73`
+    - monitor-cell behavior classes:
+      - `168`
+    - exact partition match:
+      - `false`
+  - after flat step-1 carving:
+    - surviving candidates:
+      - `108`
+    - flat residual classes:
+      - `12`
+    - monitor-cell residual classes:
+      - `12`
+    - exact partition match:
+      - `true`
+    - exact spec-class match:
+      - `true`
+
+Why it mattered:
+
+- this is the first temporal obligation result that survived as a real object
+- it shows symbolic state obligations are best introduced in stages
+- that lesson transfers back to software engineering:
+  - concrete failing tests first
+  - symbolic obligation cells or fibers second
+
+Boundary learned:
+
+- Tau did produce a useful side-branch law
+- but the main frontier should now move back to higher-leverage software loops,
+  not stay inside Tau-specific detail

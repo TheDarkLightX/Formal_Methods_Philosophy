@@ -2410,3 +2410,27 @@ New next ideas:
 - temporal monitor-cell obligation carving on Tau specs
 - minimal witness-language discovery over temporal cells
 - semantic predicate invention for refill, if the temporal line stalls
+
+Current refinement:
+
+- the first temporal monitor-cell cycle survived only in staged form
+- raw symbolic monitor cells are too strong on the whole bounded controller
+  family
+- after flat step-1 carving, the residual two-step temporal burden collapses
+  exactly from:
+  - `144` flat trace obligations
+  - to `36` symbolic monitor cells
+  - with the same `12` residual behavior classes
+
+Why this matters:
+
+- it sharpens how symbolic obligation objects should enter real software loops
+- symbolic fibers should not necessarily replace raw failing tests from the
+  start
+- they may become exact only after earlier concrete carving
+
+New next ideas:
+
+- obligation-fibered repair on a bounded bug corpus
+- certificate-carrying repair on the same corpus
+- minimal repair-language discovery after failure fibers stabilize

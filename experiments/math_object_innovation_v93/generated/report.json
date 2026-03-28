@@ -1,0 +1,180 @@
+{
+  "candidate_count": 5832,
+  "cell_behavior_class_count": 168,
+  "cell_greedy_yes_only": {
+    "checks": 6,
+    "remaining": 6,
+    "trajectory": [
+      {
+        "after": 1944,
+        "before": 5832,
+        "eliminated": 3888,
+        "obligation_index": 0
+      },
+      {
+        "after": 648,
+        "before": 1944,
+        "eliminated": 1296,
+        "obligation_index": 2
+      },
+      {
+        "after": 216,
+        "before": 648,
+        "eliminated": 432,
+        "obligation_index": 6
+      },
+      {
+        "after": 36,
+        "before": 216,
+        "eliminated": 180,
+        "obligation_index": 22
+      },
+      {
+        "after": 8,
+        "before": 36,
+        "eliminated": 28,
+        "obligation_index": 30
+      },
+      {
+        "after": 6,
+        "before": 8,
+        "eliminated": 2,
+        "obligation_index": 4
+      }
+    ]
+  },
+  "discovery_domain": "bounded temporal controller family for the medical retest tracker safety fragment, using ordered decision lists over override, was_review, repeat_and_abnormal, and nonzero_result",
+  "holdout_domain": "exhaustive over the same bounded family and all two-step traces from the watch initial state",
+  "monitor_cell_count": 36,
+  "monitor_cell_reduction": {
+    "cell_obligations": 36,
+    "ratio": 4.0,
+    "raw_obligations": 144,
+    "reduction": 108
+  },
+  "oracle_dependent": true,
+  "partition_matches": false,
+  "partition_mismatch_examples": [
+    {
+      "left": "[override->watch, was_review->watch, repeat_and_abnormal->watch, nonzero_result->watch] else watch",
+      "right": "[override->watch, was_review->watch, repeat_and_abnormal->human_review, nonzero_result->watch] else watch",
+      "same_cell": false,
+      "same_trace": true
+    },
+    {
+      "left": "[override->watch, was_review->watch, repeat_and_abnormal->watch, nonzero_result->watch] else watch",
+      "right": "[override->watch, was_review->watch, repeat_and_abnormal->human_review, nonzero_result->human_review] else watch",
+      "same_cell": false,
+      "same_trace": true
+    },
+    {
+      "left": "[override->watch, was_review->watch, repeat_and_abnormal->watch, nonzero_result->watch] else watch",
+      "right": "[override->watch, was_review->repeat_lab, repeat_and_abnormal->human_review, nonzero_result->watch] else watch",
+      "same_cell": false,
+      "same_trace": true
+    },
+    {
+      "left": "[override->watch, was_review->watch, repeat_and_abnormal->watch, nonzero_result->watch] else watch",
+      "right": "[override->watch, was_review->repeat_lab, repeat_and_abnormal->human_review, nonzero_result->human_review] else watch",
+      "same_cell": false,
+      "same_trace": true
+    },
+    {
+      "left": "[override->watch, was_review->watch, repeat_and_abnormal->watch, nonzero_result->watch] else watch",
+      "right": "[override->watch, was_review->human_review, repeat_and_abnormal->watch, nonzero_result->watch] else watch",
+      "same_cell": false,
+      "same_trace": true
+    }
+  ],
+  "spec_cell_class_size": 6,
+  "spec_controller_count": 6,
+  "spec_controller_examples": [
+    "[override->human_review, repeat_and_abnormal->human_review, was_review->human_review, nonzero_result->repeat_lab] else watch",
+    "[override->human_review, was_review->human_review, repeat_and_abnormal->human_review, nonzero_result->repeat_lab] else watch",
+    "[repeat_and_abnormal->human_review, override->human_review, was_review->human_review, nonzero_result->repeat_lab] else watch",
+    "[repeat_and_abnormal->human_review, was_review->human_review, override->human_review, nonzero_result->repeat_lab] else watch",
+    "[was_review->human_review, override->human_review, repeat_and_abnormal->human_review, nonzero_result->repeat_lab] else watch",
+    "[was_review->human_review, repeat_and_abnormal->human_review, override->human_review, nonzero_result->repeat_lab] else watch"
+  ],
+  "spec_trace_class_size": 6,
+  "staged_cell_behavior_class_count": 12,
+  "staged_cell_greedy_yes_only": {
+    "checks": 2,
+    "remaining": 6,
+    "trajectory": [
+      {
+        "after": 24,
+        "before": 108,
+        "eliminated": 84,
+        "obligation_index": 22
+      },
+      {
+        "after": 6,
+        "before": 24,
+        "eliminated": 18,
+        "obligation_index": 30
+      }
+    ]
+  },
+  "staged_partition_matches": true,
+  "staged_partition_mismatch_examples": [],
+  "staged_spec_cell_class_size": 6,
+  "staged_spec_trace_class_size": 6,
+  "staged_trace_and_cell_perfect_sets_match": true,
+  "staged_trace_behavior_class_count": 12,
+  "staged_trace_greedy_yes_only": {
+    "checks": 2,
+    "remaining": 6,
+    "trajectory": [
+      {
+        "after": 24,
+        "before": 108,
+        "eliminated": 84,
+        "obligation_index": 6
+      },
+      {
+        "after": 6,
+        "before": 24,
+        "eliminated": 18,
+        "obligation_index": 82
+      }
+    ]
+  },
+  "step1_safe_candidate_count": 108,
+  "strongest_claim": "On the bounded retest-tracker controller family, raw symbolic monitor cells are too strong if applied to all candidates at once, but after flat step-1 carving the remaining 144 concrete two-step prefixes collapse exactly to 36 symbolic monitor cells without changing the spec-equivalence partition.",
+  "survivor": "staged temporal monitor-cell obligation quotient",
+  "tier": "descriptive_oracle",
+  "trace_and_cell_perfect_sets_match": true,
+  "trace_behavior_class_count": 73,
+  "trace_greedy_yes_only": {
+    "checks": 4,
+    "remaining": 6,
+    "trajectory": [
+      {
+        "after": 324,
+        "before": 5832,
+        "eliminated": 5508,
+        "obligation_index": 76
+      },
+      {
+        "after": 72,
+        "before": 324,
+        "eliminated": 252,
+        "obligation_index": 6
+      },
+      {
+        "after": 18,
+        "before": 72,
+        "eliminated": 54,
+        "obligation_index": 82
+      },
+      {
+        "after": 6,
+        "before": 18,
+        "eliminated": 12,
+        "obligation_index": 24
+      }
+    ]
+  },
+  "trace_obligation_count": 144
+}

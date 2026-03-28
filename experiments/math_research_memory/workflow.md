@@ -2349,3 +2349,65 @@ Next frontier after v92:
   tracker safety fragment
 - or search a small semantic predicate grammar that enlarges the maximal exact
   refill merged subset beyond `(9,10,12)`
+
+## 2026-03-28, staged temporal monitor-cell obligation quotient
+
+- New structural target:
+  - test the strongest next rabbit hole from `v92` without letting it replace
+    the main frontier
+  - ask whether symbolic monitor cells replace flat temporal prefixes directly,
+    or only after earlier concrete carving
+- Bounded domain:
+  - the safety-action fragment of
+    `examples/tau/medical_retest_protocol_tracker_v1.tau`
+  - ordered decision-list controllers over:
+    - `override`
+    - `was_review`
+    - `repeat_and_abnormal`
+    - `nonzero_result`
+  - total candidates:
+    - `5832`
+  - flat two-step trace obligations:
+    - `144`
+  - symbolic monitor-cell obligations:
+    - `36`
+- Strongest bounded results:
+  - raw whole-family comparison:
+    - flat behavior classes:
+      - `73`
+    - monitor-cell behavior classes:
+      - `168`
+    - partition match:
+      - `false`
+    - greedy yes-only checks:
+      - traces:
+        - `4`
+      - cells:
+        - `6`
+  - after flat step-1 carving:
+    - surviving candidates:
+      - `108`
+    - flat residual classes:
+      - `12`
+    - monitor-cell residual classes:
+      - `12`
+    - partition match:
+      - `true`
+    - exact spec-class match:
+      - `true`
+    - greedy yes-only checks:
+      - traces:
+        - `2`
+      - cells:
+        - `2`
+- Strongest correction learned:
+  - symbolic monitor cells are too strong if applied to the whole controller
+    family from step `0`
+  - they become the right quotient only after earlier concrete carving removes
+    controllers that never reach the relevant temporal states
+
+Next frontier after v93:
+
+- translate the staged-carving lesson back into software engineering loops
+- test obligation-fibered repair or certificate-carrying repair on a bounded bug
+  corpus instead of staying in Tau-specific temporal detail
