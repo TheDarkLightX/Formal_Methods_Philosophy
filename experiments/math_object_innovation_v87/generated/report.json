@@ -1,0 +1,116 @@
+{
+  "budget_ladder": [
+    {
+      "cost_gain_over_v85": 0,
+      "feasible_configuration_count": 15,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [],
+      "optimal_shared_schema_count": 25,
+      "optimal_total_cost": 29,
+      "residual_region_count": 0,
+      "schema_gain_over_v85": 0
+    },
+    {
+      "cost_gain_over_v85": 0,
+      "feasible_configuration_count": 67,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          8
+        ]
+      ],
+      "optimal_shared_schema_count": 23,
+      "optimal_total_cost": 27,
+      "residual_region_count": 1,
+      "schema_gain_over_v85": 0
+    },
+    {
+      "cost_gain_over_v85": 0,
+      "feasible_configuration_count": 120,
+      "optimal_partition": [
+        [
+          7,
+          12
+        ],
+        [
+          8
+        ],
+        [
+          9
+        ],
+        [
+          10,
+          11
+        ]
+      ],
+      "optimal_region_count": 4,
+      "optimal_residual_regions": [
+        [
+          8
+        ],
+        [
+          9
+        ]
+      ],
+      "optimal_shared_schema_count": 21,
+      "optimal_total_cost": 25,
+      "residual_region_count": 2,
+      "schema_gain_over_v85": 0
+    }
+  ],
+  "discovery_domain": "low-residual slice of the hard partition-aware residual-budget frontier, keeping residual-default witnesses in the 1-to-4 literal grammar while widening strict certificates from the 1-to-5 literal grammar to the 1-to-6 literal grammar",
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states used from v29 through v86",
+  "low_residual_budgets": [
+    0,
+    1,
+    2
+  ],
+  "moved_budgets": [],
+  "oracle_dependent": true,
+  "strongest_claim": "On the hard refill witness frontier, widening strict certificates further from the 1-to-5 literal conjunction grammar to the 1-to-6 literal conjunction grammar does not move the low-residual end of the partition-aware residual-budget ladder. Budgets 0, 1, and 2 remain exactly fixed, so the full ladder is now locally saturated along this literal-width axis.",
+  "survivor": "low-residual widened-certificate saturation boundary",
+  "tier": "descriptive_oracle"
+}

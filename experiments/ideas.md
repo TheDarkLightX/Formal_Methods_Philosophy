@@ -2266,3 +2266,23 @@ New next ideas:
 
 - transfer the widened-certificate search to a second hard frontier
 - or switch to a richer certificate language rather than one more literal
+
+Current refinement:
+
+- widening strict certificates from `1..5` to `1..6` literals does not move
+  budgets `0`, `1`, or `2`
+- exact low-residual ladder stays:
+  - `25,29`
+  - `23,27`
+  - `21,25`
+
+Why this matters:
+
+- the literal-width story is now closed on this hard frontier
+- the gains in `v85` were real, but already fully captured at width `5`
+- the next barrier is no longer exposed by one more conjunction-width increase
+
+New next ideas:
+
+- transfer the widened-certificate search to a second hard frontier
+- or switch to a genuinely richer certificate language

@@ -2459,3 +2459,40 @@ Boundary learned:
 - it is:
   - transfer to a second hard frontier
   - or a genuinely richer certificate language
+
+### New survivor: low-residual widened-certificate saturation boundary
+
+Bounded result:
+
+- bounded domain:
+  - the same hard `v38` witness frontier reused through `v86`
+- searched object:
+  - low-residual slice of the partition-aware residual-budget frontier
+  - residual-default witnesses in the `1..4` literal grammar
+  - strict certificates widened from `1..5` to `1..6` literals
+- strongest result:
+  - budgets `0`, `1`, and `2` do not move at all
+  - exact low-residual ladder stays:
+    - `0`:
+      - shared schemas `25`
+      - total cost `29`
+    - `1`:
+      - shared schemas `23`
+      - total cost `27`
+    - `2`:
+      - shared schemas `21`
+      - total cost `25`
+
+Why it mattered:
+
+- this closes the last open slice on the current literal-width axis
+- the full hard partition-aware residual-budget ladder is now locally saturated
+  against widening strict certificates from `1..5` to `1..6` literals
+
+Boundary learned:
+
+- another small width increase is no longer the honest next move on this
+  frontier
+- the next honest move is:
+  - transfer to a second hard frontier
+  - or a genuinely richer certificate language

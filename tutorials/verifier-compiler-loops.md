@@ -2399,6 +2399,33 @@ So the current hard-frontier law is sharper still:
   - transfer to a second hard frontier
   - or a genuinely richer certificate language
 
+One exact slice still remained after `v86`: the low-residual end under the same
+`1..6` certificate widening.
+
+That slice also did not move.
+
+The exact low-residual ladder stayed:
+
+- budget `0`:
+  - shared schemas `25`
+  - total cost `29`
+- budget `1`:
+  - shared schemas `23`
+  - total cost `27`
+- budget `2`:
+  - shared schemas `21`
+  - total cost `25`
+
+So the full hard partition-aware residual-budget ladder is now closed on this
+literal-width axis:
+
+- widening strict certificates from `1..5` to `1..6` literals does not move
+  any residual budget
+- the low-residual gains in `v85` were real
+- but they were already fully captured at width `5`
+
+That is the honest stopping point for this grammar family on this frontier.
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

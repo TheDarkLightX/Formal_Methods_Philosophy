@@ -2073,3 +2073,40 @@ Next frontier after v86:
 
 - transfer the widened-certificate search to a second hard frontier,
 - or switch from wider conjunctions to a genuinely richer certificate language
+
+## 2026-03-27, low-residual widened-certificate saturation boundary
+
+- New structural target:
+  - close the only open slice left after `v86`
+  - test whether widening strict certificates again, from `1..5` to `1..6`
+    literals, moves budgets `0`, `1`, or `2`
+- Bounded domain:
+  - the same hard `v38` feature frontier reused through `v86`
+  - same partition-aware residual-budget search
+  - residual-default witness regions stay in the `1..4` literal grammar
+  - strict certificate regions widen from `1..5` to `1..6` literals
+  - scope only budgets:
+    - `0`
+    - `1`
+    - `2`
+- Strongest bounded results:
+  - nothing moves
+  - exact low-residual ladder stays:
+    - `0`:
+      - shared schemas `25`
+      - total cost `29`
+    - `1`:
+      - shared schemas `23`
+      - total cost `27`
+    - `2`:
+      - shared schemas `21`
+      - total cost `25`
+- Strongest correction learned:
+  - the low-residual gains in `v85` were already fully captured at width `5`
+  - the full hard partition-aware residual-budget ladder is now locally
+    saturated on the current literal-width axis
+
+Next frontier after v87:
+
+- transfer the widened-certificate search to a second hard frontier,
+- or switch from wider conjunctions to a genuinely richer certificate language
