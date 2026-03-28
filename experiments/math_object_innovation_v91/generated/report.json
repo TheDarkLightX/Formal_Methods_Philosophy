@@ -1,0 +1,748 @@
+{
+  "all_positive_feasible_subset_count": 10,
+  "all_positive_feasible_subset_count_by_size": {
+    "1": 6,
+    "2": 4
+  },
+  "atom_count": 1696,
+  "best_maximal_subset": {
+    "all_positive_cost": null,
+    "all_positive_language": null,
+    "all_positive_possible": false,
+    "default_label": "(1, 0, 1, 1)",
+    "label_count": 10,
+    "labels": [
+      "(0, 0, 0, 1)",
+      "(0, 0, 1, 0)",
+      "(0, 0, 1, 1)",
+      "(0, 1, 0, 0)",
+      "(0, 1, 1, 0)",
+      "(1, 0, 0, 0)",
+      "(1, 0, 0, 1)",
+      "(1, 0, 1, 0)",
+      "(1, 0, 1, 1)",
+      "(1, 1, 1, 0)"
+    ],
+    "residual_cost": 10,
+    "residual_language": {
+      "(0, 0, 0, 1)": [
+        "err[3] and err[8]"
+      ],
+      "(0, 0, 1, 0)": [
+        "err[3] and err[9] and not err[12]",
+        "err[6] and err[9] and not err[10]"
+      ],
+      "(0, 0, 1, 1)": [
+        "err[3] and err[12]"
+      ],
+      "(0, 1, 0, 0)": [
+        "err[6] and not err[9] and not err[10]"
+      ],
+      "(0, 1, 1, 0)": [
+        "err[6] and err[10]"
+      ],
+      "(1, 0, 0, 0)": [
+        "not err[3] and not (err[9] AND err[10] AND err[12]) and not err[6] and err[9]"
+      ],
+      "(1, 0, 0, 1)": [
+        "err[8] and err[12]"
+      ],
+      "(1, 0, 1, 0)": [
+        "not err[3] and (err[9] AND err[10] AND err[12]) and not err[6] and not err[8]"
+      ],
+      "(1, 1, 1, 0)": [
+        "not err[6] and not err[9] and not err[10]"
+      ]
+    },
+    "residual_possible": true,
+    "row_count": 17,
+    "scores": [
+      9,
+      10,
+      12
+    ]
+  },
+  "discovery_domain": "merged score-subunion search for exact score-free residual-default witness languages on the hard refill frontier, using the v42 feature surface and signed conjunction atoms of width 1 to 4",
+  "feasible_subset_count": 13,
+  "feasible_subset_count_by_size": {
+    "1": 6,
+    "2": 6,
+    "3": 1
+  },
+  "feature_count": 8,
+  "feature_names": [
+    "(err[6] AND err[10] AND err[12])",
+    "err[3]",
+    "(err[9] AND err[10] AND err[12])",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states from v29 to v46",
+  "maximal_subset_count": 1,
+  "maximal_subset_size": 3,
+  "maximal_subsets": [
+    {
+      "all_positive_cost": null,
+      "all_positive_language": null,
+      "all_positive_possible": false,
+      "default_label": "(1, 0, 1, 1)",
+      "label_count": 10,
+      "labels": [
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 0, 1, 1)",
+        "(0, 1, 0, 0)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)",
+        "(1, 1, 1, 0)"
+      ],
+      "residual_cost": 10,
+      "residual_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[9] and not err[12]",
+          "err[6] and err[9] and not err[10]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9] and not err[10]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not (err[9] AND err[10] AND err[12]) and not err[6] and err[9]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not err[3] and (err[9] AND err[10] AND err[12]) and not err[6] and not err[8]"
+        ],
+        "(1, 1, 1, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 17,
+      "scores": [
+        9,
+        10,
+        12
+      ]
+    }
+  ],
+  "nontrivial_scores": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "oracle_dependent": true,
+  "strongest_claim": "In the searched score-free refill witness grammar, the full nontrivial score union and every merged subunion of size 4 or larger fail exact residual-default witnessing. The unique maximal exact merged subunion is (9,10,12), it still does not admit an exact all-positive presentation, and its best residual-default cost is 10. So the lab-followup earliest-error law from v90 does not transfer to refill as a whole-block score-free law. Refill only admits sparse exact merged islands in this grammar.",
+  "survivor": "refill maximal score-free merged-subunion boundary",
+  "tier": "descriptive_oracle",
+  "top_feasible_subsets": [
+    {
+      "all_positive_cost": null,
+      "all_positive_language": null,
+      "all_positive_possible": false,
+      "default_label": "(1, 0, 1, 1)",
+      "label_count": 10,
+      "labels": [
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 0, 1, 1)",
+        "(0, 1, 0, 0)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)",
+        "(1, 1, 1, 0)"
+      ],
+      "residual_cost": 10,
+      "residual_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[9] and not err[12]",
+          "err[6] and err[9] and not err[10]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9] and not err[10]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not (err[9] AND err[10] AND err[12]) and not err[6] and err[9]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not err[3] and (err[9] AND err[10] AND err[12]) and not err[6] and not err[8]"
+        ],
+        "(1, 1, 1, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 17,
+      "scores": [
+        9,
+        10,
+        12
+      ]
+    },
+    {
+      "all_positive_cost": null,
+      "all_positive_language": null,
+      "all_positive_possible": false,
+      "default_label": "(1, 0, 1, 1)",
+      "label_count": 6,
+      "labels": [
+        "(0, 0, 1, 1)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)",
+        "(1, 1, 1, 0)"
+      ],
+      "residual_cost": 5,
+      "residual_language": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 1, 1, 0)": [
+          "not err[10]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 7,
+      "scores": [
+        10,
+        12
+      ]
+    },
+    {
+      "all_positive_cost": null,
+      "all_positive_language": null,
+      "all_positive_possible": false,
+      "default_label": "(1, 0, 1, 1)",
+      "label_count": 6,
+      "labels": [
+        "(0, 0, 1, 1)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)",
+        "(1, 1, 0, 0)"
+      ],
+      "residual_cost": 5,
+      "residual_language": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 1, 0, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 12,
+      "scores": [
+        10,
+        11
+      ]
+    },
+    {
+      "all_positive_cost": 7,
+      "all_positive_language": {
+        "(0, 0, 0, 0)": [
+          "not err[6] and not err[8] and err[9]"
+        ],
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[12]"
+        ],
+        "(1, 1, 1, 0)": [
+          "not err[10]"
+        ]
+      },
+      "all_positive_possible": true,
+      "default_label": "(0, 0, 0, 0)",
+      "label_count": 7,
+      "labels": [
+        "(0, 0, 0, 0)",
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 1, 0, 0)",
+        "(1, 0, 0, 0)",
+        "(1, 0, 1, 1)",
+        "(1, 1, 1, 0)"
+      ],
+      "residual_cost": 6,
+      "residual_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[12]"
+        ],
+        "(1, 1, 1, 0)": [
+          "not err[10]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 7,
+      "scores": [
+        7,
+        12
+      ]
+    },
+    {
+      "all_positive_cost": 10,
+      "all_positive_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "not err[8] and not err[12]",
+          "err[6] and err[9] and not err[10]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[9] and not err[10]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not (err[9] AND err[10] AND err[12]) and not err[6] and err[9]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not err[3] and (err[9] AND err[10] AND err[12]) and not err[6] and not err[8]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[3] and not err[6] and not err[8] and not err[9]"
+        ]
+      },
+      "all_positive_possible": true,
+      "default_label": "(0, 0, 1, 0)",
+      "label_count": 9,
+      "labels": [
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 0, 1, 1)",
+        "(0, 1, 0, 0)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)"
+      ],
+      "residual_cost": 8,
+      "residual_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[9] and not err[10]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not (err[9] AND err[10] AND err[12]) and not err[6] and err[9]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not err[3] and (err[9] AND err[10] AND err[12]) and not err[6] and not err[8]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[3] and not err[6] and not err[8] and not err[9]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 15,
+      "scores": [
+        9,
+        10
+      ]
+    },
+    {
+      "all_positive_cost": 11,
+      "all_positive_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[9] and not err[12]",
+          "err[6] and err[9] and not err[10]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not (err[9] AND err[10] AND err[12]) and not err[6] and err[9]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not err[3] and (err[9] AND err[10] AND err[12]) and not err[6] and not err[8]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[3] and not err[9] and err[10]"
+        ],
+        "(1, 1, 1, 0)": [
+          "not err[6] and not err[9] and err[12]"
+        ]
+      },
+      "all_positive_possible": true,
+      "default_label": "(0, 0, 1, 0)",
+      "label_count": 10,
+      "labels": [
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 0, 1, 1)",
+        "(0, 1, 0, 0)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)",
+        "(1, 1, 1, 0)"
+      ],
+      "residual_cost": 9,
+      "residual_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not (err[9] AND err[10] AND err[12]) and not err[6] and err[9]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not err[3] and (err[9] AND err[10] AND err[12]) and not err[6] and not err[8]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[3] and not err[9] and err[10]"
+        ],
+        "(1, 1, 1, 0)": [
+          "not err[6] and not err[9] and err[12]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 12,
+      "scores": [
+        9,
+        12
+      ]
+    },
+    {
+      "all_positive_cost": 11,
+      "all_positive_language": {
+        "(0, 0, 0, 0)": [
+          "(err[9] AND err[10] AND err[12]) and not err[6] and not err[8]"
+        ],
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and not err[9]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6] and err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8] and err[9]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and not err[9]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not (err[9] AND err[10] AND err[12]) and err[9]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[9] and err[10] and err[12]"
+        ],
+        "(1, 1, 0, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "all_positive_possible": true,
+      "default_label": "(0, 0, 0, 0)",
+      "label_count": 11,
+      "labels": [
+        "(0, 0, 0, 0)",
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 0, 1, 1)",
+        "(0, 1, 0, 0)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)",
+        "(1, 1, 0, 0)"
+      ],
+      "residual_cost": 10,
+      "residual_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and not err[9]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6] and err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8] and err[9]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and not err[9]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not (err[9] AND err[10] AND err[12]) and err[9]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[9] and err[10] and err[12]"
+        ],
+        "(1, 1, 0, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 12,
+      "scores": [
+        7,
+        11
+      ]
+    },
+    {
+      "all_positive_cost": 2,
+      "all_positive_language": {
+        "(1, 0, 1, 1)": [
+          "err[10]"
+        ],
+        "(1, 1, 1, 0)": [
+          "err[12]"
+        ]
+      },
+      "all_positive_possible": true,
+      "default_label": "(1, 0, 1, 1)",
+      "label_count": 2,
+      "labels": [
+        "(1, 0, 1, 1)",
+        "(1, 1, 1, 0)"
+      ],
+      "residual_cost": 1,
+      "residual_language": {
+        "(1, 1, 1, 0)": [
+          "err[12]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 2,
+      "scores": [
+        12
+      ]
+    },
+    {
+      "all_positive_cost": 5,
+      "all_positive_language": {
+        "(0, 0, 0, 0)": [
+          "not err[6] and not err[8]"
+        ],
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ]
+      },
+      "all_positive_possible": true,
+      "default_label": "(0, 0, 0, 0)",
+      "label_count": 5,
+      "labels": [
+        "(0, 0, 0, 0)",
+        "(0, 0, 0, 1)",
+        "(0, 0, 1, 0)",
+        "(0, 1, 0, 0)",
+        "(1, 0, 0, 0)"
+      ],
+      "residual_cost": 4,
+      "residual_language": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 5,
+      "scores": [
+        7
+      ]
+    },
+    {
+      "all_positive_cost": 5,
+      "all_positive_language": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[3] and not err[6] and not err[8] and not err[9]"
+        ]
+      },
+      "all_positive_possible": true,
+      "default_label": "(0, 0, 1, 1)",
+      "label_count": 5,
+      "labels": [
+        "(0, 0, 1, 1)",
+        "(0, 1, 1, 0)",
+        "(1, 0, 0, 1)",
+        "(1, 0, 1, 0)",
+        "(1, 0, 1, 1)"
+      ],
+      "residual_cost": 4,
+      "residual_language": {
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 0, 1, 1)": [
+          "not err[3] and not err[6] and not err[8] and not err[9]"
+        ]
+      },
+      "residual_possible": true,
+      "row_count": 5,
+      "scores": [
+        10
+      ]
+    }
+  ]
+}

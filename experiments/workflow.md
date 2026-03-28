@@ -2242,3 +2242,58 @@ Next frontier after v90:
 
 - compare this explanatory law against a richer certificate language,
 - or search for an analogous score-free law on the refill frontier
+
+## 2026-03-27, refill maximal score-free merged-subunion boundary
+
+- New structural target:
+  - test whether the hard refill frontier admits an analog of the `v90`
+    lab-followup score-free explanatory law
+  - search all merged score subunions of the refill nontrivial scores in the
+    later hard-frontier witness grammar
+- Bounded domain:
+  - the hard refill frontier from `v29` to `v46`
+  - nontrivial refill scores:
+    - `7`
+    - `8`
+    - `9`
+    - `10`
+    - `11`
+    - `12`
+  - the `v42` score-free feature surface with `8` features
+  - signed conjunction grammar of width `1` to `4`
+- Strongest bounded results:
+  - residual-default feasible merged subunions:
+    - `13`
+  - feasible size profile:
+    - `1 -> 6`
+    - `2 -> 6`
+    - `3 -> 1`
+  - all-positive feasible merged subunions:
+    - `10`
+  - all-positive size profile:
+    - `1 -> 6`
+    - `2 -> 4`
+  - unique maximal exact merged subunion:
+    - `(9,10,12)`
+  - maximal-subunion metrics:
+    - row count:
+      - `17`
+    - label count:
+      - `10`
+    - exact all-positive presentation:
+      - impossible
+    - best exact residual-default cost:
+      - `10`
+- Strongest correction learned:
+  - unlike the lab-followup frontier, refill does not admit a whole-block
+    score-free explanatory law in this grammar
+  - every exact merged refill object of size `3` or larger still needs
+    residual-default witnessing
+  - the largest exact merged refill object is sparse and non-contiguous in
+    score
+
+Next frontier after v91:
+
+- try a richer score-free certificate language on the refill frontier,
+- or search for a small semantic grammar that enlarges the maximal exact refill
+  merged subset

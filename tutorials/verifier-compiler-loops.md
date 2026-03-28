@@ -2533,6 +2533,53 @@ So the merged residual region from `v88` is no longer only an empirical optimum.
 It is explained by a direct score-free earliest-error language on the unsafe
 block itself.
 
+That made the next comparison sharper:
+
+> does the refill frontier admit anything analogous, once the same kind of
+> score-free merged-region search is run on its nontrivial score set?
+
+In the later hard-frontier witness grammar, the answer is no for the whole
+nontrivial union.
+
+The exact refill merged-subset search gives:
+
+- residual-default feasible merged subunions:
+  - `13`
+- size profile:
+  - `1 -> 6`
+  - `2 -> 6`
+  - `3 -> 1`
+- all-positive feasible merged subunions:
+  - `10`
+- all-positive size profile:
+  - `1 -> 6`
+  - `2 -> 4`
+
+So:
+
+- no refill merged subunion of size `4`, `5`, or `6` is exact
+- the whole nontrivial union fails
+- every exact size-`3` or larger object needs residual-default witnessing
+
+There is one unique maximal exact merged refill subunion:
+
+- scores:
+  - `(9,10,12)`
+- row count:
+  - `17`
+- label count:
+  - `10`
+- exact all-positive presentation:
+  - impossible
+- best exact residual-default cost:
+  - `10`
+
+So the lab-followup explanatory law from `v90` does not transfer as a whole
+score-free law.
+
+On the refill side, the same search finds only sparse exact merged islands, not
+one unified explanatory block.
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

@@ -2353,3 +2353,30 @@ New next ideas:
 
 - compare this explanatory law against a richer certificate language
 - or search for an analogous score-free law on the refill frontier
+
+Current refinement:
+
+- the refill-side analog of `v90` fails on the whole nontrivial union in the
+  current hard-frontier grammar
+- exact residual-default merged subunions exist, but only:
+  - `6` singletons
+  - `6` pairs
+  - `1` triple
+- the unique maximal exact merged refill subunion is:
+  - `(9,10,12)`
+- that maximal triple still does not admit an exact all-positive presentation
+- its best exact residual-default cost is:
+  - `10`
+
+Why this matters:
+
+- the lab-followup earliest-error law is not the general score-free outcome
+- refill still needs partitioning or richer languages
+- the next useful search object is no longer a wider literal grammar, it is a
+  richer score-free semantic language
+
+New next ideas:
+
+- search a small semantic grammar that might enlarge the maximal exact refill
+  merged subset
+- or compare that semantic line directly against richer certificate families

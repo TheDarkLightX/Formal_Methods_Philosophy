@@ -2635,3 +2635,50 @@ Boundary learned:
 - the next honest move is:
   - compare this explanatory law against a richer certificate language
   - or search for an analogous score-free law on the refill frontier
+
+### New survivor: refill maximal score-free merged-subunion boundary
+
+Bounded result:
+
+- bounded domain:
+  - the hard refill frontier from `v29` to `v46`
+  - nontrivial scores:
+    - `7`
+    - `8`
+    - `9`
+    - `10`
+    - `11`
+    - `12`
+- searched object:
+  - all merged score subunions
+  - exact all-positive and residual-default score-free witness languages
+  - `1..4` signed conjunctions over the `v42` feature surface
+- strongest result:
+  - residual-default feasible merged subunions:
+    - `13`
+  - size profile:
+    - `1 -> 6`
+    - `2 -> 6`
+    - `3 -> 1`
+  - all-positive feasible merged subunions:
+    - `10`
+  - unique maximal exact merged subunion:
+    - `(9,10,12)`
+  - on `(9,10,12)`:
+    - exact all-positive presentation:
+      - impossible
+    - exact residual-default cost:
+      - `10`
+
+Why it mattered:
+
+- this is the clean contrast with `v90`
+- the lab-followup frontier admits a whole unsafe-block score-free law
+- the refill frontier does not, it only admits sparse exact merged islands in
+  the same style of search
+
+Boundary learned:
+
+- the next honest move is:
+  - a richer score-free certificate language on refill
+  - or a small semantic grammar that enlarges the maximal exact refill subunion
