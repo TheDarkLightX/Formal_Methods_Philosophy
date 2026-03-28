@@ -2275,6 +2275,45 @@ So the sharper hard-frontier law is now:
 - low residual budgets want merged score regions
 - the old `v44` partition only returns at full residual budget
 
+The next bounded comparison asked a sharper question.
+
+Was the remaining hard-frontier ceiling really a logic wall, or only a grammar
+wall?
+
+Instead of rerunning the full joint search in a widened grammar, the check
+focused on the exact union of score regions that actually appear in the `v83`
+optimal partitions:
+
+- `(7,12)`
+- `(8)`
+- `(9,10)`
+- `(11)`
+- `(9)`
+- `(10,11)`
+- `(7)`
+- `(12)`
+
+On that exact critical-region set, widening strict all-positive certificates
+from the `1..4` literal conjunction grammar to the `1..5` literal conjunction
+grammar changes only one region:
+
+- `(10,11)`:
+  - `1..4` literals:
+    - impossible
+  - `1..5` literals:
+    - exact
+    - total cost `6`
+
+Every other critical region keeps the same minimal exact cost.
+
+So the current hard-frontier ceiling is not a uniform failure of all-positive
+certification.
+
+It is partly a grammar wall, localized at `(10,11)`.
+
+That is still a bounded critical-region result, not yet a full rerun of the
+joint `v83` search in the widened grammar.
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

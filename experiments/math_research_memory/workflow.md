@@ -1944,3 +1944,43 @@ Next frontier after v83:
 - test whether the same partition-aware effect survives in a richer certificate
   grammar,
 - or transfer the same joint search to a second hard frontier
+
+## 2026-03-27, hard critical-region certificate widening boundary
+
+- New structural target:
+  - isolate whether the current hard-frontier certificate failure is a logic
+    wall or a grammar wall by widening strict all-positive certificates only on
+    the exact region union induced by the `v83` optimal partitions
+- Bounded domain:
+  - same hard `v38` feature frontier reused through `v83`
+  - same critical region union from the `v83` optimal partitions:
+    - `(7,12)`
+    - `(8)`
+    - `(9,10)`
+    - `(11)`
+    - `(9)`
+    - `(10,11)`
+    - `(7)`
+    - `(12)`
+  - compare all-positive certificate grammars:
+    - `1` to `4` signed literals
+    - `1` to `5` signed literals
+- Strongest bounded results:
+  - only one critical region changes:
+    - `(10,11)`
+  - `(10,11)` flips from:
+    - impossible in `1..4`
+    - exact cost `6` in `1..5`
+  - every other critical region keeps the same minimal exact cost
+- Strongest correction learned:
+  - the current hard-frontier ceiling is not a uniform all-positive failure
+  - it is partly a grammar wall localized at `(10,11)`
+  - this is still a critical-region result, not yet a full widened rerun of
+    the joint `v83` search
+
+Next frontier after v84:
+
+- rerun the full joint partition-aware search in the widened certificate
+  grammar,
+- or compare the widened certificate grammar against the current
+  partition-aware residual-budget witness language on a second hard frontier

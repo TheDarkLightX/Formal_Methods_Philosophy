@@ -2350,3 +2350,37 @@ Boundary learned:
   - richer certificate grammars on the same joint search
   - or transfer of the same partition-aware residual-budget search to a second
     hard frontier
+
+### New survivor: hard critical-region certificate widening boundary
+
+Bounded result:
+
+- bounded domain:
+  - the same hard `v38` witness frontier reused through `v83`
+  - the exact union of score regions appearing in the `v83` optimal partitions
+- searched object:
+  - strict all-positive certificates
+  - compare the `1..4` literal grammar against the `1..5` literal grammar
+- strongest result:
+  - only one critical region changes:
+    - `(10,11)`
+  - `(10,11)` flips from:
+    - impossible in `1..4`
+    - exact cost `6` in `1..5`
+  - every other critical region keeps the same minimal exact cost
+
+Why it mattered:
+
+- this separates a uniform logic failure from a localized grammar failure
+- the current hard-frontier wall is partly grammatical
+- but the evidence is still scoped to the critical-region union rather than the
+  full widened joint search
+
+Boundary learned:
+
+- this is not yet a full rerun of the `v83` partition-aware search in the wider
+  grammar
+- the next honest step is:
+  - rerun the joint search under the widened certificate grammar
+  - or test whether the same localized grammar wall appears on a second hard
+    frontier

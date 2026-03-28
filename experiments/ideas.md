@@ -2200,3 +2200,28 @@ New next ideas:
 - test the same joint search in a richer certificate grammar
 - transfer the same partition-aware residual-budget search to a second hard
   frontier
+
+Current refinement:
+
+- the hard-frontier certificate ceiling is partly grammatical rather than
+  uniformly logical
+- on the exact union of score regions appearing in the `v83` optimal
+  partitions, widening strict all-positive certificates from `1..4` to `1..5`
+  literals changes only:
+  - `(10,11)`
+- `(10,11)` flips from:
+  - impossible
+  - to exact cost `6`
+- all other critical regions keep the same minimal exact cost
+
+Why this matters:
+
+- the current obstruction is more localized than it first appeared
+- a widened certificate grammar can reopen the frontier without changing the
+  rest of the critical-region geometry
+
+New next ideas:
+
+- rerun the full `v83` joint search in the widened certificate grammar
+- compare that widened grammar against the current partition-aware
+  residual-budget witness language on a second hard frontier
