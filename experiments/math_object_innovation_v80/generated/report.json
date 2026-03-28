@@ -1,0 +1,183 @@
+{
+  "best_partition": [
+    [
+      7
+    ],
+    [
+      8
+    ],
+    [
+      9
+    ],
+    [
+      10,
+      11
+    ],
+    [
+      12
+    ]
+  ],
+  "discovery_domain": "exact all-positive certificate search on the hard v44 merged-region witness frontier",
+  "failing_regions": [
+    [
+      10,
+      11
+    ]
+  ],
+  "feasible_region_count": 4,
+  "feature_count": 8,
+  "feature_names": [
+    "err[6] AND err[10] AND err[12]",
+    "err[3]",
+    "err[9] AND err[10] AND err[12]",
+    "err[6]",
+    "err[8]",
+    "err[9]",
+    "err[10]",
+    "err[12]"
+  ],
+  "holdout_domain": "the same 13 holdout fact states used from v29 through v46",
+  "oracle_dependent": true,
+  "region_reports": [
+    {
+      "covers": {
+        "(0, 0, 0, 0)": [
+          "not err[6] and not err[8]"
+        ],
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[3] and err[6]"
+        ],
+        "(0, 1, 0, 0)": [
+          "not err[3] and err[6]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and err[8]"
+        ]
+      },
+      "label_count": 5,
+      "possible": true,
+      "row_count": 5,
+      "scores": [
+        7
+      ],
+      "total_cost": 5
+    },
+    {
+      "covers": {
+        "(0, 0, 0, 0)": [
+          "not err[6] AND err[10] AND err[12] and not err[3] and not err[9] AND err[10] AND err[12]",
+          "not err[6] AND err[10] AND err[12] and not err[9] AND err[10] AND err[12] and not err[8]"
+        ],
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "err[6] and err[9]",
+          "err[3] and err[9]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] AND err[10] AND err[12] and not err[9]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not err[6] and err[10] and err[12]"
+        ]
+      },
+      "label_count": 5,
+      "possible": true,
+      "row_count": 18,
+      "scores": [
+        8
+      ],
+      "total_cost": 7
+    },
+    {
+      "covers": {
+        "(0, 0, 0, 1)": [
+          "err[3] and err[8]"
+        ],
+        "(0, 0, 1, 0)": [
+          "not err[8] and not err[12]",
+          "err[6] and err[9] and not err[10]"
+        ],
+        "(0, 0, 1, 1)": [
+          "err[3] and err[12]"
+        ],
+        "(0, 1, 0, 0)": [
+          "err[6] and not err[9]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6] and err[10]"
+        ],
+        "(1, 0, 0, 0)": [
+          "not err[3] and not err[9] AND err[10] AND err[12] and not err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8] and err[12]"
+        ],
+        "(1, 0, 1, 0)": [
+          "not err[3] and not err[6] and not err[8] and err[10]"
+        ]
+      },
+      "label_count": 8,
+      "possible": true,
+      "row_count": 10,
+      "scores": [
+        9
+      ],
+      "total_cost": 9
+    },
+    {
+      "covers": {
+        "(0, 0, 1, 1)": [
+          "err[3]"
+        ],
+        "(0, 1, 1, 0)": [
+          "err[6]"
+        ],
+        "(1, 0, 0, 1)": [
+          "err[8]"
+        ],
+        "(1, 0, 1, 0)": [
+          "err[9]"
+        ],
+        "(1, 0, 1, 1)": null,
+        "(1, 1, 0, 0)": [
+          "not err[6] and not err[9] and not err[10]"
+        ]
+      },
+      "label_count": 6,
+      "possible": false,
+      "row_count": 12,
+      "scores": [
+        10,
+        11
+      ],
+      "total_cost": null
+    },
+    {
+      "covers": {
+        "(1, 0, 1, 1)": [
+          "err[10]"
+        ],
+        "(1, 1, 1, 0)": [
+          "err[12]"
+        ]
+      },
+      "label_count": 2,
+      "possible": true,
+      "row_count": 2,
+      "scores": [
+        12
+      ],
+      "total_cost": 2
+    }
+  ],
+  "shared_schema_count_on_feasible_regions": 21,
+  "strongest_claim": "On the hard merged-region witness frontier, the searched all-positive certificate family is not exact everywhere. It already fails on region `(10,11)` in the same 1-to-4-literal conjunction grammar where the residual-default witness language from v44 is exact. So on this frontier residual-default witnessing is not only cheaper than all-positive certification. It is necessary in the searched grammar.",
+  "survivor": "hard certificate-language boundary",
+  "tier": "descriptive_oracle",
+  "total_cost_on_feasible_regions": 23
+}

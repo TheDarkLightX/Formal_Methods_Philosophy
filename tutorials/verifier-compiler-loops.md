@@ -2147,6 +2147,29 @@ Exact bit-fiber decomposition survives, but it is strictly worse:
 So on the current hard frontier, decomposition is a real exact family, but not
 the best exact language family.
 
+The next comparison checked a stricter certificate family on the same hard
+partition:
+
+- exact all-positive certificates
+- with no residual default
+
+That family fails even earlier.
+
+In the searched `1..4` literal conjunction grammar, all-positive certificates
+already fail on region `(10,11)`.
+
+Even on the four regions where they do survive, they are still larger:
+
+- feasible-region certificate cost:
+  - `23`
+- feasible-region shared schema count:
+  - `21`
+
+So on this hard frontier, residual-default witness languages are not only a
+compression trick.
+
+They are necessary in the searched certificate grammar.
+
 ### 7. Meta-loop synthesis
 
 One can try to synthesize the loop policy itself:

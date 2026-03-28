@@ -1771,3 +1771,36 @@ Next frontier after v79:
 - compare against certificate languages on the same hard frontier,
 - or search richer decomposition languages that are not limited to raw label
   bits
+
+## 2026-03-27, hard certificate-language boundary
+
+- New structural target:
+  - compare the current hard label-level witness language against an exact
+    all-positive certificate family on the same merged-region partition
+- Bounded domain:
+  - the hard merged-region witness frontier from `v44`
+  - same exact partition:
+    - `(7)`
+    - `(8)`
+    - `(9)`
+    - `(10,11)`
+    - `(12)`
+- Strongest bounded results:
+  - the searched all-positive certificate family is not exact everywhere
+  - it already fails on:
+    - `(10,11)`
+  - even on the feasible regions it is still larger:
+    - feasible-region certificate cost:
+      - `23`
+    - feasible-region shared schema count:
+      - `21`
+- Strongest correction learned:
+  - on this hard frontier, residual-default witnessing is not only cheaper than
+    strict certification
+  - it is necessary in the searched all-positive certificate grammar
+
+Next frontier after v80:
+
+- compare against richer certificate languages on the same bounded corpus,
+- or search certificate languages with a small amount of local residual
+  structure

@@ -2082,3 +2082,21 @@ Refined next ideas:
 - compare witness-cover languages against certificate languages on the same hard
   frontier
 - search richer decomposition languages that are not limited to raw label bits
+
+Current refinement:
+
+- the first hard certificate comparison now survives as a strict boundary
+- in the searched `1..4` literal conjunction grammar, exact all-positive
+  certificates already fail on:
+  - `(10,11)`
+- even on the feasible regions they are still larger:
+  - certificate cost:
+    - `23`
+  - shared schemas:
+    - `21`
+
+New next ideas:
+
+- search richer certificate languages on the same hard frontier
+- test certificate languages that allow a small amount of local residual
+  structure

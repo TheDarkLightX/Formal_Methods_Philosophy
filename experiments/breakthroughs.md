@@ -2181,3 +2181,35 @@ Boundary learned:
 - the next honest step is:
   - certificate-language comparison on the same hard frontier
   - or richer decomposition languages that are not limited to raw label bits
+
+### New survivor: hard certificate-language boundary
+
+Bounded result:
+
+- bounded domain:
+  - the same hard merged-region witness frontier from `v44`
+- compared families:
+  - exact all-positive certificates
+  - exact residual-default witness language
+- strongest result:
+  - the searched all-positive certificate family is not exact everywhere
+  - it already fails on region:
+    - `(10,11)`
+  - even on the four feasible regions it is still larger:
+    - feasible-region certificate cost:
+      - `23`
+    - feasible-region shared schema count:
+      - `21`
+
+Why it mattered:
+
+- this is stronger than only saying residual-default witnessing is cheaper
+- on the hard frontier, the stricter all-positive certificate family is not
+  even exact in the searched grammar
+
+Boundary learned:
+
+- this rules out one natural certificate family on the same hard frontier
+- the next honest step is:
+  - richer certificate languages on the same bounded corpus
+  - or certificate languages with a small amount of local residual structure
