@@ -602,6 +602,14 @@ This is the deepest economics-side result so far because it formally separates:
 
 Those are not the same object.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Private-optimum versus closure phase map</p>
+  {% include diagrams/private-optimum-closure-phase-map.svg %}
+  <figcaption class="fp-figure-caption">
+    Experiment 5 has a narrow viable band. Above the red closure line even the moderate regime fails to clear. Below the green private-optimum line the platform still prefers the open regime. Only the band between those boundaries supports a privately optimal and demand-clearing moderate regime.
+  </figcaption>
+</figure>
+
 ### Experiment 6 (notebook level 91): active-owner share ceiling
 
 The next bounded step extracted the cleaner macro theorem hidden inside
@@ -1612,6 +1620,14 @@ So the period paths are:
   - `both -> both -> both`
 
 This is the first dynamic lock-in theorem in the routing branch.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Routing regimes and lock-in</p>
+  {% include diagrams/routing-lockin-map.svg %}
+  <figcaption class="fp-figure-caption">
+    The routing branch combines a static inclusion law with a dynamic persistence law. Equalized routing weakly expands class B's viability region, and under no re-entry that can be the difference between persistent coexistence and permanent exclusion.
+  </figcaption>
+</figure>
 
 ### Experiment 24 (notebook level 109): incumbent-rent machine lockout law
 
