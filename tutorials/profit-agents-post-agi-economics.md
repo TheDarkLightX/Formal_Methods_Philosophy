@@ -1551,9 +1551,21 @@ The witness with `V = 30`, `k_H = 8`, `k_M = 9`, `e_H = 10`, `e_M = 4`,
 So reliability advantage and social optimality can arrive before private trust
 fully catches up.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Reading guide for the final machine-adoption ladder</p>
+  <ul>
+    <li><strong>Experiment 22:</strong> add trust learning across two periods.</li>
+    <li><strong>Experiment 23:</strong> keep a parallel routing-side lock-in analogue in view.</li>
+    <li><strong>Experiment 24:</strong> add incumbent control rents.</li>
+    <li><strong>Experiment 25:</strong> add one assurance package.</li>
+    <li><strong>Experiment 26:</strong> split that package into separate levers.</li>
+    <li><strong>Experiment 27:</strong> add the minimal subsidy that implements the socially preferred package.</li>
+  </ul>
+</div>
+
 ### Experiment 22 (notebook level 107): trust-learning experimentation law
 
-The next bounded step takes the machine-control branch into a two-period game.
+The next bounded step adds time to the machine-control branch.
 
 Normalize the two-period human baseline to `0`.
 
@@ -1682,10 +1694,7 @@ This is the first dynamic lock-in theorem in the routing branch.
 
 ### Experiment 24 (notebook level 109): incumbent-rent machine lockout law
 
-The next bounded step combines the trust-learning branch with incumbent control
-rents.
-
-Take a two-period adoption game with no re-entry.
+Now keep the same two-period adoption game and add incumbent control rents.
 
 Normalize the always-human path to `0`.
 
@@ -1758,10 +1767,7 @@ would lose control rents.
 
 ### Experiment 25 (notebook level 110): assurance-package adoption law
 
-The next bounded step turns the lockout wedge into a software-design theorem.
-
-Keep the same two-period no-reentry adoption game, then add one assurance
-package.
+Now keep that same no-reentry game and add one assurance package.
 
 Let:
 
@@ -1819,8 +1825,8 @@ The witness with `A = 5`, `tau1 = 6`, `lam = 4`, `rho = 2`, `d = 1`, `g = 1`,
 So the package closes the shortfall and flips private rejection into private
 adoption.
 
-This is the cleanest current answer to the software-design question.
-If machine control is actually better but blocked, then the package has to:
+This is the first direct software-design answer in the branch.
+If machine control is better but blocked, the package has to:
 
 - lower the initial trust penalty
 - speed trust learning after one good deployment
@@ -1836,9 +1842,7 @@ If machine control is actually better but blocked, then the package has to:
 
 ### Experiment 26 (notebook level 111): assurance-lever coefficient law
 
-The next bounded step separates the assurance package into distinct levers.
-
-Keep the same two-period no-reentry adoption game.
+Now split that package into distinct levers.
 
 Let:
 
@@ -1912,9 +1916,8 @@ delayed learning alone cannot.
 
 ### Experiment 27 (notebook level 112): assurance-subsidy implementation law
 
-The next bounded step compares social versus private package choice directly.
-
-Keep the same two-period no-reentry assurance branch.
+Finally, compare social and private package choice directly by adding a
+subsidy.
 
 Let:
 
