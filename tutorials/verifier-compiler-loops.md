@@ -10,20 +10,89 @@ description: "Learn when a neuro-symbolic loop can compile verifier behavior int
 
 This tutorial asks when a neuro-symbolic loop can compile verifier behavior into a reusable symbolic controller.
 
-- **Parts I-IV** &#x2014; Baseline CEGIS, label functions, quotient and repair coordinates
-- **Parts V-VI** &#x2014; The verifier-compiler loop itself and why it is stronger than plain CEGIS
-- **Parts VII-IX** &#x2014; When the pattern is general, when it is not, and practical use (MPRD, code gen, medical gates)
-- **Part X** &#x2014; Bounded evidence: 47 levels from tiny compilers to support-table laws
-- **Part XI** &#x2014; Transfer tests: easy frontier, lab-followup, hard refill
-- **Part XII** &#x2014; The deepest takeaway
+- **Parts I-VI**: baseline CEGIS, label functions, quotient-and-repair compilers, and fail-closed execution
+- **Parts VII-IX**: when the pattern is general, where it breaks, and practical use
+- **Part X**: bounded verifier-compiler results, from tiny repaired compilers through orbit and support-geometry laws (Levels 1-47)
+- **Part XI**: related loop families, including certificate lifting, abstraction synthesis, explanatory ladders, and minimal witness-language discovery
+- **Part XII**: bounded formal software-repair languages and definability ladders (Levels 48-85)
+- **Parts XIII-XIV**: software-assurance consequences and the final tutorial takeaway
+
+The current local endpoint is `Level 85`, the cycle-orientation incidence
+extension law.
 
 **Interactive:** Try the [Verifier-Compiler Lab]({{ '/verifier_compiler_lab.html' | relative_url }}) to step through the quotient-repair-compile pipeline.
 
 </details>
 
-<div class="fp-diagram-wrap" style="margin: 2rem 0">
+## Scope of this tutorial
+
+This tutorial is about verifier-compiler loops, bounded formal software-repair
+loops, witness languages, menu laws, selector laws, definability ladders, and
+exact symbolic compression on bounded atlases.
+
+It is not the place for post-AGI economics, profit-agent macroeconomics, or
+zero-employee company models. Those belong with Tutorial 28.
+
+The current late-stage logic ladder in this tutorial is:
+
+- `Q2` for relations
+- `Q3` for commitments and symmetric support
+- `Q4` for oriented support
+- `incidence_signature` for ambiguous-slice raw family identity
+- `incidence_signature + cycle_orientation` for full off-diagonal raw family identity
+
+## How to use this tutorial
+
+This file is long because it compresses a real bounded research ladder.
+
+For a first pass, it helps to read it in four layers:
+
+1. Parts `I-VI`
+   - learn the core verifier-compiler idea:
+     - label function
+     - quotient
+     - repair coordinate
+     - fail-closed compiled controller
+2. Parts `VII-IX` and `XIII-XIV`
+   - learn the scope:
+     - when the pattern is useful
+     - where it breaks
+     - what the bounded software-assurance claim really is
+3. Part `X` and Part `XII`
+   - read these as ladders of increasingly stronger bounded objects, not as
+     isolated notebook entries
+4. Levels `77-85`
+   - read these as the late logic endpoint:
+     - `Q2`
+     - `Q3`
+     - `Q4`
+     - `incidence_signature`
+     - `incidence_signature + cycle_orientation`
+
+The point is not to memorize every level.
+
+The point is to see how the object of search changes:
+
+- from direct compilers
+- to witness languages
+- to repair languages
+- to explicit definability ladders
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">How to read the tutorial</p>
+  {% include diagrams/verifier-compiler-teaching-map.svg %}
+  <figcaption class="fp-figure-caption">
+    The tutorial has one main teaching arc. First learn the core loop, then the bounded compression ladders, then the comparison with nearby loop families, and finally the late logic ladder that ends at Level 85.
+  </figcaption>
+</figure>
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Fail-closed compiled front-end</p>
   {% include diagrams/verifier-compiler-frontend.svg %}
-</div>
+  <figcaption class="fp-figure-caption">
+    The compiled controller does triage: obvious rejects are filtered cheaply, ambiguous cases are escalated, and strong candidates pass to the exact verifier. Execution authority stays with the trusted verifier.
+  </figcaption>
+</figure>
 
 This tutorial starts from a practical question.
 
@@ -120,9 +189,13 @@ In the bounded experiments in this repo, examples of `L(x)` included:
 
 That is already richer than ordinary CEGIS state.
 
-<div class="fp-diagram-wrap" style="margin: 2rem 0">
+<figure class="fp-figure">
+  <p class="fp-figure-title">Quotient, repair, compile</p>
   {% include diagrams/quotient-repair-pipeline.svg %}
-</div>
+  <figcaption class="fp-figure-caption">
+    Proposals are mapped to a coarse quotient q(x). Mixed buckets are split with a repair coordinate r(x). The result compiles into a small symbolic controller C(q,r) that routes proposals. The exact verifier label function L teaches the loop.
+  </figcaption>
+</figure>
 
 ## Part III: quotient first
 
@@ -155,6 +228,10 @@ $$
 This is already a compiled verifier.
 
 One no longer needs the full exact verifier to predict the label inside the bounded model.
+
+An analogy helps here. A quotient is like sorting books by shelf label before
+opening them. If every book on one shelf has the same verifier label, then the
+shelf label alone already carries the needed information for that bounded task.
 
 In practice, the first quotient is often not exact.
 
@@ -200,6 +277,11 @@ This is the core verifier-compiler pattern:
 4. compile the result into a symbolic controller.
 
 In this repo's bounded verifier frontier, the result was a tiny repaired compiler.
+
+A repair coordinate is like adding an apartment number after a street address
+turned out to be too coarse. The quotient gets the search to the right
+building, then the repair coordinate separates the cases that were incorrectly
+merged inside it.
 
 In harder transfer domains, the repair basis became larger, but the same loop shape survived.
 
@@ -417,7 +499,31 @@ That means:
 
 ## Part X: the strongest bounded results in this repo
 
-The repo's bounded evidence supports four levels of outcome.
+This part is best read as a bounded progression, not one flat result.
+
+Levels `1` through `47` climb from tiny repaired compilers to harder transfer
+families, witness languages, semantic macro families, support quotients, and
+mixed-basis rigidity laws.
+
+Each level below is exact only on its named bounded frontier or corpus.
+
+The public pattern is:
+
+- Levels `1-4`: compact repaired compilers, lower bounds, and first transfer failures
+- Levels `5-18`: explanatory ladders, witness languages, and score abstractions
+- Levels `19-34`: global witness schemas, semantic patches, macros, fibers, and certificate objects
+- Levels `35-47`: support-signature laws, width-`4` geometry, orbit transfer, and mixed-basis rigidity
+
+For a first pass through Part X, the key checkpoints are:
+
+- Level `1`, a tiny repaired compiler
+- Level `6`, the first residual-default language split
+- Level `17`, the first reusable global witness-schema layer
+- Level `35`, a tiny support-literal compiler family
+- Level `47`, the width-`4` mixed-basis rigidity boundary
+
+The intermediate levels matter because they explain how the search object kept
+changing, not because every reader needs to hold every local metric in memory.
 
 ### Level 1: tiny repaired verifier
 
@@ -541,7 +647,7 @@ The result was two-sided.
 
 In the searched fixed-order insertion grammar:
 
-- keep the exact `v34` order `(3,6,8,9,10,12)`
+- keep the earlier exact order `(3,6,8,9,10,12)`
 - insert one pure `AND` or `OR` primitive over `2` or `3` basis bits
 - re-optimize the local ladder depths exactly
 
@@ -630,7 +736,7 @@ The next bounded step checked whether the best exact two-shortcut ladder was loc
 
 The grammar was narrower:
 
-- keep the exact `v38` pair fixed
+- keep the exact earlier two-shortcut pair fixed
 - insert one more pure `AND` or `OR` primitive over `2` or `3` basis bits
 - allow any insertion position
 - re-optimize local ladder depths exactly
@@ -662,12 +768,18 @@ So the current bounded picture is:
 
 The next bounded step moved up a level.
 
-Instead of searching for one more shortcut, it fixed the exact `v38` feature space and searched for score-local witness languages.
+Instead of searching for one more shortcut, it fixed that exact two-shortcut
+feature space and searched for score-local witness languages.
+
+The shift is easier to see with a metaphor. Earlier levels were still looking
+for one more useful gear in the same machine. This level instead wrote a small
+rulebook for each difficult score block, so the object of search changed from a
+single mechanism to an explanatory language.
 
 The grammar was:
 
 - conjunctions of `1` to `3` signed literals
-- over the `8` features of the exact `v38` ladder
+- over the `8` features of that exact two-shortcut ladder
 
 The result was stronger than another shortcut tweak.
 
@@ -795,7 +907,7 @@ So contiguity was not the binding restriction.
 That is a useful boundary result:
 
 - the witness-language line did not improve just because the search space was widened
-- the `v42` abstraction was already the best object in the larger bounded partition space
+- the earlier abstraction was already the best object in the larger bounded partition space
 
 ### Level 15: richer witness grammars
 
@@ -841,7 +953,8 @@ That is a useful correction because it identifies the remaining live axis precis
 
 ### Level 16: five-literal grammar boundary
 
-The next bounded step tested whether the `v44` gain was the start of a longer local grammar climb or just the last easy unit of compression.
+The next bounded step tested whether that four-literal gain was the start of a
+longer local grammar climb or just the last easy unit of compression.
 
 So the search compared two grammars on the same bounded space:
 
@@ -874,7 +987,7 @@ So the local witness-grammar line is now tight on its main metric in this bounde
 
 The next bounded step moved up a level again.
 
-Instead of widening local atoms further, it fixed the exact `v44` partition:
+Instead of widening local atoms further, it fixed the current exact partition:
 
 - `(7)`
 - `(8)`
@@ -932,8 +1045,8 @@ Instead of asking whether one frontier could be compressed a little more, it ask
 
 The source objects were:
 
-- the exact global witness-schema library from `v41`
-- the exact global witness-schema library from `v46`
+- the first exact global witness-schema frontier
+- the second exact global witness-schema frontier
 
 Across those two exact libraries:
 
@@ -965,7 +1078,8 @@ The current line of evidence says the next stronger loop should probably search 
 
 The next bounded step sharpened that template vision one more time.
 
-Instead of only counting cross-frontier templates, it decomposed the two exact global witness-schema frontiers from `v41` and `v46` into:
+Instead of only counting cross-frontier templates, it decomposed those two
+exact global witness-schema frontiers into:
 
 - a shared exact core
 - frontier-specific patch schemas
@@ -973,8 +1087,8 @@ Instead of only counting cross-frontier templates, it decomposed the two exact g
 The result was:
 
 - shared exact core: `17` schemas
-- `v41`-only patch schemas: `3`
-- `v46`-only patch schemas: `2`
+- first-frontier-only patch schemas: `3`
+- second-frontier-only patch schemas: `2`
 
 So the residual patch union had size:
 
@@ -1091,10 +1205,11 @@ So the semantic line now has a smaller exact bundled macro basis than the previo
 
 That is a clean strengthening, not just a rephrasing:
 
-- `v51` found an exact two-family basis with `11` macro instances
-- `v52` found an exact two-family bundled basis with `6` macro instances
+- the earlier literal-level macro basis had `11` macro instances
+- the later bundled macro basis had `6`
 
-This is the strongest current post-template object in the repo.
+At this point in the ladder, this is the strongest post-template object in the
+repo.
 
 ### Level 24: semantic explanation fibers
 
@@ -1125,7 +1240,7 @@ That is the first bounded survivor in this line for the explanation-fiber idea i
 
 ### Level 25: fiber certificates
 
-The next bounded comparison asked whether the exact `v53` fiber labels could be
+The next bounded comparison asked whether the current exact fiber labels could be
 compressed by a direct certificate language over three patch-summary features:
 
 - `has_add`
@@ -1144,7 +1259,7 @@ The best residual-default language was:
 - treat `ADD_BUNDLE` as the residual default
 
 That result is still descriptive-oracle in status, because the features come
-from the already-labeled `v53` semantic families.
+from the already-labeled semantic families.
 
 Still, it matters, because it shows the explanation-fiber object can be
 compressed one step further once the exact fibers are known.
@@ -1480,7 +1595,7 @@ isolated, or whether it transfers to a second exact frontier.
 
 Two exact domains were checked.
 
-Domain A, the earlier cross-frontier schema roles from `v49`:
+Domain A, the earlier cross-frontier schema roles:
 
 - `CORE`
 - `V41_PATCH`
@@ -1543,7 +1658,7 @@ Domain B, the residual primitive roles:
 - certify `ADD_ANCHOR` by `has_AB`
 - certify `OTHER` by `not has_MIX`
 
-Domain C, the direct patch-delta roles from `v55`:
+Domain C, the earlier direct patch-delta roles:
 
 - default `ADD_BUNDLE`
 - certify `ADD_BUNDLE+DROP_BUNDLE` by `has_drop`
@@ -1813,7 +1928,7 @@ Exact cost law:
 - `1 -> 5`
 - `0 -> 6`
 
-So the `v69` profile law collapses again.
+So the earlier profile law collapses again.
 
 The width-`4` frontier is not only:
 
@@ -1960,7 +2075,8 @@ The main result stayed fixed:
 - no searched scalar pair is exact
 - exact scalar triples do exist
 
-So the `v74` object was not an artifact of a narrow feature menu.
+So that earlier three-scalar object was not an artifact of a narrow feature
+menu.
 
 Within this broader bounded search, the first exact scalar basis still has size
 `3`.
@@ -1987,7 +2103,23 @@ So the first width-`4` obstruction is not only small.
 
 It is also rigid in the searched mixed basis space.
 
-## Part XI: is this the best neuro-symbolic loop?
+## Part XI: where verifier-compilers fit among other loop families
+
+This part is comparative.
+
+It is not another long proof ladder for its own sake.
+The teaching question is:
+
+> when is verifier compilation the right object, and when should the search move
+> to a richer loop family?
+
+The short answer is:
+
+- verifier-compilers are one strong child of a larger witness-language program
+- some frontiers move only when the local witness contract changes
+- other frontiers move only when the whole object of search changes
+
+That is why this part matters.
 
 Not unconditionally.
 
@@ -2105,7 +2237,7 @@ It may instead be:
 - an ordered classifier language,
 - or some richer certificate or policy language.
 
-The bounded `v77` phase diagram gives the first explicit evidence for this
+The bounded phase-diagram level gives the first explicit evidence for this
 umbrella on one fixed repaired verifier frontier.
 
 On the same `10` exact quotient states, three different optima survive once the
@@ -2169,7 +2301,7 @@ Exact bit-fiber decomposition survives, but it is strictly worse:
   - `19`
 
 So on the current hard frontier, decomposition is a real exact family, but not
-the best exact language family.
+the smallest exact language family found in this search.
 
 The next comparison checked a stricter certificate family on the same hard
 partition:
@@ -2248,7 +2380,8 @@ That sharpened every feasible rung by one more schema:
   - shared schemas `19`
   - total cost `22`
 
-So the hard frontier has a stronger law than `v81` alone suggested:
+So the hard frontier has a stronger law than the earlier schema-sharing step
+alone suggested:
 
 - the residual-budget ladder survives under global schema sharing
 - every feasible rung improves by exactly one schema
@@ -2256,7 +2389,7 @@ So the hard frontier has a stronger law than `v81` alone suggested:
 
 The next bounded comparison removed one more hidden assumption:
 
-- that the old `v44` score partition should stay fixed while residual budget is
+- that the old score partition should stay fixed while residual budget is
   varied
 
 That assumption fails on the same hard frontier.
@@ -2297,7 +2430,7 @@ So the sharper hard-frontier law is now:
 
 - fixed-partition residual budgeting was not globally optimal
 - low residual budgets want merged score regions
-- the old `v44` partition only returns at full residual budget
+- the old score partition only returns at full residual budget
 
 The next bounded comparison asked a sharper question.
 
@@ -2305,8 +2438,8 @@ Was the remaining hard-frontier ceiling really a logic wall, or only a grammar
 wall?
 
 Instead of rerunning the full joint search in a widened grammar, the check
-focused on the exact union of score regions that actually appear in the `v83`
-optimal partitions:
+focused on the exact union of score regions that actually appear in the
+earlier joint residual-budget search:
 
 - `(7,12)`
 - `(8)`
@@ -2336,14 +2469,14 @@ certification.
 It is partly a grammar wall, localized at `(10,11)`.
 
 That is still a bounded critical-region result, not yet a full rerun of the
-joint `v83` search in the widened grammar.
+joint residual-budget search in the widened grammar.
 
 The next bounded comparison did that full rerun.
 
 Residual-default witness regions stayed in the `1..4` literal grammar, while
 strict certificate regions widened to the `1..5` literal grammar.
 
-This time the localized `v84` change propagated to the full joint frontier, but
+This time the localized critical-region change propagated to the full joint frontier, but
 only at low residual budgets.
 
 The widened exact ladder became:
@@ -2377,7 +2510,7 @@ The widened exact ladder became:
   - total cost `22`
   - original five-region all-residual partition returns
 
-Compared with `v83`:
+Compared with the earlier joint residual-budget search:
 
 - a zero-residual exact rung now exists
 - budgets `1` and `2` each improve by:
@@ -2390,7 +2523,7 @@ So the sharpest hard-frontier law is now:
 - the old ceiling was partly grammatical
 - widening certificates changes the actual joint frontier
 - but only in the low-residual regime
-- once residual budget is large enough, the old `v83` frontier had already
+- once residual budget is large enough, the old frontier had already
   found the right object
 
 The next bounded comparison tested whether the unchanged high-residual end was
@@ -2423,7 +2556,8 @@ So the current hard-frontier law is sharper still:
   - transfer to a second hard frontier
   - or a genuinely richer certificate language
 
-One exact slice still remained after `v86`: the low-residual end under the same
+One exact slice still remained after the later certificate-widening step: the
+low-residual end under the same
 `1..6` certificate widening.
 
 That slice also did not move.
@@ -2445,7 +2579,7 @@ literal-width axis:
 
 - widening strict certificates from `1..5` to `1..6` literals does not move
   any residual budget
-- the low-residual gains in `v85` were real
+- the low-residual gains in the earlier widened-certificate step were real
 - but they were already fully captured at width `5`
 
 That is the honest stopping point for this grammar family on this frontier.
@@ -2552,7 +2686,7 @@ Its residual-default cost is `4`.
 
 The best exact all-positive presentation on the same unsafe block costs `5`.
 
-So the merged residual region from `v88` is no longer only an empirical optimum.
+So the merged residual region is no longer only an empirical optimum.
 
 It is explained by a direct score-free earliest-error language on the unsafe
 block itself.
@@ -2598,7 +2732,7 @@ There is one unique maximal exact merged refill subunion:
 - best exact residual-default cost:
   - `10`
 
-So the lab-followup explanatory law from `v90` does not transfer as a whole
+So the lab-followup explanatory law does not transfer as a whole
 score-free law.
 
 On the refill side, the same search finds only sparse exact merged islands, not
@@ -2609,7 +2743,7 @@ That makes the next meta-question unavoidable:
 > which kinds of interventions actually moved the mature frontier, and which
 > kinds mostly exposed ceilings?
 
-The bounded `v78` to `v91` meta-scan answers that cleanly.
+The bounded later meta-scan answers that cleanly.
 
 The biggest exact gains came from adding new structural search axes:
 
@@ -2629,7 +2763,7 @@ So the later line teaches a sharper rule:
 
 > the frontier moved when the object of search changed.
 
-That points to the next honest rabbit hole:
+That points to the next honest research frontier:
 
 - temporal obligation geometry on Tau specs,
 
@@ -2651,7 +2785,2275 @@ So the honest answer is:
 - best bounded loop family found here, yes
 - obviously best in all domains, no
 
-## Part XII: what this tutorial really teaches
+## Part XII: software repair languages
+
+The main line did not stop with static witness languages.
+
+The next bounded question was whether the same progression would survive on a
+small software-engineering corpus, where the goal is not only to classify
+labels but to recover repairs.
+
+The bounded corpus used two tiny patch families over three edit sites:
+
+- `guard`
+- `bounds`
+- `transform`
+
+The two families were:
+
+- `separable_patch_family`
+- `overlap_patch_family`
+
+The key difference was simple:
+
+- in the separable family, the three unit-test fibers are genuinely independent
+- in the overlap family, the `bounds` fiber overlaps with `transform`
+
+That made the software branch a good test for higher-leverage loop families.
+
+### Level 48: dependency-aware repair fibers
+
+The first bounded comparison asked whether failure-fiber decomposition already
+beats monolithic patch search, and what the first exact correction is once
+those fibers overlap.
+
+The three compared loop styles were:
+
+1. monolithic patch search
+2. naive independent fiber repair
+3. dependency-aware fiber repair
+
+The strongest exact result was:
+
+- separable family:
+  - monolithic average cost:
+    - `39.0`
+  - dependency-aware fiber cost:
+    - `9.0`
+  - exact on:
+    - `27 / 27`
+- overlap family:
+  - monolithic average cost:
+    - `35.851851851851855`
+  - naive fiber repair:
+    - exact on only `16 / 27`
+  - dependency-aware fiber repair:
+    - `9.0`
+    - exact on:
+      - `27 / 27`
+
+The exact correction was:
+
+- solve `transform` first
+- then solve `guard` and `bounds` conditioned on it
+
+So the first software survivor was not “more search”.
+
+It was:
+
+- a dependency graph over repair fibers
+
+### Level 49: certificate-carrying repair
+
+Once the fiber graph stabilized, the next bounded question was whether
+dependency-aware search could be replaced by direct local verification if the
+patch carried a small witness.
+
+The witness language was the three local observation tokens:
+
+- `guard`
+- `bounds`
+- `transform`
+
+The strongest exact result was:
+
+- no singleton certificate basis is exact
+- no pair certificate basis is exact
+- the unique minimal exact basis on both patch families is:
+  - `guard`
+  - `bounds`
+  - `transform`
+- certificate verification cost:
+  - `3`
+
+So the software ladder sharpened immediately:
+
+- monolithic search:
+  - about `36` to `39`
+- dependency-aware fiber search:
+  - `9`
+- certificate-carrying verification:
+  - `3`
+
+This was the software version of the same deeper move seen earlier:
+
+- stop searching only for the object
+- search for the smallest exact language in which the object becomes locally
+  witnessable
+
+### Level 50: witness-to-patch decoders
+
+The next bounded step asked whether the carried witness from Level 49 compiles
+back into the patch through a tiny exact decoder graph.
+
+The witness observations were:
+
+- `guard_obs`
+- `bounds_obs`
+- `transform_obs`
+
+The strongest exact result was:
+
+- separable family:
+  - minimal exact decoder cost:
+    - `3`
+  - decoder:
+    - `guard <- guard_obs`
+    - `bounds <- bounds_obs`
+    - `transform <- transform_obs`
+- overlap family:
+  - minimal exact decoder cost:
+    - `4`
+  - decoder:
+    - `guard <- guard_obs`
+    - `bounds <- bounds_obs, transform_obs`
+    - `transform <- transform_obs`
+
+So overlap did not destroy local decoding.
+
+It inserted exactly one extra dependency edge:
+
+- `transform_obs -> bounds`
+
+This is stronger than Level 49, because the witness no longer only verifies the
+repair. It compiles back into the repair.
+
+### Level 51: shared repair-language templates
+
+The next bounded step moved one level higher again.
+
+Instead of storing the two exact decoder graphs separately, it asked whether
+they compress into one shared repair-language template plus small family
+patches.
+
+The strongest exact result was unique in both additive and signed-edit models:
+
+- shared base:
+  - `guard_obs -> guard`
+  - `bounds_obs -> bounds`
+  - `transform_obs -> transform`
+- separable delta:
+  - none
+- overlap delta:
+  - `transform_obs -> bounds`
+- total template cost:
+  - `4`
+
+So the two software families do not need different grammars.
+
+They need:
+
+- one shared local decoder language
+- plus one sparse residual patch
+
+That is already a much stronger object than a family-specific decoder.
+
+### Level 52: repair-program macros
+
+The next bounded step compressed that shared template one level further.
+
+The searched macro grammar was still natural and finite:
+
+- `6` permutation matchings
+- `3` fanout macros
+- `3` fanin macros
+- `9` single-edge patch macros
+
+The strongest exact result was:
+
+- separable target:
+  - minimal exact macro cost:
+    - `1`
+  - unique program:
+    - `MATCH_ID`
+- overlap target:
+  - minimal exact macro cost:
+    - `2`
+  - unique program:
+    - `MATCH_ID`
+    - `SINGLE[transform_obs->bounds]`
+
+The best shared additive macro template was also unique:
+
+- shared base:
+  - `MATCH_ID`
+- overlap patch:
+  - `SINGLE[transform_obs->bounds]`
+- total macro cost:
+  - `2`
+
+No cost-`1` shared macro template exists.
+
+So the software branch now has a clean compression ladder:
+
+- Level 51 raw edge-template cost:
+  - `4`
+- Level 52 macro-template cost:
+  - `2`
+
+That is the first exact patch-program macro language in the software branch.
+
+Its lesson is the same one that kept moving the frontier elsewhere:
+
+- discover the reusable exact language
+- then patch only the residual difference
+
+### Level 53: repair-schema transfer
+
+The next bounded step asked whether the Level 52 macro result was only a
+two-family coincidence.
+
+To test that honestly, the search moved to a small transfer atlas:
+
+- the separable family itself
+- plus every one-overlap family obtained by adding exactly one off-diagonal
+  decoder edge to the local diagonal base
+
+That gives:
+
+- `7` exact decoder targets
+
+The search then moved one level higher again.
+
+Instead of choosing concrete macro instances directly, it searched over schema
+families:
+
+- `MATCH`
+- `FANOUT`
+- `FANIN`
+- `SINGLE`
+
+The objective was MDL-like:
+
+- exactness on the whole `7`-family atlas
+- then minimize:
+  - schema-basis size
+  - plus total program-instance count across the atlas
+
+The strongest exact result was:
+
+- singleton schema bases:
+  - `MATCH`
+    - not exact
+  - `FANOUT`
+    - not exact
+  - `FANIN`
+    - not exact
+  - `SINGLE`
+    - exact
+    - description length `28`
+- unique exact optimum:
+  - basis:
+    - `MATCH`
+    - `SINGLE`
+  - basis size:
+    - `2`
+  - total instance cost:
+    - `13`
+  - description length:
+    - `15`
+
+The program shape under that exact optimum is uniform:
+
+- separable family:
+  - `MATCH_ID`
+- every one-overlap family:
+  - `MATCH_ID`
+  - plus one `SINGLE[off_diagonal_edge]`
+
+So the Level 52 law really does transfer.
+
+The software branch now has a schema-basis result above the concrete macro
+instances:
+
+- one reusable local-match schema
+- one sparse cross-edge patch schema
+
+That is stronger than a two-family macro observation.
+
+It is the first exact transfer law in the software branch.
+
+### Level 54: first transfer obstruction
+
+The next bounded step asked the first honest obstruction question:
+
+> if the atlas is widened from one-overlap families to all families with up to
+> two off-diagonal decoder edges, when does the Level 53 law stop being
+> MDL-optimal?
+
+The widened atlas contains:
+
+- `1` separable family
+- `6` one-overlap families
+- `15` two-overlap families
+
+The comparison kept the exact Level 53 basis explicit:
+
+- `MATCH`
+- `SINGLE`
+
+That basis remains exact on the widened atlas.
+
+But it is no longer MDL-optimal.
+
+Its exact metrics are:
+
+- description length:
+  - `57`
+- total instance cost:
+  - `55`
+
+The new exact optimum is:
+
+- `MATCH`
+- `FANIN`
+- `FANOUT`
+- `SINGLE`
+
+with:
+
+- description length:
+  - `53`
+- total instance cost:
+  - `49`
+
+So the first obstruction is not loss of exactness.
+
+It is loss of compression.
+
+The cost histograms make the change visible.
+
+Under `MATCH + SINGLE`:
+
+- cost `1`:
+  - `1`
+- cost `2`:
+  - `9`
+- cost `3`:
+  - `12`
+
+Under the exact optimum:
+
+- cost `1`:
+  - `1`
+- cost `2`:
+  - `15`
+- cost `3`:
+  - `6`
+
+Some two-overlap families were already cheap under `MATCH + SINGLE`, because an
+alternative matching can absorb both extra edges at once.
+
+The actual gain comes from structured double overlaps:
+
+- row-style overlaps compress via `FANOUT`
+- column-style overlaps compress via `FANIN`
+
+Examples:
+
+- `plus[bounds_obs->guard,bounds_obs->transform]`
+  - `FANOUT[bounds_obs]`
+  - `MATCH_ID`
+- `plus[guard_obs->bounds,transform_obs->bounds]`
+  - `FANIN[bounds]`
+  - `MATCH_ID`
+
+So the first software transfer obstruction is semantic and geometric.
+
+The Level 53 law survives as correctness, but not as optimal description.
+
+### Level 55: semantic motif law
+
+The next bounded step asked whether the Level 54 obstruction could be explained
+semantically rather than by one more atlas statistic.
+
+The domain was the `15` two-overlap families from Level 54.
+
+The target label was simple:
+
+- optimal exact program cost under the Level 54 best basis
+  - either `2`
+  - or `3`
+
+The searched semantic motif features were:
+
+- `same_obs`
+  - the two extra edges share an observation row
+- `same_field`
+  - the two extra edges share a field column
+- `swap_pair`
+  - the two extra edges form a reciprocal two-row swap against the diagonal
+
+The strongest exact result was:
+
+- no singleton semantic basis is exact
+- no pair semantic basis is exact
+- the unique minimal exact basis is:
+  - `same_obs`
+  - `same_field`
+  - `swap_pair`
+
+So the first exact semantic basis size is:
+
+- `3`
+
+Its rule is exact:
+
+- `same_obs=1, same_field=0, swap_pair=0`
+  - cost `2`
+- `same_obs=0, same_field=1, swap_pair=0`
+  - cost `2`
+- `same_obs=0, same_field=0, swap_pair=1`
+  - cost `2`
+- `same_obs=0, same_field=0, swap_pair=0`
+  - cost `3`
+
+So the Level 54 jump now has a small semantic explanation.
+
+The richer basis from Level 54 is worth paying for exactly on three motif
+types:
+
+- row bundle
+- column bundle
+- swap pair
+
+Everything else stays at cost `3`.
+
+That is the first exact semantic law above the software transfer obstruction.
+
+### Level 56: semantic schema language
+
+The next bounded step compiled the Level 55 motif law itself into a smallest
+exact semantic schema language on the whole atlas up to two overlaps.
+
+The searched semantic schema grammar was:
+
+- `DIAGONAL`
+  - the local identity decoder
+- `SINGLE`
+  - one off-diagonal patch edge
+- `BUNDLE2`
+  - either a row bundle or a column bundle
+- `SWAP2`
+  - a reciprocal two-row swap pair
+
+The strongest exact result was unique:
+
+- basis:
+  - `DIAGONAL`
+  - `SINGLE`
+  - `BUNDLE2`
+  - `SWAP2`
+- basis size:
+  - `4`
+- total instance cost:
+  - `49`
+- description length:
+  - `53`
+
+So the semantic language matches the best exact atlas cost from Level 54.
+
+But it does so at the right abstraction layer:
+
+- `FANIN` and `FANOUT` collapse into:
+  - `BUNDLE2`
+- swap-specific nonidentity matchings collapse into:
+  - `SWAP2`
+
+Example programs:
+
+- separable family:
+  - `DIAGONAL[MATCH_ID]`
+- one-overlap family:
+  - `DIAGONAL[MATCH_ID]`
+  - plus one `SINGLE[...]`
+- row-bundle two-overlap:
+  - `DIAGONAL[MATCH_ID]`
+  - `ROW_BUNDLE[...]`
+- column-bundle two-overlap:
+  - `DIAGONAL[MATCH_ID]`
+  - `COL_BUNDLE[...]`
+- swap-pair two-overlap:
+  - `DIAGONAL[MATCH_ID]`
+  - `SWAP_PAIR[...]`
+
+The local boundaries are also clear:
+
+- drop `SINGLE`
+  - no exact basis
+- drop `BUNDLE2`
+  - description length rises to:
+    - `58`
+- drop `SWAP2`
+  - description length rises to:
+    - `55`
+- drop `DIAGONAL`
+  - exactness survives,
+  - but description length jumps to:
+    - `96`
+
+So the software branch now has a full semantic compile step:
+
+- not only a syntactic schema basis
+- but a smallest exact semantic schema language above the obstruction
+
+At this point in the software branch, that is the strongest object so far.
+
+### Level 57: motif-routed repair compiler
+
+The next bounded step asked the real loop question:
+
+> does the Level 56 semantic language collapse to a tiny exact router that
+> dispatches families into local repair schemas?
+
+The target labels were the four semantic schema shapes from Level 56:
+
+- `DIAGONAL`
+- `DIAGONAL+SINGLE`
+- `BUNDLE2+DIAGONAL`
+- `DIAGONAL+SWAP_PAIR`
+
+The searched semantic predicates were:
+
+- `extra0`
+- `extra1`
+- `same_obs`
+- `same_field`
+- `swap_pair`
+- `bundle_motif`
+
+where:
+
+- `bundle_motif := same_obs or same_field`
+
+The strongest exact result was:
+
+- no `1`-branch router is exact
+- no `2`-branch router is exact
+- the first exact router has:
+  - `3` branches
+- number of minimal routers:
+  - `6`
+
+One exact minimal router is:
+
+- if `extra0`:
+  - `DIAGONAL`
+- else if `swap_pair`:
+  - `DIAGONAL+SWAP_PAIR`
+- else if `bundle_motif`:
+  - `BUNDLE2+DIAGONAL`
+- else:
+  - `DIAGONAL+SINGLE`
+
+So the software branch now has a true routed compiler:
+
+- inspect motif
+- route to a local semantic schema
+- instantiate the repair program
+
+That is the first point in this branch where the object is no longer only:
+
+- a certificate,
+- a decoder,
+- a grammar,
+- or a schema basis
+
+It is a small exact repair policy.
+
+### Level 58: typed motif-kind direct repair compiler
+
+The next bounded step closed the remaining gap in the software branch:
+
+> can the full minimal repair program be constructed directly from the raw
+> extra-edge set, instead of routing only to coarse schema heads?
+
+The searched typed coordinates were:
+
+- `extra_count`
+- `same_obs`
+- `same_field`
+- `swap_pair`
+- `bundle_motif`
+- `motif_kind`
+
+Here `motif_kind` is the typed world-state summary over the raw extra-edge set:
+
+- `none`
+- `single`
+- `bundle`
+- `swap`
+- `other`
+
+The strongest exact result was:
+
+- the full `22`-family atlas up to two overlaps admits an exact direct
+  repair-program compiler from raw extra-edge sets
+- among the searched typed coordinates:
+  - `motif_kind` is the unique exact singleton basis
+  - no other singleton coordinate is exact
+
+Exact singleton law:
+
+- `none -> DIAGONAL`
+- `single -> DIAGONAL+SINGLE`
+- `bundle -> DIAGONAL+BUNDLE2`
+- `swap -> DIAGONAL+SWAP2`
+- `other -> DIAGONAL+DOUBLE_SINGLE`
+
+The direct constructor is:
+
+- `none`:
+  - `DIAGONAL[MATCH_ID]`
+- `single`:
+  - `DIAGONAL[MATCH_ID] + SINGLE[edge]`
+- `bundle`:
+  - `DIAGONAL[MATCH_ID] + BUNDLE2[shared obs or shared field]`
+- `swap`:
+  - `DIAGONAL[MATCH_ID] + SWAP_PAIR[obs pair]`
+- `other`:
+  - `DIAGONAL[MATCH_ID] + SINGLE[edge_1] + SINGLE[edge_2]`
+
+Exact metrics:
+
+- family count:
+  - `22`
+- exact match count:
+  - `22 / 22`
+- optimal total instance cost:
+  - `49`
+- constructed total instance cost:
+  - `49`
+
+This is the first direct compiler in the software branch.
+
+The branch now has a much sharper object:
+
+- inspect the overlap motif
+- classify it into one typed semantic state
+- instantiate the minimal repair program directly
+
+That is stronger than the earlier routed schema compiler, because it no longer
+stops at a schema head or oracle-backed label. It constructs the full minimal
+program from raw bounded inputs.
+
+### Level 59: support-signature direct repair compiler
+
+The next bounded transfer question was the natural one:
+
+> does the Level 58 singleton motif law survive on the richer atlas with up to
+> three overlaps?
+
+The answer was:
+
+- not unchanged
+- but the direct-compiler story survives
+
+The searched typed support-signature coordinates were:
+
+- `extra_count`
+- `obs_profile`
+- `field_profile`
+- `max_obs`
+- `max_field`
+- `swap_pairs`
+- `same_obs`
+- `same_field`
+
+The strongest exact result was:
+
+- no singleton coordinate is exact in the searched library
+- no pair basis is exact
+- the first exact basis has size:
+  - `3`
+- exact basis count:
+  - `5`
+
+Preferred symmetric basis:
+
+- `obs_profile`
+- `field_profile`
+- `swap_pairs`
+
+Its exact rule is:
+
+- `(0,0,0), (0,0,0), 0 -> DIAGONAL`
+- `(1,0,0), (1,0,0), 0 -> DIAGONAL+SINGLE`
+- `(1,1,0), (1,1,0), 0 -> DIAGONAL+DOUBLE_SINGLE`
+- `(1,1,0), (1,1,0), 1 -> DIAGONAL+SWAP2`
+- `(2,0,0), (1,1,0), 0` or `(1,1,0), (2,0,0), 0 -> DIAGONAL+BUNDLE2`
+- `(1,1,1), (1,1,1), 0 -> DIAGONAL+TRIPLE_SINGLE`
+- `(2,1,0), (2,1,0), 0 -> DIAGONAL+BUNDLE2+SINGLE`
+- `(2,1,0), (1,1,1), 1` or `(1,1,1), (2,1,0), 1 -> DIAGONAL+SWAP2+SINGLE`
+
+Exact metrics:
+
+- family count:
+  - `42`
+- exact match count:
+  - `42 / 42`
+- constructed total instance cost:
+  - `111`
+- optimal total instance cost:
+  - `111`
+
+So the software branch now has a transfer ladder:
+
+- up to two overlaps:
+  - exact singleton direct compiler
+- up to three overlaps:
+  - exact support-signature direct compiler
+
+That is a real deepening of the loop family.
+
+The direct compiler survives transfer, but the state basis grows with the first
+higher-order overlap motifs.
+
+### Level 60: canonical support-signature direct compiler
+
+The next bounded question was a symmetry question:
+
+> do the exact size-3 transfer bases from Level 59 collapse once observation
+> and field support are treated symmetrically?
+
+The answer was yes.
+
+Define the canonical quotient:
+
+- `support_signature := (sort(obs_profile, field_profile), swap_pairs)`
+
+The strongest exact result was:
+
+- the exact size-3 transfer bases collapse to one exact singleton quotient
+- unique exact singleton basis:
+  - `support_signature`
+- no other singleton in the augmented coordinate library is exact
+
+Exact support-signature rule:
+
+- `(((0,0,0),(0,0,0)),0) -> DIAGONAL`
+- `(((1,0,0),(1,0,0)),0) -> DIAGONAL+SINGLE`
+- `(((1,1,0),(1,1,0)),0) -> DIAGONAL+DOUBLE_SINGLE`
+- `(((1,1,0),(1,1,0)),1) -> DIAGONAL+SWAP2`
+- `(((1,1,0),(2,0,0)),0) -> DIAGONAL+BUNDLE2`
+- `(((1,1,1),(1,1,1)),0) -> DIAGONAL+TRIPLE_SINGLE`
+- `(((1,1,1),(2,1,0)),1) -> DIAGONAL+SWAP2+SINGLE`
+- `(((2,1,0),(2,1,0)),0) -> DIAGONAL+BUNDLE2+SINGLE`
+
+Support-signature count:
+
+- `8`
+
+So the Level 59 support law is not only exact. It also admits a canonical
+singleton quotient.
+
+### Level 61: four-scalar support law
+
+The next bounded question was whether the canonical support quotient remained
+tuple-heavy, or whether it scalarized again.
+
+The searched scalar library was:
+
+- `extra_count`
+- `max_obs`
+- `max_field`
+- `swap_pairs`
+- `same_obs`
+- `same_field`
+
+The strongest exact result was:
+
+- no `1`-scalar basis is exact
+- no `2`-scalar basis is exact
+- no `3`-scalar basis is exact
+- the first exact basis has size:
+  - `4`
+- exact size-`4` basis count:
+  - `3`
+
+Preferred exact basis:
+
+- `extra_count`
+- `max_obs`
+- `max_field`
+- `swap_pairs`
+
+Its exact rule is:
+
+- `0,0,0,0 -> DIAGONAL`
+- `1,1,1,0 -> DIAGONAL+SINGLE`
+- `2,1,1,0 -> DIAGONAL+DOUBLE_SINGLE`
+- `2,1,1,1 -> DIAGONAL+SWAP2`
+- `2,1,2,0` or `2,2,1,0 -> DIAGONAL+BUNDLE2`
+- `3,1,1,0 -> DIAGONAL+TRIPLE_SINGLE`
+- `3,1,2,1` or `3,2,1,1 -> DIAGONAL+SWAP2+SINGLE`
+- `3,2,2,0 -> DIAGONAL+BUNDLE2+SINGLE`
+
+So the software transfer ladder is now:
+
+- local singleton motif compiler
+- support-signature transfer compiler
+- canonical singleton support quotient
+- exact four-scalar law above that quotient
+
+That is the strongest software-engineering loop object in the repo so far.
+
+### Level 62: three-scalar max-support law
+
+The next bounded question was whether the four-scalar law still carried hidden
+axis-specific redundancy.
+
+The searched semantic scalar library was:
+
+- `extra_count`
+- `max_support`
+- `min_support`
+- `support_gap`
+- `swap_pairs`
+
+where:
+
+- `max_support := max(max_obs, max_field)`
+- `min_support := min(max_obs, max_field)`
+- `support_gap := max_support - min_support`
+
+The strongest exact result was:
+
+- no singleton scalar is exact
+- no pair scalar basis is exact
+- the first exact basis has size:
+  - `3`
+- unique exact basis:
+  - `extra_count`
+  - `max_support`
+  - `swap_pairs`
+
+Its exact rule is:
+
+- `0,0,0 -> DIAGONAL`
+- `1,1,0 -> DIAGONAL+SINGLE`
+- `2,1,0 -> DIAGONAL+DOUBLE_SINGLE`
+- `2,1,1 -> DIAGONAL+SWAP2`
+- `2,2,0 -> DIAGONAL+BUNDLE2`
+- `3,1,0 -> DIAGONAL+TRIPLE_SINGLE`
+- `3,2,0 -> DIAGONAL+BUNDLE2+SINGLE`
+- `3,2,1 -> DIAGONAL+SWAP2+SINGLE`
+
+So the support ladder sharpened again:
+
+- canonical support-signature quotient
+- exact four-scalar law
+- exact three-scalar semantic law
+
+That is the strongest bounded software repair compiler family in the repo so
+far.
+
+### Level 63: two-coordinate support-orbit law
+
+The next bounded question was whether the exact three-scalar law still carried a
+hidden orbit quotient.
+
+The searched orbit library was:
+
+- `extra_count`
+- `support_kind`
+- `max_support`
+- `swap_pairs`
+- `all_distinct`
+- `has_bundle`
+- `has_swap`
+
+where:
+
+- `support_kind = plain` if `swap_pairs = 0` and `max_support = 1`
+- `support_kind = bundle` if `swap_pairs = 0` and `max_support > 1`
+- `support_kind = swap` if `swap_pairs > 0`
+
+The strongest exact result was:
+
+- no singleton orbit coordinate is exact
+- the first exact basis has size:
+  - `2`
+- unique exact basis:
+  - `extra_count`
+  - `support_kind`
+
+Its exact rule is:
+
+- `0, plain -> DIAGONAL`
+- `1, plain -> DIAGONAL+SINGLE`
+- `2, plain -> DIAGONAL+DOUBLE_SINGLE`
+- `2, bundle -> DIAGONAL+BUNDLE2`
+- `2, swap -> DIAGONAL+SWAP2`
+- `3, plain -> DIAGONAL+TRIPLE_SINGLE`
+- `3, bundle -> DIAGONAL+BUNDLE2+SINGLE`
+- `3, swap -> DIAGONAL+SWAP2+SINGLE`
+
+So the software ladder sharpened again:
+
+- canonical support-signature quotient
+- exact three-scalar semantic law
+- exact two-coordinate orbit law
+
+### Level 64: menu-valued support-signature law
+
+The next bounded transfer question was what survives once one unique minimal
+repair shape no longer exists on the up-to-four-overlap atlas.
+
+The exact target changed:
+
+- not one chosen minimal repair shape
+- but the full exact menu of minimal repair head-shapes in the semantic schema
+  grammar
+
+Canonical coordinate library:
+
+- `support_signature`
+- `obs_profile`
+- `field_profile`
+- `swap_pairs`
+
+Raw support library:
+
+- `obs_profile`
+- `field_profile`
+- `swap_pairs`
+
+where:
+
+- `support_signature := (sort(obs_profile, field_profile), swap_pairs)`
+
+The strongest exact result was:
+
+- the old direct orbit law no longer determines one unique minimal repair
+  shape
+- the canonical `support_signature` still determines the full exact menu of
+  minimal repair head-shapes
+- in the canonical coordinate library:
+  - unique exact singleton:
+    - `support_signature`
+- in the raw support library:
+  - no singleton is exact
+  - no pair is exact
+  - first exact basis size:
+    - `3`
+  - unique exact raw basis:
+    - `obs_profile`
+    - `field_profile`
+    - `swap_pairs`
+
+Menu counts on the `57`-family atlas:
+
+- support-signature states:
+  - `11`
+- distinct exact menus:
+  - `11`
+- menu cardinality histogram:
+  - `1 -> 24`
+  - `2 -> 15`
+  - `3 -> 12`
+  - `5 -> 6`
+
+So the first real obstruction above the direct compiler line was not a total
+failure of symbolic structure. It was a change of target:
+
+- from one chosen repair shape
+- to an exact menu of minimal repair shapes
+
+### Level 65: full-atlas support-signature menu law
+
+The next bounded transfer question was whether the exact menu-valued law from
+Level 64 survives on the full software atlas.
+
+The bounded domain was:
+
+- all subsets of the six off-diagonal repair edges
+- family count:
+  - `64`
+
+The strongest exact result was:
+
+- the menu-valued support law survives unchanged on the full atlas
+- in the canonical coordinate library:
+  - unique exact singleton:
+    - `support_signature`
+- in the raw support library:
+  - no singleton is exact
+  - no pair is exact
+  - first exact basis size:
+    - `3`
+  - unique exact raw basis:
+    - `obs_profile`
+    - `field_profile`
+    - `swap_pairs`
+
+Full-atlas counts:
+
+- support-signature states:
+  - `13`
+- distinct exact menus:
+  - `13`
+- menu cardinality histogram:
+  - `1 -> 24`
+  - `2 -> 15`
+  - `3 -> 13`
+  - `5 -> 6`
+  - `6 -> 6`
+
+The full off-diagonal family lands at:
+
+- support signature:
+  - `(((2, 2, 2), (2, 2, 2)), 3)`
+- exact menu:
+  - `BUNDLE2+BUNDLE2+BUNDLE2+DIAGONAL`
+  - `BUNDLE2+BUNDLE2+DIAGONAL+SWAP2`
+  - `DIAGONAL+SWAP2+SWAP2+SWAP2`
+
+So the software lesson at this stage is:
+
+- direct compilers can survive a long way
+- when they stop being unique, the right exact object may be a menu-valued
+  repair language
+- and that menu law can still transfer farther than the direct compiler did
+
+### Level 66: normalized support-signature direct compiler family
+
+The next bounded question was whether the full-atlas menu law can restore direct
+compilers once a deterministic normal form is chosen inside each exact menu.
+
+The searched menu-local normal forms were:
+
+- `bundle_first`
+- `swap_first`
+- `single_first`
+- `fewest_families`
+
+where:
+
+- `bundle_first` maximizes `BUNDLE2`, then `SWAP2`, then minimizes `SINGLE`
+- `swap_first` maximizes `SWAP2`, then `BUNDLE2`, then minimizes `SINGLE`
+- `single_first` maximizes `SINGLE`
+- `fewest_families` minimizes the number of distinct macro families
+
+The strongest exact result was:
+
+- for all four searched normal forms:
+  - `support_signature` is the unique exact singleton in the canonical
+    coordinate library
+  - in the raw support library:
+    - no singleton is exact
+    - no pair is exact
+    - the first exact basis is:
+      - `obs_profile`
+      - `field_profile`
+      - `swap_pairs`
+
+Ambiguity is real:
+
+- ambiguous families:
+  - `40`
+- on all `40`, at least two normal forms disagree
+
+Pairwise disagreement counts:
+
+- `bundle_first` vs `swap_first`:
+  - `16`
+- `bundle_first` vs `single_first`:
+  - `30`
+- `bundle_first` vs `fewest_families`:
+  - `0`
+- `swap_first` vs `single_first`:
+  - `40`
+- `swap_first` vs `fewest_families`:
+  - `16`
+- `single_first` vs `fewest_families`:
+  - `30`
+
+So the preferred structural fact is:
+
+- `bundle_first` and `fewest_families` coincide on all ambiguous families
+
+That gives the software ladder at this stage:
+
+- exact menu discovery
+- exact support-signature transfer
+- exact normalized direct compiler family above the menu law
+
+The important lesson is:
+
+- non-unique exact menus do not end the direct-compiler line
+- they can become the substrate for a family of exact normalized direct
+  compilers
+
+### Level 67: perfect-swap-cover selector law
+
+The next bounded question was whether the ambiguous full-atlas slice admits a
+tiny exact semantic selector above the normalized compiler family.
+
+The target property was:
+
+- whether the exact menu admits a pure-swap normal form
+
+meaning a head-shape built only from:
+
+- `DIAGONAL`
+- `SWAP2`
+
+The searched selector library was:
+
+- `perfect_swap_cover`
+- `extra_count`
+- `swap_pairs`
+- `balanced_profiles`
+- `max_support`
+- `obs_profile`
+- `field_profile`
+
+where:
+
+- `perfect_swap_cover := (extra_count = 2 * swap_pairs)`
+
+The strongest exact result was:
+
+- on the ambiguous full-atlas slice, the exact menu admits a pure-swap normal
+  form iff:
+  - `perfect_swap_cover`
+- in the searched selector library:
+  - the unique exact singleton is:
+    - `perfect_swap_cover`
+
+Counts:
+
+- ambiguous families:
+  - `40`
+- ambiguous support signatures:
+  - `7`
+- pure-swap families:
+  - `4`
+- pure-swap support signatures:
+  - `2`
+
+Pure-swap support signatures:
+
+- `(((2, 1, 1), (2, 1, 1)), 2)`
+- `(((2, 2, 2), (2, 2, 2)), 3)`
+
+So the post-menu ladder sharpened again:
+
+- exact menu discovery
+- exact normalized direct compiler family
+- exact one-bit semantic selector for the pure-swap regime
+
+At this stage, that is the clearest software branch in the repo.
+
+### Level 68: bundle-vs-swap disagreement selector law
+
+The next bounded question was whether the ambiguous full-atlas slice admits a
+tiny exact selector for when two structurally meaningful normal forms actually
+diverge:
+
+- `bundle_first`
+- `swap_first`
+
+This is a stricter target than Level 67. It no longer asks whether a special
+pure-swap regime exists. It asks for the first exact law that predicts
+disagreement inside the normalized compiler family itself.
+
+The searched selector library was:
+
+- `perfect_swap_cover`
+- `extra_count`
+- `swap_pairs`
+- `balanced_profiles`
+- `max_support`
+- `obs_profile`
+- `field_profile`
+
+where:
+
+- `perfect_swap_cover := (extra_count = 2 * swap_pairs)`
+- `balanced_profiles := (obs_profile = field_profile)`
+
+The strongest exact result was:
+
+- on the ambiguous full-atlas slice:
+  - no singleton selector is exact
+  - no pair selector is exact
+  - the first exact selector basis has size:
+    - `3`
+  - minimal exact basis count:
+    - `8`
+
+A preferred exact basis is:
+
+- `extra_count`
+- `swap_pairs`
+- `balanced_profiles`
+
+and it yields the exact `7`-state disagreement law:
+
+- `(3, 0, True) -> same`
+- `(3, 1, False) -> same`
+- `(4, 1, False) -> diff`
+- `(4, 1, True) -> same`
+- `(4, 2, True) -> diff`
+- `(5, 2, True) -> diff`
+- `(6, 3, True) -> diff`
+
+So the structural picture is now:
+
+- with `3` extra overlaps, the two normal forms agree
+- with `4` extra overlaps, they disagree exactly when either:
+  - the profiles are unbalanced and there is one swap pair
+  - or the overlap is perfectly swap-covered
+- with `5` or `6` extra overlaps, they disagree
+
+This is the first exact intrinsic selector above the normalized family. It
+shows that:
+
+- the disagreement is real
+- it is not controlled by any singleton or pair semantic selector in the
+  searched library
+- but it still collapses to a tiny exact three-coordinate state
+
+### Level 69: canonical ambiguity quotient law
+
+The next bounded question was whether the previous disagreement selector is only
+a one-off fact about one pair of normal forms, or whether a deeper shared
+quotient controls the whole ambiguous normalized family.
+
+The compared normal forms were:
+
+- `bundle_first`
+- `swap_first`
+- `single_first`
+- `fewest_families`
+
+The target was:
+
+- for each pair of normal forms, label each ambiguous family as:
+  - `diff` if the two chosen normalized repair shapes differ
+  - `same` otherwise
+
+The strongest exact result was:
+
+- among the six pairwise comparisons:
+  - two are constant:
+    - `bundle_first` vs `fewest_families` is always `same`
+    - `swap_first` vs `single_first` is always `diff`
+  - the other four are non-constant
+
+For all four non-constant pairwise disagreements:
+
+- the first exact basis size is:
+  - `3`
+- the common minimal exact basis family has count:
+  - `8`
+- a preferred common exact basis is:
+  - `extra_count`
+  - `swap_pairs`
+  - `balanced_profiles`
+- preferred quotient state count:
+  - `7`
+
+The four non-constant pairs are:
+
+- `bundle_first` vs `swap_first`
+- `bundle_first` vs `single_first`
+- `swap_first` vs `fewest_families`
+- `single_first` vs `fewest_families`
+
+So the post-menu software object is no longer:
+
+- one repair menu
+- one normalized compiler
+- one selector for one special regime
+- one selector for one pairwise disagreement
+
+It is:
+
+- one common exact ambiguity quotient above the whole normalized family
+
+That is stronger than Level 68. It says the remaining structural ambiguity is
+not arbitrary. It factors through one shared exact state.
+
+### Level 70: support-gap ambiguity law
+
+The next bounded question was whether the common ambiguity quotient from Level
+69 already has a smaller semantic presentation in a derived feature library.
+
+The searched derived coordinates were:
+
+- `extra_count`
+- `swap_pairs`
+- `balanced_profiles`
+- `perfect_swap_cover`
+- `support_gap`
+- `bundle_load`
+- `high_overlap`
+- `max_support`
+- `one_swap`
+- `many_swaps`
+
+where:
+
+- `support_gap := extra_count - 2 * swap_pairs`
+- `bundle_load := extra_count - swap_pairs`
+
+The target was the full six-pair disagreement signature among:
+
+- `bundle_first`
+- `swap_first`
+- `single_first`
+- `fewest_families`
+
+The strongest exact result was:
+
+- no singleton coordinate is exact
+- the first exact basis size is:
+  - `2`
+- exact minimal basis count:
+  - `1`
+- the unique exact minimal basis is:
+  - `balanced_profiles`
+  - `support_gap`
+
+The exact rule has `6` states:
+
+- `(False, 1) -> ('same', 'same', 'diff', 'same', 'diff', 'diff')`
+- `(False, 2) -> ('same', 'diff', 'same', 'diff', 'diff', 'same')`
+- `(True, 0) -> ('same', 'diff', 'same', 'diff', 'diff', 'same')`
+- `(True, 1) -> ('same', 'diff', 'diff', 'diff', 'diff', 'diff')`
+- `(True, 2) -> ('same', 'same', 'diff', 'same', 'diff', 'diff')`
+- `(True, 3) -> ('same', 'same', 'diff', 'same', 'diff', 'diff')`
+
+The full disagreement-signature target has only `3` distinct output classes, so
+this is a genuine semantic compression of the ambiguity layer.
+
+At this point, that is the strongest software result in the tutorial. The remaining
+post-menu ambiguity is not only shared. In the searched semantic library, it
+has a unique exact size-`2` presentation.
+
+### Level 71: three-guard ambiguity-class law
+
+The next bounded question was whether the three disagreement-signature classes
+above Level 70 compile to a tiny exact branch program, or whether the size-`2`
+semantic basis is already the final usable object.
+
+The searched branch grammar used:
+
+- atoms over:
+  - `balanced_profiles`
+  - `support_gap`
+- conjunction guards of size up to `2`
+- ordered decision lists with up to `3` guards
+
+The strongest exact result was:
+
+- no `0`-guard program is exact
+- no `1`-guard program is exact
+- no `2`-guard program is exact
+- the first exact program has:
+  - `3` guards
+
+The exact decision law is:
+
+- `support_gap = 0 -> class_2`
+- `balanced_profiles and support_gap = 1 -> class_3`
+- `unbalanced_profiles and support_gap = 2 -> class_2`
+- default:
+  - `class_1`
+
+The class meanings are:
+
+- `class_1`:
+  - `('same', 'same', 'diff', 'same', 'diff', 'diff')`
+- `class_2`:
+  - `('same', 'diff', 'same', 'diff', 'diff', 'same')`
+- `class_3`:
+  - `('same', 'diff', 'diff', 'diff', 'diff', 'diff')`
+
+So the software branch is no longer only:
+
+- a shared ambiguity quotient
+- or even a unique exact size-`2` semantic basis
+
+It is:
+
+- a tiny exact branch program for the ambiguity classes themselves
+
+That is closer to the kind of object a formal software-assurance loop could
+actually run inside a repair engine.
+
+### Level 72: anchored outlier decomposition law
+
+The next bounded question was whether the class labels from Level 71 have a
+smaller semantic meaning than just `class_1`, `class_2`, and `class_3`.
+
+The natural interpretation is to treat:
+
+- `bundle_first = fewest_families`
+
+as the anchor, then ask:
+
+- when does `swap_first` peel away from the anchor?
+- when does `single_first` peel away from the anchor?
+
+The strongest exact result was:
+
+- the ambiguity layer splits into two exact semantic outlier bits
+- both outlier bits first become exact at:
+  - `2` guards
+
+Exact `swap_outlier` law:
+
+- `balanced_profiles and support_gap >= 2 -> False`
+- `unbalanced_profiles and support_gap = 1 -> False`
+- default:
+  - `True`
+
+Exact `single_outlier` law:
+
+- `support_gap = 0 -> False`
+- `unbalanced_profiles and support_gap = 2 -> False`
+- default:
+  - `True`
+
+So the ambiguity layer now has an explicit semantic decomposition:
+
+- one anchor:
+  - `bundle_first = fewest_families`
+- one `swap_outlier` bit
+- one `single_outlier` bit
+
+This is stronger than Level 71. The class program is still exact, but now the
+classes are interpretable:
+
+- `single_outlier`
+- `swap_outlier`
+- `double_outlier`
+
+### Level 73: two-clause ambiguity-class law
+
+The next bounded question was whether the ambiguity-class program from Level 71
+can be compressed further by changing the logic language rather than widening
+the same conjunction grammar.
+
+The searched clause grammar used:
+
+- conjunction terms of size up to `2`
+- clauses that are ORs of up to `2` conjunction terms
+- ordered decision lists of up to `2` clauses
+
+The strongest exact result was:
+
+- no `0`-clause program is exact
+- no `1`-clause program is exact
+- the first exact classifier has:
+  - `2` ordered clauses
+
+The exact law is:
+
+- `balanced_profiles and support_gap = 1 -> class_3`
+- `support_gap = 0 or unbalanced_profiles and support_gap = 2 -> class_2`
+- default:
+  - `class_1`
+
+So allowing one small disjunctive clause compresses the ambiguity-class program
+from:
+
+- `3` conjunction guards
+
+to:
+
+- `2` ordered clauses
+
+This is one of the clearest software examples in the tutorial of a broader
+lesson:
+
+- the next exact survivor may come from a better symbolic language, not from a
+  wider search over the old one
+
+### Level 74: anchor-shape law
+
+The next bounded question was whether the stable anchor from Level 72 also
+admits a tiny exact symbolic summary over the same semantic state.
+
+The anchor was:
+
+- `bundle_first = fewest_families`
+
+The strongest exact result was:
+
+- the anchor repair family itself compiles to a tiny exact program over:
+  - `balanced_profiles`
+  - `support_gap`
+- no `0`-guard program is exact
+- no `1`-guard program is exact
+- no `2`-guard program is exact
+- the first exact program has:
+  - `3` guards
+
+The exact law is:
+
+- `balanced_profiles and support_gap = 2 -> BUNDLE2+BUNDLE2+DIAGONAL+SWAP2`
+- `support_gap >= 2 -> BUNDLE2+BUNDLE2+DIAGONAL`
+- `balanced_profiles -> BUNDLE2+BUNDLE2+BUNDLE2+DIAGONAL`
+- default:
+  - `BUNDLE2+DIAGONAL+SWAP2`
+
+Scope note:
+
+- Level 77 later replays the actual `bundle_first` anchor on the full
+  ambiguous slice and shows that this size-`2` reading is too strong if read
+  as a true definability theorem for the actual anchor value
+- the stronger truth is:
+  - this level found a useful normalized anchor summary
+  - the actual anchor first becomes exact only after adding `high_overlap`
+
+So the branch now has a more complete anchored routing kernel:
+
+- exact anchor compiler
+- exact outlier bits above the anchor
+- smaller exact class classifier in a richer clause language
+
+That is stronger than having local selectors alone. It is now much closer to a
+formal software-assurance controller over the bounded repair atlas.
+
+### Level 75: anchored routing kernel law
+
+The next bounded question was whether the separate survivors from Levels 70, 72,
+and 74 really collapse to one direct kernel object:
+
+- `AnchorShape`
+- `SwapOutlier`
+- `SingleOutlier`
+
+The joint target was:
+
+```text
+Kernel(x) = (AnchorShape(x), SwapOutlier(x), SingleOutlier(x))
+```
+
+Scope note:
+
+- this was the strongest direct kernel summary available before the logic
+  replay
+- Level 77 below shows that the stronger reading, that the actual
+  `bundle_first` anchor and the true joint kernel are both definable in
+  `(balanced_profiles, support_gap)`, is false on the full ambiguous slice
+- what survives is the smaller ambiguity and routing layer over that size-`2`
+  theory
+
+The strongest exact result was:
+
+- the full anchored routing kernel first becomes exact at the same unique
+  size-`2` semantic basis as the earlier ambiguity-signature law:
+  - `balanced_profiles`
+  - `support_gap`
+- no singleton coordinate in the searched semantic library is exact
+- no `0`-, `1`-, `2`-, `3`-, or `4`-guard joint program is exact
+- the first exact joint program has:
+  - `5` guards
+
+So at that stage, the branch appeared to have one exact direct kernel:
+
+```text
+Kernel(x) = K(balanced_profiles(x), support_gap(x))
+```
+
+with the exact joint program:
+
+- `unbalanced_profiles and support_gap = 1 -> (BUNDLE2+DIAGONAL+SWAP2, False, True)`
+- `unbalanced_profiles -> (BUNDLE2+BUNDLE2+DIAGONAL, True, False)`
+- `support_gap = 0 -> (BUNDLE2+BUNDLE2+BUNDLE2+DIAGONAL, True, False)`
+- `support_gap = 1 -> (BUNDLE2+BUNDLE2+BUNDLE2+DIAGONAL, True, True)`
+- `support_gap = 2 -> (BUNDLE2+BUNDLE2+DIAGONAL+SWAP2, False, True)`
+- default:
+  - `(BUNDLE2+BUNDLE2+DIAGONAL, False, True)`
+
+This still mattered because the last several software survivors were no longer
+only a stack of adjacent laws. They appeared to unify into one bounded formal
+object:
+
+- basis
+- anchor
+- outlier bits
+- joint direct kernel
+
+### Level 76: anchored kernel menu law
+
+The next bounded question was whether the same size-`2` semantic basis also
+determines the full menu of minimal repair shapes.
+
+It does not.
+
+The strongest exact result was:
+
+- the anchored routing kernel basis:
+  - `(balanced_profiles, support_gap)`
+  - is exact for routing
+  - but not exact for the full repair menu
+- the first exact menu basis has size `3`
+- a preferred exact semantic refinement is:
+  - `(balanced_profiles, support_gap, high_overlap)`
+- no singleton coordinate in the searched semantic library is exact
+
+where:
+
+```text
+high_overlap := (extra_count >= 5)
+```
+
+The boundary is clean:
+
+- the only kernel state that splits is:
+  - `(balanced_profiles = True, support_gap = 0)`
+- it separates into:
+  - a low-overlap exact menu
+  - a high-overlap exact menu
+
+So the first crack above the anchored routing kernel is structural and
+localized, not a general collapse of the semantic state.
+
+Correction note:
+
+- Level 77 shows that `Q2 = (balanced_profiles, support_gap)` was already too
+  weak for the actual `bundle_first` anchor and the true joint kernel
+- that means the right logic reading here is not:
+  - kernel in `Q2`, menu in `Q3`
+- it is:
+  - ambiguity and routed-outlier structure in `Q2`
+  - actual selector, kernel, and menu structure first exact in `Q3`
+
+On the preferred basis, the exact menu states compile to a `6`-guard direct
+program:
+
+- `unbalanced_profiles and support_gap = 1`
+  - `BUNDLE2+DIAGONAL+SINGLE`
+  - `BUNDLE2+DIAGONAL+SWAP2`
+  - `DIAGONAL+SINGLE+SWAP2`
+- `unbalanced_profiles`
+  - `BUNDLE2+BUNDLE2+DIAGONAL`
+  - `BUNDLE2+DIAGONAL+SWAP2`
+- `support_gap = 0 and low_overlap`
+  - `BUNDLE2+BUNDLE2+DIAGONAL`
+  - `DIAGONAL+SWAP2+SWAP2`
+- `support_gap = 0`
+  - `BUNDLE2+BUNDLE2+BUNDLE2+DIAGONAL`
+  - `BUNDLE2+BUNDLE2+DIAGONAL+SWAP2`
+  - `DIAGONAL+SWAP2+SWAP2+SWAP2`
+- `support_gap = 1`
+  - `BUNDLE2+BUNDLE2+BUNDLE2+DIAGONAL`
+  - `BUNDLE2+BUNDLE2+DIAGONAL+SINGLE`
+  - `BUNDLE2+BUNDLE2+DIAGONAL+SWAP2`
+  - `BUNDLE2+DIAGONAL+SINGLE+SWAP2`
+  - `BUNDLE2+DIAGONAL+SWAP2+SWAP2`
+  - `DIAGONAL+SINGLE+SWAP2+SWAP2`
+- `support_gap = 2`
+  - `BUNDLE2+BUNDLE2+DIAGONAL+SINGLE`
+  - `BUNDLE2+BUNDLE2+DIAGONAL+SWAP2`
+  - `BUNDLE2+DIAGONAL+SINGLE+SINGLE`
+  - `BUNDLE2+DIAGONAL+SINGLE+SWAP2`
+  - `DIAGONAL+SINGLE+SINGLE+SWAP2`
+- default:
+  - `BUNDLE2+BUNDLE2+DIAGONAL`
+  - `BUNDLE2+DIAGONAL+SINGLE`
+
+### How to read Levels 77-85
+
+Levels `77` through `85` are the current logic endpoint of this tutorial.
+
+They are best read as one bounded definability ladder over the software atlases
+used in those levels, not as nine unrelated observations.
+
+The shared question is:
+
+```text
+what is the smallest searched theory in which the current target becomes exact?
+```
+
+The ladder that survives on the current bounded atlases is:
+
+- `Q2 = (balanced_profiles, support_gap)` for relations and routed-outlier structure
+- `Q3 = (balanced_profiles, support_gap, high_overlap)` for actual selector, kernel, and menu commitments
+- `Q4 = (extra_count, orientation)` for oriented support geometry
+- `incidence_signature = (out_profile, in_profile)` for ambiguous-slice raw family identity
+- `incidence_signature + cycle_orientation` for full off-diagonal raw family identity
+
+One way to picture this ladder is as a map legend that keeps gaining one new
+symbol each time the older legend blurs two regions together. `Q2` separates
+the broad regions, `Q3` marks commitment structure, `Q4` adds direction, and
+the incidence signature plus one cycle bit resolves the last look-alike pair.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Late logic ladder</p>
+  {% include diagrams/verifier-compiler-logic-ladder.svg %}
+  <figcaption class="fp-figure-caption">
+    The late endpoint is a definability ladder. `Q2` controls relation targets, `Q3` adds commitment and symmetric-support structure, `Q4` adds orientation, and incidence plus one cycle bit completes the full raw family identity on the bounded atlas.
+  </figcaption>
+</figure>
+
+So the logic does not just get "bigger" at each step.
+It changes what kind of object is being tracked:
+
+- relation targets
+- commitment targets
+- symmetric versus oriented support geometry
+- raw family identity
+- transfer obstruction under atlas extension
+
+### Level 77: logic replay correction law
+
+The next bounded question was whether the software branch should really be read
+through definability rather than only through compact branch programs.
+
+The logic replay did expose a real overclaim.
+
+On the full ambiguous slice, the actual `bundle_first` anchor is **not**
+definable in:
+
+```text
+Q2(x) = (balanced_profiles(x), support_gap(x))
+```
+
+The same failure propagates to the true joint kernel:
+
+```text
+Kernel_true(x) = (AnchorShape_bundle_first(x), SwapOutlier(x), SingleOutlier(x))
+```
+
+The clean counterexample is the `Q2` state:
+
+```text
+(balanced_profiles = True, support_gap = 0)
+```
+
+which contains two different actual `bundle_first` anchor shapes:
+
+- `BUNDLE2+BUNDLE2+DIAGONAL`
+- `BUNDLE2+BUNDLE2+BUNDLE2+DIAGONAL`
+
+The first searched bit that repairs the split is:
+
+```text
+high_overlap := (extra_count >= 5)
+```
+
+So the corrected theory is:
+
+```text
+Q3(x) = (balanced_profiles(x), support_gap(x), high_overlap(x))
+```
+
+and both:
+
+- actual `bundle_first` anchor shape
+- true joint kernel
+
+first become exact in `Q3`.
+
+This is the strongest logic-level correction in the software branch so far,
+because it separates:
+
+- a useful normalized quotient
+- from a true definability theorem about the actual selector and kernel
+
+### Level 78: software definability phase diagram law
+
+Once the `Q2` versus `Q3` correction was explicit, the next bounded question
+was which current software targets really live in which theory.
+
+That produces a clean phase diagram.
+
+The current targets split into two exact definability tiers.
+
+The `Q2` tier is:
+
+```text
+Q2 = (balanced_profiles, support_gap)
+```
+
+and it exactly controls:
+
+- `ambiguity_class`
+- `swap_outlier`
+- `single_outlier`
+- `bundle_vs_swap`
+- `bundle_vs_single`
+- `swap_vs_fewest`
+- `single_vs_fewest`
+
+Two additional selector relations are degenerate constants on this corpus:
+
+- `bundle_vs_fewest = True`
+- `swap_vs_single = False`
+
+The `Q3` tier is:
+
+```text
+Q3 = (balanced_profiles, support_gap, high_overlap)
+```
+
+and it first controls:
+
+- `bundle_first`
+- `fewest_families`
+- `swap_first`
+- `single_first`
+- `true_kernel`
+- `menu`
+
+No searched non-constant target in the current software family requires a
+theory beyond `Q3`.
+
+So the logic-first read of the software branch is now:
+
+```text
+Q2 controls relations
+Q3 controls realizations
+```
+
+That is a stronger and cleaner loop-family object than the earlier flat
+“kernel plus menu” reading.
+
+### Level 79: common commitment-tier witness law
+
+The next bounded question was whether the `Q3` boundary was really a collection
+of separate target-by-target failures, or whether one common witness state
+already forces the whole commitment tier.
+
+It does.
+
+Inside the `Q2` state:
+
+```text
+(balanced_profiles = True, support_gap = 0)
+```
+
+the ambiguous slice contains:
+
+- `3` low-overlap families
+- `1` high-overlap family
+
+and every low-overlap family separates from the unique high-overlap family on
+every current `Q3` target:
+
+- `bundle_first`
+- `fewest_families`
+- `swap_first`
+- `single_first`
+- `true_kernel`
+- `menu`
+
+So the extra bit:
+
+```text
+high_overlap := (extra_count >= 5)
+```
+
+is not only needed for one selector.
+
+It is a common necessity witness for the whole commitment tier.
+
+This sharpens the logic hierarchy again:
+
+- `Q2` controls relations
+- `Q3` controls commitments
+- one common witness state forces that split
+
+That is the cleanest model-theoretic object in the current software branch.
+
+### Level 80: software target-algebra closure law
+
+The next bounded question was whether the current software branch still hid a
+larger target algebra above the separate `Q2` and `Q3` facts, or whether the
+current target family was already closed.
+
+It is already closed.
+
+The relation algebra is:
+
+- `ambiguity_class`
+- `swap_outlier`
+- `single_outlier`
+- `bundle_vs_swap`
+- `bundle_vs_single`
+- `swap_vs_fewest`
+- `single_vs_fewest`
+
+and it is uniquely and minimally controlled by:
+
+```text
+Q2 = (balanced_profiles, support_gap)
+```
+
+with `6` exact states.
+
+The commitment algebra is:
+
+- `bundle_first`
+- `fewest_families`
+- `swap_first`
+- `single_first`
+- `true_kernel`
+- `menu`
+
+and it is minimally controlled by a size-`3` quotient, with:
+
+```text
+Q3 = (balanced_profiles, support_gap, high_overlap)
+```
+
+as a preferred exact basis with `7` states.
+
+The full current target algebra, relations plus commitments together, is also
+minimally controlled by a size-`3` quotient, again with `Q3` as a preferred
+exact basis.
+
+So the current software logic is already algebraically closed at `Q3`.
+
+That means the next honest frontier is no longer another target from the same
+family. It is:
+
+- a genuinely richer target family that escapes `Q3`
+- or a selector theorem inside the exact `Q3` states
+
+### Level 81: richer selector-family closure law
+
+The next bounded question was whether that closure was fragile.
+
+So instead of reusing only the hand-chosen selector targets, the search widened
+to a richer structural selector family:
+
+- all lexicographic selector orders of length `1..3`
+- over:
+  - `bundle_max`
+  - `swap_max`
+  - `single_max`
+  - `single_min`
+  - `families_min`
+
+That gives:
+
+- `85` raw selectors
+- collapsing to `10` unique selector behaviors on the bounded corpus
+
+The strongest result was that even this richer selector family still first
+becomes exact at size `3`, and:
+
+```text
+Q3 = (balanced_profiles, support_gap, high_overlap)
+```
+
+remains a preferred `7`-state exact basis.
+
+So no searched richer selector in this family escapes `Q3`.
+
+This sharpens the frontier again:
+
+- the current software atlas is more saturated than it looked
+- the next real jump must come from a genuinely richer target family
+- not from another selector variant inside the same closure
+
+So the software branch now has a clearer stack:
+
+- exact kernel
+- exact localized boundary above the kernel
+- exact menu refinement above that boundary
+
+### Level 82: support-geometry phase diagram law
+
+The next bounded question was what the first honest escape from `Q3` actually
+looks like.
+
+The answer is not a richer selector.
+It is support orientation.
+
+The symmetric support target is:
+
+```text
+support_signature
+```
+
+and it already closes at:
+
+```text
+Q3 = (balanced_profiles, support_gap, high_overlap)
+```
+
+with:
+
+- minimal exact basis size `3`
+- preferred exact state count `7`
+
+So `Q3` does not only control commitment targets.
+It already controls the full symmetric support geometry on the ambiguous slice.
+
+The first real escape is the oriented support target:
+
+```text
+oriented_support_pair = (obs_profile, field_profile)
+```
+
+That target is not definable in `Q3`.
+The clean witness states are:
+
+- `(False, 1, False)`
+- `(False, 2, False)`
+
+Each contains both orientations of the same symmetric support shape.
+
+The first exact orientation theory in the searched library is:
+
+```text
+Q4 = (extra_count, orientation)
+```
+
+with:
+
+- minimal exact basis size `2`
+- preferred exact state count `8`
+
+A conservative extension of `Q3` by the orientation bit is also exact, but it
+is redundant.
+
+At the same time, raw family identity still escapes the full searched
+symmetric-plus-orientation library.
+
+So the logic ladder sharpens again:
+
+- `Q2` for relations
+- `Q3` for commitments and symmetric support
+- `Q4` for oriented support
+- raw family identity still beyond the current semantic library
+
+### Level 83: row-column incidence completion law
+
+The next bounded question was whether raw family identity needs brute-force edge
+indicators, or whether a smaller structural theory can recover it.
+
+It can.
+
+The first exact completion law is a row-column incidence theory.
+
+Using only:
+
+- row degrees:
+  - `out_guard`
+  - `out_bounds`
+  - `out_transform`
+- column degrees:
+  - `in_guard`
+  - `in_bounds`
+  - `in_transform`
+- auxiliaries:
+  - `extra_count`
+  - `support_gap`
+
+the raw family target first becomes exact at size `5`.
+
+No basis of size `4` or smaller is exact.
+
+A preferred symmetric exact basis is:
+
+```text
+(out_guard, out_bounds, out_transform, in_guard, in_bounds)
+```
+
+with:
+
+- minimal exact basis size `5`
+- minimal exact basis count `24`
+- preferred exact state count `40`
+
+The basis families break down as:
+
+- `6` pure degree bases
+- `9` `extra_count` substitution bases
+- `9` `support_gap` substitution bases
+
+So the next theory above the semantic stack is not “memorize the family”.
+It is incidence.
+
+The current logic picture is now:
+
+- `Q2` controls relations
+- `Q3` controls commitments and symmetric support
+- `Q4` controls oriented support
+- row-column incidence completes raw family identity
+
+### Level 84: incidence-signature singleton law
+
+The next bounded question was whether the size-`5` incidence law from Level 83
+was still more complicated than necessary.
+
+It was.
+
+The raw family target on the ambiguous slice collapses again to one canonical
+tuple quotient:
+
+```text
+incidence_signature = (out_profile, in_profile)
+```
+
+This is the unique exact singleton in the searched tuple-aware incidence
+library.
+
+So on the ambiguous slice:
+
+- minimal exact basis size: `1`
+- unique exact singleton:
+  - `incidence_signature`
+- exact state count: `40`
+
+and the obvious nearby singletons are not exact:
+
+- `out_profile`
+- `in_profile`
+- `extra_count`
+- `support_gap`
+- `orientation`
+
+So the right logic object above `Q4` is not really “five degree counts”.
+It is one bipartite incidence signature.
+
+### Level 85: cycle-orientation incidence extension law
+
+The next bounded question was whether the singleton incidence-signature law from
+Level 84 transfers to the full off-diagonal atlas.
+
+Almost, but not quite.
+
+It fails on exactly one obstruction bucket:
+
+```text
+incidence_signature = ((1,1,1),(1,1,1))
+```
+
+That bucket contains exactly the two opposite off-diagonal `3`-cycles.
+
+So on the full `64`-family atlas:
+
+- no singleton in the searched library is exact
+- the first exact basis size is `2`
+- exact size-`2` bases are:
+  - `(incidence_signature, cycle_orientation)`
+  - `(incidence_signature, has_guard_to_bounds)`
+  - `(incidence_signature, has_guard_to_transform)`
+
+The preferred semantic basis is:
+
+```text
+(incidence_signature, cycle_orientation)
+```
+
+So the transfer obstruction is not diffuse.
+It is one clean cycle-orientation bit.
+
+That sharpens the current logic ladder again:
+
+- `Q2` for relations
+- `Q3` for commitments and symmetric support
+- `Q4` for oriented support
+- `incidence_signature` for ambiguous-slice raw family identity
+- `incidence_signature + cycle_orientation` for full-atlas raw family identity
+
+## Part XIII: what this means for software assurance and performance
+
+These loops do help software assurance, but the scope matters.
+
+What they can already do in a bounded formal setting:
+
+- turn a repair search space into explicit obligation fibers
+- attach small local witnesses to candidate repairs
+- compile those witnesses back into symbolic repair rules
+- compress families of local repairs into shared repair languages
+- expose exactly where ambiguity remains, and which symbolic features control
+  it
+
+That is useful for correct-by-construction work in at least three ways.
+
+First, it changes when verification happens.
+
+Instead of:
+
+- search for a patch
+- run the full checker at the end
+
+the loop becomes:
+
+- search for a repair witness
+- check the witness locally
+- compile the witness into a repair shape
+- keep the exact bounded verifier as the fail-closed outer gate
+
+If the witness language is exact on the modeled corpus, many wrong repairs are
+cut off before full end-to-end checking.
+
+Second, it changes what gets reused.
+
+The reusable object is often not:
+
+- one patch
+
+It is:
+
+- a repair language
+- a decoder
+- a support quotient
+- an ambiguity quotient
+
+Those are higher-leverage assets for formal software assurance because they can
+be checked once per bounded model and then reused across many cases inside that
+model.
+
+Third, it can reduce search effort inside the bounded loop.
+
+That bounded gain does not come from dropping formal checks. It comes from:
+
+- shrinking the search object
+- routing cases into smaller exact fibers
+- replacing large lookups with tiny symbolic compilers
+- reducing the number of candidate repairs that need full evaluation
+- sometimes switching to a better symbolic language when the old grammar
+  saturates
+
+That is why the software branch kept improving when the object of search
+changed:
+
+- monolithic patch search
+- dependency-aware repair fibers
+- certificate-carrying repair
+- witness-to-patch compilation
+- shared repair-language templates
+- exact ambiguity quotients
+
+The honest limit is:
+
+- these are bounded exact laws, not universal program-repair theorems
+
+So they are not yet full correct-by-construction repair for arbitrary code.
+
+They are better understood as:
+
+- exact formal loop components
+- discovered on bounded corpora
+- suitable for promotion into stronger proof pipelines later
+- including small symbolic routing kernels that can sit in front of heavier
+  verification or synthesis stages
+
+## Part XIV: what this tutorial really teaches
 
 The deepest lesson is not:
 
@@ -2677,6 +5079,17 @@ It is more general than one special example.
 It is less general than a universal law of all neuro-symbolic systems.
 
 That is the right scope.
+
+## Next honest frontiers
+
+The current public endpoint is Level `85`, the cycle-orientation incidence
+extension law.
+
+On the current evidence, the next honest frontiers are:
+
+- a richer software atlas where `incidence_signature + cycle_orientation` stops being exact
+- a smaller semantic account of `cycle_orientation` itself, instead of treating it only as a repair bit
+- additional Lean receipts for the later logic ladder, especially the incidence and transfer steps
 
 ## References inside this repo
 

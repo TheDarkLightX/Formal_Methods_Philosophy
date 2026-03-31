@@ -1,0 +1,149 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-vctm-title fp-vctm-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-vctm-title">Verifier-compiler tutorial teaching map</title>
+  <desc id="fp-vctm-desc">
+    A four-part reading map for the verifier-compiler tutorial. Foundations lead
+    to bounded compression ladders, then to comparisons with nearby loop
+    families, and finally to the late logic ladder ending at Q2, Q3, Q4,
+    incidence signature, and cycle orientation.
+  </desc>
+
+  <defs>
+    <filter id="fp-vctm-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-vctm-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-vctm-shadow)">
+    <rect x="20" y="10" width="920" height="400" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text x="58" y="48" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Read the file as one teaching arc
+  </text>
+  <text x="58" y="68" font-size="12" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Learn the core loop first, then the bounded ladders, then the comparison
+    class, then the late logic endpoint.
+  </text>
+
+  <rect x="60" y="105" width="185" height="120" rx="18"
+    fill="rgba(15, 118, 110, 0.08)" stroke="rgba(15, 118, 110, 0.22)" />
+  <text x="80" y="132" font-size="13" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    1. Foundations
+  </text>
+  <text x="80" y="154" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Parts I-VI
+  </text>
+  <text x="80" y="176" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    label function
+  </text>
+  <text x="80" y="193" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    quotient plus repair
+  </text>
+  <text x="80" y="210" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    fail-closed controller
+  </text>
+
+  <rect x="285" y="105" width="185" height="120" rx="18"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.24)" />
+  <text x="305" y="132" font-size="13" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    2. Compression ladders
+  </text>
+  <text x="305" y="154" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Part X and Part XII
+  </text>
+  <text x="305" y="176" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    direct compilers
+  </text>
+  <text x="305" y="193" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    witness languages
+  </text>
+  <text x="305" y="210" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    repair and ambiguity ladders
+  </text>
+
+  <rect x="510" y="105" width="185" height="120" rx="18"
+    fill="rgba(249, 115, 22, 0.08)" stroke="rgba(249, 115, 22, 0.24)" />
+  <text x="530" y="132" font-size="13" font-weight="900" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    3. Loop comparison
+  </text>
+  <text x="530" y="154" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Part XI
+  </text>
+  <text x="530" y="176" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    certificates
+  </text>
+  <text x="530" y="193" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    abstractions
+  </text>
+  <text x="530" y="210" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    minimal witness languages
+  </text>
+
+  <rect x="735" y="105" width="165" height="120" rx="18"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.24)" />
+  <text x="755" y="132" font-size="13" font-weight="900" fill="#2563EB"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    4. Logic endpoint
+  </text>
+  <text x="755" y="154" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Levels 77-85
+  </text>
+  <text x="755" y="176" font-size="10" fill="#475569"
+    font-family="JetBrains Mono, monospace">
+    Q2 -> Q3 -> Q4
+  </text>
+  <text x="755" y="193" font-size="10" fill="#475569"
+    font-family="JetBrains Mono, monospace">
+    incidence_signature
+  </text>
+  <text x="755" y="210" font-size="10" fill="#475569"
+    font-family="JetBrains Mono, monospace">
+    + cycle_orientation
+  </text>
+
+  <path d="M245 165 H275" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-vctm-arrow)" stroke-linecap="round" />
+  <path d="M470 165 H500" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-vctm-arrow)" stroke-linecap="round" />
+  <path d="M695 165 H725" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-vctm-arrow)" stroke-linecap="round" />
+
+  <rect x="120" y="275" width="720" height="92" rx="18"
+    fill="rgba(15, 23, 42, 0.04)" stroke="rgba(148, 163, 184, 0.28)" />
+  <text x="145" y="302" font-size="12" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    What to keep in mind while reading
+  </text>
+  <text x="145" y="326" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Every level is exact only on its named bounded atlas or corpus.
+  </text>
+  <text x="145" y="344" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    The main lesson is not one formula. It is how the object of search changes when the previous language saturates.
+  </text>
+</svg>
