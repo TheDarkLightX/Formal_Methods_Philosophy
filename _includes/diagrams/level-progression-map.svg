@@ -1,0 +1,150 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 400"
+  role="img"
+  aria-labelledby="fp-lpm-title fp-lpm-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-lpm-title">Level progression map: six phase transitions</title>
+  <desc id="fp-lpm-desc">
+    The 85 bounded levels group into six conceptual phases, from tiny compilers
+    through witness languages, semantic patches, support geometry, software
+    repair, and definability ladders.
+  </desc>
+
+  <defs>
+    <filter id="fp-lpm-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-lpm-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3B82F6" fill-opacity="0.8" />
+    </marker>
+    <marker id="fp-lpm-arrow-down" markerWidth="10" markerHeight="10" refX="5" refY="8" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3B82F6" fill-opacity="0.8" />
+    </marker>
+  </defs>
+
+  <!-- Card -->
+  <g filter="url(#fp-lpm-shadow)">
+    <rect x="20" y="10" width="920" height="380" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Level progression: six phase transitions
+  </text>
+  <text x="60" y="64" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Each phase changes the object of search, not just the search depth.
+  </text>
+
+  <!-- ===== Row 1 ===== -->
+
+  <!-- Phase 1: Tiny Compilers (L1-4) -->
+  <rect x="50" y="85" width="260" height="115" rx="16"
+    fill="rgba(15, 118, 110, 0.08)" stroke="rgba(15, 118, 110, 0.25)" stroke-width="1.5" />
+  <text x="68" y="106" font-size="10" font-weight="700" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Levels 1&#x2013;4</text>
+  <text x="68" y="126" font-size="14" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Tiny Compilers</text>
+  <text x="68" y="148" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">quotient + repair &#x2192; 4-guard compiler</text>
+  <text x="68" y="164" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">exact lower bounds, first transfer failures</text>
+  <text x="68" y="185" font-size="9" font-weight="700" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x25B6; object: compiled verifier</text>
+
+  <!-- Arrow 1&#x2192;2 -->
+  <path d="M315 142 H332" stroke="#3B82F6" stroke-width="2.5"
+    marker-end="url(#fp-lpm-arrow)" stroke-linecap="round" />
+
+  <!-- Phase 2: Witness Languages (L5-18) -->
+  <rect x="345" y="85" width="260" height="115" rx="16"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.25)" stroke-width="1.5" />
+  <text x="363" y="106" font-size="10" font-weight="700" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Levels 5&#x2013;18</text>
+  <text x="363" y="126" font-size="14" font-weight="900" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Witness Languages</text>
+  <text x="363" y="148" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">explanation ladders, score abstractions,</text>
+  <text x="363" y="164" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">global schemas, primitive invention</text>
+  <text x="363" y="185" font-size="9" font-weight="700" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x25B6; object: exact witness schema</text>
+
+  <!-- Arrow 2&#x2192;3 -->
+  <path d="M610 142 H627" stroke="#3B82F6" stroke-width="2.5"
+    marker-end="url(#fp-lpm-arrow)" stroke-linecap="round" />
+
+  <!-- Phase 3: Semantic Patches (L19-34) -->
+  <rect x="640" y="85" width="260" height="115" rx="16"
+    fill="rgba(194, 65, 12, 0.08)" stroke="rgba(194, 65, 12, 0.25)" stroke-width="1.5" />
+  <text x="658" y="106" font-size="10" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Levels 19&#x2013;34</text>
+  <text x="658" y="126" font-size="14" font-weight="900" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Semantic Patches</text>
+  <text x="658" y="148" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">cross-frontier templates, macros, fibers,</text>
+  <text x="658" y="164" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">role compilers, support-signature transfer</text>
+  <text x="658" y="185" font-size="9" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x25B6; object: macro basis + role law</text>
+
+  <!-- Arrow Row 1 &#x2192; Row 2 (descending curve) -->
+  <path d="M770 205 C 770 232, 310 232, 310 238"
+    stroke="#3B82F6" stroke-width="2.5" fill="none"
+    marker-end="url(#fp-lpm-arrow-down)" stroke-linecap="round" opacity="0.7" />
+
+  <!-- ===== Row 2 ===== -->
+
+  <!-- Phase 4: Support Geometry (L35-47) -->
+  <rect x="50" y="240" width="260" height="115" rx="16"
+    fill="rgba(99, 102, 241, 0.08)" stroke="rgba(99, 102, 241, 0.25)" stroke-width="1.5" />
+  <text x="68" y="261" font-size="10" font-weight="700" fill="#4F46E5"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Levels 35&#x2013;47</text>
+  <text x="68" y="281" font-size="14" font-weight="900" fill="#4F46E5"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Support Geometry</text>
+  <text x="68" y="303" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">support-table laws, orbit atlas,</text>
+  <text x="68" y="319" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">width-4 invariants, mixed-basis rigidity</text>
+  <text x="68" y="340" font-size="9" font-weight="700" fill="#4F46E5"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x25B6; object: scalar cost law</text>
+
+  <!-- Arrow 4&#x2192;5 -->
+  <path d="M315 297 H332" stroke="#3B82F6" stroke-width="2.5"
+    marker-end="url(#fp-lpm-arrow)" stroke-linecap="round" />
+
+  <!-- Phase 5: Software Repair (L48-76) -->
+  <rect x="345" y="240" width="260" height="115" rx="16"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.25)" stroke-width="1.5" />
+  <text x="363" y="261" font-size="10" font-weight="700" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Levels 48&#x2013;76</text>
+  <text x="363" y="281" font-size="14" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Software Repair</text>
+  <text x="363" y="303" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">repair fibers, decoders, motif routers,</text>
+  <text x="363" y="319" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">menu laws, selector laws, kernel objects</text>
+  <text x="363" y="340" font-size="9" font-weight="700" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x25B6; object: motif-routed compiler</text>
+
+  <!-- Arrow 5&#x2192;6 -->
+  <path d="M610 297 H627" stroke="#3B82F6" stroke-width="2.5"
+    marker-end="url(#fp-lpm-arrow)" stroke-linecap="round" />
+
+  <!-- Phase 6: Definability Ladders (L77-85) -->
+  <rect x="640" y="240" width="260" height="115" rx="16"
+    fill="rgba(30, 41, 59, 0.08)" stroke="rgba(30, 41, 59, 0.25)" stroke-width="1.5" />
+  <text x="658" y="261" font-size="10" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Levels 77&#x2013;85</text>
+  <text x="658" y="281" font-size="14" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Definability Ladders</text>
+  <text x="658" y="303" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Q2 / Q3 / Q4 theory tiers,</text>
+  <text x="658" y="319" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">incidence signatures, cycle orientation</text>
+  <text x="658" y="340" font-size="9" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x25B6; object: definability tier</text>
+</svg>

@@ -1,0 +1,105 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 500"
+  role="img"
+  aria-labelledby="fp-dl-title fp-dl-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-dl-title">Definability ladder: what each theory controls</title>
+  <desc id="fp-dl-desc">
+    Five theory tiers from Q2 through incidence plus cycle orientation.
+    Each tier controls a different class of software targets: relations,
+    commitments, oriented support, and raw family identity.
+  </desc>
+
+  <defs>
+    <filter id="fp-dl-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <!-- Card -->
+  <g filter="url(#fp-dl-shadow)">
+    <rect x="20" y="10" width="920" height="480" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Definability ladder
+  </text>
+  <text x="60" y="64" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Each tier is the smallest searched theory in which its targets become exact.
+  </text>
+
+  <!-- ===== Tier 5 (top, narrowest): incidence + cycle orientation ===== -->
+  <rect x="200" y="82" width="560" height="68" rx="14"
+    fill="rgba(30, 41, 59, 0.10)" stroke="rgba(30, 41, 59, 0.30)" stroke-width="2" />
+  <text x="222" y="103" font-size="10" font-weight="700" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">TIER 5  &#x2022;  Level 85</text>
+  <text x="222" y="122" font-size="13" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    incidence_signature + cycle_orientation
+  </text>
+  <text x="222" y="140" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    controls: full off-diagonal raw family identity (all 64 families)
+  </text>
+
+  <!-- ===== Tier 4: incidence_signature ===== -->
+  <rect x="160" y="162" width="640" height="68" rx="14"
+    fill="rgba(99, 102, 241, 0.08)" stroke="rgba(99, 102, 241, 0.25)" stroke-width="1.5" />
+  <text x="182" y="183" font-size="10" font-weight="700" fill="#4F46E5"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">TIER 4  &#x2022;  Level 84</text>
+  <text x="182" y="202" font-size="13" font-weight="900" fill="#4F46E5"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    incidence_signature = (out_profile, in_profile)
+  </text>
+  <text x="182" y="220" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    controls: ambiguous-slice raw family identity  &#x2022;  40 states
+  </text>
+
+  <!-- ===== Tier 3: Q4 ===== -->
+  <rect x="120" y="242" width="720" height="68" rx="14"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.22)" stroke-width="1.5" />
+  <text x="142" y="263" font-size="10" font-weight="700" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">TIER 3  &#x2022;  Level 82</text>
+  <text x="142" y="282" font-size="13" font-weight="900" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Q4 = (extra_count, orientation)
+  </text>
+  <text x="142" y="300" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    controls: oriented support geometry  &#x2022;  8 states
+  </text>
+
+  <!-- ===== Tier 2: Q3 ===== -->
+  <rect x="80" y="322" width="800" height="68" rx="14"
+    fill="rgba(15, 118, 110, 0.08)" stroke="rgba(15, 118, 110, 0.22)" stroke-width="1.5" />
+  <text x="102" y="343" font-size="10" font-weight="700" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">TIER 2  &#x2022;  Level 78</text>
+  <text x="102" y="362" font-size="13" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Q3 = (balanced_profiles, support_gap, high_overlap)
+  </text>
+  <text x="102" y="380" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    controls: commitments (anchor shape, kernel, menu) + symmetric support  &#x2022;  7 states
+  </text>
+
+  <!-- ===== Tier 1 (bottom, widest): Q2 ===== -->
+  <rect x="50" y="402" width="860" height="68" rx="14"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.22)" stroke-width="1.5" />
+  <text x="72" y="423" font-size="10" font-weight="700" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">TIER 1  &#x2022;  Level 78</text>
+  <text x="72" y="442" font-size="13" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Q2 = (balanced_profiles, support_gap)
+  </text>
+  <text x="72" y="460" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    controls: relations (outlier bits, pairwise disagreement selectors)  &#x2022;  6 states
+  </text>
+</svg>

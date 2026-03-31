@@ -474,6 +474,16 @@ mixed-basis rigidity laws.
 
 Each level below is exact only on its named bounded frontier or corpus.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Level progression map</p>
+  {% include diagrams/level-progression-map.svg %}
+  <figcaption class="fp-figure-caption">
+    The 85 levels group into six phases. At each phase boundary, the object of
+    search changes, not just the search depth. That is the recurring lesson
+    of this progression.
+  </figcaption>
+</figure>
+
 The public pattern is:
 
 - Levels `1-4`: compact repaired compilers, lower bounds, and first transfer failures
@@ -2760,6 +2770,17 @@ The next bounded question was whether the same progression would survive on a
 small software-engineering corpus, where the goal is not only to classify
 labels but to recover repairs.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Software repair compression ladder</p>
+  {% include diagrams/software-repair-pipeline.svg %}
+  <figcaption class="fp-figure-caption">
+    The software branch replays the same meta-pattern: each phase changes the
+    object of search. Monolithic patch search gives way to fiber decomposition,
+    certificate-carrying verification, and finally a compiled repair language
+    with shared templates and motif-routed direct construction.
+  </figcaption>
+</figure>
+
 The bounded corpus used two tiny patch families over three edit sites:
 
 - `guard`
@@ -4457,6 +4478,16 @@ The ladder that survives on the current bounded atlases is:
 - `Q4 = (extra_count, orientation)` for oriented support geometry
 - `incidence_signature = (out_profile, in_profile)` for ambiguous-slice raw family identity
 - `incidence_signature + cycle_orientation` for full off-diagonal raw family identity
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Definability ladder</p>
+  {% include diagrams/definability-ladder.svg %}
+  <figcaption class="fp-figure-caption">
+    Each tier is the smallest searched theory in which its class of targets
+    becomes exact. The tower widens downward: coarser theories control simpler
+    targets, while finer targets require richer theories.
+  </figcaption>
+</figure>
 
 One way to picture this ladder is as a map legend that keeps gaining one new
 symbol each time the older legend blurs two regions together. `Q2` separates
