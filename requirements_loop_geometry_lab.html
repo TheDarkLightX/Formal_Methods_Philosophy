@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Requirements Loop Geometry Lab: Observation, Quotient, Separation</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --paper: #efe7d8;
+    --canvas: #f7f1e6;
+    --panel: rgba(255, 250, 241, 0.92);
+    --panel-strong: rgba(255, 247, 234, 0.98);
+    --ink: #2a2520;
+    --muted: #7a7064;
+    --line: rgba(42, 37, 32, 0.14);
+    --line-strong: rgba(42, 37, 32, 0.25);
+    --teal: #0f766e;
+    --teal-soft: rgba(15, 118, 110, 0.10);
+    --teal-strong: rgba(15, 118, 110, 0.18);
+    --amber: #a04a08;
+    --amber-soft: rgba(160, 74, 8, 0.10);
+    --amber-strong: rgba(160, 74, 8, 0.18);
+    --red: #a82218;
+    --red-soft: rgba(168, 34, 24, 0.10);
+    --red-strong: rgba(168, 34, 24, 0.18);
+    --green: #15803d;
+    --green-soft: rgba(34, 197, 94, 0.10);
+    --green-strong: rgba(34, 197, 94, 0.18);
+    --blue: #3b82f6;
+    --blue-soft: rgba(59, 130, 246, 0.10);
+    --purple: #7c3aed;
+    --purple-soft: rgba(124, 58, 237, 0.10);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 18px 36px rgba(42, 34, 28, 0.08);
+    --font-body: "Source Sans 3", Georgia, serif;
+    --font-display: "Bitter", Georgia, serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1c1916; --canvas: #141210;
+      --panel: rgba(32, 28, 24, 0.94); --panel-strong: rgba(36, 32, 28, 0.98);
+      --ink: #e4dfda; --muted: #9e968c;
+      --line: rgba(228, 223, 218, 0.12); --line-strong: rgba(228, 223, 218, 0.22);
+      --teal: #2dd4bf; --teal-soft: rgba(45, 212, 191, 0.12); --teal-strong: rgba(45, 212, 191, 0.20);
+      --amber: #f5b731; --amber-soft: rgba(245, 183, 49, 0.12); --amber-strong: rgba(245, 183, 49, 0.20);
+      --red: #f87171; --red-soft: rgba(248, 113, 113, 0.12); --red-strong: rgba(248, 113, 113, 0.20);
+      --green: #4ade80; --green-soft: rgba(74, 222, 128, 0.12); --green-strong: rgba(74, 222, 128, 0.20);
+      --blue: #60a5fa; --blue-soft: rgba(96, 165, 250, 0.12);
+      --purple: #c084fc; --purple-soft: rgba(192, 132, 252, 0.12);
+      --shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 20px;
+    font-family: var(--font-body); color: var(--ink);
+    background: radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 36%),
+      radial-gradient(circle at top right, rgba(160, 74, 8, 0.08), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)), var(--canvas);
+    line-height: 1.45;
+  }
+  .shell { max-width: 1180px; margin: 0 auto; }
+  .hero { text-align: center; padding: 28px 0 18px; }
+  .hero h1 { font-family: var(--font-display); font-size: 1.95rem; margin: 0; }
+  .hero p { color: var(--muted); font-size: 0.98rem; margin: 10px 0 0; }
+
+  .controls {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    padding: 14px 18px; background: var(--panel-strong);
+    border: 1px solid var(--line); border-radius: var(--radius-md);
+    margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .controls label { font-weight: 700; font-size: 0.85rem; }
+  .controls select, .controls button {
+    font-family: var(--font-mono); font-size: 0.82rem; padding: 6px 12px;
+    border-radius: var(--radius-sm); border: 1px solid var(--line-strong);
+    background: var(--panel); color: var(--ink); cursor: pointer;
+  }
+  .controls button:hover { transform: translateY(-1px); }
+  .btn-primary { border-color: var(--blue); color: var(--blue); background: var(--blue-soft); }
+  .btn-green { border-color: var(--green); color: var(--green); background: var(--green-soft); }
+  .btn-red { border-color: var(--red); color: var(--red); background: var(--red-soft); }
+
+  .pipeline { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 16px; }
+  @media (max-width: 980px) { .pipeline { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .pipeline { grid-template-columns: 1fr; } }
+  .stage {
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: var(--radius-md); padding: 16px; box-shadow: var(--shadow);
+    min-height: 138px;
+  }
+  .stage.active { border-color: var(--blue); border-width: 2px; }
+  .stage.done { border-color: var(--green); }
+  .stage h2 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 8px; }
+  .stage p { margin: 0; color: var(--muted); font-size: 0.82rem; }
+
+  .grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; }
+  @media (max-width: 880px) { .grid { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow);
+  }
+  .panel h2 { font-family: var(--font-display); font-size: 1.08rem; margin: 0 0 10px; }
+  .panel h3 { font-size: 0.9rem; margin: 14px 0 8px; color: var(--muted); }
+
+  .chip-set { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 5px 10px; border-radius: 999px; font-family: var(--font-mono);
+    font-size: 0.75rem; font-weight: 700; border: 1px solid;
+  }
+  .chip-target { background: var(--green-soft); color: var(--green); border-color: var(--green-strong); }
+  .chip-obs { background: var(--teal-soft); color: var(--teal); border-color: var(--teal-strong); }
+  .chip-amb { background: var(--amber-soft); color: var(--amber); border-color: var(--amber-strong); }
+  .chip-q { background: var(--purple-soft); color: var(--purple); border-color: rgba(124,58,237,0.25); }
+  .chip-final { background: var(--blue-soft); color: var(--blue); border-color: rgba(59,130,246,0.22); }
+
+  .family-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+    margin-top: 8px;
+  }
+  .family-card {
+    padding: 10px 8px; border-radius: 12px; border: 1px solid var(--line);
+    text-align: center; font-family: var(--font-mono); font-size: 0.74rem;
+    background: rgba(255,255,255,0.48);
+  }
+  .family-card.hidden-target { background: var(--green-soft); border-color: var(--green-strong); color: var(--green); font-weight: 700; }
+  .family-card.live { background: var(--amber-soft); border-color: var(--amber-strong); color: var(--amber); }
+  .family-card.dead { opacity: 0.30; text-decoration: line-through; }
+
+  .metric-bar { display: flex; gap: 12px; align-items: center; margin: 10px 0; }
+  .metric-label { width: 120px; font-size: 0.82rem; font-weight: 700; }
+  .metric-track { flex: 1; height: 18px; background: var(--line); border-radius: 999px; overflow: hidden; }
+  .metric-fill { height: 100%; background: var(--teal); border-radius: 999px; transition: width 0.25s ease; }
+  .metric-fill.amber { background: var(--amber); }
+  .metric-fill.blue { background: var(--blue); }
+  .metric-num { width: 44px; text-align: right; font-family: var(--font-mono); font-size: 0.75rem; }
+
+  .question-box {
+    padding: 12px 14px; border-radius: var(--radius-md);
+    background: var(--purple-soft); border: 1px solid rgba(124,58,237,0.22);
+    margin-top: 12px;
+  }
+  .question-box code { font-family: var(--font-mono); font-size: 0.78rem; }
+
+  .log-area {
+    max-height: 280px; overflow-y: auto; padding: 12px; border-radius: var(--radius-md);
+    border: 1px solid var(--line); background: rgba(0,0,0,0.03);
+    font-family: var(--font-mono); font-size: 0.74rem; line-height: 1.6;
+  }
+
+  .note {
+    margin-top: 14px; padding: 12px 14px; border-radius: var(--radius-md);
+    background: var(--blue-soft); border: 1px solid rgba(59,130,246,0.18);
+    font-size: 0.86rem;
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hero">
+    <h1>Requirements Loop Geometry Lab</h1>
+    <p>
+      Watch a hidden missing set move through four stages:
+      witness basis, observation quotient, residual ambiguity, then separator questions.
+    </p>
+  </div>
+
+  <div class="controls">
+    <label for="hiddenSelect">Hidden set</label>
+    <select id="hiddenSelect"></select>
+
+    <label for="basisSelect">Witness basis</label>
+    <select id="basisSelect">
+      <option value="singleton">Singleton basis</option>
+      <option value="pair" selected>Pair basis</option>
+    </select>
+
+    <label for="querySelect">Query language</label>
+    <select id="querySelect">
+      <option value="membership">Singleton membership</option>
+      <option value="block" selected>Block intersection</option>
+    </select>
+
+    <button class="btn-primary" id="observeBtn">Observe</button>
+    <button class="btn-green" id="queryBtn">Ask best question</button>
+    <button class="btn-primary" id="autoBtn">Auto finish</button>
+    <button class="btn-red" id="resetBtn">Reset</button>
+  </div>
+
+  <div class="pipeline">
+    <div class="stage" id="stageRaw">
+      <h2>1. Raw family</h2>
+      <p>All nonempty missing sets are initially possible.</p>
+    </div>
+    <div class="stage" id="stageObs">
+      <h2>2. Observation map</h2>
+      <p>The chosen witness basis turns the hidden set into a visible observation state.</p>
+    </div>
+    <div class="stage" id="stageResidue">
+      <h2>3. Residual ambiguity</h2>
+      <p>Only the sets with the same observation remain alive.</p>
+    </div>
+    <div class="stage" id="stageSep">
+      <h2>4. Separator policy</h2>
+      <p>Questions are asked only on the residue that survived the first stage.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Current state</h2>
+
+      <h3>Target and observed witnesses</h3>
+      <div class="chip-set" id="targetSet"></div>
+      <div class="chip-set" id="obsSet" style="margin-top:10px"></div>
+
+      <h3>Family after the current stage</h3>
+      <div class="family-grid" id="familyGrid"></div>
+
+      <div class="metric-bar">
+        <div class="metric-label">Live sets</div>
+        <div class="metric-track"><div class="metric-fill amber" id="liveFill"></div></div>
+        <div class="metric-num" id="liveNum"></div>
+      </div>
+      <div class="metric-bar">
+        <div class="metric-label">Questions used</div>
+        <div class="metric-track"><div class="metric-fill blue" id="questionFill"></div></div>
+        <div class="metric-num" id="questionNum"></div>
+      </div>
+      <div class="metric-bar">
+        <div class="metric-label">Lower bound</div>
+        <div class="metric-track"><div class="metric-fill" id="boundFill"></div></div>
+        <div class="metric-num" id="boundNum"></div>
+      </div>
+
+      <div class="question-box" id="questionBox">
+        No separator question has been asked yet.
+      </div>
+
+      <div class="note" id="teachingNote"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Loop log</h2>
+      <div class="log-area" id="logArea"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  "use strict";
+
+  const atoms = ["r1", "r2", "r3", "r4"];
+
+  function allNonEmptySubsets(items) {
+    const out = [];
+    const full = 1 << items.length;
+    for (let mask = 1; mask < full; mask += 1) {
+      const subset = [];
+      for (let i = 0; i < items.length; i += 1) {
+        if (mask & (1 << i)) subset.push(items[i]);
+      }
+      out.push(subset);
+    }
+    return out;
+  }
+
+  const universe = allNonEmptySubsets(atoms);
+
+  function subsetKey(subset) {
+    return "{" + subset.join(",") + "}";
+  }
+
+  function subsetIntersects(a, b) {
+    const bSet = new Set(b);
+    return a.some((x) => bSet.has(x));
+  }
+
+  function isSubset(a, b) {
+    const bSet = new Set(b);
+    return a.every((x) => bSet.has(x));
+  }
+
+  function witnessesForBasis(basis) {
+    if (basis === "singleton") {
+      return atoms.map((a) => [a]);
+    }
+    const out = [];
+    for (let i = 0; i < atoms.length; i += 1) {
+      for (let j = i + 1; j < atoms.length; j += 1) {
+        out.push([atoms[i], atoms[j]]);
+      }
+    }
+    return out;
+  }
+
+  function observation(hidden, basis) {
+    return witnessesForBasis(basis).filter((w) => isSubset(w, hidden));
+  }
+
+  function observationKey(hidden, basis) {
+    return observation(hidden, basis).map(subsetKey).sort().join("|");
+  }
+
+  function ambiguityFamily(hidden, basis, family) {
+    const key = observationKey(hidden, basis);
+    return family.filter((candidate) => observationKey(candidate, basis) === key);
+  }
+
+  function queryCandidates(mode) {
+    if (mode === "membership") {
+      return atoms.map((a) => [a]);
+    }
+    return universe.filter((subset) => subset.length < atoms.length);
+  }
+
+  function bestQuestion(family, hidden, mode) {
+    const candidates = queryCandidates(mode);
+    let best = null;
+    for (const q of candidates) {
+      let yesCount = 0;
+      let noCount = 0;
+      for (const candidate of family) {
+        if (subsetIntersects(candidate, q)) yesCount += 1;
+        else noCount += 1;
+      }
+      if (yesCount === 0 || noCount === 0) continue;
+      const score = Math.max(yesCount, noCount);
+      const balance = Math.abs(yesCount - noCount);
+      const sizePenalty = q.length;
+      const row = { q, score, balance, sizePenalty, answer: subsetIntersects(hidden, q) };
+      if (!best || score < best.score || (score === best.score && balance < best.balance) ||
+          (score === best.score && balance === best.balance && sizePenalty < best.sizePenalty)) {
+        best = row;
+      }
+    }
+    return best;
+  }
+
+  function lowerBound(count, queryMode) {
+    if (count <= 1) return 0;
+    if (queryMode === "membership") return count - 1;
+    return Math.ceil(Math.log2(count));
+  }
+
+  const state = {
+    hidden: atoms.map((a) => [a])[2],
+    basis: "pair",
+    queryMode: "block",
+    observed: false,
+    family: universe.slice(),
+    observation: [],
+    questions: [],
+  };
+
+  const hiddenSelect = document.getElementById("hiddenSelect");
+  const basisSelect = document.getElementById("basisSelect");
+  const querySelect = document.getElementById("querySelect");
+  const targetSet = document.getElementById("targetSet");
+  const obsSet = document.getElementById("obsSet");
+  const familyGrid = document.getElementById("familyGrid");
+  const liveFill = document.getElementById("liveFill");
+  const liveNum = document.getElementById("liveNum");
+  const questionFill = document.getElementById("questionFill");
+  const questionNum = document.getElementById("questionNum");
+  const boundFill = document.getElementById("boundFill");
+  const boundNum = document.getElementById("boundNum");
+  const logArea = document.getElementById("logArea");
+  const questionBox = document.getElementById("questionBox");
+  const teachingNote = document.getElementById("teachingNote");
+
+  function log(message) {
+    const line = document.createElement("div");
+    line.textContent = message;
+    logArea.appendChild(line);
+    logArea.scrollTop = logArea.scrollHeight;
+  }
+
+  function chip(text, cls) {
+    const span = document.createElement("span");
+    span.className = "chip " + cls;
+    span.textContent = text;
+    return span;
+  }
+
+  function renderStages() {
+    document.getElementById("stageRaw").className = "stage done";
+    document.getElementById("stageObs").className = "stage" + (state.observed ? " done" : " active");
+    document.getElementById("stageResidue").className = "stage" + (state.observed ? " done" : "");
+    document.getElementById("stageSep").className = "stage" + (state.questions.length > 0 ? " done" : state.observed ? " active" : "");
+  }
+
+  function render() {
+    targetSet.innerHTML = "";
+    targetSet.appendChild(chip("hidden = " + subsetKey(state.hidden), "chip-target"));
+
+    obsSet.innerHTML = "";
+    if (!state.observed) {
+      obsSet.appendChild(chip("observe first", "chip-obs"));
+    } else if (state.observation.length === 0) {
+      obsSet.appendChild(chip("O = ∅", "chip-obs"));
+    } else {
+      state.observation.forEach((obs) => obsSet.appendChild(chip(subsetKey(obs), "chip-obs")));
+    }
+
+    familyGrid.innerHTML = "";
+    const familyKeys = new Set(state.family.map(subsetKey));
+    universe.forEach((candidate) => {
+      const card = document.createElement("div");
+      const key = subsetKey(candidate);
+      card.className = "family-card";
+      if (subsetKey(state.hidden) === key) card.classList.add("hidden-target");
+      if (familyKeys.has(key)) card.classList.add("live");
+      else card.classList.add("dead");
+      card.textContent = key;
+      familyGrid.appendChild(card);
+    });
+
+    const liveRatio = (state.family.length / universe.length) * 100;
+    liveFill.style.width = liveRatio + "%";
+    liveNum.textContent = state.family.length;
+
+    questionFill.style.width = Math.min(state.questions.length / 4, 1) * 100 + "%";
+    questionNum.textContent = state.questions.length;
+
+    const bound = lowerBound(state.family.length, state.queryMode);
+    boundFill.style.width = Math.min(bound / 4, 1) * 100 + "%";
+    boundNum.textContent = bound;
+
+    if (!state.observed) {
+      questionBox.textContent = "No separator question has been asked yet.";
+    } else if (state.family.length <= 1) {
+      questionBox.innerHTML = "<strong>Resolved.</strong> The hidden set has been identified.";
+    } else {
+      const best = bestQuestion(state.family, state.hidden, state.queryMode);
+      if (!best) {
+        questionBox.innerHTML = "<strong>No separating question is available in the current language.</strong>";
+      } else {
+        questionBox.innerHTML =
+          "<strong>Best next question</strong><br><code>Does M intersect " + subsetKey(best.q) +
+          " ?</code><br>hidden answer: <strong>" + (best.answer ? "yes" : "no") +
+          "</strong> , worst branch size " + best.score + ".";
+      }
+    }
+
+    if (!state.observed) {
+      teachingNote.textContent = "Before observation, the loop still acts on the raw family.";
+    } else if (state.family.length === 1) {
+      teachingNote.textContent = "The residual is gone. At this point the loop can compile the result or ask no more questions.";
+    } else if (state.basis === "pair") {
+      teachingNote.textContent = "The pair basis has already changed the geometry. Questions are only solving the residue that survived that first collapse.";
+    } else {
+      teachingNote.textContent = "With the singleton basis, the observation stage already identifies the hidden set, so the separator stage is usually unnecessary.";
+    }
+
+    renderStages();
+  }
+
+  function resetState() {
+    state.hidden = JSON.parse(hiddenSelect.value);
+    state.basis = basisSelect.value;
+    state.queryMode = querySelect.value;
+    state.observed = false;
+    state.family = universe.slice();
+    state.observation = [];
+    state.questions = [];
+    logArea.innerHTML = "";
+    log("Loaded hidden set " + subsetKey(state.hidden) + " with " + state.basis + " witnesses and " + state.queryMode + " queries.");
+    render();
+  }
+
+  function stepObserve() {
+    if (state.observed) return;
+    state.observation = observation(state.hidden, state.basis);
+    state.family = ambiguityFamily(state.hidden, state.basis, universe);
+    state.observed = true;
+    log("Observation state " + (state.observation.length ? state.observation.map(subsetKey).join(", ") : "∅") +
+      " leaves " + state.family.length + " live set(s).");
+    render();
+  }
+
+  function stepQuestion() {
+    if (!state.observed) stepObserve();
+    if (state.family.length <= 1) return;
+    const best = bestQuestion(state.family, state.hidden, state.queryMode);
+    if (!best) {
+      log("No separating question exists in the current query language.");
+      render();
+      return;
+    }
+    const answer = best.answer;
+    state.family = state.family.filter((candidate) => subsetIntersects(candidate, best.q) === answer);
+    state.questions.push({ q: best.q, answer });
+    log("Asked " + subsetKey(best.q) + " , answer " + (answer ? "yes" : "no") +
+      " , residue size " + state.family.length + ".");
+    render();
+  }
+
+  function autoFinish() {
+    if (!state.observed) stepObserve();
+    let guard = 12;
+    while (state.family.length > 1 && guard > 0) {
+      const best = bestQuestion(state.family, state.hidden, state.queryMode);
+      if (!best) break;
+      stepQuestion();
+      guard -= 1;
+    }
+  }
+
+  function populateHiddenOptions() {
+    hiddenSelect.innerHTML = "";
+    universe.forEach((subset) => {
+      const option = document.createElement("option");
+      option.value = JSON.stringify(subset);
+      option.textContent = subsetKey(subset);
+      if (subsetKey(subset) === "{r3}") option.selected = true;
+      hiddenSelect.appendChild(option);
+    });
+  }
+
+  document.getElementById("observeBtn").addEventListener("click", stepObserve);
+  document.getElementById("queryBtn").addEventListener("click", stepQuestion);
+  document.getElementById("autoBtn").addEventListener("click", autoFinish);
+  document.getElementById("resetBtn").addEventListener("click", resetState);
+  hiddenSelect.addEventListener("change", resetState);
+  basisSelect.addEventListener("change", resetState);
+  querySelect.addEventListener("change", resetState);
+
+  populateHiddenOptions();
+  resetState();
+})();
+</script>
+</body>
+</html>

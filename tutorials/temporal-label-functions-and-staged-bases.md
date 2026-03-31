@@ -1,0 +1,143 @@
+---
+title: "Temporal label functions and staged bases"
+layout: docs
+kicker: Tutorial 32
+description: "A narrow tutorial on temporal label functions, monitor-cell labels, and why a richer label basis can be useful only after the right first-stage carving."
+---
+
+<details open>
+<summary><strong>Road map</strong></summary>
+
+This tutorial is narrower than the previous three. It focuses on one bounded
+lesson that turned out to matter for loop design.
+
+- **Parts I-II**: what a label function is, and why basis choice should be treated as a first-class loop axis
+- **Parts III-IV**: the stable bounded temporal result and the geometry analogy
+- **Part V**: why this small result still matters for larger loop search
+
+</details>
+
+## Why this tutorial exists
+
+Many neuro-symbolic loops talk about labels as if there were one natural basis.
+
+Typical examples are:
+
+- pass or fail
+- accepted or rejected
+- flat trace classes
+
+The temporal branch says that this picture is too simple.
+
+Sometimes a richer temporal basis is not globally useful. But after the right
+first-stage carving, it becomes exact.
+
+That makes temporal labels a staged basis-change tool.
+
+## Part I: a label function is a choice of coordinates
+
+A label function says how the loop sees the task family.
+
+If the labels are too coarse, different hidden structures collapse together.
+If the labels are too fine, the loop may pay too much complexity too early.
+
+So the real question is not:
+
+- are temporal labels richer?
+
+It is:
+
+- when is a richer temporal basis the right basis?
+
+The easiest analogy is coordinate choice in geometry.
+
+A polar coordinate system can be the right tool for one subproblem and the
+wrong tool for another. Temporal monitor labels can behave the same way.
+
+## Part II: the bounded result
+
+The stable bounded temporal result in this repo is small but sharp:
+
+- raw monitor-cell labels strictly refine flat two-step trace labels on the
+  full temporal controller family
+- after first-step carving, the two label functions become partition-equivalent
+
+So the richer temporal basis really does carry more information.
+
+But the branch also shows that the extra information is not automatically the
+right starting basis for the whole family.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Temporal basis shift</p>
+  {% include diagrams/temporal-label-basis-shift.svg %}
+  <figcaption class="fp-figure-caption">
+    The richer temporal basis is strictly finer on the full family, but after
+    the first carve it no longer buys a finer partition.
+  </figcaption>
+</figure>
+
+**Interactive lab**
+
+- [Temporal Label Basis Lab]({{ '/temporal_label_basis_lab.html' | relative_url }})
+
+## Part III: what this changes in loop design
+
+This result is small, but it changes how basis choice should be treated.
+
+Loop comparison should ask:
+
+- what label basis is being used?
+- what quotient does that basis induce?
+- at what stage does that basis become exact?
+
+That is a more useful question than simply asking whether one label set is
+“richer” than another.
+
+The temporal branch suggests a staged design pattern:
+
+1. carve the task family
+2. switch to the richer temporal basis
+3. compile or control the smaller residue
+
+## Part IV: why this still matters
+
+This tutorial is narrower than the others in the new sequence, but it does
+real work.
+
+It establishes that loop-space geometry includes:
+
+- witness language
+- separator language
+- and label basis
+
+That matters for larger branches because it warns against a common mistake:
+
+- assuming that the finest available basis is automatically the best global
+  basis
+
+The bounded result says that basis choice can itself be staged.
+
+## Related tutorials
+
+- [Tutorial 29: Loop-space geometry]({{ '/tutorials/loop-space-geometry/' | relative_url }})
+- [Tutorial 31: Hybrid geometry-changing loops]({{ '/tutorials/hybrid-geometry-changing-loops/' | relative_url }})
+- [Tutorial 27: Verifier-compiler loops]({{ '/tutorials/verifier-compiler-loops/' | relative_url }})
+
+## Next honest frontiers
+
+This branch is still the narrowest of the four.
+
+The honest next steps are:
+
+- more than one temporal controller family
+- more than one staged basis-equivalence result
+- and a clearer bridge to practical monitoring and runtime-assurance examples
+
+Even so, the stable bounded lesson is already worth keeping:
+
+A richer label basis is not always a globally better basis. Sometimes the right
+loop is:
+
+- carve first
+- switch basis second
+- compile the residue third

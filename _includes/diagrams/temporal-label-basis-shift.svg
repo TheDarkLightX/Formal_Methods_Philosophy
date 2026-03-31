@@ -1,0 +1,110 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-tlb-title fp-tlb-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-tlb-title">Temporal label basis shift</title>
+  <desc id="fp-tlb-desc">
+    On the full temporal family, monitor-cell labels are strictly finer than
+    flat trace labels. After the first-stage carve-out, the two label bases
+    induce the same partition.
+  </desc>
+
+  <defs>
+    <filter id="fp-tlb-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-tlb-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-tlb-shadow)">
+    <rect x="20" y="12" width="920" height="396" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text x="56" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Temporal label basis shift
+  </text>
+  <text x="56" y="66" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Richer labels are not always the right global basis. Sometimes they become exact only after the first carve.
+  </text>
+
+  <g filter="url(#fp-tlb-shadow)">
+    <rect x="46" y="104" width="250" height="248" rx="18" fill="rgba(59,130,246,0.07)" stroke="rgba(59,130,246,0.20)" />
+    <text x="66" y="132" font-size="12" font-weight="900" fill="#2563EB"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Full temporal family</text>
+    <text x="66" y="152" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">four controllers before any carve</text>
+
+    <rect x="68" y="176" width="86" height="26" rx="8" fill="rgba(15,118,110,0.10)" stroke="rgba(15,118,110,0.22)" />
+    <text x="84" y="193" font-size="10" fill="#0F766E" font-family="IBM Plex Mono, monospace">A1</text>
+    <rect x="170" y="176" width="86" height="26" rx="8" fill="rgba(15,118,110,0.10)" stroke="rgba(15,118,110,0.22)" />
+    <text x="186" y="193" font-size="10" fill="#0F766E" font-family="IBM Plex Mono, monospace">A2</text>
+    <rect x="68" y="212" width="86" height="26" rx="8" fill="rgba(15,118,110,0.10)" stroke="rgba(15,118,110,0.22)" />
+    <text x="84" y="229" font-size="10" fill="#0F766E" font-family="IBM Plex Mono, monospace">B1</text>
+    <rect x="170" y="212" width="86" height="26" rx="8" fill="rgba(15,118,110,0.10)" stroke="rgba(15,118,110,0.22)" />
+    <text x="186" y="229" font-size="10" fill="#0F766E" font-family="IBM Plex Mono, monospace">B2</text>
+
+    <rect x="68" y="266" width="188" height="54" rx="12" fill="rgba(245,158,11,0.10)" stroke="rgba(245,158,11,0.22)" />
+    <text x="88" y="287" font-size="11" font-weight="700" fill="#A16207"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Flat trace basis</text>
+    <text x="88" y="305" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">coarse classes: {A1,A2} and {B1,B2}</text>
+  </g>
+
+  <path d="M300 226 H360" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-tlb-arrow)" stroke-linecap="round" />
+
+  <g filter="url(#fp-tlb-shadow)">
+    <rect x="372" y="104" width="216" height="248" rx="18" fill="rgba(124,58,237,0.08)" stroke="rgba(124,58,237,0.22)" />
+    <text x="392" y="132" font-size="12" font-weight="900" fill="#7C3AED"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Monitor-cell basis</text>
+    <text x="392" y="152" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">strictly finer on the full family</text>
+
+    <rect x="394" y="176" width="172" height="30" rx="8" fill="rgba(124,58,237,0.10)" stroke="rgba(124,58,237,0.22)" />
+    <text x="414" y="195" font-size="10" fill="#7C3AED" font-family="IBM Plex Mono, monospace">[A1] [A2] [B1] [B2]</text>
+
+    <text x="392" y="238" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">more information than the flat trace basis</text>
+    <text x="392" y="256" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">but also a more expensive global coordinate system</text>
+
+    <rect x="394" y="286" width="172" height="40" rx="10" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.20)" />
+    <text x="414" y="304" font-size="10" fill="#2563EB"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">v161 lesson:</text>
+    <text x="414" y="320" font-size="10" fill="#2563EB"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">more information is not always the right first basis</text>
+  </g>
+
+  <path d="M592 226 H652" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-tlb-arrow)" stroke-linecap="round" />
+
+  <g filter="url(#fp-tlb-shadow)">
+    <rect x="664" y="104" width="250" height="248" rx="18" fill="rgba(34,197,94,0.08)" stroke="rgba(34,197,94,0.22)" />
+    <text x="684" y="132" font-size="12" font-weight="900" fill="#15803D"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">After first-stage carving</text>
+    <text x="684" y="152" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">the family has already been split once</text>
+
+    <rect x="686" y="176" width="92" height="26" rx="8" fill="rgba(34,197,94,0.10)" stroke="rgba(34,197,94,0.22)" />
+    <text x="706" y="193" font-size="10" fill="#15803D" font-family="IBM Plex Mono, monospace">A1</text>
+    <rect x="794" y="176" width="92" height="26" rx="8" fill="rgba(34,197,94,0.10)" stroke="rgba(34,197,94,0.22)" />
+    <text x="814" y="193" font-size="10" fill="#15803D" font-family="IBM Plex Mono, monospace">A2</text>
+
+    <rect x="686" y="226" width="200" height="56" rx="12" fill="rgba(34,197,94,0.10)" stroke="rgba(34,197,94,0.22)" />
+    <text x="708" y="247" font-size="11" font-weight="700" fill="#15803D"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Partition-equivalent now</text>
+    <text x="708" y="265" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">flat labels and monitor labels induce</text>
+    <text x="708" y="281" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">the same remaining partition</text>
+
+    <rect x="686" y="300" width="200" height="28" rx="10" fill="rgba(15,23,42,0.05)" stroke="rgba(15,23,42,0.16)" />
+    <text x="704" y="318" font-size="10" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Basis shift should happen after the carve, not before it.</text>
+  </g>
+</svg>

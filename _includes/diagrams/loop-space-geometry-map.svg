@@ -1,0 +1,139 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-lsg-title fp-lsg-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-lsg-title">Loop-space geometry map</title>
+  <desc id="fp-lsg-desc">
+    A neuro-symbolic loop can be factored into witness language, observation
+    map, ambiguity quotient, separator policy, and compiled artifact. Stronger
+    loops often change geometry before controlling the remaining residue.
+  </desc>
+
+  <defs>
+    <filter id="fp-lsg-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-lsg-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-lsg-shadow)">
+    <rect x="20" y="12" width="920" height="396" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text x="56" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Loop-space geometry
+  </text>
+  <text x="56" y="66" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    The loop gets stronger when it changes the shape of the search space before
+    applying a residual controller.
+  </text>
+
+  <path d="M145 190 H232" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-lsg-arrow)" stroke-linecap="round" />
+  <path d="M321 190 H408" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-lsg-arrow)" stroke-linecap="round" />
+  <path d="M497 190 H584" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-lsg-arrow)" stroke-linecap="round" />
+  <path d="M673 190 H760" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-lsg-arrow)" stroke-linecap="round" />
+
+  <g filter="url(#fp-lsg-shadow)">
+    <rect x="50" y="110" width="96" height="158" rx="18" fill="rgba(15,118,110,0.08)" stroke="rgba(15,118,110,0.22)" />
+    <text x="68" y="138" font-size="12" font-weight="900" fill="#0F766E"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Witness</text>
+    <text x="68" y="154" font-size="12" font-weight="900" fill="#0F766E"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">language</text>
+    <text x="68" y="186" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">singletons</text>
+    <text x="68" y="202" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">pairs</text>
+    <text x="68" y="218" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">temporal traces</text>
+    <text x="68" y="234" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">motifs</text>
+  </g>
+
+  <g filter="url(#fp-lsg-shadow)">
+    <rect x="232" y="110" width="96" height="158" rx="18" fill="rgba(14,165,233,0.08)" stroke="rgba(14,165,233,0.22)" />
+    <text x="252" y="138" font-size="12" font-weight="900" fill="#0284C7"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Observation</text>
+    <text x="252" y="154" font-size="12" font-weight="900" fill="#0284C7"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">map</text>
+    <text x="246" y="188" font-size="10" fill="#475569"
+      font-family="IBM Plex Mono, monospace">O(x)</text>
+    <text x="246" y="208" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">stored traces</text>
+    <text x="246" y="224" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">residual evidence</text>
+  </g>
+
+  <g filter="url(#fp-lsg-shadow)">
+    <rect x="408" y="110" width="96" height="158" rx="18" fill="rgba(245,158,11,0.10)" stroke="rgba(245,158,11,0.24)" />
+    <text x="430" y="138" font-size="12" font-weight="900" fill="#A16207"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Ambiguity</text>
+    <text x="430" y="154" font-size="12" font-weight="900" fill="#A16207"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">quotient</text>
+    <text x="426" y="188" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">what still</text>
+    <text x="426" y="204" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">looks the same</text>
+    <text x="426" y="226" font-size="10" font-weight="700" fill="#A16207"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">geometry changes here</text>
+  </g>
+
+  <g filter="url(#fp-lsg-shadow)">
+    <rect x="584" y="110" width="96" height="158" rx="18" fill="rgba(59,130,246,0.08)" stroke="rgba(59,130,246,0.22)" />
+    <text x="603" y="138" font-size="12" font-weight="900" fill="#2563EB"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Separator</text>
+    <text x="603" y="154" font-size="12" font-weight="900" fill="#2563EB"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">policy</text>
+    <text x="598" y="186" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">membership</text>
+    <text x="598" y="202" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">block query</text>
+    <text x="598" y="218" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">residual verifier</text>
+  </g>
+
+  <g filter="url(#fp-lsg-shadow)">
+    <rect x="760" y="110" width="140" height="158" rx="18" fill="rgba(34,197,94,0.08)" stroke="rgba(34,197,94,0.22)" />
+    <text x="782" y="138" font-size="12" font-weight="900" fill="#15803D"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Compiled</text>
+    <text x="782" y="154" font-size="12" font-weight="900" fill="#15803D"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">artifact</text>
+    <text x="778" y="186" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">question policy</text>
+    <text x="778" y="202" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">small controller</text>
+    <text x="778" y="218" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">regime compiler</text>
+    <text x="778" y="234" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">repair grammar</text>
+  </g>
+
+  <g filter="url(#fp-lsg-shadow)">
+    <rect x="210" y="300" width="210" height="66" rx="14" fill="rgba(168,85,247,0.08)" stroke="rgba(168,85,247,0.22)" />
+    <text x="230" y="326" font-size="12" font-weight="900" fill="#7C3AED"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Label basis</text>
+    <text x="230" y="346" font-size="10" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">flat labels, monitor cells, temporal traces</text>
+  </g>
+  <path d="M420 318 C470 300 500 282 500 270" stroke="#A855F7" stroke-width="2.5" fill="none" marker-end="url(#fp-lsg-arrow)" />
+
+  <g filter="url(#fp-lsg-shadow)">
+    <rect x="520" y="300" width="330" height="66" rx="14" fill="rgba(15,23,42,0.05)" stroke="rgba(15,23,42,0.16)" />
+    <text x="542" y="326" font-size="12" font-weight="900" fill="#1E293B"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">Teaching rule</text>
+    <text x="542" y="346" font-size="11" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      The best loop is often not the one that predicts better.
+    </text>
+    <text x="542" y="362" font-size="11" fill="#475569"
+      font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      It is the one that leaves a simpler residue after the first stage.
+    </text>
+  </g>
+</svg>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graph Regime Compiler Lab: Balanced Stars, Star-Plus-Leaf, Multipartite</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --paper: #efe7d8;
+    --canvas: #f7f1e6;
+    --panel: rgba(255, 250, 241, 0.92);
+    --panel-strong: rgba(255, 247, 234, 0.98);
+    --ink: #2a2520;
+    --muted: #7a7064;
+    --line: rgba(42, 37, 32, 0.14);
+    --line-strong: rgba(42, 37, 32, 0.25);
+    --green: #15803d;
+    --green-soft: rgba(34, 197, 94, 0.10);
+    --green-strong: rgba(34, 197, 94, 0.18);
+    --teal: #0f766e;
+    --teal-soft: rgba(15, 118, 110, 0.10);
+    --teal-strong: rgba(15, 118, 110, 0.18);
+    --amber: #a04a08;
+    --amber-soft: rgba(160, 74, 8, 0.10);
+    --amber-strong: rgba(160, 74, 8, 0.18);
+    --red: #a82218;
+    --red-soft: rgba(168, 34, 24, 0.10);
+    --red-strong: rgba(168, 34, 24, 0.18);
+    --blue: #3b82f6;
+    --blue-soft: rgba(59, 130, 246, 0.10);
+    --purple: #7c3aed;
+    --purple-soft: rgba(124, 58, 237, 0.10);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 18px 36px rgba(42, 34, 28, 0.08);
+    --font-body: "Source Sans 3", Georgia, serif;
+    --font-display: "Bitter", Georgia, serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1c1916; --canvas: #141210;
+      --panel: rgba(32, 28, 24, 0.94); --panel-strong: rgba(36, 32, 28, 0.98);
+      --ink: #e4dfda; --muted: #9e968c;
+      --line: rgba(228, 223, 218, 0.12); --line-strong: rgba(228, 223, 218, 0.22);
+      --green: #4ade80; --green-soft: rgba(74, 222, 128, 0.12); --green-strong: rgba(74, 222, 128, 0.20);
+      --teal: #2dd4bf; --teal-soft: rgba(45, 212, 191, 0.12); --teal-strong: rgba(45, 212, 191, 0.20);
+      --amber: #f5b731; --amber-soft: rgba(245, 183, 49, 0.12); --amber-strong: rgba(245, 183, 49, 0.20);
+      --red: #f87171; --red-soft: rgba(248, 113, 113, 0.12); --red-strong: rgba(248, 113, 113, 0.20);
+      --blue: #60a5fa; --blue-soft: rgba(96, 165, 250, 0.12);
+      --purple: #c084fc; --purple-soft: rgba(192, 132, 252, 0.12);
+      --shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 20px;
+    font-family: var(--font-body); color: var(--ink);
+    background: radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 36%),
+      radial-gradient(circle at top right, rgba(160, 74, 8, 0.08), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)), var(--canvas);
+    line-height: 1.45;
+  }
+  .shell { max-width: 1180px; margin: 0 auto; }
+  .hero { text-align: center; padding: 28px 0 18px; }
+  .hero h1 { font-family: var(--font-display); font-size: 1.95rem; margin: 0; }
+  .hero p { color: var(--muted); font-size: 0.98rem; margin: 10px 0 0; }
+
+  .controls {
+    display: flex; gap: 14px; align-items: center; flex-wrap: wrap;
+    padding: 14px 18px; background: var(--panel-strong);
+    border: 1px solid var(--line); border-radius: var(--radius-md);
+    margin-bottom: 16px; box-shadow: var(--shadow);
+  }
+  .controls label { font-weight: 700; font-size: 0.85rem; }
+  .controls select, .controls input {
+    font-family: var(--font-mono); font-size: 0.82rem; padding: 6px 10px;
+    border-radius: var(--radius-sm); border: 1px solid var(--line-strong);
+    background: var(--panel); color: var(--ink);
+  }
+  .controls input[type="range"] { padding: 0; width: 220px; }
+  .controls code { font-family: var(--font-mono); font-size: 0.8rem; }
+
+  .pipeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+  @media (max-width: 860px) { .pipeline { grid-template-columns: 1fr; } }
+  .stage {
+    background: var(--panel-strong); border: 1px solid var(--line); border-radius: var(--radius-md);
+    padding: 16px; box-shadow: var(--shadow);
+  }
+  .stage h2 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 8px; }
+  .stage p { margin: 0; color: var(--muted); font-size: 0.82rem; }
+
+  .grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 16px; }
+  @media (max-width: 940px) { .grid { grid-template-columns: 1fr; } }
+  .panel {
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 18px; box-shadow: var(--shadow);
+  }
+  .panel h2 { font-family: var(--font-display); font-size: 1.08rem; margin: 0 0 12px; }
+
+  .band {
+    position: relative; height: 46px; border-radius: 999px; overflow: hidden;
+    border: 1px solid var(--line); background: rgba(255,255,255,0.50); margin-bottom: 14px;
+  }
+  .band-left, .band-mid, .band-right {
+    position: absolute; top: 0; bottom: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.78rem; font-weight: 700;
+  }
+  .band-left { left: 0; background: var(--green-soft); color: var(--green); }
+  .band-mid { background: var(--amber-soft); color: var(--amber); }
+  .band-right { right: 0; background: rgba(15,23,42,0.05); color: var(--muted); }
+  .band-cursor {
+    position: absolute; top: -4px; width: 4px; bottom: -4px;
+    background: var(--blue); border-radius: 999px;
+  }
+
+  .value-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 680px) { .value-grid { grid-template-columns: 1fr; } }
+  .value-card {
+    border-radius: var(--radius-md); padding: 14px; border: 1px solid var(--line);
+    background: rgba(255,255,255,0.48);
+  }
+  .value-card.active { border-width: 2px; }
+  .value-card h3 { margin: 0 0 6px; font-size: 0.9rem; }
+  .value-num { font-family: var(--font-mono); font-size: 1.05rem; font-weight: 700; }
+  .value-note { color: var(--muted); font-size: 0.78rem; margin-top: 8px; }
+
+  .value-card.forest { background: var(--green-soft); border-color: var(--green-strong); }
+  .value-card.star { background: var(--blue-soft); border-color: rgba(59,130,246,0.22); }
+  .value-card.multi { background: var(--red-soft); border-color: var(--red-strong); }
+  .value-card.active.forest { box-shadow: inset 0 0 0 1px var(--green); }
+  .value-card.active.star { box-shadow: inset 0 0 0 1px var(--blue); }
+  .value-card.active.multi { box-shadow: inset 0 0 0 1px var(--red); }
+
+  .chip-set { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+  .chip {
+    padding: 5px 10px; border-radius: 999px; font-family: var(--font-mono);
+    font-size: 0.75rem; font-weight: 700; border: 1px solid;
+  }
+  .chip-green { background: var(--green-soft); color: var(--green); border-color: var(--green-strong); }
+  .chip-blue { background: var(--blue-soft); color: var(--blue); border-color: rgba(59,130,246,0.22); }
+  .chip-red { background: var(--red-soft); color: var(--red); border-color: var(--red-strong); }
+  .chip-purple { background: var(--purple-soft); color: var(--purple); border-color: rgba(124,58,237,0.25); }
+
+  .info-box {
+    padding: 12px 14px; border-radius: var(--radius-md);
+    border: 1px solid var(--line); background: rgba(0,0,0,0.03);
+    margin-top: 12px; font-size: 0.88rem;
+  }
+
+  .mini-figure {
+    margin-top: 12px; padding: 12px; border-radius: var(--radius-md);
+    border: 1px solid var(--line); background: rgba(255,255,255,0.48);
+  }
+  .mini-figure svg { width: 100%; height: auto; display: block; }
+
+  .formula-bar {
+    margin-top: 12px; padding: 10px 14px; border-radius: var(--radius-md);
+    background: var(--teal-soft); border: 1px solid var(--teal-strong);
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--teal);
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hero">
+    <h1>Graph Regime Compiler Lab</h1>
+    <p>
+      Explore the checked exact compiler on the corrected graph branch.
+      Move the edge budget, watch the active regime change, and inspect the winner.
+    </p>
+  </div>
+
+  <div class="controls">
+    <label for="nSelect">n</label>
+    <select id="nSelect"></select>
+
+    <label for="mRange">m</label>
+    <input id="mRange" type="range" min="0" max="1" value="0">
+    <code id="mCode">m = 0</code>
+
+    <label for="presetSelect">Preset</label>
+    <select id="presetSelect">
+      <option value="current" selected>Current state</option>
+      <option value="oddline">Jump to odd line if available</option>
+      <option value="overlap">Jump to middle overlap</option>
+      <option value="top">Jump to top of checked band</option>
+    </select>
+  </div>
+
+  <div class="pipeline">
+    <div class="stage">
+      <h2>1. Locate the band</h2>
+      <p>First decide whether the budget sits in the low-edge regime or in the checked high overlap band.</p>
+    </div>
+    <div class="stage">
+      <h2>2. Activate the exact regimes</h2>
+      <p>Low-edge uses balanced star forests. The high band uses star-plus-low-edge and repaired multipartite.</p>
+    </div>
+    <div class="stage">
+      <h2>3. Select the winner</h2>
+      <p>The exact compiler returns the maximum active regime value on the checked domain.</p>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Band map</h2>
+      <div class="band" id="band">
+        <div class="band-left" id="bandLeft">low-edge</div>
+        <div class="band-mid" id="bandMid">overlap</div>
+        <div class="band-right" id="bandRight">outside checked band</div>
+        <div class="band-cursor" id="bandCursor"></div>
+      </div>
+
+      <div class="value-grid">
+        <div class="value-card forest" id="forestCard">
+          <h3>Balanced star forest</h3>
+          <div class="value-num" id="forestValue">-</div>
+          <div class="value-note" id="forestNote"></div>
+        </div>
+        <div class="value-card star" id="starCard">
+          <h3>Star plus low-edge leaf</h3>
+          <div class="value-num" id="starValue">-</div>
+          <div class="value-note" id="starNote"></div>
+        </div>
+        <div class="value-card multi" id="multiCard">
+          <h3>Repaired multipartite</h3>
+          <div class="value-num" id="multiValue">-</div>
+          <div class="value-note" id="multiNote"></div>
+        </div>
+      </div>
+
+      <div class="chip-set" id="winnerChips"></div>
+
+      <div class="formula-bar" id="formulaBar"></div>
+
+      <div class="info-box" id="selectorBox"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Current structural picture</h2>
+      <div class="mini-figure" id="miniFigure"></div>
+      <div class="info-box" id="structureBox"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  "use strict";
+
+  function comb(n, k) {
+    if (k < 0 || k > n) return 0;
+    if (k === 0 || k === n) return 1;
+    let result = 1;
+    for (let i = 1; i <= k; i += 1) result = (result * (n - k + i)) / i;
+    return result;
+  }
+
+  const partitionsCache = new Map();
+  function integerPartitions(total, minimum = 1) {
+    const key = total + ":" + minimum;
+    if (partitionsCache.has(key)) return partitionsCache.get(key);
+    const out = [];
+    for (let head = minimum; head <= total; head += 1) {
+      if (head === total) {
+        out.push([total]);
+      } else {
+        integerPartitions(total - head, head).forEach((tail) => out.push([head].concat(tail)));
+      }
+    }
+    partitionsCache.set(key, out);
+    return out;
+  }
+
+  function fBal(n, m) {
+    if (m < 0 || m > n - 1) return null;
+    if (m < Math.ceil(n / 2)) return 0;
+    const components = n - m;
+    const q = Math.floor(n / components);
+    const r = n % components;
+    return ((2 ** (q - 1)) - 1) ** (components - r) * ((2 ** q) - 1) ** r;
+  }
+
+  function balancedComponentSizes(n, m) {
+    if (m < Math.ceil(n / 2)) return null;
+    const components = n - m;
+    const q = Math.floor(n / components);
+    const r = n % components;
+    const sizes = [];
+    for (let i = 0; i < components - r; i += 1) sizes.push(q);
+    for (let i = 0; i < r; i += 1) sizes.push(q + 1);
+    return sizes;
+  }
+
+  function baseEdgeCount(parts) {
+    const n = parts.reduce((a, b) => a + b, 0);
+    return comb(n, 2) - parts.reduce((sum, size) => sum + comb(size, 2), 0);
+  }
+
+  function basePureValue(parts) {
+    const n = parts.reduce((a, b) => a + b, 0);
+    return (2 ** n) - 1 - parts.reduce((sum, size) => sum + ((2 ** size) - 1), 0);
+  }
+
+  function allocationsForTotal(parts, totalExtra) {
+    const bounds = parts.map((size) => Math.min(totalExtra, size - 1, comb(size, 2)));
+    const out = [];
+    function helper(index, remaining, prefix) {
+      if (index === bounds.length) {
+        if (remaining === 0) out.push(prefix.slice());
+        return;
+      }
+      for (let value = 0; value <= Math.min(bounds[index], remaining); value += 1) {
+        prefix.push(value);
+        helper(index + 1, remaining - value, prefix);
+        prefix.pop();
+      }
+    }
+    helper(0, totalExtra, []);
+    return out;
+  }
+
+  function regimeMultipartiteDetail(n, m) {
+    let best = null;
+    integerPartitions(n).forEach((parts) => {
+      if (parts.length < 2) return;
+      const baseEdges = baseEdgeCount(parts);
+      const extra = m - baseEdges;
+      if (extra < 0 || extra > 2) return;
+      const baseValue = basePureValue(parts);
+      allocationsForTotal(parts, extra).forEach((allocation) => {
+        const value = baseValue + allocation.reduce((sum, budget, idx) => sum + fBal(parts[idx], budget), 0);
+        if (!best || value > best.value) best = { value, parts, allocation, extra };
+      });
+    });
+    return best;
+  }
+
+  function regimeStarDetail(n, m) {
+    const leafBudget = m - (n - 1);
+    if (leafBudget < 0 || leafBudget > n - 2) return null;
+    return {
+      value: (2 ** (n - 1)) - 1 + fBal(n - 1, leafBudget),
+      leafBudget,
+      leafSizes: balancedComponentSizes(n - 1, leafBudget),
+      starContribution: (2 ** (n - 1)) - 1,
+    };
+  }
+
+  function regimeForestDetail(n, m) {
+    if (m < 0 || m > n - 1) return null;
+    return { value: fBal(n, m), sizes: balancedComponentSizes(n, m) };
+  }
+
+  function exactCheckedValue(n, m, forest, star, multi) {
+    if (m <= n - 1) return forest ? forest.value : null;
+    if (m <= (2 * n) - 3) return Math.max(star ? star.value : -1, multi ? multi.value : -1);
+    return null;
+  }
+
+  const nSelect = document.getElementById("nSelect");
+  const mRange = document.getElementById("mRange");
+  const mCode = document.getElementById("mCode");
+  const presetSelect = document.getElementById("presetSelect");
+  const bandLeft = document.getElementById("bandLeft");
+  const bandMid = document.getElementById("bandMid");
+  const bandRight = document.getElementById("bandRight");
+  const bandCursor = document.getElementById("bandCursor");
+  const forestCard = document.getElementById("forestCard");
+  const starCard = document.getElementById("starCard");
+  const multiCard = document.getElementById("multiCard");
+  const forestValue = document.getElementById("forestValue");
+  const starValue = document.getElementById("starValue");
+  const multiValue = document.getElementById("multiValue");
+  const forestNote = document.getElementById("forestNote");
+  const starNote = document.getElementById("starNote");
+  const multiNote = document.getElementById("multiNote");
+  const winnerChips = document.getElementById("winnerChips");
+  const formulaBar = document.getElementById("formulaBar");
+  const selectorBox = document.getElementById("selectorBox");
+  const miniFigure = document.getElementById("miniFigure");
+  const structureBox = document.getElementById("structureBox");
+
+  function chip(text, cls) {
+    const span = document.createElement("span");
+    span.className = "chip " + cls;
+    span.textContent = text;
+    return span;
+  }
+
+  function drawStarFigure(n, detail, oddLine) {
+    const leaves = n - 1;
+    const cx = 160, cy = 120, radius = 78;
+    let lines = "";
+    let nodes = `<circle cx="${cx}" cy="${cy}" r="16" fill="#2563EB" /><text x="${cx}" y="${cy + 5}" text-anchor="middle" font-size="12" fill="#fff" font-family="IBM Plex Mono, monospace">c</text>`;
+    const points = [];
+    for (let i = 0; i < leaves; i += 1) {
+      const angle = (-Math.PI / 2) + ((2 * Math.PI * i) / leaves);
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+      points.push({ x, y, id: i + 1 });
+      lines += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#94A3B8" stroke-width="2"/>`;
+      nodes += `<circle cx="${x}" cy="${y}" r="13" fill="#E0F2FE" stroke="#2563EB"/><text x="${x}" y="${y + 4}" text-anchor="middle" font-size="10" fill="#1E293B" font-family="IBM Plex Mono, monospace">l${i + 1}</text>`;
+    }
+    if (oddLine) {
+      for (let i = 0; i < points.length; i += 2) {
+        const a = points[i];
+        const b = points[i + 1];
+        if (b) lines += `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="#7C3AED" stroke-width="2.4"/>`;
+      }
+    }
+    return `<svg viewBox="0 0 320 240" role="img" aria-label="Star-plus-leaf motif">${lines}${nodes}</svg>`;
+  }
+
+  function drawForestFigure(sizes) {
+    if (!sizes) return `<svg viewBox="0 0 320 240"></svg>`;
+    let x = 40;
+    let parts = "";
+    sizes.forEach((size, idx) => {
+      parts += `<rect x="${x}" y="70" width="${30 + (size * 18)}" height="90" rx="16" fill="rgba(34,197,94,0.10)" stroke="#15803D"/>`;
+      parts += `<text x="${x + 14}" y="104" font-size="12" fill="#15803D" font-family="Atkinson Hyperlegible, system-ui, sans-serif">star ${idx + 1}</text>`;
+      parts += `<text x="${x + 14}" y="128" font-size="12" fill="#1E293B" font-family="IBM Plex Mono, monospace">size ${size}</text>`;
+      x += 50 + (size * 18);
+    });
+    return `<svg viewBox="0 0 320 240" role="img" aria-label="Balanced star forest">${parts}</svg>`;
+  }
+
+  function drawMultipartiteFigure(detail) {
+    if (!detail) return `<svg viewBox="0 0 320 240"></svg>`;
+    let x = 44;
+    let blocks = "";
+    detail.parts.forEach((size, idx) => {
+      const h = 46 + size * 18;
+      blocks += `<rect x="${x}" y="${160 - h}" width="48" height="${h}" rx="12" fill="rgba(168,34,24,0.10)" stroke="#A82218"/>`;
+      blocks += `<text x="${x + 10}" y="${176 - h}" font-size="11" fill="#A82218" font-family="Atkinson Hyperlegible, system-ui, sans-serif">B${idx + 1}</text>`;
+      blocks += `<text x="${x + 12}" y="${150}" font-size="11" fill="#1E293B" font-family="IBM Plex Mono, monospace">${size}</text>`;
+      x += 72;
+    });
+    return `<svg viewBox="0 0 320 240" role="img" aria-label="Multipartite blocks">${blocks}</svg>`;
+  }
+
+  function render() {
+    const n = Number(nSelect.value);
+    const m = Number(mRange.value);
+    mCode.textContent = "m = " + m;
+
+    const maxM = (2 * n) - 3;
+    mRange.max = maxM;
+    if (m > maxM) mRange.value = maxM;
+
+    const forest = regimeForestDetail(n, m);
+    const star = regimeStarDetail(n, m);
+    const multi = regimeMultipartiteDetail(n, m);
+    const exact = exactCheckedValue(n, m, forest, star, multi);
+    const winners = [];
+    if (forest && m <= n - 1 && forest.value === exact) winners.push("forest");
+    if (star && m >= n - 1 && m <= (2 * n) - 3 && star.value === exact) winners.push("star");
+    if (multi && m >= n - 1 && m <= (2 * n) - 3 && multi.value === exact) winners.push("multi");
+
+    const leftWidth = ((n - 1) / maxM) * 100;
+    const midWidth = (((2 * n) - 3) - (n - 1)) / maxM * 100;
+    bandLeft.style.width = leftWidth + "%";
+    bandMid.style.left = leftWidth + "%";
+    bandMid.style.width = midWidth + "%";
+    bandRight.style.width = (100 - leftWidth - midWidth) + "%";
+    const cursorLeft = (m / maxM) * 100;
+    bandCursor.style.left = `calc(${cursorLeft}% - 2px)`;
+
+    forestCard.classList.toggle("active", winners.includes("forest"));
+    starCard.classList.toggle("active", winners.includes("star"));
+    multiCard.classList.toggle("active", winners.includes("multi"));
+
+    forestValue.textContent = forest ? forest.value : "n/a";
+    starValue.textContent = star ? star.value : "n/a";
+    multiValue.textContent = multi ? multi.value : "n/a";
+
+    forestNote.textContent = forest && forest.sizes ? "sizes " + forest.sizes.join(", ") : "only active on the low band";
+    starNote.textContent = star ? "leaf budget e = " + star.leafBudget : "inactive outside the checked star band";
+    multiNote.textContent = multi ? "parts " + multi.parts.join(", ") + " , extra " + multi.allocation.join(", ") : "not available here";
+
+    winnerChips.innerHTML = "";
+    winners.forEach((name) => {
+      if (name === "forest") winnerChips.appendChild(chip("balanced star forest wins", "chip-green"));
+      if (name === "star") winnerChips.appendChild(chip("star-plus-low-edge wins", "chip-blue"));
+      if (name === "multi") winnerChips.appendChild(chip("repaired multipartite wins", "chip-red"));
+    });
+    if (n % 2 === 1 && m === (3 * (n - 1)) / 2) {
+      winnerChips.appendChild(chip("odd-line slice", "chip-purple"));
+    }
+
+    if (m <= n - 1) {
+      formulaBar.textContent = "Exact checked value: F_bal(n,m) on the low-edge regime.";
+    } else {
+      formulaBar.textContent = "Exact checked value: max(OPT_star_leaf(n,m), multipartite_plus_two_internal(n,m)).";
+    }
+
+    const oddLine = n % 2 === 1 && m === (3 * (n - 1)) / 2;
+    if (oddLine) {
+      const r = (n - 1) / 2;
+      if (r === 1) selectorBox.textContent = "Odd-line selector: tie at r = 1.";
+      else if (r === 2) selectorBox.textContent = "Odd-line selector: repaired multipartite wins at r = 2.";
+      else selectorBox.textContent = "Odd-line selector: inside the checked family selector, star-plus-leaf is the only available regime from r >= 3.";
+    } else if (m < n - 1) {
+      selectorBox.textContent = "This budget sits entirely in the low-edge regime, so no high-band selector is needed.";
+    } else {
+      selectorBox.textContent = "This budget sits in the overlap band. The exact checked compiler compares star-plus-low-edge against repaired multipartite.";
+    }
+
+    if (winners.includes("forest")) {
+      miniFigure.innerHTML = drawForestFigure(forest.sizes);
+      structureBox.textContent = "Balanced star forests partition the vertices into as evenly sized star components as the edge budget allows.";
+    } else if (winners.includes("star")) {
+      miniFigure.innerHTML = drawStarFigure(n, star, oddLine);
+      structureBox.textContent = oddLine
+        ? "On the odd-line slice, the leaf correction becomes a perfect matching. That is the visible motif behind the earlier exceptional point."
+        : "The full star contributes the bulk of the mass. The low-edge leaf correction then adds a smaller structured term on top.";
+    } else {
+      miniFigure.innerHTML = drawMultipartiteFigure(multi);
+      structureBox.textContent = "The repaired multipartite side wins here, so the frontier is coming from partition structure rather than one dominant hub.";
+    }
+  }
+
+  function populateN() {
+    for (let n = 2; n <= 7; n += 1) {
+      const option = document.createElement("option");
+      option.value = String(n);
+      option.textContent = String(n);
+      if (n === 7) option.selected = true;
+      nSelect.appendChild(option);
+    }
+  }
+
+  function applyPreset() {
+    const n = Number(nSelect.value);
+    const choice = presetSelect.value;
+    if (choice === "oddline" && n % 2 === 1) {
+      mRange.value = (3 * (n - 1)) / 2;
+    } else if (choice === "overlap") {
+      mRange.value = Math.min((2 * n) - 4, n + 2);
+    } else if (choice === "top") {
+      mRange.value = (2 * n) - 3;
+    }
+    render();
+  }
+
+  nSelect.addEventListener("change", () => {
+    const n = Number(nSelect.value);
+    mRange.max = (2 * n) - 3;
+    if (Number(mRange.value) > Number(mRange.max)) mRange.value = mRange.max;
+    render();
+  });
+  mRange.addEventListener("input", render);
+  presetSelect.addEventListener("change", applyPreset);
+
+  populateN();
+  mRange.value = 9;
+  render();
+})();
+</script>
+</body>
+</html>

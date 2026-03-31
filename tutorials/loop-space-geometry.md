@@ -1,0 +1,337 @@
+---
+title: "Loop-space geometry"
+layout: docs
+kicker: Tutorial 29
+description: "Map neuro-symbolic loops into witness languages, quotients, separator policies, label bases, and compiled artifacts, then study the bounded results that show why some loops are structurally stronger than others."
+---
+
+<details open>
+<summary><strong>Road map</strong></summary>
+
+This tutorial asks what really changes when one neuro-symbolic loop is stronger
+than another.
+
+- **Parts I-II**: the basic geometry, witness language, stored state, ambiguity quotient, separator language, label basis, and target artifact
+- **Parts III-IV**: the requirements-discovery branch and the cleanest bounded quotient-first loop
+- **Parts V-VI**: graph-side regime compilers and the newer low-edge concentration branch
+- **Part VII**: what this branch has actually achieved, and the next honest frontiers
+
+</details>
+
+## The motivating question
+
+Two loops can solve the same task and still be very different.
+
+One loop might:
+
+- ask the verifier again
+- collect one more example
+- and continue almost unchanged
+
+Another loop might:
+
+- change the witness basis
+- collapse the task into ambiguity classes
+- and then run a much smaller controller on what remains
+
+That difference is the reason to talk about loop-space geometry.
+
+The best current bounded results suggest that the strongest loops are usually
+not just:
+
+- better prompts
+- larger models
+- or a bigger verifier budget
+
+They are stronger because they reshape the remaining search problem.
+
+## Part I: the main axes of loop space
+
+A neuro-symbolic loop can be factored into at least six axes.
+
+- **Witness language**: what counts as an admissible failure, trace, or local certificate
+- **Stored state**: what the loop keeps after collecting evidence
+- **Ambiguity quotient**: which hidden targets still look the same after that state is stored
+- **Separator language**: what extra questions, tests, or residual policies are allowed above the quotient
+- **Label basis**: the coordinates in which the loop names outcomes
+- **Target artifact**: what reusable symbolic object the loop is trying to compile
+
+That factorization is useful because it separates changes that are often mixed
+together in informal descriptions.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Loop-space geometry map</p>
+  {% include diagrams/loop-space-geometry-map.svg %}
+  <figcaption class="fp-figure-caption">
+    A loop gets stronger when it changes witness geometry first, then compiles
+    or controls only the smaller residue that survives.
+  </figcaption>
+</figure>
+
+The cleanest mental model is a sequence of compressions:
+
+1. observe failures or witnesses
+2. store them in a state
+3. collapse the hidden family into ambiguity classes
+4. run the smallest separator policy needed above that quotient
+5. compile the surviving structure into a controller, question policy, or regime law
+
+This is not only about speed.
+
+It is about changing the shape of what remains to be searched.
+
+## Part II: the first big correction
+
+The low-rung story says:
+
+- collect counterexamples
+- repair the missing part
+- ask a stakeholder when needed
+
+The bounded branch corrects that story.
+
+After saturated witness collection, the right object is not a bag of examples.
+It is an observation map:
+
+```text
+O_W(M) = {S in W | S ⊆ M}
+```
+
+where:
+
+- `W` is a witness library
+- `M` is the hidden target, for example a missing requirement set
+
+That moves the loop from example collection to quotient construction.
+
+Two hidden targets are equivalent for the loop when they induce the same
+observation state:
+
+```text
+M ~ M'  iff  O_W(M) = O_W(M')
+```
+
+A plain direct controller acts on the raw target family.
+A geometry-changing loop acts on this quotient first, then controls only the
+residue.
+
+## Part III: the requirements-discovery branch
+
+The requirements branch is the clearest worked example.
+
+Its core question is:
+
+When a counterexample exposes a missing requirement, how much of the repair is
+already determined by witness structure, and how much still needs follow-up
+questions?
+
+Three bounded corrections matter here.
+
+### 1. Pure recovery is not only about singleton witnesses
+
+The low rung says direct recovery works when every missing requirement has a
+singleton witness. That is real, but it is not the whole story.
+
+Even without singleton witnesses, pure recovery can still succeed if the full
+observation map is injective on the omission family.
+
+So the real question is not only:
+
+- does a singleton witness exist?
+
+It is:
+
+- does the stored state already separate the hidden targets?
+
+### 2. Scope matters sharply
+
+On unrestricted omission families, singleton witnesses remain a global
+bottleneck.
+
+On scoped families, especially pair-lobotomy families, oracle help becomes
+strictly stronger.
+
+That means requirements discovery is not one monolithic task. The omission
+family changes the loop geometry.
+
+### 3. Pair basis plus good separators is a real hybrid
+
+Once the witness library contains all pairs:
+
+- the residual ambiguity collapses to singleton uncertainty
+- the remaining difficulty moves to separator language
+
+Then the bounded ladder becomes:
+
+- pair-subset queries, no help
+- singleton-membership queries, linear depth
+- block-intersection queries, logarithmic depth
+
+That is the first clean example of a loop becoming stronger by changing
+geometry first and only then using a stronger residual controller.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Counterexamples, quotient, then separator policy</p>
+  {% include diagrams/requirements-loop-ladder.svg %}
+  <figcaption class="fp-figure-caption">
+    The pair basis collapses the hidden family to a much smaller singleton
+    residue. Only then do block questions do the remaining work.
+  </figcaption>
+</figure>
+
+**Interactive labs**
+
+- [Requirements Loop Geometry Lab]({{ '/requirements_loop_geometry_lab.html' | relative_url }})
+- [Hybrid Loop Comparison Lab]({{ '/hybrid_loop_comparison_lab.html' | relative_url }})
+
+## Part IV: temporal labels are also part of loop space
+
+Loop-space geometry is not only about witnesses and separators.
+
+It also includes the label basis.
+
+The temporal branch shows a small but important result:
+
+- raw monitor-cell labels are strictly finer than flat two-step trace labels on the full family
+- after the right first carve, the richer temporal basis stops buying a finer partition
+
+That means a stronger basis is not always the right global basis. Sometimes it
+is the right second-stage basis.
+
+The easiest analogy is coordinates in geometry.
+
+Polar coordinates can be the right language for one subproblem and the wrong
+language for another. Temporal labels behave the same way in this bounded loop
+branch.
+
+## Part V: graph-side compilers
+
+The corrected graph branch teaches a different lesson.
+
+At first it looked like a large collection of unrelated graph families. After
+the corrected total-domination metric, the branch compressed much more sharply.
+
+The stable bounded survivors now include:
+
+- complete multipartite families on the corrected frontier
+- repaired multipartite additivity
+- exact low-edge and repaired-block optimizers
+- a corrected small-domain single-block compiler
+- a structurally explained point correction at `(7, 9)`
+- a full-star-plus-low-edge family compiler
+- and a wider two-family overlap compiler on the checked high band
+
+So loop space does not only contain:
+
+- question policies
+- verifier front-ends
+- and witness languages
+
+It also contains exact regime compilers.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Corrected graph regime map</p>
+  {% include diagrams/graph-regime-overlap.svg %}
+  <figcaption class="fp-figure-caption">
+    The corrected graph branch is easiest to understand as a regime map. Low
+    budgets live on the left. Higher budgets enter an overlap band where two
+    exact structural families compete.
+  </figcaption>
+</figure>
+
+## Part VI: the low-edge proof branch
+
+The newest part of the graph branch is the clearest “show what was achieved”
+story.
+
+It no longer says only:
+
+- a balanced star forest fits the checked frontier
+
+It now has a mechanism.
+
+### Stage 1: starify components
+
+On checked connected trees, every non-star class has an improving
+pendant-subtree move.
+
+The branch then compresses further:
+
+- on checked trees with `n in {8, 9}`, the improving move can always be chosen
+  so that the reattachment target is a maximum-degree hub
+
+So the surviving move language is not “some local repair happens somewhere.”
+It is:
+
+- move a pendant subtree toward a hub
+
+### Stage 2: balance star sizes
+
+Once component shape is concentrated, the star-family product law can be
+optimized exactly by balancing component sizes.
+
+That gives a second clean stage:
+
+- smooth an uneven star profile into the balanced one
+
+### The composed result
+
+The checked low-edge branch is now a two-stage concentration process:
+
+1. starify components
+2. balance star sizes
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Low-edge concentration map</p>
+  {% include diagrams/low-edge-concentration.svg %}
+  <figcaption class="fp-figure-caption">
+    The low-edge branch is no longer only a frontier fit. It is a two-stage
+    concentration process with a geometric front stage and an exact balancing
+    back stage.
+  </figcaption>
+</figure>
+
+**Interactive lab**
+
+- [Graph Regime Compiler Lab]({{ '/graph_regime_compiler_lab.html' | relative_url }})
+
+## Part VII: what this branch has actually achieved
+
+The stable bounded ladder that is now strong enough to teach runs through four
+main ideas.
+
+1. **Observation quotients**
+   - the loop should be analyzed through the state it stores, not only through
+     the examples it sees
+2. **Witness-basis and separator ladders**
+   - pair bases, separator expressivity, and staged label choices are real loop
+     axes
+3. **Exact regime compilers**
+   - some branches compress into exact piecewise families rather than into one
+     monolithic controller
+4. **Concentration mechanisms**
+   - some strong loops work by reshaping the problem in stages before the final
+     exact law is even applied
+
+That is the strongest bounded reason so far to think there are useful
+neuro-symbolic loops beyond plain verifier-compilation.
+
+## Related tutorials
+
+- [Tutorial 27: Verifier-compiler loops]({{ '/tutorials/verifier-compiler-loops/' | relative_url }})
+- [Tutorial 30: Counterexample-guided requirements discovery]({{ '/tutorials/counterexample-guided-requirements-discovery/' | relative_url }})
+- [Tutorial 31: Hybrid geometry-changing loops]({{ '/tutorials/hybrid-geometry-changing-loops/' | relative_url }})
+- [Tutorial 32: Temporal label functions and staged bases]({{ '/tutorials/temporal-label-functions-and-staged-bases/' | relative_url }})
+
+## Next honest frontiers
+
+The branch is much stronger than it was, but the honest open questions are
+still visible.
+
+- prove the hub-target concentration law structurally, not only by checked scans
+- compress the source side of the tree move law, not only the target side
+- extend the corrected higher-budget graph branch with the same level of
+  structural clarity
+
+Those frontiers are narrower than they were before. That is already a sign
+that the branch has become teachable.

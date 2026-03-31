@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temporal Label Basis Lab</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  :root {
+    --paper: #efe7d8; --canvas: #f7f1e6;
+    --panel: rgba(255,250,241,0.92); --panel-strong: rgba(255,247,234,0.98);
+    --ink: #2a2520; --muted: #7a7064;
+    --line: rgba(42,37,32,0.14); --line-strong: rgba(42,37,32,0.25);
+    --teal: #0f766e; --teal-soft: rgba(15,118,110,0.10); --teal-strong: rgba(15,118,110,0.18);
+    --amber: #a04a08; --amber-soft: rgba(160,74,8,0.10); --amber-strong: rgba(160,74,8,0.18);
+    --green: #15803d; --green-soft: rgba(34,197,94,0.10); --green-strong: rgba(34,197,94,0.18);
+    --blue: #3b82f6; --blue-soft: rgba(59,130,246,0.10);
+    --purple: #7c3aed; --purple-soft: rgba(124,58,237,0.10);
+    --radius-lg: 24px; --radius-md: 16px; --radius-sm: 12px;
+    --shadow: 0 18px 36px rgba(42,34,28,0.08);
+    --font-body: "Source Sans 3", Georgia, serif;
+    --font-display: "Bitter", Georgia, serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 20px; font-family: var(--font-body); color: var(--ink);
+    background: radial-gradient(circle at top left, rgba(15,118,110,0.08), transparent 36%),
+      radial-gradient(circle at top right, rgba(160,74,8,0.08), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)), var(--canvas);
+  }
+  .shell { max-width: 1100px; margin: 0 auto; }
+  .hero { text-align: center; padding: 26px 0 18px; }
+  .hero h1 { font-family: var(--font-display); font-size: 1.9rem; margin: 0; }
+  .hero p { color: var(--muted); margin: 10px 0 0; }
+  .controls, .panel {
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: var(--radius-md); box-shadow: var(--shadow);
+  }
+  .controls { padding: 14px 18px; margin-bottom: 16px; display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .controls label { font-weight: 700; font-size: 0.85rem; }
+  .controls select { font-family: var(--font-mono); font-size: 0.82rem; padding: 6px 12px; border-radius: var(--radius-sm); border: 1px solid var(--line-strong); background: var(--panel); color: var(--ink); }
+  .grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 16px; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+  .panel { padding: 18px; }
+  .panel h2 { font-family: var(--font-display); font-size: 1.06rem; margin: 0 0 12px; }
+  .family-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .trace-card { padding: 12px; border-radius: 12px; border: 1px solid var(--line); background: rgba(255,255,255,0.50); }
+  .trace-card.live { border-color: var(--teal-strong); background: var(--teal-soft); }
+  .trace-card.dead { opacity: 0.35; }
+  .trace-card h3 { margin: 0 0 8px; font-size: 0.92rem; }
+  .trace-line { font-family: var(--font-mono); font-size: 0.75rem; margin: 2px 0; }
+  .chip-set { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .chip { padding: 5px 10px; border-radius: 999px; font-family: var(--font-mono); font-size: 0.74rem; font-weight: 700; border: 1px solid; }
+  .chip-blue { background: var(--blue-soft); color: var(--blue); border-color: rgba(59,130,246,0.22); }
+  .chip-purple { background: var(--purple-soft); color: var(--purple); border-color: rgba(124,58,237,0.25); }
+  .chip-green { background: var(--green-soft); color: var(--green); border-color: var(--green-strong); }
+  .note, .partition-box { padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid var(--line); background: rgba(255,255,255,0.48); }
+  .note { margin-top: 12px; font-size: 0.87rem; }
+  .partition-box { margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hero">
+    <h1>Temporal Label Basis Lab</h1>
+    <p>
+      This is an illustrative teaching lab for the staged basis idea behind <code>v161</code>.
+      Switch between the full family and the carved family, then compare flat and monitor-cell partitions.
+    </p>
+  </div>
+
+  <div class="controls">
+    <label for="familySelect">Stage</label>
+    <select id="familySelect">
+      <option value="full" selected>Full family</option>
+      <option value="carved">After first-step carve</option>
+    </select>
+    <label for="basisSelect">Label basis</label>
+    <select id="basisSelect">
+      <option value="flat" selected>Flat trace basis</option>
+      <option value="monitor">Monitor-cell basis</option>
+    </select>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Controller family</h2>
+      <div class="family-grid" id="familyGrid"></div>
+      <div class="note" id="familyNote"></div>
+    </div>
+    <div class="panel">
+      <h2>Current partition</h2>
+      <div class="partition-box" id="partitionBox"></div>
+      <div class="chip-set" id="statusChips"></div>
+      <div class="note" id="basisNote"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  "use strict";
+  const traces = [
+    { id: "A1", live: { full: true, carved: true }, first: "go-left", flat: "accept", monitor: "cell-7" },
+    { id: "A2", live: { full: true, carved: true }, first: "go-left", flat: "accept", monitor: "cell-9" },
+    { id: "B1", live: { full: true, carved: false }, first: "go-right", flat: "reject", monitor: "cell-2" },
+    { id: "B2", live: { full: true, carved: false }, first: "go-right", flat: "reject", monitor: "cell-4" }
+  ];
+
+  const familySelect = document.getElementById("familySelect");
+  const basisSelect = document.getElementById("basisSelect");
+  const familyGrid = document.getElementById("familyGrid");
+  const partitionBox = document.getElementById("partitionBox");
+  const statusChips = document.getElementById("statusChips");
+  const familyNote = document.getElementById("familyNote");
+  const basisNote = document.getElementById("basisNote");
+
+  function currentFamily() {
+    const stage = familySelect.value;
+    return traces.filter((trace) => trace.live[stage]);
+  }
+
+  function partition(tracesNow, basis) {
+    const groups = new Map();
+    tracesNow.forEach((trace) => {
+      const key = basis === "flat" ? trace.flat : trace.monitor;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(trace.id);
+    });
+    return [...groups.entries()];
+  }
+
+  function render() {
+    const stage = familySelect.value;
+    const basis = basisSelect.value;
+    const tracesNow = currentFamily();
+    const groups = partition(tracesNow, basis);
+
+    familyGrid.innerHTML = "";
+    traces.forEach((trace) => {
+      const card = document.createElement("div");
+      card.className = "trace-card" + (trace.live[stage] ? " live" : " dead");
+      card.innerHTML =
+        "<h3>" + trace.id + "</h3>" +
+        "<div class='trace-line'>first step: " + trace.first + "</div>" +
+        "<div class='trace-line'>flat label: " + trace.flat + "</div>" +
+        "<div class='trace-line'>monitor cell: " + trace.monitor + "</div>";
+      familyGrid.appendChild(card);
+    });
+
+    partitionBox.innerHTML = groups.map(([key, ids]) =>
+      "<div style='margin:6px 0'><strong>" + key + "</strong>: " + ids.join(", ") + "</div>"
+    ).join("");
+
+    statusChips.innerHTML = "";
+    if (stage === "full" && basis === "flat") {
+      statusChips.innerHTML = "<span class='chip chip-blue'>coarser basis</span>";
+    } else if (stage === "full" && basis === "monitor") {
+      statusChips.innerHTML = "<span class='chip chip-purple'>strictly finer basis</span>";
+    } else {
+      statusChips.innerHTML = "<span class='chip chip-green'>partition-equivalent after the carve</span>";
+    }
+
+    familyNote.textContent = stage === "full"
+      ? "Before carving, the family still contains both left-moving and right-moving controllers."
+      : "After the first-step carve, only the left-moving branch survives, so the family itself has changed.";
+
+    if (stage === "full" && basis === "flat") {
+      basisNote.textContent = "The flat trace basis merges A1 with A2, and B1 with B2. It is cheaper, but coarser.";
+    } else if (stage === "full" && basis === "monitor") {
+      basisNote.textContent = "The monitor-cell basis separates all four controllers on the full family. It carries more information, but costs more globally.";
+    } else if (stage === "carved" && basis === "flat") {
+      basisNote.textContent = "After the first-step carve, the flat trace basis already separates the surviving family.";
+    } else {
+      basisNote.textContent = "After the carve, the richer basis no longer buys a finer partition. This is the staged-basis lesson.";
+    }
+  }
+
+  familySelect.addEventListener("change", render);
+  basisSelect.addEventListener("change", render);
+  render();
+})();
+</script>
+</body>
+</html>

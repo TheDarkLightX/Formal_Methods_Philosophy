@@ -295,4 +295,54 @@ show_title: false
       for routing, ranking, and fail-closed pre-screening without replacing the exact gate.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/profit-agents-post-agi-economics/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 28: Profit agents, post-AGI economics, and mechanism design</h2>
+    <p class="fp-card-text">
+      Study bounded toy economies for profit agents under explicit assumptions, then climb from platform incentives
+      and demand closure to routing, trust, assurance, and mechanism design.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/loop-space-geometry/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 29: Loop-space geometry</h2>
+    <p class="fp-card-text">
+      Factor neuro-symbolic loops into witness languages, quotients, separator policies, label bases, and compiled
+      artifacts, then study why some loops are structurally stronger than others.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/counterexample-guided-requirements-discovery/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 30: Counterexample-guided requirements discovery</h2>
+    <p class="fp-card-text">
+      Recover missing requirements from witness structure, observation quotients, and minimal separator policies instead
+      of treating stakeholder follow-up as one undifferentiated escape hatch.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/hybrid-geometry-changing-loops/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 31: Hybrid geometry-changing loops</h2>
+    <p class="fp-card-text">
+      Compare direct control with loops that reshape ambiguity geometry first, then compile or control only the residue
+      that remains.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/temporal-label-functions-and-staged-bases/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 32: Temporal label functions and staged bases</h2>
+    <p class="fp-card-text">
+      A focused lesson on temporal label functions: why a richer basis can be strictly finer on the whole family, yet
+      become exact only after the right first carve.
+    </p>
+  </a>
 </div>
