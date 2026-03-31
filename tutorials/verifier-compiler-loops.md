@@ -2112,6 +2112,14 @@ There may be stronger loops in other problem families.
 
 The main candidates are:
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Where verifier-compilers fit among nearby loop families</p>
+  {% include diagrams/verifier-compiler-family-map.svg %}
+  <figcaption class="fp-figure-caption">
+    Part XI is best read as a comparison of what the loop is trying to compress. Plain CEGIS keeps counterexamples, verifier-compilers compress label behavior, witness-language loops search for the smallest exact local contract, certificate or abstraction loops shrink the universal side, and primitive-invention or meta-loops change the language or the search policy itself.
+  </figcaption>
+</figure>
+
 ### 1. Certificate-lifting loops
 
 If:
