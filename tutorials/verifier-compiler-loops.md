@@ -5,25 +5,12 @@ kicker: Tutorial 27
 description: "Learn when a neuro-symbolic loop can compile verifier behavior into a small symbolic controller, how that differs from plain CEGIS, and how to use the pattern safely in practice."
 ---
 
-<details open>
-<summary><strong>Road map</strong></summary>
-
-This tutorial explains the verifier-compiler idea: a neuro-symbolic loop can
-learn a small symbolic front-end for an exact verifier, route easy cases
-cheaply, and still keep the verifier as the final fail-closed gate.
-
-The detailed reading guide appears below in "How to use this tutorial."
-
-The current bounded endpoint in this tutorial is `Level 85`, the
-cycle-orientation incidence extension law.
-
-**Interactive:** Try the [Verifier-Compiler Lab]({{ '/verifier_compiler_lab.html' | relative_url }}) to step through the quotient-repair-compile pipeline.
-
-</details>
-
 ## How to use this tutorial
 
 This file is long because it compresses a real bounded research ladder.
+
+For an interactive walkthrough of the quotient-repair-compile pipeline, see the
+[Verifier-Compiler Lab]({{ '/verifier_compiler_lab.html' | relative_url }}).
 
 For a first pass, it helps to read it in four layers:
 
