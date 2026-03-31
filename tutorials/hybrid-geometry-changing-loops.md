@@ -158,7 +158,10 @@ The first stage survives in a surprisingly clean form on the checked tree
 branch:
 
 - an improving pendant-subtree move can always be chosen so that it moves a
-  pendant subtree toward a hub
+  one-branch pendant subtree toward a hub
+  - hub-target survives
+  - leaf-only fails
+  - pendant-star-only fails
 
 The second stage is exact balancing on the star-family side.
 

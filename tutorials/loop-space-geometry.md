@@ -259,11 +259,15 @@ The branch then compresses further:
 
 - on checked trees with `n in {8, 9}`, the improving move can always be chosen
   so that the reattachment target is a maximum-degree hub
+- and on the same checked branch, the moved subtree can be chosen with at most
+  one branching vertex
+  - leaf-only moves fail
+  - pure pendant-star moves fail
 
 So the surviving move language is not “some local repair happens somewhere.”
 It is:
 
-- move a pendant subtree toward a hub
+- move a one-branch pendant subtree toward a hub
 
 ### Stage 2: balance star sizes
 
