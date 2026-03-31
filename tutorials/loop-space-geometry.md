@@ -285,6 +285,10 @@ The checked low-edge branch is now a two-stage concentration process:
 1. starify components
 2. balance star sizes
 
+The newer composition result tightens that from a teaching paraphrase into the
+checked mechanism itself. On the checked low-edge forest branch, those are the
+two surviving stages.
+
 <figure class="fp-figure">
   <p class="fp-figure-title">Low-edge concentration map</p>
   {% include diagrams/low-edge-concentration.svg %}
