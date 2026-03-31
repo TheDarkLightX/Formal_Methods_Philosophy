@@ -471,6 +471,15 @@ It says:
 - the relevant equilibrium is controlled by complement mix, not only by model
   capability
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Checkpoint: platform branch</p>
+  <ul>
+    <li><strong>Main lesson:</strong> Equal model capability does not force equal market participation. Complement structure still decides who stays active.</li>
+    <li><strong>Ownership matters:</strong> Once passive ownership is allowed, the platform's best regime can shift even when the capability layer has not changed.</li>
+    <li><strong>Mental picture:</strong> This branch is less like a race where the smartest runner wins, and more like a toll road where traffic depends on who still gains enough from entering.</li>
+  </ul>
+</div>
+
 ### Experiment 4 (notebook level 89): demand-closure ownership law
 
 The next deeper question is the macro one:
@@ -890,6 +899,15 @@ far.
     Experiments 8 through 10 separate three cases. In the homogeneous case, price alone cannot sustain a strict interior regime. In the heterogeneous case, price can select the high type. The composed mechanism then uses quota to allocate the number of active slots that still keeps the toy economy clearing.
   </figcaption>
 </figure>
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Checkpoint: closure and mechanism branch</p>
+  <ul>
+    <li><strong>Main lesson:</strong> Closure fails once active production outruns the economy's direct consumption base.</li>
+    <li><strong>Price is not enough:</strong> In the symmetric case, price alone cannot create a strict interior regime. In the heterogeneous case, price can sort types, but it still does not decide how many active slots should exist.</li>
+    <li><strong>Mental picture:</strong> Price chooses who is willing to walk through the door. Quota decides how many seats are actually in the room.</li>
+  </ul>
+</div>
 
 ### Experiment 11 (notebook level 96): intermediate-demand multiplier law
 
@@ -1448,6 +1466,15 @@ So the platform-versus-protocol question is not hand-wavy dominance.
 It is whether equalized routing expands the disadvantaged class's viability
 region.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Checkpoint: sink and routing branch</p>
+  <ul>
+    <li><strong>Main lesson:</strong> Final sink size sets the hard entry ceiling, but routing rules decide which firms get to live inside that ceiling.</li>
+    <li><strong>Redistribution, not creation:</strong> Bottlenecks and favored routes can move rent across classes without creating new total surplus.</li>
+    <li><strong>Mental picture:</strong> Think of a river delta with a fixed water budget. The routing channels determine which fields get irrigated, not how much water exists overall.</li>
+  </ul>
+</div>
+
 ### Experiment 20 (notebook level 105): machine-control dominance threshold law
 
 The next branch asks when a company becoming agentic should be read as an
@@ -1956,6 +1983,15 @@ subsidy is exactly enough to implement it.
     Experiments 25 through 27 refine the assurance branch in three steps. First, packages close the adoption shortfall. Next, different levers carry different private coefficients. Finally, subsidy bridges whatever shortfall still remains after package design.
   </figcaption>
 </figure>
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Checkpoint: machine and assurance branch</p>
+  <ul>
+    <li><strong>Main lesson:</strong> Reliability gain, trust lag, incumbent rents, and assurance design are separate thresholds, not one blended story.</li>
+    <li><strong>Policy lesson:</strong> Assurance packages and subsidies do not create a new machine advantage from nothing. They bridge whatever shortfall remains after the base economics is computed.</li>
+    <li><strong>Mental picture:</strong> This branch works like a bridge with several gaps. Better machines close one gap, trust design closes another, and subsidy only needs to span the distance that is still left.</li>
+  </ul>
+</div>
 
 ## Next honest frontiers
 
