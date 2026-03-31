@@ -1,0 +1,163 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 480"
+  role="img"
+  aria-labelledby="fp-galois-title fp-galois-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-galois-title">Antitone Galois connection between candidates and obligations</title>
+  <desc id="fp-galois-desc">
+    Two sets X (candidates) and Y (obligations) linked by dual maps Phi and Psi.
+    Larger obligation sets map to smaller candidate sets and vice versa.
+  </desc>
+
+  <defs>
+    <filter id="fp-gc-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-gc-arrow-teal" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#0F766E" fill-opacity="0.9" />
+    </marker>
+    <marker id="fp-gc-arrow-amber" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#A04A08" fill-opacity="0.9" />
+    </marker>
+    <marker id="fp-gc-arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-gc-shadow)">
+    <rect x="30" y="20" width="900" height="440" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="70" y="62" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Antitone Galois connection
+  </text>
+  <text x="70" y="82" font-size="12" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Candidate reasoning and obligation reasoning are dual.
+  </text>
+
+  <!-- Left: Candidate space X -->
+  <rect x="70" y="110" width="320" height="280" rx="22"
+    fill="rgba(15, 118, 110, 0.06)" stroke="rgba(15, 118, 110, 0.25)" stroke-width="1.5" />
+  <text x="90" y="140" font-size="15" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    X  (candidates)
+  </text>
+
+  <!-- Candidate set C (inner) -->
+  <rect x="100" y="160" width="260" height="100" rx="16"
+    fill="rgba(15, 118, 110, 0.12)" stroke="rgba(15, 118, 110, 0.35)" stroke-width="2"
+    stroke-dasharray="6 3" />
+  <text x="120" y="185" font-size="13" font-weight="700" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    C  &#x2286; X
+  </text>
+  <text x="120" y="205" font-size="11" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    surviving candidates
+  </text>
+
+  <!-- Candidate dots -->
+  <circle cx="155" cy="240" r="6" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="185" cy="232" r="6" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="215" cy="244" r="6" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="250" cy="236" r="6" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="285" cy="240" r="6" fill="rgba(15, 118, 110, 0.5)" />
+  <circle cx="320" cy="232" r="6" fill="rgba(15, 118, 110, 0.5)" />
+
+  <!-- Eliminated candidates (gray, below C) -->
+  <circle cx="130" cy="310" r="5" fill="rgba(148, 163, 184, 0.4)" />
+  <circle cx="160" cy="320" r="5" fill="rgba(148, 163, 184, 0.4)" />
+  <circle cx="195" cy="308" r="5" fill="rgba(148, 163, 184, 0.4)" />
+  <circle cx="230" cy="325" r="5" fill="rgba(148, 163, 184, 0.4)" />
+  <circle cx="265" cy="315" r="5" fill="rgba(148, 163, 184, 0.4)" />
+  <circle cx="300" cy="328" r="5" fill="rgba(148, 163, 184, 0.4)" />
+  <circle cx="335" cy="310" r="5" fill="rgba(148, 163, 184, 0.4)" />
+  <text x="120" y="370" font-size="10" fill="#94A3B8"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    eliminated by counterexamples
+  </text>
+
+  <!-- Right: Obligation space Y -->
+  <rect x="570" y="110" width="320" height="280" rx="22"
+    fill="rgba(160, 74, 8, 0.06)" stroke="rgba(160, 74, 8, 0.25)" stroke-width="1.5" />
+  <text x="590" y="140" font-size="15" font-weight="900" fill="#A04A08"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Y  (obligations)
+  </text>
+
+  <!-- Discharged obligations D = Psi(C) -->
+  <rect x="600" y="160" width="260" height="100" rx="16"
+    fill="rgba(160, 74, 8, 0.12)" stroke="rgba(160, 74, 8, 0.35)" stroke-width="2"
+    stroke-dasharray="6 3" />
+  <text x="620" y="185" font-size="13" font-weight="700" fill="#A04A08"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x03A8;(C)  &#x2286; Y
+  </text>
+  <text x="620" y="205" font-size="11" fill="#A04A08"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    discharged obligations
+  </text>
+
+  <!-- Discharged dots -->
+  <circle cx="655" cy="240" r="6" fill="rgba(160, 74, 8, 0.5)" />
+  <circle cx="685" cy="232" r="6" fill="rgba(160, 74, 8, 0.5)" />
+  <circle cx="715" cy="244" r="6" fill="rgba(160, 74, 8, 0.5)" />
+  <circle cx="750" cy="236" r="6" fill="rgba(160, 74, 8, 0.5)" />
+  <circle cx="785" cy="240" r="6" fill="rgba(160, 74, 8, 0.5)" />
+  <circle cx="820" cy="232" r="6" fill="rgba(160, 74, 8, 0.5)" />
+
+  <!-- Uncovered obligations U (gray, below) -->
+  <circle cx="630" cy="310" r="5" fill="rgba(168, 34, 24, 0.45)" />
+  <circle cx="665" cy="322" r="5" fill="rgba(168, 34, 24, 0.45)" />
+  <circle cx="700" cy="308" r="5" fill="rgba(168, 34, 24, 0.45)" />
+  <circle cx="740" cy="325" r="5" fill="rgba(168, 34, 24, 0.45)" />
+  <circle cx="780" cy="315" r="5" fill="rgba(168, 34, 24, 0.45)" />
+  <text x="625" y="370" font-size="10" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    U: still uncovered
+  </text>
+
+  <!-- Central crossing arrows: Phi and Psi -->
+  <!-- Phi: obligations -> candidates (top arrow, right to left) -->
+  <path d="M565 190 C 500 170, 460 170, 395 190"
+    stroke="#A04A08" stroke-width="3.5" fill="none"
+    marker-end="url(#fp-gc-arrow-teal)" stroke-linecap="round" />
+  <text x="445" y="168" font-size="14" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x03A6;(B)
+  </text>
+  <text x="445" y="184" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    candidates satisfying B
+  </text>
+
+  <!-- Psi: candidates -> obligations (bottom arrow, left to right) -->
+  <path d="M395 255 C 460 275, 500 275, 565 255"
+    stroke="#0F766E" stroke-width="3.5" fill="none"
+    marker-end="url(#fp-gc-arrow-amber)" stroke-linecap="round" />
+  <text x="445" y="288" font-size="14" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x03A8;(C)
+  </text>
+  <text x="436" y="304" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    obligations guaranteed by C
+  </text>
+
+  <!-- Bottom formula bar -->
+  <rect x="170" y="420" width="620" height="34" rx="12"
+    fill="rgba(59, 130, 246, 0.07)" stroke="rgba(59, 130, 246, 0.20)" />
+  <text x="210" y="443" font-size="14" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    C &#x2286; &#x03A6;(B)  &#x27FA;  B &#x2286; &#x03A8;(C)
+  </text>
+  <text x="555" y="443" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    the defining equivalence
+  </text>
+</svg>

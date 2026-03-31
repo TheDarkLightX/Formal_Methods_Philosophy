@@ -127,6 +127,14 @@ In plain language:
 - `cl_X(C)` adds every candidate that agrees with `C` on all obligations common to `C`,
 - `cl_Y(B)` adds every obligation implied by the current basis `B`.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Candidate sets and obligation sets move in dual directions</p>
+  {% include diagrams/galois-connection.svg %}
+  <figcaption class="fp-figure-caption">
+    The Galois connection is the hinge of the tutorial. Larger obligation sets force smaller surviving candidate sets, and larger candidate sets guarantee fewer obligations. The loop can be read from either side of that duality.
+  </figcaption>
+</figure>
+
 ## Part III: why this is deeper than plain CEGIS
 
 Plain CEGIS stores a bag of discovered counterexamples.
@@ -245,6 +253,14 @@ BOC adds a second kind of move:
 - then remove that region from the universal burden.
 
 That is a different loop shape.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Plain CEGIS versus Bidirectional Obligation Carving</p>
+  {% include diagrams/boc-vs-cegis.svg %}
+  <figcaption class="fp-figure-caption">
+    Plain CEGIS keeps cutting candidates until one survives. BOC keeps that candidate-cutting move, but also lets the verifier discharge whole regions of already-safe obligations, so progress can happen on both sides of the state.
+  </figcaption>
+</figure>
 
 ## Part V: the algebraic view, Concept-Lattice CEGIS
 

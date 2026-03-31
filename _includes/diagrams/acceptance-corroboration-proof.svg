@@ -1,0 +1,122 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 430"
+  role="img"
+  aria-labelledby="fp-acp-title fp-acp-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-acp-title">Acceptance, corroboration, and proof</title>
+  <desc id="fp-acp-desc">
+    A three-way distinction. A found bad witness rejects a candidate. No found
+    bad witness under incomplete search gives corroboration only. Proof-backed
+    acceptance requires a sound certificate or complete checker.
+  </desc>
+
+  <defs>
+    <filter id="fp-acp-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-acp-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-acp-shadow)">
+    <rect x="20" y="10" width="920" height="410" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text x="60" y="48" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Acceptance, corroboration, and proof
+  </text>
+  <text x="60" y="68" font-size="12" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    The absence of a found counterexample is weaker than proof unless the checker assumptions close the gap.
+  </text>
+
+  <rect x="110" y="112" width="220" height="58" rx="16"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.24)" />
+  <text x="136" y="137" font-size="13" font-weight="900" fill="#2563EB"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Start with candidate x
+  </text>
+  <text x="136" y="156" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Search for a bad witness y
+  </text>
+
+  <path d="M330 141 H392" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-acp-arrow)" stroke-linecap="round" />
+
+  <rect x="404" y="102" width="200" height="78" rx="18"
+    fill="rgba(249, 115, 22, 0.08)" stroke="rgba(249, 115, 22, 0.24)" />
+  <text x="430" y="130" font-size="13" font-weight="900" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Search outcome
+  </text>
+  <text x="430" y="151" font-size="12" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Was a bad witness found?
+  </text>
+
+  <path d="M504 180 V214" stroke="#3B82F6" stroke-width="3" marker-end="url(#fp-acp-arrow)" stroke-linecap="round" />
+
+  <path d="M504 214 L250 256" stroke="#A82218" stroke-width="2.5" marker-end="url(#fp-acp-arrow)" fill="none" stroke-linecap="round" />
+  <path d="M504 214 V256" stroke="#D97706" stroke-width="2.5" marker-end="url(#fp-acp-arrow)" fill="none" stroke-linecap="round" />
+  <path d="M504 214 L758 256" stroke="#15803D" stroke-width="2.5" marker-end="url(#fp-acp-arrow)" fill="none" stroke-linecap="round" />
+
+  <rect x="90" y="262" width="260" height="92" rx="18"
+    fill="rgba(168, 34, 24, 0.08)" stroke="rgba(168, 34, 24, 0.24)" />
+  <text x="114" y="290" font-size="13" font-weight="900" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Rejection
+  </text>
+  <text x="114" y="312" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    One bad witness is enough.
+  </text>
+  <text x="114" y="332" font-size="11" fill="#475569"
+    font-family="JetBrains Mono, monospace">
+    exists y  not Spec(x,y)
+  </text>
+
+  <rect x="350" y="262" width="308" height="108" rx="18"
+    fill="rgba(249, 115, 22, 0.08)" stroke="rgba(249, 115, 22, 0.24)" />
+  <text x="374" y="290" font-size="13" font-weight="900" fill="#D97706"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Corroboration only
+  </text>
+  <text x="374" y="312" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    No bad witness was found, but the search
+  </text>
+  <text x="374" y="329" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    may still be incomplete.
+  </text>
+  <text x="374" y="349" font-size="11" fill="#475569"
+    font-family="JetBrains Mono, monospace">
+    not exists y EmitCE(x,y)
+  </text>
+
+  <rect x="664" y="262" width="206" height="92" rx="18"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.24)" />
+  <text x="688" y="290" font-size="13" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Proof-backed acceptance
+  </text>
+  <text x="688" y="312" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Sound certificate or complete checker
+  </text>
+  <text x="688" y="332" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    closes the gap.
+  </text>
+
+  <rect x="170" y="382" width="620" height="22" rx="10"
+    fill="rgba(15, 23, 42, 0.04)" stroke="rgba(148, 163, 184, 0.28)" />
+  <text x="194" y="397" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Key distinction: survival under search can support confidence, but only explicit soundness and completeness assumptions upgrade it to proof.
+  </text>
+</svg>

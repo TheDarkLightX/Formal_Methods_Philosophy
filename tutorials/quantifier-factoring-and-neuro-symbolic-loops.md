@@ -67,6 +67,14 @@ That is the first rabbit-hole result:
 
 > universal verification is often operationalized as existential counterexample search over the negation.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Quantifier factoring as a proposer-verifier split</p>
+  {% include diagrams/quantifier-factoring-loop.svg %}
+  <figcaption class="fp-figure-caption">
+    The key move is to turn one universal burden into an explicit counterexample search. The proposer looks for a candidate, the verifier looks for one bad case, and acceptance only happens when that bad-case search comes back empty.
+  </figcaption>
+</figure>
+
 ## Part II: the asymmetry that creates leverage
 
 Define:
@@ -177,6 +185,14 @@ $$
 $$
 
 That gap is the exact line between proof and corroboration.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Rejection, corroboration, and proof-backed acceptance</p>
+  {% include diagrams/acceptance-corroboration-proof.svg %}
+  <figcaption class="fp-figure-caption">
+    A failed check can refute a candidate immediately. A passed search only gives corroboration unless coverage is complete. Proof-backed acceptance closes that gap by adding a certificate or a complete search argument.
+  </figcaption>
+</figure>
 
 ## Part IV: CEGIS as geometry
 
