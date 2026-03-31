@@ -1,0 +1,152 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 540"
+  role="img"
+  aria-labelledby="fp-pqmm-title fp-pqmm-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-pqmm-title">Price and quota mechanism map</title>
+  <desc id="fp-pqmm-desc">
+    A teaching diagram for Experiments 8 through 10. In the homogeneous case,
+    price alone cannot sustain a strict interior regime. In the heterogeneous case,
+    price can select the high type, and quota can then allocate the active slots.
+  </desc>
+
+  <defs>
+    <filter id="fp-pqmm-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-pqmm-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-pqmm-shadow)">
+    <rect x="20" y="10" width="920" height="520" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text x="60" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Price and quota mechanism map
+  </text>
+  <text x="60" y="66" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    The mechanism branch learns a simple split: price selects types, quota allocates slots.
+  </text>
+
+  <!-- left: homogeneous -->
+  <rect x="60" y="104" width="250" height="260" rx="18"
+    fill="rgba(168, 34, 24, 0.08)" stroke="rgba(168, 34, 24, 0.22)" />
+  <text x="86" y="132" font-size="13" font-weight="900" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Homogeneous case
+  </text>
+  <text x="86" y="160" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Everyone has the same active surplus sign.
+  </text>
+  <text x="86" y="190" font-size="12" font-weight="900" fill="#A82218"
+    font-family="JetBrains Mono, monospace">
+    0 &lt; n &lt; h  and stable  implies  delta = 0
+  </text>
+  <text x="86" y="222" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    If delta &gt; 0, everyone wants active.
+  </text>
+  <text x="86" y="240" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    If delta &lt; 0, everyone wants passive.
+  </text>
+  <text x="86" y="258" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    A strict interior needs exact indifference.
+  </text>
+  <rect x="86" y="292" width="198" height="44" rx="12"
+    fill="rgba(245, 158, 11, 0.10)" stroke="rgba(245, 158, 11, 0.22)" />
+  <text x="106" y="318" font-size="11" fill="#B45309"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Price alone cannot solve coordination.
+  </text>
+
+  <path d="M322 234 H358" stroke="#3B82F6" stroke-width="3"
+    marker-end="url(#fp-pqmm-arrow)" stroke-linecap="round" />
+
+  <!-- middle: heterogeneous price selection -->
+  <rect x="372" y="104" width="250" height="260" rx="18"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.22)" />
+  <text x="398" y="132" font-size="13" font-weight="900" fill="#2563EB"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Heterogeneous case
+  </text>
+  <text x="398" y="160" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Low and high complement households differ.
+  </text>
+  <text x="398" y="190" font-size="12" font-weight="900" fill="#2563EB"
+    font-family="JetBrains Mono, monospace">
+    a_low &lt; p &lt; a_high
+  </text>
+  <text x="398" y="220" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Only the high type wants active.
+  </text>
+  <text x="398" y="238" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Price becomes a type-selection device.
+  </text>
+  <rect x="398" y="272" width="198" height="44" rx="12"
+    fill="rgba(34, 197, 94, 0.10)" stroke="rgba(34, 197, 94, 0.22)" />
+  <text x="417" y="299" font-size="11" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Clearing needs H &lt;= L.
+  </text>
+
+  <path d="M634 234 H670" stroke="#3B82F6" stroke-width="3"
+    marker-end="url(#fp-pqmm-arrow)" stroke-linecap="round" />
+
+  <!-- right: composition -->
+  <rect x="684" y="104" width="216" height="260" rx="18"
+    fill="rgba(15, 118, 110, 0.08)" stroke="rgba(15, 118, 110, 0.22)" />
+  <text x="708" y="132" font-size="13" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Price plus quota
+  </text>
+  <text x="708" y="160" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Price picks the high type.
+  </text>
+  <text x="708" y="178" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Quota caps how many can activate.
+  </text>
+  <text x="708" y="208" font-size="12" font-weight="900" fill="#0F766E"
+    font-family="JetBrains Mono, monospace">
+    q &lt;= (L + H) / 2
+  </text>
+  <text x="708" y="238" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Price solves selection.
+  </text>
+  <text x="708" y="256" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Quota solves allocation.
+  </text>
+  <rect x="708" y="290" width="168" height="44" rx="12"
+    fill="rgba(15, 23, 42, 0.05)" stroke="rgba(148, 163, 184, 0.22)" />
+  <text x="722" y="317" font-size="11" fill="#334155"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Composed mechanism clears.
+  </text>
+
+  <!-- bottom summary -->
+  <rect x="120" y="408" width="720" height="84" rx="18"
+    fill="rgba(15, 23, 42, 0.04)" stroke="rgba(148, 163, 184, 0.20)" />
+  <text x="148" y="438" font-size="13" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Teaching point
+  </text>
+  <text x="148" y="462" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Experiment 8 gives a price impossibility result in the symmetric case. Experiments 9 and 10 show why the mechanism question changes once types differ: price can separate households, but quota is still needed when the selected active group would overproduce.
+  </text>
+</svg>

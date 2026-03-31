@@ -883,6 +883,14 @@ The branch now has:
 That is the clearest mechanism-design progression in the economics branch so
 far.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Price and quota mechanism map</p>
+  {% include diagrams/price-quota-mechanism-map.svg %}
+  <figcaption class="fp-figure-caption">
+    Experiments 8 through 10 separate three cases. In the homogeneous case, price alone cannot sustain a strict interior regime. In the heterogeneous case, price can select the high type. The composed mechanism then uses quota to allocate the number of active slots that still keeps the toy economy clearing.
+  </figcaption>
+</figure>
+
 ### Experiment 11 (notebook level 96): intermediate-demand multiplier law
 
 The next bounded step corrects one hidden assumption in the zero-employee
@@ -1286,6 +1294,14 @@ So one bounded answer to "what are a frontier lab's options?" is:
 
 - the deployment surface is a strategic branch
 - and the privately optimal branch need not be the socially optimal branch
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Deployment surface branch</p>
+  {% include diagrams/deployment-surface-branch.svg %}
+  <figcaption class="fp-figure-caption">
+    Experiment 16 is a branch-choice game. The lab compares private capture on the closed and open surfaces, while the planner compares extra ecosystem output against extra externality cost. Those comparisons can diverge even in the same bounded model.
+  </figcaption>
+</figure>
 
 ### Experiment 17 (notebook level 102): household slot-lottery participation law
 
