@@ -8,29 +8,11 @@ description: "Learn when a neuro-symbolic loop can compile verifier behavior int
 <details open>
 <summary><strong>Road map</strong></summary>
 
-This tutorial studies one concrete question.
+This tutorial explains the verifier-compiler idea: a neuro-symbolic loop can
+learn a small symbolic front-end for an exact verifier, route easy cases
+cheaply, and still keep the verifier as the final fail-closed gate.
 
-Can a neuro-symbolic loop learn a small symbolic front-end for an exact
-verifier, so that easy cases are routed cheaply while difficult cases are still
-sent to the verifier itself?
-
-That is the central verifier-compiler idea. The loop is not trying to replace
-the verifier with a guess. It is trying to learn a compact map of the
-verifier's behavior, then use that map carefully inside a fail-closed process.
-
-- **Parts I-VI**: the basic loop, label functions, quotient-and-repair
-  compilers, and fail-closed execution
-- **Parts VII-IX**: when the pattern generalizes, where it breaks, and how it
-  appears in practice
-- **Part X**: bounded verifier-compiler results, from tiny repaired compilers
-  through orbit and support-geometry laws (Levels 1-47)
-- **Part XI**: nearby loop families, including certificate lifting,
-  abstraction synthesis, explanatory ladders, and minimal witness-language
-  discovery
-- **Part XII**: bounded formal software-repair languages and definability
-  ladders (Levels 48-85)
-- **Parts XIII-XIV**: what these loops do and do not buy for software
-  assurance, and the final takeaway
+The detailed reading guide appears below in "How to use this tutorial."
 
 The current bounded endpoint in this tutorial is `Level 85`, the
 cycle-orientation incidence extension law.
