@@ -1,0 +1,126 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 520"
+  role="img"
+  aria-labelledby="fp-zecs-title fp-zecs-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-zecs-title">Zero-employee company stack</title>
+  <desc id="fp-zecs-desc">
+    A layered view of a zero-employee company. Cheap software production does not remove scarcity,
+    it moves scarcity upward to routing, trust, settlement, permission, and sink access.
+  </desc>
+
+  <defs>
+    <filter id="fp-zecs-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <g filter="url(#fp-zecs-shadow)">
+    <rect x="20" y="10" width="920" height="500" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text x="60" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Zero-employee company stack
+  </text>
+  <text x="60" y="66" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Cheap production removes the employee layer as the main bottleneck, but it does not remove scarcity.
+  </text>
+
+  <rect x="110" y="96" width="420" height="52" rx="14"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.24)" />
+  <text x="138" y="126" font-size="13" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Final sink demand
+  </text>
+
+  <rect x="110" y="154" width="420" height="52" rx="14"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.24)" />
+  <text x="138" y="184" font-size="13" font-weight="900" fill="#2563EB"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Routing and discovery rails
+  </text>
+
+  <rect x="110" y="212" width="420" height="52" rx="14"
+    fill="rgba(194, 65, 12, 0.08)" stroke="rgba(194, 65, 12, 0.24)" />
+  <text x="138" y="242" font-size="13" font-weight="900" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Settlement, claims, and trust
+  </text>
+
+  <rect x="110" y="270" width="420" height="52" rx="14"
+    fill="rgba(168, 34, 24, 0.08)" stroke="rgba(168, 34, 24, 0.24)" />
+  <text x="138" y="300" font-size="13" font-weight="900" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Control shell and admissibility
+  </text>
+
+  <rect x="110" y="328" width="420" height="52" rx="14"
+    fill="rgba(15, 118, 110, 0.08)" stroke="rgba(15, 118, 110, 0.24)" />
+  <text x="138" y="358" font-size="13" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Capability engine
+  </text>
+
+  <rect x="110" y="386" width="420" height="52" rx="14"
+    fill="rgba(15, 23, 42, 0.05)" stroke="rgba(148, 163, 184, 0.24)" />
+  <text x="138" y="416" font-size="13" font-weight="900" fill="#334155"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Compute, storage, and code assets
+  </text>
+
+  <text x="585" y="122" font-size="12" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Scarcity shifts upward
+  </text>
+
+  <rect x="585" y="144" width="285" height="270" rx="18"
+    fill="rgba(59, 130, 246, 0.05)" stroke="rgba(59, 130, 246, 0.18)" />
+  <text x="610" y="176" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    If software production becomes cheap, the hard questions
+  </text>
+  <text x="610" y="194" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    are no longer mainly about labor coordination.
+  </text>
+
+  <text x="610" y="228" font-size="11" font-weight="900" fill="#2563EB"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Remaining scarce interfaces:
+  </text>
+  <text x="610" y="252" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    customer attention
+  </text>
+  <text x="610" y="270" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    distribution and ranking
+  </text>
+  <text x="610" y="288" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    permission and admissibility
+  </text>
+  <text x="610" y="306" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    settlement and claim ownership
+  </text>
+  <text x="610" y="324" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    compute priority and platform access
+  </text>
+  <text x="610" y="342" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    trust and auditability
+  </text>
+
+  <rect x="90" y="458" width="780" height="28" rx="10"
+    fill="rgba(15, 118, 110, 0.06)" stroke="rgba(15, 118, 110, 0.16)" />
+  <text x="118" y="477" font-size="11" font-weight="900" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Teaching point: the firm does not disappear into pure software. It decomposes into layers, and the scarce layer becomes the economic bottleneck.
+  </text>
+</svg>

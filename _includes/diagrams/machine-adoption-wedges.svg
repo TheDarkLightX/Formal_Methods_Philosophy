@@ -1,0 +1,140 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 500"
+  role="img"
+  aria-labelledby="fp-maw-title fp-maw-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-maw-title">Machine adoption wedges under trust, rents, and assurance</title>
+  <desc id="fp-maw-desc">
+    A threshold diagram for the machine-control branch. The horizontal axis is effective machine advantage.
+    One threshold marks social adoption, a later threshold marks private incumbent adoption, and assurance shifts
+    the machine path toward adoption.
+  </desc>
+
+  <defs>
+    <filter id="fp-maw-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-maw-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-maw-shadow)">
+    <rect x="20" y="10" width="920" height="480" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text x="60" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Machine adoption wedges
+  </text>
+  <text x="60" y="66" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    The branch from Experiments 20-27 separates reliability, trust, incumbent rents, and assurance design.
+  </text>
+
+  <text x="100" y="132" font-size="12" font-weight="900" fill="#1E293B"
+    font-family="JetBrains Mono, monospace">
+    horizontal axis: E = 2A + lam
+  </text>
+  <text x="325" y="132" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    effective two-period machine advantage
+  </text>
+
+  <rect x="100" y="170" width="250" height="92" rx="18"
+    fill="rgba(168, 34, 24, 0.08)" stroke="rgba(168, 34, 24, 0.24)" />
+  <text x="124" y="198" font-size="13" font-weight="900" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Human path survives
+  </text>
+  <text x="124" y="220" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    E &lt; 2 * tau1
+  </text>
+  <text x="124" y="238" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    even the social machine path
+  </text>
+  <text x="124" y="254" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    is not yet worth taking
+  </text>
+
+  <rect x="350" y="170" width="260" height="92" rx="18"
+    fill="rgba(245, 158, 11, 0.10)" stroke="rgba(245, 158, 11, 0.28)" />
+  <text x="374" y="198" font-size="13" font-weight="900" fill="#B45309"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Lockout wedge
+  </text>
+  <text x="374" y="220" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    2 * tau1 &lt;= E &lt; 2 * tau1 + 2 * rho
+  </text>
+  <text x="374" y="238" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    socially better, privately blocked
+  </text>
+  <text x="374" y="254" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    because incumbent rents are lost
+  </text>
+
+  <rect x="610" y="170" width="250" height="92" rx="18"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.24)" />
+  <text x="634" y="198" font-size="13" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Private machine adoption
+  </text>
+  <text x="634" y="220" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    E &gt;= 2 * tau1 + 2 * rho
+  </text>
+  <text x="634" y="238" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    both social and private chooser
+  </text>
+  <text x="634" y="254" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    now prefer the machine path
+  </text>
+
+  <line x1="350" y1="156" x2="350" y2="274" stroke="#B45309" stroke-width="2.5" stroke-dasharray="6 4" />
+  <line x1="610" y1="156" x2="610" y2="274" stroke="#15803D" stroke-width="2.5" stroke-dasharray="6 4" />
+
+  <text x="290" y="150" font-size="10" fill="#B45309"
+    font-family="JetBrains Mono, monospace">
+    2 * tau1
+  </text>
+  <text x="555" y="150" font-size="10" fill="#15803D"
+    font-family="JetBrains Mono, monospace">
+    2 * tau1 + 2 * rho
+  </text>
+
+  <path d="M430 324 H575" stroke="#3B82F6" stroke-width="4"
+    marker-end="url(#fp-maw-arrow)" stroke-linecap="round" />
+  <text x="440" y="314" font-size="11" font-weight="900" fill="#2563EB"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    assurance shift
+  </text>
+  <text x="440" y="344" font-size="10" fill="#475569"
+    font-family="JetBrains Mono, monospace">
+    + (2d + g - k)
+  </text>
+
+  <rect x="170" y="366" width="620" height="84" rx="18"
+    fill="rgba(59, 130, 246, 0.06)" stroke="rgba(59, 130, 246, 0.18)" />
+  <text x="198" y="394" font-size="12" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Reading guide for Experiments 20-27
+  </text>
+  <text x="198" y="416" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Experiment 20 gives the reliability and auditability threshold. Experiment 21 separates social and private trust.
+  </text>
+  <text x="198" y="434" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Experiments 22-24 make the lockout wedge dynamic. Experiments 25-27 ask which assurance package or subsidy closes the wedge.
+  </text>
+</svg>
