@@ -1228,6 +1228,14 @@ That is the cleanest current toy answer to the question:
 what does MPRD allow in a bottleneck economy?
 ```
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Governed slot market</p>
+  {% include diagrams/governed-slot-market.svg %}
+  <figcaption class="fp-figure-caption">
+    Experiments 14 and 15 separate two questions that are easy to blur together. Slot sales change who gets rent, but not total system profit. MPRD then caps extraction at whichever boundary is tighter, the admissibility cap or the winner-viability margin.
+  </figcaption>
+</figure>
+
 ### Experiment 16 (notebook level 101): deployment-surface divergence law
 
 The next branch switches perspective from platforms to frontier labs.
@@ -1924,6 +1932,14 @@ The witness with `A = 5`, `tau1 = 6`, `lam = 4`, `rho = 2`, `d = 1`, `g = 0`,
 
 So the package is socially worth deploying, privately blocked, and one unit of
 subsidy is exactly enough to implement it.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Assurance lever map</p>
+  {% include diagrams/assurance-lever-map.svg %}
+  <figcaption class="fp-figure-caption">
+    Experiments 25 through 27 refine the assurance branch in three steps. First, packages close the adoption shortfall. Next, different levers carry different private coefficients. Finally, subsidy bridges whatever shortfall still remains after package design.
+  </figcaption>
+</figure>
 
 ## Next honest frontiers
 

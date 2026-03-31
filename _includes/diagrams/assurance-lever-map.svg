@@ -1,0 +1,136 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 560"
+  role="img"
+  aria-labelledby="fp-alm-title fp-alm-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-alm-title">Assurance lever map</title>
+  <desc id="fp-alm-desc">
+    A teaching diagram for Experiments 25 through 27. Private adoption starts with a shortfall.
+    Different assurance levers contribute with different coefficients, and a subsidy can bridge the remaining gap.
+  </desc>
+
+  <defs>
+    <filter id="fp-alm-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <g filter="url(#fp-alm-shadow)">
+    <rect x="20" y="10" width="920" height="540" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <text x="60" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Assurance lever map
+  </text>
+  <text x="60" y="66" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Experiments 25 through 27 ask which software-design levers actually move private adoption, and when subsidy has to bridge the rest.
+  </text>
+
+  <rect x="60" y="102" width="300" height="118" rx="18"
+    fill="rgba(168, 34, 24, 0.08)" stroke="rgba(168, 34, 24, 0.22)" />
+  <text x="86" y="130" font-size="13" font-weight="900" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Baseline private shortfall
+  </text>
+  <text x="86" y="158" font-size="12" fill="#1E293B"
+    font-family="JetBrains Mono, monospace">
+    gap = 2 * tau1 + 2 * rho - (2 * A + lam)
+  </text>
+  <text x="86" y="188" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    If the gap is positive, the machine path is privately blocked.
+  </text>
+
+  <rect x="390" y="102" width="500" height="118" rx="18"
+    fill="rgba(59, 130, 246, 0.06)" stroke="rgba(59, 130, 246, 0.20)" />
+  <text x="416" y="130" font-size="13" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Package surplus law
+  </text>
+  <text x="416" y="158" font-size="12" fill="#2563EB"
+    font-family="JetBrains Mono, monospace">
+    package shift = 2 * d + g - k
+  </text>
+  <text x="416" y="188" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Experiment 25: the package flips rejection into adoption exactly when this shift closes the gap.
+  </text>
+
+  <!-- lever cards -->
+  <rect x="60" y="258" width="250" height="130" rx="18"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.22)" />
+  <text x="84" y="286" font-size="13" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Trust lift
+  </text>
+  <text x="84" y="312" font-size="12" fill="#15803D"
+    font-family="JetBrains Mono, monospace">
+    coefficient: 2 - c_d
+  </text>
+  <text x="84" y="340" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Predeployment audit, replay, or confinement
+  </text>
+  <text x="84" y="358" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    has double private weight before cost.
+  </text>
+
+  <rect x="355" y="258" width="250" height="130" rx="18"
+    fill="rgba(245, 158, 11, 0.08)" stroke="rgba(245, 158, 11, 0.22)" />
+  <text x="379" y="286" font-size="13" font-weight="900" fill="#B45309"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Delayed learning
+  </text>
+  <text x="379" y="312" font-size="12" fill="#B45309"
+    font-family="JetBrains Mono, monospace">
+    coefficient: 1 - c_g
+  </text>
+  <text x="379" y="340" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Learning after one successful period only counts once.
+  </text>
+  <text x="379" y="358" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Under equal unit costs it can drop out completely.
+  </text>
+
+  <rect x="650" y="258" width="240" height="130" rx="18"
+    fill="rgba(99, 102, 241, 0.08)" stroke="rgba(99, 102, 241, 0.22)" />
+  <text x="674" y="286" font-size="13" font-weight="900" fill="#4F46E5"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Liability or rent offset
+  </text>
+  <text x="674" y="312" font-size="12" fill="#4F46E5"
+    font-family="JetBrains Mono, monospace">
+    coefficient: 2 - c_ell
+  </text>
+  <text x="674" y="340" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Changes the incumbent's effective loss from adoption.
+  </text>
+  <text x="674" y="358" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    This can be as strong as trust lift.
+  </text>
+
+  <!-- subsidy bridge -->
+  <rect x="140" y="432" width="680" height="74" rx="18"
+    fill="rgba(15, 23, 42, 0.04)" stroke="rgba(148, 163, 184, 0.22)" />
+  <text x="168" y="460" font-size="13" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Subsidy bridge
+  </text>
+  <text x="168" y="486" font-size="12" fill="#2563EB"
+    font-family="JetBrains Mono, monospace">
+    s_star = max(0, 2 * tau1 + 2 * rho + k - (2 * A + lam + 2 * d + g))
+  </text>
+  <text x="168" y="506" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Experiment 27: if package design still leaves a positive gap, subsidy bridges only the remaining shortfall.
+  </text>
+</svg>
