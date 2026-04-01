@@ -28,6 +28,15 @@ artifacts still line up.
 
 </details>
 
+## Scope of this tutorial
+
+This tutorial is about profit agents, post-AGI or high-autonomy toy economies,
+platform incentives, passive ownership, demand closure, coordination, and
+zero-employee company models.
+
+It is not the place for verifier-compiler loop compression, software-repair
+atlases, or witness-language ladders. Those belong with Tutorial 27.
+
 This tutorial is explicitly assumption-driven.
 
 Every result below is a bounded theorem inside a toy model, not a general claim
@@ -72,9 +81,10 @@ reality.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Assumption tree</p>
-  {% include diagrams/post-agi-assumption-tree.svg %}
+  {% include diagrams/assumption-tree.svg %}
   <figcaption class="fp-figure-caption">
-    The tutorial is organized as a branch structure over explicit assumptions. Capability, control shell, sink structure, rails, and ownership pattern all change which theorems survive.
+    Five branching axes. Each experiment below lives on one path through this
+    tree. Results transfer only to branches that share the same assumptions.
   </figcaption>
 </figure>
 
@@ -238,15 +248,7 @@ The point is to turn the thought experiment into bounded models where:
 - the failure modes are explicit
 - and the coordination mechanisms can be compared exactly
 
-<figure class="fp-figure">
-  <p class="fp-figure-title">Zero-employee company stack</p>
-  {% include diagrams/zero-employee-company-stack.svg %}
-  <figcaption class="fp-figure-caption">
-    When software production becomes cheap, scarcity moves upward into routing, trust, settlement, admissibility, and sink access. The company does not disappear, it decomposes into layers.
-  </figcaption>
-</figure>
-
-### Experiment 1 (notebook level 86): complement-threshold and governed-profit law
+### Experiment 1: complement-threshold and governed-profit law
 
 The next rabbit hole was not another software atlas refinement.
 It was the first bounded profit-agent game.
@@ -310,7 +312,7 @@ So the first bounded profit-agent object already says:
 - platform incentives can exclude low-complement users
 - governed admissibility changes the feasible profit set, not only the labels
 
-### Experiment 2 (notebook level 87): hold-up and passive-ownership threshold law
+### Experiment 2: hold-up and passive-ownership threshold law
 
 The next deeper question is whether a platform should simply capture everything
 and turn users into passive claimants.
@@ -387,7 +389,7 @@ It says:
 
 That is a much stronger result than the earlier prose intuition.
 
-### Experiment 3 (notebook level 88): heterogeneous-complement passive-ownership region law
+### Experiment 3: heterogeneous-complement passive-ownership region law
 
 The next bounded question combines the last two layers:
 
@@ -471,16 +473,14 @@ It says:
 - the relevant equilibrium is controlled by complement mix, not only by model
   capability
 
-<div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Checkpoint: platform branch</p>
-  <ul>
-    <li><strong>Main lesson:</strong> Equal model capability does not force equal market participation. Complement structure still decides who stays active.</li>
-    <li><strong>Ownership matters:</strong> Once passive ownership is allowed, the platform's best regime can shift even when the capability layer has not changed.</li>
-    <li><strong>Mental picture:</strong> This branch is less like a race where the smartest runner wins, and more like a toll road where traffic depends on who still gains enough from entering.</li>
-  </ul>
-</div>
+## Closure and ownership (Experiments 4-7)
 
-### Experiment 4 (notebook level 89): demand-closure ownership law
+Experiments 1-3 established that complement heterogeneity and platform
+extraction create unequal activation regions even under equal capability. The
+next group zooms out to the macro question: if output grows faster than direct
+consumption, who buys the surplus?
+
+### Experiment 4: demand-closure ownership law
 
 The next deeper question is the macro one:
 
@@ -543,7 +543,7 @@ But it does prove something important:
 then broad passive claims or transfers are not optional in this model.
 They are mathematically required for demand closure.
 
-### Experiment 5 (notebook level 90): private-optimum versus closure phase diagram
+### Experiment 5: private-optimum versus closure phase diagram
 
 The next bounded step integrated the `v134` platform game with the new
 demand-closure theorem.
@@ -604,6 +604,16 @@ Three witness regions make the structure clear:
   - `moderate` is privately optimal
   - neither `open` nor `moderate` clears
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Platform phase diagram</p>
+  {% include diagrams/platform-phase-diagram.svg %}
+  <figcaption class="fp-figure-caption">
+    In the (n_low, n_high) plane, three regions appear. The green band is the
+    only regime that is both privately optimal for the platform and demand-clearing
+    for the economy.
+  </figcaption>
+</figure>
+
 This is the deepest economics-side result so far because it formally separates:
 
 - what the platform wants
@@ -611,15 +621,7 @@ This is the deepest economics-side result so far because it formally separates:
 
 Those are not the same object.
 
-<figure class="fp-figure">
-  <p class="fp-figure-title">Private-optimum versus closure phase map</p>
-  {% include diagrams/private-optimum-closure-phase-map.svg %}
-  <figcaption class="fp-figure-caption">
-    Experiment 5 has a narrow viable band. Above the red closure line even the moderate regime fails to clear. Below the green private-optimum line the platform still prefers the open regime. Only the band between those boundaries supports a privately optimal and demand-clearing moderate regime.
-  </figcaption>
-</figure>
-
-### Experiment 6 (notebook level 91): active-owner share ceiling
+### Experiment 6: active-owner share ceiling
 
 The next bounded step extracted the cleaner macro theorem hidden inside
 `v135` and `v136`.
@@ -677,7 +679,7 @@ Three small witnesses make the structure concrete:
 This is the first exact theorem in the profit-agent branch that speaks
 directly to the universal-principal question.
 
-### Experiment 7 (notebook level 92): symmetric coordination law
+### Experiment 7: symmetric coordination law
 
 The next bounded step turned that active-owner ceiling into a real
 active-versus-passive coordination game.
@@ -726,7 +728,24 @@ So the first stable nontrivial regime is a coordinated interior split, not:
 
 This is the first actual coordination theorem in the profit-agent branch.
 
-### Experiment 8 (notebook level 93): uniform-price impossibility and quota implementability
+## Mechanism design (Experiments 8-10)
+
+Experiments 4-7 showed that a coordinated interior split is needed for demand
+closure, but did not say how to implement it. The next group turns that
+coordination problem into a mechanism-design problem: can a price, a quota, or
+both induce the right active-passive split?
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Mechanism design progression</p>
+  {% include diagrams/mechanism-progression.svg %}
+  <figcaption class="fp-figure-caption">
+    Price alone fails in the symmetric case. Heterogeneous prices select types
+    but may not clear demand. Composing price with quota achieves both selection
+    and allocation.
+  </figcaption>
+</figure>
+
+### Experiment 8: uniform-price impossibility and quota implementability
 
 The next bounded step turned the coordination question into a mechanism-design
 question.
@@ -790,7 +809,7 @@ This is the first bounded mechanism theorem in the profit-agent branch:
 - prices alone do not solve the symmetric coordination problem
 - quotas can
 
-### Experiment 9 (notebook level 94): heterogeneous price-selection law
+### Experiment 9: heterogeneous price-selection law
 
 The next bounded step asked whether the pricing impossibility from `v139`
 survives once households differ.
@@ -836,7 +855,7 @@ So pricing works, but only under a sharp composition condition:
 This is the first exact result in the branch showing that heterogeneous
 complements change the logic of the mechanism problem.
 
-### Experiment 10 (notebook level 95): price-plus-quota composition law
+### Experiment 10: price-plus-quota composition law
 
 The next bounded step composed the two mechanisms.
 
@@ -892,26 +911,17 @@ The branch now has:
 That is the clearest mechanism-design progression in the economics branch so
 far.
 
-<figure class="fp-figure">
-  <p class="fp-figure-title">Price and quota mechanism map</p>
-  {% include diagrams/price-quota-mechanism-map.svg %}
-  <figcaption class="fp-figure-caption">
-    Experiments 8 through 10 separate three cases. In the homogeneous case, price alone cannot sustain a strict interior regime. In the heterogeneous case, price can select the high type. The composed mechanism then uses quota to allocate the number of active slots that still keeps the toy economy clearing.
-  </figcaption>
-</figure>
+## Sinks, slots, and entry ceilings (Experiments 11-13)
 
-<div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Checkpoint: closure and mechanism branch</p>
-  <ul>
-    <li><strong>Main lesson:</strong> Closure fails once active production outruns the economy's direct consumption base.</li>
-    <li><strong>Price is not enough:</strong> In the symmetric case, price alone cannot create a strict interior regime. In the heterogeneous case, price can sort types, but it still does not decide how many active slots should exist.</li>
-    <li><strong>Mental picture:</strong> Price chooses who is willing to walk through the door. Quota decides how many seats are actually in the room.</li>
-  </ul>
-</div>
+Experiments 8-10 solved the coordination problem for a fixed demand model.
+The next group corrects a hidden assumption: human attention is not the only
+possible final sink. Agent-to-agent trade, crypto settlement, and external
+demand all contribute. These experiments ask what limits firm entry and who
+captures the rents.
 
-### Experiment 11 (notebook level 96): intermediate-demand multiplier law
+### Experiment 11: intermediate-demand multiplier law
 
-The next bounded step corrects one hidden assumption in the zero-employee
+This experiment corrects a hidden assumption in the zero-employee
 software-company thought experiment.
 
 Human attention is not the only possible final sink.
@@ -994,9 +1004,9 @@ It is:
 - "what intermediate flows amplify them"
 - "what settlement and governance layer makes the profits real"
 
-### Experiment 12 (notebook level 97): zero-employee company entry ceiling law
+### Experiment 12: zero-employee company entry ceiling law
 
-The next bounded step takes one explicit branch of the assumption tree.
+Take one explicit branch of the assumption tree.
 
 Assume:
 
@@ -1059,10 +1069,10 @@ The next important splits are:
 - symmetric access versus slot rents
 - legal enforcement versus code-native enforcement
 
-### Experiment 13 (notebook level 98): discovery-slot redistribution law
+### Experiment 13: discovery-slot redistribution law
 
-The next branch asks what happens once zero-employee firms are easy to create
-but sink access is bottlenecked.
+What happens once zero-employee firms are easy to create but sink access is
+bottlenecked?
 
 Assume:
 
@@ -1120,9 +1130,16 @@ The bottleneck changes who captures the gains, not the size of the pie.
 That is the clean formal version of the platform-power question for
 zero-employee companies.
 
-### Experiment 14 (notebook level 99): governed execution-slot sale law
+## Slot sales, admissibility, and frontier labs (Experiments 14-16)
 
-The next bounded step adds an explicit mechanism to the bottleneck branch.
+Experiments 11-13 showed that final sinks set hard entry ceilings and that
+discovery bottlenecks redistribute profit without creating it. The next group
+adds mechanisms on top: governed slot fees, MPRD admissibility caps, and the
+strategic branch between closed and open deployment for frontier labs.
+
+### Experiment 14: governed execution-slot sale law
+
+Add an explicit mechanism to the bottleneck branch.
 
 Assume:
 
@@ -1192,9 +1209,9 @@ So once execution access is sold, the hard question is not only who gets a
 slot.
 It is how the slot mechanism transfers rent.
 
-### Experiment 15 (notebook level 100): MPRD-governed slot-cap law
+### Experiment 15: MPRD-governed slot-cap law
 
-The next bounded step asks what `MPRD` does in that same slot-sale economy.
+What does `MPRD` do in that same slot-sale economy?
 
 Assume:
 
@@ -1254,17 +1271,9 @@ That is the cleanest current toy answer to the question:
 what does MPRD allow in a bottleneck economy?
 ```
 
-<figure class="fp-figure">
-  <p class="fp-figure-title">Governed slot market</p>
-  {% include diagrams/governed-slot-market.svg %}
-  <figcaption class="fp-figure-caption">
-    Experiments 14 and 15 separate two questions that are easy to blur together. Slot sales change who gets rent, but not total system profit. MPRD then caps extraction at whichever boundary is tighter, the admissibility cap or the winner-viability margin.
-  </figcaption>
-</figure>
+### Experiment 16: deployment-surface divergence law
 
-### Experiment 16 (notebook level 101): deployment-surface divergence law
-
-The next branch switches perspective from platforms to frontier labs.
+This experiment switches perspective from platforms to frontier labs.
 
 Assume a lab chooses one deployment surface:
 
@@ -1313,17 +1322,18 @@ So one bounded answer to "what are a frontier lab's options?" is:
 - the deployment surface is a strategic branch
 - and the privately optimal branch need not be the socially optimal branch
 
-<figure class="fp-figure">
-  <p class="fp-figure-title">Deployment surface branch</p>
-  {% include diagrams/deployment-surface-branch.svg %}
-  <figcaption class="fp-figure-caption">
-    Experiment 16 is a branch-choice game. The lab compares private capture on the closed and open surfaces, while the planner compares extra ecosystem output against extra externality cost. Those comparisons can diverge even in the same bounded model.
-  </figcaption>
-</figure>
+## Household participation and routing (Experiments 17-19)
 
-### Experiment 17 (notebook level 102): household slot-lottery participation law
+Experiments 14-16 studied the supply side: slot sellers, admissibility caps,
+and lab deployment. The next group takes the household and routing perspective.
+When agent firms are abundant, the relevant household question is not "can I
+own an agent?" but "does entering the active race beat passive claims?" And
+the relevant routing question is whether equalized protocols expand the
+viability region.
 
-The next branch takes the household perspective on the slot economy.
+### Experiment 17: household slot-lottery participation law
+
+Take the household perspective on the slot economy.
 
 Assume:
 
@@ -1366,10 +1376,9 @@ This means that once agent firms are abundant, the relevant household question
 is not only whether a household can own an agent.
 It is whether entering the active race beats passive claims.
 
-### Experiment 18 (notebook level 103): asymmetric-routing class-viability law
+### Experiment 18: asymmetric-routing class-viability law
 
-The next bounded step extends the sink-access branch from slot counts to route
-weights.
+Extend the sink-access branch from slot counts to route weights.
 
 Assume:
 
@@ -1417,9 +1426,9 @@ gives:
 So routing asymmetry can make one route class viable while another fails, even
 when the total system surplus formula has not changed.
 
-### Experiment 19 (notebook level 104): protocol equalization expansion law
+### Experiment 19: protocol equalization expansion law
 
-The next branch compares favored routing with equalized routing.
+Compare favored routing with equalized routing directly.
 
 Assume:
 
@@ -1466,19 +1475,28 @@ So the platform-versus-protocol question is not hand-wavy dominance.
 It is whether equalized routing expands the disadvantaged class's viability
 region.
 
-<div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Checkpoint: sink and routing branch</p>
-  <ul>
-    <li><strong>Main lesson:</strong> Final sink size sets the hard entry ceiling, but routing rules decide which firms get to live inside that ceiling.</li>
-    <li><strong>Redistribution, not creation:</strong> Bottlenecks and favored routes can move rent across classes without creating new total surplus.</li>
-    <li><strong>Mental picture:</strong> Think of a river delta with a fixed water budget. The routing channels determine which fields get irrigated, not how much water exists overall.</li>
-  </ul>
-</div>
+## Machine control and trust dynamics (Experiments 20-27)
 
-### Experiment 20 (notebook level 105): machine-control dominance threshold law
+Experiments 17-19 studied routing and participation for agent firms that
+already exist. The next group asks a different question: when should a company
+shift from human to machine control in the first place? The answer involves
+trust lag, incumbent rents, dynamic learning, and assurance packages.
 
-The next branch asks when a company becoming agentic should be read as an
-actual control upgrade rather than just a narrative.
+<figure class="fp-figure">
+  <p class="fp-figure-title">Trust-adoption timeline</p>
+  {% include diagrams/trust-adoption-timeline.svg %}
+  <figcaption class="fp-figure-caption">
+    Machine control can be genuinely safer but still under-adopted. Trust lag,
+    incumbent rents, and missing assurance packages create three distinct blocking
+    layers. The assurance-lever coefficients (Experiment 26) show which
+    interventions close the gap most efficiently.
+  </figcaption>
+</figure>
+
+### Experiment 20: machine-control dominance threshold law
+
+When should a company becoming agentic be read as an actual control upgrade
+rather than just a narrative?
 
 Compare:
 
@@ -1518,9 +1536,9 @@ machines must be more trusted and reliable than people
 
 into an exact threshold inequality.
 
-### Experiment 21 (notebook level 106): trust-lag divergence law
+### Experiment 21: trust-lag divergence law
 
-The next bounded step separates true reliability from observed trust.
+True reliability and observed trust are not the same. This experiment separates them.
 
 Compare two evaluators:
 
@@ -1551,21 +1569,9 @@ The witness with `V = 30`, `k_H = 8`, `k_M = 9`, `e_H = 10`, `e_M = 4`,
 So reliability advantage and social optimality can arrive before private trust
 fully catches up.
 
-<div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Reading guide for the final machine-adoption ladder</p>
-  <ul>
-    <li><strong>Experiment 22:</strong> add trust learning across two periods.</li>
-    <li><strong>Experiment 23:</strong> keep a parallel routing-side lock-in analogue in view.</li>
-    <li><strong>Experiment 24:</strong> add incumbent control rents.</li>
-    <li><strong>Experiment 25:</strong> add one assurance package.</li>
-    <li><strong>Experiment 26:</strong> split that package into separate levers.</li>
-    <li><strong>Experiment 27:</strong> add the minimal subsidy that implements the socially preferred package.</li>
-  </ul>
-</div>
+### Experiment 22: trust-learning experimentation law
 
-### Experiment 22 (notebook level 107): trust-learning experimentation law
-
-The next bounded step adds time to the machine-control branch.
+The machine-control branch becomes a two-period game.
 
 Normalize the two-period human baseline to `0`.
 
@@ -1629,9 +1635,9 @@ The witness with `A = 5`, `tau1 = 6`, `lam = 4` gives:
 So even when machines are better in structure, adoption can still require a
 trust-learning path rather than one-shot comparison.
 
-### Experiment 23 (notebook level 108): routing lock-in persistence law
+### Experiment 23: routing lock-in persistence law
 
-The next bounded step takes the routing branch into a two-period survival game.
+The routing branch becomes a two-period survival game.
 
 Assume:
 
@@ -1684,17 +1690,11 @@ So the period paths are:
 
 This is the first dynamic lock-in theorem in the routing branch.
 
-<figure class="fp-figure">
-  <p class="fp-figure-title">Routing regimes and lock-in</p>
-  {% include diagrams/routing-lockin-map.svg %}
-  <figcaption class="fp-figure-caption">
-    The routing branch combines a static inclusion law with a dynamic persistence law. Equalized routing weakly expands class B's viability region, and under no re-entry that can be the difference between persistent coexistence and permanent exclusion.
-  </figcaption>
-</figure>
+### Experiment 24: incumbent-rent machine lockout law
 
-### Experiment 24 (notebook level 109): incumbent-rent machine lockout law
+Combine the trust-learning branch with incumbent control rents.
 
-Now keep the same two-period adoption game and add incumbent control rents.
+Take a two-period adoption game with no re-entry.
 
 Normalize the always-human path to `0`.
 
@@ -1765,9 +1765,12 @@ So even if machine control is genuinely better and becomes easier to trust
 after one good period, adoption can still fail when the relevant private chooser
 would lose control rents.
 
-### Experiment 25 (notebook level 110): assurance-package adoption law
+### Experiment 25: assurance-package adoption law
 
-Now keep that same no-reentry game and add one assurance package.
+Turn the lockout wedge into a software-design theorem.
+
+Keep the same two-period no-reentry adoption game, then add one assurance
+package.
 
 Let:
 
@@ -1825,24 +1828,18 @@ The witness with `A = 5`, `tau1 = 6`, `lam = 4`, `rho = 2`, `d = 1`, `g = 1`,
 So the package closes the shortfall and flips private rejection into private
 adoption.
 
-This is the first direct software-design answer in the branch.
-If machine control is better but blocked, the package has to:
+This is the cleanest current answer to the software-design question.
+If machine control is actually better but blocked, then the package has to:
 
 - lower the initial trust penalty
 - speed trust learning after one good deployment
 - do so cheaply enough to close the exact adoption gap
 
-<figure class="fp-figure">
-  <p class="fp-figure-title">Machine adoption wedges</p>
-  {% include diagrams/machine-adoption-wedges.svg %}
-  <figcaption class="fp-figure-caption">
-    The machine-control branch has three regions: a left zone where the human path still dominates, a middle lockout wedge where the machine is socially better but privately blocked, and a right zone where private adoption survives. Assurance packages and subsidies work by shifting the machine path across that middle wedge.
-  </figcaption>
-</figure>
+### Experiment 26: assurance-lever coefficient law
 
-### Experiment 26 (notebook level 111): assurance-lever coefficient law
+Separate the assurance package into distinct levers.
 
-Now split that package into distinct levers.
+Keep the same two-period no-reentry adoption game.
 
 Let:
 
@@ -1914,10 +1911,11 @@ Under equal unit costs:
 So predeployment trust lift and liability structure can flip adoption where
 delayed learning alone cannot.
 
-### Experiment 27 (notebook level 112): assurance-subsidy implementation law
+### Experiment 27: assurance-subsidy implementation law
 
-Finally, compare social and private package choice directly by adding a
-subsidy.
+Compare social versus private package choice directly.
+
+Keep the same two-period no-reentry assurance branch.
 
 Let:
 
@@ -1978,23 +1976,6 @@ The witness with `A = 5`, `tau1 = 6`, `lam = 4`, `rho = 2`, `d = 1`, `g = 0`,
 
 So the package is socially worth deploying, privately blocked, and one unit of
 subsidy is exactly enough to implement it.
-
-<figure class="fp-figure">
-  <p class="fp-figure-title">Assurance lever map</p>
-  {% include diagrams/assurance-lever-map.svg %}
-  <figcaption class="fp-figure-caption">
-    Experiments 25 through 27 refine the assurance branch in three steps. First, packages close the adoption shortfall. Next, different levers carry different private coefficients. Finally, subsidy bridges whatever shortfall still remains after package design.
-  </figcaption>
-</figure>
-
-<div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Checkpoint: machine and assurance branch</p>
-  <ul>
-    <li><strong>Main lesson:</strong> Reliability gain, trust lag, incumbent rents, and assurance design are separate thresholds, not one blended story.</li>
-    <li><strong>Policy lesson:</strong> Assurance packages and subsidies do not create a new machine advantage from nothing. They bridge whatever shortfall remains after the base economics is computed.</li>
-    <li><strong>Mental picture:</strong> This branch works like a bridge with several gaps. Better machines close one gap, trust design closes another, and subsidy only needs to span the distance that is still left.</li>
-  </ul>
-</div>
 
 ## Next honest frontiers
 

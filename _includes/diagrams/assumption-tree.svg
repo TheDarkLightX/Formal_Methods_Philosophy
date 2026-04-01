@@ -1,0 +1,154 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 390"
+  role="img"
+  aria-labelledby="fp-at-title fp-at-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-at-title">Assumption tree: five branching axes</title>
+  <desc id="fp-at-desc">
+    Each theorem in the profit-agent branch lives on one path through five
+    axes: capability, control shell, final sink, discovery rails, and ownership.
+  </desc>
+
+  <defs>
+    <filter id="fp-at-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <!-- Card -->
+  <g filter="url(#fp-at-shadow)">
+    <rect x="20" y="10" width="920" height="370" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Assumption tree
+  </text>
+  <text x="60" y="64" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Each theorem lives on one branch.  Read results as: on branch B, theorem T survives.
+  </text>
+
+  <!-- ===== Axis 1: Capability ===== -->
+  <rect x="50" y="82" width="160" height="52" rx="12"
+    fill="rgba(15, 118, 110, 0.08)" stroke="rgba(15, 118, 110, 0.25)" stroke-width="1.5" />
+  <text x="66" y="100" font-size="10" font-weight="700" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">1. Capability</text>
+  <text x="66" y="120" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">current AI  |  AGI-level</text>
+
+  <!-- ===== Axis 2: Control shell ===== -->
+  <rect x="50" y="142" width="160" height="52" rx="12"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.25)" stroke-width="1.5" />
+  <text x="66" y="160" font-size="10" font-weight="700" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">2. Control shell</text>
+  <text x="66" y="180" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">legal  |  crypto  |  hybrid</text>
+
+  <!-- ===== Axis 3: Final sink ===== -->
+  <rect x="50" y="202" width="160" height="52" rx="12"
+    fill="rgba(194, 65, 12, 0.08)" stroke="rgba(194, 65, 12, 0.25)" stroke-width="1.5" />
+  <text x="66" y="220" font-size="10" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">3. Final sink</text>
+  <text x="66" y="240" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">human  |  mixed  |  external</text>
+
+  <!-- ===== Axis 4: Discovery rails ===== -->
+  <rect x="50" y="262" width="160" height="52" rx="12"
+    fill="rgba(99, 102, 241, 0.08)" stroke="rgba(99, 102, 241, 0.25)" stroke-width="1.5" />
+  <text x="66" y="280" font-size="10" font-weight="700" fill="#4F46E5"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">4. Discovery rails</text>
+  <text x="66" y="300" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">open  |  bottleneck  |  governed</text>
+
+  <!-- ===== Axis 5: Ownership ===== -->
+  <rect x="50" y="322" width="160" height="52" rx="12"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.25)" stroke-width="1.5" />
+  <text x="66" y="340" font-size="10" font-weight="700" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">5. Ownership</text>
+  <text x="66" y="360" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">active  |  passive  |  mixed</text>
+
+  <!-- ===== Right side: example path + experiment mapping ===== -->
+  <rect x="260" y="82" width="340" height="292" rx="18"
+    fill="rgba(30, 41, 59, 0.04)" stroke="rgba(30, 41, 59, 0.12)" />
+  <text x="280" y="106" font-size="13" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Experiment families on the tree
+  </text>
+
+  <text x="280" y="132" font-size="11" font-weight="700" fill="#0F766E"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Exps 1&#x2013;3  Platform profit</text>
+  <text x="280" y="148" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">AGI &#x2192; legal/hybrid &#x2192; human sink &#x2192; any &#x2192; active</text>
+
+  <text x="280" y="174" font-size="11" font-weight="700" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Exps 4&#x2013;7  Closure + coordination</text>
+  <text x="280" y="190" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">AGI &#x2192; any shell &#x2192; human sink &#x2192; any &#x2192; mixed</text>
+
+  <text x="280" y="216" font-size="11" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Exps 8&#x2013;10  Mechanism design</text>
+  <text x="280" y="232" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">AGI &#x2192; governed &#x2192; human sink &#x2192; any &#x2192; mixed</text>
+
+  <text x="280" y="258" font-size="11" font-weight="700" fill="#4F46E5"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Exps 11&#x2013;16  Sinks, slots, labs</text>
+  <text x="280" y="274" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">AGI &#x2192; any shell &#x2192; mixed sink &#x2192; bottleneck &#x2192; any</text>
+
+  <text x="280" y="300" font-size="11" font-weight="700" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Exps 17&#x2013;19  Routing + equalization</text>
+  <text x="280" y="316" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">AGI &#x2192; any &#x2192; mixed &#x2192; bottleneck/governed &#x2192; active</text>
+
+  <text x="280" y="342" font-size="11" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Exps 20&#x2013;27  Trust + assurance</text>
+  <text x="280" y="358" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">AGI &#x2192; legal/hybrid &#x2192; human &#x2192; any &#x2192; active/mixed</text>
+
+  <!-- ===== Far right: reading rule ===== -->
+  <rect x="640" y="82" width="270" height="292" rx="18"
+    fill="rgba(34, 197, 94, 0.06)" stroke="rgba(34, 197, 94, 0.18)" />
+  <text x="660" y="110" font-size="13" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    How to read a result
+  </text>
+  <text x="660" y="140" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Pick a path through the axes.
+  </text>
+  <text x="660" y="165" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Each experiment says:
+  </text>
+  <rect x="670" y="180" width="220" height="40" rx="8"
+    fill="rgba(30, 41, 59, 0.06)" stroke="rgba(30, 41, 59, 0.14)" />
+  <text x="685" y="205" font-size="11" font-weight="700" fill="#1E293B"
+    font-family="JetBrains Mono, monospace">
+    on branch B, T holds
+  </text>
+  <text x="660" y="245" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Different branches can give
+  </text>
+  <text x="660" y="265" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    different theorems. That is
+  </text>
+  <text x="660" y="285" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    the point: make assumptions
+  </text>
+  <text x="660" y="305" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    visible enough that counter-
+  </text>
+  <text x="660" y="325" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    examples remain possible.
+  </text>
+</svg>

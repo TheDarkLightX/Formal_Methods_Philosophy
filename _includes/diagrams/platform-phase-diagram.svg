@@ -1,0 +1,169 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 470"
+  role="img"
+  aria-labelledby="fp-ppd-title fp-ppd-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-ppd-title">Platform phase diagram: private optimum vs demand closure</title>
+  <desc id="fp-ppd-desc">
+    In the (n_low, n_high) plane, three regions appear: a viable moderate band
+    where the platform optimum also clears demand, a conflict region where the
+    private optimum fails closure, and a no-viable region where nothing clears.
+  </desc>
+
+  <defs>
+    <filter id="fp-ppd-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-ppd-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#1E293B" fill-opacity="0.6" />
+    </marker>
+  </defs>
+
+  <!-- Card -->
+  <g filter="url(#fp-ppd-shadow)">
+    <rect x="20" y="10" width="920" height="450" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="46" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Platform phase diagram  (Experiment 5)
+  </text>
+  <text x="60" y="64" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Private optimum and demand closure do not always coincide.  Only the green band is viable.
+  </text>
+
+  <!-- ===== Chart area (400x320 at offset 80,85) ===== -->
+
+  <!-- Region fills (using polygons) -->
+  <!-- No-viable region: above diagonal (n_high > n_low) -->
+  <polygon points="80,405 80,85 400,85"
+    fill="rgba(168, 34, 24, 0.08)" />
+
+  <!-- Viable moderate band: between diagonal and shallow line -->
+  <!-- diagonal: (80,405) to (400,85) means n_low=n_high -->
+  <!-- shallow: n_high = (2/9)*n_low, from (80,405) to (480,334)... -->
+  <!-- Let me compute: at n_low=0 (x=80), n_high=0 (y=405). At x=480 (max), n_high = (2/9)*max_nlow -->
+  <!-- Scale: x goes 80..480, y goes 405..85 (inverted). Let's say n_low=0..10 maps to x=80..480, n_high=0..8 maps to y=405..85 -->
+  <!-- n_low=n_high line: at n_low=8, n_high=8 -> x=400, y=85 -->
+  <!-- n_high=(2/9)*n_low: at n_low=9, n_high=2 -> x=440, y=325 -->
+  <!-- Viable band: triangle from origin (80,405) along diagonal up to ~(400,85) but bounded by the shallow line -->
+  <!-- Actually, the band goes from origin to where the lines meet, but they only meet at origin -->
+  <!-- So: viable = between the two rays from origin -->
+  <polygon points="80,405 480,85 480,317"
+    fill="rgba(34, 197, 94, 0.12)" />
+
+  <!-- Conflict region: below shallow line (where open is optimal but doesn't clear) -->
+  <polygon points="80,405 480,317 480,405"
+    fill="rgba(249, 115, 22, 0.10)" />
+
+  <!-- Axes -->
+  <line x1="80" y1="405" x2="490" y2="405" stroke="#1E293B" stroke-width="1.5"
+    marker-end="url(#fp-ppd-arrow)" />
+  <line x1="80" y1="405" x2="80" y2="75" stroke="#1E293B" stroke-width="1.5"
+    marker-end="url(#fp-ppd-arrow)" />
+
+  <!-- Axis labels -->
+  <text x="270" y="440" font-size="13" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">n_low</text>
+  <text x="42" y="245" font-size="13" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    transform="rotate(-90, 42, 245)">n_high</text>
+
+  <!-- Boundary line 1: n_low = n_high (diagonal) -->
+  <line x1="80" y1="405" x2="400" y2="85" stroke="#A82218" stroke-width="2.5"
+    stroke-dasharray="6 3" opacity="0.8" />
+  <text x="265" y="190" font-size="10" font-weight="700" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    transform="rotate(-38, 265, 190)">n_high = n_low</text>
+
+  <!-- Boundary line 2: 2*n_low = 9*n_high, i.e. n_high = (2/9)*n_low -->
+  <line x1="80" y1="405" x2="480" y2="317" stroke="#C2410C" stroke-width="2.5"
+    stroke-dasharray="6 3" opacity="0.8" />
+  <text x="360" y="348" font-size="10" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif"
+    transform="rotate(-12, 360, 348)">2n_low = 9n_high</text>
+
+  <!-- Region labels -->
+  <text x="130" y="160" font-size="12" font-weight="900" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">No viable</text>
+  <text x="130" y="178" font-size="12" font-weight="900" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">regime</text>
+  <text x="130" y="198" font-size="10" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">moderate fails closure</text>
+
+  <text x="310" y="250" font-size="12" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Viable</text>
+  <text x="310" y="268" font-size="12" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">moderate</text>
+  <text x="310" y="286" font-size="10" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">optimal + clears</text>
+
+  <text x="310" y="380" font-size="12" font-weight="900" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Conflict</text>
+  <text x="310" y="398" font-size="10" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">open optimal, fails closure</text>
+
+  <!-- Witness points -->
+  <!-- (5,1): conflict zone -->
+  <circle cx="280" cy="373" r="6" fill="#C2410C" opacity="0.8" />
+  <text x="290" y="378" font-size="9" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">(5, 1) conflict</text>
+
+  <!-- (4,1): viable zone -->
+  <circle cx="240" cy="373" r="6" fill="#15803D" opacity="0.8" />
+  <text x="175" y="368" font-size="9" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">(4, 1) viable</text>
+
+  <!-- (0,1): no viable -->
+  <circle cx="80" cy="373" r="6" fill="#A82218" opacity="0.8" />
+  <text x="88" y="368" font-size="9" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">(0, 1) no viable</text>
+
+  <!-- ===== Right panel: key formulas ===== -->
+  <rect x="530" y="82" width="380" height="340" rx="18"
+    fill="rgba(30, 41, 59, 0.04)" stroke="rgba(30, 41, 59, 0.12)" />
+
+  <text x="550" y="110" font-size="13" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Key conditions</text>
+
+  <text x="550" y="140" font-size="11" font-weight="700" fill="#A82218"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Moderate clears demand:</text>
+  <rect x="555" y="148" width="340" height="26" rx="6"
+    fill="rgba(168, 34, 24, 0.06)" stroke="rgba(168, 34, 24, 0.14)" />
+  <text x="568" y="166" font-size="12" fill="#1E293B"
+    font-family="JetBrains Mono, monospace">n_high &#x2264; n_low</text>
+
+  <text x="550" y="200" font-size="11" font-weight="700" fill="#C2410C"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Moderate is privately optimal:</text>
+  <rect x="555" y="208" width="340" height="26" rx="6"
+    fill="rgba(194, 65, 12, 0.06)" stroke="rgba(194, 65, 12, 0.14)" />
+  <text x="568" y="226" font-size="12" fill="#1E293B"
+    font-family="JetBrains Mono, monospace">2 &#xD7; n_low &#x2264; 9 &#xD7; n_high</text>
+
+  <text x="550" y="260" font-size="11" font-weight="700" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Both hold (viable band):</text>
+  <rect x="555" y="268" width="340" height="44" rx="6"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.20)" />
+  <text x="568" y="286" font-size="12" fill="#1E293B"
+    font-family="JetBrains Mono, monospace">n_high &#x2264; n_low</text>
+  <text x="568" y="304" font-size="12" fill="#1E293B"
+    font-family="JetBrains Mono, monospace">2 &#xD7; n_low &#x2264; 9 &#xD7; n_high</text>
+
+  <text x="550" y="340" font-size="11" font-weight="700" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Open regime (n_high &gt; 0):</text>
+  <text x="555" y="360" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">never clears demand</text>
+
+  <text x="550" y="395" font-size="10" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    What the platform wants and what keeps
+  </text>
+  <text x="550" y="410" font-size="10" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    the economy clearing are not the same object.
+  </text>
+</svg>
