@@ -345,4 +345,14 @@ show_title: false
       become exact only after the right first carve.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/formal-neural-networks/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 33: Formal neural networks</h2>
+    <p class="fp-card-text">
+      Start from the question "what is a computer?", then climb from logical perceptrons and
+      universal gates to executable neural architectures and checker-coupled formal reasoning systems.
+    </p>
+  </a>
 </div>
