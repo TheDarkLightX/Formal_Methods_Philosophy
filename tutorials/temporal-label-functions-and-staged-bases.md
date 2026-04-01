@@ -27,7 +27,7 @@ Typical examples are:
 - accepted or rejected
 - flat trace classes
 
-The temporal branch says that this picture is too simple.
+The temporal result shows that this picture is too simple.
 
 Sometimes a richer temporal basis is not globally useful. But after the right
 first-stage carving, it becomes exact.
@@ -64,7 +64,7 @@ The stable bounded temporal result in this repo is small but sharp:
 
 So the richer temporal basis really does carry more information.
 
-But the branch also shows that the extra information is not automatically the
+But the same result also shows that the extra information is not automatically the
 right starting basis for the whole family.
 
 <figure class="fp-figure">
@@ -93,7 +93,7 @@ Loop comparison should ask:
 That is a more useful question than simply asking whether one label set is
 “richer” than another.
 
-The temporal branch suggests a staged design pattern:
+The temporal result suggests a staged design pattern:
 
 1. carve the task family
 2. switch to the richer temporal basis
@@ -110,7 +110,7 @@ It establishes that loop-space geometry includes:
 - separator language
 - and label basis
 
-That matters for larger branches because it warns against a common mistake:
+That matters for larger loop families because it warns against a common mistake:
 
 - assuming that the finest available basis is automatically the best global
   basis
@@ -122,18 +122,6 @@ The bounded result says that basis choice can itself be staged.
 - [Tutorial 29: Loop-space geometry]({{ '/tutorials/loop-space-geometry/' | relative_url }})
 - [Tutorial 31: Hybrid geometry-changing loops]({{ '/tutorials/hybrid-geometry-changing-loops/' | relative_url }})
 - [Tutorial 27: Verifier-compiler loops]({{ '/tutorials/verifier-compiler-loops/' | relative_url }})
-
-## Next honest frontiers
-
-This branch is still the narrowest of the four.
-
-The honest next steps are:
-
-- more than one temporal controller family
-- more than one staged basis-equivalence result
-- and a clearer bridge to practical monitoring and runtime-assurance examples
-
-Even so, the stable bounded lesson is already worth keeping:
 
 A richer label basis is not always a globally better basis. Sometimes the right
 loop is:

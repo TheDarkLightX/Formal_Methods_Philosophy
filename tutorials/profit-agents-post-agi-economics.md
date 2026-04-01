@@ -8,7 +8,7 @@ description: "Study bounded toy economies for profit agents under explicit assum
 <details open>
 <summary><strong>Road map</strong></summary>
 
-This tutorial studies a separate branch from the verifier-compiler line.
+This tutorial studies a different line of questions from the verifier-compiler tutorials.
 
 The question here is not how to compress a verifier. The question is what
 happens in a bounded toy economy if strong profit agents become widespread.
@@ -17,7 +17,7 @@ happens in a bounded toy economy if strong profit agents become widespread.
 - **Experiments 4-7**: passive ownership, demand closure, active-owner limits, and coordination
 - **Experiments 8-10**: prices, quotas, heterogeneous complements, and composed mechanisms
 - **Experiments 11-13**: sink bundles, zero-employee firm entry, and discovery bottlenecks
-- **Experiments 14-16**: slot sales, admissibility caps, and frontier-lab branch divergence
+- **Experiments 14-16**: slot sales, admissibility caps, and frontier-lab deployment divergence
 - **Experiments 17-19**: household participation, asymmetric routing, and protocol equalization
 - **Experiments 20-21**: machine-control thresholds and trust-lag divergence
 - **Experiments 22-27**: repeated trust learning, routing lock-in, incumbent rent lockout, assurance design, assurance lever weights, and assurance funding
@@ -28,24 +28,13 @@ artifacts still line up.
 
 </details>
 
-## Scope of this tutorial
-
-This tutorial is about profit agents, post-AGI or high-autonomy toy economies,
-platform incentives, passive ownership, demand closure, coordination, and
-zero-employee company models.
-
-It is not the place for verifier-compiler loop compression, software-repair
-atlases, or witness-language ladders. Those belong with Tutorial 27.
-
-This tutorial is explicitly assumption-driven.
-
 Every result below is a bounded theorem inside a toy model, not a general claim
 about the real economy. The point is to make the logic precise enough that
 counterexamples, edge cases, and mechanism changes become visible.
 
 ## Assumption tree
 
-The right way to use this branch is as a decision tree over assumptions, not as
+The right way to use this tutorial is as a decision tree over assumptions, not as
 one hidden story about the future.
 
 The top-level axes are:
@@ -73,7 +62,7 @@ The top-level axes are:
 Each theorem below should be read as:
 
 ```text
-on branch B of the assumption tree, theorem T survives
+on path B of the assumption tree, theorem T survives
 ```
 
 That is better than pretending one starting model already matches future
@@ -84,13 +73,13 @@ reality.
   {% include diagrams/assumption-tree.svg %}
   <figcaption class="fp-figure-caption">
     Five branching axes. Each experiment below lives on one path through this
-    tree. Results transfer only to branches that share the same assumptions.
+    tree. Results transfer only to paths that share the same assumptions.
   </figcaption>
 </figure>
 
 ## How to read the game theory and logic
 
-This branch uses three model shapes.
+This tutorial uses three model shapes.
 
 1. finite choice games
    - a platform, household, or firm chooses from explicit actions
@@ -160,7 +149,7 @@ The strategic timing is also explicit:
 
 These are bounded theorems, not a full general-equilibrium theory.
 That limitation is part of the method. It keeps the assumptions visible enough
-that counterexamples and new branches can still be added honestly.
+that counterexamples and new cases can still be added honestly.
 
 ## Thought experiment: a zero-employee software company
 
@@ -204,9 +193,9 @@ The first candidates are:
 - compute priority
 - platform ranking
 
-But that first picture is only one branch.
+But that first picture is only one case.
 
-The branch below now separates at least three regimes:
+The analysis below now separates at least three regimes:
 
 1. legal-world regime
    - contracts, legal shells, and regulated payment rails matter
@@ -231,7 +220,7 @@ The question is which parts of it are:
 - final sink demand
 - and governance or settlement bottlenecks
 
-So the branch below does not assume that zero-human firms automatically become
+So the analysis below does not assume that zero-human firms automatically become
 rich.
 
 It studies the harder question:
@@ -267,15 +256,15 @@ Assume:
 
 The bounded subscriber payoff is:
 
-```text
-pi_i = v_i + t_i - p - tau_i - r_i - k_i
-```
+$$
+\pi_i = v_i + t_i - p - \tau_i - r_i - k_i
+$$
 
 and the platform payoff is:
 
-```text
-Pi_P = N p + sum_i tau_i + A + E - C_compute - C_capex - C_safety
-```
+$$
+\Pi_P = N p + \sum_i \tau_i + A + E - C_{\text{compute}} - C_{\text{capex}} - C_{\text{safety}}
+$$
 
 What survives is already nontrivial.
 
@@ -290,9 +279,9 @@ So complement heterogeneity alone produces unequal activation regions.
 
 The platform side also has an exact region law:
 
-```text
-extractive_revenue >= open_revenue iff n_low <= 4 * n_high
-```
+$$
+R_{\text{extractive}} \geq R_{\text{open}} \iff n_{\text{low}} \leq 4 \cdot n_{\text{high}}
+$$
 
 So a platform can rationally choose a regime that keeps only high-complement
 users active.
@@ -301,10 +290,9 @@ The `MPRD` gate changes the game without forcing profit to zero.
 
 The bounded law is:
 
-```text
-max_{a in Allowed} profit(a) can stay positive
-even when argmax_a profit(a) is forbidden
-```
+$$
+\max_{a \in \text{Allowed}} \text{profit}(a) > 0 \quad \text{even when} \quad \arg\max_a \text{profit}(a) \notin \text{Allowed}
+$$
 
 So the first bounded profit-agent object already says:
 
@@ -334,23 +322,23 @@ The user then chooses among:
 
 The bounded active payoff is:
 
-```text
-U_active(q, e) = (1 - q) V(e) - C(e) - s
-```
+$$
+U_{\text{active}}(q, e) = (1 - q)\, V(e) - C(e) - s
+$$
 
 and the user chooses:
 
-```text
-U_user(q) = max(0, d, max_e U_active(q, e))
-```
+$$
+U_{\text{user}}(q) = \max\!\big(0,\; d,\; \max_e U_{\text{active}}(q, e)\big)
+$$
 
 where `d` is the passive dividend.
 
 Platform revenue is:
 
-```text
-R_P(q) = subscription + q V(e*(q))
-```
+$$
+R_P(q) = \text{subscription} + q\, V\!\big(e^*(q)\big)
+$$
 
 when the user stays active, and `0` otherwise.
 
@@ -379,7 +367,7 @@ It is the interior regime:
 moderate
 ```
 
-That is the first bounded formal hold-up law in this branch.
+That is the first bounded formal hold-up law in this line of analysis.
 
 It says:
 
@@ -412,21 +400,21 @@ Assume:
 
 The active payoff is:
 
-```text
-U_active(c, q, e) = (1 - q) V(c, e) - C(e) - s
-```
+$$
+U_{\text{active}}(c, q, e) = (1 - q)\, V(c, e) - C(e) - s
+$$
 
 and the subscriber chooses:
 
-```text
-U(c, q) = max(0, d, max_e U_active(c, q, e))
-```
+$$
+U(c, q) = \max\!\big(0,\; d,\; \max_e U_{\text{active}}(c, q, e)\big)
+$$
 
 Platform revenue is:
 
-```text
-R(q; n_low, n_high) = n_low r_low(q) + n_high r_high(q)
-```
+$$
+R(q;\, n_{\text{low}}, n_{\text{high}}) = n_{\text{low}}\, r_{\text{low}}(q) + n_{\text{high}}\, r_{\text{high}}(q)
+$$
 
 The checked bounded result is very sharp.
 
@@ -450,9 +438,9 @@ So the platform collapses to exactly two viable regimes:
 
 The exact region law is:
 
-```text
-moderate_revenue >= open_revenue iff 2 * n_low <= 9 * n_high
-```
+$$
+R_{\text{moderate}} \geq R_{\text{open}} \iff 2\, n_{\text{low}} \leq 9\, n_{\text{high}}
+$$
 
 Strict witnesses:
 
@@ -462,7 +450,7 @@ Strict witnesses:
 and both `high` and `maximal` are dominated because even high-complement users
 switch to passive ownership there.
 
-This is the first bounded object in this branch where complement
+This is the first bounded object in this line of analysis where complement
 heterogeneity, passive ownership, and platform extraction all interact at
 once.
 
@@ -498,16 +486,15 @@ Assume:
 
 Then:
 
-```text
-S = (m + 1) * n
-D = n + b
-```
+$$
+S = (m + 1)\, n, \qquad D = n + b
+$$
 
 and the exact closure law is:
 
-```text
-D >= S iff b >= m * n
-```
+$$
+D \geq S \iff b \geq m \cdot n
+$$
 
 So demand clears supply iff passive beneficiaries are broad enough to absorb
 the extra `m * n` units beyond owner self-consumption.
@@ -516,23 +503,23 @@ This has two sharp corollaries.
 
 First, if there are no passive beneficiaries:
 
-```text
-b = 0 -> closure requires m * n = 0
-```
+$$
+b = 0 \;\Rightarrow\; \text{closure requires } m \cdot n = 0
+$$
 
 So once each active owner household produces more than one unit, concentrated
 claims alone fail demand closure in this model.
 
 Second, in the double-output case:
 
-```text
-m = 1 -> closure iff b >= n
-```
+$$
+m = 1 \;\Rightarrow\; \text{closure} \iff b \geq n
+$$
 
 So if each active owner household produces two units, the system needs at least
 one passive beneficiary for each active owner household.
 
-This is the first generic arithmetic theorem in the post-AGI economics branch.
+This is the first generic arithmetic theorem in this post-AGI economics sequence.
 
 It does not prove a whole macroeconomy.
 But it does prove something important:
@@ -561,10 +548,13 @@ Assume:
 
 Then the two clearance laws are:
 
-```text
-open clears iff n_low + n_high >= n_low + 2 * n_high iff n_high = 0
-moderate clears iff n_low + n_high >= 2 * n_high iff n_high <= n_low
-```
+$$
+\text{open clears} \iff n_{\text{low}} + n_{\text{high}} \geq n_{\text{low}} + 2\, n_{\text{high}} \iff n_{\text{high}} = 0
+$$
+
+$$
+\text{moderate clears} \iff n_{\text{low}} + n_{\text{high}} \geq 2\, n_{\text{high}} \iff n_{\text{high}} \leq n_{\text{low}}
+$$
 
 So once any positive high-complement population exists:
 
@@ -573,18 +563,16 @@ So once any positive high-complement population exists:
 
 The private-optimum boundary from `v134` still holds:
 
-```text
-moderate_revenue >= open_revenue iff 2 * n_low <= 9 * n_high
-```
+$$
+R_{\text{moderate}} \geq R_{\text{open}} \iff 2\, n_{\text{low}} \leq 9\, n_{\text{high}}
+$$
 
 Putting those together gives the first integrated post-AGI platform phase
 diagram in the repo:
 
-```text
-for n_high > 0,
-a privately optimal and demand-clearing regime exists
-iff n_high <= n_low and 2 * n_low <= 9 * n_high
-```
+$$
+\text{For } n_{\text{high}} > 0: \quad \text{viable regime exists} \iff n_{\text{high}} \leq n_{\text{low}} \;\land\; 2\, n_{\text{low}} \leq 9\, n_{\text{high}}
+$$
 
 When it exists, it is the `moderate` regime.
 
@@ -636,24 +624,24 @@ Assume:
 
 Then demand closure is:
 
-```text
-h >= 2 * n
-```
+$$
+h \geq 2n
+$$
 
 which is exactly equivalent to:
 
-```text
-n <= h / 2
-```
+$$
+n \leq \frac{h}{2}
+$$
 
 So with two-unit active owners, at most half of households can remain active
 owners if the economy is to clear output under this one-unit demand cap.
 
 This gives a sharper impossibility result:
 
-```text
-for h > 0, not (h >= 2 * h)
-```
+$$
+\text{For } h > 0: \quad \lnot\,(h \geq 2h)
+$$
 
 So no positive-household economy in this model can keep every household as an
 active owner once each active owner produces two units.
@@ -676,7 +664,7 @@ Three small witnesses make the structure concrete:
   - active-owner share `1`
   - closure fails
 
-This is the first exact theorem in the profit-agent branch that speaks
+This is the first exact theorem in this profit-agent sequence that speaks
 directly to the universal-principal question.
 
 ### Experiment 7: symmetric coordination law
@@ -704,9 +692,9 @@ Then three cases survive.
 Strict active preference gives no positive-household clearing equilibrium.
 For `h > 0`, if `n = h`, then:
 
-```text
-not (h >= 2 * n)
-```
+$$
+\lnot\,(h \geq 2n)
+$$
 
 Strict passive preference gives only the zero-production equilibrium:
 
@@ -717,16 +705,16 @@ n = 0
 A nontrivial clearing equilibrium first appears only in the indifference case,
 where:
 
-```text
-h >= 2 * n iff n <= h / 2
-```
+$$
+h \geq 2n \iff n \leq \frac{h}{2}
+$$
 
 So the first stable nontrivial regime is a coordinated interior split, not:
 
 - everyone active
 - or everyone passive
 
-This is the first actual coordination theorem in the profit-agent branch.
+This is the first actual coordination theorem in this profit-agent sequence.
 
 ## Mechanism design (Experiments 8-10)
 
@@ -767,18 +755,18 @@ Quota mode semantics:
 
 The first exact law is a uniform-price impossibility result:
 
-```text
-0 < n < h and individual stability imply delta = 0
-```
+$$
+0 < n < h \;\land\; \text{individual stability} \;\Rightarrow\; \delta = 0
+$$
 
 So prices alone cannot implement a positive interior individually stable regime
 unless they create exact indifference.
 
 The second exact law is a quota implementability result:
 
-```text
-h >= 2 * q iff q <= h / 2
-```
+$$
+h \geq 2q \iff q \leq \frac{h}{2}
+$$
 
 So under strict active preference, a hard quota can implement an interior
 regime, and it clears exactly when the quota stays below the same half-share
@@ -804,7 +792,7 @@ Three witnesses show the split:
   - `n = 3`
   - closure fails
 
-This is the first bounded mechanism theorem in the profit-agent branch:
+This is the first bounded mechanism theorem in this profit-agent sequence:
 
 - prices alone do not solve the symmetric coordination problem
 - quotas can
@@ -822,9 +810,9 @@ Assume:
 - each household consumes at most `1` unit
 - strict surplus order:
 
-```text
-a_low < a_high
-```
+$$
+a_{\text{low}} < a_{\text{high}}
+$$
 
 Uniform-price semantics:
 
@@ -834,9 +822,9 @@ Uniform-price semantics:
 
 So in the strict middle region:
 
-```text
-a_low < p < a_high -> n_low = 0 and n_high = H
-```
+$$
+a_{\text{low}} < p < a_{\text{high}} \;\Rightarrow\; n_{\text{low}} = 0 \;\land\; n_{\text{high}} = H
+$$
 
 That is the first clean contrast with `v139`.
 A single uniform price can now implement a nontrivial interior regime because
@@ -844,15 +832,15 @@ the household types are different.
 
 The exact clearing law for that middle region is:
 
-```text
-L + H >= 2 * H iff H <= L
-```
+$$
+L + H \geq 2H \iff H \leq L
+$$
 
 So pricing works, but only under a sharp composition condition:
 
 - the high-complement active group must not be a majority
 
-This is the first exact result in the branch showing that heterogeneous
+This is the first exact result in this mechanism sequence showing that heterogeneous
 complements change the logic of the mechanism problem.
 
 ### Experiment 10: price-plus-quota composition law
@@ -873,9 +861,9 @@ Then add a second stage:
 
 The exact composed clearing law is:
 
-```text
-L + H >= 2 * q iff q <= (L + H) / 2
-```
+$$
+L + H \geq 2q \iff q \leq \frac{L + H}{2}
+$$
 
 This gives the sharp interpretation:
 
@@ -902,13 +890,13 @@ The witnesses make the contrast concrete:
 
 So the deeper object is now a composed mechanism.
 Price alone or quota alone is not the whole story.
-The branch now has:
+The mechanism sequence now has:
 
 - a homogeneous impossibility theorem
 - a heterogeneous price-selection theorem
 - and a price-plus-quota composition theorem
 
-That is the clearest mechanism-design progression in the economics branch so
+That is the clearest mechanism-design progression in this economics sequence so
 far.
 
 ## Sinks, slots, and entry ceilings (Experiments 11-13)
@@ -952,22 +940,25 @@ where:
 
 The gross-output law is:
 
-```text
-Y = alpha * Y + F
-```
+$$
+Y = \alpha Y + F
+$$
 
 or in scaled integer form:
 
-```text
-b * Y = a * Y + b * F
-```
+$$
+bY = aY + bF
+$$
 
 The exact laws are:
 
-```text
-a < b and F = 0 imply Y = 0
-a < b and F > 0 imply Y > 0
-```
+$$
+a < b \;\land\; F = 0 \;\Rightarrow\; Y = 0
+$$
+
+$$
+a < b \;\land\; F > 0 \;\Rightarrow\; Y > 0
+$$
 
 So intermediate agent demand amplifies final sinks, but cannot replace them.
 
@@ -1006,7 +997,7 @@ It is:
 
 ### Experiment 12: zero-employee company entry ceiling law
 
-Take one explicit branch of the assumption tree.
+Take one explicit path through the assumption tree.
 
 Assume:
 
@@ -1023,16 +1014,15 @@ F = H + A_term + C + X
 
 Then total profit is:
 
-```text
-Pi_total = F - N * c
-```
+$$
+\Pi_{\text{total}} = F - Nc
+$$
 
 The exact laws are:
 
-```text
-Pi_total >= 0 iff F >= N * c
-Pi_total > 0 iff F > N * c
-```
+$$
+\Pi_{\text{total}} \geq 0 \iff F \geq Nc, \qquad \Pi_{\text{total}} > 0 \iff F > Nc
+$$
 
 So even if agents can create whole firms and legal formation is treated as
 nonbinding, unlimited technical firm creation does not imply unlimited
@@ -1062,7 +1052,7 @@ Three witnesses make the boundary concrete:
   - `c = 4`
   - `Pi_total = -1`
 
-This is the first direct zero-employee-company ceiling theorem in the branch.
+This is the first direct zero-employee-company ceiling theorem in this analysis.
 The next important splits are:
 
 - open routing versus platform discovery bottlenecks
@@ -1135,11 +1125,11 @@ zero-employee companies.
 Experiments 11-13 showed that final sinks set hard entry ceilings and that
 discovery bottlenecks redistribute profit without creating it. The next group
 adds mechanisms on top: governed slot fees, MPRD admissibility caps, and the
-strategic branch between closed and open deployment for frontier labs.
+strategic choice between closed and open deployment for frontier labs.
 
 ### Experiment 14: governed execution-slot sale law
 
-Add an explicit mechanism to the bottleneck branch.
+Add an explicit mechanism to the bottleneck case.
 
 Assume:
 
@@ -1215,7 +1205,7 @@ What does `MPRD` do in that same slot-sale economy?
 
 Assume:
 
-- the same governed-slot branch
+- the same governed-slot case
 - the controller chooses total extraction `S`
 - the admissibility layer imposes:
 
@@ -1229,7 +1219,7 @@ Assume:
 F - q * c - S >= 0
 ```
 
-Stay on the viable branch:
+Stay in the viable case:
 
 ```text
 F >= q * c
@@ -1283,20 +1273,20 @@ Assume a lab chooses one deployment surface:
 Let:
 
 - `F` be the base direct revenue opportunity
-- `D` be the extra ecosystem output created only by the open branch
+- `D` be the extra ecosystem output created only by the open case
 - `k_closed`, `k_open` be lab-side operating or safety costs
-- `a / m` be the share of open-branch output the lab captures
+- `a / m` be the share of open-case output the lab captures
 - `e_closed`, `e_open` be externality or governance costs counted by the
   social planner
 
-Then the exact branch conditions are:
+Then the exact case conditions are:
 
 ```text
 lab_prefers_open iff a * (F + D) >= m * (F - k_closed + k_open)
 social_prefers_open iff D >= e_open - e_closed
 ```
 
-So the private branch and the social branch can diverge.
+So the private case and the social case can diverge.
 
 The clean divergence region is:
 
@@ -1319,8 +1309,8 @@ Witness:
 
 So one bounded answer to "what are a frontier lab's options?" is:
 
-- the deployment surface is a strategic branch
-- and the privately optimal branch need not be the socially optimal branch
+- the deployment surface is a strategic choice
+- and the privately optimal option need not be the socially optimal option
 
 ## Household participation and routing (Experiments 17-19)
 
@@ -1340,7 +1330,7 @@ Assume:
 - `N` symmetric households
 - `q` governed execution slots
 - `n` households enter the active slot lottery
-- stay on the congested branch:
+- stay in the congested case:
 
 ```text
 n >= q > 0
@@ -1378,7 +1368,7 @@ It is whether entering the active race beats passive claims.
 
 ### Experiment 18: asymmetric-routing class-viability law
 
-Extend the sink-access branch from slot counts to route weights.
+Extend the sink-access model from slot counts to route weights.
 
 Assume:
 
@@ -1512,23 +1502,20 @@ Let:
 
 Then:
 
-```text
-Pi_H = V - k_H - e_H - t_H + a_H
-Pi_M = V - k_M - e_M - t_M + a_M
-```
+$$
+\Pi_H = V - k_H - e_H - t_H + a_H, \qquad \Pi_M = V - k_M - e_M - t_M + a_M
+$$
 
 The exact dominance law is:
 
-```text
-Pi_M >= Pi_H
-iff
-(e_H - e_M) + (a_M - a_H) >= (k_M - k_H) + (t_M - t_H)
-```
+$$
+\Pi_M \geq \Pi_H \iff (e_H - e_M) + (a_M - a_H) \geq (k_M - k_H) + (t_M - t_H)
+$$
 
 So machine control dominates exactly when reliability gain plus auditability
 gain covers machine cost premium plus machine trust penalty.
 
-This is the first bounded theorem in the branch that turns the slogan
+This is the first bounded theorem in this line of analysis that turns the slogan
 
 ```text
 machines must be more trusted and reliable than people
@@ -1547,16 +1534,19 @@ Compare two evaluators:
 
 Then the machine conditions are:
 
-```text
-social prefers machine iff e_H - e_M >= k_M - k_H
-private prefers machine iff e_H - e_M >= k_M - k_H + tau
-```
+$$
+\text{social prefers machine} \iff e_H - e_M \geq k_M - k_H
+$$
+
+$$
+\text{private prefers machine} \iff e_H - e_M \geq k_M - k_H + \tau
+$$
 
 So the divergence region is:
 
-```text
-k_M - k_H <= e_H - e_M < k_M - k_H + tau
-```
+$$
+k_M - k_H \leq e_H - e_M < k_M - k_H + \tau
+$$
 
 This means machines can be truly safer and still under-adopted.
 
@@ -1571,7 +1561,7 @@ fully catches up.
 
 ### Experiment 22: trust-learning experimentation law
 
-The machine-control branch becomes a two-period game.
+The machine-control model becomes a two-period game.
 
 Normalize the two-period human baseline to `0`.
 
@@ -1584,39 +1574,33 @@ Let:
 
 If the machine is used successfully in period 1, period-2 trust becomes:
 
-```text
-tau2 = tau1 - lam
-```
+$$
+\tau_2 = \tau_1 - \lambda
+$$
 
-Assume `tau2 >= 0`.
+Assume $\tau_2 \geq 0$.
 
 Then:
 
-- period-1 machine premium:
-
-```text
-A - tau1
-```
+- period-1 machine premium: $A - \tau_1$
 
 - two-period committed machine-path premium:
 
-```text
-(A - tau1) + (A - tau2) = 2 * A - 2 * tau1 + lam
-```
+$$
+(A - \tau_1) + (A - \tau_2) = 2A - 2\tau_1 + \lambda
+$$
 
 The exact dynamic adoption law is:
 
-```text
-two-period machine path beats always-human iff 2 * A + lam >= 2 * tau1
-```
+$$
+\text{two-period machine path beats always-human} \iff 2A + \lambda \geq 2\tau_1
+$$
 
 So there is a wedge region where:
 
-```text
-A < tau1
-and
-2 * A + lam >= 2 * tau1
-```
+$$
+A < \tau_1 \quad \text{and} \quad 2A + \lambda \geq 2\tau_1
+$$
 
 In that region:
 
@@ -1637,7 +1621,7 @@ trust-learning path rather than one-shot comparison.
 
 ### Experiment 23: routing lock-in persistence law
 
-The routing branch becomes a two-period survival game.
+The routing model becomes a two-period survival game.
 
 Assume:
 
@@ -1688,11 +1672,11 @@ So the period paths are:
 - protocol:
   - `both -> both -> both`
 
-This is the first dynamic lock-in theorem in the routing branch.
+This is the first dynamic lock-in theorem in the routing model.
 
 ### Experiment 24: incumbent-rent machine lockout law
 
-Combine the trust-learning branch with incumbent control rents.
+Combine the trust-learning model with incumbent control rents.
 
 Take a two-period adoption game with no re-entry.
 
@@ -1731,18 +1715,19 @@ Then:
 
 The exact conditions are:
 
-```text
-social machine path beats always-human iff 2 * A + lam >= 2 * tau1
-private incumbent adopts machine iff 2 * A + lam >= 2 * tau1 + 2 * rho
-```
+$$
+\text{social adopts} \iff 2A + \lambda \geq 2\tau_1
+$$
+
+$$
+\text{private incumbent adopts} \iff 2A + \lambda \geq 2\tau_1 + 2\rho
+$$
 
 So the strict lockout wedge is:
 
-```text
-2 * A + lam >= 2 * tau1
-and
-2 * A + lam < 2 * tau1 + 2 * rho
-```
+$$
+2A + \lambda \geq 2\tau_1 \quad \text{and} \quad 2A + \lambda < 2\tau_1 + 2\rho
+$$
 
 In that region:
 
@@ -1795,21 +1780,21 @@ The incumbent's two-period packaged machine premium is:
 
 So the exact package-adoption condition is:
 
-```text
-2 * A + lam + 2 * d + g >= 2 * tau1 + 2 * rho + k
-```
+$$
+2A + \lambda + 2d + g \geq 2\tau_1 + 2\rho + k
+$$
 
 If baseline adoption is blocked:
 
-```text
-2 * A + lam < 2 * tau1 + 2 * rho
-```
+$$
+2A + \lambda < 2\tau_1 + 2\rho
+$$
 
 then the package flips rejection into adoption exactly when:
 
-```text
-2 * d + g - k >= (2 * tau1 + 2 * rho) - (2 * A + lam)
-```
+$$
+2d + g - k \geq (2\tau_1 + 2\rho) - (2A + \lambda)
+$$
 
 This is the exact assurance-surplus law.
 
@@ -1915,7 +1900,7 @@ delayed learning alone cannot.
 
 Compare social versus private package choice directly.
 
-Keep the same two-period no-reentry assurance branch.
+Keep the same two-period no-reentry assurance model.
 
 Let:
 
@@ -1949,9 +1934,9 @@ private package choice iff 2 * A + lam + 2 * d + g >= 2 * tau1 + 2 * rho + k
 
 The minimal implementing subsidy is therefore:
 
-```text
-s_star = max(0, 2 * tau1 + 2 * rho + k - (2 * A + lam + 2 * d + g))
-```
+$$
+s^* = \max\!\big(0,\; 2\tau_1 + 2\rho + k - (2A + \lambda + 2d + g)\big)
+$$
 
 On the strict divergence wedge:
 
@@ -1961,9 +1946,9 @@ On the strict divergence wedge:
 
 the package is socially preferred but privately rejected, and:
 
-```text
-0 < s_star <= 2 * rho
-```
+$$
+0 < s^* \leq 2\rho
+$$
 
 This is the exact implementation law.
 
@@ -1976,18 +1961,6 @@ The witness with `A = 5`, `tau1 = 6`, `lam = 4`, `rho = 2`, `d = 1`, `g = 0`,
 
 So the package is socially worth deploying, privately blocked, and one unit of
 subsidy is exactly enough to implement it.
-
-## Next honest frontiers
-
-The current tutorial state supports a few clear next branches.
-
-The next candidate models are:
-
-- bargaining over assurance funding, where incumbent, platform, insurer, and regulator split the bridge payment
-- richer repeated games, where deployment choice, routing position, and trust all update together
-- multi-hop network models, where sink access depends on route composition rather than one routing class or one slot layer
-- hybrid human-agent demand models, where agent demand is split more explicitly into intermediate and terminal layers
-- macro closure with passive claims, taxes, or transfers, once fully agentic firms coexist with households
 
 ## References inside this repo
 

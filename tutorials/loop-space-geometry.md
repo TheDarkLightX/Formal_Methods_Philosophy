@@ -12,9 +12,9 @@ This tutorial asks what really changes when one neuro-symbolic loop is stronger
 than another.
 
 - **Parts I-II**: the basic geometry, witness language, stored state, ambiguity quotient, separator language, label basis, and target artifact
-- **Parts III-IV**: the requirements-discovery branch and the cleanest bounded quotient-first loop
-- **Parts V-VI**: graph-side regime compilers and the newer low-edge concentration branch
-- **Part VII**: what this branch has actually achieved, and the next honest frontiers
+- **Parts III-IV**: the requirements-discovery case study and the cleanest bounded quotient-first loop
+- **Parts V-VI**: graph-side regime compilers and the newer low-edge concentration mechanism
+- **Part VII**: what these bounded results have already established
 
 </details>
 
@@ -82,13 +82,13 @@ It is about changing the shape of what remains to be searched.
 
 ## Part II: the first big correction
 
-The low-rung story says:
+The simplest story says:
 
 - collect counterexamples
 - repair the missing part
 - ask a stakeholder when needed
 
-The bounded branch corrects that story.
+The bounded results correct that story.
 
 After saturated witness collection, the right object is not a bag of examples.
 It is an observation map:
@@ -115,9 +115,9 @@ A plain direct controller acts on the raw target family.
 A geometry-changing loop acts on this quotient first, then controls only the
 residue.
 
-## Part III: the requirements-discovery branch
+## Part III: the requirements-discovery case study
 
-The requirements branch is the clearest worked example.
+The requirements case study is the clearest worked example.
 
 Its core question is:
 
@@ -129,7 +129,7 @@ Three bounded corrections matter here.
 
 ### 1. Pure recovery is not only about singleton witnesses
 
-The low rung says direct recovery works when every missing requirement has a
+The first step says direct recovery works when every missing requirement has a
 singleton witness. That is real, but it is not the whole story.
 
 Even without singleton witnesses, pure recovery can still succeed if the full
@@ -190,7 +190,7 @@ Loop-space geometry is not only about witnesses and separators.
 
 It also includes the label basis.
 
-The temporal branch shows a small but important result:
+The temporal-label result shows a small but important result:
 
 - raw monitor-cell labels are strictly finer than flat two-step trace labels on the full family
 - after the right first carve, the richer temporal basis stops buying a finer partition
@@ -202,14 +202,14 @@ The easiest analogy is coordinates in geometry.
 
 Polar coordinates can be the right language for one subproblem and the wrong
 language for another. Temporal labels behave the same way in this bounded loop
-branch.
+setting.
 
 ## Part V: graph-side compilers
 
-The corrected graph branch teaches a different lesson.
+The corrected graph line teaches a different lesson.
 
 At first it looked like a large collection of unrelated graph families. After
-the corrected total-domination metric, the branch compressed much more sharply.
+the corrected total-domination metric, the analysis compressed much more sharply.
 
 The stable bounded survivors now include:
 
@@ -233,15 +233,15 @@ It also contains exact regime compilers.
   <p class="fp-figure-title">Corrected graph regime map</p>
   {% include diagrams/graph-regime-overlap.svg %}
   <figcaption class="fp-figure-caption">
-    The corrected graph branch is easiest to understand as a regime map. Low
+    The corrected graph line is easiest to understand as a regime map. Low
     budgets live on the left. Higher budgets enter an overlap band where two
     exact structural families compete.
   </figcaption>
 </figure>
 
-## Part VI: the low-edge proof branch
+## Part VI: the low-edge concentration mechanism
 
-The newest part of the graph branch is the clearest “show what was achieved”
+The newest part of the graph line is the clearest “show what was achieved”
 story.
 
 It no longer says only:
@@ -255,19 +255,19 @@ It now has a mechanism.
 On checked connected trees, every non-star class has an improving
 pendant-subtree move.
 
-The branch then compresses further:
+The analysis then compresses further:
 
 - on checked trees with `n in {8, 9}`, the improving move can always be chosen
   so that the reattachment target is a maximum-degree hub
-- and on the same checked branch, the moved subtree can be chosen with at most
-  one branching vertex
+- and on the same checked domain, the moved subtree can be chosen with at most
+  one internal fork
   - leaf-only moves fail
   - pure pendant-star moves fail
 
 So the surviving move language is not “some local repair happens somewhere.”
 It is:
 
-- move a one-branch pendant subtree toward a hub
+- move a pendant subtree with one internal fork toward a hub
 
 ### Stage 2: balance star sizes
 
@@ -280,31 +280,42 @@ That gives a second clean stage:
 
 ### The composed result
 
-The checked low-edge branch is now a two-stage concentration process:
+The checked low-edge analysis is now a two-stage concentration process:
 
 1. starify components
 2. balance star sizes
 
 The newer composition result tightens that from a teaching paraphrase into the
-checked mechanism itself. On the checked low-edge forest branch, those are the
+checked mechanism itself. On the checked low-edge forest family, those are the
 two surviving stages.
 
-The tree-side branch also tightened one step further. On the checked tree
+The tree-side subproblem also tightened one step further. On the checked tree
 domain, the whole monotone path to the star can stay inside the smaller move
-language, repeatedly moving one-branch pendant subtrees into hubs.
+language, repeatedly moving pendant subtrees with one internal fork into hubs.
 
-It tightened once more after that. On the checked tree branch, the path still
-survives if each step uses a smallest available one-branch hub-target move.
+It tightened once more after that. On the checked tree domain, the path still
+survives if each step uses a smallest available hub-target move of that same form.
 
 There is now an exact checked depth cutoff on that local controller. Depth `0`
 fails, depth `1` fails, and depth `2` is the smallest surviving bound on the
-checked tree branch.
+checked tree domain.
+
+That cutoff also has a named witness family now. On the terminal-cherry ladder
+family, the smallest surviving hub-target move of that form has branching depth
+exactly `h`. The `h = 2` case is the clean family-level reason depth `1` fails
+and depth `2` survives on the checked domain.
+
+The positive side is now exact too. On the same checked domain, every move
+selected by that depth-2 controller falls into one finite rooted alphabet:
+leaf, cherry, three-leaf star, broom-1, or broom-2. And one more exhaustive
+check closes the slack, the full five-template set is the unique surviving
+controller subset on the checked domain.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Low-edge concentration map</p>
   {% include diagrams/low-edge-concentration.svg %}
   <figcaption class="fp-figure-caption">
-    The low-edge branch is no longer only a frontier fit. It is a two-stage
+    The low-edge analysis is no longer only a frontier fit. It is a two-stage
     concentration process with a geometric front stage and an exact balancing
     back stage.
   </figcaption>
@@ -314,7 +325,7 @@ checked tree branch.
 
 - [Graph Regime Compiler Lab]({{ '/graph_regime_compiler_lab.html' | relative_url }})
 
-## Part VII: what this branch has actually achieved
+## Part VII: what these bounded results have already achieved
 
 The stable bounded ladder that is now strong enough to teach runs through four
 main ideas.
@@ -326,7 +337,7 @@ main ideas.
    - pair bases, separator expressivity, and staged label choices are real loop
      axes
 3. **Exact regime compilers**
-   - some branches compress into exact piecewise families rather than into one
+   - some problems compress into exact piecewise families rather than into one
      monolithic controller
 4. **Concentration mechanisms**
    - some strong loops work by reshaping the problem in stages before the final
@@ -341,16 +352,3 @@ neuro-symbolic loops beyond plain verifier-compilation.
 - [Tutorial 30: Counterexample-guided requirements discovery]({{ '/tutorials/counterexample-guided-requirements-discovery/' | relative_url }})
 - [Tutorial 31: Hybrid geometry-changing loops]({{ '/tutorials/hybrid-geometry-changing-loops/' | relative_url }})
 - [Tutorial 32: Temporal label functions and staged bases]({{ '/tutorials/temporal-label-functions-and-staged-bases/' | relative_url }})
-
-## Next honest frontiers
-
-The branch is much stronger than it was, but the honest open questions are
-still visible.
-
-- prove the hub-target concentration law structurally, not only by checked scans
-- compress the source side of the tree move law, not only the target side
-- extend the corrected higher-budget graph branch with the same level of
-  structural clarity
-
-Those frontiers are narrower than they were before. That is already a sign
-that the branch has become teachable.

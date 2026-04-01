@@ -11,9 +11,9 @@ description: "Recover missing requirements from witnesses, observation quotients
 This tutorial studies missing requirements rather than buggy implementations.
 
 - **Parts I-II**: requirement atoms, omission families, witness libraries, and the observation map
-- **Parts III-IV**: the three recovery rungs, scoped omissions, and the role of the ambiguity quotient
+- **Parts III-IV**: the three recovery steps, scoped omissions, and the role of the ambiguity quotient
 - **Parts V-VI**: the pair basis, separator languages, and the practical workflow
-- **Part VII**: what this branch has actually achieved, and the next honest frontiers
+- **Part VII**: what the bounded results have already established
 
 </details>
 
@@ -31,7 +31,7 @@ The central question is:
 When counterexamples expose missing constraints, how much can be recovered from
 the witness structure alone, and when is a stakeholder oracle actually needed?
 
-The bounded branch in this repo turns that question into a small formal loop.
+The bounded analysis in this repo turns that question into a small formal loop.
 
 ## Part I: the basic objects
 
@@ -80,23 +80,23 @@ It is:
 - how much of the hidden family has already collapsed under the current
   observation state?
 
-## Part III: the three recovery rungs
+## Part III: the three recovery steps
 
-The bounded branch now has a clean three-rung ladder.
+The bounded analysis now has a clean three-step ladder.
 
-### Rung 1: direct atomic recovery
+### Step 1: direct atomic recovery
 
 If every missing requirement has a singleton witness, direct pure recovery can
 work.
 
-That is the lowest rung.
+That is the first step.
 
-### Rung 2: structured pure recovery
+### Step 2: structured pure recovery
 
 Even without singleton witnesses, pure recovery can still succeed if the full
 observation map is injective on the omission family.
 
-This is the first important correction from the branch.
+This is the first important correction from this analysis.
 
 The bottleneck is not only:
 
@@ -106,7 +106,7 @@ It is:
 
 - does the full stored observation state already separate the hidden targets?
 
-### Rung 3: question-policy recovery
+### Step 3: question-policy recovery
 
 If the observation map is not injective, the loop needs follow-up questions.
 
@@ -123,7 +123,7 @@ That is a very different design question.
 
 ## Part IV: omission scope matters
 
-One of the strongest results in this branch is that omission scope changes the
+One of the strongest results in this tutorial line is that omission scope changes the
 geometry sharply.
 
 On unrestricted omission families, singleton witnesses remain a global
@@ -138,7 +138,7 @@ The omission family is part of the model and part of the loop design.
 
 ## Part V: pair basis plus separators
 
-The pair basis is the cleanest middle rung found so far.
+The pair basis is the clearest middle step found so far.
 
 Once all pair witnesses are present:
 
@@ -171,7 +171,7 @@ That is the clearest current example of a loop getting stronger because it:
 
 ## Part VI: the practical workflow
 
-The branch suggests a practical discipline for requirements-discovery loops.
+The bounded results suggest a practical discipline for requirements-discovery loops.
 
 1. Fix the omission family.
 2. Define the admissible witness library.
@@ -186,7 +186,7 @@ escape hatch.
 The point is not to remove people from the loop. The point is to ask the
 smallest, sharpest question that is still structurally necessary.
 
-## Part VII: what this branch has achieved
+## Part VII: what the bounded results have achieved
 
 The stable bounded ladder is now strong enough to teach as one coherent line.
 
@@ -216,14 +216,3 @@ The important questions are:
 - [Tutorial 29: Loop-space geometry]({{ '/tutorials/loop-space-geometry/' | relative_url }})
 - [Tutorial 31: Hybrid geometry-changing loops]({{ '/tutorials/hybrid-geometry-changing-loops/' | relative_url }})
 - [Tutorial 27: Verifier-compiler loops]({{ '/tutorials/verifier-compiler-loops/' | relative_url }})
-
-## Next honest frontiers
-
-The branch is already tutorial-worthy, but it still has open directions.
-
-- richer separator languages beyond the current block-query ladder
-- broader omission families and stronger scoped-recovery results
-- direct bridges from bounded requirements discovery to larger specification
-  pipelines
-
-Those are extensions of a branch that is already structurally visible.
