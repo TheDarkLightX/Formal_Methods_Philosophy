@@ -2,8 +2,18 @@
 title: "Formal neural networks"
 layout: docs
 kicker: Tutorial 33
-description: "Start from the question 'what is a computer?', then build a careful ladder from logic gates and threshold neurons to hybrid neural systems that search, prove, and emit checkable formal artifacts."
 ---
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Working Vocabulary</p>
+  <ul>
+    <li><a href="{{ '/glossary/#invariant' | relative_url }}"><strong>Invariant</strong></a> means a property that holds at every step. A formal neural network should carry checkable invariants, not just plausible outputs.</li>
+    <li><a href="{{ '/glossary/#witness' | relative_url }}"><strong>Witness</strong></a> means a concrete object that makes a formal claim visible: a counterexample, a convergence trace, or a proof certificate.</li>
+    <li><a href="{{ '/glossary/#controller' | relative_url }}"><strong>Controller</strong></a> means a compact decision rule. In a Neural Turing Machine, the neural controller decides what to read, write, and output.</li>
+    <li><a href="{{ '/glossary/#cegis' | relative_url }}"><strong>CEGIS</strong></a> means counterexample-guided inductive synthesis. The L* automaton-extraction algorithm is a CEGIS-shaped loop applied to trained neural networks.</li>
+    <li><a href="{{ '/glossary/#quotient' | relative_url }}"><strong>Quotient</strong></a> means a partition of states that are indistinguishable under the current observation. Extracting a DFA from an RNN is a quotient construction.</li>
+  </ul>
+</div>
 
 ## The motivating question
 
@@ -43,9 +53,9 @@ claim would make sense.
   <p class="fp-figure-title">From NAND to formal neural networks</p>
   {% include diagrams/formal-neural-network-ladder.svg %}
   <figcaption class="fp-figure-caption">
-    There is not only one route. Logic-substrate, executable-neural, and
-    carve-solve-check architectures all point toward stronger forms of formal
-    neural computation, but they do not make the same promises.
+    The ladder starts with the logic route and the three main software-level
+    routes. The later sections extend the picture with a fourth route through
+    probabilistic physical substrates.
   </figcaption>
 </figure>
 
@@ -197,12 +207,46 @@ So the logic-substrate route begins like this:
 This is not yet theorem proving. But it is the first rigorous bridge from
 neural-style threshold units to formal symbolic computation.
 
+### The convergence guarantee
+
+When a perceptron learns its weights from data, the learning rule is:
+
+$$
+w_{t+1} = w_t + \eta\,(y - \hat{y})\,x
+$$
+
+The Perceptron Convergence Theorem (Novikoff, 1962) gives a bounded guarantee:
+if the training set is linearly separable with margin $\delta$ and all data
+points satisfy $\|x\| \leq R$, then the perceptron makes at most
+
+$$
+\frac{R^2}{\delta^2}
+$$
+
+mistakes before converging. This is not an asymptotic claim. It is a finite
+bound.
+
+### The XOR impossibility
+
+The convergence guarantee is conditional on linear separability. Minsky and
+Papert (1969) proved that a single-layer perceptron cannot compute XOR: no
+single hyperplane in $\mathbb{R}^2$ separates the positive points $(0,1)$
+and $(1,0)$ from the negative points $(0,0)$ and $(1,1)$.
+
+This is not a failure. It is a formal boundary that tells you exactly when to
+add structure. A two-layer network with one hidden unit computes XOR easily.
+
+**Interactive lab**
+
+- [McCulloch-Pitts Logic Gate Lab]({{ '/mcculloch_pitts_lab.html' | relative_url }})
+
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Why the perceptron result is only the first rung</p>
   <p>
-    A logical perceptron shows that a neural unit can realize Boolean logic.
-    It does not yet provide memory, addressable state, proof search, or a proof
-    kernel. Those require more structure than one universal gate.
+    A logical perceptron shows that a neural unit can realize Boolean logic and
+    that learning has a convergence bound. It does not yet provide memory,
+    addressable state, proof search, or a proof kernel. Those require more
+    structure than one universal gate.
   </p>
 </div>
 
@@ -236,6 +280,54 @@ It also has two limits.
 So route A is best understood as the cleanest theoretical derivation, not yet
 the whole modern engineering story.
 
+### How route A would actually become a computer
+
+The missing ingredient is organization.
+
+A single `NAND` gate is not yet memory, branching, or theorem proving. But
+large collections of gates can be arranged into the standard pieces of a
+machine:
+
+- **combinational circuits** compute the next local result from the current
+  inputs
+- **latches and flip-flops** preserve bits across steps, giving persistent
+  state
+- **registers** group several stored bits into structured words
+- **control circuits** decide which operation happens next
+- **memory addressing logic** chooses where information is read or written
+
+So the full route-A story is:
+
+1. threshold neurons realize universal gates
+2. gates realize circuits
+3. circuits plus feedback realize state
+4. state plus control realize a machine
+
+This is why the logical perceptron matters. It does not complete the story, but
+it gives the first formal bridge to all the later pieces.
+
+### The universal approximation theorem
+
+The XOR impossibility applies only to single-layer networks. For multi-layer
+networks, a much stronger result holds.
+
+**Theorem (Cybenko, 1989).** For any continuous function
+$f : [0,1]^n \to \mathbb{R}$ and any $\varepsilon > 0$, there exists a
+feedforward network with one hidden layer and a finite number of sigmoidal
+neurons such that
+
+$$
+\sup_{x \in [0,1]^n} |f(x) - g(x)| < \varepsilon
+$$
+
+In plain language: one hidden layer can approximate any continuous function to
+any desired accuracy, given enough neurons.
+
+This is an existence result, not a construction. It says a good network exists
+but not how to find it, how many neurons are needed, or whether the trained
+network satisfies specific safety properties. That gap between "exists" and
+"verified" is why formal verification of neural networks became its own field.
+
 ## Part V: route B, executable neural architectures
 
 The second route is to build neural systems whose internal dynamics already
@@ -256,49 +348,164 @@ But this is a computability result, not a promise of practical theorem proving.
 
 It shows possibility, not a turnkey architecture.
 
-### 2. Neural systems with explicit memory
+### 2. Neural Turing Machines (Graves et al., 2014)
 
-Work such as Neural Turing Machines couples a neural controller to external
-memory. The architecture is intentionally described as analogous to a Turing or
-von Neumann style machine, but trained end to end.
+The Neural Turing Machine (NTM) couples a neural controller to an external
+memory matrix through differentiable attention. The architecture has three
+components:
 
-That route is much closer to a real "neural computer" idea:
+- **Controller**: a neural network that decides what to read, write, and output
+- **Memory matrix**: an $N \times M$ array of memory slots (analogous to a tape
+  or RAM)
+- **Read/write heads**: attention-weighted interfaces with two addressing modes:
+  - *content-based*: find slots whose content matches a query (associative
+    lookup)
+  - *location-based*: shift attention to neighboring slots (sequential access)
 
-- controller
-- memory
-- read/write operations
-- learned algorithms
+The read operation is a weighted sum over memory:
 
-The system can learn copying, sorting, and associative recall. That is already
-much closer to an executable machine than a plain feed-forward network.
+$$
+r_t = \sum_i w_t(i)\, M_t(i)
+$$
 
-### 3. Transformers as computers, a live line of work
+The entire system is differentiable end-to-end, so it trains with gradient
+descent. The NTM learned copying, sorting, and associative recall from
+input-output examples alone.
 
-There is also a newer transformer-centered line.
+### 3. Differentiable Neural Computers (Graves et al., 2016)
 
-Some recent theoretical work proves that transformer-style systems can be
-Turing-complete under appropriate assumptions. That places transformers inside
-the same broad computability conversation.
+The DNC extends the NTM with three mechanisms:
 
-There is also a newer engineering claim, represented publicly by the Percepta
-essay, that programs can be executed inside transformers with very strong
-inference advantages.
+- **Dynamic memory allocation**: a usage vector tracks free slots
+- **Temporal link matrix**: records write order for forward/backward traversal
+- **Content protection**: prevents recently read content from being overwritten
+
+The DNC successfully answered multi-step reasoning questions, found shortest
+paths in random graphs, and solved a moving-blocks puzzle. Published in
+*Nature*.
+
+The formal significance: the DNC makes memory, allocation, and temporal
+ordering explicit and separable, exactly the distinctions formal methods
+care about.
+
+In both the NTM and the DNC, one computational step has a clear internal
+structure:
+
+1. the controller reads the current input and previous read vectors
+2. it computes parameters for memory access
+3. the heads read from or write to external memory
+4. the new read vectors are fed back into the controller
+5. the controller emits an output and an updated hidden state
+
+That is why these systems matter here. They are not only large function
+approximators. They already look like small neural computers with explicit
+state transitions.
+
+### 4. Verifying trained networks (Reluplex, Katz et al., 2017)
+
+Once a network is trained, can its behavior be formally verified? Reluplex
+answers yes for ReLU networks, by extending the simplex method to handle the
+piecewise-linear $\text{ReLU}(z) = \max(0, z)$ constraint as an SMT problem.
+
+It verified safety properties of a prototype airborne collision avoidance
+system (ACAS Xu) implemented as a deep neural network, handling networks an
+order of magnitude larger than any previously verified.
+
+The broader lesson: formal verification of neural networks is possible but
+NP-complete in general. That cost is exactly why neuro-symbolic hybrids
+matter.
+
+### 5. Extracting automata from RNNs (Weiss et al., 2018)
+
+A complementary approach asks: what finite-state machine does a trained RNN
+implement? Weiss, Goldberg, and Yahav used Angluin's L\* algorithm with the
+RNN as oracle:
+
+1. membership queries: "does this input produce class 1?"
+2. equivalence queries: counterexamples refine a candidate DFA
+
+This is a CEGIS-shaped loop applied to neural interpretation. The result is
+an extracted DFA that matches the RNN's behavior on the tested domain, making
+the implicit quotient structure of the RNN's state space explicit.
+
+### 6. Looped Transformers as programmable computers (Giannou et al., 2023)
+
+Giannou and colleagues proved that a 13-layer transformer placed in a loop
+can emulate a universal computer. The input sequence acts as a punchcard
+containing both instructions and read/write memory.
+
+A constant number of encoder layers can implement lexicographic operations,
+nonlinear functions, function calls, program counters, and conditional
+branches. The authors demonstrated a single frozen transformer emulating a
+calculator, a linear algebra library, and a full backpropagation algorithm.
+
+This is a stronger statement than the universal approximation theorem: specific
+computational procedures can be exactly implemented, not merely approximated.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Evidence note</p>
   <p>
-    The transformer-as-computer idea is worth taking seriously. But as of
-    April 1, 2026, the public evidence available to this tutorial is uneven.
-    Theoretical transformer-computability papers are real primary sources. The
-    Percepta public essay is useful as a directional engineering claim, but it
-    is not yet a full public technical paper with the same weight.
+    The transformer-as-computer idea is supported by formal theoretical
+    results (Giannou et al., ICML 2023; constant-bit-size Turing completeness
+    results). Engineering claims about practical program execution inside
+    transformers are a live research direction.
   </p>
 </div>
 
-So route B is real, but split into:
+### 7. Continuous latent execution with symbolic regrounding (CALM, 2025)
 
-- a strong theoretical computability story
-- a promising modern engineering story
+Continuous Autoregressive Language Models (CALM) add a different kind of
+evidence to route B.
+
+The central move is not to predict one discrete token at a time. Instead, the
+model:
+
+1. compresses a chunk of $K$ tokens into one continuous vector with an
+   autoencoder
+2. predicts the next continuous vector
+3. decodes that vector back into the original token chunk
+4. feeds the recovered discrete structure back into the model for the next step
+
+This changes the practical execution picture. The model is no longer limited to
+one-token semantic updates. One step can carry the information of a whole
+chunk. The paper presents this as increasing the semantic bandwidth of each
+generative step.
+
+That does not by itself create formal semantics or theorem proving. It does
+something narrower and still important. It shows that a neural architecture can
+use a continuous latent state as the main execution medium, while periodically
+regrounding into discrete symbolic structure.
+
+That regrounding step matters. The authors report that feeding predicted latent
+vectors directly back into the Transformer did not work as well, because the
+model struggled to unpack the compact representation. So CALM is not evidence
+for pure latent symbolic execution. It is evidence for a hybrid:
+
+- continuous latent execution
+- periodic discrete regrounding
+
+For this tutorial, that is exactly the useful point. A formal neural network
+may not need to stay discrete all the way through, but it probably does need a
+stable encoding and decoding discipline if its internal computation is to remain
+interpretable or checkable.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">What CALM changes, and what it does not</p>
+  <p>
+    CALM changes the practical design space more than the formal one. It gives
+    a stronger GPU-friendly story for latent execution, but it does not by
+    itself provide proof objects, explicit formal semantics, or exact theorem
+    proving guarantees.
+  </p>
+</div>
+
+So route B is real and increasingly deep, spanning:
+
+- memory-augmented architectures (NTM, DNC) with explicit state
+- formal verification of trained networks (Reluplex)
+- automaton extraction from trained networks (L\* + counterexamples)
+- computational universality of transformers (Looped Transformers)
+- continuous latent execution with symbolic regrounding (CALM)
 
 ## Part VI: route C, carve, solve, check
 
@@ -342,7 +549,132 @@ It also fits the broader lessons from the loop tutorials:
 In that sense, a carve-solve-check formal neural network is already a
 geometry-changing loop.
 
-## Part VII: theorem proving and formal semantics
+### How route C works in current systems
+
+The easiest way to understand route C is to look at what the current systems
+actually delegate to the neural part, and what they keep exact.
+
+**DeepMath (2016)** is an early example. It does not ask the network to prove
+the theorem by itself. It asks the network to do one narrow but crucial job:
+rank which premises from a large library are likely to matter. That is a neural
+carving step. The downstream prover still does the exact proving.
+
+**AlphaGeometry (2024)** makes the split sharper. A neural model proposes
+auxiliary constructions that may make the geometry problem easier. A symbolic
+engine then performs deductive search over the formalized geometry state. The
+success comes from the combination. The neural side expands the useful search
+space, and the symbolic side keeps the reasoning exact.
+
+**AlphaProof (2025)** pushes this further in formal mathematics. The learned
+system searches for proof steps in a formal environment, but correctness still
+comes from exact formal checking rather than from the model's confidence.
+
+The Quanta interview with Marijn Heule points to the same pattern in a more
+general form:
+
+1. carve the statement into exact subproblems
+2. encode those subproblems into a solver-friendly form
+3. let SAT or another exact engine prove or refute them
+4. use a proof assistant to check the final assembly
+
+That is why route C matters so much. It is not a fallback for when neural
+systems fail. It is the clearest present recipe for combining:
+
+- neural compression and proposal
+- exact search
+- checkable trust
+
+## Part VII: route D, probabilistic physical substrates
+
+The fourth route changes the hardware substrate itself.
+
+Instead of asking a machine to perform mostly deterministic arithmetic and then
+sample at the end, this route asks the hardware to make structured sampling one
+of its native operations.
+
+That is the idea behind **p-computers** and newer **thermodynamic sampling**
+proposals.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Scope note</p>
+  <p>
+    This route stretches the phrase <strong>formal neural network</strong> the
+    furthest. The point is not that p-computers are standardly classified as
+    neural networks. The point is that they are close enough to stochastic
+    neural computation to matter as a possible substrate inside a larger
+    formal-neural architecture.
+  </p>
+</div>
+
+### 1. P-computers and p-bits
+
+A **p-bit** is a tunable random bit. It fluctuates stochastically between two
+states, and its probability can be biased by an external signal.
+
+Networks of p-bits form a **probabilistic computer**. The 2019 p-computing
+paper describes such a machine as closely related to a stochastic neural
+network, with the p-bit playing the role of a binary stochastic neuron.
+
+That is exactly why this matters for the tutorial. It is not only "new
+hardware." It is a hardware line that is already conceptually adjacent to
+stochastic neural computation.
+
+### 2. Thermodynamic sampling hardware
+
+The newer thermodynamic line pushes this further. The Extropic paper on
+diffusion-like models proposes an all-transistor probabilistic hardware
+architecture whose primitive job is to sample from structured probabilistic
+models efficiently.
+
+The key shift is this:
+
+- a CPU or GPU mostly performs deterministic operations, then samples
+- a thermodynamic sampling unit aims to sample directly from a programmable
+  energy-based model
+
+That changes the natural style of computation. The machine is best understood
+as a **sampling-native computer**.
+
+### 3. Why this route matters
+
+This route is important because many AI and search workloads are already more
+naturally described as:
+
+- inference
+- denoising
+- approximate optimization
+- structured probabilistic search
+
+So the philosophical lesson is broader than hardware efficiency.
+
+> Computing is not only deterministic execution and not only symbolic proof
+> search. It can also be controlled sampling from a formally specified
+> probability landscape.
+
+### 4. What this route does and does not provide
+
+This route gives:
+
+- a new physical substrate for probabilistic computation
+- a possible proposal engine for larger neuro-symbolic systems
+- a conditional energy-efficiency argument for some workloads, based on current
+  system-level analyses rather than broad deployment evidence
+
+It does not yet give, by itself:
+
+- proof objects
+- proof kernels
+- theorem-proving guarantees
+- exact symbolic trust
+
+So route D is best seen as a possible front end inside a larger formal system:
+
+- probabilistic hardware proposes or samples
+- symbolic machinery checks
+
+In that sense, route D can complement route C rather than replace it.
+
+## Part VIII: theorem proving and formal semantics
 
 To be worthy of the word **formal**, a neural system should do more than emit
 convincing text.
@@ -356,6 +688,22 @@ At least one of the following should hold:
 - it is itself synthesized or verified against formal specifications
 
 That gives a practical ladder of increasing strength.
+
+### Proof objects, certificates, and proof kernels
+
+These three ideas are easy to blur together, so it helps to separate them.
+
+- A **proof object** is a structured derivation that a proof assistant can
+  replay step by step.
+- A **certificate** is any compact artifact that lets an exact checker confirm
+  a claim. In SAT, for example, this may be a satisfying assignment or an
+  unsatisfiability proof trace.
+- A **proof kernel** is the small trusted checker at the center of a proof
+  assistant. Its job is not to be clever. Its job is to reject invalid steps.
+
+That is why route C is so attractive. The neural part may be large, heuristic,
+and opaque, but the final trust can be concentrated into a much smaller exact
+checker.
 
 ### Weak form
 
@@ -378,7 +726,7 @@ This is already strong enough for a serious theorem-proving workflow.
 
 This is the most ambitious sense of the term.
 
-## Part VIII: would GPUs help?
+## Part IX: would GPUs help?
 
 Yes, but not uniformly.
 
@@ -394,6 +742,12 @@ Yes, but not uniformly.
 This is why neural-guided theorem proving and transformer-based execution ideas
 scale naturally with modern accelerator hardware.
 
+CALM sharpens this point. If a model can carry more semantic content per
+autoregressive step, then part of the sequential bottleneck can be attacked
+without abandoning neural execution. That is especially relevant on GPUs,
+because chunk-level latent execution stays dense, continuous, and highly
+vectorized.
+
 ### Where GPUs help less directly
 
 - exact SAT or SMT solving
@@ -408,14 +762,19 @@ Those workloads often benefit more from:
 - FPGAs
 - ASIC-style logic-heavy designs
 
+Probabilistic substrates complicate the picture further. A p-computer or
+thermodynamic sampler is not trying to be a better GPU in the usual sense. It
+is trying to make structured sampling cheaper at the hardware level.
+
 So the most plausible high-performance formal neural computer is not a single
 uniform machine. It is a heterogeneous system:
 
 - GPU for neural proposal and dense learned execution
+- probabilistic hardware for sampling-heavy inference or candidate generation
 - symbolic checker for exact trust
 - possibly specialized hardware for binary or logic-heavy subroutines
 
-## Part IX: what a formal neural network should mean
+## Part X: what a formal neural network should mean
 
 A good working definition is now available.
 
@@ -427,6 +786,7 @@ That definition is broad enough to include:
 
 - logic-substrate networks
 - memory-augmented neural computers
+- probabilistic hardware with programmable structured distributions
 - neural-guided proof systems
 - verified or synthesized neural submodules
 
@@ -436,7 +796,7 @@ But it is strict enough to exclude:
 - unverified chain-of-thought by itself
 - raw pattern matching with no formal interpretation
 
-## Part X: the three routes side by side
+## Part XI: the four routes side by side
 
 The whole discussion now becomes much clearer.
 
@@ -463,6 +823,8 @@ Best for:
 Weakness:
 
 - practical formal guarantees are still much weaker than in hybrid systems
+- even strong route-B systems often need explicit regrounding if they compress
+  too much state into opaque latents
 
 ### Route C: carve, solve, check
 
@@ -477,6 +839,23 @@ Weakness:
 - the neural part is not the whole machine, so it is less pure as a thought
   experiment
 
+### Route D: probabilistic physical substrate
+
+Best for:
+
+- sampling-heavy workloads
+- probabilistic inference
+- energy-based search
+- hardware-efficient candidate generation
+
+Weakness:
+
+- not by itself a proof system
+- current evidence is much stronger for probabilistic workloads than for exact
+  symbolic reasoning
+- current energy and performance claims are narrower than the GPU literature and
+  should be read as model-specific evidence, not a universal replacement story
+
 That is why the clean conclusion is not that one route replaces the others.
 
 The routes answer different questions.
@@ -484,8 +863,9 @@ The routes answer different questions.
 - route A explains derivation
 - route B explores executable neural computation
 - route C explains the strongest near-term engineering path
+- route D explores alternative physical primitives for probabilistic search
 
-## Part XI: what this tutorial has established
+## Part XII: what this tutorial has established
 
 This tutorial makes four main claims.
 
@@ -503,7 +883,17 @@ This tutorial makes four main claims.
    The strongest present routes are:
    - logic as substrate
    - executable neural architecture
+   - probabilistic physical substrate
    - carve, solve, check hybrid systems
+
+Current work already illustrates those routes in different ways:
+
+- McCulloch-Pitts and perceptrons show the logical bridge
+- NTM, DNC, Looped Transformers, and CALM show different execution stories
+- p-computers and thermodynamic sampling units show a new hardware route for
+  probabilistic computation
+- DeepMath, AlphaGeometry, and AlphaProof show the strongest present hybrid
+  path
 
 That is enough to justify the research program.
 
@@ -512,12 +902,40 @@ It names a real design space.
 
 ## Sources and further reading
 
-- [*A Logical Calculus of the Ideas Immanent in Nervous Activity* (1943)](https://www.cs.cmu.edu/~epxing/Class/10715/reading/McCulloch.and.Pitts.pdf)
-- [*Theoretical Foundations of Recurrent Neural Networks* (1993)](https://scholarship.libraries.rutgers.edu/esploro/outputs/technicalDocumentation/Theoretical-Foundations-of-Recurrent-Neural-Networks/991031550002704646)
-- [*Neural Turing Machines* (2014)](https://arxiv.org/abs/1410.5401)
-- [*End-to-end Differentiable Proving* (2017)](https://papers.nips.cc/paper/6969-end-to-end-differentiable-proving.pdf)
+**Foundational results:**
+
+- [McCulloch and Pitts, *A Logical Calculus of the Ideas Immanent in Nervous Activity* (1943)](https://www.cs.cmu.edu/~epxing/Class/10715/reading/McCulloch.and.Pitts.pdf)
+- [Novikoff, *On Convergence Proofs for Perceptrons* (1962)](https://cs.uwaterloo.ca/~y328yu/classics/novikoff.pdf)
+- Minsky and Papert, *Perceptrons: An Introduction to Computational Geometry* (MIT Press, 1969)
+- [Cybenko, *Approximation by Superpositions of a Sigmoidal Function* (1989)](https://link.springer.com/article/10.1007/BF02551274)
+
+**Memory-augmented architectures:**
+
+- [Graves, Wayne, and Danihelka, *Neural Turing Machines* (2014)](https://arxiv.org/abs/1410.5401)
+- [Graves et al., *Hybrid Computing Using a Neural Network with Dynamic External Memory* (Nature, 2016)](https://www.nature.com/articles/nature20101)
+
+**Verification and extraction:**
+
+- [Katz et al., *Reluplex: An Efficient SMT Solver for Verifying Deep Neural Networks* (CAV, 2017)](https://arxiv.org/abs/1702.01135)
+- [Weiss, Goldberg, and Yahav, *Extracting Automata from RNNs Using Queries and Counterexamples* (ICML, 2018)](https://arxiv.org/abs/1711.09576)
+
+**Computational power:**
+
+- [Giannou et al., *Looped Transformers as Programmable Computers* (ICML, 2023)](https://arxiv.org/abs/2301.13196)
 - [*On the Computational Power of Transformers and its Implications in Sequence Modeling* (2020)](https://arxiv.org/abs/2006.09286)
 - [*Constant Bit-size Transformers Are Turing Complete* (2025)](https://arxiv.org/abs/2506.12027)
+- [Shao et al., *Continuous Autoregressive Language Models* (2025)](https://arxiv.org/abs/2510.27688)
+
+**Probabilistic substrates:**
+
+- [Sutton et al., *Autonomous Probabilistic Coprocessing with Petaflips per Second* (2019)](https://arxiv.org/abs/1907.09664)
+- [Jelinčič et al., *An efficient probabilistic hardware architecture for diffusion-like models* (2025)](https://arxiv.org/abs/2510.23972)
+
+**Theorem proving and engineering:**
+
+- [Irving et al., *DeepMath: Deep Sequence Models for Premise Selection* (NeurIPS, 2016)](https://arxiv.org/abs/1606.04442)
+- [*End-to-end Differentiable Proving* (2017)](https://papers.nips.cc/paper/6969-end-to-end-differentiable-proving.pdf)
+- [Trinh et al., *Solving olympiad geometry without human demonstrations* (AlphaGeometry, Nature, 2024)](https://www.nature.com/articles/s41586-023-06747-5)
 - [*Olympiad-level formal mathematical reasoning with reinforcement learning* (AlphaProof, Nature 2025)](https://www.nature.com/articles/s41586-025-09833-y)
 - [Quanta Magazine interview, *To Have Machines Make Math Proofs, Turn Them Into a Puzzle* (November 10, 2025)](https://www.quantamagazine.org/to-have-machines-make-math-proofs-turn-them-into-a-puzzle-20251110/)
 - [Percepta, *Can LLMs Be Computers?* (March 11, 2026)](https://www.percepta.ai/blog/can-llms-be-computers)

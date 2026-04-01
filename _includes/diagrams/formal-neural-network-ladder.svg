@@ -1,6 +1,6 @@
-<svg viewBox="0 0 960 620" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+<svg viewBox="0 0 1200 660" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Formal neural network ladder</title>
-  <desc id="desc">A diagram showing three routes from basic computation to formal neural networks: logic substrate, executable neural architectures, and carve-solve-check hybrids.</desc>
+  <desc id="desc">A diagram showing four routes from basic computation to formal neural networks: logic substrate, executable neural architectures, carve-solve-check hybrids, and probabilistic physical substrates.</desc>
   <style>
     .bg { fill: #fcfaf4; }
     .panel { fill: #fffdf8; stroke: #2e2a26; stroke-width: 2; rx: 18; ry: 18; }
@@ -8,6 +8,7 @@
     .routeA { fill: #d8ead2; stroke: #2e2a26; stroke-width: 2; rx: 14; ry: 14; }
     .routeB { fill: #d7e6f5; stroke: #2e2a26; stroke-width: 2; rx: 14; ry: 14; }
     .routeC { fill: #f1d9cc; stroke: #2e2a26; stroke-width: 2; rx: 14; ry: 14; }
+    .routeD { fill: #e7d8ee; stroke: #2e2a26; stroke-width: 2; rx: 14; ry: 14; }
     .accent { stroke: #2e2a26; stroke-width: 3; fill: none; }
     .dash { stroke-dasharray: 8 8; }
     .label { font: 700 24px Georgia, serif; fill: #1e1a17; }
@@ -16,54 +17,69 @@
     .small { font: 14px Georgia, serif; fill: #1e1a17; }
   </style>
 
-  <rect class="bg" x="0" y="0" width="960" height="620" />
+  <rect class="bg" x="0" y="0" width="1200" height="660" />
 
-  <rect class="panel" x="30" y="24" width="900" height="84" />
-  <text class="label" x="60" y="58">What a computer needs</text>
-  <text class="text" x="60" y="86">state, transition, encoding, memory, conditional control, and an interpreted output</text>
+  <rect class="panel" x="36" y="24" width="1128" height="84" />
+  <text class="label" x="68" y="58">What a computer needs</text>
+  <text class="text" x="68" y="86">state, transition, encoding, memory, conditional control, and an interpreted output</text>
 
-  <rect class="head" x="320" y="132" width="320" height="72" />
-  <text class="sub" x="362" y="163">Logical perceptron / NAND rung</text>
-  <text class="small" x="364" y="188">threshold unit -> universal gate -> circuit</text>
+  <rect class="head" x="440" y="132" width="320" height="72" />
+  <text class="sub" x="482" y="163">Logical perceptron / NAND rung</text>
+  <text class="small" x="484" y="188">threshold unit -&gt; universal gate -&gt; circuit</text>
 
-  <path class="accent" d="M480 204 L480 238" />
+  <path class="accent" d="M600 204 L600 238" />
 
-  <rect class="routeA" x="48" y="248" width="258" height="250" />
-  <text class="sub" x="78" y="280">Route A: logic substrate</text>
-  <text class="text" x="78" y="314">1. threshold neuron</text>
-  <text class="text" x="78" y="340">2. logical gate</text>
-  <text class="text" x="78" y="366">3. circuit</text>
-  <text class="text" x="78" y="392">4. register and control</text>
-  <text class="text" x="78" y="418">5. formal machine</text>
-  <text class="small" x="78" y="460">Best for semantic clarity.</text>
-  <text class="small" x="78" y="482">Shows how a neural threshold</text>
-  <text class="small" x="78" y="500">device can become a symbolic</text>
-  <text class="small" x="78" y="518">computer in principle.</text>
+  <rect class="routeA" x="60" y="248" width="252" height="270" />
+  <text class="sub" x="90" y="280">Route A: logic substrate</text>
+  <text class="text" x="90" y="314">1. threshold neuron</text>
+  <text class="text" x="90" y="340">2. logical gate</text>
+  <text class="text" x="90" y="366">3. circuit</text>
+  <text class="text" x="90" y="392">4. register and control</text>
+  <text class="text" x="90" y="418">5. formal machine</text>
+  <text class="small" x="90" y="462">Best for semantic clarity.</text>
+  <text class="small" x="90" y="484">Shows how a threshold device</text>
+  <text class="small" x="90" y="502">can become a symbolic computer</text>
+  <text class="small" x="90" y="520">in principle.</text>
 
-  <rect class="routeB" x="350" y="248" width="258" height="250" />
-  <text class="sub" x="373" y="280">Route B: executable neural</text>
-  <text class="text" x="380" y="314">memory-augmented nets</text>
-  <text class="text" x="380" y="340">recurrent computability</text>
-  <text class="text" x="380" y="366">transformer execution claims</text>
-  <text class="text" x="380" y="392">learned algorithms in-network</text>
-  <text class="small" x="380" y="460">Best for GPU-native execution</text>
-  <text class="small" x="380" y="482">stories, but practical formal</text>
-  <text class="small" x="380" y="500">guarantees are weaker.</text>
+  <rect class="routeB" x="336" y="248" width="252" height="270" />
+  <text class="sub" x="360" y="280">Route B: executable neural</text>
+  <text class="text" x="366" y="314">memory-augmented nets</text>
+  <text class="text" x="366" y="340">recurrent computability</text>
+  <text class="text" x="366" y="366">looped transformers</text>
+  <text class="text" x="366" y="392">CALM latent execution</text>
+  <text class="small" x="366" y="462">Best for dense learned</text>
+  <text class="small" x="366" y="484">execution, but practical</text>
+  <text class="small" x="366" y="502">formal guarantees are still</text>
+  <text class="small" x="366" y="520">weaker than hybrids.</text>
 
-  <rect class="routeC" x="652" y="248" width="258" height="250" />
-  <text class="sub" x="680" y="280">Route C: carve, solve, check</text>
-  <text class="text" x="682" y="314">neural proposal</text>
-  <text class="text" x="682" y="340">symbolic proof or refutation</text>
-  <text class="text" x="682" y="366">proof checker for trust</text>
-  <text class="text" x="682" y="392">certificate-producing loop</text>
-  <text class="small" x="682" y="460">Best near-term engineering path.</text>
-  <text class="small" x="682" y="482">Neural flexibility, symbolic</text>
-  <text class="small" x="682" y="500">correctness, fail-closed trust.</text>
+  <rect class="routeC" x="612" y="248" width="252" height="270" />
+  <text class="sub" x="638" y="280">Route C: carve, solve, check</text>
+  <text class="text" x="642" y="314">neural proposal</text>
+  <text class="text" x="642" y="340">symbolic prove or refute</text>
+  <text class="text" x="642" y="366">proof checker for trust</text>
+  <text class="text" x="642" y="392">certificate-producing loop</text>
+  <text class="small" x="642" y="462">Best near-term engineering</text>
+  <text class="small" x="642" y="484">path. Neural flexibility,</text>
+  <text class="small" x="642" y="502">symbolic correctness, and</text>
+  <text class="small" x="642" y="520">fail-closed trust.</text>
 
-  <path class="accent" d="M178 498 L178 546 L480 546" />
-  <path class="accent" d="M479 498 L479 546" />
-  <path class="accent dash" d="M781 498 L781 546 L480 546" />
+  <rect class="routeD" x="888" y="248" width="252" height="270" />
+  <text class="sub" x="910" y="280">Route D: probabilistic</text>
+  <text class="sub" x="950" y="304">physical substrate</text>
+  <text class="text" x="918" y="340">p-bits and p-computers</text>
+  <text class="text" x="918" y="366">thermodynamic samplers</text>
+  <text class="text" x="918" y="392">energy-based search</text>
+  <text class="text" x="918" y="418">candidate generation</text>
+  <text class="small" x="918" y="462">Best for sampling-heavy</text>
+  <text class="small" x="918" y="484">workloads, but not by</text>
+  <text class="small" x="918" y="502">itself a proof system or</text>
+  <text class="small" x="918" y="520">trust kernel.</text>
 
-  <rect class="head" x="278" y="548" width="404" height="50" />
-  <text class="sub" x="320" y="579">Formal neural network design space</text>
+  <path class="accent" d="M186 518 L186 576 L600 576" />
+  <path class="accent" d="M462 518 L462 576 L600 576" />
+  <path class="accent dash" d="M738 518 L738 576 L600 576" />
+  <path class="accent dash" d="M1014 518 L1014 576 L600 576" />
+
+  <rect class="head" x="378" y="586" width="444" height="50" />
+  <text class="sub" x="420" y="617">Formal neural network design space</text>
 </svg>

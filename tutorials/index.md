@@ -351,8 +351,8 @@ show_title: false
   >
     <h2 class="fp-card-title">Tutorial 33: Formal neural networks</h2>
     <p class="fp-card-text">
-      Start from the question "what is a computer?", then climb from logical perceptrons and
-      universal gates to executable neural architectures and checker-coupled formal reasoning systems.
+      What would it take for a neural network to count as a computer in a strong
+      sense, and what routes could get there?
     </p>
   </a>
 </div>
