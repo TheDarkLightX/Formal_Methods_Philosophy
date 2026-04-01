@@ -23,10 +23,10 @@ That is a different design pattern.
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Vocabulary Note</p>
   <ul>
-    <li><strong>Quotient</strong> means a partition of the task family into cases the current loop cannot yet tell apart.</li>
-    <li><strong>Residue</strong> means the smaller leftover problem after that first partition.</li>
-    <li><strong>Controller</strong> means the compact symbolic rule that handles that leftover problem.</li>
-    <li><strong>Frontier</strong> means the best checked tradeoff on a named bounded family.</li>
+    <li><a href="{{ '/glossary/#quotient' | relative_url }}"><strong>Quotient</strong></a> means a partition of the task family into cases the current loop cannot yet tell apart.</li>
+    <li><a href="{{ '/glossary/#residue' | relative_url }}"><strong>Residue</strong></a> means the smaller leftover problem after that first partition.</li>
+    <li><a href="{{ '/glossary/#controller' | relative_url }}"><strong>Controller</strong></a> means the compact symbolic rule that handles that leftover problem.</li>
+    <li><a href="{{ '/glossary/#frontier' | relative_url }}"><strong>Frontier</strong></a> means the best checked tradeoff on a named bounded family.</li>
   </ul>
 </div>
 
@@ -210,6 +210,35 @@ by that depth-2 controller belongs to one finite rooted alphabet:
 
 And that finite alphabet is already minimal on the checked domain. No proper
 subset survives.
+
+### The exceptional route also fits the hybrid pattern
+
+One checked two-fan state still escapes the stable local controller:
+
+- `NTF(2, 8, 2)` on `n = 13`
+
+At first, that looked like bad news for compression because it introduced a
+special route through several named intermediate families.
+
+The newer result reverses that impression. The route now has a compact amount
+law. On the feeder side, the exact count splits into:
+
+- a Fibonacci term
+- plus a four-step periodic correction
+
+Then the full route deficit is simply the star amount minus that feeder term:
+
+```text
+Delta(r, t) = 2^(r + t + 5) - 1 - B(r, t)
+```
+
+So even the exceptional case ends up following the same hybrid pattern:
+
+1. move into better structural coordinates
+2. expose a much smaller symbolic mechanism there
+
+The special case did not break the hybrid picture. It forced the hybrid
+picture to become more explicit.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Low-edge concentration and balancing</p>

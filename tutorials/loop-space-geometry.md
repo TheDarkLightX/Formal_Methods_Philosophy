@@ -35,14 +35,14 @@ They are stronger because they reshape the remaining search problem.
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Working Vocabulary</p>
   <ul>
-    <li><strong>Witness</strong> means a small concrete object that exposes structure, for example a counterexample, signature, trace, or parameter choice. It does not mean eyewitness testimony.</li>
-    <li><strong>Quotient</strong> means a grouping of cases that the current loop cannot distinguish. If two hidden targets induce the same stored state, they land in the same quotient class.</li>
-    <li><strong>Residue</strong> means what is still unresolved after that grouping. It is the smaller problem that remains after the first compression.</li>
-    <li><strong>Controller</strong> means a compact symbolic rule for what to do next, for example route, ask, accept, reject, or refine. It does not mean a hardware controller.</li>
-    <li><strong>Frontier</strong> means the best checked tradeoff or best checked value on a named bounded family. It does not mean an unexplored frontier in the loose everyday sense.</li>
-    <li><strong>Carve</strong> means make an initial coarse split of the family, or restrict attention to a smaller subfamily, before using a finer second-stage language.</li>
-    <li><strong>Star</strong> means the graph-theory shape with one hub vertex connected to several leaves. A <strong>star forest</strong> is a disjoint union of those shapes.</li>
-    <li><strong>Repair</strong> in the nearby verifier and software-repair tutorials means a structured correction object that fixes a mixed or failing case, not just informal cleanup.</li>
+    <li><a href="{{ '/glossary/#witness' | relative_url }}"><strong>Witness</strong></a> means a small concrete object that exposes structure, for example a counterexample, signature, trace, or parameter choice. It does not mean eyewitness testimony.</li>
+    <li><a href="{{ '/glossary/#quotient' | relative_url }}"><strong>Quotient</strong></a> means a grouping of cases that the current loop cannot distinguish. If two hidden targets induce the same stored state, they land in the same quotient class.</li>
+    <li><a href="{{ '/glossary/#residue' | relative_url }}"><strong>Residue</strong></a> means what is still unresolved after that grouping. It is the smaller problem that remains after the first compression.</li>
+    <li><a href="{{ '/glossary/#controller' | relative_url }}"><strong>Controller</strong></a> means a compact symbolic rule for what to do next, for example route, ask, accept, reject, or refine. It does not mean a hardware controller.</li>
+    <li><a href="{{ '/glossary/#frontier' | relative_url }}"><strong>Frontier</strong></a> means the best checked tradeoff or best checked value on a named bounded family. It does not mean an unexplored frontier in the loose everyday sense.</li>
+    <li><a href="{{ '/glossary/#carve' | relative_url }}"><strong>Carve</strong></a> means make an initial coarse split of the family, or restrict attention to a smaller subfamily, before using a finer second-stage language.</li>
+    <li><a href="{{ '/glossary/#star-graph-theory' | relative_url }}"><strong>Star</strong></a> means the graph-theory shape with one hub vertex connected to several leaves. A <strong>star forest</strong> is a disjoint union of those shapes.</li>
+    <li><a href="{{ '/glossary/#repair' | relative_url }}"><strong>Repair</strong></a> in the nearby verifier and software-repair tutorials means a structured correction object that fixes a mixed or failing case, not just informal cleanup.</li>
   </ul>
 </div>
 
@@ -321,6 +321,54 @@ cherry (a hub with two leaves), three-leaf star, broom-1 (a star with one
 extended arm), and broom-2 (a star with two extended arms). The full
 five-template set is the unique surviving controller subset on the checked
 domain.
+
+### The exceptional route also compressed
+
+Most checked low-edge states follow that stable depth-2 controller directly.
+
+One checked two-fan state does not:
+
+- `NTF(2, 8, 2)` on `n = 13`
+
+Earlier, that state looked like a named escape route through several
+intermediate families. That was already useful, but it still looked like a
+route table.
+
+The newer collapse is cleaner. On the feeder side, the exact amount separates
+into:
+
+- a Fibonacci growth term
+- and a repeating period-4 correction
+
+In symbols:
+
+```text
+B(r, t) = A_r F_t + B_r F_{t + 1} + C_r cos(pi t / 2) + A_r sin(pi t / 2)
+```
+
+and the full deficit to the final star is:
+
+```text
+Delta(r, t) = 2^(r + t + 5) - 1 - B(r, t)
+```
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Quick Formula Refresher</p>
+  <ul>
+    <li><strong>`F_t`</strong> means the Fibonacci sequence.</li>
+    <li><strong>`cos(pi t / 2)`</strong> and <strong>`sin(pi t / 2)`</strong> are only a compact way to encode a four-step repeating pattern. They do not mean the graph itself is circular or wave-like.</li>
+    <li><strong>`2^(r + t + 5) - 1`</strong> is the exact amount for the target star on the same number of vertices.</li>
+  </ul>
+</div>
+
+So the exceptional route is no longer only a chain of checked moves. It now
+has a compact symbolic description:
+
+- exponential target term
+- minus Fibonacci-periodic feeder term
+
+That is a much better fit for loop-space geometry. Once the right structural
+coordinates are found, the route becomes simple enough to compile.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Low-edge concentration map</p>
