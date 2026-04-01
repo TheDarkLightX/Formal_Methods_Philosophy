@@ -180,6 +180,9 @@ to arbitrary pendant-subtree moves after the first step.
 The newest checked refinement is stronger again: the path survives even if each
 step is restricted to a smallest available one-branch hub-target move.
 
+And that controller now has an exact checked depth cutoff. On the checked tree
+branch, the smallest surviving branch-depth bound is `2`.
+
 <figure class="fp-figure">
   <p class="fp-figure-title">Low-edge concentration and balancing</p>
   {% include diagrams/low-edge-concentration.svg %}

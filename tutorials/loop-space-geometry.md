@@ -296,6 +296,10 @@ language, repeatedly moving one-branch pendant subtrees into hubs.
 It tightened once more after that. On the checked tree branch, the path still
 survives if each step uses a smallest available one-branch hub-target move.
 
+There is now an exact checked depth cutoff on that local controller. Depth `0`
+fails, depth `1` fails, and depth `2` is the smallest surviving bound on the
+checked tree branch.
+
 <figure class="fp-figure">
   <p class="fp-figure-title">Low-edge concentration map</p>
   {% include diagrams/low-edge-concentration.svg %}
