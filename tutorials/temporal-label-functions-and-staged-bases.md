@@ -51,13 +51,8 @@ A label function says how the loop sees the task family.
 If the labels are too coarse, different hidden structures collapse together.
 If the labels are too fine, the loop may pay too much complexity too early.
 
-So the real question is not:
-
-- are temporal labels richer?
-
-It is:
-
-- when is a richer temporal basis the right basis?
+The useful question is when a richer temporal basis becomes the right basis,
+not simply whether it is richer.
 
 The easiest analogy is coordinate choice in geometry.
 
@@ -101,50 +96,32 @@ right starting basis for the whole family.
 
 ## Part III: what this changes in loop design
 
-This result is small, but it changes how basis choice should be treated.
+This result is small, but it changes how basis choice should be treated in two
+concrete ways.
 
-Loop comparison should ask:
+First, loop comparison should ask three questions rather than one:
 
 - what label basis is being used?
 - what quotient does that basis induce?
 - at what stage does that basis become exact?
 
-That is a more useful question than simply asking whether one label set is
-“richer” than another.
+Asking whether one label set is “richer” than another is not enough. The
+bounded result shows that a strictly finer basis can become redundant after the
+right first-stage carve.
+
+Second, it establishes that loop-space geometry includes label basis as a
+first-class axis alongside witness language and separator language. That warns
+against a common mistake: assuming the finest available basis is automatically
+the best global basis.
 
 The temporal result suggests a staged design pattern:
 
-1. carve the task family
-2. switch to the richer temporal basis
+1. carve the task family with a coarse basis
+2. switch to the richer temporal basis on the residue
 3. compile or control the smaller residue
-
-## Part IV: why this still matters
-
-This tutorial is narrower than the others in the new sequence, but it does
-real work.
-
-It establishes that loop-space geometry includes:
-
-- witness language
-- separator language
-- and label basis
-
-That matters for larger loop families because it warns against a common mistake:
-
-- assuming that the finest available basis is automatically the best global
-  basis
-
-The bounded result says that basis choice can itself be staged.
 
 ## Related tutorials
 
 - [Tutorial 29: Loop-space geometry]({{ '/tutorials/loop-space-geometry/' | relative_url }})
 - [Tutorial 31: Hybrid geometry-changing loops]({{ '/tutorials/hybrid-geometry-changing-loops/' | relative_url }})
 - [Tutorial 27: Verifier-compiler loops]({{ '/tutorials/verifier-compiler-loops/' | relative_url }})
-
-A richer label basis is not always a globally better basis. Sometimes the right
-loop is:
-
-- carve first
-- switch basis second
-- compile the residue third

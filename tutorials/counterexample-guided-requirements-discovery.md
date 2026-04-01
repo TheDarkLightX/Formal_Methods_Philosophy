@@ -90,14 +90,9 @@ M ~ M'  iff  O_W(M) = O_W(M')
 Two missing sets that induce the same observation state are indistinguishable
 to the loop at that stage.
 
-That means the right recovery question is not only:
-
-- did a counterexample arrive?
-
-It is:
-
-- how much of the hidden family has already collapsed under the current
-  observation state?
+The right recovery question is then how much of the hidden family has already
+collapsed under the current observation state, not just whether a
+counterexample arrived.
 
 ## Part III: the three recovery steps
 
@@ -117,28 +112,16 @@ observation map is injective on the omission family.
 
 This is the first important correction from this analysis.
 
-The bottleneck is not only:
-
-- do singleton witnesses exist?
-
-It is:
-
-- does the full stored observation state already separate the hidden targets?
+The real bottleneck is whether the full stored observation state already
+separates the hidden targets, not only whether singleton witnesses exist.
 
 ### Step 3: question-policy recovery
 
 If the observation map is not injective, the loop needs follow-up questions.
 
-The right question is then not:
-
-- should a human be asked?
-
-It is:
-
-- what is the smallest separator language that breaks the remaining ambiguity
-  classes?
-
-That is a very different design question.
+Rather than asking "should a human be consulted?", the design question becomes:
+what is the smallest separator language that breaks the remaining ambiguity
+classes?
 
 ## Part IV: omission scope matters
 
@@ -149,7 +132,10 @@ On unrestricted omission families, singleton witnesses remain a global
 bottleneck.
 
 On scoped families, especially pair-lobotomy families, oracle help becomes
-strictly stronger.
+strictly stronger. For instance, if the omission family is restricted so that
+at most two requirements can be missing at once, the observation map becomes
+injective much earlier than on the unrestricted family, and the separator
+language needed to close the remaining gap shrinks accordingly.
 
 So requirements discovery is not one monolithic task.
 
@@ -211,11 +197,16 @@ The stable bounded ladder is now strong enough to teach as one coherent line.
 
 It includes:
 
+**Recovery and quotient structure:**
 - recoverability laws
 - the observation-quotient correction
 - scoped omission-family effects
+
+**Witness and basis results:**
 - witness-arity threshold laws
 - pair-basis sufficiency
+
+**Separator and controller results:**
 - separator expressivity
 - singleton substitution
 - the geometry prerequisite for logarithmic block separators

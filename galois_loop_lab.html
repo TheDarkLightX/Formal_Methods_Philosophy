@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galois Loop Lab: Interactive Obligation Carving</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --paper: #efe7d8;
+    --canvas: #f7f1e6;
+    --panel: rgba(255, 250, 241, 0.92);
+    --panel-strong: rgba(255, 247, 234, 0.98);
+    --ink: #2a2520;
+    --muted: #7a7064;
+    --line: rgba(42, 37, 32, 0.14);
+    --line-strong: rgba(42, 37, 32, 0.25);
+    --teal: #0f766e;
+    --teal-soft: rgba(15, 118, 110, 0.10);
+    --teal-strong: rgba(15, 118, 110, 0.18);
+    --amber: #a04a08;
+    --amber-soft: rgba(160, 74, 8, 0.10);
+    --amber-strong: rgba(160, 74, 8, 0.18);
+    --red: #a82218;
+    --red-soft: rgba(168, 34, 24, 0.10);
+    --red-strong: rgba(168, 34, 24, 0.18);
+    --green: #15803d;
+    --green-soft: rgba(34, 197, 94, 0.10);
+    --green-strong: rgba(34, 197, 94, 0.18);
+    --blue: #3b82f6;
+    --slate: #4d443c;
+    --navy: #1e1814;
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 18px 36px rgba(42, 34, 28, 0.08);
+    --font-body: "Source Sans 3", Georgia, serif;
+    --font-display: "Bitter", Georgia, serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1c1916; --canvas: #141210;
+      --panel: rgba(32, 28, 24, 0.94); --panel-strong: rgba(36, 32, 28, 0.98);
+      --ink: #e4dfda; --muted: #9e968c;
+      --line: rgba(228, 223, 218, 0.12); --line-strong: rgba(228, 223, 218, 0.22);
+      --teal: #2dd4bf; --teal-soft: rgba(45, 212, 191, 0.12); --teal-strong: rgba(45, 212, 191, 0.20);
+      --amber: #f5b731; --amber-soft: rgba(245, 183, 49, 0.12); --amber-strong: rgba(245, 183, 49, 0.20);
+      --red: #f87171; --red-soft: rgba(248, 113, 113, 0.12); --red-strong: rgba(248, 113, 113, 0.20);
+      --green: #4ade80; --green-soft: rgba(74, 222, 128, 0.12); --green-strong: rgba(74, 222, 128, 0.20);
+      --blue: #60a5fa;
+      --slate: #c4bbb2; --navy: #f0ebe4;
+      --shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0; padding: 20px;
+    font-family: var(--font-body); color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 36%),
+      radial-gradient(circle at top right, rgba(160, 74, 8, 0.08), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)),
+      var(--canvas);
+    line-height: 1.45;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: radial-gradient(circle at top left, rgba(45,212,191,0.06), transparent 36%),
+      radial-gradient(circle at top right, rgba(245,183,49,0.05), transparent 32%),
+      linear-gradient(180deg, rgba(20,18,16,0.95), rgba(20,18,16,0.80)), var(--canvas); }
+  }
+
+  .shell { max-width: 1100px; margin: 0 auto; }
+
+  .hero { text-align: center; padding: 30px 0 20px; }
+  .hero h1 { font-family: var(--font-display); font-size: 1.8rem; margin: 0; }
+  .hero p { color: var(--muted); font-size: 0.95rem; margin: 8px 0 0; }
+
+  .controls { display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    padding: 14px 20px; background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: var(--radius-md); margin-bottom: 16px; }
+  .controls label { font-weight: 600; font-size: 0.85rem; }
+  .controls select, .controls button {
+    font-family: var(--font-mono); font-size: 0.82rem; padding: 6px 12px;
+    border-radius: var(--radius-sm); border: 1px solid var(--line-strong);
+    background: var(--panel); color: var(--ink); cursor: pointer; }
+  .controls button { font-weight: 700; }
+  .controls button:hover { background: var(--teal-soft); border-color: var(--teal); }
+  .btn-reset { color: var(--red); border-color: var(--red) !important; }
+  .btn-reset:hover { background: var(--red-soft) !important; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow); }
+  .panel h2 { font-family: var(--font-display); font-size: 1.05rem; margin: 0 0 12px; }
+  .panel h3 { font-size: 0.9rem; margin: 12px 0 6px; color: var(--muted); }
+
+  .relation-table { border-collapse: collapse; margin: 0 auto; }
+  .relation-table th, .relation-table td {
+    width: 38px; height: 34px; text-align: center; font-family: var(--font-mono);
+    font-size: 0.78rem; border: 1px solid var(--line); }
+  .relation-table th { background: var(--teal-soft); color: var(--teal); font-weight: 700; }
+  .relation-table .row-hdr { background: var(--amber-soft); color: var(--amber); font-weight: 700; }
+  .cell-1 { background: var(--green-soft); color: var(--green); font-weight: 700; }
+  .cell-0 { background: var(--red-soft); color: var(--red); }
+  .cell-dead { opacity: 0.25; }
+  .cell-highlight { outline: 3px solid var(--blue); outline-offset: -2px; }
+
+  .set-display { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0; }
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 8px;
+    font-family: var(--font-mono); font-size: 0.78rem; font-weight: 600; }
+  .tag-cand { background: var(--teal-soft); color: var(--teal); border: 1px solid var(--teal-strong); }
+  .tag-cand.dead { opacity: 0.3; text-decoration: line-through; }
+  .tag-obl { background: var(--amber-soft); color: var(--amber); border: 1px solid var(--amber-strong); }
+  .tag-obl.discharged { background: var(--green-soft); color: var(--green); border-color: var(--green-strong); }
+  .tag-obl.dead { opacity: 0.3; text-decoration: line-through; }
+
+  .metric-bar { display: flex; gap: 12px; align-items: center; margin: 8px 0; }
+  .metric-label { font-size: 0.8rem; font-weight: 700; width: 110px; }
+  .metric-track { flex: 1; height: 18px; background: var(--line); border-radius: 9px; overflow: hidden; position: relative; }
+  .metric-fill-c { height: 100%; background: var(--teal); border-radius: 9px; transition: width 0.4s ease; }
+  .metric-fill-u { height: 100%; background: var(--amber); border-radius: 9px; transition: width 0.4s ease; }
+  .metric-fill-sum { height: 100%; background: var(--blue); border-radius: 9px; transition: width 0.4s ease; }
+  .metric-num { font-family: var(--font-mono); font-size: 0.78rem; width: 40px; text-align: right; }
+
+  .log-area { max-height: 200px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.03);
+    border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.75rem;
+    line-height: 1.6; margin-top: 8px; border: 1px solid var(--line); }
+  .log-entry { margin: 2px 0; }
+  .log-cut { color: var(--red); }
+  .log-cert { color: var(--green); }
+  .log-info { color: var(--muted); }
+
+  .formula-bar { margin-top: 12px; padding: 10px 16px; background: var(--teal-soft);
+    border: 1px solid var(--teal-strong); border-radius: var(--radius-sm);
+    font-family: var(--font-mono); font-size: 0.8rem; color: var(--teal); }
+
+  .step-btn { display: inline-block; padding: 8px 18px; margin: 4px;
+    font-family: var(--font-mono); font-size: 0.82rem; font-weight: 700;
+    border-radius: var(--radius-sm); cursor: pointer; border: 2px solid; transition: all 0.15s; }
+  .step-btn:hover { transform: translateY(-1px); }
+  .step-btn-cex { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+  .step-btn-cert { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+  .step-btn-auto { background: rgba(59,130,246,0.08); border-color: var(--blue); color: var(--blue); }
+
+  .done-banner { padding: 14px 20px; background: var(--green-soft); border: 2px solid var(--green);
+    border-radius: var(--radius-md); text-align: center; font-weight: 700; color: var(--green);
+    margin-top: 12px; display: none; }
+
+  .comparison { margin-top: 16px; }
+  .comparison table { width: 100%; border-collapse: collapse; }
+  .comparison th, .comparison td { padding: 6px 10px; text-align: center;
+    font-size: 0.8rem; border: 1px solid var(--line); }
+  .comparison th { background: var(--panel); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<div class="hero">
+  <h1>Galois Loop Lab</h1>
+  <p>Explore Bidirectional Obligation Carving on small boolean relations.<br>
+  Click counterexamples, watch closures compute, compare with plain CEGIS.</p>
+</div>
+
+<div class="controls">
+  <label>Relation size:</label>
+  <select id="sizeSelect">
+    <option value="3x3" selected>3 &times; 3</option>
+    <option value="3x4">3 &times; 4</option>
+  </select>
+  <label>Relation:</label>
+  <select id="relationSelect"></select>
+  <button onclick="randomRelation()">Random</button>
+  <button onclick="resetLoop()">Reset loop</button>
+  <button onclick="runAutoLoop()" class="step-btn-auto" style="border-width:1px">Auto-run BOC</button>
+  <button onclick="resetLoop()" class="btn-reset">Full reset</button>
+</div>
+
+<div class="grid">
+  <!-- Left panel: Relation + manual interaction -->
+  <div class="panel">
+    <h2 style="color:var(--ink)">Spec(x, y) relation</h2>
+    <div id="tableContainer"></div>
+
+    <h3>Current state</h3>
+    <div>
+      <strong style="color:var(--teal)">C<sub>t</sub></strong> (surviving candidates):
+      <div class="set-display" id="candSet"></div>
+    </div>
+    <div style="margin-top:6px">
+      <strong style="color:var(--amber)">U<sub>t</sub></strong> (uncovered obligations):
+      <div class="set-display" id="oblSet"></div>
+    </div>
+    <div style="margin-top:6px">
+      <strong style="color:var(--green)">&Psi;(C<sub>t</sub>)</strong> (discharged):
+      <div class="set-display" id="dischargedSet"></div>
+    </div>
+
+    <div class="formula-bar" id="invariantBar">
+      D<sub>t</sub> &sube; &Psi;(C<sub>t</sub>) &nbsp;&#x2714;
+    </div>
+
+    <div id="doneBanner" class="done-banner">
+      Loop complete!  All obligations discharged or candidate found.
+    </div>
+  </div>
+
+  <!-- Right panel: Metrics + log -->
+  <div class="panel">
+    <h2 style="color:var(--ink)">Progress metrics</h2>
+
+    <div class="metric-bar">
+      <span class="metric-label" style="color:var(--teal)">|C<sub>t</sub>|</span>
+      <div class="metric-track"><div class="metric-fill-c" id="barC"></div></div>
+      <span class="metric-num" id="numC"></span>
+    </div>
+    <div class="metric-bar">
+      <span class="metric-label" style="color:var(--amber)">|U<sub>t</sub>|</span>
+      <div class="metric-track"><div class="metric-fill-u" id="barU"></div></div>
+      <span class="metric-num" id="numU"></span>
+    </div>
+    <div class="metric-bar">
+      <span class="metric-label" style="color:var(--blue)">|C| + |U|</span>
+      <div class="metric-track"><div class="metric-fill-sum" id="barSum"></div></div>
+      <span class="metric-num" id="numSum"></span>
+    </div>
+
+    <h3>Actions</h3>
+    <div id="actionButtons"></div>
+
+    <h3>Event log</h3>
+    <div class="log-area" id="logArea"></div>
+
+    <div class="comparison" id="compSection" style="display:none">
+      <h3>Comparison: Plain CEGIS vs BOC</h3>
+      <table>
+        <thead><tr><th></th><th>Plain CEGIS</th><th>BOC</th></tr></thead>
+        <tbody id="compBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+(function() {
+  "use strict";
+
+  // ===== State =====
+  let nX, nY, spec;  // relation
+  let C, U, discharged; // BOC state
+  let step, totalChecks, cegisChecks;
+  let log;
+  let done;
+
+  // ===== Galois operators =====
+  function phi(B) {
+    // candidates satisfying all obligations in B
+    return [...Array(nX).keys()].filter(x =>
+      B.every(b => spec[x][b])
+    );
+  }
+
+  function psi(Cset) {
+    // obligations satisfied by all candidates in Cset
+    return [...Array(nY).keys()].filter(y =>
+      Cset.every(x => spec[x][y])
+    );
+  }
+
+  function closureY(B) { return psi(phi(B)); }
+
+  // ===== Initialization =====
+  function init() {
+    const size = document.getElementById("sizeSelect").value;
+    nX = parseInt(size[0]);
+    nY = parseInt(size[2]);
+    populateRelationSelect();
+    loadRelation(0);
+  }
+
+  function populateRelationSelect() {
+    const sel = document.getElementById("relationSelect");
+    sel.innerHTML = "";
+    const total = 1 << (nX * nY);
+    const count = Math.min(total, 200);
+    for (let i = 0; i < count; i++) {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.text = "Relation " + i;
+      sel.appendChild(opt);
+    }
+  }
+
+  function loadRelation(mask) {
+    spec = [];
+    for (let x = 0; x < nX; x++) {
+      spec[x] = [];
+      for (let y = 0; y < nY; y++) {
+        spec[x][y] = (mask >> (x * nY + y)) & 1 ? true : false;
+      }
+    }
+    resetLoop();
+  }
+
+  window.randomRelation = function() {
+    const total = 1 << (nX * nY);
+    const mask = Math.floor(Math.random() * total);
+    document.getElementById("relationSelect").value = Math.min(mask, 199);
+    loadRelation(mask);
+  };
+
+  window.resetLoop = function() {
+    C = [...Array(nX).keys()];
+    U = [...Array(nY).keys()];
+    discharged = [];
+    step = 0;
+    totalChecks = 0;
+    cegisChecks = 0;
+    log = [];
+    done = false;
+    addLog("info", "Loop initialized. |C| = " + nX + ", |U| = " + nY);
+    render();
+  };
+
+  // ===== BOC moves =====
+  function counterexampleCut(x, y) {
+    if (done) return;
+    if (!C.includes(x) || !U.includes(y)) return;
+    if (spec[x][y]) {
+      addLog("info", "Spec(x" + x + ", y" + y + ") = 1. Not a counterexample.");
+      return;
+    }
+    step++;
+    // Remove all candidates that also fail y
+    const before = C.length;
+    C = C.filter(c => spec[c][y]);
+    const removed = before - C.length;
+    totalChecks += U.length; // checked all uncovered
+
+    // Recompute discharged = Psi(C)
+    discharged = psi(C);
+    U = [...Array(nY).keys()].filter(y2 => !discharged.includes(y2));
+
+    addLog("cut", "Step " + step + ": Counterexample y" + y + " against x" + x +
+      ". Removed " + removed + " candidates. |C| = " + C.length + ", |U| = " + U.length);
+    checkDone();
+    render();
+  }
+
+  function regionCertificate() {
+    if (done) return;
+    // Find all obligations in U that are satisfied by all surviving C
+    const certifiable = U.filter(y => C.every(x => spec[x][y]));
+    if (certifiable.length === 0) {
+      addLog("info", "No certifiable region found in U.");
+      return;
+    }
+    step++;
+    discharged = [...new Set([...discharged, ...certifiable])];
+    U = U.filter(y => !certifiable.includes(y));
+    totalChecks += certifiable.length;
+
+    addLog("cert", "Step " + step + ": Region certificate discharged {" +
+      certifiable.map(y => "y" + y).join(", ") + "}. |U| = " + U.length);
+    checkDone();
+    render();
+  }
+
+  function checkDone() {
+    if (U.length === 0 && C.length > 0) {
+      done = true;
+      addLog("info", "DONE. All obligations discharged. Any x in C is a solution.");
+    } else if (C.length === 0) {
+      done = true;
+      addLog("info", "DONE. No candidates survive. Spec is unsatisfiable.");
+    }
+  }
+
+  window.runAutoLoop = function() {
+    resetLoop();
+    let maxIter = 50;
+    while (!done && maxIter-- > 0) {
+      // First try region certificate
+      const certBefore = U.length;
+      regionCertificate();
+      if (U.length < certBefore) continue;
+
+      // Then find a counterexample
+      let found = false;
+      for (const x of C) {
+        for (const y of U) {
+          if (!spec[x][y]) {
+            counterexampleCut(x, y);
+            found = true;
+            break;
+          }
+        }
+        if (found) break;
+      }
+      if (!found) {
+        done = true;
+        addLog("info", "DONE. Candidate x" + C[0] + " passes all uncovered obligations.");
+        break;
+      }
+    }
+    // Show comparison
+    showComparison();
+    render();
+  };
+
+  // ===== Plain CEGIS for comparison =====
+  function runPlainCEGIS() {
+    let cC = [...Array(nX).keys()];
+    let cSteps = 0, cChecks = 0;
+    let bag = [];
+    let maxIter = 50;
+    while (maxIter-- > 0) {
+      if (cC.length === 0) break;
+      const x = cC[0]; // min candidate
+      // Find counterexample
+      let found = false;
+      for (let y = 0; y < nY; y++) {
+        cChecks++;
+        if (!spec[x][y]) {
+          cSteps++;
+          bag.push(y);
+          cC = cC.filter(c => spec[c][y]);
+          found = true;
+          break;
+        }
+      }
+      if (!found) break; // x is good
+    }
+    return { steps: cSteps, checks: cChecks, survivors: cC.length, bag: bag.length };
+  }
+
+  function showComparison() {
+    const plain = runPlainCEGIS();
+    const sec = document.getElementById("compSection");
+    sec.style.display = "block";
+    const body = document.getElementById("compBody");
+    body.innerHTML =
+      "<tr><td>Steps</td><td>" + plain.steps + "</td><td>" + step + "</td></tr>" +
+      "<tr><td>Obligation checks</td><td>" + plain.checks + "</td><td>" + totalChecks + "</td></tr>" +
+      "<tr><td>Counterexample bag</td><td>" + plain.bag + "</td><td>" + discharged.length + " discharged</td></tr>" +
+      "<tr><td>Survivors</td><td>" + plain.survivors + "</td><td>" + C.length + "</td></tr>";
+  }
+
+  // ===== Rendering =====
+  function render() {
+    renderTable();
+    renderSets();
+    renderMetrics();
+    renderActions();
+    renderLog();
+    document.getElementById("doneBanner").style.display = done ? "block" : "none";
+  }
+
+  function renderTable() {
+    let html = '<table class="relation-table"><tr><th></th>';
+    for (let y = 0; y < nY; y++) {
+      html += '<th>y' + y + '</th>';
+    }
+    html += '</tr>';
+    for (let x = 0; x < nX; x++) {
+      const xDead = !C.includes(x);
+      html += '<tr><td class="row-hdr' + (xDead ? ' cell-dead' : '') + '">x' + x + '</td>';
+      for (let y = 0; y < nY; y++) {
+        const yDischarged = discharged.includes(y);
+        const yUncovered = U.includes(y);
+        let cls = spec[x][y] ? 'cell-1' : 'cell-0';
+        if (xDead) cls += ' cell-dead';
+        else if (yDischarged) cls += '';
+        // Clickable counterexample cells
+        let onclick = '';
+        if (!done && !xDead && yUncovered && !spec[x][y]) {
+          cls += ' cell-highlight';
+          onclick = ' onclick="counterexampleCut(' + x + ',' + y + ')" style="cursor:pointer"';
+        }
+        html += '<td class="' + cls + '"' + onclick + '>' + (spec[x][y] ? '1' : '0') + '</td>';
+      }
+      html += '</tr>';
+    }
+    html += '</table>';
+    document.getElementById("tableContainer").innerHTML = html;
+  }
+
+  // expose globally for onclick
+  window.counterexampleCut = counterexampleCut;
+
+  function renderSets() {
+    // Candidates
+    let html = '';
+    for (let x = 0; x < nX; x++) {
+      const alive = C.includes(x);
+      html += '<span class="tag tag-cand' + (alive ? '' : ' dead') + '">x' + x + '</span>';
+    }
+    document.getElementById("candSet").innerHTML = html;
+
+    // Uncovered
+    html = '';
+    for (let y = 0; y < nY; y++) {
+      const inU = U.includes(y);
+      const inD = discharged.includes(y);
+      let cls = 'tag tag-obl';
+      if (inD) cls += ' discharged';
+      else if (!inU) cls += ' dead';
+      html += '<span class="' + cls + '">y' + y + (inD ? ' &#x2713;' : '') + '</span>';
+    }
+    document.getElementById("oblSet").innerHTML = html;
+
+    // Discharged
+    html = '';
+    for (const y of discharged) {
+      html += '<span class="tag tag-obl discharged">y' + y + '</span>';
+    }
+    document.getElementById("dischargedSet").innerHTML = html || '<span style="color:var(--muted);font-size:0.8rem">none yet</span>';
+
+    // Invariant
+    const invOk = discharged.every(d => psi(C).includes(d));
+    document.getElementById("invariantBar").innerHTML =
+      'D<sub>t</sub> &sube; &Psi;(C<sub>t</sub>) &nbsp;' +
+      (invOk ? '<span style="color:var(--green)">&#x2714; holds</span>' :
+               '<span style="color:var(--red)">&#x2718; violated!</span>');
+  }
+
+  function renderMetrics() {
+    const maxTotal = nX + nY;
+    document.getElementById("barC").style.width = (C.length / nX * 100) + "%";
+    document.getElementById("numC").textContent = C.length;
+    document.getElementById("barU").style.width = (U.length / nY * 100) + "%";
+    document.getElementById("numU").textContent = U.length;
+    document.getElementById("barSum").style.width = ((C.length + U.length) / maxTotal * 100) + "%";
+    document.getElementById("numSum").textContent = C.length + U.length;
+  }
+
+  function renderActions() {
+    if (done) {
+      document.getElementById("actionButtons").innerHTML =
+        '<span style="color:var(--green);font-weight:700">Loop complete.</span>';
+      return;
+    }
+    // Find available counterexamples
+    let btns = '';
+    for (const x of C) {
+      for (const y of U) {
+        if (!spec[x][y]) {
+          btns += '<span class="step-btn step-btn-cex" onclick="counterexampleCut(' + x + ',' + y + ')">' +
+            'Cut: x' + x + ' fails y' + y + '</span>';
+        }
+      }
+    }
+    // Region certificate button
+    const certifiable = U.filter(y2 => C.every(x2 => spec[x2][y2]));
+    if (certifiable.length > 0) {
+      btns += '<span class="step-btn step-btn-cert" onclick="regionCertificate()">' +
+        'Certify ' + certifiable.length + ' obligations</span>';
+    }
+    if (!btns) {
+      btns = '<span style="color:var(--green);font-weight:700">No failing obligations. Candidate found!</span>';
+      done = true;
+      addLog("info", "DONE. Current candidate passes all obligations.");
+      document.getElementById("doneBanner").style.display = "block";
+    }
+    document.getElementById("actionButtons").innerHTML = btns;
+  }
+  window.regionCertificate = regionCertificate;
+
+  function addLog(type, msg) {
+    log.push({ type, msg });
+  }
+
+  function renderLog() {
+    const area = document.getElementById("logArea");
+    area.innerHTML = log.map(e =>
+      '<div class="log-entry log-' + e.type + '">' + e.msg + '</div>'
+    ).join('');
+    area.scrollTop = area.scrollHeight;
+  }
+
+  // ===== Event listeners =====
+  document.getElementById("sizeSelect").addEventListener("change", init);
+  document.getElementById("relationSelect").addEventListener("change", function() {
+    loadRelation(parseInt(this.value));
+  });
+
+  // Boot
+  init();
+})();
+</script>
+</body>
+</html>

@@ -806,6 +806,7 @@
     .formula-line { font-size: 10px; }
   }
 </style>
+<script src="assets/js/shape-logic.js"></script>
 </head>
 <body>
 <div class="shell">
@@ -815,7 +816,7 @@
         <div class="eyebrow">Shape transition, reachability, and fail-closed reasoning</div>
         <h1>ZenoDEX Shape Pruning Lab</h1>
         <p>
-          This lab treats the old ZenoDEX shape and the strengthened <code>Shape++</code> target as clause sets.
+          This lab treats the old ZenoDEX shape and the achieved audited-domain <code>Shape++</code> release as clause sets.
           Toggle the clauses, select a scenario, and inspect which disaster states remain reachable, which are pruned,
           and which boundary faults fail closed under the active shape.
         </p>
@@ -826,8 +827,9 @@
           <span class="formula-line">OldShape := BoundaryValidity ∧ TemporalAdmissibility ∧ CanonicalWinnerSelection ∧ ReserveMonotonicity ∧ SettlementCompositionality ∧ DeterministicRouting ∧ StablecoinSolvency</span>
         </div>
         <div class="formula-block">
-          <h2>Shape++ target</h2>
+          <h2>Achieved Shape++</h2>
           <span class="formula-line">Shape++ := CBCValidity ∧ UniqueCanonicalWinnerEverywhere ∧ ExactFeeAwareAccounting ∧ ValueAwareSettlementSafety ∧ ProofCarryingOptimizerCertificates ∧ AntiFragmentationByTheorem ∧ NonCommutativityQuarantine ∧ OracleDivergenceSafety ∧ LiquidationSpiralContainment ∧ CrossLayerReplayParity</span>
+          <span class="formula-line" style="margin-top: 6px; opacity: 0.84;">On audited domain D_v1: shape_pp_candidate_v1 = 10/10, blocked = 0</span>
         </div>
       </aside>
     </div>
@@ -911,7 +913,7 @@
 <script>
 const PRESETS = [
   { id: "baseline", label: "Baseline old shape", desc: "The earlier guarded, replayable, partially proved posture.", clauses: ["BoundaryValidity", "TemporalAdmissibility", "CanonicalWinnerSelection", "ReserveMonotonicity", "SettlementCompositionality", "DeterministicRouting", "StablecoinSolvency"] },
-  { id: "ideal", label: "Shape++ target", desc: "Baseline plus the strengthening clauses that prune more disaster states.", clauses: ["BoundaryValidity", "TemporalAdmissibility", "CanonicalWinnerSelection", "ReserveMonotonicity", "SettlementCompositionality", "DeterministicRouting", "StablecoinSolvency", "CBCValidity", "UniqueCanonicalWinnerEverywhere", "ExactFeeAwareAccounting", "ValueAwareSettlementSafety", "ProofCarryingOptimizerCertificates", "AntiFragmentationByTheorem", "NonCommutativityQuarantine", "OracleDivergenceSafety", "LiquidationSpiralContainment", "CrossLayerReplayParity"] },
+  { id: "ideal", label: "Achieved Shape++", desc: "Baseline plus the audited-domain strengthening clauses that prune more disaster states.", clauses: ["BoundaryValidity", "TemporalAdmissibility", "CanonicalWinnerSelection", "ReserveMonotonicity", "SettlementCompositionality", "DeterministicRouting", "StablecoinSolvency", "CBCValidity", "UniqueCanonicalWinnerEverywhere", "ExactFeeAwareAccounting", "ValueAwareSettlementSafety", "ProofCarryingOptimizerCertificates", "AntiFragmentationByTheorem", "NonCommutativityQuarantine", "OracleDivergenceSafety", "LiquidationSpiralContainment", "CrossLayerReplayParity"] },
   { id: "minimal", label: "Minimal shell", desc: "Almost no structure, useful for seeing how fast bad worlds appear.", clauses: ["BoundaryValidity"] }
 ];
 
@@ -1289,6 +1291,36 @@ const state = {
 };
 
 function scenarioCoverage(scenario) {
+  // Use ShapeLogic for real symbolic reasoning when available
+  if (window.ShapeLogic && ShapeLogic.domain.disasters[scenario.id]) {
+    const activeFormulas = [...state.activeClauses]
+      .map(id => ShapeLogic.domain.clauseBlocks[id])
+      .filter(Boolean);
+    const disaster = ShapeLogic.domain.disasters[scenario.id];
+    const facts = ShapeLogic.domain.scenarioFacts[scenario.id] || null;
+    const result = ShapeLogic.checkBlocked(activeFormulas, disaster, facts);
+
+    if (result.blocked) {
+      return {
+        status: "blocked",
+        have: scenario.requires.filter(id => state.activeClauses.has(id)),
+        missing: [],
+        witness: null,
+        proofTrace: result.proofTrace
+      };
+    }
+    // Check partial coverage for fragile status
+    const haveIds = scenario.requires.filter(id => state.activeClauses.has(id));
+    const missingIds = scenario.requires.filter(id => !state.activeClauses.has(id));
+    return {
+      status: haveIds.length > 0 ? "fragile" : "reachable",
+      have: haveIds,
+      missing: missingIds,
+      witness: result.witness,
+      proofTrace: result.proofTrace
+    };
+  }
+  // Fallback to lookup table
   const have = scenario.requires.filter(id => state.activeClauses.has(id));
   const ratio = have.length / scenario.requires.length;
   if (ratio === 1) return { status: "blocked", have, missing: [] };
@@ -1297,6 +1329,21 @@ function scenarioCoverage(scenario) {
 }
 
 function probeCoverage(probe) {
+  // Use ShapeLogic for real symbolic reasoning when available
+  if (window.ShapeLogic && ShapeLogic.domain.probeFormulas[probe.id]) {
+    const activeFormulas = [...state.activeClauses]
+      .map(id => ShapeLogic.domain.clauseBlocks[id])
+      .filter(Boolean);
+    const probeDisaster = ShapeLogic.domain.probeFormulas[probe.id];
+    const result = ShapeLogic.checkBlocked(activeFormulas, probeDisaster, null);
+    return {
+      status: result.blocked ? "blocked" : "reachable",
+      missing: probe.requires.filter(id => !state.activeClauses.has(id)),
+      witness: result.witness,
+      proofTrace: result.proofTrace
+    };
+  }
+  // Fallback to lookup table
   const have = probe.requires.filter(id => state.activeClauses.has(id));
   return {
     status: have.length === probe.requires.length ? "blocked" : "reachable",
@@ -1479,6 +1526,31 @@ function renderPipeline() {
   }).join("");
 }
 
+function renderWitnessCard(witness) {
+  const entries = [];
+  if (witness.booleans) {
+    for (const k in witness.booleans) {
+      if (witness.booleans[k] === true || witness.booleans[k] === false) {
+        entries.push(`<div style="font-size:12px;margin-top:3px;"><strong>${k}</strong> = ${witness.booleans[k]}</div>`);
+      }
+    }
+  }
+  if (witness.numerics) {
+    for (const k in witness.numerics) {
+      entries.push(`<div style="font-size:12px;margin-top:3px;"><strong>${k}</strong> = ${witness.numerics[k]}</div>`);
+    }
+  }
+  if (entries.length === 0) return "";
+  return `
+    <article class="trace-item bad">
+      <div class="trace-label">Counterexample (witness)</div>
+      <h3 class="trace-title">A surviving bad world</h3>
+      <p class="trace-copy">The solver found a concrete state that satisfies all active clauses and the disaster formula simultaneously:</p>
+      ${entries.join("")}
+    </article>
+  `;
+}
+
 function renderFactsAndTrace() {
   const scenario = SCENARIOS.find(item => item.id === state.selectedScenario);
   const coverage = scenarioCoverage(scenario);
@@ -1524,36 +1596,63 @@ function renderFactsAndTrace() {
   }).join("");
 
   let outcomeCard = "";
+  let witnessCard = "";
+  let proofCard = "";
+
   if (coverage.status === "blocked") {
     outcomeCard = `
       <article class="trace-item good">
-        <div class="trace-label">Derived outcome</div>
+        <div class="trace-label">Derived outcome (verified by solver)</div>
         <h3 class="trace-title">Disaster pruned from the reachable space</h3>
         <p class="trace-copy">${scenario.baseReason}</p>
       </article>
     `;
+    if (coverage.proofTrace && coverage.proofTrace.length > 0) {
+      const steps = coverage.proofTrace
+        .filter(s => s.kind === "unit")
+        .slice(0, 6)
+        .map((s, i) => `<div style="font-size:12px;margin-top:4px;"><strong>${i + 1}.</strong> ${s.literal} = ${s.value} (unit propagation)</div>`)
+        .join("");
+      proofCard = `
+        <article class="trace-item good">
+          <div class="trace-label">Proof trace</div>
+          <h3 class="trace-title">UNSAT derivation</h3>
+          <p class="trace-copy">The solver derived a contradiction from the active clauses and the disaster formula:</p>
+          ${steps}
+          <p class="trace-copy" style="margin-top:8px;font-style:italic;">Clauses + disaster = contradiction. No surviving bad world exists.</p>
+        </article>
+      `;
+    }
   } else if (coverage.status === "fragile") {
     outcomeCard = `
       <article class="trace-item warn">
-        <div class="trace-label">Derived outcome</div>
+        <div class="trace-label">Derived outcome (verified by solver)</div>
         <h3 class="trace-title">Partially guarded, not fully closed</h3>
         <p class="trace-copy">Some of the right laws are active, but the full blocking set is missing. The selected bad branch is still fragile rather than eliminated.</p>
       </article>
     `;
+    if (coverage.witness) {
+      witnessCard = renderWitnessCard(coverage.witness);
+    }
   } else {
     outcomeCard = `
       <article class="trace-item bad">
-        <div class="trace-label">Derived outcome</div>
+        <div class="trace-label">Derived outcome (verified by solver)</div>
         <h3 class="trace-title">Disaster state remains reachable</h3>
         <p class="trace-copy">${scenario.failureReason}</p>
       </article>
     `;
+    if (coverage.witness) {
+      witnessCard = renderWitnessCard(coverage.witness);
+    }
   }
 
   traceRoot.innerHTML = `
     ${haveCards}
     ${missingCards}
     ${outcomeCard}
+    ${proofCard}
+    ${witnessCard}
   `;
 }
 

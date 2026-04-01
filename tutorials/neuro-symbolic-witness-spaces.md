@@ -64,12 +64,12 @@ $$
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Notation guide</p>
   <ul>
-    <li>$x$ — the task or problem instance</li>
-    <li>$y$ — a candidate object proposed for that task</li>
+    <li>$x$, the task or problem instance</li>
+    <li>$y$, a candidate object proposed for that task</li>
     <li>$N$ labels the neural proposer (the LLM); $S$ labels the symbolic checker</li>
-    <li>$q_N(y \mid x)$ — the model's proposal distribution over candidates $y$ given task $x$</li>
-    <li>$\chi_S(y, x)$ — admissibility gate: $1$ if the checker accepts, $0$ if it rejects</li>
-    <li>$q_{NS}(y \mid x)$ — the combined neuro-symbolic distribution</li>
+    <li>$q_N(y \mid x)$, the model's proposal distribution over candidates $y$ given task $x$</li>
+    <li>$\chi_S(y, x)$, admissibility gate: $1$ if the checker accepts, $0$ if it rejects</li>
+    <li>$q_{NS}(y \mid x)$, the combined neuro-symbolic distribution</li>
     <li>$\mid$ means "conditioned on"; $\propto$ means "proportional to"</li>
   </ul>
   <p>Throughout this tutorial: $w$ names a witness, $c$ a counterexample, $d$ a design, $a$ an adversary move, $u$ a generic candidate, $\theta$ a parameter vector. The symbols $\forall$, $\exists$, $\neg$, $\land$, and $\to$ mean "for all," "there exists," "not," "and," and "implies."</p>
@@ -398,7 +398,7 @@ $$
 
 Finding no counterexample is weaker than a full proof unless there is a coverage argument. But one confirmed hit is decisive: a single valid counterexample refutes the claim outright.
 
-That asymmetry — between the difficulty of confirming safety and the ease of refuting it — is why adversarial search is so valuable. The model does not need to be exhaustive. It only needs to find one witness.
+That asymmetry, between the difficulty of confirming safety and the ease of refuting it, is why adversarial search is so valuable. The model does not need to be exhaustive. It only needs to find one witness.
 
 ## Part V: synthesis and game-shaped tasks
 
@@ -697,7 +697,7 @@ That observation connects to Tutorial 13 (what reasoning is): reasoning, in the 
 
 ## Part XIII: what becomes possible in practice
 
-The practical map is broad. Six applications illustrate the range. Each one follows the same pattern — propose, check, accept or refine — but the domain gives it different texture.
+The practical map is broad. Six applications illustrate the range. Each one follows the same pattern (propose, check, accept or refine) but the domain gives it different texture.
 
 Natural language to formal logic:
 

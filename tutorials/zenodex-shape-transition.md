@@ -11,17 +11,17 @@ Every software system lives inside a space of possible states. Some of those sta
 
 That is the question this tutorial explores.
 
-For ZenoDEX, the old shape was already strong by normal software standards. It was guarded, replayable, partially proved, and built around exact integer arithmetic. The new target shape, called `Shape++`, asks for something stricter: ambiguous winners should disappear, accounting should be exact rather than merely monotone, invalid economic states should be hard to represent, and important runtime decisions should carry replayable evidence.
+For ZenoDEX, the old shape was already strong by normal software standards. It was guarded, replayable, partially proved, and built around exact integer arithmetic. The stronger achieved shape, `Shape++`, goes further: ambiguous winners disappear, accounting becomes exact rather than merely monotone, invalid economic states become hard to represent, and important runtime decisions carry replayable evidence.
 
 This tutorial explains that transition as mathematics, not as branding. By the end, you will understand exactly which disaster families each new clause removes from the reachable state space, and why that removal is the real security story.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Scope and assumption hygiene</p>
   <ul>
-    <li><strong>Source posture:</strong> this tutorial is based on the public ZenoDEX shape notes, optimization notes, reasoning scenarios, disaster-state catalog, security-posture note, and chaos-toolkit docs inspected on March 20, 2026.</li>
-    <li><strong>Important scope point:</strong> <code>Shape++</code> is treated here as a <em>target shape</em>, not as a blanket claim that every clause is already fully proved and fully deployed everywhere.</li>
+    <li><strong>Source posture:</strong> this tutorial is based on the public ZenoDEX shape notes, optimization notes, reasoning scenarios, release-contract notes, disaster-state catalog, security-posture note, and chaos-toolkit docs inspected on March 20, 2026.</li>
+    <li><strong>Important scope point:</strong> <code>Shape++</code> is treated here as <em>achieved on the audited domain <code>D_v1</code></em>, because the repo now ships <code>SHAPE_V1</code> with <code>shape_pp_candidate_v1 = 10/10</code> and <code>blocked = 0</code>. This page does <em>not</em> widen that claim beyond <code>D_v1</code>.</li>
     <li><strong>Model choice:</strong> when this page talks about a "shape," it means a compressed description of states, transitions, invariants, canonicalizers, and evidence gates.</li>
-    <li><strong>Security reading:</strong> "ideal" does not mean metaphysically perfect. It means "a strong candidate attractor for the mechanism, given the recurring proof and hardening directions already present in the repo."</li>
+    <li><strong>Security reading:</strong> "ideal" does not mean metaphysically perfect. It means "the strongest scoped shape the repo now publicly claims on the audited domain, with an explicit ratchet against regression and an explicit boundary against overclaiming beyond that domain."</li>
   </ul>
 </div>
 
@@ -228,7 +228,7 @@ The zUSD layer already had strong solvency and recovery-mode formulas. For examp
 
 $$
 \begin{aligned}
-& \text{MCR\_OK}(collateral, debt, price, mcr) \\
+& \mathrm{MCR}_{\mathrm{OK}}(collateral, debt, price, mcr) \\
 & \quad := debt = 0 \\
 & \quad \vee\; collateral \cdot price \cdot 10000
   \ge debt \cdot mcr \cdot 10^8
@@ -261,7 +261,7 @@ This is already a serious assurance surface. The new shape does not start from n
   </p>
 </div>
 
-The following diagram lays the two clause sets side by side. Notice that no old clause disappears; Shape++ only adds or tightens.
+The following diagram lays the two clause sets side by side. The right-hand card is the achieved audited-domain clause bundle. No old clause disappears from the deployed posture; the stronger release only adds or tightens.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Old shape versus Shape++: the clause-level transition</p>
@@ -271,9 +271,9 @@ The following diagram lays the two clause sets side by side. Notice that no old 
   </figcaption>
 </figure>
 
-## Part III: the target shape, `Shape++`
+## Part III: the achieved audited-domain shape, `Shape++`
 
-The new candidate ideal is:
+The stronger shape achieved on the current audited domain is:
 
 $$
 \begin{aligned}
@@ -291,7 +291,7 @@ $$
 \end{aligned}
 $$
 
-For teaching, it is also useful to compress the target into a shorter slogan:
+For teaching, it is also useful to compress the achieved release into a shorter slogan:
 
 $$
 \begin{aligned}
@@ -306,6 +306,32 @@ $$
 $$
 
 The names `CrossLayerEquivalent` and `FailClosedEverywhereImportant` are pedagogical compressions. They summarize several narrower clauses rather than naming one already-promoted theorem.
+
+The important release-level update is that this is no longer merely a hoped-for shape. The repo now exposes the audited-domain claim explicitly:
+
+$$
+\begin{aligned}
+D_{v1} :={} & \text{the currently promoted audited domain} \\
+  c_{\mathrm{shape++}} :={} & 10/10,\; blocked = 0 \\
+  c_{\mathrm{kernel}} :={} & 6/6,\; blocked = 0 \\
+  c_{\mathrm{boundary}} :={} & 5/5,\; blocked = 0.
+\end{aligned}
+$$
+
+Here \(c_{\mathrm{shape++}}\), \(c_{\mathrm{kernel}}\), and \(c_{\mathrm{boundary}}\) are shorthand scorecards for the audited release candidates, not separate runtime variables.
+
+The public release contract is therefore:
+
+$$
+\text{On audited domain } D_{v1},
+\text{ Shape}_{++}
+\text{ is enforced by }
+(T, C, R, W),
+$$
+
+where $T$ is the promoted theorem set, $C$ is the promoted contract set, $R$ is the replay surface, and $W$ is the witness and checker surface.
+
+That is a much stronger statement than "this is the direction the system is moving." It means the direction has been reached on the audited boundary, and the remaining discipline is now ratcheting and scope control.
 
 ### 1. CBC validity: invalid fills become hard to represent
 
@@ -521,11 +547,11 @@ A narrower, source-backed working reading is:
 $$
 \begin{aligned}
 \text{LiquidationAllowed} :={} &
-  oracle\_seen
-  \wedge price\_pending > 0 \\
+  oracle_{\mathrm{seen}}
+  \wedge price_{\mathrm{pending}} > 0 \\
   &\wedge debt > 0 \\
-  &\wedge \neg \text{MCR\_OK}(collateral, debt, price\_pending, mcr) \\
-  &\wedge debt \le sp\_debt.
+  &\wedge \neg \mathrm{MCR}_{\mathrm{OK}}(collateral, debt, price_{\mathrm{pending}}, mcr) \\
+  &\wedge debt \le sp_{\mathrm{debt}}.
 \end{aligned}
 $$
 
@@ -598,7 +624,7 @@ Narrows allowed next steps under stress. *Prunes: uncontrolled liquidation trans
 **10. Replayable local checks &rarr; CrossLayerReplayParity**
 Aligns runtime, packet, and proof surfaces. *Prunes: cross-layer semantic drift.*
 
-This table explains why `Shape++` feels "ideal" in the engineering sense. It is not ideal because it sounds elegant. It is ideal because every strengthening follows the same pattern:
+This table explains why `Shape++` is "ideal" in the engineering sense on the audited domain. It is not ideal because it sounds elegant. It is ideal because every strengthening follows the same pattern:
 
 1. make invalid states unrepresentable where possible,
 2. make ambiguous states non-canonical where representation must stay broad,
@@ -692,13 +718,13 @@ Named examples include the empty-auction deadlock and no-reveal deadlock. This i
   <p>
     The lab below is the best way to build intuition for how clause sets control reachability.
     Start with the <strong>Baseline old shape</strong> preset and notice which scenarios remain
-    reachable (red) or fragile (amber). Then switch to <strong>Shape++ target</strong> and watch
+    reachable (red) or fragile (amber). Then switch to <strong>Achieved Shape++</strong> and watch
     the disaster count drop. Finally, try the <strong>Minimal shell</strong> preset to see how
     fast bad worlds appear when most guards are removed.
   </p>
 </div>
 
-The explorer below treats the old shape and Shape++ as clause sets. Toggle individual clauses, select a scenario, and inspect which disaster states remain reachable, which are pruned, and which chaos probes fail closed under the active assumptions.
+The explorer below treats the old shape and the achieved audited-domain Shape++ release as clause sets. Toggle individual clauses, select a scenario, and inspect which disaster states remain reachable, which are pruned, and which chaos probes fail closed under the active assumptions.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Interactive: ZenoDEX shape pruning lab</p>
@@ -879,4 +905,4 @@ That difference is the distance between confidence-by-silence and confidence-by-
   </p>
 </div>
 
-Shape++ is "ideal" in the engineering sense because it pushes disaster states out of the reachable region, and it does so with formulas that can be inspected, replayed, falsified, and, in the strongest cases, proved. The interactive lab above lets you see exactly how each clause contributes to that pruning.
+Shape++ is "ideal" in the engineering sense because it pushes disaster states out of the reachable region, and it does so with formulas that can be inspected, replayed, falsified, and, in the strongest cases, proved. In the current repo state, that is not merely aspirational. It is the scoped public claim for the audited domain <code>D_v1</code>. The interactive lab above lets you see exactly how each clause contributes to that pruning.

@@ -1,0 +1,220 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 420"
+  role="img"
+  aria-labelledby="fp-pi-title fp-pi-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-pi-title">Policy improvement on the obligation controller</title>
+  <desc id="fp-pi-desc">
+    Initialize with a geometry-guided controller, evaluate it exactly on the
+    finite state space, improve by one-step lookahead, and converge to V*.
+  </desc>
+
+  <defs>
+    <filter id="fp-pi-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-pi-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#3B82F6" fill-opacity="0.9" />
+    </marker>
+    <marker id="fp-pi-arrow-green" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#15803D" fill-opacity="0.9" />
+    </marker>
+  </defs>
+
+  <g filter="url(#fp-pi-shadow)">
+    <rect x="20" y="10" width="920" height="400" rx="26" fill="#FFFFFF" stroke="#E2E8F0" />
+  </g>
+
+  <!-- Title -->
+  <text x="60" y="50" font-size="15" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Obligation-side policy improvement
+  </text>
+  <text x="60" y="70" font-size="12" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Initialize, evaluate, improve, repeat, converges to V* on the finite DAG.
+  </text>
+
+  <!-- ===== Stage boxes ===== -->
+
+  <!-- pi_0: geometry-guided -->
+  <rect x="55" y="100" width="170" height="140" rx="18"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.22)" />
+  <text x="75" y="128" font-size="14" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x03C0;&#x2080;
+  </text>
+  <text x="75" y="148" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Closure-guided
+  </text>
+  <text x="75" y="164" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    controller
+  </text>
+  <!-- Performance bar -->
+  <rect x="75" y="182" width="130" height="22" rx="6"
+    fill="rgba(59, 130, 246, 0.12)" stroke="rgba(59, 130, 246, 0.22)" />
+  <rect x="75" y="182" width="90" height="22" rx="6"
+    fill="rgba(59, 130, 246, 0.30)" />
+  <text x="82" y="197" font-size="9" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">69% optimal</text>
+  <text x="75" y="225" font-size="9" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">45392/65536 checks</text>
+
+  <!-- Arrow -->
+  <path d="M230 170 H270" stroke="#3B82F6" stroke-width="3"
+    marker-end="url(#fp-pi-arrow)" stroke-linecap="round" />
+  <text x="233" y="160" font-size="9" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">improve</text>
+
+  <!-- pi_1 -->
+  <rect x="280" y="100" width="170" height="140" rx="18"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.22)" />
+  <text x="300" y="128" font-size="14" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x03C0;&#x2081;
+  </text>
+  <text x="300" y="148" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    One-step
+  </text>
+  <text x="300" y="164" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    lookahead
+  </text>
+  <!-- Performance bar -->
+  <rect x="300" y="182" width="130" height="22" rx="6"
+    fill="rgba(59, 130, 246, 0.12)" stroke="rgba(59, 130, 246, 0.22)" />
+  <rect x="300" y="182" width="129" height="22" rx="6"
+    fill="rgba(59, 130, 246, 0.40)" />
+  <text x="307" y="197" font-size="9" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">99.96% optimal</text>
+  <text x="300" y="225" font-size="9" fill="#64748B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">65512/65536 checks</text>
+
+  <!-- Arrow -->
+  <path d="M455 170 H495" stroke="#3B82F6" stroke-width="3"
+    marker-end="url(#fp-pi-arrow)" stroke-linecap="round" />
+  <text x="458" y="160" font-size="9" fill="#3B82F6"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">improve</text>
+
+  <!-- pi_2: exact -->
+  <rect x="505" y="100" width="170" height="140" rx="18"
+    fill="rgba(34, 197, 94, 0.08)" stroke="rgba(34, 197, 94, 0.22)" />
+  <text x="525" y="128" font-size="14" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    &#x03C0;&#x2082;
+  </text>
+  <text x="525" y="148" font-size="11" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Two-step
+  </text>
+  <text x="525" y="164" font-size="11" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    improved
+  </text>
+  <!-- Performance bar: full -->
+  <rect x="525" y="182" width="130" height="22" rx="6"
+    fill="rgba(34, 197, 94, 0.35)" stroke="rgba(34, 197, 94, 0.50)" />
+  <text x="540" y="197" font-size="9" font-weight="700" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">100% optimal</text>
+  <text x="525" y="225" font-size="9" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">65536/65536 checks</text>
+
+  <!-- Arrow to V* -->
+  <path d="M680 170 H720" stroke="#15803D" stroke-width="3"
+    marker-end="url(#fp-pi-arrow-green)" stroke-linecap="round" />
+  <text x="690" y="160" font-size="9" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">= V*</text>
+
+  <!-- V* box -->
+  <rect x="730" y="100" width="170" height="140" rx="18"
+    fill="rgba(34, 197, 94, 0.12)" stroke="rgba(34, 197, 94, 0.35)" stroke-width="2" />
+  <text x="750" y="130" font-size="16" font-weight="900" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    V*
+  </text>
+  <text x="750" y="150" font-size="11" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Bounded optimal
+  </text>
+  <text x="750" y="168" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Bellman equation
+  </text>
+  <text x="750" y="184" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    has unique solution
+  </text>
+  <text x="750" y="200" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    on finite DAG
+  </text>
+
+  <!-- ===== Bottom: depth-peeling explanation ===== -->
+  <line x1="55" y1="260" x2="900" y2="260" stroke="#E2E8F0" stroke-width="1" />
+
+  <text x="60" y="290" font-size="13" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Depth-peeling convergence
+  </text>
+  <text x="60" y="308" font-size="11" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Each improvement round closes one more depth layer of the state DAG.
+  </text>
+
+  <!-- Depth layers -->
+  <rect x="60" y="325" width="115" height="60" rx="10"
+    fill="rgba(59, 130, 246, 0.08)" stroke="rgba(59, 130, 246, 0.15)" />
+  <text x="76" y="348" font-size="11" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">depth 0-1</text>
+  <text x="76" y="368" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x03C0;&#x2080; already exact</text>
+
+  <path d="M180 355 H210" stroke="#3B82F6" stroke-width="2"
+    marker-end="url(#fp-pi-arrow)" stroke-linecap="round" />
+
+  <rect x="220" y="325" width="115" height="60" rx="10"
+    fill="rgba(59, 130, 246, 0.12)" stroke="rgba(59, 130, 246, 0.22)" />
+  <text x="240" y="348" font-size="11" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">depth 2</text>
+  <text x="240" y="368" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x03C0;&#x2081; closes it</text>
+
+  <path d="M340 355 H370" stroke="#3B82F6" stroke-width="2"
+    marker-end="url(#fp-pi-arrow)" stroke-linecap="round" />
+
+  <rect x="380" y="325" width="115" height="60" rx="10"
+    fill="rgba(59, 130, 246, 0.18)" stroke="rgba(59, 130, 246, 0.30)" />
+  <text x="400" y="348" font-size="11" font-weight="700" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">depth 3</text>
+  <text x="400" y="368" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">&#x03C0;&#x2082; closes it</text>
+
+  <path d="M500 355 H530" stroke="#15803D" stroke-width="2"
+    marker-end="url(#fp-pi-arrow-green)" stroke-linecap="round" />
+
+  <rect x="540" y="325" width="115" height="60" rx="10"
+    fill="rgba(34, 197, 94, 0.15)" stroke="rgba(34, 197, 94, 0.30)" />
+  <text x="558" y="348" font-size="11" font-weight="700" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">depth 4</text>
+  <text x="558" y="368" font-size="10" fill="#15803D"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">also closed!</text>
+
+  <!-- Right side theorem box -->
+  <rect x="700" y="310" width="210" height="85" rx="14"
+    fill="rgba(15, 23, 42, 0.04)" stroke="rgba(15, 23, 42, 0.12)" />
+  <text x="720" y="338" font-size="11" font-weight="900" fill="#1E293B"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Theorem</text>
+  <text x="720" y="358" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    I[&#x03C0;] = &#x03C0;  &#x21D2;  V&#x03C0; = V*
+  </text>
+  <text x="720" y="378" font-size="10" fill="#475569"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    Finite policies &#x2192; terminates
+  </text>
+</svg>

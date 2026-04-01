@@ -111,13 +111,8 @@ This matters because “better” becomes conditional.
 - some loops are unit-weight best
 - some become best only when acquisition is expensive
 
-So the right comparison is not:
-
-- which loop looks smarter?
-
-It is:
-
-- which loop wins under the stated cost model?
+So the right comparison is always relative to a cost model: which loop wins
+under the stated weights, not which loop looks smarter in the abstract.
 
 **Interactive lab**
 
@@ -166,10 +161,10 @@ competition between the two structural families.
 
 ## Part IV: the low-edge concentration mechanism
 
-The newer rabbit hole changed character again.
+The low-edge analysis changed character at this point.
 
-On the low-edge side, the analysis no longer has only a family compiler. It now
-has a proof-shaped hybrid:
+It no longer has only a family compiler. It now has a proof-shaped hybrid with
+two distinct stages:
 
 1. starify each connected component
 2. balance the resulting star sizes
@@ -194,7 +189,9 @@ domain:
 
 The second stage is exact balancing on the star-family side.
 
-So the low-edge line is another hybrid, but of a different kind:
+### The composed two-stage result
+
+The low-edge line is another hybrid, but of a different kind:
 
 - a concentration stage
 - followed by an exact balancing stage
@@ -246,10 +243,9 @@ The current bounded evidence points toward patterns like:
 - regime decomposition plus direct compiler
 - concentration stage plus exact balancing stage
 
-That is the strongest current reason to think there are useful loop families
-beyond plain verifier-compilation.
-
-The common idea is simple:
+Those patterns share a common idea, and it connects back to the cost formula
+from Part II: the front stage pays an acquisition cost to reshape the problem,
+while the back stage reaps the savings on a smaller residue.
 
 - reshape first
 - solve the smaller residue second
@@ -267,7 +263,7 @@ This tutorial line can now teach four stable lessons.
 4. **Some hybrids are concentration processes**
    - the low-edge line now has a real two-stage mechanism
 
-That is enough to justify hybrid geometry-changing loops as a tutorial line in
+Together, these justify hybrid geometry-changing loops as a tutorial line in
 their own right.
 
 ## Related tutorials

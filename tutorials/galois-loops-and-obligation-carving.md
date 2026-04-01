@@ -5,6 +5,32 @@ kicker: Tutorial 26
 description: "Reframe CEGIS through a Galois and formal-concept-analysis lens, test the loop family on finite relations, and position the result against existing counterexample-driven learning literature."
 ---
 
+<details open>
+<summary><strong>Road map</strong></summary>
+
+This tutorial derives a deeper loop algebra from the quantified neuro-symbolic view, then tests it exhaustively on finite relations.
+
+- **Part I**: Start from &#x2203;x &#x2200;y Spec(x,y)
+- **Part II**: Extract the Galois connection between candidates and obligations
+- **Part III-IV**: Derive Bidirectional Obligation Carving (BOC)
+- **Part V**: Derive Concept-Lattice CEGIS and show it is the same loop
+- **Part VI-VII**: Basis compression, finite testing, replayable evidence
+- **Part VIII**: Literature position, CEGIS, exact learning, formal concept analysis
+- **Part IX**: Counterexample scheduling, coupled proposer/verifier control
+- **Part X-XII**: Policy improvement, controller compression, the current frontier
+
+**Interactive:** Try the [Galois Loop Lab]({{ '/galois_loop_lab.html' | relative_url }}) to run BOC on small relations yourself.
+
+</details>
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">The Galois connection between candidates and obligations</p>
+  {% include diagrams/galois-connection.svg %}
+  <figcaption class="fp-figure-caption">
+    Two dual maps &Phi; and &Psi; link the candidate space X and the obligation space Y. Larger obligation sets map to smaller candidate sets and vice versa. The defining equivalence C &sube; &Phi;(B) &hArr; B &sube; &Psi;(C) is the deepest mathematical insight behind this tutorial.
+  </figcaption>
+</figure>
+
 This tutorial is a derivation tutorial.
 
 It does not claim that the underlying mathematics is absent from the literature.
@@ -127,14 +153,6 @@ In plain language:
 - `cl_X(C)` adds every candidate that agrees with `C` on all obligations common to `C`,
 - `cl_Y(B)` adds every obligation implied by the current basis `B`.
 
-<figure class="fp-figure">
-  <p class="fp-figure-title">Candidate sets and obligation sets move in dual directions</p>
-  {% include diagrams/galois-connection.svg %}
-  <figcaption class="fp-figure-caption">
-    The Galois connection is the hinge of the tutorial. Larger obligation sets force smaller surviving candidate sets, and larger candidate sets guarantee fewer obligations. The loop can be read from either side of that duality.
-  </figcaption>
-</figure>
-
 ## Part III: why this is deeper than plain CEGIS
 
 Plain CEGIS stores a bag of discovered counterexamples.
@@ -144,6 +162,14 @@ This deeper view says:
 > the search state should really be a pair of dual sets linked by the Galois connection.
 
 That unlocks a stronger state model for the loop.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Plain CEGIS vs Bidirectional Obligation Carving</p>
+  {% include diagrams/boc-vs-cegis.svg %}
+  <figcaption class="fp-figure-caption">
+    Plain CEGIS only shrinks the candidate set C. BOC makes progress on both sides: counterexample cuts shrink C, and region certificates shrink the uncovered obligation set U. The combined metric |C| + |U| strictly decreases each step.
+  </figcaption>
+</figure>
 
 ## Part IV: proposed loop 1, Bidirectional Obligation Carving
 
@@ -253,14 +279,6 @@ BOC adds a second kind of move:
 - then remove that region from the universal burden.
 
 That is a different loop shape.
-
-<figure class="fp-figure">
-  <p class="fp-figure-title">Plain CEGIS versus Bidirectional Obligation Carving</p>
-  {% include diagrams/boc-vs-cegis.svg %}
-  <figcaption class="fp-figure-caption">
-    Plain CEGIS keeps cutting candidates until one survives. BOC keeps that candidate-cutting move, but also lets the verifier discharge whole regions of already-safe obligations, so progress can happen on both sides of the state.
-  </figcaption>
-</figure>
 
 ## Part V: the algebraic view, Concept-Lattice CEGIS
 
@@ -800,6 +818,14 @@ So the strongest current compression ladder is:
 2. Galoisized state geometry,
 3. closure-guided coupled policy,
 4. obligation-targeted witness routing.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Obligation-side policy improvement</p>
+  {% include diagrams/policy-improvement-ladder.svg %}
+  <figcaption class="fp-figure-caption">
+    Initialize with a closure-guided controller, evaluate it exactly on the finite DAG, improve by one-step lookahead, repeat. On exhaustive 4 &times; 4, two rounds of improvement recovered the exact bounded-optimal controller.
+  </figcaption>
+</figure>
 
 ### One more loop, improve the controller itself
 

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verifier-Compiler Lab: Quotient, Repair, Compile</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --paper: #efe7d8; --canvas: #f7f1e6;
+    --panel: rgba(255, 250, 241, 0.92); --panel-strong: rgba(255, 247, 234, 0.98);
+    --ink: #2a2520; --muted: #7a7064;
+    --line: rgba(42, 37, 32, 0.14); --line-strong: rgba(42, 37, 32, 0.25);
+    --teal: #0f766e; --teal-soft: rgba(15, 118, 110, 0.10); --teal-strong: rgba(15, 118, 110, 0.18);
+    --amber: #a04a08; --amber-soft: rgba(160, 74, 8, 0.10); --amber-strong: rgba(160, 74, 8, 0.18);
+    --red: #a82218; --red-soft: rgba(168, 34, 24, 0.10);
+    --green: #15803d; --green-soft: rgba(34, 197, 94, 0.10); --green-strong: rgba(34, 197, 94, 0.18);
+    --blue: #3b82f6; --orange: #c2410c;
+    --orange-soft: rgba(249, 115, 22, 0.10); --orange-strong: rgba(249, 115, 22, 0.22);
+    --radius-lg: 24px; --radius-md: 16px; --radius-sm: 12px;
+    --shadow: 0 18px 36px rgba(42, 34, 28, 0.08);
+    --font-body: "Source Sans 3", Georgia, serif;
+    --font-display: "Bitter", Georgia, serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1c1916; --canvas: #141210;
+      --panel: rgba(32, 28, 24, 0.94); --panel-strong: rgba(36, 32, 28, 0.98);
+      --ink: #e4dfda; --muted: #9e968c;
+      --line: rgba(228, 223, 218, 0.12); --line-strong: rgba(228, 223, 218, 0.22);
+      --teal: #2dd4bf; --teal-soft: rgba(45, 212, 191, 0.12); --teal-strong: rgba(45, 212, 191, 0.20);
+      --amber: #f5b731; --amber-soft: rgba(245, 183, 49, 0.12); --amber-strong: rgba(245, 183, 49, 0.20);
+      --red: #f87171; --red-soft: rgba(248, 113, 113, 0.12);
+      --green: #4ade80; --green-soft: rgba(74, 222, 128, 0.12); --green-strong: rgba(74, 222, 128, 0.20);
+      --blue: #60a5fa; --orange: #fb923c;
+      --orange-soft: rgba(251, 146, 60, 0.12); --orange-strong: rgba(251, 146, 60, 0.20);
+      --shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 20px; font-family: var(--font-body); color: var(--ink);
+    background: radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 36%),
+      radial-gradient(circle at top right, rgba(160, 74, 8, 0.08), transparent 32%),
+      linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)), var(--canvas);
+    line-height: 1.45;
+  }
+  @media (prefers-color-scheme: dark) {
+    body { background: radial-gradient(circle at top left, rgba(45,212,191,0.06), transparent 36%),
+      radial-gradient(circle at top right, rgba(245,183,49,0.05), transparent 32%),
+      linear-gradient(180deg, rgba(20,18,16,0.95), rgba(20,18,16,0.80)), var(--canvas); }
+  }
+
+  .shell { max-width: 1100px; margin: 0 auto; }
+  .hero { text-align: center; padding: 30px 0 20px; }
+  .hero h1 { font-family: var(--font-display); font-size: 1.8rem; margin: 0; }
+  .hero p { color: var(--muted); font-size: 0.95rem; margin: 8px 0 0; }
+
+  .pipeline { display: flex; gap: 0; align-items: stretch; margin: 16px 0; flex-wrap: wrap; }
+  .stage { flex: 1; min-width: 200px; padding: 16px; border: 1px solid var(--line);
+    border-radius: var(--radius-md); margin: 4px; background: var(--panel-strong);
+    box-shadow: var(--shadow); position: relative; }
+  .stage h2 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 8px; }
+  .stage-num { display: inline-block; width: 24px; height: 24px; line-height: 24px;
+    text-align: center; border-radius: 50%; font-family: var(--font-mono); font-size: 0.75rem;
+    font-weight: 700; margin-right: 6px; }
+  .stage-active { border-color: var(--blue); border-width: 2px; }
+  .stage-done { border-color: var(--green); }
+  .stage-done .stage-num { background: var(--green-soft); color: var(--green); }
+
+  .data-table { border-collapse: collapse; width: 100%; margin: 8px 0; }
+  .data-table th, .data-table td { padding: 5px 8px; text-align: left;
+    font-family: var(--font-mono); font-size: 0.75rem; border: 1px solid var(--line); }
+  .data-table th { background: var(--panel); font-weight: 700; font-size: 0.72rem; }
+  .row-safe { background: var(--green-soft); }
+  .row-unsafe { background: var(--red-soft); }
+  .row-mixed { background: var(--orange-soft); }
+
+  .bucket { display: inline-block; padding: 4px 10px; margin: 3px; border-radius: 8px;
+    font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; border: 1.5px solid; }
+  .bucket-pure { background: var(--green-soft); color: var(--green); border-color: var(--green-strong); }
+  .bucket-mixed { background: var(--orange-soft); color: var(--orange); border-color: var(--orange-strong);
+    animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.7; } }
+  .bucket-repaired { background: var(--teal-soft); color: var(--teal); border-color: var(--teal-strong); }
+
+  .btn { display: inline-block; padding: 8px 16px; border-radius: var(--radius-sm);
+    font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;
+    cursor: pointer; border: 2px solid; margin: 4px; transition: all 0.15s; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: rgba(59,130,246,0.08); border-color: var(--blue); color: var(--blue); }
+  .btn-green { background: var(--green-soft); border-color: var(--green); color: var(--green); }
+  .btn-reset { background: var(--red-soft); border-color: var(--red); color: var(--red); }
+
+  .compiler-output { padding: 12px 16px; background: var(--green-soft); border: 2px solid var(--green);
+    border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.8rem;
+    color: var(--green); margin-top: 8px; line-height: 1.6; }
+
+  .log-area { max-height: 160px; overflow-y: auto; padding: 10px; background: rgba(0,0,0,0.03);
+    border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: 0.72rem;
+    line-height: 1.5; margin-top: 12px; border: 1px solid var(--line); }
+  .log-entry { margin: 2px 0; }
+
+  .formula-bar { margin-top: 10px; padding: 8px 14px; background: var(--teal-soft);
+    border: 1px solid var(--teal-strong); border-radius: var(--radius-sm);
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--teal); }
+
+  .controls { display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+    padding: 12px 18px; background: var(--panel-strong); border: 1px solid var(--line);
+    border-radius: var(--radius-md); margin-bottom: 16px; }
+  .controls label { font-weight: 600; font-size: 0.85rem; }
+  .controls select { font-family: var(--font-mono); font-size: 0.82rem; padding: 5px 10px;
+    border-radius: var(--radius-sm); border: 1px solid var(--line-strong);
+    background: var(--panel); color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<div class="hero">
+  <h1>Verifier-Compiler Lab</h1>
+  <p>Watch the quotient-repair-compile loop in action.<br>
+  Explore how verifier labels get compressed into a small symbolic controller.</p>
+</div>
+
+<div class="controls">
+  <label>Scenario:</label>
+  <select id="scenarioSelect">
+    <option value="easy" selected>Easy: 4-label frontier (scalar + 1 repair)</option>
+    <option value="medium">Medium: 6-label MPRD transfer</option>
+    <option value="hard">Hard: monotone refill (expensive basis)</option>
+  </select>
+  <span class="btn btn-primary" onclick="loadScenario()">Load</span>
+  <span class="btn btn-reset" onclick="resetPipeline()">Reset</span>
+</div>
+
+<div class="pipeline" id="pipeline"></div>
+
+<div id="actionArea" style="text-align:center; margin: 12px 0;"></div>
+
+<div class="log-area" id="logArea"></div>
+
+</div>
+
+<script>
+(function() {
+  "use strict";
+
+  // ===== Scenarios =====
+  const SCENARIOS = {
+    easy: {
+      name: "Easy: 4-label repaired verifier frontier",
+      proposals: [
+        { id: "p1", features: { H6: 876, E: false }, label: "safe" },
+        { id: "p2", features: { H6: 872, E: true },  label: "safe" },
+        { id: "p3", features: { H6: 869, E: false }, label: "fail_13116" },
+        { id: "p4", features: { H6: 869, E: true },  label: "fail_13116" },
+        { id: "p5", features: { H6: 865, E: false }, label: "fail_1915" },
+        { id: "p6", features: { H6: 859, E: false }, label: "fail_1915" },
+        { id: "p7", features: { H6: 859, E: true },  label: "fail_828" },
+        { id: "p8", features: { H6: 858, E: true },  label: "fail_828" },
+        { id: "p9", features: { H6: 864, E: false }, label: "fail_828" },
+        { id: "p10", features: { H6: 858, E: false }, label: "fail_828" },
+      ],
+      quotientFeature: "H6",
+      repairFeature: "E",
+      compiledRules: [
+        "if H6 = 859 and E = False then fail_1915",
+        "else if H6 = 865 then fail_1915",
+        "else if H6 = 869 then fail_13116",
+        "else if H6 > 869 then safe",
+        "else fail_828"
+      ],
+      guardCount: 4
+    },
+    medium: {
+      name: "Medium: lab-followup MPRD transfer",
+      proposals: [
+        { id: "c1", features: { S: 5, e1: 0, e2: 0, e3: 0 }, label: "safe" },
+        { id: "c2", features: { S: 4, e1: 1, e2: 0, e3: 0 }, label: "fail_h1" },
+        { id: "c3", features: { S: 4, e1: 0, e2: 1, e3: 0 }, label: "fail_h2" },
+        { id: "c4", features: { S: 4, e1: 0, e2: 0, e3: 1 }, label: "fail_h3" },
+        { id: "c5", features: { S: 3, e1: 1, e2: 1, e3: 0 }, label: "fail_h1" },
+        { id: "c6", features: { S: 3, e1: 1, e2: 0, e3: 1 }, label: "fail_h1" },
+        { id: "c7", features: { S: 3, e1: 0, e2: 1, e3: 1 }, label: "fail_h2" },
+        { id: "c8", features: { S: 2, e1: 1, e2: 1, e3: 1 }, label: "fail_h1" },
+      ],
+      quotientFeature: "S",
+      repairFeature: "e1",
+      compiledRules: [
+        "if S = 5 then safe",
+        "else earliest error among e1, e2, e3",
+        "(requires 4 error bits for exact repair)"
+      ],
+      guardCount: "4+ error bits"
+    },
+    hard: {
+      name: "Hard: monotone refill gate",
+      proposals: [
+        { id: "r1", features: { S: 5, err3: 0, err6: 0, err8: 0 }, label: "safe" },
+        { id: "r2", features: { S: 4, err3: 1, err6: 0, err8: 0 }, label: "fail_3" },
+        { id: "r3", features: { S: 4, err3: 0, err6: 1, err8: 0 }, label: "fail_6" },
+        { id: "r4", features: { S: 4, err3: 0, err6: 0, err8: 1 }, label: "fail_8" },
+        { id: "r5", features: { S: 3, err3: 1, err6: 1, err8: 0 }, label: "fail_3" },
+        { id: "r6", features: { S: 3, err3: 1, err6: 0, err8: 1 }, label: "fail_3" },
+        { id: "r7", features: { S: 3, err3: 0, err6: 1, err8: 1 }, label: "fail_6" },
+        { id: "r8", features: { S: 2, err3: 1, err6: 1, err8: 1 }, label: "fail_3" },
+      ],
+      quotientFeature: "S",
+      repairFeature: "err3",
+      compiledRules: [
+        "if S = 5 then safe",
+        "else ordered basis {3,6,8,9,10,12}",
+        "  earliest active error in basis order",
+        "(6 essential bits, no cheaper exact repair)"
+      ],
+      guardCount: "6 basis bits"
+    }
+  };
+
+  let scenario, currentStage, log;
+
+  function loadScenario() {
+    const key = document.getElementById("scenarioSelect").value;
+    scenario = SCENARIOS[key];
+    currentStage = 0;
+    log = [];
+    addLog("Loaded: " + scenario.name);
+    render();
+  }
+  window.loadScenario = loadScenario;
+
+  function resetPipeline() {
+    currentStage = 0;
+    log = [];
+    addLog("Pipeline reset.");
+    render();
+  }
+  window.resetPipeline = resetPipeline;
+
+  function advanceStage() {
+    if (currentStage >= 4) return;
+    currentStage++;
+    const stages = ["Verify", "Quotient", "Find mixed buckets & repair", "Compile controller"];
+    addLog("Stage " + currentStage + ": " + stages[currentStage - 1]);
+    render();
+  }
+  window.advanceStage = advanceStage;
+
+  function addLog(msg) { log.push(msg); }
+
+  // ===== Rendering =====
+  function render() {
+    renderPipeline();
+    renderActions();
+    renderLog();
+  }
+
+  function renderPipeline() {
+    if (!scenario) {
+      document.getElementById("pipeline").innerHTML =
+        '<div style="text-align:center;color:var(--muted);padding:40px;width:100%">Select a scenario and click Load.</div>';
+      return;
+    }
+
+    const proposals = scenario.proposals;
+    const qf = scenario.quotientFeature;
+    const rf = scenario.repairFeature;
+
+    let html = '';
+
+    // Stage 1: Proposals + exact verifier labels
+    html += '<div class="stage ' + (currentStage >= 1 ? 'stage-done' : (currentStage === 0 ? 'stage-active' : '')) + '">';
+    html += '<h2><span class="stage-num" style="background:var(--teal-soft);color:var(--teal)">1</span>Verify</h2>';
+    html += '<p style="font-size:0.82rem;color:var(--muted)">Run exact verifier on proposals to get labels L(x).</p>';
+    if (currentStage >= 1) {
+      html += '<table class="data-table"><tr><th>ID</th><th>Features</th><th>L(x)</th></tr>';
+      for (const p of proposals) {
+        const cls = p.label === 'safe' ? 'row-safe' : 'row-unsafe';
+        const feats = Object.entries(p.features).map(([k,v]) => k + '=' + v).join(', ');
+        html += '<tr class="' + cls + '"><td>' + p.id + '</td><td>' + feats + '</td><td>' + p.label + '</td></tr>';
+      }
+      html += '</table>';
+    }
+    html += '</div>';
+
+    // Stage 2: Quotient
+    html += '<div class="stage ' + (currentStage >= 2 ? 'stage-done' : (currentStage === 1 ? 'stage-active' : '')) + '">';
+    html += '<h2><span class="stage-num" style="background:rgba(59,130,246,0.10);color:var(--blue)">2</span>Quotient</h2>';
+    html += '<p style="font-size:0.82rem;color:var(--muted)">Group proposals by q(x) = ' + qf + '.</p>';
+    if (currentStage >= 2) {
+      // Group by quotient feature
+      const buckets = {};
+      for (const p of proposals) {
+        const key = p.features[qf];
+        if (!buckets[key]) buckets[key] = [];
+        buckets[key].push(p);
+      }
+      for (const [key, items] of Object.entries(buckets).sort((a,b) => b[0] - a[0])) {
+        const labels = [...new Set(items.map(i => i.label))];
+        const isMixed = labels.length > 1;
+        const cls = isMixed ? 'bucket-mixed' : 'bucket-pure';
+        html += '<span class="bucket ' + cls + '">' + qf + '=' + key +
+          ' [' + labels.join(', ') + ']' + (isMixed ? ' MIXED' : '') + '</span>';
+      }
+    }
+    html += '</div>';
+
+    // Stage 3: Repair
+    html += '<div class="stage ' + (currentStage >= 3 ? 'stage-done' : (currentStage === 2 ? 'stage-active' : '')) + '">';
+    html += '<h2><span class="stage-num" style="background:var(--orange-soft);color:var(--orange)">3</span>Repair</h2>';
+    html += '<p style="font-size:0.82rem;color:var(--muted)">Add repair coordinate r(x) = ' + rf + ' to split mixed buckets.</p>';
+    if (currentStage >= 3) {
+      const buckets = {};
+      for (const p of proposals) {
+        const key = p.features[qf] + '|' + p.features[rf];
+        if (!buckets[key]) buckets[key] = { q: p.features[qf], r: p.features[rf], items: [] };
+        buckets[key].items.push(p);
+      }
+      for (const b of Object.values(buckets).sort((a,b) => b.q - a.q || a.r - b.r)) {
+        const labels = [...new Set(b.items.map(i => i.label))];
+        const isPure = labels.length === 1;
+        html += '<span class="bucket bucket-repaired">' + qf + '=' + b.q + ', ' + rf + '=' + String(b.r) +
+          ' &rarr; ' + labels[0] + (isPure ? '' : ' + ' + labels.slice(1).join(', ')) + '</span>';
+      }
+      // Check exactness
+      const allPure = Object.values(buckets).every(b => new Set(b.items.map(i => i.label)).size === 1);
+      if (allPure) {
+        html += '<div class="formula-bar" style="margin-top:8px">&forall;x,x\': (q(x),r(x))=(q(x\'),r(x\')) &rarr; L(x)=L(x\')  &#x2714; exact</div>';
+        addLog("Repair coordinate makes all buckets pure. Exact quotient achieved.");
+      } else {
+        html += '<div class="formula-bar" style="margin-top:8px;border-color:var(--orange);color:var(--orange)">Some buckets still mixed. Needs richer repair basis.</div>';
+        addLog("Repair coordinate reduces mixing but does not fully resolve. This is the transfer cost.");
+      }
+    }
+    html += '</div>';
+
+    // Stage 4: Compile
+    html += '<div class="stage ' + (currentStage >= 4 ? 'stage-done' : (currentStage === 3 ? 'stage-active' : '')) + '">';
+    html += '<h2><span class="stage-num" style="background:var(--green-soft);color:var(--green)">4</span>Compile</h2>';
+    html += '<p style="font-size:0.82rem;color:var(--muted)">Compile into symbolic controller C(q,r).</p>';
+    if (currentStage >= 4) {
+      html += '<div class="compiler-output">';
+      html += '<strong>Compiled controller (' + scenario.guardCount + ' guards):</strong><br>';
+      for (const rule of scenario.compiledRules) {
+        html += rule + '<br>';
+      }
+      html += '</div>';
+      html += '<div class="formula-bar" style="margin-top:8px">';
+      html += 'Safety: Execute(x) &rarr; Label(x)=safe &and; L(x)=safe';
+      html += '<br>The exact verifier still owns execution authority.';
+      html += '</div>';
+      addLog("Controller compiled. " + scenario.guardCount + " guards. Exact verifier stays as final gate.");
+    }
+    html += '</div>';
+
+    document.getElementById("pipeline").innerHTML = html;
+  }
+
+  function renderActions() {
+    if (!scenario) {
+      document.getElementById("actionArea").innerHTML = '';
+      return;
+    }
+    if (currentStage >= 4) {
+      document.getElementById("actionArea").innerHTML =
+        '<span style="color:var(--green);font-weight:700;font-family:var(--font-display);">' +
+        'Pipeline complete. The compiled controller can now route proposals cheaply.</span>';
+      return;
+    }
+    const labels = [
+      "Run exact verifier on all proposals",
+      "Group by quotient feature " + scenario.quotientFeature,
+      "Add repair coordinate " + scenario.repairFeature,
+      "Compile symbolic controller"
+    ];
+    document.getElementById("actionArea").innerHTML =
+      '<span class="btn btn-primary" onclick="advanceStage()">' +
+      'Next: ' + labels[currentStage] + ' &rarr;</span>';
+  }
+
+  function renderLog() {
+    const area = document.getElementById("logArea");
+    area.innerHTML = log.map(m => '<div class="log-entry">' + m + '</div>').join('');
+    area.scrollTop = area.scrollHeight;
+  }
+
+  // Boot
+  loadScenario();
+})();
+</script>
+</body>
+</html>

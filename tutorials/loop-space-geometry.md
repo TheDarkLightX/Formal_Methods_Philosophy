@@ -90,9 +90,8 @@ The cleanest mental model is a sequence of compressions:
 4. run the smallest separator policy needed above that quotient
 5. compile the surviving structure into a controller, question policy, or regime law
 
-This is not only about speed.
-
-It is about changing the shape of what remains to be searched.
+The point is not speed alone. A geometry-changing loop reshapes what remains
+to be searched.
 
 ## Part II: the first big correction
 
@@ -159,13 +158,8 @@ singleton witness. That is real, but it is not the whole story.
 Even without singleton witnesses, pure recovery can still succeed if the full
 observation map is injective on the omission family.
 
-So the real question is not only:
-
-- does a singleton witness exist?
-
-It is:
-
-- does the stored state already separate the hidden targets?
+So the real question is whether the stored state already separates the
+hidden targets, not only whether a singleton witness exists.
 
 ### 2. Scope matters sharply
 
@@ -235,23 +229,23 @@ The corrected graph line teaches a different lesson.
 At first it looked like a large collection of unrelated graph families. After
 the corrected total-domination metric, the analysis compressed much more sharply.
 
-The stable bounded survivors now include:
+The stable bounded survivors group into three families:
 
+**Multipartite family results:**
 - complete multipartite families on the corrected frontier
 - repaired multipartite additivity
-- exact low-edge and repaired-block optimizers
 - a corrected small-domain single-block compiler
 - a structurally explained point correction at `(7, 9)`
+
+**Low-edge family results:**
+- exact low-edge and repaired-block optimizers
 - a full-star-plus-low-edge family compiler
-- and a wider two-family overlap compiler on the checked high band
 
-So loop space does not only contain:
+**Cross-family results:**
+- a wider two-family overlap compiler on the checked high band
 
-- question policies
-- verifier front-ends
-- and witness languages
-
-It also contains exact regime compilers.
+So loop space contains exact regime compilers, not only question policies,
+verifier front-ends, and witness languages.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Corrected graph regime map</p>
@@ -317,27 +311,29 @@ The newer composition result tightens that from a teaching paraphrase into the
 checked mechanism itself. On the checked low-edge forest family, those are the
 two surviving stages.
 
-The tree-side subproblem also tightened one step further. On the checked tree
-domain, the whole monotone path to the star can stay inside the smaller move
-language, repeatedly moving pendant subtrees with one internal fork into hubs.
+The tree-side subproblem then tightened through several steps, each narrowing
+the surviving move language further.
 
-It tightened once more after that. On the checked tree domain, the path still
-survives if each step uses a smallest available hub-target move of that same form.
+First, on the checked tree domain, the whole monotone path to the star can
+stay inside the smaller move language, repeatedly moving pendant subtrees (a
+subtree hanging from one cut edge) with one internal fork into hubs.
 
-There is now an exact checked depth cutoff on that local controller. Depth `0`
-fails, depth `1` fails, and depth `2` is the smallest surviving bound on the
-checked tree domain.
+Second, the path still survives if each step uses a smallest available
+hub-target move of that same form.
 
-That cutoff also has a named witness family now. On the terminal-cherry ladder
-family, the smallest surviving hub-target move of that form has branching depth
-exactly `h`. The `h = 2` case is the clean family-level reason depth `1` fails
-and depth `2` survives on the checked domain.
+Third, there is an exact checked depth cutoff on that local controller.
+Depth `0` fails, depth `1` fails, and depth `2` is the smallest surviving
+bound on the checked tree domain. The terminal-cherry ladder family is the
+named witness: its smallest surviving hub-target move has branching depth
+exactly `h`, so the `h = 2` case is the clean family-level reason depth `1`
+fails and depth `2` survives.
 
-The positive side is now exact too. On the same checked domain, every move
-selected by that depth-2 controller falls into one finite rooted alphabet:
-leaf, cherry, three-leaf star, broom-1, or broom-2. And one more exhaustive
-check closes the slack, the full five-template set is the unique surviving
-controller subset on the checked domain.
+Finally, on the same checked domain, every move selected by that depth-2
+controller falls into one finite rooted alphabet of five templates: leaf,
+cherry (a hub with two leaves), three-leaf star, broom-1 (a star with one
+extended arm), and broom-2 (a star with two extended arms). The full
+five-template set is the unique surviving controller subset on the checked
+domain.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Low-edge concentration map</p>
@@ -371,8 +367,8 @@ main ideas.
    - some strong loops work by reshaping the problem in stages before the final
      exact law is even applied
 
-That is the strongest bounded reason so far to think there are useful
-neuro-symbolic loops beyond plain verifier-compilation.
+Together, these give the strongest bounded reason so far that useful
+neuro-symbolic loops exist beyond plain verifier-compilation.
 
 ## Related tutorials
 
