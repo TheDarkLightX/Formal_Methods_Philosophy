@@ -5,12 +5,25 @@ kicker: Tutorial 27
 description: "Learn when a neuro-symbolic loop can compile verifier behavior into a small symbolic controller, how that differs from plain CEGIS, and how to use the pattern safely in practice."
 ---
 
+<details open>
+<summary><strong>Road map</strong></summary>
+
+This tutorial explains the verifier-compiler idea: a neuro-symbolic loop can
+learn a small symbolic front-end for an exact verifier, route easy cases
+cheaply, and still keep the verifier as the final fail-closed gate.
+
+The detailed reading guide appears below in "How to use this tutorial."
+
+The current bounded endpoint in this tutorial is `Level 85`, the
+cycle-orientation incidence extension law.
+
+**Interactive:** Try the [Verifier-Compiler Lab]({{ '/verifier_compiler_lab.html' | relative_url }}) to step through the quotient-repair-compile pipeline.
+
+</details>
+
 ## How to use this tutorial
 
 This file is long because it compresses a real bounded research ladder.
-
-For an interactive walkthrough of the quotient-repair-compile pipeline, see the
-[Verifier-Compiler Lab]({{ '/verifier_compiler_lab.html' | relative_url }}).
 
 For a first pass, it helps to read it in four layers:
 
@@ -107,6 +120,16 @@ $$
 \exists x \; \forall y \; Spec(x,y).
 $$
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Quick Logic Refresher</p>
+  <ul>
+    <li><strong>`∃ x`</strong> means "there exists some choice of `x`".</li>
+    <li><strong>`∀ y`</strong> means "for every possible `y`".</li>
+    <li><strong>`Spec(x,y)`</strong> means the specification holds for that pair.</li>
+    <li>So <code>∃ x ∀ y Spec(x,y)</code> means: find one candidate <code>x</code> that works for every verifier challenge <code>y</code>.</li>
+  </ul>
+</div>
+
 Plain CEGIS works by:
 
 1. proposing a candidate `x`,
@@ -155,6 +178,15 @@ In the bounded experiments in this repo, examples of `L(x)` included:
 - `fail_13116`.
 
 That is already richer than ordinary CEGIS state.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Oracle, teacher, compiler</p>
+  <ul>
+    <li><strong>`L` as oracle:</strong> call `L(x)`, get pass or fail, discard the result. That is basic testing.</li>
+    <li><strong>`L` as teacher:</strong> keep verifier outputs, counterexamples, and residual structure, then use them to refine the next candidate. That is the CEGIS family and its stronger descendants.</li>
+    <li><strong>`L` as compilation target:</strong> on a bounded domain, search for a symbolic object <code>C(q(x), r(x))</code> that reproduces <code>L(x)</code>. The goal is not only to predict the verifier, but to compile its behavior into a reusable symbolic controller.</li>
+  </ul>
+</div>
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Quotient, repair, compile</p>
@@ -533,6 +565,17 @@ Even in harder transfer families, the loop still found structure:
 
 So the loop remained productive even when the easy quotient story broke.
 
+---
+
+**Phase transition: from compiled verifiers to explanation languages.**
+Levels 1-4 established that the quotient-repair-compile pipeline works, that it
+can be minimal, and that it breaks on harder transfer families. The next phase
+changes the question. Instead of compiling one global verifier object, Levels
+5-18 search for the smallest *language* in which verifier behavior can be
+locally witnessed and explained.
+
+---
+
 ### Level 5: regional explanation ladders
 
 The next bounded result was stronger than a single global compiler depth.
@@ -566,7 +609,7 @@ That is the first exact bounded survivor for the explanatory-ladder idea.
 
 ### Level 6: residual-default label languages
 
-The next bounded step moved from verifier compilation toward dual-language explanation.
+The search then moved from verifier compilation toward dual-language explanation.
 
 On the repaired verifier frontier:
 
@@ -593,7 +636,7 @@ This is bounded evidence for the dual-language direction in a weak sense. The se
 
 ### Level 7: primitive invention
 
-The next bounded step was stronger again.
+A stronger result followed immediately.
 
 Instead of comparing only fixed explanation languages, the loop was allowed to invent a small number of new exact pure primitives.
 
@@ -616,7 +659,7 @@ This is the first bounded evidence in the repo for the primitive-invention and c
 
 ### Level 8: hard-frontier concept invention
 
-The next bounded step moved primitive invention onto the hard monotone-refill ladder frontier.
+Primitive invention then moved onto the hard monotone-refill ladder frontier.
 
 This was a better stress test than the repaired verifier frontier, because the language there was already known to need a richer ordered basis.
 
@@ -662,7 +705,7 @@ It shows the concept-market direction can survive on a genuinely harder frontier
 
 ### Level 9: stacked shortcut concepts
 
-The next bounded step asked whether hard-frontier concept invention could stack.
+A natural follow-up: can hard-frontier concept invention stack?
 
 The answer was yes.
 
@@ -709,7 +752,7 @@ So the hard-frontier concept-market story sharpened again:
 
 ### Level 10: anchored third-shortcut boundary
 
-The next bounded step checked whether the best exact two-shortcut ladder was locally saturated.
+With two shortcuts established, the question became whether that ladder was locally saturated.
 
 The grammar was narrower:
 
@@ -740,6 +783,17 @@ So the current bounded picture is:
 
 - shortcut concepts can stack,
 - but the verified two-shortcut ladder is locally saturated on the main cost and depth metrics under one more simple pure shortcut.
+
+---
+
+**Phase transition: from shortcut stacking to witness languages.**
+Levels 5-10 explored explanation ladders and concept invention within a single
+feature basis. The pattern was: keep the base order, insert shortcuts, re-optimize
+depths. That line saturated. The next phase changes the explanatory object
+itself, from ordered prefixes to score-local witness languages with explicit
+positive atoms and residual defaults.
+
+---
 
 ### Level 11: hard-frontier witness languages
 
@@ -790,7 +844,7 @@ It changed the explanatory object:
 
 ### Level 12: global witness schemas
 
-The next bounded step turned those local witness languages into a genuinely global object.
+Those local witness languages raised an immediate question: do they share a global object?
 
 The question was:
 
@@ -816,7 +870,7 @@ That is the first genuine global witness-language object found in this line of e
 
 ### Level 13: score abstraction
 
-The next bounded step asked whether the six nontrivial score blocks really needed to stay separate.
+A coarser question followed: do the six nontrivial score blocks really need to stay separate?
 
 The search space was:
 
@@ -856,7 +910,7 @@ That means the hard frontier now has:
 
 ### Level 14: unconstrained score-abstraction boundary
 
-The next bounded step asked whether the score-abstraction result was only an artifact of contiguity.
+To stress-test that result, the search dropped the contiguity restriction.
 
 So the search dropped the contiguity restriction and checked:
 
@@ -888,7 +942,7 @@ That is a useful boundary result:
 
 ### Level 15: richer witness grammars
 
-The next bounded step held the score-partition search fixed and widened the witness grammar itself.
+Fixing the score partition, the search widened the witness grammar itself.
 
 The search still checked:
 
@@ -930,7 +984,7 @@ That is a useful correction because it identifies the remaining live axis precis
 
 ### Level 16: five-literal grammar boundary
 
-The next bounded step tested whether that four-literal gain was the start of a
+Was that four-literal gain the start of a
 longer local grammar climb or just the last easy unit of compression.
 
 So the search compared two grammars on the same bounded space:
@@ -1014,9 +1068,21 @@ That matters because it closes both nearby local search axes:
 - the local witness-grammar line stopped moving on its main object
 - and the more-global witness-schema line stopped moving on its main object
 
+---
+
+**Phase transition: from single-frontier witnesses to semantic patches.**
+Levels 11-18 built score-local witness languages, merged them into global schemas,
+and found the exact score abstraction. Then both the local grammar axis and
+the global schema axis saturated. The next phase changes where compression
+comes from: instead of widening one frontier's witness atoms, Levels 19-34
+search across multiple frontiers for shared templates, typed semantic edits,
+bundled macros, explanation fibers, and role compilers.
+
+---
+
 ### Level 19: cross-frontier witness templates
 
-The next bounded step finally changed the search picture.
+This level finally changed the search picture.
 
 Instead of asking whether one frontier could be compressed a little more, it asked whether multiple exact frontiers shared a smaller meta-language above their raw formulas.
 
@@ -1053,7 +1119,7 @@ The current line of evidence says the next stronger loop should probably search 
 
 ### Level 20: shared core plus irreducible patches
 
-The next bounded step sharpened that template vision one more time.
+That template vision sharpened one more time.
 
 Instead of only counting cross-frontier templates, it decomposed those two
 exact global witness-schema frontiers into:
@@ -1095,7 +1161,7 @@ It should probably be:
 
 ### Level 21: typed semantic patches
 
-The next bounded step checked whether that patch boundary was still real once the compiler was allowed to use a small typed edit language over the shared exact core.
+Was that patch boundary fundamental, or only an artifact of the syntax-only grammar? The compiler was allowed to use a small typed edit language over the shared exact core.
 
 The model was explicit:
 
@@ -1131,7 +1197,7 @@ But it is the first clear sign that the next stronger family may be semantic pat
 
 ### Level 22: semantic macro families
 
-The next bounded step strengthened that idea again.
+That idea strengthened again on the next comparison.
 
 Instead of only counting typed edit signatures, it searched for the smallest exact semantic macro-family subset over the shared core and the five residual patches.
 
@@ -1161,7 +1227,7 @@ That is the clearest sign yet that the frontier has really moved beyond syntax-o
 
 ### Level 23: bundled semantic macros
 
-The next bounded step strengthened the semantic patch line again by allowing bundled semantic macros instead of counting one macro instance per edited literal.
+Bundled macros provided the next compression gain, replacing literal-level macro counting with bundle-level operations.
 
 The candidate macro families were:
 
@@ -1190,7 +1256,7 @@ repo.
 
 ### Level 24: semantic explanation fibers
 
-The next bounded step moved from one global bundled macro basis to an actual explanation-fiber search on the residual semantic language.
+Building on that basis, the search moved from one global bundled macro set to an explanation-fiber decomposition of the residual semantic language.
 
 The search checked:
 
@@ -1350,9 +1416,8 @@ That is the sharpest current form of this branch.
 
 ### Level 29: primitive basis templates
 
-The next bounded step asked whether the six exact primitive bases from Level 28
-were only a flat atlas, or whether they collapsed to a smaller exact role
-template.
+Were the six exact primitive bases from Level 28 only a flat atlas, or did they
+collapse to a smaller exact role template?
 
 The search used only the primitive features that actually appeared in the six
 exact bases:
@@ -1389,9 +1454,8 @@ It now has an exact role grammar.
 
 ### Level 30: role-slot compilers
 
-The next bounded step asked whether the exact two-slot template from Level 29
-was only a grammar over bases, or whether it also compiled the residual labels
-directly.
+The exact two-slot template raised a sharper question: is it only a grammar over
+bases, or does it also compile the residual labels directly?
 
 Search all ordered disjoint nonempty slot pairs over the primitive features and
 require both:
@@ -1476,8 +1540,7 @@ the same loop:
 
 ### Level 32: semantic explanations of the slot roles
 
-The next bounded step asked whether the recurring roles themselves admit a small
-semantic explanation.
+Do the recurring roles themselves admit a small semantic explanation?
 
 Take the exact slot roles from Level 30:
 
@@ -1526,7 +1589,7 @@ language.
 
 ### Level 33: shared semantic control law
 
-The next bounded step unified the last two results.
+Levels 31 and 32 then unified into one result.
 
 Level 31 separated:
 
@@ -1616,6 +1679,18 @@ So the support-profile law is not isolated.
 It transfers to a second exact frontier as a generic support-signature role
 law.
 
+---
+
+**Phase transition: from semantic patches to abstract support geometry.**
+Levels 19-34 moved from syntax-only template compression to typed semantic
+edits, bundled macros, explanation fibers, and role compilers. The final
+result was a support-signature law that transferred across frontiers. The next
+phase abstracts further: Levels 35-47 ask whether the cost and structure of
+support-literal compilers follow generic geometric laws that hold across all
+small support tables, not just the specific frontiers found earlier.
+
+---
+
 ### Level 35: support-literal compiler family
 
 The next bounded step asked whether the support-signature line stays only
@@ -1662,8 +1737,8 @@ multiple bounded frontiers.
 
 ### Level 36: three-signature support law
 
-The next bounded step asked whether Level 35 was still only a finite family
-pattern, or whether it reflects a generic law of small support tables.
+Was Level 35 still only a finite family pattern, or did it reflect a generic law
+of small support tables?
 
 The abstract family was:
 
@@ -1703,8 +1778,7 @@ It is a bounded support-table law candidate for the full `3`-role case.
 
 ### Level 37: first four-role cost ladder
 
-The next bounded step asked what happens at the first honest extension beyond
-the `3`-role law.
+What happens at the first honest extension beyond the `3`-role law?
 
 The abstract family was:
 
@@ -1745,8 +1819,8 @@ That is the first real extension beyond the `3`-role support-table law.
 
 ### Level 38: width-3 four-role geometry atlas
 
-The next bounded step asked whether the width-`3` `4`-role cost ladder is only
-an aggregate count table, or whether it collapses to a small geometric atlas.
+Is the width-`3` `4`-role cost ladder only an aggregate count table, or does it
+collapse to a small geometric atlas?
 
 The answer is yes.
 
@@ -1793,9 +1867,8 @@ It is:
 
 ### Level 39: width-3 invariant law
 
-The next bounded step asked whether the six-orbit atlas still needs to be read
-as an atlas, or whether a smaller invariant law already predicts the orbit
-cost.
+Does the six-orbit atlas need to be read as an atlas, or does a smaller
+invariant law already predict the orbit cost?
 
 Two refinements matter here.
 
@@ -2080,6 +2153,17 @@ So the first width-`4` obstruction is not only small.
 
 It is also rigid in the searched mixed basis space.
 
+---
+
+**End of Part X.** Levels 1-47 climbed from a 4-guard compiled verifier through
+witness languages, semantic patches, and abstract support geometry. The
+recurring pattern: each phase saturated on its own axis, and the frontier moved
+when the object of search changed. Part XI now asks where this loop family sits
+among alternatives. Part XII (Levels 48-85) applies the same progression to
+software repair.
+
+---
+
 ## Part XI: where verifier-compilers fit among other loop families
 
 This part is comparative.
@@ -2111,14 +2195,6 @@ The right way to say it is:
 There may be stronger loops in other problem families.
 
 The main candidates are:
-
-<figure class="fp-figure">
-  <p class="fp-figure-title">Where verifier-compilers fit among nearby loop families</p>
-  {% include diagrams/verifier-compiler-family-map.svg %}
-  <figcaption class="fp-figure-caption">
-    Part XI is best read as a comparison of what the loop is trying to compress. Plain CEGIS keeps counterexamples, verifier-compilers compress label behavior, witness-language loops search for the smallest exact local contract, certificate or abstraction loops shrink the universal side, and primitive-invention or meta-loops change the language or the search policy itself.
-  </figcaption>
-</figure>
 
 ### 1. Certificate-lifting loops
 
@@ -2819,7 +2895,7 @@ The three compared loop styles were:
 2. naive independent fiber repair
 3. dependency-aware fiber repair
 
-The strongest exact result was:
+The result was sharp:
 
 - separable family:
   - monolithic average cost:
@@ -2889,8 +2965,8 @@ This was the software version of the same deeper move seen earlier:
 
 ### Level 50: witness-to-patch decoders
 
-The next bounded step asked whether the carried witness from Level 49 compiles
-back into the patch through a tiny exact decoder graph.
+Does the carried witness from Level 49 compile back into the patch through a
+tiny exact decoder graph?
 
 The witness observations were:
 
@@ -2898,7 +2974,7 @@ The witness observations were:
 - `bounds_obs`
 - `transform_obs`
 
-The strongest exact result was:
+The exact outcome:
 
 - separable family:
   - minimal exact decoder cost:
@@ -2926,11 +3002,9 @@ repair. It compiles back into the repair.
 
 ### Level 51: shared repair-language templates
 
-The next bounded step moved one level higher again.
-
-Instead of storing the two exact decoder graphs separately, it asked whether
-they compress into one shared repair-language template plus small family
-patches.
+One level higher: instead of storing the two exact decoder graphs separately,
+do they compress into one shared repair-language template plus small family
+patches?
 
 The strongest exact result was unique in both additive and signed-edit models:
 
@@ -2956,7 +3030,7 @@ That is already a much stronger object than a family-specific decoder.
 
 ### Level 52: repair-program macros
 
-The next bounded step compressed that shared template one level further.
+That shared template compressed one level further.
 
 The searched macro grammar was still natural and finite:
 
@@ -2965,7 +3039,7 @@ The searched macro grammar was still natural and finite:
 - `3` fanin macros
 - `9` single-edge patch macros
 
-The strongest exact result was:
+The search found:
 
 - separable target:
   - minimal exact macro cost:
@@ -3006,8 +3080,7 @@ Its lesson is the same one that kept moving the frontier elsewhere:
 
 ### Level 53: repair-schema transfer
 
-The next bounded step asked whether the Level 52 macro result was only a
-two-family coincidence.
+Was the Level 52 macro result only a two-family coincidence?
 
 To test that honestly, the search moved to a small transfer atlas:
 
@@ -3036,7 +3109,7 @@ The objective was MDL-like:
   - schema-basis size
   - plus total program-instance count across the atlas
 
-The strongest exact result was:
+The exact optimum was clean:
 
 - singleton schema bases:
   - `MATCH`
@@ -3081,7 +3154,7 @@ It is the first exact transfer law in the software branch.
 
 ### Level 54: first transfer obstruction
 
-The next bounded step asked the first honest obstruction question:
+The first honest obstruction question followed:
 
 > if the atlas is widened from one-overlap families to all families with up to
 > two off-diagonal decoder edges, when does the Level 53 law stop being
@@ -3170,8 +3243,8 @@ The Level 53 law survives as correctness, but not as optimal description.
 
 ### Level 55: semantic motif law
 
-The next bounded step asked whether the Level 54 obstruction could be explained
-semantically rather than by one more atlas statistic.
+Can the Level 54 obstruction be explained semantically rather than by one more
+atlas statistic?
 
 The domain was the `15` two-overlap families from Level 54.
 
@@ -3190,7 +3263,7 @@ The searched semantic motif features were:
 - `swap_pair`
   - the two extra edges form a reciprocal two-row swap against the diagonal
 
-The strongest exact result was:
+All three motifs were necessary:
 
 - no singleton semantic basis is exact
 - no pair semantic basis is exact
@@ -3229,8 +3302,8 @@ That is the first exact semantic law above the software transfer obstruction.
 
 ### Level 56: semantic schema language
 
-The next bounded step compiled the Level 55 motif law itself into a smallest
-exact semantic schema language on the whole atlas up to two overlaps.
+The Level 55 motif law then compiled into a smallest exact semantic schema
+language on the whole atlas up to two overlaps.
 
 The searched semantic schema grammar was:
 
@@ -3391,7 +3464,7 @@ Here `motif_kind` is the typed world-state summary over the raw extra-edge set:
 - `swap`
 - `other`
 
-The strongest exact result was:
+The result was the cleanest yet:
 
 - the full `22`-family atlas up to two overlaps admits an exact direct
   repair-program compiler from raw extra-edge sets
@@ -3623,7 +3696,7 @@ where:
 - `min_support := min(max_obs, max_field)`
 - `support_gap := max_support - min_support`
 
-The strongest exact result was:
+The law sharpened:
 
 - no singleton scalar is exact
 - no pair scalar basis is exact
@@ -3919,7 +3992,7 @@ where:
 
 - `perfect_swap_cover := (extra_count = 2 * swap_pairs)`
 
-The strongest exact result was:
+The answer was clean:
 
 - on the ambiguous full-atlas slice, the exact menu admits a pure-swap normal
   form iff:
@@ -5086,18 +5159,11 @@ It is less general than a universal law of all neuro-symbolic systems.
 
 That is the right scope.
 
-## Next honest frontiers
-
-The current public endpoint is Level `85`, the cycle-orientation incidence
-extension law.
-
-On the current evidence, the next honest frontiers are:
-
-- a richer software atlas where `incidence_signature + cycle_orientation` stops being exact
-- a smaller semantic account of `cycle_orientation` itself, instead of treating it only as a repair bit
-- additional Lean receipts for the later logic ladder, especially the incidence and transfer steps
-
 ## References inside this repo
 
 - [Tutorial 25: Quantifier factoring and neuro-symbolic loop engineering]({{ '/tutorials/quantifier-factoring-and-neuro-symbolic-loops/' | relative_url }})
 - [Tutorial 26: Galois loops and obligation carving]({{ '/tutorials/galois-loops-and-obligation-carving/' | relative_url }})
+- [Tutorial 29: Loop-space geometry]({{ '/tutorials/loop-space-geometry/' | relative_url }})
+- [Tutorial 30: Counterexample-guided requirements discovery]({{ '/tutorials/counterexample-guided-requirements-discovery/' | relative_url }})
+- [Tutorial 31: Hybrid geometry-changing loops]({{ '/tutorials/hybrid-geometry-changing-loops/' | relative_url }})
+- [Tutorial 32: Temporal label functions and staged bases]({{ '/tutorials/temporal-label-functions-and-staged-bases/' | relative_url }})

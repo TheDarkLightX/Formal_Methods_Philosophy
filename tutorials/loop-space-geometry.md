@@ -45,6 +45,20 @@ not just:
 
 They are stronger because they reshape the remaining search problem.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Working Vocabulary</p>
+  <ul>
+    <li><strong>Witness</strong> means a small concrete object that exposes structure, for example a counterexample, signature, trace, or parameter choice. It does not mean eyewitness testimony.</li>
+    <li><strong>Quotient</strong> means a grouping of cases that the current loop cannot distinguish. If two hidden targets induce the same stored state, they land in the same quotient class.</li>
+    <li><strong>Residue</strong> means what is still unresolved after that grouping. It is the smaller problem that remains after the first compression.</li>
+    <li><strong>Controller</strong> means a compact symbolic rule for what to do next, for example route, ask, accept, reject, or refine. It does not mean a hardware controller.</li>
+    <li><strong>Frontier</strong> means the best checked tradeoff or best checked value on a named bounded family. It does not mean an unexplored frontier in the loose everyday sense.</li>
+    <li><strong>Carve</strong> means make an initial coarse split of the family, or restrict attention to a smaller subfamily, before using a finer second-stage language.</li>
+    <li><strong>Star</strong> means the graph-theory shape with one hub vertex connected to several leaves. A <strong>star forest</strong> is a disjoint union of those shapes.</li>
+    <li><strong>Repair</strong> in the nearby verifier and software-repair tutorials means a structured correction object that fixes a mixed or failing case, not just informal cleanup.</li>
+  </ul>
+</div>
+
 ## Part I: the main axes of loop space
 
 A neuro-symbolic loop can be factored into at least six axes.
@@ -101,6 +115,15 @@ where:
 
 - `W` is a witness library
 - `M` is the hidden target, for example a missing requirement set
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Quick Logic Refresher</p>
+  <ul>
+    <li><strong>`S ⊆ M`</strong> means the witness signature <code>S</code> is fully contained inside the hidden target <code>M</code>.</li>
+    <li><strong>`O_W(M)`</strong> is the set of all witnesses from <code>W</code> that fit inside <code>M</code>.</li>
+    <li><strong>`M ~ M'`</strong> means the loop cannot currently tell <code>M</code> and <code>M'</code> apart. Here <code>~</code> means indistinguishable under the current observation state, not vague similarity.</li>
+  </ul>
+</div>
 
 That moves the loop from example collection to quotient construction.
 
@@ -193,7 +216,7 @@ It also includes the label basis.
 The temporal-label result shows a small but important result:
 
 - raw monitor-cell labels are strictly finer than flat two-step trace labels on the full family
-- after the right first carve, the richer temporal basis stops buying a finer partition
+- after the right first coarse split, the richer temporal basis stops buying a finer partition
 
 That means a stronger basis is not always the right global basis. Sometimes it
 is the right second-stage basis.
@@ -251,6 +274,10 @@ It no longer says only:
 It now has a mechanism.
 
 ### Stage 1: starify components
+
+Here "starify" means: turn each connected component into a star-shaped graph,
+one hub with several leaves, without changing the bounded objective being
+optimized.
 
 On checked connected trees, every non-star class has an improving
 pendant-subtree move.

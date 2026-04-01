@@ -118,7 +118,7 @@ The notation is consistent across the experiments:
 - uppercase `Pi` or `R` is a platform, firm, or total-profit object
 - `iff` means "if and only if"
 - `argmax` means the action with highest payoff
-- a `witness` is a small concrete parameter choice that makes a law visible
+- a `witness` is a small concrete parameter choice that makes a law visible, not a claim of proof by anecdote
 
 The experiments also fall into four game-theoretic families:
 

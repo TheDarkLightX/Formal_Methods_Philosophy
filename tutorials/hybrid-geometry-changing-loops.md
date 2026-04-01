@@ -33,6 +33,16 @@ Another family works in two stages:
 
 That is a different design pattern.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Vocabulary Note</p>
+  <ul>
+    <li><strong>Quotient</strong> means a partition of the task family into cases the current loop cannot yet tell apart.</li>
+    <li><strong>Residue</strong> means the smaller leftover problem after that first partition.</li>
+    <li><strong>Controller</strong> means the compact symbolic rule that handles that leftover problem.</li>
+    <li><strong>Frontier</strong> means the best checked tradeoff on a named bounded family.</li>
+  </ul>
+</div>
+
 The front stage might use:
 
 - a witness basis
@@ -85,6 +95,16 @@ The bounded comparison line introduced a cleaner way to talk about that:
 ```text
 U = alpha * pure_resolved_mass + beta * depth_saving - gamma * acquisition
 ```
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Formula Refresher</p>
+  <ul>
+    <li><strong>`alpha`</strong> weights how much value is assigned to cases settled early.</li>
+    <li><strong>`beta`</strong> weights how much value is assigned to a smaller residual decision process.</li>
+    <li><strong>`gamma`</strong> weights the cost of collecting the front-stage structure.</li>
+    <li>The formula is a scored tradeoff, not a universal law of nature. It says which loop wins under the chosen cost model.</li>
+  </ul>
+</div>
 
 This matters because “better” becomes conditional.
 
@@ -153,6 +173,15 @@ has a proof-shaped hybrid:
 
 1. starify each connected component
 2. balance the resulting star sizes
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Graph Vocabulary Note</p>
+  <ul>
+    <li><strong>Star</strong> means the graph-theory shape with one hub vertex and several leaf vertices attached to it.</li>
+    <li><strong>Starify</strong> means reshape a component into that star form.</li>
+    <li><strong>Balance star sizes</strong> means redistribute leaves so the component stars are as even in size as the model allows.</li>
+  </ul>
+</div>
 
 The first stage survives in a surprisingly clean form on the checked tree
 domain:

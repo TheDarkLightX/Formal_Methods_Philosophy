@@ -34,6 +34,16 @@ first-stage carving, it becomes exact.
 
 That makes temporal labels a staged basis-change tool.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Vocabulary Note</p>
+  <ul>
+    <li><strong>Quotient</strong> means the grouping of cases that remain indistinguishable under the current label basis.</li>
+    <li><strong>Residue</strong> means the smaller family left after the first carve.</li>
+    <li><strong>Carve</strong> means the first coarse split of the task family before switching to a finer second-stage basis.</li>
+    <li><strong>Controller</strong> means the compact symbolic rule used after that carve, not a physical control device.</li>
+  </ul>
+</div>
+
 ## Part I: a label function is a choice of coordinates
 
 A label function says how the loop sees the task family.
@@ -66,6 +76,15 @@ So the richer temporal basis really does carry more information.
 
 But the same result also shows that the extra information is not automatically the
 right starting basis for the whole family.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Quick Logic Refresher</p>
+  <ul>
+    <li><strong>Partition-equivalent</strong> means two label functions cut the family into the same groups, even if they use different names.</li>
+    <li><strong>Quotient</strong> means the grouped version of the family after cases that look the same under the current labels are merged.</li>
+    <li><strong>Residue</strong> means the smaller family that remains after the first carve.</li>
+  </ul>
+</div>
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Temporal basis shift</p>

@@ -33,6 +33,15 @@ the witness structure alone, and when is a stakeholder oracle actually needed?
 
 The bounded analysis in this repo turns that question into a small formal loop.
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Vocabulary Note</p>
+  <ul>
+    <li><strong>Witness</strong> means a small signature that exposes a missing requirement pattern.</li>
+    <li><strong>Quotient</strong> means the grouping induced by the current observation state, not a numerical quotient.</li>
+    <li><strong>Residual controller</strong> means the small follow-up question policy that handles the ambiguity left after the first grouping.</li>
+  </ul>
+</div>
+
 ## Part I: the basic objects
 
 Let:
@@ -50,6 +59,15 @@ O_W(M) = {S in W | S ⊆ M}
 ```
 
 That is the observation map.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Quick Logic Refresher</p>
+  <ul>
+    <li><strong>`S ⊆ M`</strong> means the witness signature <code>S</code> is a subset of the hidden missing set <code>M</code>.</li>
+    <li><strong>`|`</strong> means "such that", so the set builder reads: all signatures <code>S</code> in <code>W</code> such that <code>S</code> fits inside <code>M</code>.</li>
+    <li><strong>`M ~ M'`</strong> below means the current loop state cannot distinguish the two missing sets.</li>
+  </ul>
+</div>
 
 This is the first major correction to the vague workflow description:
 
