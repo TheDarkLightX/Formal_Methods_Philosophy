@@ -119,6 +119,7 @@ where:
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Quick Logic Refresher</p>
   <ul>
+    <li><strong>`⊆`</strong> means "is a subset of". It says every element on the left is contained in the set on the right.</li>
     <li><strong>`S ⊆ M`</strong> means the witness signature <code>S</code> is fully contained inside the hidden target <code>M</code>.</li>
     <li><strong>`O_W(M)`</strong> is the set of all witnesses from <code>W</code> that fit inside <code>M</code>.</li>
     <li><strong>`M ~ M'`</strong> means the loop cannot currently tell <code>M</code> and <code>M'</code> apart. Here <code>~</code> means indistinguishable under the current observation state, not vague similarity.</li>

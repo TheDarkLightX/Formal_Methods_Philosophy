@@ -47,7 +47,7 @@ The bounded analysis in this repo turns that question into a small formal loop.
 Let:
 
 - `R` be a bounded set of requirement atoms
-- `M ⊆ R` be the hidden missing set
+- `M ⊆ R` be the hidden missing set, where `⊆` means "is a subset of"
 - `W` be a witness library of admissible signatures
 
 Each witness signature is itself a subset of requirement atoms.
@@ -63,6 +63,7 @@ That is the observation map.
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Quick Logic Refresher</p>
   <ul>
+    <li><strong>`⊆`</strong> means "is a subset of". So <code>M ⊆ R</code> means every missing requirement in <code>M</code> comes from the larger requirement set <code>R</code>.</li>
     <li><strong>`S ⊆ M`</strong> means the witness signature <code>S</code> is a subset of the hidden missing set <code>M</code>.</li>
     <li><strong>`|`</strong> means "such that", so the set builder reads: all signatures <code>S</code> in <code>W</code> such that <code>S</code> fits inside <code>M</code>.</li>
     <li><strong>`M ~ M'`</strong> below means the current loop state cannot distinguish the two missing sets.</li>
