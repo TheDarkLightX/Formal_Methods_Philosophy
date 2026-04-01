@@ -5,19 +5,6 @@ kicker: Tutorial 29
 description: "Map neuro-symbolic loops into witness languages, quotients, separator policies, label bases, and compiled artifacts, then study the bounded results that show why some loops are structurally stronger than others."
 ---
 
-<details open>
-<summary><strong>Road map</strong></summary>
-
-This tutorial asks what really changes when one neuro-symbolic loop is stronger
-than another.
-
-- **Parts I-II**: the basic geometry, witness language, stored state, ambiguity quotient, separator language, label basis, and target artifact
-- **Parts III-IV**: the requirements-discovery case study and the cleanest bounded quotient-first loop
-- **Parts V-VI**: graph-side regime compilers and the newer low-edge concentration mechanism
-- **Part VII**: what these bounded results have already established
-
-</details>
-
 ## The motivating question
 
 Two loops can solve the same task and still be very different.

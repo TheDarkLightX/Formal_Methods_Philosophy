@@ -5,18 +5,6 @@ kicker: Tutorial 30
 description: "Recover missing requirements from witnesses, observation quotients, and minimal separator policies, then study the bounded results that show when counterexamples alone are enough and when follow-up questions are structurally necessary."
 ---
 
-<details open>
-<summary><strong>Road map</strong></summary>
-
-This tutorial studies missing requirements rather than buggy implementations.
-
-- **Parts I-II**: requirement atoms, omission families, witness libraries, and the observation map
-- **Parts III-IV**: the three recovery steps, scoped omissions, and the role of the ambiguity quotient
-- **Parts V-VI**: the pair basis, separator languages, and the practical workflow
-- **Part VII**: what the bounded results have already established
-
-</details>
-
 ## The core problem
 
 A specification can fail in two very different ways.

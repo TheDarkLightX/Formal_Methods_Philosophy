@@ -5,18 +5,6 @@ kicker: Tutorial 32
 description: "A narrow tutorial on temporal label functions, monitor-cell labels, and why a richer label basis can be useful only after the right first-stage carving."
 ---
 
-<details open>
-<summary><strong>Road map</strong></summary>
-
-This tutorial is narrower than the previous three. It focuses on one bounded
-lesson that turned out to matter for loop design.
-
-- **Parts I-II**: what a label function is, and why basis choice should be treated as a first-class loop axis
-- **Parts III-IV**: the stable bounded temporal result and the geometry analogy
-- **Part V**: why this small result still matters for larger loop search
-
-</details>
-
 ## Why this tutorial exists
 
 Many neuro-symbolic loops talk about labels as if there were one natural basis.

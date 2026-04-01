@@ -5,24 +5,6 @@ kicker: Tutorial 26
 description: "Reframe CEGIS through a Galois and formal-concept-analysis lens, test the loop family on finite relations, and position the result against existing counterexample-driven learning literature."
 ---
 
-<details open>
-<summary><strong>Road map</strong></summary>
-
-This tutorial derives a deeper loop algebra from the quantified neuro-symbolic view, then tests it exhaustively on finite relations.
-
-- **Part I**: Start from &#x2203;x &#x2200;y Spec(x,y)
-- **Part II**: Extract the Galois connection between candidates and obligations
-- **Part III-IV**: Derive Bidirectional Obligation Carving (BOC)
-- **Part V**: Derive Concept-Lattice CEGIS and show it is the same loop
-- **Part VI-VII**: Basis compression, finite testing, replayable evidence
-- **Part VIII**: Literature position, CEGIS, exact learning, formal concept analysis
-- **Part IX**: Counterexample scheduling, coupled proposer/verifier control
-- **Part X-XII**: Policy improvement, controller compression, the current frontier
-
-**Interactive:** Try the [Galois Loop Lab]({{ '/galois_loop_lab.html' | relative_url }}) to run BOC on small relations yourself.
-
-</details>
-
 <figure class="fp-figure">
   <p class="fp-figure-title">The Galois connection between candidates and obligations</p>
   {% include diagrams/galois-connection.svg %}

@@ -5,29 +5,6 @@ kicker: Tutorial 28
 description: "Study bounded toy economies for profit agents under explicit assumptions, then climb from platform incentives and demand closure to coordination and mechanism design."
 ---
 
-<details open>
-<summary><strong>Road map</strong></summary>
-
-This tutorial studies a different line of questions from the verifier-compiler tutorials.
-
-The question here is not how to compress a verifier. The question is what
-happens in a bounded toy economy if strong profit agents become widespread.
-
-- **Experiments 1-3**: profit regions, complement heterogeneity, and governed admissibility
-- **Experiments 4-7**: passive ownership, demand closure, active-owner limits, and coordination
-- **Experiments 8-10**: prices, quotas, heterogeneous complements, and composed mechanisms
-- **Experiments 11-13**: sink bundles, zero-employee firm entry, and discovery bottlenecks
-- **Experiments 14-16**: slot sales, admissibility caps, and frontier-lab deployment divergence
-- **Experiments 17-19**: household participation, asymmetric routing, and protocol equalization
-- **Experiments 20-21**: machine-control thresholds and trust-lag divergence
-- **Experiments 22-27**: repeated trust learning, routing lock-in, incumbent rent lockout, assurance design, assurance lever weights, and assurance funding
-
-The sections below are numbered for readers as `Experiment 1`, `Experiment 2`,
-and so on. The old working-notebook ids are kept in parentheses so the research
-artifacts still line up.
-
-</details>
-
 Every result below is a bounded theorem inside a toy model, not a general claim
 about the real economy. The point is to make the logic precise enough that
 counterexamples, edge cases, and mechanism changes become visible.

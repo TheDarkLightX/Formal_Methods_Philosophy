@@ -5,19 +5,6 @@ kicker: Tutorial 31
 description: "Study loops that first change ambiguity geometry and then compile or control the residue, rather than only learning a front-end for a verifier."
 ---
 
-<details open>
-<summary><strong>Road map</strong></summary>
-
-This tutorial asks why some strong loops are not best described as
-verifier-compilers at all.
-
-- **Parts I-II**: direct control versus hybrid geometry-changing loops
-- **Parts III-IV**: the clean bounded requirements example and the weighted comparison law
-- **Parts V-VI**: graph-side regime compilers and the newer low-edge concentration mechanism
-- **Part VII**: what these bounded results have already achieved
-
-</details>
-
 ## The motivating contrast
 
 Verifier-compilers are one important neuro-symbolic loop family.
