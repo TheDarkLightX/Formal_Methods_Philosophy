@@ -173,6 +173,10 @@ So the low-edge branch is another hybrid, but of a different kind:
 The newer composition result says that this is not only an interpretation. On
 the checked low-edge forest branch, that is the surviving mechanism.
 
+And on the checked tree-side subproblem, the concentration path itself can stay
+inside the smaller local move language. The branch does not need to fall back
+to arbitrary pendant-subtree moves after the first step.
+
 <figure class="fp-figure">
   <p class="fp-figure-title">Low-edge concentration and balancing</p>
   {% include diagrams/low-edge-concentration.svg %}

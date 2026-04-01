@@ -289,6 +289,10 @@ The newer composition result tightens that from a teaching paraphrase into the
 checked mechanism itself. On the checked low-edge forest branch, those are the
 two surviving stages.
 
+The tree-side branch also tightened one step further. On the checked tree
+domain, the whole monotone path to the star can stay inside the smaller move
+language, repeatedly moving one-branch pendant subtrees into hubs.
+
 <figure class="fp-figure">
   <p class="fp-figure-title">Low-edge concentration map</p>
   {% include diagrams/low-edge-concentration.svg %}
