@@ -30,6 +30,11 @@
             >Tutorials</a
           >
           <a
+            class="fp-nav-link{% if fp_url contains '/labs' %} is-active{% endif %}"
+            href="{{ '/labs/' | relative_url }}"
+            >Labs</a
+          >
+          <a
             class="fp-nav-link{% if fp_url contains '/glossary' %} is-active{% endif %}"
             href="{{ '/glossary/' | relative_url }}"
             >Glossary</a
@@ -49,6 +54,9 @@
           <div class="fp-nav-mobile-panel">
             <a class="fp-nav-link" href="{{ '/tutorials/' | relative_url }}"
               >Tutorials</a
+            >
+            <a class="fp-nav-link" href="{{ '/labs/' | relative_url }}"
+              >Labs</a
             >
             <a class="fp-nav-link" href="{{ '/glossary/' | relative_url }}"
               >Glossary</a
@@ -102,6 +110,9 @@
               <a class="fp-aside-link" href="{{ '/tutorials/' | relative_url }}"
                 >All tutorials</a
               >
+              <a class="fp-aside-link" href="{{ '/labs/' | relative_url }}"
+                >Interactive labs</a
+              >
               <a class="fp-aside-link" href="{{ '/glossary/' | relative_url }}"
                 >Glossary</a
               >
@@ -126,6 +137,9 @@
         <div class="fp-footer-right">
           <a class="fp-footer-link" href="{{ '/tutorials/' | relative_url }}"
             >Tutorials</a
+          >
+          <a class="fp-footer-link" href="{{ '/labs/' | relative_url }}"
+            >Labs</a
           >
           <a class="fp-footer-link" href="{{ '/glossary/' | relative_url }}"
             >Glossary</a

@@ -38,6 +38,9 @@ show_title: false
         <a class="fp-btn fp-btn-primary" href="{{ '/tutorials/' | relative_url }}"
           >Start reading</a
         >
+        <a class="fp-btn fp-btn-secondary" href="{{ '/labs/' | relative_url }}"
+          >Explore labs</a
+        >
         <a class="fp-btn fp-btn-secondary" href="{{ site.repo_url }}">View on GitHub</a>
       </div>
     </div>
@@ -169,6 +172,16 @@ show_title: false
       <p class="fp-card-text">
         A scoped argument for the conceptual gap: strong language-pattern modeling is not yet
         the same as stable meaning creation, concept invention, or meaning-preserving formalization.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/labs/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Interactive labs</h2>
+      <p class="fp-card-text">
+        Bounded, replayable demos that make witness search, loop geometry, and
+        state-machine reasoning visible.
       </p>
     </a>
     <a

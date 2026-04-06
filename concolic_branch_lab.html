@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concolic Branch Lab</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --paper: #efe7d8;
+    --canvas: #f7f1e6;
+    --panel: rgba(255, 250, 241, 0.94);
+    --panel-strong: rgba(255, 247, 234, 0.98);
+    --ink: #2a2520;
+    --muted: #7a7064;
+    --line: rgba(42, 37, 32, 0.14);
+    --line-strong: rgba(42, 37, 32, 0.24);
+    --blue: #2563eb;
+    --blue-soft: rgba(37, 99, 235, 0.10);
+    --teal: #0f766e;
+    --teal-soft: rgba(15, 118, 110, 0.10);
+    --green: #15803d;
+    --green-soft: rgba(21, 128, 61, 0.10);
+    --amber: #a04a08;
+    --amber-soft: rgba(160, 74, 8, 0.10);
+    --red: #b91c1c;
+    --red-soft: rgba(185, 28, 28, 0.10);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 18px 36px rgba(42, 34, 28, 0.08);
+    --font-body: "Source Sans 3", Georgia, serif;
+    --font-display: "Bitter", Georgia, serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1c1916;
+      --canvas: #141210;
+      --panel: rgba(32, 28, 24, 0.94);
+      --panel-strong: rgba(36, 32, 28, 0.98);
+      --ink: #e4dfda;
+      --muted: #9e968c;
+      --line: rgba(228, 223, 218, 0.12);
+      --line-strong: rgba(228, 223, 218, 0.22);
+      --blue: #60a5fa;
+      --blue-soft: rgba(96, 165, 250, 0.12);
+      --teal: #2dd4bf;
+      --teal-soft: rgba(45, 212, 191, 0.12);
+      --green: #4ade80;
+      --green-soft: rgba(74, 222, 128, 0.12);
+      --amber: #f5b731;
+      --amber-soft: rgba(245, 183, 49, 0.12);
+      --red: #f87171;
+      --red-soft: rgba(248, 113, 113, 0.12);
+      --shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 34%),
+      radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 34%),
+      linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)),
+      var(--canvas);
+  }
+  .shell { max-width: 1160px; margin: 0 auto; }
+  .hero { text-align: center; padding: 24px 0 18px; }
+  .hero h1 { margin: 0; font-family: var(--font-display); font-size: 2rem; }
+  .hero p { margin: 10px auto 0; max-width: 760px; color: var(--muted); }
+  .formula {
+    margin: 0 auto 16px;
+    max-width: 760px;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+  .controls, .panel {
+    background: var(--panel-strong);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .controls {
+    border-radius: var(--radius-md);
+    padding: 16px 18px;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 860px) { .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .controls { grid-template-columns: 1fr; } }
+  .control label { display: block; margin-bottom: 6px; font-size: 0.82rem; font-weight: 700; }
+  .control input, .control select, .control button {
+    width: 100%; font-family: var(--font-mono); font-size: 0.82rem;
+  }
+  .control input, .control select {
+    padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--line-strong);
+    background: var(--panel); color: var(--ink);
+  }
+  .control button {
+    padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--line-strong);
+    background: var(--panel); color: var(--ink); cursor: pointer;
+  }
+  .btn-blue { background: var(--blue-soft); color: var(--blue); border-color: rgba(37, 99, 235, 0.25); }
+  .btn-green { background: var(--green-soft); color: var(--green); border-color: rgba(21, 128, 61, 0.25); }
+  .btn-red { background: var(--red-soft); color: var(--red); border-color: rgba(185, 28, 28, 0.25); }
+  .grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; }
+  @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } }
+  .panel { border-radius: var(--radius-lg); padding: 18px; }
+  .panel h2 { margin: 0 0 12px; font-family: var(--font-display); font-size: 1.08rem; }
+  .panel h3 { margin: 18px 0 8px; color: var(--muted); font-size: 0.9rem; }
+  pre {
+    margin: 0; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--line);
+    background: rgba(0,0,0,0.03); font-family: var(--font-mono); font-size: 0.78rem; overflow-x: auto;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 6px 10px; border-radius: 999px; font-family: var(--font-mono); font-size: 0.74rem;
+    border: 1px solid var(--line-strong); background: rgba(255,255,255,0.42);
+  }
+  .chip.good { background: var(--green-soft); color: var(--green); border-color: rgba(21, 128, 61, 0.22); }
+  .chip.warn { background: var(--amber-soft); color: var(--amber); border-color: rgba(160, 74, 8, 0.22); }
+  .chip.bad { background: var(--red-soft); color: var(--red); border-color: rgba(185, 28, 28, 0.22); }
+  .flip-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  @media (max-width: 620px) { .flip-grid { grid-template-columns: 1fr; } }
+  .flip-card {
+    border: 1px solid var(--line); border-radius: var(--radius-md); padding: 12px; background: rgba(255,255,255,0.42);
+  }
+  .flip-card h4 { margin: 0 0 8px; font-size: 0.84rem; }
+  .flip-card button {
+    margin-top: 8px; padding: 8px 10px; width: 100%; cursor: pointer;
+    font-family: var(--font-mono); font-size: 0.78rem; border-radius: var(--radius-sm);
+    border: 1px solid rgba(37, 99, 235, 0.22); background: var(--blue-soft); color: var(--blue);
+  }
+  .log {
+    max-height: 420px; overflow-y: auto; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--line);
+    background: rgba(0,0,0,0.03); font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.55;
+    white-space: pre-wrap;
+  }
+  .note {
+    margin-top: 14px; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid rgba(15, 118, 110, 0.22);
+    background: var(--teal-soft); font-size: 0.88rem;
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hero">
+    <h1>Concolic Branch Lab</h1>
+    <p>
+      Run one concrete input, inspect the collected path condition, then negate one branch and let a tiny bounded solver find the next witness.
+    </p>
+  </div>
+
+  <div class="formula">run -&gt; record path condition -&gt; flip one branch -&gt; solve -&gt; replay</div>
+
+  <div class="controls">
+    <div class="control">
+      <label for="xInput">x</label>
+      <input id="xInput" type="number" step="1" value="0" />
+    </div>
+    <div class="control">
+      <label for="yInput">y</label>
+      <input id="yInput" type="number" step="1" value="0" />
+    </div>
+    <div class="control">
+      <label for="domainSelect">Solver domain</label>
+      <select id="domainSelect">
+        <option value="3">-3 to 3</option>
+        <option value="5">-5 to 5</option>
+        <option value="8">-8 to 8</option>
+      </select>
+    </div>
+    <div class="control">
+      <label>&nbsp;</label>
+      <button class="btn-green" id="runBtn">Run concrete input</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Toy program</h2>
+      <pre>def f(x, y):
+    if x &gt; 0:
+        if y == x + 1:
+            bug()
+    return 0</pre>
+
+      <h3>Current run</h3>
+      <div class="chips" id="statusChips"></div>
+
+      <h3>Collected path condition</h3>
+      <pre id="pathText">No run yet.</pre>
+
+      <h3>Available branch flips</h3>
+      <div class="flip-grid" id="flipGrid"></div>
+
+      <div class="note" id="teachingNote">
+        Later path constraints are discarded after a flip because they came from a different suffix of execution. They must be rediscovered by replaying the new input.
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Exploration log</h2>
+      <div class="log" id="logArea"></div>
+      <h3>Explored concrete inputs</h3>
+      <div class="chips" id="exploredChips"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const xInput = document.getElementById('xInput');
+  const yInput = document.getElementById('yInput');
+  const domainSelect = document.getElementById('domainSelect');
+  const runBtn = document.getElementById('runBtn');
+  const statusChips = document.getElementById('statusChips');
+  const pathText = document.getElementById('pathText');
+  const flipGrid = document.getElementById('flipGrid');
+  const logArea = document.getElementById('logArea');
+  const exploredChips = document.getElementById('exploredChips');
+
+  const state = {
+    log: [],
+    explored: new Map(),
+  };
+
+  function execProgram(x, y) {
+    const decisions = [];
+    if (x > 0) {
+      decisions.push({ atom: 'x > 0', truth: true, text: 'x > 0' });
+      if (y === x + 1) {
+        decisions.push({ atom: 'y = x + 1', truth: true, text: 'y = x + 1' });
+        return { x, y, decisions, bug: true };
+      }
+      decisions.push({ atom: 'y = x + 1', truth: false, text: 'not (y = x + 1)' });
+      return { x, y, decisions, bug: false };
+    }
+    decisions.push({ atom: 'x > 0', truth: false, text: 'not (x > 0)' });
+    return { x, y, decisions, bug: false };
+  }
+
+  function evaluateAtom(atom, x, y) {
+    if (atom === 'x > 0') return x > 0;
+    if (atom === 'y = x + 1') return y === x + 1;
+    throw new Error('unknown atom');
+  }
+
+  function formatDecisions(decisions) {
+    if (!decisions.length) return 'true';
+    return decisions.map((d) => d.text).join(' and ');
+  }
+
+  function domainValues() {
+    const bound = Number(domainSelect.value);
+    const values = [];
+    for (let v = -bound; v <= bound; v += 1) values.push(v);
+    return values;
+  }
+
+  function solvePrefix(flippedPrefix) {
+    const values = domainValues();
+    for (const x of values) {
+      for (const y of values) {
+        let ok = true;
+        for (const constraint of flippedPrefix) {
+          const truth = evaluateAtom(constraint.atom, x, y);
+          if (truth !== constraint.truth) {
+            ok = false;
+            break;
+          }
+        }
+        if (ok) return { x, y };
+      }
+    }
+    return null;
+  }
+
+  function addLog(line) {
+    state.log.push(line);
+    logArea.textContent = state.log.join('\n');
+    logArea.scrollTop = logArea.scrollHeight;
+  }
+
+  function renderExplored() {
+    exploredChips.innerHTML = '';
+    if (state.explored.size === 0) {
+      exploredChips.innerHTML = '<span class="chip">No runs yet.</span>';
+      return;
+    }
+    for (const [key, result] of state.explored.entries()) {
+      const chip = document.createElement('span');
+      chip.className = 'chip ' + (result.bug ? 'bad' : 'good');
+      chip.textContent = result.bug ? key + ' -> bug' : key;
+      exploredChips.appendChild(chip);
+    }
+  }
+
+  function renderRun(result) {
+    const key = `(${result.x}, ${result.y})`;
+    state.explored.set(key, result);
+
+    statusChips.innerHTML = '';
+    const inputChip = document.createElement('span');
+    inputChip.className = 'chip';
+    inputChip.textContent = `input = ${key}`;
+    statusChips.appendChild(inputChip);
+
+    const pathChip = document.createElement('span');
+    pathChip.className = 'chip warn';
+    pathChip.textContent = `branches = ${result.decisions.length}`;
+    statusChips.appendChild(pathChip);
+
+    const bugChip = document.createElement('span');
+    bugChip.className = 'chip ' + (result.bug ? 'bad' : 'good');
+    bugChip.textContent = result.bug ? 'bug reached' : 'safe run';
+    statusChips.appendChild(bugChip);
+
+    pathText.textContent = formatDecisions(result.decisions);
+    flipGrid.innerHTML = '';
+
+    result.decisions.forEach((decision, index) => {
+      const prefix = result.decisions.slice(0, index).map((d) => ({ atom: d.atom, truth: d.truth }));
+      prefix.push({ atom: decision.atom, truth: !decision.truth });
+      const witness = solvePrefix(prefix);
+
+      const card = document.createElement('div');
+      card.className = 'flip-card';
+      const title = document.createElement('h4');
+      title.textContent = `Flip branch ${index + 1}`;
+      card.appendChild(title);
+
+      const desc = document.createElement('div');
+      desc.style.fontFamily = 'var(--font-mono)';
+      desc.style.fontSize = '0.76rem';
+      desc.textContent = prefix.map((d) => (d.truth ? d.atom : `not (${d.atom})`)).join(' and ');
+      card.appendChild(desc);
+
+      const suffix = document.createElement('p');
+      suffix.style.margin = '8px 0 0';
+      suffix.style.fontSize = '0.78rem';
+      suffix.style.color = 'var(--muted)';
+      suffix.textContent = 'Later constraints are dropped and must be rediscovered after replay.';
+      card.appendChild(suffix);
+
+      const btn = document.createElement('button');
+      if (witness) {
+        btn.textContent = `Solve and replay with (${witness.x}, ${witness.y})`;
+        btn.addEventListener('click', () => {
+          xInput.value = String(witness.x);
+          yInput.value = String(witness.y);
+          addLog(`flip ${index + 1}: solved ${desc.textContent} with (${witness.x}, ${witness.y})`);
+          renderRun(execProgram(witness.x, witness.y));
+        });
+      } else {
+        btn.textContent = 'No witness in current bounded domain';
+        btn.disabled = true;
+      }
+      card.appendChild(btn);
+      flipGrid.appendChild(card);
+    });
+
+    addLog(`run ${key}: ${formatDecisions(result.decisions)}${result.bug ? ' -> BUG' : ' -> safe'}`);
+    renderExplored();
+  }
+
+  runBtn.addEventListener('click', () => {
+    const x = Number(xInput.value);
+    const y = Number(yInput.value);
+    renderRun(execProgram(x, y));
+  });
+
+  renderExplored();
+  addLog('start with a concrete input, then negate one branch and replay the solver witness.');
+})();
+</script>
+</body>
+</html>

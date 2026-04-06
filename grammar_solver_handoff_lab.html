@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grammar-to-Solver Handoff Lab</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bitter:wght@500;700&family=Source+Sans+3:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+  :root {
+    --paper: #efe7d8;
+    --canvas: #f7f1e6;
+    --panel: rgba(255, 250, 241, 0.94);
+    --panel-strong: rgba(255, 247, 234, 0.98);
+    --ink: #2a2520;
+    --muted: #7a7064;
+    --line: rgba(42, 37, 32, 0.14);
+    --line-strong: rgba(42, 37, 32, 0.24);
+    --blue: #2563eb;
+    --blue-soft: rgba(37, 99, 235, 0.10);
+    --teal: #0f766e;
+    --teal-soft: rgba(15, 118, 110, 0.10);
+    --green: #15803d;
+    --green-soft: rgba(21, 128, 61, 0.10);
+    --amber: #a04a08;
+    --amber-soft: rgba(160, 74, 8, 0.10);
+    --red: #b91c1c;
+    --red-soft: rgba(185, 28, 28, 0.10);
+    --radius-lg: 24px;
+    --radius-md: 16px;
+    --radius-sm: 12px;
+    --shadow: 0 18px 36px rgba(42, 34, 28, 0.08);
+    --font-body: "Source Sans 3", Georgia, serif;
+    --font-display: "Bitter", Georgia, serif;
+    --font-mono: "IBM Plex Mono", monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1c1916;
+      --canvas: #141210;
+      --panel: rgba(32, 28, 24, 0.94);
+      --panel-strong: rgba(36, 32, 28, 0.98);
+      --ink: #e4dfda;
+      --muted: #9e968c;
+      --line: rgba(228, 223, 218, 0.12);
+      --line-strong: rgba(228, 223, 218, 0.22);
+      --blue: #60a5fa;
+      --blue-soft: rgba(96, 165, 250, 0.12);
+      --teal: #2dd4bf;
+      --teal-soft: rgba(45, 212, 191, 0.12);
+      --green: #4ade80;
+      --green-soft: rgba(74, 222, 128, 0.12);
+      --amber: #f5b731;
+      --amber-soft: rgba(245, 183, 49, 0.12);
+      --red: #f87171;
+      --red-soft: rgba(248, 113, 113, 0.12);
+      --shadow: 0 18px 36px rgba(0, 0, 0, 0.25);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 20px;
+    font-family: var(--font-body);
+    color: var(--ink);
+    background:
+      radial-gradient(circle at top left, rgba(15, 118, 110, 0.08), transparent 34%),
+      radial-gradient(circle at top right, rgba(37, 99, 235, 0.08), transparent 34%),
+      linear-gradient(180deg, rgba(255,255,255,0.55), rgba(255,255,255,0.12)),
+      var(--canvas);
+  }
+  .shell { max-width: 1180px; margin: 0 auto; }
+  .hero { text-align: center; padding: 24px 0 18px; }
+  .hero h1 { margin: 0; font-family: var(--font-display); font-size: 2rem; }
+  .hero p { margin: 10px auto 0; max-width: 820px; color: var(--muted); }
+  .formula {
+    margin: 0 auto 16px; max-width: 860px; padding: 10px 14px; border-radius: var(--radius-sm);
+    border: 1px solid var(--line); background: var(--panel-strong); box-shadow: var(--shadow);
+    text-align: center; font-family: var(--font-mono); font-size: 0.8rem;
+  }
+  .controls, .panel { background: var(--panel-strong); border: 1px solid var(--line); box-shadow: var(--shadow); }
+  .controls {
+    border-radius: var(--radius-md); padding: 16px 18px; display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 16px;
+  }
+  @media (max-width: 920px) { .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 620px) { .controls { grid-template-columns: 1fr; } }
+  .control label { display: block; margin-bottom: 6px; font-size: 0.82rem; font-weight: 700; }
+  .control input, .control select, .control button {
+    width: 100%; font-family: var(--font-mono); font-size: 0.82rem;
+  }
+  .control input, .control select {
+    padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--line-strong);
+    background: var(--panel); color: var(--ink);
+  }
+  .control button {
+    padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--line-strong);
+    background: var(--panel); color: var(--ink); cursor: pointer;
+  }
+  .btn-green { background: var(--green-soft); color: var(--green); border-color: rgba(21, 128, 61, 0.25); }
+  .grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 16px; }
+  @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+  .panel { border-radius: var(--radius-lg); padding: 18px; }
+  .panel h2 { margin: 0 0 12px; font-family: var(--font-display); font-size: 1.08rem; }
+  .panel h3 { margin: 18px 0 8px; color: var(--muted); font-size: 0.9rem; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 720px) { .row { grid-template-columns: 1fr; } }
+  .compare-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 900px) { .compare-grid { grid-template-columns: 1fr; } }
+  .compare-card {
+    border: 1px solid var(--line); border-radius: var(--radius-md); padding: 12px; background: rgba(255,255,255,0.42);
+  }
+  .compare-card h4 { margin: 0 0 8px; font-family: var(--font-display); font-size: 0.96rem; }
+  .compare-card p { margin: 4px 0; font-family: var(--font-mono); font-size: 0.76rem; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    padding: 6px 10px; border-radius: 999px; font-family: var(--font-mono); font-size: 0.72rem;
+    border: 1px solid var(--line-strong); background: rgba(255,255,255,0.42);
+  }
+  .chip.good { background: var(--green-soft); color: var(--green); border-color: rgba(21, 128, 61, 0.22); }
+  .chip.warn { background: var(--amber-soft); color: var(--amber); border-color: rgba(160, 74, 8, 0.22); }
+  .chip.bad { background: var(--red-soft); color: var(--red); border-color: rgba(185, 28, 28, 0.22); }
+  pre {
+    margin: 0; padding: 14px; border-radius: var(--radius-md); border: 1px solid var(--line);
+    background: rgba(0,0,0,0.03); font-family: var(--font-mono); font-size: 0.77rem; overflow-x: auto; white-space: pre-wrap;
+  }
+  .log {
+    max-height: 420px; overflow-y: auto; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--line);
+    background: rgba(0,0,0,0.03); font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.55; white-space: pre-wrap;
+  }
+  .note {
+    margin-top: 14px; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid rgba(15, 118, 110, 0.22);
+    background: var(--teal-soft); font-size: 0.88rem;
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="hero">
+    <h1>Grammar-to-Solver Handoff Lab</h1>
+    <p>
+      The grammar keeps candidates valid. The semantic target still stalls structured search. A bounded solver can then take over and either finish the witness or report that no witness exists inside the grammar's range.
+    </p>
+  </div>
+
+  <div class="formula">random bytes &rarr; grammar-valid expressions &rarr; bounded local solve for a * b = target</div>
+
+  <div class="controls">
+    <div class="control">
+      <label for="budgetInput">Trials per run</label>
+      <input id="budgetInput" type="number" min="10" max="500" step="10" value="60" />
+    </div>
+    <div class="control">
+      <label for="seedInput">Random seed</label>
+      <input id="seedInput" type="number" min="1" max="99999" step="1" value="13" />
+    </div>
+    <div class="control">
+      <label for="targetSelect">Guard target</label>
+      <select id="targetSelect">
+        <option value="12">12</option>
+        <option value="42" selected>42</option>
+        <option value="97">97</option>
+      </select>
+    </div>
+    <div class="control">
+      <label>&nbsp;</label>
+      <button class="btn-green" id="runBtn">Run all three loops</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Tiny language and target</h2>
+      <div class="row">
+        <pre>Raw bytes: any 3 printable chars
+Grammar G:
+  Expr ::= Digit Op Digit
+  Digit ::= 1 | 2 | ... | 9
+  Op    ::= + | * | /</pre>
+        <pre>Bad(x) holds if:
+1. x parses as Digit Op Digit
+2. x reaches semantic evaluation
+3. op = *
+4. a * b = target</pre>
+      </div>
+
+      <h3>Comparison</h3>
+      <div class="compare-grid">
+        <div class="compare-card" id="rawSummary">
+          <h4>Random bytes</h4>
+          <p>not run yet</p>
+        </div>
+        <div class="compare-card" id="grammarSummary">
+          <h4>Grammar only</h4>
+          <p>not run yet</p>
+        </div>
+        <div class="compare-card" id="hybridSummary">
+          <h4>Grammar + solver</h4>
+          <p>not run yet</p>
+        </div>
+      </div>
+
+      <h3>Recent candidates</h3>
+      <div class="chip-row" id="sampleChips"></div>
+
+      <div class="note">
+        The key teaching point is not that the solver replaces the grammar. It does not. The grammar keeps the witness inside a valid language, then the solver works only over the remaining local value constraints.
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Search log</h2>
+      <div class="log" id="logArea"></div>
+      <h3>Solver note</h3>
+      <pre id="solverText">No run yet.</pre>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const budgetInput = document.getElementById('budgetInput');
+  const seedInput = document.getElementById('seedInput');
+  const targetSelect = document.getElementById('targetSelect');
+  const runBtn = document.getElementById('runBtn');
+  const rawSummary = document.getElementById('rawSummary');
+  const grammarSummary = document.getElementById('grammarSummary');
+  const hybridSummary = document.getElementById('hybridSummary');
+  const sampleChips = document.getElementById('sampleChips');
+  const logArea = document.getElementById('logArea');
+  const solverText = document.getElementById('solverText');
+
+  const rawAlphabet = '0123456789abcdefghijklmnopqrstuvwxyz+-*/()';
+  const ops = ['+', '*', '/'];
+
+  function makeRng(seed) {
+    let s = seed % 2147483647;
+    if (s <= 0) s += 2147483646;
+    return () => {
+      s = (s * 16807) % 2147483647;
+      return (s - 1) / 2147483646;
+    };
+  }
+
+  function randInt(rng, lo, hi) {
+    return lo + Math.floor(rng() * (hi - lo + 1));
+  }
+
+  function rawSample(rng) {
+    let out = '';
+    for (let i = 0; i < 3; i += 1) {
+      out += rawAlphabet[randInt(rng, 0, rawAlphabet.length - 1)];
+    }
+    return out;
+  }
+
+  function grammarSample(rng) {
+    const a = randInt(rng, 1, 9);
+    const op = ops[randInt(rng, 0, ops.length - 1)];
+    const b = randInt(rng, 1, 9);
+    return `${a}${op}${b}`;
+  }
+
+  function parseExpr(text) {
+    const match = /^([1-9])([+*/])([1-9])$/.exec(text);
+    if (!match) return null;
+    return { a: Number(match[1]), op: match[2], b: Number(match[3]) };
+  }
+
+  function evaluateExpr(text, target) {
+    const parsed = parseExpr(text);
+    if (!parsed) {
+      return { text, parsed: false, guard: false, witness: false, reason: 'parse rejected' };
+    }
+    const guard = parsed.op === '*' && parsed.a * parsed.b === target;
+    return {
+      text,
+      parsed: true,
+      guard,
+      witness: guard,
+      parsedFields: parsed,
+      reason: guard ? 'target guard hit' : 'valid but target guard false',
+    };
+  }
+
+  function solveWithinGrammar(target) {
+    for (let a = 1; a <= 9; a += 1) {
+      for (let b = 1; b <= 9; b += 1) {
+        if (a * b === target) {
+          return `${a}*${b}`;
+        }
+      }
+    }
+    return null;
+  }
+
+  function summarize(node, label, result) {
+    node.innerHTML = `
+      <h4>${label}</h4>
+      <p>parse-valid: ${result.parsed}/${result.budget}</p>
+      <p>guard-hit: ${result.guard}/${result.budget}</p>
+      <p>witness found: ${result.witness ? 'yes' : 'no'}</p>
+      <p>${result.note}</p>
+    `;
+  }
+
+  function renderSamples(items) {
+    sampleChips.innerHTML = '';
+    items.forEach((item) => {
+      const chip = document.createElement('div');
+      chip.className = `chip ${item.witness ? 'good' : (item.parsed ? 'warn' : 'bad')}`;
+      chip.textContent = item.text;
+      sampleChips.appendChild(chip);
+    });
+  }
+
+  function runLane(kind, rng, budget, target) {
+    const log = [];
+    const samples = [];
+    let parsed = 0;
+    let guard = 0;
+    let witness = false;
+    for (let i = 0; i < budget; i += 1) {
+      const candidate = kind === 'raw' ? rawSample(rng) : grammarSample(rng);
+      const result = evaluateExpr(candidate, target);
+      if (result.parsed) parsed += 1;
+      if (result.guard) guard += 1;
+      if (result.witness) witness = true;
+      if (samples.length < 8) samples.push(result);
+      log.push(`[${kind}] ${candidate} -> ${result.reason}`);
+    }
+    return {
+      budget,
+      parsed,
+      guard,
+      witness,
+      samples,
+      log,
+      note: kind === 'raw' ? 'Raw bytes almost never even parse.' : 'Grammar keeps every candidate well formed.'
+    };
+  }
+
+  function runHybrid(rng, budget, target) {
+    const base = runLane('grammar', rng, budget, target);
+    const solved = solveWithinGrammar(target);
+    if (!solved) {
+      base.log.push('[hybrid] local solve attempted -> no witness exists inside Digit = 1..9');
+      return {
+        ...base,
+        note: 'Solver stayed sound and reported no witness inside the grammar range.',
+        solved: null,
+      };
+    }
+    const solvedResult = evaluateExpr(solved, target);
+    base.log.push(`[hybrid] local solve attempted -> ${solved}`);
+    return {
+      ...base,
+      witness: base.witness || solvedResult.witness,
+      samples: [solvedResult, ...base.samples].slice(0, 8),
+      note: base.witness
+        ? 'Grammar search already found the witness, solver confirms it deterministically.'
+        : 'Solver used the same grammar bounds and filled in the value-level witness.',
+      solved,
+    };
+  }
+
+  function runAll() {
+    const budget = Math.max(10, Number(budgetInput.value) || 60);
+    const seed = Math.max(1, Number(seedInput.value) || 13);
+    const target = Number(targetSelect.value);
+    const raw = runLane('raw', makeRng(seed), budget, target);
+    const grammar = runLane('grammar', makeRng(seed), budget, target);
+    const hybrid = runHybrid(makeRng(seed), budget, target);
+
+    summarize(rawSummary, 'Random bytes', raw);
+    summarize(grammarSummary, 'Grammar only', grammar);
+    summarize(hybridSummary, 'Grammar + solver', hybrid);
+    renderSamples(hybrid.samples);
+    solverText.textContent = hybrid.solved
+      ? `Solved witness inside the grammar:
+${hybrid.solved}
+
+Reasoning:
+- op must be *
+- a and b must stay in Digit = 1..9
+- a * b must equal target`
+      : `No witness exists inside the grammar for target ${target}.
+
+The solver stayed inside Digit = 1..9 and did not hallucinate a value outside the grammar.`;
+    logArea.textContent = [
+      `Target = ${target}`,
+      '',
+      ...raw.log.slice(0, 8),
+      '',
+      ...grammar.log.slice(0, 8),
+      '',
+      ...hybrid.log.slice(-6),
+    ].join('\n');
+    notifyParentHeight();
+  }
+
+  function notifyParentHeight() {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'fp:iframe-height', height: document.body.scrollHeight }, '*');
+    }
+  }
+
+  runBtn.addEventListener('click', runAll);
+  window.addEventListener('load', notifyParentHeight);
+  window.addEventListener('resize', notifyParentHeight);
+  runAll();
+})();
+</script>
+</body>
+</html>

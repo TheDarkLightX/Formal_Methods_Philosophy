@@ -26,6 +26,20 @@ show_title: false
 
 <div class="fp-grid" style="margin-top: var(--space-xl)">
   <a
+    class="fp-card fp-card-link fp-card-span-12"
+    href="{{ '/labs/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Hands-on track: interactive labs</h2>
+    <p class="fp-card-text">
+      Prefer the bounded demos first? The labs page collects the interactive
+      companions for witness search, loop geometry, verifier compilation, and
+      state-machine exploration in one place.
+    </p>
+  </a>
+</div>
+
+<div class="fp-grid" style="margin-top: var(--space-xl)">
+  <a
     class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/approximate-state-tracking/' | relative_url }}"
   >
@@ -353,6 +367,35 @@ show_title: false
     <p class="fp-card-text">
       What would it take for a neural network to count as a computer in a strong
       sense, and what routes could get there?
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/neuro-symbolic-defi-defense/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 34: Neuro-symbolic DeFi defense</h2>
+    <p class="fp-card-text">
+      Use the $285M Drift Protocol exploit as a case study for compositional disaster-state analysis,
+      then build the neuro-symbolic defense loop that catches multi-vector attacks before deployment and at runtime.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/concolic-testing-and-branch-exploration/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 35: Concolic testing and branch exploration</h2>
+    <p class="fp-card-text">
+      Learn branch exploration as witness search: concrete execution gives one real path,
+      symbolic path constraints steer the next run, and the modern practical story is hybrid.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/grammar-based-fuzzing-and-structured-search/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 36: Grammar-based fuzzing and structured search</h2>
+    <p class="fp-card-text">
+      Learn structured witness search over grammars, see why syntax preservation reallocates budget into semantic execution, and understand where concolic escalation and neural proposal do and do not belong.
     </p>
   </a>
 </div>
