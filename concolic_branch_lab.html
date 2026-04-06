@@ -183,7 +183,7 @@
       </select>
     </div>
     <div class="control">
-      <label>&nbsp;</label>
+      <label aria-hidden="true">&nbsp;</label>
       <button class="btn-green" id="runBtn">Run concrete input</button>
     </div>
   </div>
@@ -294,6 +294,12 @@
     logArea.scrollTop = logArea.scrollHeight;
   }
 
+  function notifyParentHeight() {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'fp:iframe-height', height: document.body.scrollHeight }, '*');
+    }
+  }
+
   function renderExplored() {
     exploredChips.innerHTML = '';
     if (state.explored.size === 0) {
@@ -374,6 +380,7 @@
 
     addLog(`run ${key}: ${formatDecisions(result.decisions)}${result.bug ? ' -> BUG' : ' -> safe'}`);
     renderExplored();
+    notifyParentHeight();
   }
 
   runBtn.addEventListener('click', () => {
@@ -382,8 +389,12 @@
     renderRun(execProgram(x, y));
   });
 
+  window.addEventListener('load', notifyParentHeight);
+  window.addEventListener('resize', notifyParentHeight);
+
   renderExplored();
-  addLog('start with a concrete input, then negate one branch and replay the solver witness.');
+  addLog('Start with a concrete input, then negate one branch and replay the solver witness.');
+  renderRun(execProgram(Number(xInput.value), Number(yInput.value)));
 })();
 </script>
 </body>

@@ -35,12 +35,13 @@ description: "Interactive labs paired with the tutorial series: bounded witness 
 </section>
 
 <div class="fp-callout fp-callout-note" style="margin-top: var(--space-xl)">
-  <p class="fp-callout-title">Assumption hygiene</p>
-  <ul>
-    <li><strong>Assumption A:</strong> every lab uses a bounded model chosen for teaching clarity, not a full proof of the unrestricted system.</li>
-    <li><strong>Assumption B:</strong> each harness is a simplified but replayable slice of the tutorial’s formal object.</li>
-    <li><strong>Assumption C:</strong> a lab can demonstrate a counterexample shape or search geometry without establishing general completeness.</li>
-  </ul>
+  <p class="fp-callout-title">Scope note</p>
+  <p>
+    These labs use small bounded models for teaching clarity, not full proofs of unrestricted systems.
+    Each harness is a simplified but replayable slice of a tutorial’s formal object, and a demonstrated
+    counterexample shape or search geometry should be read as a concrete witness inside that bounded model,
+    not as a claim of general completeness.
+  </p>
 </div>
 
 <section style="margin-top: var(--space-2xl)">

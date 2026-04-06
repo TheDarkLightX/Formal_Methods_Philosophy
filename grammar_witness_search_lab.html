@@ -149,7 +149,7 @@
     </p>
   </div>
 
-  <div class="formula">raw search: exists x in B* . Bad(x) &nbsp;&nbsp;|&nbsp;&nbsp; grammar search: exists x in L(G) . Bad(x)</div>
+  <div class="formula">raw: find any byte string that triggers Bad &nbsp;&nbsp;|&nbsp;&nbsp; grammar: find a valid expression that triggers Bad</div>
 
   <div class="controls">
     <div class="control">
@@ -161,11 +161,11 @@
       <input id="seedInput" type="number" min="1" max="99999" step="1" value="7" />
     </div>
     <div class="control">
-      <label>&nbsp;</label>
+      <label aria-hidden="true">&nbsp;</label>
       <button class="btn-blue" id="rawBtn">Run raw-byte search</button>
     </div>
     <div class="control">
-      <label>&nbsp;</label>
+      <label aria-hidden="true">&nbsp;</label>
       <button class="btn-green" id="grammarBtn">Run grammar search</button>
     </div>
   </div>
@@ -312,6 +312,12 @@ Num  ::= 0 | 1 | 2 | 3</pre>
     logArea.scrollTop = logArea.scrollHeight;
   }
 
+  function notifyParentHeight() {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'fp:iframe-height', height: document.body.scrollHeight }, '*');
+    }
+  }
+
   function renderComparison() {
     const pairs = [
       ['raw', rawSummary, 'Raw-byte search'],
@@ -385,12 +391,17 @@ Num  ::= 0 | 1 | 2 | 3</pre>
     state.results[mode] = result;
     renderMetrics(result, budget);
     renderComparison();
+    notifyParentHeight();
   }
 
   rawBtn.addEventListener('click', () => run('raw'));
   grammarBtn.addEventListener('click', () => run('grammar'));
+  window.addEventListener('load', notifyParentHeight);
+  window.addEventListener('resize', notifyParentHeight);
   renderComparison();
   addLog('Choose one search strategy and compare how much budget survives the parser boundary.');
+  run('raw');
+  run('grammar');
 })();
 </script>
 </body>
