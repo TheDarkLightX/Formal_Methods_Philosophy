@@ -9,13 +9,13 @@ A safecracker does not spin the dial randomly. She presses her ear to the metal,
 
 Concolic testing does the same thing to a program.
 
-It runs the program once on a real input and watches which branches fire. Then it asks a solver: what input would make one of those branches go the other way? The solver answers, the engine replays with the new input, and the cycle repeats. Each iteration explores a path the previous run did not take — not by luck, but by construction.
+It runs the program once on a real input and watches which branches fire. Then it asks a solver: what input would make one of those branches go the other way? The solver answers, the engine replays with the new input, and the cycle repeats. Each iteration explores a path the previous run did not take, not by luck, but by construction.
 
-That is why concolic testing occupies the most valuable middle ground in the testing landscape. Random fuzzing is shaking the lock. Full formal verification is proving the lock cannot be opened. Concolic testing is picking it — systematically, one tumbler at a time, with a concrete witness in hand when the lock opens.
+That is why concolic testing occupies the most valuable middle ground in the testing landscape. Random fuzzing is shaking the lock. Full formal verification is proving the lock cannot be opened. Concolic testing is picking it, systematically, one tumbler at a time, with a concrete witness in hand when the lock opens.
 
-It is also one of the best teaching objects in this series, because it makes the existential side of formal reasoning visible and tactile. You can see each branch. You can watch the solver flip one constraint. And when the program crashes, you hold the input that caused it — not a probability estimate, not a coverage report, but the actual key that turned.
+It is also one of the best teaching objects in this series, because it makes the existential side of formal reasoning visible and tactile. You can see each branch. You can watch the solver flip one constraint. And when the program crashes, you hold the input that caused it, not a probability estimate, not a coverage report, but the actual key that turned.
 
-One terminology warning belongs near the top. The literature uses "symbolic execution" inconsistently. For teaching clarity, prefer precise terms: DSE (directed symbolic execution), concolic execution, bounded model checking, and hybrid testing, whenever the distinction matters. In this tutorial, "concolic testing" means concrete execution plus symbolic path constraints, and "DSE" is treated as the broader historical label.
+One terminology warning belongs near the top. The literature uses "symbolic execution" inconsistently. The narrower terms are safer whenever the distinction matters: DSE (directed symbolic execution), concolic execution, bounded model checking, and hybrid testing. Here, "concolic testing" means concrete execution plus symbolic path constraints, while "DSE" is the broader historical label.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Vocabulary note</p>
@@ -34,7 +34,7 @@ Every safety tool faces the same fork in the road.
 
 Let $P$ be a program and $\phi$ a safety property over terminal states.
 
-One path is the universal claim — the ambition to prove that nothing can go wrong:
+One path is the universal claim, the ambition to prove that nothing can go wrong:
 
 $$
 \forall x \forall s .\; Exec(P, x) = s \to \phi(s)
@@ -42,7 +42,7 @@ $$
 
 For every input $x$, if executing $P$ on $x$ reaches state $s$, then $s$ satisfies the safety property. That is what full verification attempts.
 
-Concolic testing walks the other path. It searches the existential dual — looking for one concrete input that makes the program misbehave:
+Concolic testing walks the other path. It searches the existential dual, looking for one concrete input that makes the program misbehave:
 
 $$
 \exists x \exists s .\; Exec(P, x) = s \land \neg \phi(s)
@@ -150,7 +150,7 @@ $$
 
 If the answer is yes, the engine gets a new input $x'$ and replays the program concretely on $x'$.
 
-If the resulting run reaches a bad state, the engine has produced a real witness — not a hoped-for failure, but a concrete input you can feed back to the program and watch it crash:
+If the resulting run reaches a bad state, the engine has produced a real witness, not a hoped-for failure, but a concrete input you can feed back to the program and watch it crash:
 
 $$
 \exists x \exists s .\; Exec(P, x) = s \land \neg \phi(s)
@@ -158,13 +158,13 @@ $$
 
 That is why concolic testing is stronger than plain random mutation. It does not just guess. It uses path constraints to drive the next guess.
 
-Under idealized conditions, one stronger claim can be made — but only under idealized conditions. If a model $M_H$ has a finite path set up to horizon $H$, faithful symbolic semantics for those paths, and exact solver support for the relevant branch predicates, then exhaustive path-directed exploration can justify:
+Under idealized conditions, one stronger claim can be made, but only under idealized conditions. If a model $M_H$ has a finite path set up to horizon $H$, faithful symbolic semantics for those paths, and exact solver support for the relevant branch predicates, then exhaustive path-directed exploration can justify:
 
 $$
 \forall \pi \in Paths_H(P) .\; Feasible(\pi) \to Explored(\pi)
 $$
 
-That is a bounded completeness statement. It is useful, but it is conditional. Real tools usually lose one or more of those premises, which is why this tutorial keeps the stronger claim quarantined.
+That is a bounded completeness statement. It is useful, but it is conditional. Real tools usually lose one or more of those premises, which is why the stronger claim stays quarantined here.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">The concolic loop: concrete run, symbolic branch flip, replay</p>
@@ -179,11 +179,11 @@ That is a bounded completeness statement. It is useful, but it is conditional. R
 
 ## Part IV: what it is good at
 
-Concolic testing excels where random fuzzing stumbles. A branch guarded by `if (x == 0x4f3a7c21)` will almost never be reached by random mutation, but a solver can produce that exact value in one step. The engine generates concrete, replayable bug inputs — not statistical summaries, not coverage estimates, but actual inputs you can feed back to the program and watch it fail. When the environment model is tractable, it can explore bounded path variants around a discovered execution and expose multi-step failures that random testing would need centuries to find.
+Concolic testing excels where random fuzzing stumbles. A branch guarded by `if (x == 0x4f3a7c21)` will almost never be reached by random mutation, but a solver can produce that exact value in one step. The engine generates concrete, replayable bug inputs, not statistical summaries, not coverage estimates, but actual inputs you can feed back to the program and watch it fail. When the environment model is tractable, it can explore bounded path variants around a discovered execution and expose multi-step failures that random testing would need centuries to find.
 
 That makes it one of the strongest pre-deployment tools when one narrow guard is hiding the bug. In contract code, one missed branch can drain a treasury. In parser logic or strict APIs, a tight parameter relation can block almost all random mutation. In arithmetic and boundary bugs, the exact trigger value matters, and in short compositional traces, one satisfied step can unlock the next.
 
-In the language of this tutorial line, concolic testing is a very strong existential engine. It searches for:
+Concolic testing is a very strong existential engine. It searches for:
 
 $$
 \exists x .\; Bad(x)
@@ -234,9 +234,9 @@ The other limit is modeling. The engine only reasons accurately about the path p
 
 Concolic testing is a clean place to see the proposer-checker split that runs through this entire series.
 
-The proposer side chooses which branch condition to flip, solves for a new input, and proposes the next path candidate. It is the creative half — the part that decides where to look next.
+The proposer side chooses which branch condition to flip, solves for a new input, and proposes the next path candidate. It is the creative half, the part that decides where to look next.
 
-The checker side replays the candidate concretely, evaluates the disaster predicate or invariant, and decides whether the path is an actual bug witness. It is the honest half — the part that says whether the finding is real.
+The checker side replays the candidate concretely, evaluates the disaster predicate or invariant, and decides whether the path is an actual bug witness. It is the honest half, the part that says whether the finding is real.
 
 That distinction matters more than it might seem. A path can be real without being catastrophic. A program can reach an unusual state without that state being a security hole. The badness predicate still has to be defined, and the checker is where it gets applied. In a simple crash-finding setting, proposer and checker can feel nearly identical. In a richer system with subtle invariants, they pull apart, and the separation becomes load-bearing.
 
@@ -256,12 +256,12 @@ A beginner tutorial should not stop at the textbook loop, just as a lockpicking 
 
 Fuzzing explores cheaply. Concolic search unlocks hard branches. Branch prioritization focuses the expensive symbolic work where it matters most. Compiler-based instrumentation (SymCC, for example, compiles symbolic tracking directly into the binary) lowers overhead. Asynchronous or stochastic schedulers improve throughput by running multiple exploration strategies in parallel.
 
-The lesson is not that plain concolic execution solved branch exploration. The lesson is that modern engines redesign the loop itself. The engine must decide which region gets explored first, which branches are worth flipping, which candidates are solver-tractable, and which discovered witnesses are worth shrinking and keeping. That is a loop geometry, not a fixed algorithm — and the best modern tools (QSYM, SAVIOR, Fuzzolic, Marco) each make different bets about where the geometry matters most.
+The lesson is not that plain concolic execution solved branch exploration. The lesson is that modern engines redesign the loop itself. The engine must decide which region gets explored first, which branches are worth flipping, which candidates are solver-tractable, and which discovered witnesses are worth shrinking and keeping. That is a loop geometry, not a fixed algorithm, and the best modern tools (QSYM, SAVIOR, Fuzzolic, Marco) each make different bets about where the geometry matters most.
 
 
 ## Part IX: higher-order inputs
 
-Everything so far has assumed the witness is a flat value — a number, a string, a record. But sometimes the missing witness is not a value at all. It is a callback, a comparator, a policy function, a strategy object, or a stateful closure. That is the higher-order setting, and it changes the shape of the search.
+Everything so far has assumed the witness is a flat value, a number, a string, or a record. But sometimes the missing witness is not a value at all. It is a callback, a comparator, a policy function, a strategy object, or a stateful closure. That is the higher-order setting, and it changes the shape of the search.
 
 ### A tiny higher-order example
 
@@ -275,7 +275,7 @@ def sort_ok(cmp, xs):
     return all(cmp(ys[i], ys[i + 1]) <= 0 for i in range(len(ys) - 1))
 ```
 
-The interesting witness may no longer be a number. It may be a badly behaved comparator — one that violates transitivity, or that returns different results for the same pair on different calls.
+The interesting witness may no longer be a number. It may be a badly behaved comparator, one that violates transitivity, or that returns different results for the same pair on different calls.
 
 That changes the witness language from "find one integer input" to "find one behavior-valued input." The engine is no longer exploring values. It is exploring behaviors that shape later control flow. That is the conceptual jump that higher-order concolic testing is trying to manage: the branch structure of the program depends on decisions made by the witness itself.
 
@@ -297,7 +297,7 @@ run
 -> keep witness or continue
 ```
 
-That specificity is what makes concolic testing one of the best demonstrations that existential search can be made far more disciplined than random mutation — while still falling short of global proof. The safecracker's method is real. It finds real combinations. But no amount of skillful picking constitutes a proof that the lock has no other weakness.
+That specificity is what makes concolic testing one of the best demonstrations that existential search can be made far more disciplined than random mutation, while still falling short of global proof. The safecracker's method is real. It finds real combinations. But no amount of skillful picking constitutes a proof that the lock has no other weakness.
 
 
 ## Part XI: practical closing guidance

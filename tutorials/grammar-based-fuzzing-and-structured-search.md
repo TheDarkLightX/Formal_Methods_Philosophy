@@ -196,7 +196,7 @@ Grammar-based fuzzing is structured witness search. It replaces blind search ove
 
 It is not automatically neural. It becomes a neural loop only when a learned model is added as a proposer, grammar miner, mutator, or scheduler.
 
-And it is not proof. The grammar is a model of the interesting input space, not a guarantee that the interesting input space has been covered. If the grammar is wrong, the search is systematically blind — and systematic blindness is harder to notice than random blindness.
+And it is not proof. The grammar is a model of the interesting input space, not a guarantee that the interesting input space has been covered. If the grammar is wrong, the search is systematically blind, and systematic blindness is harder to notice than random blindness.
 
 
 ## Sources
