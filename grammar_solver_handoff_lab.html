@@ -111,6 +111,16 @@
   }
   .compare-card h4 { margin: 0 0 8px; font-family: var(--font-display); font-size: 0.96rem; }
   .compare-card p { margin: 4px 0; font-family: var(--font-mono); font-size: 0.76rem; }
+  .solver-box {
+    margin: 0 0 16px;
+    padding: 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(15, 118, 110, 0.22);
+    background: var(--teal-soft);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    white-space: pre-wrap;
+  }
   .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
   .chip {
     padding: 6px 10px; border-radius: 999px; font-family: var(--font-mono); font-size: 0.72rem;
@@ -124,9 +134,16 @@
     background: rgba(0,0,0,0.03); font-family: var(--font-mono); font-size: 0.77rem; overflow-x: auto; white-space: pre-wrap;
   }
   .log {
-    max-height: 420px; overflow-y: auto; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--line);
+    max-height: 300px; overflow-y: auto; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--line);
     background: rgba(0,0,0,0.03); font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.55; white-space: pre-wrap;
   }
+  .intro-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 16px; }
+  @media (max-width: 800px) { .intro-grid { grid-template-columns: 1fr; } }
+  .intro-card { padding: 16px 18px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--panel-strong); box-shadow: var(--shadow); }
+  .intro-card h2 { margin: 0 0 8px; font-family: var(--font-display); font-size: 1rem; }
+  .intro-card p { margin: 0; color: var(--muted); }
+  .summary-banner { margin: 0 0 16px; padding: 14px 16px; border-radius: var(--radius-md); border: 1px solid rgba(15, 118, 110, 0.22); background: var(--teal-soft); box-shadow: var(--shadow); }
+  .summary-banner strong { display: block; margin-bottom: 4px; font-family: var(--font-display); }
   .note {
     margin-top: 14px; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid rgba(15, 118, 110, 0.22);
     background: var(--teal-soft); font-size: 0.88rem;
@@ -143,6 +160,17 @@
   </div>
 
   <div class="formula">random bytes &rarr; grammar-valid expressions &rarr; bounded local solve for a * b = target</div>
+
+  <div class="intro-grid">
+    <div class="intro-card">
+      <h2>What this lab shows</h2>
+      <p>The grammar fixes syntax, but it does not automatically solve the remaining value constraint. The hybrid lane becomes useful only after structured search has already kept the candidate inside the language. This lab deliberately uses a smaller grammar than Tutorial 36 so the handoff stays easy to see.</p>
+    </div>
+    <div class="intro-card">
+      <h2>Try this first</h2>
+      <p>Run target <code>42</code> first. Then switch to <code>97</code>. The first target has a witness inside the grammar range, while the second does not. That contrast shows what a bounded solver can and cannot honestly claim.</p>
+    </div>
+  </div>
 
   <div class="controls">
     <div class="control">
@@ -165,6 +193,11 @@
       <label aria-hidden="true">&nbsp;</label>
       <button class="btn-green" id="runBtn">Run all three loops</button>
     </div>
+  </div>
+
+  <div class="summary-banner" id="summaryBanner">
+    <strong>Start here</strong>
+    Run the default target once, then compare the three lanes. The summary will tell you whether the solver finished a real witness or honestly reported that none exists inside the grammar range.
   </div>
 
   <div class="grid">
@@ -208,10 +241,10 @@ Grammar G:
     </div>
 
     <div class="panel">
-      <h2>Search log</h2>
+      <h2>Solver handoff</h2>
+      <div class="solver-box" id="solverText">No run yet.</div>
+      <h3>Detailed log</h3>
       <div class="log" id="logArea"></div>
-      <h3>Solver note</h3>
-      <pre id="solverText">No run yet.</pre>
     </div>
   </div>
 </div>
@@ -228,6 +261,7 @@ Grammar G:
   const sampleChips = document.getElementById('sampleChips');
   const logArea = document.getElementById('logArea');
   const solverText = document.getElementById('solverText');
+  const summaryBanner = document.getElementById('summaryBanner');
 
   const rawAlphabet = '0123456789abcdefghijklmnopqrstuvwxyz+-*/()';
   const ops = ['+', '*', '/'];
@@ -247,9 +281,7 @@ Grammar G:
 
   function rawSample(rng) {
     let out = '';
-    for (let i = 0; i < 3; i += 1) {
-      out += rawAlphabet[randInt(rng, 0, rawAlphabet.length - 1)];
-    }
+    for (let i = 0; i < 3; i += 1) out += rawAlphabet[randInt(rng, 0, rawAlphabet.length - 1)];
     return out;
   }
 
@@ -268,39 +300,32 @@ Grammar G:
 
   function evaluateExpr(text, target) {
     const parsed = parseExpr(text);
-    if (!parsed) {
-      return { text, parsed: false, guard: false, witness: false, reason: 'parse rejected' };
-    }
+    if (!parsed) return { text, parsed: false, guard: false, witness: false, reason: 'parse rejected' };
     const guard = parsed.op === '*' && parsed.a * parsed.b === target;
-    return {
-      text,
-      parsed: true,
-      guard,
-      witness: guard,
-      parsedFields: parsed,
-      reason: guard ? 'target guard hit' : 'valid but target guard false',
-    };
+    return { text, parsed: true, guard, witness: guard, parsedFields: parsed, reason: guard ? 'target guard hit' : 'valid but target guard false' };
   }
 
   function solveWithinGrammar(target) {
     for (let a = 1; a <= 9; a += 1) {
       for (let b = 1; b <= 9; b += 1) {
-        if (a * b === target) {
-          return `${a}*${b}`;
-        }
+        if (a * b === target) return `${a}*${b}`;
       }
     }
     return null;
   }
 
   function summarize(node, label, result) {
-    node.innerHTML = `
-      <h4>${label}</h4>
-      <p>parse-valid: ${result.parsed}/${result.budget}</p>
-      <p>guard-hit: ${result.guard}/${result.budget}</p>
-      <p>witness found: ${result.witness ? 'yes' : 'no'}</p>
-      <p>${result.note}</p>
-    `;
+    node.innerHTML = `<h4>${label}</h4><p>parse-valid: ${result.parsed}/${result.budget}</p><p>guard-hit: ${result.guard}/${result.budget}</p><p>witness found: ${result.witness ? 'yes' : 'no'}</p><p>${result.note}</p>`;
+  }
+
+  function clippedBlock(label, entries, shown) {
+    const visible = entries.slice(0, shown);
+    const hidden = Math.max(entries.length - visible.length, 0);
+    const lines = [label, ...visible];
+    if (hidden > 0) {
+      lines.push(`... and ${hidden} more candidates in this lane`);
+    }
+    return lines.join('\n');
   }
 
   function renderSamples(items) {
@@ -311,6 +336,10 @@ Grammar G:
       chip.textContent = item.text;
       sampleChips.appendChild(chip);
     });
+  }
+
+  function setSummary(title, text) {
+    summaryBanner.innerHTML = `<strong>${title}</strong>${text}`;
   }
 
   function runLane(kind, rng, budget, target) {
@@ -328,15 +357,7 @@ Grammar G:
       if (samples.length < 8) samples.push(result);
       log.push(`[${kind}] ${candidate} -> ${result.reason}`);
     }
-    return {
-      budget,
-      parsed,
-      guard,
-      witness,
-      samples,
-      log,
-      note: kind === 'raw' ? 'Raw bytes almost never even parse.' : 'Grammar keeps every candidate well formed.'
-    };
+    return { budget, parsed, guard, witness, samples, log, note: kind === 'raw' ? 'Raw bytes almost never even parse.' : 'Grammar keeps every candidate well formed.' };
   }
 
   function runHybrid(rng, budget, target) {
@@ -344,11 +365,7 @@ Grammar G:
     const solved = solveWithinGrammar(target);
     if (!solved) {
       base.log.push('[hybrid] local solve attempted -> no witness exists inside Digit = 1..9');
-      return {
-        ...base,
-        note: 'Solver stayed sound and reported no witness inside the grammar range.',
-        solved: null,
-      };
+      return { ...base, note: 'Solver stayed sound and reported no witness inside the grammar range.', solved: null };
     }
     const solvedResult = evaluateExpr(solved, target);
     base.log.push(`[hybrid] local solve attempted -> ${solved}`);
@@ -356,11 +373,15 @@ Grammar G:
       ...base,
       witness: base.witness || solvedResult.witness,
       samples: [solvedResult, ...base.samples].slice(0, 8),
-      note: base.witness
-        ? 'Grammar search already found the witness, solver confirms it deterministically.'
-        : 'Solver used the same grammar bounds and filled in the value-level witness.',
+      note: base.witness ? 'Grammar search already found the witness, solver confirms it deterministically.' : 'Solver used the same grammar bounds and filled in the value-level witness.',
       solved,
     };
+  }
+
+  function notifyParentHeight() {
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({ type: 'fp:iframe-height', height: document.body.scrollHeight }, '*');
+    }
   }
 
   function runAll() {
@@ -380,34 +401,37 @@ Grammar G:
 ${hybrid.solved}
 
 Reasoning:
-- op must be *
-- a and b must stay in Digit = 1..9
-- a * b must equal target`
+op must be *
+a and b must stay in Digit = 1..9
+a * b must equal target`
       : `No witness exists inside the grammar for target ${target}.
 
-The solver stayed inside Digit = 1..9 and did not hallucinate a value outside the grammar.`;
+The solver stayed inside Digit = 1..9 and did not invent a value outside the grammar.`;
     logArea.textContent = [
       `Target = ${target}`,
       '',
-      ...raw.log.slice(0, 8),
+      clippedBlock('Random bytes', raw.log, 12),
       '',
-      ...grammar.log.slice(0, 8),
+      clippedBlock('Grammar only', grammar.log, 12),
       '',
-      ...hybrid.log.slice(-6),
+      clippedBlock('Grammar + solver', hybrid.log, 10),
     ].join('\n');
-    notifyParentHeight();
-  }
 
-  function notifyParentHeight() {
-    if (window.parent && window.parent !== window) {
-      window.parent.postMessage({ type: 'fp:iframe-height', height: document.body.scrollHeight }, '*');
+    if (!hybrid.solved) {
+      setSummary('Bounded honesty', `The grammar kept candidates valid, but the solver found no multiplication witness inside Digit = 1..9 for target ${target}. This is a real limit, not a failure to search harder.`);
+    } else if (grammar.witness) {
+      setSummary('Solver confirms the witness', `Grammar search already reached the witness for target ${target}. The solver then confirms it directly inside the same grammar bounds.`);
+    } else {
+      setSummary('Hybrid handoff', `Grammar search kept the candidates valid, but the remaining obstacle was semantic. The solver finished the value-level witness ${hybrid.solved}.`);
     }
+    notifyParentHeight();
   }
 
   runBtn.addEventListener('click', runAll);
   window.addEventListener('load', notifyParentHeight);
   window.addEventListener('resize', notifyParentHeight);
-  runAll();
+  setSummary('Start here', 'Run the default target once, then change to 97. The contrast shows the difference between a real witness and a bounded no-witness report.');
+  notifyParentHeight();
 })();
 </script>
 </body>

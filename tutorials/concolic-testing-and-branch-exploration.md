@@ -5,104 +5,46 @@ kicker: Tutorial 35
 description: "Learn concolic testing as branch-exploration witness search, understand its bounded strengths and limits, and see why the modern practical story is hybrid."
 ---
 
-This page starts from one question:
+Concolic testing starts from a simple practical question: how can a search loop do better than random mutation without pretending it can prove everything? The answer is to combine one real execution with one symbolic view of why that execution followed the path it did. A concrete run gives an actual path through the program. The symbolic side records the branch conditions that made that path happen. Together they form a branch-exploration loop that searches for one genuine counterexample more deliberately than random testing can.
 
-How can a program search for a bug more intelligently than random testing,
-without pretending it can prove everything?
+That is why this tutorial treats concolic testing as a teaching object rather than just a tool category. It makes the existential side of formal reasoning visible. Instead of leaving the claim at “some bad run exists,” the loop tries to produce the input, the path, and the failing replay.
 
-Concolic testing is one of the cleanest answers.
-
-It combines:
-
-- a real execution on a concrete input, which gives a real path through the
-  program,
-- a symbolic record of the branch conditions on that path, which gives a handle
-  for steering the next run.
-
-The result is a branch-exploration loop.
-
-It is one of the best teaching objects in this whole line because it makes the
-existential side of formal reasoning visible:
-
-- search for one witness,
-- check whether the witness is real,
-- keep going until the budget runs out or the interesting region is exhausted.
-
-One terminology warning belongs near the top:
-
-- "symbolic execution" is used inconsistently in the literature
-- for teaching clarity, prefer precise terms such as DSE, concolic execution,
-  bounded model checking, and hybrid testing whenever the distinction matters
-- on this page, "concolic testing" means concrete execution plus symbolic
-  path constraints, and "DSE" (dynamic symbolic execution) is treated as the broader historical label
+One terminology caution belongs at the top. The literature uses “symbolic execution” loosely. On this page, “concolic testing” means concrete execution plus symbolic path constraints, while “dynamic symbolic execution” names the broader historical family. The distinction matters because this tutorial is about a specific replay-driven loop, not about every symbolic method.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Vocabulary note</p>
-  <ul>
-    <li><strong>Concrete run</strong> means one real execution on one actual input.</li>
-    <li><strong>Path condition</strong> means the conjunction of branch decisions taken along that run.</li>
-    <li><strong>Witness</strong> means one concrete input and path that really reaches the bad state.</li>
-    <li><strong>Harness</strong> means the replayable environment model used to run the program under test.</li>
-  </ul>
+  <p><strong>Concrete run</strong> means one real execution on one actual input. A <strong>path condition</strong> is the conjunction of branch decisions taken along that run. A <strong>witness</strong> is one concrete input and path that really reaches the bad state. A <strong>harness</strong> is the replayable environment model used to run the program under test.</p>
 </div>
 
-> Assumption hygiene
->
-> - Assumption A: the tutorial is about bounded path exploration, not about
->   proving full program correctness.
-> - Assumption B: the concrete executor is assumed to run the real program or a
->   faithful harnessed version of it.
-> - Assumption C: any coverage or completeness claim must be scoped to a model,
->   a finite horizon, or an explicitly restricted environment.
-> - Assumption D: higher-order inputs are introduced only after the first-order
->   path-constraint loop is already clear.
-> - Assumption E: the target is deterministic enough, or replayable enough, for
->   branch predicates gathered on one run to remain useful on the next run.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Before you start</p>
+  <p>It helps to be comfortable reading a small branchy function and simple Boolean conditions such as <code>x &gt; 0</code>. No prior solver expertise is required. The page introduces path conditions and replay-driven search as it goes.</p>
+</div>
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Assumption hygiene</p>
+  <p>This page is about bounded path exploration, not full correctness proofs. It assumes the concrete executor is running the real program, or at least a faithful harnessed version of it, and it treats stronger coverage claims as conditional on a finite horizon, faithful symbolic semantics, exact enough solver support, and replayable enough execution that one run’s branch predicates remain useful on the next run. Higher-order inputs appear only after the first-order loop is clear.</p>
+</div>
 
 ## Part I: the two formulas
 
-Let $P$ be a program and $\phi$ a safety property over terminal states.
-
-For this tutorial, assume a replayable execution model in which one concrete input produces one concrete run. In that bounded model, it is cleaner to write execution as a reachability relation.
-
-The universal safety claim is:
+Let $P$ be a program and let $\phi$ be a safety property over terminal states. In this tutorial it is useful to write execution as a reachability relation: $Reach(P, x, s)$ means that running program $P$ on input $x$ reaches terminal state $s$. With that notation, the universal safety claim says that every reachable terminal state is good:
 
 $$
 \forall x \forall s .\; Reach(P, x, s) \to \phi(s)
 $$
 
-Read it as:
-
-- for every input $x$,
-- if executing $P$ on $x$ can reach state $s$,
-- then $s$ satisfies the safety property.
-
-The bug-finding dual is:
+The dual bug-finding question asks whether there is at least one reachable bad state:
 
 $$
 \exists x \exists s .\; Reach(P, x, s) \land \neg \phi(s)
 $$
 
-That is the existential target.
-
-Concolic testing is a practical method for searching that existential space.
-
-It does not try to prove the universal statement directly. It tries to find a
-counterexample witness.
-
-This already explains why it is so useful pedagogically.
-
-It turns:
-
-- "there exists a bad run"
-
-into:
-
-- "here is the input, here is the path, here is the failure"
+That second formula is the practical target of concolic testing. The loop does not try to establish the universal statement directly. It tries to find a counterexample witness, a concrete input whose replay reaches a state where $\phi$ fails. This is the first important teaching shift: concolic testing turns an abstract existence claim into a search for a replayable failure.
 
 ## Part II: one branch, one path condition
 
-Take a tiny example.
+A tiny example makes the mechanism visible.
 
 ```python
 def f(x: int, y: int) -> int:
@@ -112,140 +54,75 @@ def f(x: int, y: int) -> int:
     return 0
 ```
 
-Suppose the first concrete run uses:
-
-```text
-x = 0, y = 0
-```
-
-Then the first branch goes false:
-
-```text
-x > 0   is false
-```
-
-So the collected path condition is:
+Suppose the first concrete run uses `x = 0, y = 0`. The first branch goes false, so the collected path condition is:
 
 $$
 PC = \neg(x > 0)
 $$
 
-The engine now flips that branch:
+The engine then asks a nearby question: what input would make the first branch go the other way? Flipping that condition yields:
 
 $$
 PC' = (x > 0)
 $$
 
-The solver can choose:
-
-```text
-x = 1, y = 0
-```
-
-Now the first branch is true, but the second is false:
-
-```text
-x > 0
-and
-not (y == x + 1)
-```
-
-So the new path condition is:
+A solver can satisfy that with `x = 1, y = 0`. Replay now takes the first branch and reaches the second. The resulting path condition becomes:
 
 $$
-PC = (x > 0) \land \neg(y = x + 1)
+PC = (x > 0) \land \neg(y == x + 1)
 $$
 
-Flip the second branch:
+Flip the second branch and solve again:
 
 $$
-PC' = (x > 0) \land (y = x + 1)
+PC' = (x > 0) \land (y == x + 1)
 $$
 
-One satisfying assignment is:
-
-```text
-x = 1, y = 2
-```
-
-That concrete run reaches the bug.
-
-This is the core concolic move:
-
-1. run concretely
-2. collect branch constraints
-3. negate one branch condition
-4. solve for a new input
-5. replay concretely
-
-That is branch exploration as witness search.
+One satisfying assignment is `x = 1, y = 2`, and replaying that input reaches the bug. The loop is therefore not magic. It runs concretely, records the decisions that shaped the run, negates one of them, solves for a new input, and replays to see what really happens.
 
 ## Part III: the loop in symbols
 
-For a concrete run with branch predicates $b_1, b_2, ..., b_n$, let the path
-condition be:
+For a concrete run with branch predicates $b_1, b_2, \ldots, b_n$, write the observed path condition as:
 
 $$
 PC = c_1 \land c_2 \land \cdots \land c_n
 $$
 
-where each $c_i$ is either $b_i$ or $\neg b_i$, depending on the branch actually
-taken.
-
-A standard concolic step picks one branch position $k$ and forms:
+where each $c_i$ is either $b_i$ or $\neg b_i$, depending on which branch the concrete run actually took. A standard concolic step chooses one position $k$ and forms a new prefix condition by negating that decision:
 
 $$
 PC_k' = c_1 \land \cdots \land c_{k-1} \land \neg c_k
 $$
 
-The suffix constraints are dropped on purpose. They came from the old continuation of the run, so they have to be rediscovered after the new input is replayed.
+The suffix is dropped on purpose. Those later constraints belonged to the old continuation of the run. Once branch $k$ changes, the old suffix no longer deserves trust. The engine has to replay the program and discover the new continuation honestly.
 
-The solver is then asked:
+The solver is then asked whether some input satisfies the flipped prefix:
 
 $$
 \exists x .\; PC_k'(x)
 $$
 
-If the answer is yes, the engine gets a new input $x'$ and replays the program
-concretely on $x'$.
-
-If the resulting run reaches a bad state, then the engine has produced an
-actual witness:
+If the answer is yes, replay produces a new concrete run. If that replay reaches a bad state, the engine has found an actual witness to:
 
 $$
 \exists x \exists s .\; Reach(P, x, s) \land \neg \phi(s)
 $$
 
-That is why concolic testing is stronger than plain random mutation.
+That is the core advantage over plain random mutation. The next guess is not blind. It is guided by the branch structure of a real execution.
 
-It does not just guess. It uses path constraints to drive the next guess.
-
-One stronger statement can be said, but only under an explicit bounded model.
-
-If a model $M_H$ has:
-
-- a finite path set up to horizon $H$,
-- faithful symbolic semantics for those paths,
-- and exact solver support for the relevant branch predicates,
-
-then exhaustive path-directed exploration can justify:
+One stronger statement is possible, but only under a clearly scoped bounded model. If a model $M_H$ has a finite path set up to horizon $H$, faithful symbolic semantics for those paths, and exact enough solver support for the relevant predicates, then exhaustive path-directed exploration can justify:
 
 $$
 \forall \pi \in Paths_H(P) .\; Feasible(\pi) \to Explored(\pi)
 $$
 
-That is a bounded completeness statement.
-
-It is useful, but it is conditional. Real tools usually lose one or more of
-those premises, which is why the tutorial keeps the stronger claim quarantined.
+That is a bounded completeness statement, not a general one. It becomes false as soon as one of those premises breaks, so the stronger claim has to stay quarantined.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">The concolic loop: concrete run, symbolic branch flip, replay</p>
   {% include diagrams/concolic-branch-loop.svg %}
   <figcaption class="fp-figure-caption">
-    A concrete execution yields one real path. The engine records the path
-    condition, flips one branch constraint, asks the solver for a new input,
-    then replays the program to see whether the new path reaches a bad state.
+    A concrete execution yields one real path. The engine records the path condition, flips one branch constraint, asks the solver for a new input, then replays the program to see whether the new path reaches a bad state.
   </figcaption>
 </figure>
 
@@ -272,161 +149,31 @@ those premises, which is why the tutorial keeps the stronger claim quarantined.
 
 ## Part IV: what it is good at
 
-Concolic testing is especially good at:
+Concolic testing is strongest when the target’s interesting behavior is hidden behind a narrow branch that random mutation rarely satisfies. In that setting the loop buys something specific: every replay, even a safe one, reveals which decision blocked progress. The next candidate is therefore shaped by the control flow of a real execution rather than by luck alone. That is why branchy parser logic, API guard code, arithmetic boundaries, and similar control-heavy regions respond so well to concolic search.
 
-- reaching narrow branches that random fuzzing almost never hits,
-- generating concrete, replayable bug inputs,
-- exploring bounded path variants around a discovered execution,
-- exposing multi-step failures when the environment model is simple enough.
-
-When the branch predicates are solver-friendly and the harness is faithful, that makes it one of the strongest pre-deployment tools for:
-
-- contract code,
-- parser logic,
-- API path conditions,
-- arithmetic and boundary bugs,
-- short compositional traces.
-
-In the language of the tutorial line, it is a very strong existential engine.
-
-It searches for:
-
-$$
-\exists x .\; Bad(x)
-$$
-
-by using the program's own branch structure as a guide.
-
-### A quick comparison with fuzzing
-
-Both fuzzing and concolic testing search for existential witnesses.
-
-The difference is how much structure they use.
-
-- fuzzing mutates or schedules inputs without explicitly solving the path predicates,
-- concolic testing records the branch conditions and asks what input would make
-  a nearby branch go the other way.
-
-So the clean teaching contrast is:
-
-- fuzzing is cheap and broad,
-- concolic testing is structured and targeted,
-- hybrid engines try to get both benefits at once.
-
-That is why the modern story is not "fuzzing or concolic testing."
-
-It is:
-
-- fuzz cheaply,
-- spend solver effort where random mutation is weak.
+This is also the cleanest way to contrast concolic testing with fuzzing. Both methods are looking for existential witnesses. Fuzzing spends its budget on cheap variation and broad sampling. Concolic testing spends more per step so that each step can ask a sharper question, namely which input would make this specific branch go the other way. The difference is not that one method is real verification and the other is not. The difference is how much path structure the search loop is willing to use while hunting for a witness.
 
 ## Part V: what it does not prove
 
-This is where claims often get overstated.
-
-Concolic testing does **not** generally provide:
-
-- complete exploration of all feasible paths,
-- full formal soundness for arbitrary environments,
-- robust handling of loops, native calls, concurrency, floating point, and
-  external services without careful modeling.
-
-So the safe claim is:
-
-- concolic testing gives concrete bug witnesses and path-directed exploration,
-  not general completeness over realistic programs
-
-That caution remains true even under aggressive exploration. Exploring many or
-even all modeled paths does not automatically imply all bugs are found, because
-real programs often require concretization at library, syscall, environment, or
-external boundary points.
-
-The two main failure modes are easy to state.
-
-### 1. Path explosion
-
-Each branch doubles the number of possible path fragments.
-
-Even when all branches are feasible, the number of combinations grows too fast.
-
-### 2. Modeling limits
-
-The engine only reasons accurately about the parts it can model:
-
-- the path predicates it can represent,
-- the library and environment behavior it knows how to encode,
-- the solver theories it can actually handle.
-
-So a discovered witness is usually strong.
-
-But absence of a discovered witness is not a proof of safety unless the
-coverage argument is stated separately.
+This is the point where many explanations become sloppy. A discovered witness is usually strong evidence because the failing run was concrete. But the absence of a discovered witness is not a proof of safety. Two practical limits explain why. The first is path explosion: once the program keeps branching, the frontier of plausible continuations grows faster than the engine can replay them. The second is modeling fidelity: the engine only reasons accurately about the operations, libraries, and environment behavior that the harness and symbolic layer can represent well. Those two limits are enough to explain why coverage claims stay conditional and why modern systems spend symbolic effort selectively instead of trying to push symbolic reasoning through everything.
 
 ## Part VI: proposer and checker
 
-Concolic testing is a nice place to show the split between:
+Concolic testing is also a good place to separate the proposer from the checker. The proposer chooses which branch to flip, solves for a new candidate input, and offers the next path to try. The checker replays that candidate concretely and decides whether the resulting path is actually bad under the chosen invariant or disaster predicate. In a toy crash-finding setting those roles can feel nearly identical, but in richer systems they are not. A path can be real without being catastrophic, so the badness predicate still has to be supplied.
 
-- proposer
-- checker
+That is why the safe sentence is not “the concrete run is the whole verifier.” The safer statement is that the concrete run supplies the witness path, while the checker decides whether that path really violates the property of interest.
 
-The proposer side is:
+## Part VII: the teaching ladder
 
-- choose which branch condition to flip,
-- solve for a new input,
-- propose the next path candidate.
+A useful ladder for the surrounding tutorials starts with ordinary fuzzing. Fuzzing asks the existential question in the cheapest possible way: keep changing concrete inputs and see whether any run lands in a bad state. It can learn from coverage and crashes, but it does not explicitly ask why one run followed one branch rather than another.
 
-The checker side is:
+Concolic testing adds that explanatory layer. After one concrete run, it records the branch decisions that shaped the path and asks which nearby input would change one chosen decision. The result is still a bug-finding loop rather than a proof, but it uses more of the program’s control-flow structure while searching.
 
-- replay the candidate concretely,
-- evaluate the disaster predicate or invariant,
-- decide whether the path is an actual bug witness.
-
-That is why the right tutorial sentence is not:
-
-- "the concrete run is the whole verifier"
-
-The better sentence is:
-
-- the concrete run supplies the path witness, and the checker decides whether
-  that witness is actually bad
-
-In a simple crash-finding setting, those can feel nearly identical.
-
-In a richer system, they are not.
-
-A path can be real without being catastrophic.
-
-The badness predicate still has to be defined.
-
-## Part VII: a useful teaching ladder
-
-One clean ladder for this tutorial is:
-
-- **fuzzing** samples or schedules inputs without explicitly solving path predicates
-- **concolic testing** steers execution by solving local path constraints
-- **bounded property checks** ask whether any bounded run or trace reaches a bad state
-
-That gives the page a simple progression:
-
-1. random exploration
-2. path-directed exploration
-3. bounded property-directed exploration
-
-The point of the ladder is pedagogical. It shows how each step adds more structure and usually more cost.
+Bounded property checking goes one step further. Instead of asking only for the next plausible witness, it asks whether any run inside a stated model and horizon can reach a bad state at all. That stronger question can justify stronger claims, but only after the model boundaries have been made explicit.
 
 ## Part VIII: the modern practical story is hybrid
 
-A beginner tutorial should not stop at the old textbook loop.
-
-The modern practical picture is hybrid:
-
-- fuzzing explores cheaply,
-- concolic search unlocks hard branches,
-- branch prioritization focuses the expensive symbolic work,
-- compiler-based instrumentation lowers overhead,
-- asynchronous or stochastic schedulers improve throughput.
-
-That is the real "state of the art" lesson. Modern engines redesign the loop instead of relying on plain textbook concolic execution.
+A beginner tutorial should not stop at the textbook loop, because most serious tools no longer do. The modern picture is hybrid. In practice a cheap fuzzer or structured generator explores broadly until progress stalls at one hard guard. At that moment the symbolic side is asked to do something narrow and expensive, such as solve one checksum, equality, or range condition that mutation is unlikely to hit by chance. For example, a fuzzer might already have reached the first branch of the tiny function from Part II with `(1, 0)` but keep missing the inner equality `y = x + 1`. The concolic side can then solve only that remaining guard and feed back `(1, 2)` as a new concrete seed. The resulting witness is replayed concretely and returned to the cheap search loop, which can continue from a seed that already crossed the hard condition. The real design problem is therefore not merely how to solve one path condition. It is how to spend symbolic effort only where that expense opens genuinely new behavior.
 
 <div class="fp-callout fp-callout-try">
   <p class="fp-callout-title">Bridge lab</p>
@@ -435,55 +182,18 @@ That is the real "state of the art" lesson. Modern engines redesign the loop ins
   </p>
 </div>
 
-This is the right connection to the rest of the series.
-
-The branch-exploration engine is not just a solver plus a tracer.
-
-It is a loop geometry:
-
-- which region gets explored first,
-- which branches are worth flipping,
-- which candidates are solver-tractable,
-- which discovered witnesses are worth shrinking and keeping.
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Advanced section</p>
+  <p>The core beginner tutorial ends at Part VIII. Part IX is an optional extension that introduces higher-order witness languages. It is safe to skip on a first pass.</p>
+</div>
 
 ## Part IX: higher-order inputs
 
-The advanced branch appears when the witness space contains more than numbers,
-strings, or flat records.
+The advanced extension appears when the witness space contains more than numbers, strings, or flat records. Sometimes the missing witness is a callback, a comparator, a policy function, a strategy object, or a small stateful closure. In that setting the engine is no longer searching only for values. It is searching for behaviors that shape later control flow.
 
-Sometimes the missing witness is:
+That is the idea behind higher-order concolic testing. The safe claim is modest: higher-order concolic testing extends witness search from first-order inputs to bounded representations of functional or behavioral inputs. The conceptual lesson is deeper. The witness language itself can have structure.
 
-- a callback,
-- a comparator,
-- a policy function,
-- a strategy object,
-- a stateful closure.
-
-That is the higher-order setting.
-
-The safe claim here is:
-
-- higher-order concolic testing extends witness search from first-order inputs
-  to functional or behavioral inputs
-
-This is worth including in the tutorial because it teaches a deeper lesson:
-
-- the witness language itself can be structured
-
-But it should not be the opening example.
-
-The right order is:
-
-1. first-order branches first
-2. path conditions second
-3. hybrid engines third
-4. higher-order witness languages last
-
-### A tiny higher-order example
-
-This example is only an intuition pump. The goal is to show what a behavior-valued witness looks like, not to claim that the full higher-order machinery has now been implemented.
-
-Suppose a program accepts a comparator function.
+A tiny intuition pump makes the shift concrete. Suppose a program accepts a comparator function.
 
 ```python
 from functools import cmp_to_key
@@ -493,7 +203,7 @@ def sort_ok(cmp, xs):
     return all(cmp(ys[i], ys[i + 1]) <= 0 for i in range(len(ys) - 1))
 ```
 
-The interesting witness may no longer be a number. It may be a badly behaved comparator. A well-behaved comparator must be transitive: if it says `a < b` and `b < c`, it must also say `a < c`. For example, on the tiny domain `{0, 1, 2}`, a cyclic comparator can say `0 < 1`, `1 < 2`, and `2 < 0`:
+The interesting witness may no longer be an integer. It may be a badly behaved comparator. A transitive comparator must preserve the order relation across triples. A cyclic comparator on the tiny domain `{0, 1, 2}` can violate that condition by saying `0 < 1`, `1 < 2`, and `2 < 0`:
 
 ```python
 def bad_cmp(a, b):
@@ -503,122 +213,4 @@ def bad_cmp(a, b):
     return -1 if (a, b) in cycle else 1
 ```
 
-A higher-order engine would not search over all Python functions. It would have to search over a bounded representation of behavior, for example a small lookup table or decision tree over a finite domain.
-
-That changes the witness language from:
-
-- "find one integer input"
-
-to:
-
-- "find one behavior-valued input"
-
-The important shift is not the Python detail. It is the type of thing being
-searched. The engine is no longer exploring only values. It is exploring
-behaviors that shape later control flow.
-
-That is the conceptual jump higher-order concolic testing is trying to manage.
-
-The tutorial does not need to prove the full machinery. It only needs to make
-the reader see that branch exploration can be over structured behaviors, not
-just over flat data.
-
-## Part X: where this fits the broader loop story
-
-Concolic testing belongs in the same family as:
-
-- witness-space search,
-- counterexample-guided refinement,
-- bug-finding loops,
-- adversarial scenario generation,
-- verifier-compiler loops.
-
-Its special contribution is that it makes branch structure explicit and
-operational.
-
-The loop is not vague:
-
-```text
-run
--> record path condition
--> flip a branch
--> solve
--> replay
--> keep witness or continue
-```
-
-That makes it an excellent tutorial on how existential search can be made much
-more disciplined than random mutation, while still falling short of global
-proof.
-
-## Part XI: practical checklist
-
-A good first pass through this topic should stay narrow and honest.
-
-1. Define the bad-state predicate before talking about branch exploration.
-2. Start with one concrete trace and one collected path condition.
-3. Show one branch flip and one solver-produced witness.
-4. Explain path explosion before making any strength claims.
-5. Separate "real witness found" from "all witnesses ruled out."
-6. Distinguish fuzzing, concolic testing, and bounded symbolic testing.
-7. Present hybrid engines as loop redesigns, not as magical completeness.
-8. Put higher-order inputs near the end as the advanced extension.
-
-## Takeaway
-
-Concolic testing is a branch-exploration loop.
-
-It searches for concrete counterexample witnesses by combining:
-
-- real execution,
-- symbolic path constraints,
-- solver-guided branch flipping.
-
-That can make it stronger than ordinary fuzzing for bounded path exploration when the predicates are solver-friendly and the replay model is faithful.
-
-It does not make path exploration complete in general.
-
-The modern practical story is therefore hybrid:
-
-- better branch scheduling,
-- selective solving,
-- fuzzing integration,
-- richer witness languages.
-
-That is the draft's main teaching claim.
-
-## Sources
-
-Primary sources only.
-
-### Core concolic and hybrid work
-
-- Godefroid, Klarlund, Sen, "DART: Directed Automated Random Testing"
-  - https://osl.cs.illinois.edu/publications/conf/pldi/GodefroidKS05.html
-- Sen, Marinov, Agha, "CUTE: A Concolic Unit Testing Engine for C"
-  - https://osl.cs.illinois.edu/publications/conf/sigsoft/SenMA05.html
-- Yun et al., "QSYM: A Practical Concolic Execution Engine Tailored for Hybrid Fuzzing"
-  - https://www.usenix.org/conference/usenixsecurity18/presentation/yun
-- Chen et al., "SAVIOR: Towards Bug-Driven Hybrid Testing"
-  - https://arxiv.org/abs/1906.07327
-- Iannaccone et al., "Fuzzolic: Mixing Fuzzing and Concolic Execution"
-  - https://www.sciencedirect.com/science/article/abs/pii/S0167404821001929
-- Poeplau and Francillon, "SymCC: Don’t Interpret, Compile!"
-  - https://www.usenix.org/conference/usenixsecurity20/presentation/poeplau
-- ICSE 2024, "Marco: A Stochastic Asynchronous Concolic Explorer"
-  - https://www.cs.ucr.edu/~heng/pubs/Marco-icse24.pdf
-
-### Higher-order inputs
-
-- D'Antoni et al., "Dynamic Symbolic Execution of Higher-Order Functions"
-  - https://arxiv.org/abs/2006.11639
-- Xia et al., "Sound and Complete Concolic Testing for Higher-order Functions"
-  - https://users.cs.northwestern.edu/~robby/pubs/papers/esop2021-yfd.pdf
-
-## Secondary orientation note
-
-Useful for terminology hygiene and design-space framing, but not a primary
-source for claims:
-
-- Alastair Reid, "Symbolic execution" note
-  - https://alastairreid.github.io/RelatedWork/notes/symbolic-execution/
+A higher-order engine would not search over arbitrary Python functions. It would search over a bounded behavioral representation, such as a tiny lookup table over a finite domain. That is the conceptual jump. The loop is still looking for a witness, but the witness is now behavior-valued rather than just data-valued.

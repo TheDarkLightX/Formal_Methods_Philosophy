@@ -80,7 +80,7 @@
   .controls, .panel { background: var(--panel-strong); border: 1px solid var(--line); box-shadow: var(--shadow); }
   .controls {
     border-radius: var(--radius-md); padding: 16px 18px; display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-bottom: 16px;
+    grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; margin-bottom: 12px;
   }
   @media (max-width: 900px) { .controls { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .controls { grid-template-columns: 1fr; } }
@@ -98,6 +98,7 @@
   }
   .btn-blue { background: var(--blue-soft); color: var(--blue); border-color: rgba(37, 99, 235, 0.25); }
   .btn-green { background: var(--green-soft); color: var(--green); border-color: rgba(21, 128, 61, 0.25); }
+  .btn-teal { background: var(--teal-soft); color: var(--teal); border-color: rgba(15, 118, 110, 0.25); }
   .btn-red { background: var(--red-soft); color: var(--red); border-color: rgba(185, 28, 28, 0.25); }
   .grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 16px; }
   @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } }
@@ -118,7 +119,7 @@
     background: rgba(0,0,0,0.03); font-family: var(--font-mono); font-size: 0.77rem; overflow-x: auto; white-space: pre-wrap;
   }
   .log {
-    max-height: 420px; overflow-y: auto; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--line);
+    max-height: 300px; overflow-y: auto; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--line);
     background: rgba(0,0,0,0.03); font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.55; white-space: pre-wrap;
   }
   .sample-list { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -134,6 +135,14 @@
   .chip.good { background: var(--green-soft); color: var(--green); border-color: rgba(21,128,61,0.22); }
   .chip.bad { background: var(--red-soft); color: var(--red); border-color: rgba(185,28,28,0.22); }
   .chip.warn { background: var(--amber-soft); color: var(--amber); border-color: rgba(160,74,8,0.22); }
+  .intro-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 16px; }
+  @media (max-width: 800px) { .intro-grid { grid-template-columns: 1fr; } }
+  .intro-card { padding: 16px 18px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--panel-strong); box-shadow: var(--shadow); }
+  .intro-card h2 { margin: 0 0 8px; font-family: var(--font-display); font-size: 1rem; }
+  .intro-card p { margin: 0; color: var(--muted); }
+  .summary-banner { margin: 0 0 16px; padding: 14px 16px; border-radius: var(--radius-md); border: 1px solid rgba(15, 118, 110, 0.22); background: var(--teal-soft); box-shadow: var(--shadow); }
+  .summary-banner strong { display: block; margin-bottom: 4px; font-family: var(--font-display); }
+  .metric-note { margin: 0 0 10px; color: var(--muted); font-size: 0.86rem; }
   .note {
     margin-top: 14px; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid rgba(15, 118, 110, 0.22);
     background: var(--teal-soft); font-size: 0.88rem;
@@ -151,6 +160,17 @@
 
   <div class="formula">raw: find any byte string that triggers Bad &nbsp;&nbsp;|&nbsp;&nbsp; grammar: find a valid expression that triggers Bad</div>
 
+  <div class="intro-grid">
+    <div class="intro-card">
+      <h2>What this lab shows</h2>
+      <p>Both lanes use the same budget and the same bad-state predicate. The only difference is the witness language. One lane spends budget on arbitrary strings. The other stays inside the arithmetic grammar.</p>
+    </div>
+    <div class="intro-card">
+      <h2>Try this first</h2>
+      <p>Use the default seed and click <code>Run both strategies</code>. Then compare parser acceptance, semantic execution, and bug witnesses. After that, change the seed and see whether the grammar lane still keeps more of the budget alive.</p>
+    </div>
+  </div>
+
   <div class="controls">
     <div class="control">
       <label for="budgetInput">Trials per run</label>
@@ -162,12 +182,21 @@
     </div>
     <div class="control">
       <label aria-hidden="true">&nbsp;</label>
-      <button class="btn-blue" id="rawBtn">Run raw-byte search</button>
+      <button id="rawBtn">Run raw lane only</button>
     </div>
     <div class="control">
       <label aria-hidden="true">&nbsp;</label>
-      <button class="btn-green" id="grammarBtn">Run grammar search</button>
+      <button id="grammarBtn">Run grammar lane only</button>
     </div>
+    <div class="control">
+      <label aria-hidden="true">&nbsp;</label>
+      <button class="btn-green" id="bothBtn">Run both strategies</button>
+    </div>
+  </div>
+
+  <div class="summary-banner" id="summaryBanner">
+    <strong>Start here</strong>
+    Run both strategies with the same seed to compare how much of the budget survives the parser boundary.
   </div>
 
   <div class="grid">
@@ -184,7 +213,8 @@ Num  ::= 0 | 1 | 2 | 3</pre>
 3. evaluation attempts division by zero</pre>
       </div>
 
-      <h3>Current run metrics</h3>
+      <h3 id="metricsTitle">Most recent lane metrics</h3>
+      <p class="metric-note" id="metricsNote">These bars show the most recent lane. The comparison cards below keep both strategies in view.</p>
       <div class="metric"><div>Parser accepted</div><div class="track"><div class="fill blue" id="acceptedFill"></div></div><div class="num" id="acceptedNum">0</div></div>
       <div class="metric"><div>Division reached</div><div class="track"><div class="fill amber" id="semanticFill"></div></div><div class="num" id="semanticNum">0</div></div>
       <div class="metric"><div>Bug witnesses</div><div class="track"><div class="fill green" id="bugFill"></div></div><div class="num" id="bugNum">0</div></div>
@@ -210,7 +240,7 @@ Num  ::= 0 | 1 | 2 | 3</pre>
     </div>
 
     <div class="panel">
-      <h2>Search log</h2>
+      <h2>Detailed log</h2>
       <div class="log" id="logArea"></div>
     </div>
   </div>
@@ -220,6 +250,7 @@ Num  ::= 0 | 1 | 2 | 3</pre>
 (() => {
   const rawBtn = document.getElementById('rawBtn');
   const grammarBtn = document.getElementById('grammarBtn');
+  const bothBtn = document.getElementById('bothBtn');
   const budgetInput = document.getElementById('budgetInput');
   const seedInput = document.getElementById('seedInput');
   const acceptedFill = document.getElementById('acceptedFill');
@@ -232,6 +263,9 @@ Num  ::= 0 | 1 | 2 | 3</pre>
   const logArea = document.getElementById('logArea');
   const rawSummary = document.getElementById('rawSummary');
   const grammarSummary = document.getElementById('grammarSummary');
+  const summaryBanner = document.getElementById('summaryBanner');
+  const metricsTitle = document.getElementById('metricsTitle');
+  const metricsNote = document.getElementById('metricsNote');
 
   const state = { log: [], results: { raw: null, grammar: null } };
   const alphabet = '0123()+/';
@@ -266,7 +300,6 @@ Num  ::= 0 | 1 | 2 | 3</pre>
 
   function parseExpr(input) {
     let i = 0;
-
     function parse() {
       if (i >= input.length) return null;
       const ch = input[i];
@@ -287,7 +320,6 @@ Num  ::= 0 | 1 | 2 | 3</pre>
       i += 1;
       return { type: 'bin', op, left, right };
     }
-
     const ast = parse();
     if (!ast || i !== input.length) return null;
     return ast;
@@ -312,6 +344,10 @@ Num  ::= 0 | 1 | 2 | 3</pre>
     logArea.scrollTop = logArea.scrollHeight;
   }
 
+  function setSummary(title, text) {
+    summaryBanner.innerHTML = `<strong>${title}</strong>${text}`;
+  }
+
   function notifyParentHeight() {
     if (window.parent && window.parent !== window) {
       window.parent.postMessage({ type: 'fp:iframe-height', height: document.body.scrollHeight }, '*');
@@ -319,32 +355,22 @@ Num  ::= 0 | 1 | 2 | 3</pre>
   }
 
   function renderComparison() {
-    const pairs = [
-      ['raw', rawSummary, 'Raw-byte search'],
-      ['grammar', grammarSummary, 'Grammar search'],
-    ];
-    for (const [key, node, label] of pairs) {
+    [['raw', rawSummary, 'Raw-byte search'], ['grammar', grammarSummary, 'Grammar search']].forEach(([key, node, label]) => {
       const result = state.results[key];
       if (!result) {
         node.innerHTML = `<h4>${label}</h4><p>not run yet</p>`;
-        continue;
+        return;
       }
-      node.innerHTML = `
-        <h4>${label}</h4>
-        <p>accepted: ${result.accepted}/${result.budget}</p>
-        <p>division reached: ${result.semantic}/${result.budget}</p>
-        <p>bugs: ${result.bugs}/${result.budget}</p>
-      `;
-    }
+      node.innerHTML = `<h4>${label}</h4><p>accepted: ${result.accepted}/${result.budget}</p><p>division reached: ${result.semantic}/${result.budget}</p><p>bugs: ${result.bugs}/${result.budget}</p>`;
+    });
   }
 
-  function renderMetrics(result, budget) {
-    const acceptedPct = (100 * result.accepted) / budget;
-    const semanticPct = (100 * result.semantic) / budget;
-    const bugPct = (100 * result.bugs) / budget;
-    acceptedFill.style.width = acceptedPct + '%';
-    semanticFill.style.width = semanticPct + '%';
-    bugFill.style.width = bugPct + '%';
+  function renderMetrics(result, budget, label) {
+    metricsTitle.textContent = `Most recent lane metrics: ${label}`;
+    metricsNote.textContent = 'These bars show the lane named above. The comparison cards below keep both strategies in view.';
+    acceptedFill.style.width = `${(100 * result.accepted) / budget}%`;
+    semanticFill.style.width = `${(100 * result.semantic) / budget}%`;
+    bugFill.style.width = `${(100 * result.bugs) / budget}%`;
     acceptedNum.textContent = `${result.accepted}/${budget}`;
     semanticNum.textContent = `${result.semantic}/${budget}`;
     bugNum.textContent = `${result.bugs}/${budget}`;
@@ -357,15 +383,12 @@ Num  ::= 0 | 1 | 2 | 3</pre>
     });
   }
 
-  function run(mode) {
-    const budget = Number(budgetInput.value);
-    const seed = Number(seedInput.value);
+  function search(mode, budget, seed, clearLog) {
     const rng = makeRng(seed);
-    const result = { accepted: 0, semantic: 0, bugs: 0, recent: [] };
-    state.log = [];
+    const result = { accepted: 0, semantic: 0, bugs: 0, recent: [], budget };
+    if (clearLog) state.log = [];
     addLog(`mode = ${mode}`);
     addLog(`budget = ${budget}, seed = ${seed}`);
-
     for (let step = 1; step <= budget; step += 1) {
       const sample = mode === 'raw' ? rawSample(rng) : grammarSample(rng);
       const ast = parseExpr(sample);
@@ -386,22 +409,49 @@ Num  ::= 0 | 1 | 2 | 3</pre>
         if (result.recent.length < 10) result.recent.push({ text: sample + ' ok', kind: 'good' });
       }
     }
-
-    result.budget = budget;
     state.results[mode] = result;
-    renderMetrics(result, budget);
+    return result;
+  }
+
+  function runSingle(mode) {
+    const budget = Number(budgetInput.value);
+    const seed = Number(seedInput.value);
+    const result = search(mode, budget, seed, true);
+    renderMetrics(result, budget, mode === 'raw' ? 'Raw-byte search' : 'Grammar search');
     renderComparison();
+    if (mode === 'raw') {
+      setSummary('Raw-byte lane', `Only ${result.accepted} of ${budget} candidates parsed. Now run the grammar lane with the same seed and compare how much budget makes it into evaluation.`);
+      metricsNote.textContent = 'These bars show the raw lane only. The comparison cards below still show the grammar side once it has run.';
+    } else {
+      setSummary('Grammar lane', `The grammar kept ${result.accepted} of ${budget} candidates inside the language. Compare the cards to see how much more of the budget reached evaluation.`);
+      metricsNote.textContent = 'These bars show the grammar lane only. The comparison cards below show both strategies when both have run.';
+    }
     notifyParentHeight();
   }
 
-  rawBtn.addEventListener('click', () => run('raw'));
-  grammarBtn.addEventListener('click', () => run('grammar'));
+  function runBoth() {
+    const budget = Number(budgetInput.value);
+    const seed = Number(seedInput.value);
+    const raw = search('raw', budget, seed, true);
+    addLog('');
+    const grammar = search('grammar', budget, seed, false);
+    renderMetrics(grammar, budget, 'Grammar search, shown because it ran last in the comparison');
+    renderComparison();
+    setSummary('Side-by-side result', `With the same seed and budget, raw-byte search accepted ${raw.accepted}/${budget} candidates while grammar search accepted ${grammar.accepted}/${budget}. That is the budget shift the tutorial is trying to show.`);
+    metricsNote.textContent = 'These bars now show the grammar lane because it ran second. The comparison cards below keep both lanes visible side by side.';
+    notifyParentHeight();
+  }
+
+  rawBtn.addEventListener('click', () => runSingle('raw'));
+  grammarBtn.addEventListener('click', () => runSingle('grammar'));
+  bothBtn.addEventListener('click', runBoth);
   window.addEventListener('load', notifyParentHeight);
   window.addEventListener('resize', notifyParentHeight);
+
   renderComparison();
-  addLog('Choose one search strategy and compare how much budget survives the parser boundary.');
-  run('raw');
-  run('grammar');
+  addLog('Click "Run both strategies" to see how many candidates survive the parser under raw-byte versus grammar search.');
+  setSummary('Start here', 'Use the default seed and click Run both strategies. The comparison cards and the banner will summarize the difference in witness language.');
+  notifyParentHeight();
 })();
 </script>
 </body>

@@ -44,6 +44,11 @@ description: "Interactive labs paired with the tutorial series: bounded witness 
   </p>
 </div>
 
+<div class="fp-callout fp-callout-try" style="margin-top: var(--space-xl)">
+  <p class="fp-callout-title">Suggested first path</p>
+  <p>Start with the Concolic Branch Lab, then move to the Grammar Witness Search Lab, and only then open the Grammar-to-Solver Handoff Lab. That sequence goes from path-directed search, to syntax-preserving search, to the hybrid moment where structured search hands off to local solving.</p>
+</div>
+
 <section style="margin-top: var(--space-2xl)">
   <h2 class="fp-page-title" style="font-size: 2rem; margin-bottom: var(--space-md)">Witness Search Track</h2>
   <div class="fp-grid">
@@ -96,6 +101,7 @@ description: "Interactive labs paired with the tutorial series: bounded witness 
 
 <section style="margin-top: var(--space-2xl)">
   <h2 class="fp-page-title" style="font-size: 2rem; margin-bottom: var(--space-md)">Loop Geometry Track</h2>
+  <p class="fp-card-text" style="margin-bottom: var(--space-lg)">If the witness-search track is finished, this is the best next stop. Start with the Hybrid Loop Comparison Lab, then move to Galois Loop Lab if the goal is to see how the search space itself can be reshaped.</p>
   <div class="fp-grid">
     <div class="fp-card fp-card-span-4">
       <h3 class="fp-card-title">Hybrid Loop Comparison Lab</h3>
@@ -146,6 +152,7 @@ description: "Interactive labs paired with the tutorial series: bounded witness 
 
 <section style="margin-top: var(--space-2xl)">
   <h2 class="fp-page-title" style="font-size: 2rem; margin-bottom: var(--space-md)">State and Shape Track</h2>
+  <p class="fp-card-text" style="margin-bottom: var(--space-lg)">For a gentler change of pace, start here with the Vending Machine Explorer. It is the most concrete entry point for states, transitions, and invariants before the later shape tutorials become more abstract.</p>
   <div class="fp-grid">
     <div class="fp-card fp-card-span-4">
       <h3 class="fp-card-title">Vending Machine Explorer</h3>
