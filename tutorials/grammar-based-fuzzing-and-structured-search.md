@@ -121,9 +121,13 @@ Grammar-based fuzzing is strongest when the program’s interesting behavior is 
 
 It is much weaker when syntax is not the real bottleneck. Checksums, cryptographic relations, deep arithmetic guards, and long path predicates can still block progress even if every candidate parses cleanly. That is why grammar-based fuzzing and concolic testing are complements rather than substitutes. One preserves structure. The other helps force branches once structured execution reaches a hard semantic guard.
 
+That limit is exactly where concolic testing from the previous tutorial re-enters the picture.
+
 ## Part VI: where concolic search enters
 
-A useful hybrid loop looks like this in prose. Generate or mutate one structured candidate. Execute it. If the run stalls at a hard guard, escalate locally and solve for the missing value relation. Then feed the successful witness back into the structured corpus so the cheap search loop can continue from a better seed. That is the real division of labor. Grammar-based fuzzing gets the loop through syntax and into semantics, while concolic search helps cross the hard predicates that remain after syntax has already been handled.
+A useful hybrid loop looks like this in prose. Generate or mutate one structured candidate. Execute it. If the run stalls at a hard guard, escalate locally and solve for the missing value relation. Then feed the successful witness back into the structured corpus so the cheap search loop can continue from a better seed.
+
+That division of labor is the whole point of the hybrid. Grammar-based fuzzing gets the loop through syntax and into semantics, while concolic search helps cross the hard predicates that remain after syntax has already been handled.
 
 A tiny arithmetic example makes the handoff concrete. Suppose the grammar has already produced $(3/x)$ and the run has reached evaluation. The remaining obstacle is no longer parsing, it is the value-level condition $x = 0$ needed for division by zero. A local solver can fill in that missing relation directly, producing $(3/0)$ without asking the grammar to do symbolic work it was never designed for.
 
@@ -166,3 +170,48 @@ $$
 $$
 
 This is why action grammars matter. The witness may be one ordered privilege sequence, one accepted message conversation, or one replayable transaction trace that drives the system into an abnormal region. If the grammar omits that family of traces, the search can look systematic while still missing the real bug. That is the model-risk warning that must stay attached to every grammar-based claim.
+
+
+## Part X: what it does not prove
+
+Grammar-based fuzzing does not prove that the grammar covers every important case, that every semantic guard has been crossed, that every structured witness has been searched, or that absence of a found witness implies safety.
+
+Its strength is not proof. Its strength is budget allocation.
+
+It spends more search effort in the semantic region where real structured bugs are more likely to live. That benefit depends on a clear assumption: the grammar must still include the witness family the search cares about.
+
+A grammar can fail not only by missing cases in general, but by excluding the one edge case that matters. In the running example, if the grammar were `Expr ::= Num | (Expr + Expr)`, then `(3/0)` would be unreachable by construction. That outcome would not show the evaluator is safe. It would show that the search model ruled the bug out in advance, which is a different and more dangerous kind of blindness. For that reason, grammar design is part of the threat model.
+
+
+## Part XI: practical closing guidance
+
+Choose the bad-state predicate before choosing the grammar, because the predicate determines which witnesses matter. Decide early whether the witness is a single input or a multi-step trace, since that choice shapes the grammar family and the amount of action structure that needs to be modeled. Keep the grammar small enough to understand and mutate. Start narrow, then widen only when the search stalls for reasons that the current model can actually explain.
+
+Just as important, keep the boundaries honest. Syntax preservation is not semantic correctness. A grammar-valid input can still be meaningless or unreachable in practice. Corpus hygiene, replay, and shrinking matter because redundant seeds waste budget on rediscovery. When the remaining obstacle is a value-level relation rather than a structural one, escalate to concolic or symbolic work instead of forcing the grammar to do a different job. And if a learned proposer is added later, treat it as optional leverage rather than as the definition of the method.
+
+
+## Current takeaway
+
+Grammar-based fuzzing is structured witness search. It replaces blind search over raw strings with search over a bounded language of coherent candidates. That single change can reach deeper semantic states than raw mutation on structured targets, precisely because parser rejection is no longer swallowing most of the budget.
+
+It is not automatically neural. It becomes a neural loop only when a learned model is added as a proposer, grammar miner, mutator, or scheduler.
+
+And it is not proof. The grammar is a model of the interesting input space, not a guarantee that the interesting input space has been covered. If the grammar is wrong, the search is systematically blind — and systematic blindness is harder to notice than random blindness.
+
+
+## Sources
+
+Primary sources and stable orientation links.
+
+- Godefroid, Kiezun, Levin, "Grammar-based Whitebox Fuzzing"
+  - https://www.microsoft.com/en-us/research/publication/grammar-based-whitebox-fuzzing/
+- Aschermann et al., "NAUTILUS: Fishing for Deep Bugs with Grammars"
+  - https://www.ndss-symposium.org/wp-content/uploads/2019/02/ndss2019_04A-3_Aschermann_paper.pdf
+- Wang et al., "Superion: Grammar-Aware Greybox Fuzzing"
+  - https://arxiv.org/abs/1812.01197
+- Blazytko et al., "GRIMOIRE: Synthesizing Structure while Fuzzing"
+  - https://www.usenix.org/conference/usenixsecurity19/presentation/blazytko
+- Srivastava et al., "Gramatron: Effective Grammar-Aware Fuzzing"
+  - https://hexhive.epfl.ch/publications/files/21ISSTA.pdf
+- Tutorial 35, "Concolic testing and branch exploration"
+  - {{ '/tutorials/concolic-testing-and-branch-exploration/' | relative_url }}

@@ -46,7 +46,7 @@ description: "Interactive labs paired with the tutorial series: bounded witness 
 
 <div class="fp-callout fp-callout-try" style="margin-top: var(--space-xl)">
   <p class="fp-callout-title">Suggested first path</p>
-  <p>Start with the Concolic Branch Lab, then move to the Grammar Witness Search Lab, and only then open the Grammar-to-Solver Handoff Lab. That sequence goes from path-directed search, to syntax-preserving search, to the hybrid moment where structured search hands off to local solving.</p>
+  <p>Start with the Concolic Branch Lab, then move to the Grammar Witness Search Lab, and only then open the Grammar-to-Solver Handoff Lab. Each step adds one new idea on top of the previous one: first path-directed search, then syntax-preserving search, then the hybrid moment where structured search hands off to local solving. Skipping ahead makes the later lab feel like a trick instead of a consequence.</p>
 </div>
 
 <section style="margin-top: var(--space-2xl)">

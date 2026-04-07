@@ -96,6 +96,8 @@
     padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid var(--line-strong);
     background: var(--panel); color: var(--ink); cursor: pointer;
   }
+  .control-secondary label { color: var(--muted); }
+  .control-secondary button { opacity: 0.82; font-size: 0.76rem; }
   .btn-blue { background: var(--blue-soft); color: var(--blue); border-color: rgba(37, 99, 235, 0.25); }
   .btn-green { background: var(--green-soft); color: var(--green); border-color: rgba(21, 128, 61, 0.25); }
   .btn-teal { background: var(--teal-soft); color: var(--teal); border-color: rgba(15, 118, 110, 0.25); }
@@ -105,12 +107,17 @@
   .panel { border-radius: var(--radius-lg); padding: 18px; }
   .panel h2 { margin: 0 0 12px; font-family: var(--font-display); font-size: 1.08rem; }
   .panel h3 { margin: 18px 0 8px; color: var(--muted); font-size: 0.9rem; }
-  .metric { display: grid; grid-template-columns: 132px 1fr 54px; gap: 10px; align-items: center; margin: 8px 0; }
+  .metric-stack { display: grid; gap: 10px; }
+  .metric-group { padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--line); background: rgba(255,255,255,0.32); }
+  .metric-head { margin-bottom: 8px; font-size: 0.82rem; font-weight: 700; }
+  .lane-metric { display: grid; grid-template-columns: 72px 1fr 62px; gap: 10px; align-items: center; margin: 6px 0; }
+  .lane-label { font-family: var(--font-mono); font-size: 0.74rem; color: var(--muted); }
   .track { height: 14px; background: var(--line); border-radius: 999px; overflow: hidden; }
-  .fill { height: 100%; border-radius: 999px; transition: width 0.25s ease; }
+  .fill { height: 100%; border-radius: 999px; transition: width 0.25s ease, opacity 0.2s ease; }
   .fill.blue { background: var(--blue); }
   .fill.green { background: var(--green); }
   .fill.amber { background: var(--amber); }
+  .fill.dim { opacity: 0.28; }
   .num { text-align: right; font-family: var(--font-mono); font-size: 0.76rem; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
@@ -181,16 +188,16 @@
       <input id="seedInput" type="number" min="1" max="99999" step="1" value="7" />
     </div>
     <div class="control">
-      <label aria-hidden="true">&nbsp;</label>
+      <label>Recommended first move</label>
+      <button class="btn-green" id="bothBtn">Run both strategies</button>
+    </div>
+    <div class="control control-secondary">
+      <label>Optional single lane</label>
       <button id="rawBtn">Run raw lane only</button>
     </div>
-    <div class="control">
-      <label aria-hidden="true">&nbsp;</label>
+    <div class="control control-secondary">
+      <label>Optional single lane</label>
       <button id="grammarBtn">Run grammar lane only</button>
-    </div>
-    <div class="control">
-      <label aria-hidden="true">&nbsp;</label>
-      <button class="btn-green" id="bothBtn">Run both strategies</button>
     </div>
   </div>
 
@@ -213,13 +220,27 @@ Num  ::= 0 | 1 | 2 | 3</pre>
 3. evaluation attempts division by zero</pre>
       </div>
 
-      <h3 id="metricsTitle">Most recent lane metrics</h3>
-      <p class="metric-note" id="metricsNote">These bars show the most recent lane. The comparison cards below keep both strategies in view.</p>
-      <div class="metric"><div>Parser accepted</div><div class="track"><div class="fill blue" id="acceptedFill"></div></div><div class="num" id="acceptedNum">0</div></div>
-      <div class="metric"><div>Division reached</div><div class="track"><div class="fill amber" id="semanticFill"></div></div><div class="num" id="semanticNum">0</div></div>
-      <div class="metric"><div>Bug witnesses</div><div class="track"><div class="fill green" id="bugFill"></div></div><div class="num" id="bugNum">0</div></div>
+      <h3 id="metricsTitle">Comparison snapshot</h3>
+      <p class="metric-note" id="metricsNote">Run both strategies first for the clearest comparison. Single-lane runs fill only one side.</p>
+      <div class="metric-stack">
+        <div class="metric-group">
+          <div class="metric-head">Parser accepted</div>
+          <div class="lane-metric"><div class="lane-label">Raw</div><div class="track"><div class="fill blue dim" id="acceptedRawFill"></div></div><div class="num" id="acceptedRawNum">&mdash;</div></div>
+          <div class="lane-metric"><div class="lane-label">Grammar</div><div class="track"><div class="fill blue dim" id="acceptedGrammarFill"></div></div><div class="num" id="acceptedGrammarNum">&mdash;</div></div>
+        </div>
+        <div class="metric-group">
+          <div class="metric-head">Division reached</div>
+          <div class="lane-metric"><div class="lane-label">Raw</div><div class="track"><div class="fill amber dim" id="semanticRawFill"></div></div><div class="num" id="semanticRawNum">&mdash;</div></div>
+          <div class="lane-metric"><div class="lane-label">Grammar</div><div class="track"><div class="fill amber dim" id="semanticGrammarFill"></div></div><div class="num" id="semanticGrammarNum">&mdash;</div></div>
+        </div>
+        <div class="metric-group">
+          <div class="metric-head">Bug witnesses</div>
+          <div class="lane-metric"><div class="lane-label">Raw</div><div class="track"><div class="fill green dim" id="bugRawFill"></div></div><div class="num" id="bugRawNum">&mdash;</div></div>
+          <div class="lane-metric"><div class="lane-label">Grammar</div><div class="track"><div class="fill green dim" id="bugGrammarFill"></div></div><div class="num" id="bugGrammarNum">&mdash;</div></div>
+        </div>
+      </div>
 
-      <h3>Recent samples</h3>
+      <h3>Recent samples from last run</h3>
       <div class="sample-list" id="samples"></div>
 
       <h3>Last comparison</h3>
@@ -253,12 +274,6 @@ Num  ::= 0 | 1 | 2 | 3</pre>
   const bothBtn = document.getElementById('bothBtn');
   const budgetInput = document.getElementById('budgetInput');
   const seedInput = document.getElementById('seedInput');
-  const acceptedFill = document.getElementById('acceptedFill');
-  const semanticFill = document.getElementById('semanticFill');
-  const bugFill = document.getElementById('bugFill');
-  const acceptedNum = document.getElementById('acceptedNum');
-  const semanticNum = document.getElementById('semanticNum');
-  const bugNum = document.getElementById('bugNum');
   const samples = document.getElementById('samples');
   const logArea = document.getElementById('logArea');
   const rawSummary = document.getElementById('rawSummary');
@@ -266,6 +281,26 @@ Num  ::= 0 | 1 | 2 | 3</pre>
   const summaryBanner = document.getElementById('summaryBanner');
   const metricsTitle = document.getElementById('metricsTitle');
   const metricsNote = document.getElementById('metricsNote');
+  const metricElements = {
+    accepted: {
+      rawFill: document.getElementById('acceptedRawFill'),
+      rawNum: document.getElementById('acceptedRawNum'),
+      grammarFill: document.getElementById('acceptedGrammarFill'),
+      grammarNum: document.getElementById('acceptedGrammarNum'),
+    },
+    semantic: {
+      rawFill: document.getElementById('semanticRawFill'),
+      rawNum: document.getElementById('semanticRawNum'),
+      grammarFill: document.getElementById('semanticGrammarFill'),
+      grammarNum: document.getElementById('semanticGrammarNum'),
+    },
+    bugs: {
+      rawFill: document.getElementById('bugRawFill'),
+      rawNum: document.getElementById('bugRawNum'),
+      grammarFill: document.getElementById('bugGrammarFill'),
+      grammarNum: document.getElementById('bugGrammarNum'),
+    },
+  };
 
   const state = { log: [], results: { raw: null, grammar: null } };
   const alphabet = '0123()+/';
@@ -365,15 +400,30 @@ Num  ::= 0 | 1 | 2 | 3</pre>
     });
   }
 
-  function renderMetrics(result, budget, label) {
-    metricsTitle.textContent = `Most recent lane metrics: ${label}`;
-    metricsNote.textContent = 'These bars show the lane named above. The comparison cards below keep both strategies in view.';
-    acceptedFill.style.width = `${(100 * result.accepted) / budget}%`;
-    semanticFill.style.width = `${(100 * result.semantic) / budget}%`;
-    bugFill.style.width = `${(100 * result.bugs) / budget}%`;
-    acceptedNum.textContent = `${result.accepted}/${budget}`;
-    semanticNum.textContent = `${result.semantic}/${budget}`;
-    bugNum.textContent = `${result.bugs}/${budget}`;
+  function paintLane(fillEl, numEl, result, key) {
+    if (!result) {
+      fillEl.style.width = '0%';
+      fillEl.classList.add('dim');
+      numEl.innerHTML = '&mdash;';
+      return;
+    }
+    fillEl.classList.remove('dim');
+    fillEl.style.width = `${(100 * result[key]) / result.budget}%`;
+    numEl.textContent = `${result[key]}/${result.budget}`;
+  }
+
+  function renderMetrics(lastLabel) {
+    metricsTitle.textContent = lastLabel ? `Comparison snapshot, last run: ${lastLabel}` : 'Comparison snapshot';
+    metricsNote.textContent = state.results.raw && state.results.grammar
+      ? 'Both lanes are shown side by side below. The sample chips still belong to the lane that ran last.'
+      : 'Run both strategies first for the clearest comparison. Single-lane runs fill only one side.';
+    Object.entries(metricElements).forEach(([key, refs]) => {
+      paintLane(refs.rawFill, refs.rawNum, state.results.raw, key);
+      paintLane(refs.grammarFill, refs.grammarNum, state.results.grammar, key);
+    });
+  }
+
+  function renderRecent(result) {
     samples.innerHTML = '';
     result.recent.forEach((entry) => {
       const chip = document.createElement('span');
@@ -417,14 +467,13 @@ Num  ::= 0 | 1 | 2 | 3</pre>
     const budget = Number(budgetInput.value);
     const seed = Number(seedInput.value);
     const result = search(mode, budget, seed, true);
-    renderMetrics(result, budget, mode === 'raw' ? 'Raw-byte search' : 'Grammar search');
+    renderMetrics(mode === 'raw' ? 'Raw-byte search' : 'Grammar search');
+    renderRecent(result);
     renderComparison();
     if (mode === 'raw') {
       setSummary('Raw-byte lane', `Only ${result.accepted} of ${budget} candidates parsed. Now run the grammar lane with the same seed and compare how much budget makes it into evaluation.`);
-      metricsNote.textContent = 'These bars show the raw lane only. The comparison cards below still show the grammar side once it has run.';
     } else {
-      setSummary('Grammar lane', `The grammar kept ${result.accepted} of ${budget} candidates inside the language. Compare the cards to see how much more of the budget reached evaluation.`);
-      metricsNote.textContent = 'These bars show the grammar lane only. The comparison cards below show both strategies when both have run.';
+      setSummary('Grammar lane', `The grammar kept ${result.accepted} of ${budget} candidates inside the language. Compare the bars and cards to see how much more of the budget reached evaluation.`);
     }
     notifyParentHeight();
   }
@@ -435,10 +484,10 @@ Num  ::= 0 | 1 | 2 | 3</pre>
     const raw = search('raw', budget, seed, true);
     addLog('');
     const grammar = search('grammar', budget, seed, false);
-    renderMetrics(grammar, budget, 'Grammar search, shown because it ran last in the comparison');
+    renderMetrics('Comparison run');
+    renderRecent(grammar);
     renderComparison();
-    setSummary('Side-by-side result', `With the same seed and budget, raw-byte search accepted ${raw.accepted}/${budget} candidates while grammar search accepted ${grammar.accepted}/${budget}. That is the budget shift the tutorial is trying to show.`);
-    metricsNote.textContent = 'These bars now show the grammar lane because it ran second. The comparison cards below keep both lanes visible side by side.';
+    setSummary('Side-by-side result', `With the same seed and budget, raw-byte search accepted ${raw.accepted}/${budget} candidates while grammar search accepted ${grammar.accepted}/${budget}. The bars now compare both lanes directly, and the recent samples show the lane that ran second.`);
     notifyParentHeight();
   }
 
@@ -448,9 +497,10 @@ Num  ::= 0 | 1 | 2 | 3</pre>
   window.addEventListener('load', notifyParentHeight);
   window.addEventListener('resize', notifyParentHeight);
 
+  renderMetrics('No runs yet');
   renderComparison();
   addLog('Click "Run both strategies" to see how many candidates survive the parser under raw-byte versus grammar search.');
-  setSummary('Start here', 'Use the default seed and click Run both strategies. The comparison cards and the banner will summarize the difference in witness language.');
+  setSummary('Start here', 'Use the default seed and click Run both strategies. The bars compare both lanes side by side, and the cards summarize how the witness language changes the budget.');
   notifyParentHeight();
 })();
 </script>

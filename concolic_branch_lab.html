@@ -144,10 +144,20 @@
     border: 1px solid rgba(37, 99, 235, 0.22); background: var(--blue-soft); color: var(--blue);
   }
   .log {
-    max-height: 420px; overflow-y: auto; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--line);
+    max-height: 300px; overflow-y: auto; padding: 12px; border-radius: var(--radius-md); border: 1px solid var(--line);
     background: rgba(0,0,0,0.03); font-family: var(--font-mono); font-size: 0.76rem; line-height: 1.55;
     white-space: pre-wrap;
   }
+  .intro-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0 0 16px; }
+  @media (max-width: 800px) { .intro-grid { grid-template-columns: 1fr; } }
+  .intro-card { padding: 16px 18px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--panel-strong); box-shadow: var(--shadow); }
+  .intro-card h2 { margin: 0 0 8px; font-family: var(--font-display); font-size: 1rem; }
+  .intro-card p { margin: 0; color: var(--muted); }
+  .preset-row { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 12px; }
+  .preset-row button { padding: 9px 12px; border-radius: var(--radius-sm); border: 1px solid var(--line-strong); background: var(--panel-strong); color: var(--ink); cursor: pointer; font-family: var(--font-mono); font-size: 0.78rem; box-shadow: var(--shadow); }
+  .preset-row button.reset-btn { background: var(--red-soft); color: var(--red); border-color: rgba(185, 28, 28, 0.25); }
+  .summary-banner { margin: 0 0 16px; padding: 14px 16px; border-radius: var(--radius-md); border: 1px solid rgba(37, 99, 235, 0.22); background: var(--blue-soft); color: var(--ink); box-shadow: var(--shadow); }
+  .summary-banner strong { display: block; margin-bottom: 4px; font-family: var(--font-display); }
   .note {
     margin-top: 14px; padding: 12px 14px; border-radius: var(--radius-md); border: 1px solid rgba(15, 118, 110, 0.22);
     background: var(--teal-soft); font-size: 0.88rem;
@@ -164,6 +174,17 @@
   </div>
 
   <div class="formula">run -&gt; record path condition -&gt; flip one branch -&gt; solve -&gt; replay</div>
+
+  <div class="intro-grid">
+    <div class="intro-card">
+      <h2>What this lab shows</h2>
+      <p>A concrete run gives one real path. The branch cards then show how concolic search changes only one decision at a time, solves the new prefix, and replays to see what the program actually does next.</p>
+    </div>
+    <div class="intro-card">
+      <h2>Try this first</h2>
+      <p>Start with the tutorial seed <code>(0, 0)</code>. That run stays on the outer false branch. Then flip branch 1, replay <code>(1, 0)</code>, and finally flip branch 2 to reach the witness <code>(1, 2)</code>.</p>
+    </div>
+  </div>
 
   <div class="controls">
     <div class="control">
@@ -188,6 +209,18 @@
     </div>
   </div>
 
+  <div class="preset-row">
+    <button type="button" data-preset="0,0">Tutorial seed: (0, 0)</button>
+    <button type="button" data-preset="1,0">After first flip: (1, 0)</button>
+    <button type="button" data-preset="1,2">Witness seed: (1, 2)</button>
+    <button type="button" class="reset-btn" id="resetBtn">Reset lab</button>
+  </div>
+
+  <div class="summary-banner" id="summaryBanner">
+    <strong>Start here</strong>
+    Set an input, run it concretely, then use one flip card to ask for the next witness in the bounded domain.
+  </div>
+
   <div class="grid">
     <div class="panel">
       <h2>Toy program</h2>
@@ -206,13 +239,13 @@
       <h3>Available branch flips</h3>
       <div class="flip-grid" id="flipGrid"></div>
 
-      <div class="note" id="teachingNote">
+      <div class="note" id="teachingNote" hidden>
         Later path constraints are discarded after a flip because they came from a different suffix of execution. They must be rediscovered by replaying the new input.
       </div>
     </div>
 
     <div class="panel">
-      <h2>Exploration log</h2>
+      <h2>Detailed log</h2>
       <div class="log" id="logArea"></div>
       <h3>Explored concrete inputs</h3>
       <div class="chips" id="exploredChips"></div>
@@ -231,11 +264,12 @@
   const flipGrid = document.getElementById('flipGrid');
   const logArea = document.getElementById('logArea');
   const exploredChips = document.getElementById('exploredChips');
+  const summaryBanner = document.getElementById('summaryBanner');
+  const presetButtons = document.querySelectorAll('[data-preset]');
+  const resetBtn = document.getElementById('resetBtn');
+  const teachingNote = document.getElementById('teachingNote');
 
-  const state = {
-    log: [],
-    explored: new Map(),
-  };
+  const state = { log: [], explored: new Map() };
 
   function execProgram(x, y) {
     const decisions = [];
@@ -271,13 +305,11 @@
   }
 
   function solvePrefix(flippedPrefix) {
-    const values = domainValues();
-    for (const x of values) {
-      for (const y of values) {
+    for (const x of domainValues()) {
+      for (const y of domainValues()) {
         let ok = true;
         for (const constraint of flippedPrefix) {
-          const truth = evaluateAtom(constraint.atom, x, y);
-          if (truth !== constraint.truth) {
+          if (evaluateAtom(constraint.atom, x, y) !== constraint.truth) {
             ok = false;
             break;
           }
@@ -292,6 +324,10 @@
     state.log.push(line);
     logArea.textContent = state.log.join('\n');
     logArea.scrollTop = logArea.scrollHeight;
+  }
+
+  function setSummary(title, text) {
+    summaryBanner.innerHTML = `<strong>${title}</strong>${text}`;
   }
 
   function notifyParentHeight() {
@@ -314,25 +350,38 @@
     }
   }
 
+  function resetLab(title = 'Start here', message = 'Load the tutorial seed (0, 0), run it, then compare the branch cards to the explanation at the top of the page.') {
+    state.log = [];
+    state.explored.clear();
+    xInput.value = '0';
+    yInput.value = '0';
+    domainSelect.value = '3';
+    statusChips.innerHTML = '';
+    pathText.textContent = 'No run yet.';
+    flipGrid.innerHTML = '';
+    teachingNote.hidden = true;
+    logArea.textContent = '';
+    renderExplored();
+    addLog('Set an input, run it concretely, then use a flip card to ask the bounded solver for the next witness.');
+    setSummary(title, message);
+    notifyParentHeight();
+  }
+
   function renderRun(result) {
     const key = `(${result.x}, ${result.y})`;
     state.explored.set(key, result);
 
     statusChips.innerHTML = '';
-    const inputChip = document.createElement('span');
-    inputChip.className = 'chip';
-    inputChip.textContent = `input = ${key}`;
-    statusChips.appendChild(inputChip);
-
-    const pathChip = document.createElement('span');
-    pathChip.className = 'chip warn';
-    pathChip.textContent = `branches = ${result.decisions.length}`;
-    statusChips.appendChild(pathChip);
-
-    const bugChip = document.createElement('span');
-    bugChip.className = 'chip ' + (result.bug ? 'bad' : 'good');
-    bugChip.textContent = result.bug ? 'bug reached' : 'safe run';
-    statusChips.appendChild(bugChip);
+    [
+      { cls: 'chip', text: `input = ${key}` },
+      { cls: 'chip warn', text: `branches = ${result.decisions.length}` },
+      { cls: 'chip ' + (result.bug ? 'bad' : 'good'), text: result.bug ? 'bug reached' : 'safe run' },
+    ].forEach((item) => {
+      const chip = document.createElement('span');
+      chip.className = item.cls;
+      chip.textContent = item.text;
+      statusChips.appendChild(chip);
+    });
 
     pathText.textContent = formatDecisions(result.decisions);
     flipGrid.innerHTML = '';
@@ -344,10 +393,7 @@
 
       const card = document.createElement('div');
       card.className = 'flip-card';
-      const title = document.createElement('h4');
-      title.textContent = `Flip branch ${index + 1}`;
-      card.appendChild(title);
-
+      card.innerHTML = `<h4>Flip branch ${index + 1}</h4>`;
       const desc = document.createElement('div');
       desc.style.fontFamily = 'var(--font-mono)';
       desc.style.fontSize = '0.76rem';
@@ -367,6 +413,7 @@
         btn.addEventListener('click', () => {
           xInput.value = String(witness.x);
           yInput.value = String(witness.y);
+          teachingNote.hidden = false;
           addLog(`flip ${index + 1}: solved ${desc.textContent} with (${witness.x}, ${witness.y})`);
           renderRun(execProgram(witness.x, witness.y));
         });
@@ -378,23 +425,41 @@
       flipGrid.appendChild(card);
     });
 
+    if (result.bug) {
+      setSummary('Witness reached', `The concrete replay hit the bug on ${key}. This is a real counterexample, not just a symbolic guess.`);
+    } else if (result.decisions.length === 1 && !result.decisions[0].truth) {
+      setSummary('Outer branch only', 'This run never entered the inner branch. Flip branch 1 to force execution deeper into the program.');
+    } else {
+      setSummary('Inner guard exposed', 'The run crossed the first guard but not the second. Flip branch 2 to ask the bounded solver for y = x + 1.');
+    }
+
     addLog(`run ${key}: ${formatDecisions(result.decisions)}${result.bug ? ' -> BUG' : ' -> safe'}`);
     renderExplored();
     notifyParentHeight();
   }
 
   runBtn.addEventListener('click', () => {
-    const x = Number(xInput.value);
-    const y = Number(yInput.value);
-    renderRun(execProgram(x, y));
+    renderRun(execProgram(Number(xInput.value), Number(yInput.value)));
+  });
+
+  presetButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const [x, y] = button.dataset.preset.split(',').map(Number);
+      xInput.value = String(x);
+      yInput.value = String(y);
+      setSummary('Preset loaded', `Inputs are now set to (${x}, ${y}). Run the concrete input to see the collected path condition.`);
+      notifyParentHeight();
+    });
+  });
+
+  resetBtn.addEventListener('click', () => {
+    resetLab('Lab reset', 'The lab is back at the tutorial starting point. Load the tutorial seed (0, 0), run it, then follow the branch flips again.');
   });
 
   window.addEventListener('load', notifyParentHeight);
   window.addEventListener('resize', notifyParentHeight);
 
-  renderExplored();
-  addLog('Start with a concrete input, then negate one branch and replay the solver witness.');
-  renderRun(execProgram(Number(xInput.value), Number(yInput.value)));
+  resetLab();
 })();
 </script>
 </body>
