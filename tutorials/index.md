@@ -398,4 +398,13 @@ show_title: false
       Learn structured witness search over grammars, see why syntax preservation reallocates budget into semantic execution, and understand where concolic escalation and neural proposal do and do not belong.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/countable-cantor-algebra-and-completion/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 37: The countable Cantor algebra and its completion</h2>
+    <p class="fp-card-text">
+      Learn why the clopen algebra of Cantor space is the unique countable atomless Boolean algebra, what its completion adds, why effective presentation matters, and how that theory connects to modern temporal logics such as Guarded Successor.
+    </p>
+  </a>
 </div>
