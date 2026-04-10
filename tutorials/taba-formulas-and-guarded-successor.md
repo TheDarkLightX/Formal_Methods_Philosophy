@@ -55,10 +55,11 @@ A good starting point for this tutorial is the region picture.
 - <code>1</code> means the whole region.
 - \(a \wedge b\) means the meet of <code>a</code> and <code>b</code>, in the region picture, their shared part.
 - \(a \vee b\) means the join of <code>a</code> and <code>b</code>, in the region picture, their union.
-- <code>a'</code> means the complement of <code>a</code>.
+- <code>a'</code> is read as “a prime,” and it denotes everything outside <code>a</code> within the whole Boolean space.
 
 <strong>Reading trap.</strong>
 Here <code>0</code> and <code>1</code> are Boolean-algebra elements, not ordinary numbers.
+The symbol <code>'</code> is read as “prime.” It is not a derivative mark.
 
 So when a formula says
 
@@ -218,8 +219,8 @@ The variable <code>x</code> is allowed to exist during the search, then disappea
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Notation note for the elimination chapter</p>
   <ul>
-    <li><code>x'</code> means the Boolean complement of <code>x</code>, not a derivative.</li>
-    <li><code>f'(1)</code> means the Boolean complement of the value <code>f(1)</code>.</li>
+    <li><code>x'</code> is read as “x prime.” It denotes everything outside <code>x</code> within the ambient Boolean space, not a derivative.</li>
+    <li><code>f'(1)</code> means the prime of the Boolean value <code>f(1)</code>, that is, the part outside that value within the whole space.</li>
     <li>When the TABA chapter writes a term like <code>x + f(x)</code>, the symbol comes from Boolean-term notation inside that chapter. It should not be read as ordinary integer arithmetic.</li>
   </ul>
 </div>
