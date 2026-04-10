@@ -36,8 +36,9 @@ The later moves only work because the earlier ones are already in place.
     <li>A Boolean term can be pictured as a region cut out of space.</li>
     <li>The equation <code>f(x)=0</code> means the region disappears.</li>
     <li>The inequality <code>g(x) ≠ 0</code> means some live piece remains.</li>
-    <li>Quantifier elimination asks whether a hidden switch can be removed from the final formula.</li>
+    <li>Quantifier elimination asks whether a bound variable can be removed from the final formula.</li>
     <li>Guarded Successor asks whether outputs can be chosen causally, prefix by prefix.</li>
+    <li><strong>Controlled English</strong> in this tutorial means an English paraphrase that keeps as much of the formula's logical structure as possible.</li>
   </ul>
 </div>
 
@@ -68,7 +69,7 @@ $$
 <strong>Standard reading.</strong>
 The meet of <code>a</code> and <code>b</code> is equal to <code>0</code>.
 
-<strong>Region gloss.</strong>
+<strong>Controlled English.</strong>
 The shared part of <code>a</code> and <code>b</code> is empty.
 
 And when it says
@@ -80,7 +81,7 @@ $$
 <strong>Standard reading.</strong>
 The element <code>a</code> is not equal to <code>0</code>.
 
-<strong>Region gloss.</strong>
+<strong>Controlled English.</strong>
 The region <code>a</code> is nonempty.
 
 This is the first reason the later formulas remain readable.
@@ -103,14 +104,14 @@ f(0), \qquad f(1).
 $$
 
 These are the two extreme cofactors.
-They answer the question: what does the term look like if the hidden switch is forced fully off or fully on?
+They answer the question: what does the term look like when the distinguished variable is set to <code>0</code> or <code>1</code>?
 
 <strong>Reading trap.</strong>
 These are not numerical samples of a real-valued function.
 They are the two cofactors obtained by evaluating the Boolean term at the bottom element and the top element of the algebra.
 
 That is the seed of quantifier elimination.
-If the existentially quantified variable appears only as a switch, then the whole search can often be reduced to the two extreme settings first.
+If the existentially quantified variable appears only as a Boolean choice point, then the whole search can often be reduced to the two extreme settings first.
 
 ### 3. Atomlessness
 
@@ -199,13 +200,13 @@ $$
 - There exists a value of <code>x</code> such that <code>f(x)=0</code>.
 - For every index <code>i</code>, the side-condition <code>g_i(x) \neq 0</code> also holds at that same value of <code>x</code>.
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
-There is a setting of the hidden switch <code>x</code> that kills the main equality obstruction while keeping every side-condition alive.
+There exists a Boolean-algebra value of <code>x</code> such that <code>f(x)=0</code> and every side-condition <code>g_i(x)\neq 0</code> also holds.
 
 The same variable <code>x</code> appears in every clause.
 So the formula is not asking for one witness for <code>f</code> and separate witnesses for the <code>g_i</code>.
-It asks for one value of <code>x</code> that simultaneously kills the equality obstruction and keeps every side-condition alive.
+It asks for one value of <code>x</code> that satisfies the entire conjunction.
 
 <strong>Reading trap.</strong>
 The quantifier <code>\exists x</code> ranges over Boolean-algebra elements.
@@ -240,9 +241,9 @@ $$
 - The left side says that some value of <code>x</code> makes <code>f(x)</code> equal to zero.
 - The right side says that the two cofactors, <code>f(0)</code> and <code>f(1)</code>, have zero overlap.
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
-The equation has a solution exactly when the fully-off obstruction and the fully-on obstruction do not clash.
+The equation has a solution exactly when the meet of the two cofactors is empty.
 
 Why this works, in picture form:
 
@@ -335,9 +336,9 @@ $$
 - or the admissible <code>x=0</code> branch leaves a nonzero <code>g_i</code> piece,
 - and at least one of those two branches must survive.
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
-For each side-condition, some legal branch has to keep a live piece.
+For each index <code>i</code>, at least one admissible branch leaves a nonzero <code>g_i</code> piece.
 
 This is the quantifier-free answer.
 The hidden switch <code>x</code> has disappeared.
@@ -385,8 +386,8 @@ How to read that result:
 - \(a \wedge b = 0\) says the equality side is consistent.
 - \(((a'\wedge c)\vee(b'\wedge d))\neq 0\) says the side-condition survives on at least one admissible branch.
 
-The quantified switch is gone.
-The geometry remains.
+The quantified variable <code>x</code> is gone.
+The remaining condition depends only on the cofactor data.
 
 ### The non-atomless case: distinct representatives instead of free splitting
 
@@ -409,9 +410,9 @@ $$
 
 - For any two distinct atom-index sets <code>A_i</code> and <code>A_j</code>, the required Boolean masses <code>b_i</code> and <code>b_j</code> must be disjoint.
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
-Different minterms must not demand the same finite Boolean mass. When they do, the system collides. In Hall language, a violator appears.
+Whenever <code>A_i</code> and <code>A_j</code> are distinct, the required masses <code>b_i</code> and <code>b_j</code> must be disjoint.
 
 <strong>Reading trap.</strong>
 The symbol <code>X</code> here is not the temporal successor operator from Guarded Successor or Tau.
@@ -472,9 +473,9 @@ where each \(\sigma_{i,j}\) is either \(s_j\) or \(s_j'\), depending on the bit 
 - Conjoin those choices into one branch.
 - Keep the index <code>i</code> exactly when that branch is nonzero.
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
-The formula lists which branches of the full sentence-generated partition are still alive.
+The formula returns exactly the branch indices whose corresponding conjunctions remain nonzero.
 
 So <code>BL</code> is the branch signature of the partition.
 It tells which of the <code>2^n</code> possible branches are still alive.
@@ -536,7 +537,7 @@ $$
 
 The formula asks whether, for every admissible input history <code>I</code>, there exists an output history <code>O</code> such that the specification holds, with successor terms constrained so that the choice of each output prefix depends only on the corresponding input prefix.
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
 At stage <code>t</code>, the output chosen up to stage <code>t</code> may depend on the input seen up to stage <code>t</code>.
 It may not depend on input values from later stages.
@@ -608,9 +609,9 @@ $$
 
 - The value of <code>p</code> at time-offset <code>n</code> is constrained to satisfy <code>\phi</code>.
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
-The rule says what <code>p</code> should look like <code>n</code> steps ahead.
+The rule constrains the value of <code>p</code> at offset <code>n</code> by the condition <code>\phi</code>.
 
 This is where the logic becomes program-shaped.
 State update can be expressed as a stream recurrence instead of being flattened into one large static formula.
@@ -635,7 +636,7 @@ T_1(k)=v,
 \forall x\; (x \ne k \to T_1(x)=T_2(x)).
 $$
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
 This updates the table at one key and leaves every other key unchanged.
 
@@ -658,7 +659,7 @@ $$
 \forall x\; (\neg \phi(T_2(x)) \to T_1(x)=0).
 $$
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
 This keeps exactly the entries whose values satisfy the predicate and zeroes out the rest.
 
@@ -680,9 +681,9 @@ $$
 \forall x\; (T_2(x)\ne T_3(x) \to T_1(x)=0).
 $$
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
-This keeps only the overlap between the two tables.
+This keeps the common entries of the two tables and assigns zero where they differ.
 
 This matters because the language is starting to behave like a small relational update language while still staying inside one semantic framework.
 
@@ -703,10 +704,10 @@ $$
 - The chosen pair <code>(x,y)</code> must satisfy <code>\psi(x,y)</code>.
 - If there exists some witness <code>t</code> such that both <code>\phi(x,t)</code> and <code>\psi(x,t)</code> hold, then the chosen <code>y</code> must also satisfy <code>\phi(x,y)</code>.
 
-<strong>Plain English.</strong>
+<strong>Controlled English.</strong>
 
-- Obey the new rule.
-- Preserve the old rule whenever preservation is still possible.
+- Choose <code>y</code> so that <code>\psi(x,y)</code> holds.
+- If some witness satisfies both <code>\phi</code> and <code>\psi</code>, then <code>y</code> must also satisfy <code>\phi</code>.
 
 This is semantic rather than textual patching.
 The operator revises behavior while trying to keep overlap with the previous contract.
@@ -717,11 +718,11 @@ It gives a precise model of safe update.
 ### Extended revision
 
 The later extended operator handles the case where the new specification may be unrealizable on some inputs.
-In plain language it says:
+In controlled English it says:
 
-1. use the new rule where it can really be satisfied,
-2. fall back to the old rule where it cannot,
-3. preserve overlap where both are available.
+1. apply the new rule on inputs where it is satisfiable,
+2. apply the old rule on inputs where the new rule is unrealizable,
+3. preserve the overlap on inputs where both rules are available.
 
 That is a sophisticated update model.
 It describes patching in the presence of partial incompatibility, which is much closer to real systems than total replacement semantics.
