@@ -404,7 +404,17 @@ show_title: false
   >
     <h2 class="fp-card-title">Tutorial 37: The countable Cantor algebra and its completion</h2>
     <p class="fp-card-text">
-      Learn why the clopen algebra of Cantor space is the unique countable atomless Boolean algebra, what its completion adds, why effective presentation matters, and how that theory connects to modern temporal logics such as Guarded Successor.
+      Learn why the clopen algebra of Cantor space is the unique countable atomless Boolean algebra, what its completion adds, and why classical completion is not yet an executable runtime story.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/taba-formulas-and-guarded-successor/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 38: TABA, formula by formula</h2>
+    <p class="fp-card-text">
+      Learn the Boolean-algebra machinery behind TABA, read the quantifier-elimination and guarded-successor formulas step by step, and see which future extensions are plausible from the current literature.
+    </p>
+  </a>
+
 </div>
