@@ -1,0 +1,99 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 520"
+  role="img"
+  aria-labelledby="fp-nso-fractal-title fp-nso-fractal-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-nso-fractal-title">NSO fractal-like refinement</title>
+  <desc id="fp-nso-fractal-desc">
+    A live region is split by sentence s0, then each surviving branch is split
+    again by s1, then again by s2. Dead branches fade out, while surviving
+    leaves form the branch signature recorded by BL.
+  </desc>
+
+  <defs>
+    <filter id="fp-nso-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <marker id="fp-nso-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M 0 0 L 12 6 L 0 12 z" fill="#475569" />
+    </marker>
+    <style>
+      .fp-nso-bg { fill: #F8FAFC; }
+      .fp-nso-panel { fill: #FFFFFF; stroke: #CBD5E1; stroke-width: 2; filter: url(#fp-nso-shadow); }
+      .fp-nso-live { fill: #C7D2FE; stroke: #4338CA; stroke-width: 2; }
+      .fp-nso-live-alt { fill: #BBF7D0; stroke: #15803D; stroke-width: 2; }
+      .fp-nso-dead { fill: #E2E8F0; stroke: #94A3B8; stroke-width: 2; opacity: 0.55; }
+      .fp-nso-line { stroke: #475569; stroke-width: 2; marker-end: url(#fp-nso-arrow); fill: none; }
+      .fp-nso-title { fill: #0F172A; font: 700 28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .fp-nso-label { fill: #334155; font: 600 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .fp-nso-small { fill: #475569; font: 500 15px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .fp-nso-code { fill: #111827; font: 600 16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .fp-nso-muted { fill: #64748B; font: 500 14px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="fp-nso-bg" width="960" height="520" rx="18" />
+  <rect class="fp-nso-panel" x="34" y="30" width="892" height="450" rx="14" />
+
+  <text class="fp-nso-title" x="70" y="78">NSO as fractal-like refinement</text>
+  <text class="fp-nso-small" x="70" y="108">Each new sentence splitter cuts every live branch again.</text>
+
+  <text class="fp-nso-label" x="76" y="165">stage 0</text>
+  <rect class="fp-nso-live" x="185" y="138" width="590" height="42" rx="8" />
+  <text class="fp-nso-code" x="435" y="165">R</text>
+
+  <path class="fp-nso-line" d="M 480 184 C 480 204 330 207 330 229" />
+  <path class="fp-nso-line" d="M 480 184 C 480 204 630 207 630 229" />
+  <text class="fp-nso-muted" x="500" y="210">split by s0</text>
+
+  <text class="fp-nso-label" x="76" y="260">stage 1</text>
+  <rect class="fp-nso-live" x="185" y="235" width="285" height="42" rx="8" />
+  <rect class="fp-nso-live-alt" x="490" y="235" width="285" height="42" rx="8" />
+  <text class="fp-nso-code" x="300" y="262">R &amp; s0</text>
+  <text class="fp-nso-code" x="598" y="262">R &amp; s0'</text>
+
+  <path class="fp-nso-line" d="M 327 282 C 327 304 235 307 235 329" />
+  <path class="fp-nso-line" d="M 327 282 C 327 304 420 307 420 329" />
+  <path class="fp-nso-line" d="M 633 282 C 633 304 540 307 540 329" />
+  <path class="fp-nso-line" d="M 633 282 C 633 304 725 307 725 329" />
+  <text class="fp-nso-muted" x="500" y="308">split by s1</text>
+
+  <text class="fp-nso-label" x="76" y="360">stage 2</text>
+  <rect class="fp-nso-live" x="185" y="335" width="130" height="42" rx="8" />
+  <rect class="fp-nso-dead" x="340" y="335" width="130" height="42" rx="8" />
+  <rect class="fp-nso-live-alt" x="490" y="335" width="130" height="42" rx="8" />
+  <rect class="fp-nso-live" x="645" y="335" width="130" height="42" rx="8" />
+  <text class="fp-nso-code" x="219" y="362">00</text>
+  <text class="fp-nso-code" x="374" y="362">01</text>
+  <text class="fp-nso-code" x="524" y="362">10</text>
+  <text class="fp-nso-code" x="679" y="362">11</text>
+  <text class="fp-nso-muted" x="368" y="396">dead branch = zero</text>
+
+  <path class="fp-nso-line" d="M 250 382 C 250 402 220 405 220 425" />
+  <path class="fp-nso-line" d="M 250 382 C 250 402 284 405 284 425" />
+  <path class="fp-nso-line" d="M 555 382 C 555 402 523 405 523 425" />
+  <path class="fp-nso-line" d="M 555 382 C 555 402 588 405 588 425" />
+  <path class="fp-nso-line" d="M 710 382 C 710 402 677 405 677 425" />
+  <path class="fp-nso-line" d="M 710 382 C 710 402 742 405 742 425" />
+  <text class="fp-nso-muted" x="500" y="410">split live branches by s2</text>
+
+  <text class="fp-nso-label" x="76" y="456">stage 3</text>
+  <rect class="fp-nso-live" x="185" y="430" width="62" height="36" rx="7" />
+  <rect class="fp-nso-dead" x="257" y="430" width="62" height="36" rx="7" />
+  <rect class="fp-nso-live-alt" x="490" y="430" width="62" height="36" rx="7" />
+  <rect class="fp-nso-dead" x="562" y="430" width="62" height="36" rx="7" />
+  <rect class="fp-nso-dead" x="645" y="430" width="62" height="36" rx="7" />
+  <rect class="fp-nso-live" x="717" y="430" width="62" height="36" rx="7" />
+  <text class="fp-nso-code" x="199" y="454">000</text>
+  <text class="fp-nso-code" x="271" y="454">001</text>
+  <text class="fp-nso-code" x="504" y="454">100</text>
+  <text class="fp-nso-code" x="576" y="454">101</text>
+  <text class="fp-nso-code" x="659" y="454">110</text>
+  <text class="fp-nso-code" x="731" y="454">111</text>
+
+  <rect x="690" y="64" width="190" height="70" rx="10" fill="#EEF2FF" stroke="#818CF8" stroke-width="2" />
+  <text class="fp-nso-code" x="714" y="94">BL = live leaves</text>
+  <text class="fp-nso-small" x="714" y="119">zero leaves drop out</text>
+</svg>

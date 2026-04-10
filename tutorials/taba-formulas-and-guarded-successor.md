@@ -61,6 +61,28 @@ This is a tutorial convention.
 TABA itself usually writes Boolean-algebra meet and join as juxtaposition or <code>∩</code> and <code>∪</code>, reserving <code>∧</code> and <code>∨</code> for logical connectives.
 Below, the surrounding sentence says whether a symbol is being used as a Boolean-algebra operation or as a logical connective.
 
+For ordinary sets, if <code>A={1,2,3}</code> and <code>B={3,4,5}</code>, then <code>A∪B={1,2,3,4,5}</code>.
+The shared element is included once, not twice.
+This tutorial is usually talking about abstract Boolean regions rather than literal finite sets, but the same algebraic reading applies: join behaves like union, meet behaves like overlap, and prime behaves like the outside of a region.
+In the region picture, union is made from three disjoint pieces: the part only in <code>A</code>, the shared part, and the part only in <code>B</code>.
+
+$$
+A \vee B
+= (A \wedge B') \vee (A \wedge B) \vee (A' \wedge B).
+$$
+
+The middle piece $A \wedge B$ is the meet, or overlap.
+The whole three-piece strip is the join, or union.
+In plain language, meet means “both,” and join means “either,” where “either” is inclusive and keeps the shared part too.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Union as A-only, shared, and B-only</p>
+  {% include diagrams/region-overlap-lens.svg %}
+  <figcaption class="fp-figure-caption">
+    The meet keeps only the shared middle piece. The union keeps all three pieces: what belongs only to <code>A</code>, what belongs to both, and what belongs only to <code>B</code>.
+  </figcaption>
+</figure>
+
 <strong>Reading trap.</strong>
 Here <code>0</code> and <code>1</code> are Boolean-algebra elements, not ordinary numbers.
 The symbol <code>'</code> is read as “prime.” It is not a derivative mark.
@@ -504,6 +526,19 @@ This is one of the first genuinely new compression moves in the tutorial.
 Without <code>BL</code>, the reader has to keep an entire sentence-generated partition in mind, branch by branch.
 With <code>BL</code>, the partition is compressed into the set of indices whose branches remain nonzero.
 The memory to keep is simple: NSO turns a family of sentence splits into a finite branch signature.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Visual intuition: fractal-like refinement</p>
+  <p>NSO can be pictured as a fractal-like refinement process. Each sentence splitter cuts every currently live region, then later splitters cut the surviving pieces again. This is only a picture: TABA is not assuming a metric fractal, a geometric dimension, or a particular drawing in space. The exact object here is the Boolean-algebraic branch partition recorded by <code>BL(s₀,...,sₙ₋₁)</code>.</p>
+</div>
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Live regions split, dead branches drop out</p>
+  {% include diagrams/nso-fractal-refinement.svg %}
+  <figcaption class="fp-figure-caption">
+    A live region is cut by <code>s₀</code>, then each surviving branch can be cut by <code>s₁</code>, then by <code>s₂</code>, and so on. Branches whose conjunction collapses to <code>0</code> fade out. The surviving leaves are the finite branch signature recorded by <code>BL</code>.
+  </figcaption>
+</figure>
 
 ### Why the recurrence matters
 

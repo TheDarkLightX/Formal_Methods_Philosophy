@@ -1,0 +1,48 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 280"
+  role="img"
+  aria-labelledby="fp-overlap-title fp-overlap-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-overlap-title">A-only, shared, and B-only regions</title>
+  <desc id="fp-overlap-desc">
+    A horizontal strip split into three parts: the part only in A, the shared
+    overlap of A and B, and the part only in B.
+  </desc>
+
+  <defs>
+    <filter id="fp-overlap-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <style>
+      .fp-overlap-bg { fill: #F8FAFC; }
+      .fp-overlap-panel { fill: #FFFFFF; stroke: #CBD5E1; stroke-width: 2; filter: url(#fp-overlap-shadow); }
+      .fp-overlap-a { fill: #BFDBFE; stroke: #2563EB; stroke-width: 2; }
+      .fp-overlap-shared { fill: #BBF7D0; stroke: #15803D; stroke-width: 2; }
+      .fp-overlap-b { fill: #FDE68A; stroke: #B45309; stroke-width: 2; }
+      .fp-overlap-title { fill: #0F172A; font: 700 28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .fp-overlap-label { fill: #0F172A; font: 700 20px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .fp-overlap-code { fill: #111827; font: 600 17px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .fp-overlap-small { fill: #475569; font: 500 15px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="fp-overlap-bg" width="960" height="280" rx="18" />
+  <rect class="fp-overlap-panel" x="40" y="34" width="880" height="206" rx="14" />
+
+  <text class="fp-overlap-title" x="80" y="82">Two-region overlap lens</text>
+  <text class="fp-overlap-small" x="80" y="112">A meet is the shared middle piece. Complements carve the two side pieces.</text>
+
+  <rect class="fp-overlap-a" x="115" y="145" width="230" height="58" rx="8" />
+  <rect class="fp-overlap-shared" x="365" y="145" width="230" height="58" rx="8" />
+  <rect class="fp-overlap-b" x="615" y="145" width="230" height="58" rx="8" />
+
+  <text class="fp-overlap-label" x="184" y="180">A-only</text>
+  <text class="fp-overlap-label" x="447" y="180">shared</text>
+  <text class="fp-overlap-label" x="690" y="180">B-only</text>
+
+  <text class="fp-overlap-code" x="182" y="225">A ∧ B'</text>
+  <text class="fp-overlap-code" x="437" y="225">A ∧ B</text>
+  <text class="fp-overlap-code" x="683" y="225">A' ∧ B</text>
+</svg>
