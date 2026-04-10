@@ -62,14 +62,14 @@ A beginner-friendly starting point is the region picture.
 So when a formula says
 
 $$
-a \wedge b = 0,
+a \wedge b = 0
 $$
 
 it says that the two regions do not overlap.
 And when it says
 
 $$
-a \neq 0,
+a \neq 0
 $$
 
 it says that the region still has some live part.
@@ -360,9 +360,13 @@ $$
 b_i \wedge b_j = 0 \quad \text{whenever } A_i \ne A_j.
 $$
 
-Read that as a matching condition.
-Different minterms must not demand the same finite Boolean mass.
-When they do, the system collides. In Hall language, a violator appears.
+<strong>Standard reading.</strong>
+
+- For any two distinct atom-index sets <code>A_i</code> and <code>A_j</code>, the required Boolean masses <code>b_i</code> and <code>b_j</code> must be disjoint.
+
+<strong>Plain English.</strong>
+
+Different minterms must not demand the same finite Boolean mass. When they do, the system collides. In Hall language, a violator appears.
 
 This is the right way to understand Chapter 2 as a whole.
 
@@ -547,9 +551,13 @@ $$
 X^n p \leftarrow \phi.
 $$
 
-Read it as:
+<strong>Standard reading.</strong>
 
-- the value of <code>p</code> at offset <code>n</code> is constrained by \(\phi\).
+- The value of <code>p</code> at time-offset <code>n</code> is constrained to satisfy <code>\phi</code>.
+
+<strong>Plain English.</strong>
+
+The rule says what <code>p</code> should look like <code>n</code> steps ahead.
 
 This is where the logic becomes program-shaped.
 State update can be expressed as a stream recurrence instead of being flattened away into one large static formula.
@@ -562,13 +570,17 @@ $$
 T_1 = \mathrm{set}(T_2, k, v)
 $$
 
-means exactly:
+<strong>Standard reading.</strong>
 
 $$
 T_1(x)=v \quad \text{if } x=k,
 \qquad
 T_1(x)=T_2(x) \quad \text{otherwise.}
 $$
+
+<strong>Plain English.</strong>
+
+This updates the table at one key and leaves every other key unchanged.
 
 That is a clean example of the Tau style.
 What looks like data-structure syntax is still given exact logical meaning.
@@ -581,13 +593,17 @@ $$
 T_1 = \mathrm{select}(T_2, \phi(v))
 $$
 
-means:
+<strong>Standard reading.</strong>
 
 $$
 T_1(x)=T_2(x) \quad \text{if } \phi(T_2(x)),
 \qquad
 T_1(x)=0 \quad \text{otherwise.}
 $$
+
+<strong>Plain English.</strong>
+
+This keeps exactly the entries whose values satisfy the predicate and zeroes out the rest.
 
 So the table is filtered by a predicate on its values.
 
@@ -599,8 +615,14 @@ $$
 T_1 = \mathrm{common}(T_2, T_3)
 $$
 
-keeps only entries where the two tables agree.
-In pointwise form, the surviving value at key <code>x</code> is the common value if both sides match there, otherwise zero.
+<strong>Standard reading.</strong>
+
+- At each key <code>x</code>, keep the common value if <code>T_2(x)</code> and <code>T_3(x)</code> agree.
+- Otherwise assign zero.
+
+<strong>Plain English.</strong>
+
+This keeps only the overlap between the two tables.
 
 This matters because the language is starting to behave like a small relational update language while still staying inside one semantic framework.
 
