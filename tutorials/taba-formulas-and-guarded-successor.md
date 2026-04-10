@@ -15,7 +15,7 @@ The story is easier to follow as a ladder:
 2. Quantifier elimination turns existential search into boundary checks.
 3. Atomlessness lets every live region split again.
 4. NSO lets sentences themselves become splitters.
-5. Guarded Successor turns satisfiability into online response.
+5. Guarded Successor turns satisfiability into causal output choice under universal inputs.
 6. Tau adds recurrence, tables, and revision so the logic can run.
 
 That is the progression TABA is building.
@@ -56,6 +56,9 @@ A good starting point for this tutorial is the region picture.
 - \(a \vee b\) means union.
 - <code>a'</code> means complement.
 
+<strong>Reading trap.</strong>
+Here <code>0</code> and <code>1</code> are Boolean-algebra elements, not ordinary numbers.
+
 So when a formula says
 
 $$
@@ -93,6 +96,10 @@ $$
 These are the two extreme cofactors.
 They answer the question: what does the term look like if the hidden switch is forced fully off or fully on?
 
+<strong>Reading trap.</strong>
+These are not numerical samples of a real-valued function.
+They are the two cofactors obtained by evaluating the Boolean term at the bottom element and the top element of the algebra.
+
 That is the seed of quantifier elimination.
 If the existentially quantified variable appears only as a switch, then the whole search can often be reduced to the two extreme settings first.
 
@@ -120,6 +127,9 @@ The wording is unusual, but the claim is exact.
 If one legal setting is known, the whole zero-set of the equation can be generated from a generic parameter \(t\).
 Here the symbol \(+\) is Boolean ring addition, or symmetric difference, not ordinary integer addition. That is why the theorem is called reproductive.
 The solution set stops looking mysterious and becomes a parametrized family.
+
+<strong>Reading trap.</strong>
+The parameter <code>t</code> is not time, and the symbol <code>+</code> is not ordinary arithmetic.
 
 This matters because the elimination chapter does not search blindly.
 It replaces an existential search by an explicit solution family, then reasons inside that family.
@@ -188,6 +198,10 @@ The same variable <code>x</code> appears in every clause.
 So the formula is not asking for one witness for <code>f</code> and separate witnesses for the <code>g_i</code>.
 It asks for one value of <code>x</code> that simultaneously kills the equality obstruction and keeps every side-condition alive.
 
+<strong>Reading trap.</strong>
+The quantifier <code>\exists x</code> ranges over Boolean-algebra elements.
+It does not range over numbers, times, or separate witnesses for separate clauses.
+
 This is the core trick.
 The variable <code>x</code> is allowed to exist during the search, then disappear from the answer.
 
@@ -230,6 +244,10 @@ Why this works, in picture form:
 
 That is already elimination in embryo.
 A variable has been traded for a boundary condition on the two cofactors.
+
+<strong>Reading trap.</strong>
+The right-hand side is not a numerical endpoint test.
+It is a Boolean overlap test between the two cofactors.
 
 ## Part IV: quantifier elimination, step by step
 
@@ -279,6 +297,10 @@ It is asking whether <code>g</code> stays nonzero somewhere inside the zero-set 
 
 That is the second cut.
 The existential search is now happening only inside the admissible corridor.
+
+<strong>Reading trap.</strong>
+This intermediate formula is not a second independent search problem.
+It is the original search problem, already restricted to the solution family for <code>f(x)=0</code>.
 
 ### Step 3. Use atomlessness to turn “somewhere” into a finite condition
 
@@ -382,6 +404,10 @@ $$
 
 Different minterms must not demand the same finite Boolean mass. When they do, the system collides. In Hall language, a violator appears.
 
+<strong>Reading trap.</strong>
+The symbol <code>X</code> here is not the temporal successor operator from Guarded Successor or Tau.
+It is a Boolean object whose minterms are being constrained.
+
 This is the right way to understand Chapter 2 as a whole.
 
 - The atomless case removes quantifiers by refinement.
@@ -473,10 +499,10 @@ The fixed point matters because satisfiability eventually reduces to a stable fi
 The important point is structural.
 Self-reference is handled by controlled refinement until the live branch geometry stabilizes.
 
-## Part VII: Guarded Successor, read as online response
+## Part VII: Guarded Successor, read as causal strategy existence
 
 Now the paper changes gears.
-It stops asking only whether some assignment exists, and starts asking whether outputs can be produced online against all inputs.
+It stops asking only whether some assignment exists, and starts asking whether outputs can be chosen causally against all admissible inputs.
 
 This is where Guarded Successor enters.
 
@@ -491,7 +517,7 @@ with a restriction:
 - successor-marked variables like <code>X q</code> appear only in guarded ways.
 
 The syntax matters, but the semantic question matters more.
-The logic is asking for an online responder:
+The logic is asking whether there exists a causal rule for choosing outputs:
 
 $$
 \forall I\; \exists O\; \mathrm{Spec}(I,O).
@@ -499,19 +525,23 @@ $$
 
 <strong>Standard reading.</strong>
 
-The formula asks whether every admissible input history <code>I</code> can be matched by an output history <code>O</code> so that the specification holds, with successor terms constrained so the response stays causal.
+The formula asks whether, for every admissible input history <code>I</code>, there exists an output history <code>O</code> such that the specification holds, with successor terms constrained so that the choice of each output prefix depends only on the corresponding input prefix.
 
 <strong>Plain English.</strong>
 
-The system must answer while the stream is arriving.
-It is not allowed to wait for the future and then choose the whole output after the fact.
+At stage <code>t</code>, the output chosen up to stage <code>t</code> may depend on the input seen up to stage <code>t</code>.
+It may not depend on input values from later stages.
 
 That is the real meaning of the guarded-successor restriction.
 It blocks time travel.
 The responder must stay causal.
 
+<strong>Reading trap.</strong>
+This is a realizability or strategy question, not ordinary satisfiability.
+The issue is not whether some completed input-output pair exists, but whether there is a causal rule that can choose outputs for every admissible input history.
+
 <figure class="fp-figure">
-  <p class="fp-figure-title">Guarded Successor as an online response rule</p>
+  <p class="fp-figure-title">Guarded Successor as causal prefix dependence</p>
   {% include diagrams/guarded-successor-online-strategy.svg %}
   <figcaption class="fp-figure-caption">
     The output prefix is allowed to depend on the input prefix that already exists, not on the part of the stream that has not arrived yet.
@@ -546,10 +576,11 @@ $$
 The best way to read them is:
 
 - \(\phi_n\) is what still has to be satisfied after <code>n</code> rounds of normalization,
-- \(\chi_n\) is the current approximation to an online strategy.
+- \(\chi_n\) is the current approximation to a causal output strategy.
 
 This pair is the constructive heart of Guarded Successor.
-The logic does not merely say that a response exists. It pushes toward a bounded, prefix-based response rule.
+The logic does not merely say that some output history exists.
+It pushes toward a bounded rule for choosing outputs from prefixes.
 
 ## Part VIII: Tau, where the logic begins to run
 
@@ -574,6 +605,10 @@ The rule says what <code>p</code> should look like <code>n</code> steps ahead.
 
 This is where the logic becomes program-shaped.
 State update can be expressed as a stream recurrence instead of being flattened into one large static formula.
+
+<strong>Reading trap.</strong>
+The symbol <code>X^n</code> here is temporal shift notation.
+It is not the same use of <code>X</code> that appears in the minterm theorem above.
 
 ### Table update
 
@@ -724,7 +759,7 @@ That is very close in spirit to what the public Tau tutorial already recommends 
 
 What a next move would look like:
 
-- preserve Guarded Successor's online semantics,
+- preserve Guarded Successor's causal input/output semantics,
 - add a disciplined separation between control atoms and host-computed data functions,
 - use abstraction refinement when the data side is too coarse.
 
@@ -751,7 +786,7 @@ Reactive synthesis modulo theories extends the old Church synthesis picture beyo
 
 What a next move would look like:
 
-- start from a GS or Tau-style online contract,
+- start from a GS or Tau-style causal input/output contract,
 - abstract it into a Boolean control problem,
 - refine the abstraction when the counterstrategy is inconsistent with the theory,
 - extract a static or bounded-memory controller when synthesis succeeds.
@@ -814,7 +849,7 @@ It is to separate semantic ambition from executable commitment.
 
 What a next move would look like:
 
-- keep the ambient semantic story rich enough to talk about refinement, operators, and online response,
+- keep the ambient semantic story rich enough to talk about refinement, operators, and causal input/output choice,
 - treat that richer story as the semantic substrate behind TABA and Guarded Successor,
 - choose a smaller finite and likely atomic carrier for execution,
 - lower Tau-facing or controller-facing obligations into that carrier,
@@ -830,7 +865,7 @@ A reader who forgets the technical details should still keep five pictures.
 1. <strong>Two cofactors.</strong> Quantifier elimination starts by looking at <code>f(0)</code> and <code>f(1)</code>.
 2. <strong>Finer cuts.</strong> Atomless means every live piece can still be split.
 3. <strong>Branch signature.</strong> \(BL(s_0,\dots,s_{n-1})\) records which branches survive.
-4. <strong>Causal response.</strong> Guarded Successor asks for an online response that stays in time.
+4. <strong>Causal choice.</strong> Guarded Successor asks for an output rule whose step <code>t</code> choice depends only on information available by step <code>t</code>.
 5. <strong>Patch with memory.</strong> \(\chi\), the revision formula, updates behavior while preserving the old contract wherever overlap remains.
 
 That is the shortest faithful summary of TABA.
