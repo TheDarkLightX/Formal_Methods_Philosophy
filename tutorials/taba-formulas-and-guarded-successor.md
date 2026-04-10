@@ -232,19 +232,19 @@ $$
 
 <strong>Standard reading.</strong>
 
-- There exists a value of <code>x</code> such that <code>f(x)=0</code>.
-- For every index <code>i</code>, the side-condition <code>g_i(x) \neq 0</code> also holds at that same value of <code>x</code>.
+- There exists a value of <code>x</code> such that $f(x)=0$.
+- For every index <code>i</code>, the side-condition $g_i(x) \neq 0$ also holds at that same value of <code>x</code>.
 
 <strong>English reading.</strong>
 
-There exists a Boolean-algebra value of <code>x</code> such that <code>f(x)=0</code> and every side-condition <code>g_i(x)\neq 0</code> also holds.
+There exists a Boolean-algebra value of <code>x</code> such that $f(x)=0$ and every side-condition $g_i(x)\neq 0$ also holds.
 
 The same variable <code>x</code> appears in every clause.
 So the formula is not asking for one witness for <code>f</code> and separate witnesses for the <code>g_i</code>.
 It asks for one value of <code>x</code> that satisfies the entire conjunction.
 
 <strong>Reading trap.</strong>
-The quantifier <code>\exists x</code> ranges over Boolean-algebra elements.
+The quantifier $\exists x$ ranges over Boolean-algebra elements.
 It does not range over numbers, times, or separate witnesses for separate clauses.
 
 This is the core trick.
@@ -690,11 +690,11 @@ $$
 
 <strong>Standard reading.</strong>
 
-- The value of <code>p</code> at time-offset <code>n</code> is constrained to satisfy <code>\phi</code>.
+- The value of <code>p</code> at time-offset <code>n</code> is constrained to satisfy $\phi$.
 
 <strong>English reading.</strong>
 
-The rule constrains the value of <code>p</code> at offset <code>n</code> by the condition <code>\phi</code>.
+The rule constrains the value of <code>p</code> at offset <code>n</code> by the condition $\phi$.
 
 This is where the logic becomes program-shaped.
 State update can be expressed as a stream recurrence instead of being flattened into one large static formula.
@@ -790,13 +790,13 @@ $$
 
 <strong>Standard reading.</strong>
 
-- The chosen pair <code>(x,y)</code> must satisfy <code>\psi(x,y)</code>.
-- If there exists some witness <code>t</code> such that both <code>\phi(x,t)</code> and <code>\psi(x,t)</code> hold, then the chosen <code>y</code> must also satisfy <code>\phi(x,y)</code>.
+- The chosen pair <code>(x,y)</code> must satisfy $\psi(x,y)$.
+- If there exists some witness <code>t</code> such that both $\phi(x,t)$ and $\psi(x,t)$ hold, then the chosen <code>y</code> must also satisfy $\phi(x,y)$.
 
 <strong>English reading.</strong>
 
-- Choose <code>y</code> so that <code>\psi(x,y)</code> holds.
-- If some witness satisfies both <code>\phi</code> and <code>\psi</code>, then <code>y</code> must also satisfy <code>\phi</code>.
+- Choose <code>y</code> so that $\psi(x,y)$ holds.
+- If some witness satisfies both $\phi$ and $\psi$, then <code>y</code> must also satisfy $\phi$.
 
 This is semantic rather than textual patching.
 The operator revises behavior while trying to keep overlap with the previous contract.
