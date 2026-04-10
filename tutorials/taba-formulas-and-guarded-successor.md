@@ -38,7 +38,7 @@ The later moves only work because the earlier ones are already in place.
     <li>The inequality <code>g(x) ≠ 0</code> means some live piece remains.</li>
     <li>Quantifier elimination asks whether a bound variable can be removed from the final formula.</li>
     <li>Guarded Successor asks whether outputs can be chosen causally, prefix by prefix.</li>
-    <li><strong>Controlled English</strong> in this tutorial means an English paraphrase that keeps as much of the formula's logical structure as possible.</li>
+    <li><strong>English reading</strong> in this tutorial means an English rendering that preserves as much of the formula's logical structure as possible.</li>
   </ul>
 </div>
 
@@ -69,7 +69,7 @@ $$
 <strong>Standard reading.</strong>
 The meet of <code>a</code> and <code>b</code> is equal to <code>0</code>.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 The shared part of <code>a</code> and <code>b</code> is empty.
 
 And when it says
@@ -81,7 +81,7 @@ $$
 <strong>Standard reading.</strong>
 The element <code>a</code> is not equal to <code>0</code>.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 The region <code>a</code> is nonempty.
 
 This is the first reason the later formulas remain readable.
@@ -200,7 +200,7 @@ $$
 - There exists a value of <code>x</code> such that <code>f(x)=0</code>.
 - For every index <code>i</code>, the side-condition <code>g_i(x) \neq 0</code> also holds at that same value of <code>x</code>.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 There exists a Boolean-algebra value of <code>x</code> such that <code>f(x)=0</code> and every side-condition <code>g_i(x)\neq 0</code> also holds.
 
@@ -241,7 +241,7 @@ $$
 - The left side says that some value of <code>x</code> makes <code>f(x)</code> equal to zero.
 - The right side says that the two cofactors, <code>f(0)</code> and <code>f(1)</code>, have zero overlap.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 The equation has a solution exactly when the meet of the two cofactors is empty.
 
@@ -336,7 +336,7 @@ $$
 - or the admissible <code>x=0</code> branch leaves a nonzero <code>g_i</code> piece,
 - and at least one of those two branches must survive.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 For each index <code>i</code>, at least one admissible branch leaves a nonzero <code>g_i</code> piece.
 
@@ -410,7 +410,7 @@ $$
 
 - For any two distinct atom-index sets <code>A_i</code> and <code>A_j</code>, the required Boolean masses <code>b_i</code> and <code>b_j</code> must be disjoint.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 Whenever <code>A_i</code> and <code>A_j</code> are distinct, the required masses <code>b_i</code> and <code>b_j</code> must be disjoint.
 
@@ -473,7 +473,7 @@ where each \(\sigma_{i,j}\) is either \(s_j\) or \(s_j'\), depending on the bit 
 - Conjoin those choices into one branch.
 - Keep the index <code>i</code> exactly when that branch is nonzero.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 The formula returns exactly the branch indices whose corresponding conjunctions remain nonzero.
 
@@ -543,7 +543,7 @@ $$
 
 The formula asks whether, for every admissible input history <code>I</code>, there exists an output history <code>O</code> such that the specification holds, with successor terms constrained so that the choice of each output prefix depends only on the corresponding input prefix.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 At stage <code>t</code>, the output chosen up to stage <code>t</code> may depend on the input seen up to stage <code>t</code>.
 It may not depend on input values from later stages.
@@ -623,7 +623,7 @@ $$
 
 - The value of <code>p</code> at time-offset <code>n</code> is constrained to satisfy <code>\phi</code>.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 The rule constrains the value of <code>p</code> at offset <code>n</code> by the condition <code>\phi</code>.
 
@@ -656,7 +656,7 @@ T_1(k)=v,
 \forall x\; (x \ne k \to T_1(x)=T_2(x)).
 $$
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 This updates the table at one key and leaves every other key unchanged.
 
@@ -679,7 +679,7 @@ $$
 \forall x\; (\neg \phi(T_2(x)) \to T_1(x)=0).
 $$
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 This keeps exactly the entries whose values satisfy the predicate and zeroes out the rest.
 
@@ -701,7 +701,7 @@ $$
 \forall x\; (T_2(x)\ne T_3(x) \to T_1(x)=0).
 $$
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 This keeps the common entries of the two tables and assigns zero where they differ.
 
@@ -724,7 +724,7 @@ $$
 - The chosen pair <code>(x,y)</code> must satisfy <code>\psi(x,y)</code>.
 - If there exists some witness <code>t</code> such that both <code>\phi(x,t)</code> and <code>\psi(x,t)</code> hold, then the chosen <code>y</code> must also satisfy <code>\phi(x,y)</code>.
 
-<strong>Controlled English.</strong>
+<strong>English reading.</strong>
 
 - Choose <code>y</code> so that <code>\psi(x,y)</code> holds.
 - If some witness satisfies both <code>\phi</code> and <code>\psi</code>, then <code>y</code> must also satisfy <code>\phi</code>.
