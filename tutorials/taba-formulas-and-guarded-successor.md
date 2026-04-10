@@ -483,6 +483,12 @@ It tells which of the <code>2^n</code> possible branches are still alive.
 That is why NSO is not empty symbolism.
 It packages the whole evolving partition into a finite signature.
 
+<strong>Zoom in.</strong>
+This is one of the first genuinely new compression moves in the tutorial.
+Without <code>BL</code>, the reader has to keep an entire sentence-generated partition in mind, branch by branch.
+With <code>BL</code>, the partition is compressed into the set of indices whose branches remain nonzero.
+The memory to keep is simple: NSO turns a family of sentence splits into a finite branch signature.
+
 ### Why the recurrence matters
 
 The paper then defines a refinement sequence
@@ -549,6 +555,14 @@ The responder must stay causal.
 <strong>Reading trap.</strong>
 This is a realizability or strategy question, not ordinary satisfiability.
 The issue is not whether some completed input-output pair exists, but whether there is a causal rule that can choose outputs for every admissible input history.
+
+<strong>Zoom in.</strong>
+The deep shift here is in the order of explanation.
+Earlier formulas ask whether some assignment exists.
+This formula asks for something stronger: a rule that keeps working as the input unfolds.
+The quantifiers are doing the real work.
+The formula is not searching for one completed witness pair.
+It is asking whether output choice can be organized as a causal dependency on input prefixes.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Guarded Successor as causal prefix dependence</p>
@@ -619,6 +633,12 @@ State update can be expressed as a stream recurrence instead of being flattened 
 <strong>Reading trap.</strong>
 The symbol <code>X^n</code> here is temporal shift notation.
 It is not the same use of <code>X</code> that appears in the minterm theorem above.
+
+<strong>Zoom in.</strong>
+This is the place where the tutorial crosses from logical characterization into executable update.
+The formula does not merely describe which streams are allowed.
+It names a future position and constrains the value there.
+That is why Tau starts to feel like a running language rather than only a satisfiability formalism.
 
 ### Table update
 
@@ -714,6 +734,14 @@ The operator revises behavior while trying to keep overlap with the previous con
 
 That is one reason the formula matters beyond Tau.
 It gives a precise model of safe update.
+
+<strong>Zoom in.</strong>
+The decisive clause is the implication in the second conjunct.
+It does not force preservation unconditionally.
+It forces preservation only when preservation is still available.
+That is the deep idea worth remembering.
+Revision here is not blind replacement, and it is not refusal to change.
+It is conditional preservation under compatibility.
 
 ### Extended revision
 
