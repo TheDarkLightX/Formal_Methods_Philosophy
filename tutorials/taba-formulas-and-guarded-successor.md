@@ -60,6 +60,8 @@ A good starting point for this tutorial is the region picture.
 <strong>Reading trap.</strong>
 Here <code>0</code> and <code>1</code> are Boolean-algebra elements, not ordinary numbers.
 The symbol <code>'</code> is read as “prime.” It is not a derivative mark.
+Semantically, <code>a'</code> plays the Boolean-algebra role that many readers already know as <code>NOT a</code>.
+A good reading tactic is: say “a prime,” then understand it as the part outside <code>a</code> in the whole space.
 
 So when a formula says
 
@@ -221,6 +223,7 @@ The variable <code>x</code> is allowed to exist during the search, then disappea
   <ul>
     <li><code>x'</code> is read as “x prime.” It denotes everything outside <code>x</code> within the ambient Boolean space, not a derivative.</li>
     <li><code>f'(1)</code> means the prime of the Boolean value <code>f(1)</code>, that is, the part outside that value within the whole space.</li>
+    <li>If it helps, mentally map <code>x'</code> to the Boolean-algebra version of <code>NOT x</code>, while still reading the symbol aloud as “x prime.”</li>
     <li>When the TABA chapter writes a term like <code>x + f(x)</code>, the symbol comes from Boolean-term notation inside that chapter. It should not be read as ordinary integer arithmetic.</li>
   </ul>
 </div>
