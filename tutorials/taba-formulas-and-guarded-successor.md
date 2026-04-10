@@ -12,13 +12,13 @@ They do not have to remain a wall of symbols.
 Once the background picture is in place, the formulas begin to behave like tools:
 cut, split, preserve, respond, revise.
 
-The whole story is easier to follow if it is carried as a ladder.
+The story is easier to follow as a ladder:
 
-1. ordinary Boolean algebra gives a language of regions,
-2. quantifier elimination turns existential search into boundary checks,
-3. atomlessness lets every live region split again,
-4. NSO lets sentences themselves become splitters,
-5. Guarded Successor turns satisfiability into online response,
+1. Ordinary Boolean algebra gives a language of regions.
+2. Quantifier elimination turns existential search into boundary checks.
+3. Atomlessness lets every live region split again.
+4. NSO lets sentences themselves become splitters.
+5. Guarded Successor turns satisfiability into online response.
 6. Tau adds recurrence, tables, and revision so the logic can run.
 
 That ladder is the point of TABA.
