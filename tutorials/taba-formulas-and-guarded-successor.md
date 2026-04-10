@@ -5,12 +5,9 @@ kicker: Tutorial 38
 description: "Learn the Boolean-algebra machinery behind TABA, read the quantifier-elimination and guarded-successor formulas step by step, and see which future extensions are plausible from the current literature."
 ---
 
-This tutorial starts with a simple promise.
-
-The formulas in Ohad Asor's *Theories and Applications of Boolean Algebras* can be read.
-They do not have to remain a wall of symbols.
-Once the background picture is in place, the formulas begin to behave like tools:
-cut, split, preserve, respond, revise.
+This tutorial has a narrow goal.
+Read the major formulas exactly enough that the later moves stop looking abrupt.
+The path starts with definitions, zeros, and elimination, then moves outward to NSO, Guarded Successor, and Tau.
 
 The story is easier to follow as a ladder:
 
@@ -21,11 +18,11 @@ The story is easier to follow as a ladder:
 5. Guarded Successor turns satisfiability into online response.
 6. Tau adds recurrence, tables, and revision so the logic can run.
 
-That ladder is the point of TABA.
+That is the progression TABA is building.
 The later moves only work because the earlier ones are already in place.
 
 <div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">Assumption hygiene for this tutorial</p>
+  <p class="fp-callout-title">Reading basis for this tutorial</p>
   <ul>
     <li><strong>Text basis.</strong> This tutorial is based on the public TABA draft on the Tau site and the public arXiv abstract for <em>Guarded Successor</em>. In a few later sections, the notation has been lightly normalized so the formulas read cleanly on the page.</li>
     <li><strong>Scope.</strong> The focus is on formulas that change what the system can express, check, or execute. It does not try to comment on every displayed identity in the monograph.</li>
@@ -39,8 +36,8 @@ The later moves only work because the earlier ones are already in place.
     <li>A Boolean term can be pictured as a region cut out of space.</li>
     <li>The equation <code>f(x)=0</code> means the region disappears.</li>
     <li>The inequality <code>g(x) ≠ 0</code> means some live piece remains.</li>
-    <li>Quantifier elimination asks whether a hidden switch can be removed from the story.</li>
-    <li>Guarded Successor asks for a live accompanist, not a studio editor.</li>
+    <li>Quantifier elimination asks whether a hidden switch can be removed from the final formula.</li>
+    <li>Guarded Successor asks whether outputs can be chosen causally, prefix by prefix.</li>
   </ul>
 </div>
 
@@ -51,7 +48,7 @@ Before the later constructions, three older ideas are already doing heavy work.
 ### 1. Boolean algebra as a language of regions
 
 A Boolean algebra can be read in several equivalent ways.
-A beginner-friendly starting point is the region picture.
+A good starting point for this tutorial is the region picture.
 
 - <code>0</code> means the empty region.
 - <code>1</code> means the whole region.
@@ -74,9 +71,13 @@ $$
 
 it says that the region still has some live part.
 
-This is the first reason TABA is readable at all. The symbols are not floating in air. They name cuts and overlaps.
+This is the first reason the later formulas remain readable.
+The symbols are not floating in air.
+They name cuts and overlaps.
 
 ### 2. The two evaluations that drive elimination
+
+Much of the later machinery is about forcing one term to zero while keeping another term nonzero.
 
 If a Boolean term depends on one variable <code>x</code>, then two special evaluations matter immediately:
 
@@ -88,7 +89,7 @@ These are the two extreme cofactors.
 They answer the question: what does the term look like if the hidden switch is forced fully off or fully on?
 
 That is the seed of quantifier elimination.
-If the existentially quantified variable appears only as a switch, then one can often reason about the whole search by studying the two extreme settings first.
+If the existentially quantified variable appears only as a switch, then the whole search can often be reduced to the two extreme settings first.
 
 ### 3. Atomlessness
 
@@ -110,12 +111,13 @@ $$
 x = t + f(t).
 $$
 
-The wording is unusual, but the idea is clean.
+The wording is unusual, but the claim is exact.
 If one legal setting is known, the whole zero-set of the equation can be generated from a generic parameter \(t\).
 Here the symbol \(+\) is Boolean ring addition, or symmetric difference, not ordinary integer addition. That is why the theorem is called reproductive.
 The solution set stops looking mysterious and becomes a parametrized family.
 
-This matters because the elimination chapter does not search blindly. It keeps replacing an existential search by an explicit solution family, then reasons inside that family.
+This matters because the elimination chapter does not search blindly.
+It replaces an existential search by an explicit solution family, then reasons inside that family.
 
 ### 5. Successive elimination
 
@@ -165,7 +167,7 @@ This is the first major fork in the monograph.
 The central quantifier-elimination problem early in TABA has the shape
 
 $$
-\exists x\;\Bigl(f(x)=0 \;\wedge\; \bigwedge_i g_i(x) \neq 0\Bigr).
+\exists x\;(f(x)=0 \;\wedge\; \bigwedge_i g_i(x) \neq 0).
 $$
 
 <strong>Standard reading.</strong>
@@ -177,9 +179,9 @@ $$
 
 There is a setting of the hidden switch <code>x</code> that kills the main equality obstruction while keeping every side-condition alive.
 
-A good picture is a valve in a pipe network.
-The setting <code>x</code> must shut off one channel completely, that is \(f(x)=0\), while still leaving pressure in several others, that is the family \(g_i(x) \neq 0\).
-The elimination problem asks whether the valve setting can be removed from the final description, leaving only a condition on the remaining pipes.
+The same variable <code>x</code> appears in every clause.
+So the formula is not asking for one witness for <code>f</code> and separate witnesses for the <code>g_i</code>.
+It asks for one value of <code>x</code> that simultaneously kills the equality obstruction and keeps every side-condition alive.
 
 This is the core trick.
 The variable <code>x</code> is allowed to exist during the search, then disappear from the answer.
@@ -229,7 +231,7 @@ A variable has been traded for a boundary condition on the two cofactors.
 Now return to the fuller formula:
 
 $$
-\exists x\;\Bigl(f(x)=0 \;\wedge\; \bigwedge_i g_i(x) \neq 0\Bigr).
+\exists x\;(f(x)=0 \;\wedge\; \bigwedge_i g_i(x) \neq 0).
 $$
 
 TABA handles it in stages.
@@ -256,13 +258,19 @@ The next move uses the standard solution shape of <code>f(x)=0</code> to substit
 In TABA's presentation, one gets an equivalent problem of the form
 
 $$
-f(0)\wedge f(1)=0 \;\wedge\; g\bigl(x+f(x)\bigr) \neq 0,
+f(0)\wedge f(1)=0 \;\wedge\; g\bigl(x+f(x)\bigr) \neq 0
 $$
 
 for one side-condition <code>g</code>, and analogously for several <code>g_i</code>.
 
-The notation here is technical. The intuition is simpler.
-The paper is no longer asking whether <code>g</code> is nonzero somewhere in the whole algebra. It is asking whether <code>g</code> stays nonzero somewhere inside the zero-set cut out by <code>f</code>.
+<strong>Standard reading.</strong>
+
+- The equality part is still consistent, so the zero-set of <code>f</code> is nonempty.
+- Inside the reproductive family for that zero-set, the side-condition <code>g</code> remains nonzero.
+
+The notation here is technical, but the semantic move is exact.
+The paper is no longer asking whether <code>g</code> is nonzero somewhere in the whole algebra.
+It is asking whether <code>g</code> stays nonzero somewhere inside the zero-set cut out by <code>f</code>.
 
 That is the second cut.
 The existential search is now happening only inside the admissible corridor.
@@ -278,13 +286,13 @@ TABA's eliminated condition becomes
 $$
 f(0)\wedge f(1)=0
 \;\wedge\;
-\bigwedge_i \Bigl(\bigl(f'(1)\wedge g_i(1)\bigr) \;\vee\; \bigl(f'(0)\wedge g_i(0)\bigr)\Bigr) \neq 0.
+\bigwedge_i \bigl((f'(1)\wedge g_i(1)) \;\vee\; (f'(0)\wedge g_i(0))\bigr) \neq 0.
 $$
 
 <strong>Standard reading of one factor.</strong>
 
 $$
-\Bigl(\bigl(f'(1)\wedge g_i(1)\bigr) \;\vee\; \bigl(f'(0)\wedge g_i(0)\bigr)\Bigr) \neq 0.
+\bigl((f'(1)\wedge g_i(1)) \;\vee\; (f'(0)\wedge g_i(0))\bigr) \neq 0.
 $$
 
 - Either the admissible <code>x=1</code> branch leaves a nonzero <code>g_i</code> piece,
@@ -301,11 +309,12 @@ What remains is a formula about the surviving boundary pieces.
 
 ### Step 4. What the algorithm is really doing
 
-The algorithm can be summarized in one sentence:
+The elimination step can be summarized in one sentence:
 
 > First carve out where the equality can be satisfied, then ask whether each nonzero side-condition still has a live branch inside that carved region.
 
-That is quantifier elimination as region surgery.
+That is the exact output shape of the elimination step.
+The witness variable is gone, and the remaining formula speaks only about cofactor data and surviving branches.
 
 ### A worked miniature
 
@@ -357,7 +366,7 @@ Here \(X_{A_i}\) denotes the minterm of \(X\) indexed by the atom set \(A_i\).
 The theorem says this is solvable exactly when
 
 $$
-b_i \wedge b_j = 0 \quad \text{whenever } A_i \ne A_j.
+\forall i,j \le m\; (A_i \ne A_j \to b_i \wedge b_j = 0).
 $$
 
 <strong>Standard reading.</strong>
@@ -379,7 +388,7 @@ TABA itself says this explicitly: in the non-atomless case the quantifier is eli
 
 The elimination story becomes much cleaner in the atomless case because the algebra never gets stuck at indivisible points.
 
-That is the hidden reason many later TABA formulas work.
+That is one structural reason many later TABA formulas work.
 The logic repeatedly asks for a live branch to be split, then split again.
 If the algebra had atoms everywhere, the branch-growth argument would keep running into dead ends.
 
@@ -391,13 +400,13 @@ That is the mathematical engine behind the later branching constructions.
 
 ## Part VI: NSO, when sentences become splitters
 
-NSO is the first genuinely strange-looking extension in the monograph.
+NSO is the first point where the notation changes sharply.
 The move is simple to state:
 
 - sentence symbols can appear where Boolean-algebra terms usually appear.
 
 So a sentence is no longer only a statement that is true or false from the outside.
-It becomes a region-producing object from the inside.
+It also contributes an internal Boolean region that later formulas can cut against.
 
 A sentence symbol <code>s</code> can now be used like a splitter.
 Its complement <code>s'</code> gives the other side.
@@ -407,7 +416,7 @@ The paper then defines the branching profile
 $$
 BL(s_0,\dots,s_{n-1})
 :=
-\Bigl\{ i < 2^n \;\Big|\; \bigwedge_{j<n} \sigma_{i,j} \neq 0 \Bigr\},
+\{\, i < 2^n \mid \bigwedge_{j<n} \sigma_{i,j} \neq 0 \,\},
 $$
 
 where each \(\sigma_{i,j}\) is either \(s_j\) or \(s_j'\), depending on the bit pattern <code>i</code>.
@@ -427,17 +436,18 @@ where each \(\sigma_{i,j}\) is either \(s_j\) or \(s_j'\), depending on the bit 
 
 The formula lists which branches of the full sentence-generated partition are still alive.
 
-So <code>BL</code> is a barcode of the partition.
+So <code>BL</code> is the branch signature of the partition.
 It tells which of the <code>2^n</code> possible branches are still alive.
 
-That is why NSO is not empty symbolism. It packages the whole evolving partition into a finite signature.
+That is why NSO is not empty symbolism.
+It packages the whole evolving partition into a finite signature.
 
 ### Why the recurrence matters
 
-The paper then defines a sequence
+The paper then defines a refinement sequence
 
 $$
-\phi_0 := \phi, \qquad \phi_{n+1} := \text{a refined split form of } \phi_n.
+\phi_0 := \phi, \qquad \phi_1, \qquad \phi_2, \qquad \dots
 $$
 
 <div class="fp-callout fp-callout-note">
@@ -455,10 +465,10 @@ The exact indexing is technical, but the move is readable:
 Each round makes the partition finer.
 The fixed point matters because satisfiability eventually reduces to a stable finite branching pattern.
 
-This is one of the paper's deepest ideas.
-Self-reference is not handled by magic. It is handled by controlled refinement until the live branch geometry stabilizes.
+The important point is structural.
+Self-reference is handled by controlled refinement until the live branch geometry stabilizes.
 
-## Part VII: Guarded Successor, read as an online game
+## Part VII: Guarded Successor, read as online response
 
 Now the paper changes gears.
 It stops asking only whether some assignment exists, and starts asking whether outputs can be produced online against all inputs.
@@ -479,19 +489,17 @@ The syntax matters, but the semantic question matters more.
 The logic is asking for an online responder:
 
 $$
-\forall \text{ input histories }\; \exists \text{ output history }\; \text{Spec(input, output)}.
+\forall I\; \exists O\; \mathrm{Spec}(I,O).
 $$
 
 <strong>Standard reading.</strong>
 
-The formula asks whether every admissible input stream can be matched by an output stream so that the specification holds, with successor terms constrained so the response stays causal.
+The formula asks whether every admissible input history <code>I</code> can be matched by an output history <code>O</code> so that the specification holds, with successor terms constrained so the response stays causal.
 
 <strong>Plain English.</strong>
 
-A good analogy is a live accompanist.
-The input stream is the singer.
-The output stream is the accompaniment.
-A valid accompaniment must be playable bar by bar, not invented after hearing the whole song.
+The system must answer while the stream is arriving.
+It is not allowed to wait for the future and then choose the whole output after the fact.
 
 That is the real meaning of the guarded-successor restriction.
 It blocks time travel.
@@ -560,7 +568,7 @@ $$
 The rule says what <code>p</code> should look like <code>n</code> steps ahead.
 
 This is where the logic becomes program-shaped.
-State update can be expressed as a stream recurrence instead of being flattened away into one large static formula.
+State update can be expressed as a stream recurrence instead of being flattened into one large static formula.
 
 ### Table update
 
@@ -573,16 +581,16 @@ $$
 <strong>Standard reading.</strong>
 
 $$
-T_1(x)=v \quad \text{if } x=k,
+T_1(k)=v,
 \qquad
-T_1(x)=T_2(x) \quad \text{otherwise.}
+\forall x\; (x \ne k \to T_1(x)=T_2(x)).
 $$
 
 <strong>Plain English.</strong>
 
 This updates the table at one key and leaves every other key unchanged.
 
-That is a clean example of the Tau style.
+That is a direct example of the Tau style.
 What looks like data-structure syntax is still given exact logical meaning.
 
 ### Table selection
@@ -596,9 +604,9 @@ $$
 <strong>Standard reading.</strong>
 
 $$
-T_1(x)=T_2(x) \quad \text{if } \phi(T_2(x)),
+\forall x\; (\phi(T_2(x)) \to T_1(x)=T_2(x)),
 \qquad
-T_1(x)=0 \quad \text{otherwise.}
+\forall x\; (\neg \phi(T_2(x)) \to T_1(x)=0).
 $$
 
 <strong>Plain English.</strong>
@@ -617,8 +625,11 @@ $$
 
 <strong>Standard reading.</strong>
 
-- At each key <code>x</code>, keep the common value if <code>T_2(x)</code> and <code>T_3(x)</code> agree.
-- Otherwise assign zero.
+$$
+\forall x\; (T_2(x)=T_3(x) \to T_1(x)=T_2(x)),
+\qquad
+\forall x\; (T_2(x)\ne T_3(x) \to T_1(x)=0).
+$$
 
 <strong>Plain English.</strong>
 
@@ -635,7 +646,7 @@ $$
 :=
 \psi(x,y)
 \;\wedge\;
-\Bigl((\exists t\, (\phi(x,t) \wedge \psi(x,t))) \to \phi(x,y)\Bigr).
+((\exists t\, (\phi(x,t) \wedge \psi(x,t))) \to \phi(x,y)).
 $$
 
 <strong>Standard reading.</strong>
@@ -648,12 +659,11 @@ $$
 - Obey the new rule.
 - Preserve the old rule whenever preservation is still possible.
 
-This is not textual patching.
-It is semantic patching.
+This is semantic rather than textual patching.
 The operator revises behavior while trying to keep overlap with the previous contract.
 
 That is one reason the formula matters beyond Tau.
-It gives a clean model of safe update.
+It gives a precise model of safe update.
 
 ### Extended revision
 
@@ -686,7 +696,7 @@ That gives the paper a semantic world that is endlessly refinable.
 
 Once Tau adds recurrence, tables, and update operators, the story is no longer plain Boolean algebra alone.
 At that point the surrounding semantic picture begins to look like a Boolean algebra with operators.
-The classical representation story for Boolean algebras with operators (BAOs), due to Jónsson and Tarski, explains why that enriched semantic picture still admits clean relational semantics.
+The classical representation story for Boolean algebras with operators (BAOs), due to Jónsson and Tarski, explains why that enriched semantic picture still admits a relational semantics.
 
 ### Computability and constructivity guardrails
 
@@ -793,7 +803,7 @@ That is not mathematically flashy, but it is the disciplined route suggested by 
 
 ### 7. A finite atomic executable rail under the richer semantics
 
-The deepest practical lesson from the Boolean-algebra papers is easy to miss.
+One practical lesson from the Boolean-algebra papers is easy to miss.
 The next move is probably not to run the richest possible Boolean-algebra-with-operators story directly at runtime.
 It is to separate semantic ambition from executable commitment.
 
@@ -814,8 +824,8 @@ A reader who forgets the technical details should still keep five pictures.
 
 1. <strong>Two cofactors.</strong> Quantifier elimination starts by looking at <code>f(0)</code> and <code>f(1)</code>.
 2. <strong>Finer cuts.</strong> Atomless means every live piece can still be split.
-3. <strong>Barcode.</strong> \(BL(s_0,\dots,s_{n-1})\) records which branches survive.
-4. <strong>Accompanist.</strong> Guarded Successor asks for an online response that stays in time.
+3. <strong>Branch signature.</strong> \(BL(s_0,\dots,s_{n-1})\) records which branches survive.
+4. <strong>Causal response.</strong> Guarded Successor asks for an online response that stays in time.
 5. <strong>Patch with memory.</strong> \(\chi\), the revision formula, updates behavior while preserving the old contract wherever overlap remains.
 
 That is the shortest faithful summary of TABA.
