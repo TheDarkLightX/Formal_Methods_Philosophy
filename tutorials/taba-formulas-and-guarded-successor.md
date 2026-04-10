@@ -281,6 +281,25 @@ $$
 
 The equation has a solution exactly when the meet of the two cofactors is empty.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Meet keeps what both branches share</p>
+  {% include diagrams/cofactor-meet-common.svg %}
+  <figcaption class="fp-figure-caption">
+    When the <code>x=0</code> and <code>x=1</code> branches share a common obstruction, the meet keeps exactly that common part. Boole's criterion requires this common part to be empty.
+  </figcaption>
+</figure>
+
+The dual picture is join.
+Join keeps what survives on either branch.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Join collects what survives on either branch</p>
+  {% include diagrams/cofactor-join-survival.svg %}
+  <figcaption class="fp-figure-caption">
+    If one branch leaves a live piece on the left and another branch leaves a live piece on the right, the join keeps both pieces.
+  </figcaption>
+</figure>
+
 Why this works, in picture form:
 
 - <code>f(0)</code> is the obstruction that remains when the switch is fully off.

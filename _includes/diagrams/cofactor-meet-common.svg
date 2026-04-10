@@ -1,0 +1,56 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 330"
+  role="img"
+  aria-labelledby="fp-cofactor-title fp-cofactor-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-cofactor-title">The meet of two cofactors is their common part</title>
+  <desc id="fp-cofactor-desc">
+    Two cofactor rows share one common segment. The meet row keeps exactly that
+    common segment and drops the extra parts.
+  </desc>
+
+  <defs>
+    <filter id="fp-cofactor-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+    <style>
+      .fp-cofactor-bg { fill: #F8FAFC; }
+      .fp-cofactor-panel { fill: #FFFFFF; stroke: #CBD5E1; stroke-width: 2; filter: url(#fp-cofactor-shadow); }
+      .fp-cofactor-common { fill: #BBF7D0; stroke: #15803D; stroke-width: 2; }
+      .fp-cofactor-extra { fill: #DBEAFE; stroke: #2563EB; stroke-width: 2; }
+      .fp-cofactor-other { fill: #FDE68A; stroke: #B45309; stroke-width: 2; }
+      .fp-cofactor-guide { stroke: #94A3B8; stroke-width: 2; stroke-dasharray: 7 7; }
+      .fp-cofactor-title { fill: #0F172A; font: 700 28px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .fp-cofactor-label { fill: #334155; font: 700 18px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+      .fp-cofactor-code { fill: #111827; font: 600 16px ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+      .fp-cofactor-small { fill: #475569; font: 500 15px system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    </style>
+  </defs>
+
+  <rect class="fp-cofactor-bg" width="960" height="330" rx="18" />
+  <rect class="fp-cofactor-panel" x="40" y="34" width="880" height="246" rx="14" />
+
+  <text class="fp-cofactor-title" x="80" y="80">Meet keeps the common part</text>
+  <text class="fp-cofactor-small" x="80" y="110">The extra parts disappear when the two cofactor regions are met.</text>
+
+  <line class="fp-cofactor-guide" x1="268" y1="126" x2="268" y2="258" />
+  <line class="fp-cofactor-guide" x1="548" y1="126" x2="548" y2="258" />
+
+  <text class="fp-cofactor-label" x="86" y="158">branch x=0</text>
+  <rect class="fp-cofactor-common" x="268" y="134" width="280" height="38" rx="7" />
+  <rect class="fp-cofactor-extra" x="548" y="134" width="165" height="38" rx="7" />
+  <text class="fp-cofactor-code" x="342" y="158">COMMON</text>
+  <text class="fp-cofactor-code" x="604" y="158">extra</text>
+
+  <text class="fp-cofactor-label" x="86" y="209">branch x=1</text>
+  <rect class="fp-cofactor-common" x="268" y="185" width="280" height="38" rx="7" />
+  <rect class="fp-cofactor-other" x="648" y="185" width="165" height="38" rx="7" />
+  <text class="fp-cofactor-code" x="342" y="209">COMMON</text>
+  <text class="fp-cofactor-code" x="684" y="209">other extra</text>
+
+  <text class="fp-cofactor-label" x="86" y="260">meet</text>
+  <rect class="fp-cofactor-common" x="268" y="236" width="280" height="38" rx="7" />
+  <text class="fp-cofactor-code" x="342" y="260">COMMON</text>
+</svg>
