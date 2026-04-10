@@ -74,6 +74,7 @@ $$
 The middle piece $A \wedge B$ is the meet, or overlap.
 The whole three-piece strip is the join, or union.
 In plain language, meet means “both,” and join means “either,” where “either” is inclusive and keeps the shared part too.
+Shortcut: <strong>MEET = middle.</strong> <strong>JOIN = whole.</strong>
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Union as A-only, shared, and B-only</p>
