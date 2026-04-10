@@ -168,11 +168,14 @@ $$
 \exists x\;\Bigl(f(x)=0 \;\wedge\; \bigwedge_i g_i(x) \neq 0\Bigr).
 $$
 
-Read it slowly.
+<strong>Standard reading.</strong>
 
-- There exists some setting of the hidden switch <code>x</code>.
-- Under that setting, the term <code>f(x)</code> must vanish.
-- At the same time, every side-condition <code>g_i(x)</code> must stay nonempty.
+- There exists a value of <code>x</code> such that <code>f(x)=0</code>.
+- For every index <code>i</code>, the side-condition <code>g_i(x) \neq 0</code> also holds at that same value of <code>x</code>.
+
+<strong>Plain English.</strong>
+
+There is a setting of the hidden switch <code>x</code> that kills the main equality obstruction while keeping every side-condition alive.
 
 A good picture is a valve in a pipe network.
 The setting <code>x</code> must shut off one channel completely, that is \(f(x)=0\), while still leaving pressure in several others, that is the family \(g_i(x) \neq 0\).
@@ -202,13 +205,14 @@ $$
 f(0)\wedge f(1)=0.
 $$
 
-This is a compact formula, so it is worth reading twice.
+<strong>Standard reading.</strong>
 
-On the left:
-- there exists some setting of <code>x</code> that makes the term vanish.
+- The left side says that some value of <code>x</code> makes <code>f(x)</code> equal to zero.
+- The right side says that the two cofactors, <code>f(0)</code> and <code>f(1)</code>, have zero overlap.
 
-On the right:
-- the two extreme cases, <code>x=0</code> and <code>x=1</code>, are compatible in exactly the way needed for such a setting to exist.
+<strong>Plain English.</strong>
+
+The equation has a solution exactly when the fully-off obstruction and the fully-on obstruction do not clash.
 
 Why this works, in picture form:
 
@@ -277,17 +281,19 @@ f(0)\wedge f(1)=0
 \bigwedge_i \Bigl(\bigl(f'(1)\wedge g_i(1)\bigr) \;\vee\; \bigl(f'(0)\wedge g_i(0)\bigr)\Bigr) \neq 0.
 $$
 
-How to read one factor:
+<strong>Standard reading of one factor.</strong>
 
 $$
 \Bigl(\bigl(f'(1)\wedge g_i(1)\bigr) \;\vee\; \bigl(f'(0)\wedge g_i(0)\bigr)\Bigr) \neq 0.
 $$
 
-It says:
+- Either the admissible <code>x=1</code> branch leaves a nonzero <code>g_i</code> piece,
+- or the admissible <code>x=0</code> branch leaves a nonzero <code>g_i</code> piece,
+- and at least one of those two branches must survive.
 
-- either the <code>x=1</code> branch of the zero-set of <code>f</code> still leaves a live <code>g_i</code> region,
-- or the <code>x=0</code> branch does,
-- and at least one of those possibilities must survive.
+<strong>Plain English.</strong>
+
+For each side-condition, some legal branch has to keep a live piece.
 
 This is the quantifier-free answer.
 The hidden switch <code>x</code> has disappeared.
@@ -406,12 +412,16 @@ where each \(\sigma_{i,j}\) is either \(s_j\) or \(s_j'\), depending on the bit 
 - A 1-bit selects the literal side.
 - For example, when \(n=2\) and the bit pattern is \(i=01\), one gets \(\sigma_{1,0}=s_0'\) and \(\sigma_{1,1}=s_1\).
 
-This formula deserves a slow reading.
+<strong>Standard reading.</strong>
 
-- Choose <code>n</code> sentence splitters.
-- Each bit pattern <code>i</code> picks one side of each split.
+- Range over all bit patterns <code>i &lt; 2^n</code>.
+- For each bit pattern, choose either <code>s_j</code> or <code>s_j'</code> at every position <code>j&lt;n</code>.
 - Conjoin those choices into one branch.
-- Record the branch if it is still nonzero.
+- Keep the index <code>i</code> exactly when that branch is nonzero.
+
+<strong>Plain English.</strong>
+
+The formula lists which branches of the full sentence-generated partition are still alive.
 
 So <code>BL</code> is a barcode of the partition.
 It tells which of the <code>2^n</code> possible branches are still alive.
@@ -467,6 +477,12 @@ The logic is asking for an online responder:
 $$
 \forall \text{ input histories }\; \exists \text{ output history }\; \text{Spec(input, output)}.
 $$
+
+<strong>Standard reading.</strong>
+
+The formula asks whether every admissible input stream can be matched by an output stream so that the specification holds, with successor terms constrained so the response stays causal.
+
+<strong>Plain English.</strong>
 
 A good analogy is a live accompanist.
 The input stream is the singer.
@@ -600,28 +616,15 @@ $$
 \Bigl((\exists t\, (\phi(x,t) \wedge \psi(x,t))) \to \phi(x,y)\Bigr).
 $$
 
-This formula deserves to be read clause by clause.
+<strong>Standard reading.</strong>
 
-### Clause 1
+- The chosen pair <code>(x,y)</code> must satisfy <code>\psi(x,y)</code>.
+- If there exists some witness <code>t</code> such that both <code>\phi(x,t)</code> and <code>\psi(x,t)</code> hold, then the chosen <code>y</code> must also satisfy <code>\phi(x,y)</code>.
 
-$$
-\psi(x,y)
-$$
+<strong>Plain English.</strong>
 
-The revised behavior must satisfy the new specification.
-
-### Clause 2
-
-$$
-(\exists t\, (\phi(x,t) \wedge \psi(x,t))) \to \phi(x,y)
-$$
-
-If there exists some output <code>t</code> that satisfies both the old spec and the new spec, then the chosen output <code>y</code> must also satisfy the old spec.
-
-So the formula says:
-
-- obey the new rule,
-- but preserve old behavior whenever preservation is still possible.
+- Obey the new rule.
+- Preserve the old rule whenever preservation is still possible.
 
 This is not textual patching.
 It is semantic patching.
