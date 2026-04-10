@@ -79,6 +79,11 @@ They name cuts and overlaps.
 
 Much of the later machinery is about forcing one term to zero while keeping another term nonzero.
 
+One notation warning belongs here.
+In this tutorial, and in TABA, expressions like <code>f(x)</code> are not numerical functions in the usual calculus sense.
+They are Boolean terms evaluated at a choice of <code>x</code>.
+So <code>f(x)</code> takes a Boolean-algebra element as input and returns another Boolean-algebra element.
+
 If a Boolean term depends on one variable <code>x</code>, then two special evaluations matter immediately:
 
 $$
