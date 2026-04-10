@@ -52,9 +52,9 @@ A good starting point for this tutorial is the region picture.
 
 - <code>0</code> means the empty region.
 - <code>1</code> means the whole region.
-- \(a \wedge b\) means overlap.
-- \(a \vee b\) means union.
-- <code>a'</code> means complement.
+- \(a \wedge b\) means the meet of <code>a</code> and <code>b</code>, in the region picture, their shared part.
+- \(a \vee b\) means the join of <code>a</code> and <code>b</code>, in the region picture, their union.
+- <code>a'</code> means the complement of <code>a</code>.
 
 <strong>Reading trap.</strong>
 Here <code>0</code> and <code>1</code> are Boolean-algebra elements, not ordinary numbers.
@@ -65,14 +65,23 @@ $$
 a \wedge b = 0
 $$
 
-it says that the two regions do not overlap.
+<strong>Standard reading.</strong>
+The meet of <code>a</code> and <code>b</code> is equal to <code>0</code>.
+
+<strong>Region gloss.</strong>
+The shared part of <code>a</code> and <code>b</code> is empty.
+
 And when it says
 
 $$
 a \neq 0
 $$
 
-it says that the region still has some live part.
+<strong>Standard reading.</strong>
+The element <code>a</code> is not equal to <code>0</code>.
+
+<strong>Region gloss.</strong>
+The region <code>a</code> is nonempty.
 
 This is the first reason the later formulas remain readable.
 The symbols are not floating in air.
