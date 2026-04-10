@@ -27,9 +27,9 @@ The later moves only work because the earlier ones are already in place.
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Assumption hygiene for this tutorial</p>
   <ul>
-    <li><strong>Assumption A (text):</strong> this tutorial reads the public TABA draft available on the Tau site and the public arXiv abstract for <em>Guarded Successor</em>. Some later-chapter notation is normalized into cleaner presentation when the PDF extraction is noisy.</li>
-    <li><strong>Assumption B (scope):</strong> “novel formula” means a construction that adds new semantic or executable leverage, not every displayed identity in the monograph.</li>
-    <li><strong>Assumption C (future moves):</strong> the final section presents plausible extensions suggested by current literature. Those are research directions, not claims that TABA already proves or implements them.</li>
+    <li><strong>Text basis.</strong> This tutorial is based on the public TABA draft on the Tau site and the public arXiv abstract for <em>Guarded Successor</em>. In a few later sections, the notation has been lightly normalized so the formulas read cleanly on the page.</li>
+    <li><strong>Scope.</strong> The focus is on formulas that change what the system can express, check, or execute. It does not try to comment on every displayed identity in the monograph.</li>
+    <li><strong>Future work.</strong> The final section shifts from exposition to possible next steps. Those are research directions suggested by the current literature, not results that TABA already proves or implements.</li>
   </ul>
 </div>
 
