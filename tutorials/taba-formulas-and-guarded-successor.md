@@ -182,8 +182,8 @@ $$
 \begin{aligned}
 f_n &:= f,\\
 f_k(x_1,\dots,x_k)
-&:= f_{k+1}(x_1,\dots,x_k,0)
-   \wedge f_{k+1}(x_1,\dots,x_k,1).
+&:= f_{k+1}(x_1,\dots,x_k,0)\\
+&\quad \wedge f_{k+1}(x_1,\dots,x_k,1).
 \end{aligned}
 $$
 
@@ -376,18 +376,24 @@ The algebra can keep splitting until the surviving branches are exposed.
 TABA's eliminated condition becomes
 
 $$
-f(0)\wedge f(1)=0
-\;\wedge\;
+\begin{aligned}
+&f(0)\wedge f(1)=0\\
+&\wedge\;
 \bigwedge_i
-\left(
-  \bigl((f'(1)\wedge g_i(1)) \;\vee\; (f'(0)\wedge g_i(0))\bigr) \neq 0
-\right).
+\Bigl(
+  \bigl((f'(1)\wedge g_i(1))\\
+&\qquad\qquad\vee (f'(0)\wedge g_i(0))\bigr) \neq 0
+\Bigr).
+\end{aligned}
 $$
 
 <strong>Standard reading of one factor.</strong>
 
 $$
-\bigl((f'(1)\wedge g_i(1)) \;\vee\; (f'(0)\wedge g_i(0))\bigr) \neq 0.
+\begin{aligned}
+&\bigl((f'(1)\wedge g_i(1))\\
+&\qquad\vee (f'(0)\wedge g_i(0))\bigr) \neq 0.
+\end{aligned}
 $$
 
 - Either the admissible <code>x=1</code> branch leaves a nonzero <code>g_i</code> piece,
@@ -768,9 +774,10 @@ $$
 <strong>Standard reading.</strong>
 
 $$
-T_1(k)=v,
-\qquad
-\forall x\; (x \ne k \to T_1(x)=T_2(x)).
+\begin{aligned}
+T_1(k)&=v,\\
+\forall x\; (x \ne k &\to T_1(x)=T_2(x)).
+\end{aligned}
 $$
 
 <strong>English reading.</strong>
@@ -791,9 +798,10 @@ $$
 <strong>Standard reading.</strong>
 
 $$
-\forall x\; (\phi(T_2(x)) \to T_1(x)=T_2(x)),
-\qquad
-\forall x\; (\neg \phi(T_2(x)) \to T_1(x)=0).
+\begin{aligned}
+\forall x\; (\phi(T_2(x)) &\to T_1(x)=T_2(x)),\\
+\forall x\; (\neg \phi(T_2(x)) &\to T_1(x)=0).
+\end{aligned}
 $$
 
 <strong>English reading.</strong>
@@ -829,11 +837,13 @@ This matters because the language is starting to behave like a small relational 
 The pointwise revision operator is
 
 $$
+\begin{aligned}
 \chi(x,y)
-:=
-\psi(x,y)
-\;\wedge\;
-((\exists t\, (\phi(x,t) \wedge \psi(x,t))) \to \phi(x,y)).
+&:= \psi(x,y)\\
+&\wedge
+\Bigl((\exists t\,(\phi(x,t) \wedge \psi(x,t)))\\
+&\qquad\to \phi(x,y)\Bigr).
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>

@@ -72,6 +72,7 @@ html {
   max-width: 1120px;
   margin: 0 auto;
   padding: 0 var(--space-lg);
+  min-width: 0;
 }
 
 .fp-skip-link {
@@ -638,6 +639,7 @@ details.fp-faq summary:focus-visible {
   grid-template-columns: minmax(0, 1fr) 320px;
   gap: var(--space-xl);
   align-items: start;
+  min-width: 0;
 }
 
 .fp-doc {
@@ -646,6 +648,7 @@ details.fp-faq summary:focus-visible {
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-md);
   overflow: clip;
+  min-width: 0;
 }
 
 .fp-doc-header {
@@ -715,6 +718,7 @@ details.fp-faq summary:focus-visible {
   padding: var(--space-xl);
   max-width: 78ch;
   margin: 0 auto;
+  min-width: 0;
 }
 
 .fp-doc-aside {
@@ -823,6 +827,10 @@ details.fp-faq summary:focus-visible {
   border: 1px solid rgba(15, 23, 42, 0.1);
   background: rgba(255, 255, 255, 0.75);
   box-shadow: var(--shadow-sm);
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .fp-figure-title {
@@ -1003,6 +1011,15 @@ details.fp-faq summary:focus-visible {
 .MathJax_Display,
 mjx-container {
   max-width: 100%;
+}
+
+.markdown-body mjx-container[display="true"] {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 720px) {
