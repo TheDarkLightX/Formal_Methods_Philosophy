@@ -895,7 +895,7 @@ The classical representation story for Boolean algebras with operators (BAOs), d
 
 ### Computability and constructivity guardrails
 
-The gathered Boolean-algebra papers add an important warning.
+The Boolean-algebra background cited at the end adds an important warning.
 Madison and Nelson show that constructive behavior can fail under extension even over very tame bases. Khoussainov and Kowalski show that adding operators can change the effective behavior of Boolean structures dramatically. So a richer semantic world does not automatically yield a tame executable carrier.
 
 That warning matters for Tau directly.
@@ -966,7 +966,7 @@ Shield synthesis already enforces critical safety properties at runtime while mi
 
 ### 5. Proof-producing and parity-checked lowering
 
-The gathered Boolean-algebra papers push one caution hard: richer operator stories should not be trusted merely because they have elegant semantics.
+The Boolean-algebra background cited at the end pushes one caution hard: richer operator stories should not be trusted merely because they have elegant semantics.
 
 Jónsson and Tarski show that Boolean algebras with operators have a strong relational representation story and admit complete atomistic extensions. That is excellent semantic news. Madison, Nelson, and Alton show something different: constructive behavior can still fail under extension, even over the countable atomless algebra and even when the elements themselves still look recursively tame. As noted above, operators can also change effective behavior sharply.
 
@@ -984,7 +984,7 @@ This is the safest way to keep TABA's semantic ambition while staying honest abo
 
 ### 6. An explicit operator budget
 
-The BAO papers suggest another concrete research direction.
+The Boolean-algebra-with-operators background suggests another concrete research direction.
 If operators can change computable behavior so sharply, then future Tau or GS extensions should probably have an explicit operator budget.
 
 That means:
@@ -998,7 +998,7 @@ That is not mathematically flashy, but it is the disciplined route suggested by 
 
 ### 7. A finite atomic executable rail under the richer semantics
 
-One practical lesson from the Boolean-algebra papers is easy to miss.
+One practical lesson from this Boolean-algebra background is easy to miss.
 The next move is probably not to run the richest possible Boolean-algebra-with-operators story directly at runtime.
 It is to separate semantic ambition from executable commitment.
 
@@ -1011,7 +1011,7 @@ What a next move would look like:
 - attach parity or equivalence checks to every lowering step.
 
 Why it is plausible:
-Jónsson and Tarski give the semantic representation story for Boolean algebras with operators. Madison, Nelson, and Alton show that constructivity can still fail under tame-looking extensions of the countable atomless Boolean algebra. Khoussainov and Kowalski show that operators can radically change effective behavior. Taken together, those papers suggest a staged design. The richer Boolean or BAO machinery belongs to the semantic substrate. Tau belongs closer to the executable or spec-facing layer, and that layer should stay small, explicit, and checked.
+Jónsson and Tarski give the semantic representation story for Boolean algebras with operators. Madison, Nelson, and Alton show that constructivity can still fail under tame-looking extensions of the countable atomless Boolean algebra. Khoussainov and Kowalski show that operators can radically change effective behavior. Taken together, those results suggest a staged design. The richer Boolean or BAO machinery belongs to the semantic substrate. Tau belongs closer to the executable or spec-facing layer, and that layer should stay small, explicit, and checked.
 
 ## Part XII: five pictures to keep
 
