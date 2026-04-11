@@ -509,6 +509,45 @@ It also contributes an internal Boolean region that later formulas can cut again
 
 A sentence symbol <code>s</code> can now be used like a splitter.
 Its complement <code>s'</code> gives the other side.
+A splitter is a branch-making cut:
+
+- <code>s</code> is one side of the cut,
+- <code>s'</code> is the other side of the cut.
+
+A splitter is like asking a yes/no question of every currently live region:
+
+- inside <code>s</code>?
+- outside <code>s</code>?
+
+It cuts each live piece into those two possibilities.
+This does not mean that both children are always nonzero.
+A splitter tries to refine the current partition by intersecting a live region with <code>s</code> and with <code>s'</code>.
+If one intersection is <code>0</code>, that side contributes no live branch.
+Atomlessness matters because every nonzero piece still has room for further splitting, so the refinement process does not get stuck at an indivisible atom.
+
+Keep the roles separate:
+
+- atomless algebra gives the endless cuttable material,
+- a splitter is the specific cut currently being applied,
+- NSO is repeated cutting by sentence symbols.
+
+The one-step picture is:
+
+$$
+R
+\quad\leadsto\quad
+R \wedge s,
+\qquad
+R \wedge s'.
+$$
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">One splitter cuts one live region</p>
+  {% include diagrams/nso-single-splitter.svg %}
+  <figcaption class="fp-figure-caption">
+    A current live region <code>R</code> is cut by the sentence splitter <code>s</code>. One child is the part of <code>R</code> where <code>s</code> holds, and the other child is the part where <code>s'</code> holds. If either child is <code>0</code>, that branch is dead.
+  </figcaption>
+</figure>
 
 The paper then defines the branching profile
 
@@ -546,6 +585,15 @@ This is one of the first genuinely new compression moves in the tutorial.
 Without <code>BL</code>, the reader has to keep an entire sentence-generated partition in mind, branch by branch.
 With <code>BL</code>, the partition is compressed into the set of indices whose branches remain nonzero.
 The memory to keep is simple: NSO turns a family of sentence splits into a finite branch signature.
+
+The branch names can be read stage by stage:
+
+- after <code>s₀</code>: <code>s₀</code> | <code>s₀'</code>,
+- after <code>s₁</code>: <code>00</code>, <code>01</code>, <code>10</code>, <code>11</code>,
+- after <code>s₂</code>: the same branches are split into a still finer family.
+
+The bit strings are not extra data.
+They are compact names for the choices made along the splitter tree.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Visual intuition: fractal-like refinement</p>
