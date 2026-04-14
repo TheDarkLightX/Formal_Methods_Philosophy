@@ -132,7 +132,8 @@ The shortest current summary is:
 - the safe infinite-recursive table fragment has checked monotone fixed-point
   evidence,
 - the latest local Lean artifacts add set/select algebraic laws, stream-level
-  Tau semantics, stream laws, and a terminating iterated optimizer API,
+  Tau semantics, stream laws, a terminating iterated optimizer API, and a
+  restricted terminating confluent Tau rewrite system,
 - unrestricted TABA tables remain open because same-stratum prime,
   current-state-dependent guards, unrestricted recurrence, NSO, and Guarded
   Successor still need a fully connected syntax, semantics, and runtime
@@ -151,13 +152,76 @@ What the optimizer and stream artifacts give us:
 - Higher-order and equivalence surface: c088, c089, and c110 provide a
   higher-order recurrence syntax with examples and a sound but incomplete
   equivalence decider based on simplification and structural equality.
+- Rewrite normalization: c111 proves semantics preservation, termination,
+  local confluence, full confluence, normal-form existence, and normal-form
+  uniqueness for a restricted Tau Boolean-expression rewrite system.
 
 Boundary:
 
 - This is a verified fragment pipeline, not a proof of complete equivalence for
   every Tau or TABA expression.
+- c111 deliberately drops commutativity, associativity, and distributivity as
+  oriented rewrite rules, so it is not a complete Boolean-algebra normalizer.
 - The equivalence decider is sound where it returns success, but incompleteness
   means failure to prove equality is not evidence of inequality.
+
+The c111 rewrite receipt is:
+
+$$
+e\to e'
+\Rightarrow
+\llbracket e\rrbracket=\llbracket e'\rrbracket.
+$$
+
+Standard reading:
+
+- Every one-step rewrite in the restricted rule set preserves denotation.
+
+The termination measure is weighted at complement nodes:
+
+$$
+M(\operatorname{pointCompl}(a)) := 3M(a)+1.
+$$
+
+The checked decrease law is:
+
+$$
+e\to e'
+\Rightarrow
+M(e')<M(e).
+$$
+
+Standard reading:
+
+- Every rewrite step strictly decreases the measure $M$, so infinite rewrite
+  chains are impossible.
+
+The confluence theorem is:
+
+$$
+e\to^{*} a
+\wedge
+e\to^{*} b
+\Rightarrow
+\exists c.\,
+a\to^{*} c
+\wedge
+b\to^{*} c.
+$$
+
+Standard reading:
+
+- Any two reducts of the same starting expression can be joined by further
+  rewriting.
+
+Plain English reading:
+
+- The simplifier is order-independent inside this restricted rule system.
+
+Boundary:
+
+- This is not qelim and not full Boolean-algebra equality. It is a checked
+  normalizer for a restricted Tau expression rewrite relation.
 
 The strongest qelim measurement currently recorded is the auto-density matrix:
 

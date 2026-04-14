@@ -456,7 +456,81 @@ For example, double-negation rewriting preserved meaning on its checked
 regression, but `auto + rewrite` was slower than `auto` alone in the latest
 wall-clock receipt.
 
-## Part VII: What the optimizer should look like
+## Part VII: A separate rewrite-normalizer lane
+
+There is now a second kind of optimization evidence.
+It is not qelim.
+It is a checked rewrite-normalizer lane for a restricted Tau Boolean-expression
+language with `common`, `pointJoin`, and `pointCompl`.
+
+The rewrite soundness theorem has this shape:
+
+$$
+e\to e'
+\Longrightarrow
+\llbracket e\rrbracket=\llbracket e'\rrbracket.
+$$
+
+<strong>Standard reading.</strong>
+If one rewrite step sends expression $e$ to expression $e'$, then both
+expressions have the same denotation.
+
+<strong>Plain English.</strong>
+Every accepted simplification step keeps the same meaning.
+
+The termination theorem uses a measure $M$ with the complement case weighted
+more heavily:
+
+$$
+M(\operatorname{pointCompl}(a)) := 3M(a)+1.
+$$
+
+The checked decrease law is:
+
+$$
+e\to e'
+\Longrightarrow
+M(e')<M(e).
+$$
+
+<strong>Standard reading.</strong>
+Every rewrite step strictly decreases the measure $M$.
+
+<strong>Plain English.</strong>
+The simplifier cannot run forever, because every step moves down a
+well-founded numeric measure.
+
+The confluence theorem has the usual diamond shape:
+
+$$
+e\to^{*} a
+\wedge
+e\to^{*} b
+\Longrightarrow
+\exists c.\,
+a\to^{*} c
+\wedge
+b\to^{*} c.
+$$
+
+<strong>Standard reading.</strong>
+If one expression rewrites to $a$ and also rewrites to $b$ through zero or more
+steps, then $a$ and $b$ have a common reduct $c$.
+
+<strong>Plain English.</strong>
+Different rewrite orders can still be joined again.
+That gives unique normal forms for this restricted rewrite system.
+
+<strong>Trap.</strong>
+The restriction is essential.
+The checked system intentionally drops commutativity, associativity, and
+distributivity as rewrite rules, because oriented versions can cycle or grow
+terms.
+So this is not a complete Boolean-algebra equivalence procedure.
+It is a terminating and confluent simplifier for a useful Tau-expression
+fragment.
+
+## Part VIII: What the optimizer should look like
 
 The honest optimizer shape is a portfolio, not one heroic backend.
 
@@ -471,6 +545,7 @@ else:
     build the BDD carrier only for the residual
     existentially abstract the remaining quantified variables
     parity-check against the reference route on bounded regressions
+    run terminating rewrite normalization only on its checked rule fragment
 ```
 
 This is not meant as pseudocode for the final Tau optimizer.
@@ -479,7 +554,7 @@ It is the architecture lesson from the evidence.
 The hard part is not inventing one fast path.
 The hard part is keeping the semantic bridge explicit at each dispatch point.
 
-## Part VIII: What to remember
+## Part IX: What to remember
 
 The beginner takeaway is:
 
@@ -491,6 +566,8 @@ The beginner takeaway is:
 - Component splitting can dominate BDD order.
 - CNF-native elimination can avoid a carrier build, but only under explicit
   blowup controls.
+- Rewrite normalization is a separate lane: useful after its rule set is proved
+  terminating, confluent, and semantics-preserving.
 - A benchmark speedup is evidence for a scoped engineering choice, not a proof
   of universal superiority.
 
