@@ -1,11 +1,11 @@
 ---
 title: "Tau qelim and TABA table semantics"
 layout: docs
-kicker: Research note
+kicker: Research log
 description: "A neuro-symbolic research log for fragment-sensitive Tau quantifier elimination and the current atomless TABA table-semantics frontier."
 ---
 
-This note records the neuro-symbolic research loop behind two tutorial threads:
+This research log records the neuro-symbolic loop behind two tutorial threads:
 
 - Tau Language quantifier-elimination optimization,
 - TABA table semantics and the Tau table-kernel replay for the executable
@@ -44,7 +44,7 @@ Quick navigation:
   <p><strong>Project boundary.</strong> The table implementation discussed here is a community research prototype. It is not an official IDNI or Tau Language implementation, not an endorsement claim, and not evidence of what IDNI intends to implement. It may be weaker, narrower, or differently shaped than the standard required for an official Tau feature.</p>
 </div>
 
-## How to read this research note
+## How to read this research log
 
 This page has a different job from the tutorials.
 The tutorials compress the stable teaching path.
@@ -432,7 +432,7 @@ Boundary:
 
 ## Why compile Tau fragments?
 
-For this research note, "compile" means fragment-preserving lowering:
+For this research log, "compile" means fragment-preserving lowering:
 
 $$
 \operatorname{compile}_{\mathcal F}(S)=A

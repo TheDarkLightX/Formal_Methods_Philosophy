@@ -49,7 +49,7 @@ The story is easiest to follow as a ladder.
   <p>This tutorial explains the checked Tau qelim experiment for a supported leading-existential propositional fragment. The current result is a guarded optimization candidate, not a proof that every Tau formula should use the same backend.</p>
 </div>
 
-The detailed research log lives in the research note:
+The detailed research log lives here:
 
 ```text
 research/taba-tables-and-tau-qelim.md
@@ -725,7 +725,7 @@ The beginner takeaway is:
 - A benchmark speedup is evidence for a scoped engineering choice, not a proof
   of universal superiority.
 
-The research note gives the full experiment log:
+The research log gives the full experiment record:
 
 ```text
 research/taba-tables-and-tau-qelim.md

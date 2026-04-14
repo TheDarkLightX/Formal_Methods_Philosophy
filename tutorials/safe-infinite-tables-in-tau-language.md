@@ -915,11 +915,11 @@ The local Lean proof artifacts establish the semantic shape behind the feature:
 - v559 proves that finite Boolean-valued CBF priority tables compile to explicit
   $2^n$-leaf minterm trees with denotation preservation.
 
-The research note keeps the detailed evidence ladder:
+The research log keeps the detailed evidence ladder:
 
 <p>
   <a class="fp-inline-link" href="{{ '/research/taba-tables-and-tau-qelim/' | relative_url }}">
-    Read the detailed research note
+    Read the detailed research log
   </a>
 </p>
 
