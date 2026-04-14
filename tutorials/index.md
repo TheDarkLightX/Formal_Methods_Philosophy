@@ -375,7 +375,7 @@ show_title: false
   >
     <h2 class="fp-card-title">Tutorial 34: Neuro-symbolic DeFi defense</h2>
     <p class="fp-card-text">
-      Use the $285M Drift Protocol exploit as a case study for compositional disaster-state analysis,
+      Use the USD 285M Drift Protocol exploit as a case study for compositional disaster-state analysis,
       then build the neuro-symbolic defense loop that catches multi-vector attacks before deployment and at runtime.
     </p>
   </a>

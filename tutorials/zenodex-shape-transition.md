@@ -318,7 +318,7 @@ D_{v1} :={} & \text{the currently promoted audited domain} \\
 \end{aligned}
 $$
 
-Here \(c_{\mathrm{shape++}}\), \(c_{\mathrm{kernel}}\), and \(c_{\mathrm{boundary}}\) are shorthand scorecards for the audited release candidates, not separate runtime variables.
+Here $c_{\mathrm{shape++}}$, $c_{\mathrm{kernel}}$, and $c_{\mathrm{boundary}}$ are shorthand scorecards for the audited release candidates, not separate runtime variables.
 
 The public release contract is therefore:
 
