@@ -237,11 +237,8 @@ Boundary:
 
 ## Public table demo evidence
 
-The demo repo is:
-
-```text
-https://github.com/TheDarkLightX/TauLang-Experiments
-```
+The demo repo is
+[TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments).
 
 The public reproduction command is:
 

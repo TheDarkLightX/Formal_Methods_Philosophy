@@ -288,10 +288,7 @@ The limit is stable under one more update.
 ## What Tau runs
 
 The public reproduction path now lives in the experiment repo:
-
-```text
-https://github.com/TheDarkLightX/TauLang-Experiments
-```
+[TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments).
 
 The smooth demo command is:
 
