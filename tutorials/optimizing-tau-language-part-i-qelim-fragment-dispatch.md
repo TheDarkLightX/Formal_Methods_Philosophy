@@ -628,10 +628,10 @@ bdd+ac+kb_guarded
 
 The current receipts preserved output parity across all modes.
 On the 18-case generated matrix with `3` repetitions, guarded KB reduced
-compiled KB nodes by `42.73%` and had internal qelim-time ratio about `0.95`
+compiled KB nodes by `42.73%` and had an internal qelim-time ratio of about `0.95`
 against plain BDD.
 On the 34-case generated matrix with `3` repetitions, guarded KB reduced
-compiled KB nodes by `40.81%` and had internal qelim-time ratio about `0.952`
+compiled KB nodes by `40.81%` and had an internal qelim-time ratio of about `0.952`
 against plain BDD.
 
 <strong>Boundary.</strong>

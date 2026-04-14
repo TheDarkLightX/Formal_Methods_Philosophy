@@ -133,7 +133,7 @@ The shortest current summary is:
   evidence,
 - the latest local Lean artifacts add set/select algebraic laws, stream-level
   Tau semantics, stream laws, a terminating iterated optimizer API, and a
-  restricted terminating confluent Tau rewrite system,
+  restricted, terminating, confluent Tau rewrite system,
 - unrestricted TABA tables remain open because same-stratum prime,
   current-state-dependent guards, unrestricted recurrence, NSO, and Guarded
   Successor still need a fully connected syntax, semantics, and runtime
@@ -173,7 +173,7 @@ The c111 rewrite receipt is:
 
 $$
 e\to e'
-\Rightarrow
+\Longrightarrow
 \llbracket e\rrbracket=\llbracket e'\rrbracket.
 $$
 
@@ -191,7 +191,7 @@ The checked decrease law is:
 
 $$
 e\to e'
-\Rightarrow
+\Longrightarrow
 M(e')<M(e).
 $$
 
@@ -206,7 +206,7 @@ $$
 e\to^{*} a
 \wedge
 e\to^{*} b
-\Rightarrow
+\Longrightarrow
 \exists c.\,
 a\to^{*} c
 \wedge
@@ -329,10 +329,10 @@ bdd+ac+kb_guarded
 
 The current generated matrices preserved output parity across all six modes.
 On the 18-case matrix with `3` repetitions, `bdd+kb_guarded` reduced compiled
-KB nodes by `42.73%` and had internal qelim-time ratio about `0.95` against
+KB nodes by `42.73%` and had an internal qelim-time ratio of about `0.95` against
 plain `bdd`.
 On the 34-case matrix with `3` repetitions, `bdd+kb_guarded` reduced compiled
-KB nodes by `40.81%` and had internal qelim-time ratio about `0.952` against
+KB nodes by `40.81%` and had an internal qelim-time ratio of about `0.952` against
 plain `bdd`.
 Whole-command elapsed time stayed effectively neutral in this harness, because
 Tau process startup dominates.
