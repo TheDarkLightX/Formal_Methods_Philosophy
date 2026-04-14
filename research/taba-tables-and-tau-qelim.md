@@ -176,8 +176,8 @@ $$
 Standard reading:
 
 - On the checked bounded ladder-and-mux corpus, the summed default qelim time
-  was \(83.878\) ms and the summed `auto` qelim time was about \(24.158\) ms,
-  so the aggregate qelim-time speedup was about \(3.47\).
+  was $83.878$ ms and the summed `auto` qelim time was about $24.158$ ms,
+  so the aggregate qelim-time speedup was about $3.47$.
 
 Plain English reading:
 
@@ -209,9 +209,9 @@ $$
 
 Standard reading:
 
-- For a specification \(S\) inside fragment \(\mathcal F\), the compiler
-  produces an artifact \(A\). For every input/output pair \(I,O\), the artifact
-  accepts exactly when \(I,O\) satisfies the original specification.
+- For a specification $S$ inside fragment $\mathcal F$, the compiler
+  produces an artifact $A$. For every input/output pair $I,O$, the artifact
+  accepts exactly when $I,O$ satisfies the original specification.
 
 Plain English reading:
 
@@ -322,7 +322,7 @@ $$
 
 Standard reading:
 
-- For each checked demo \(i\), the Tau-native table term denotes the same
+- For each checked demo $i$, the Tau-native table term denotes the same
   Boolean-algebra value as the explicitly expanded guarded-choice formula.
 
 Plain English reading:
@@ -350,8 +350,8 @@ $$
 
 Standard reading:
 
-- For each key \(i\), the revised table uses \(A(i)\) inside \(G(i)\) and
-  \(T(i)\) inside the prime of \(G(i)\).
+- For each key $i$, the revised table uses $A(i)$ inside $G(i)$ and
+  $T(i)$ inside the prime of $G(i)$.
 
 Plain English reading:
 
@@ -380,7 +380,7 @@ $$
 \end{cases}
 $$
 
-Here \(\mathcal{F}_{\mathrm{prop}\exists}\) is the supported propositional
+Here $\mathcal{F}_{\mathrm{prop}\exists}$ is the supported propositional
 existential fragment accepted by the experiment compiler.
 
 The core Boolean operation is:
@@ -579,7 +579,7 @@ Current checked ladder:
 - `c033` proves the first Boolean formula-to-update compiler: each formula body compiles to a target-preserving semantic update, and a requested order compiles to a schedule with exactly that target list.
 - `c034` removes the supplied-schedule premise for the Boolean toy carrier: formula bodies compile directly into the schedule, formula references precede their targets, and the compiled recurrence has a bounded repeated state.
 - `c035` generalizes the compiled recurrence kernel from Boolean component values to arbitrary Boolean-algebra values, provided the compiled family-state carrier is finite.
-- `c036` models Tau's native `ft4` carrier as the four-cell Boolean algebra \(\operatorname{Fin}(4)\to\mathbb{B}\), with pointwise zero, one, meet, join, prime, xor, and guarded set laws.
+- `c036` models Tau's native `ft4` carrier as the four-cell Boolean algebra $\operatorname{Fin}(4)\to\mathbb{B}$, with pointwise zero, one, meet, join, prime, xor, and guarded set laws.
 - `v472` promotes the positive Boolean-algebra-valued formula fragment into the main numbered lane: the fragment is monotone and omega-continuous over complete Boolean algebras, so its omega-supremum of finite approximants is a fixed point.
 - `v473` adds finite positive guarded row lists over complete Boolean algebras: guarded-row evaluation is monotone and omega-continuous, and simultaneous row updates have an omega-supremum fixed point.
 - `v474` adds stratified prime: prime applied to a fixed lower-stratum environment is constant with respect to the current recurrence state, so it preserves omega-continuity.
@@ -602,13 +602,13 @@ Current checked ladder:
 - `v494` proves the algebraic normalization for Boolean-algebra-valued guards: under branch ordering, the guard-prime side of guarded choice can be eliminated.
 - `v495` proves the recurrence-shaped pointwise theorem for BA-valued current guards under explicit branch-order and omega-union preservation assumptions.
 - `v496` proves the bounded finite splitter-tree expansion that follows c051: recursively splitting by a finite list of splitters and joining all leaves recovers the original element.
-- `v497` makes the bounded splitter tree explicit as dyadic leaves: a finite splitter list generates \(2^n\) leaves, and joining those leaves recovers the original element.
-- `v498` supplies the abstract infinite-table completion layer: if the value carrier has bottom, order, countable suprema, and least-upper-bound laws, then \(K\to A\) tables inherit those semantics pointwise, and monotone omega-continuous table updates have a Kleene fixed point.
+- `v497` makes the bounded splitter tree explicit as dyadic leaves: a finite splitter list generates $2^n$ leaves, and joining those leaves recovers the original element.
+- `v498` supplies the abstract infinite-table completion layer: if the value carrier has bottom, order, countable suprema, and least-upper-bound laws, then $K\to A$ tables inherit those semantics pointwise, and monotone omega-continuous table updates have a Kleene fixed point.
 - `v499` adds the splitter half of that same abstract layer: if the value carrier also splits every non-bottom value, then every non-bottom table has a non-bottom split while retaining the v498 fixed-point semantics. The live-key extraction is classical existence, not executable search.
 - `v500` starts the concrete positive prefix-open lane: every binary prefix cylinder is the disjoint nonempty union of its false-child and true-child cylinders.
 - `v501` lifts that basis move to arbitrary prefix-open regions in the positive sense: every nonempty prefix-open region contains two nonempty disjoint prefix-open subregions. This is refinement, not a covering partition.
 - `v502` proves countable-union closure for prefix-open regions, giving the positive lane an explicit omega-supremum construction by existential union of finite-word generators.
-- `v503` sharpens the finite QE boundary: finite masks plus finitely many same-polarity hit constraints eliminate to restricted nonzero checks in any Boolean algebra, so atomlessness is not needed until a formula forces a genuine split between \(x\) and \(x'\).
+- `v503` sharpens the finite QE boundary: finite masks plus finitely many same-polarity hit constraints eliminate to restricted nonzero checks in any Boolean algebra, so atomlessness is not needed until a formula forces a genuine split between $x$ and $x'$.
 - `v504` proves the first narrow mixed-polarity QE rule: one positive hit plus one complement hit eliminates under an abstract non-bottom splitter interface.
 - `v505` turns the v504 mixed-polarity proof into an induction-ready extension lemma: one more positive hit can be added while preserving one complement-hit residual.
 - `v506` proves the first finite-list mixed-polarity theorem: finite positive-hit lists plus one complement-hit target eliminate under the splitter interface.
@@ -624,7 +624,7 @@ Current checked ladder:
 - `v514` adds a recursive positive formula driver: literals, conjunction, and disjunction compile to finite DNF clauses discharged by the v512/v511 QE path.
 - `v515` adds a bounded witness-list layer: finite candidate witnesses can be checked by applying the v514 DNF QE theorem to each listed positive-formula body.
 - `v516` internalizes the finite witness-list layer as a bounded positive-formula constructor `existsW`, which compiles by finite disjunction into the same DNF/QE kernel.
-- `v517` promotes the direct recursive splitter partition: the partition covers top, has \(2^n\) cells, and gives forward domination under explicit non-bottom-witness and cell-constancy assumptions.
+- `v517` promotes the direct recursive splitter partition: the partition covers top, has $2^n$ cells, and gives forward domination under explicit non-bottom-witness and cell-constancy assumptions.
 - `v518` replaces global cell constancy with a sharper local theorem: unary Boolean terms are stable on cells covered by the witness, yielding domination for cell-aligned witnesses.
 - `v519` isolates the constants-only Boolean expression fragment where cell constancy is automatically preserved, and proves identity is not cell-constant on a coarse top-only partition.
 - `v520` proves finite cell-union witnesses are cell-aligned under an explicit nonzero-overlap separation assumption, so v518 domination applies to finite unions of whole cells.
@@ -649,7 +649,7 @@ $$
 
 Standard reading:
 
-- \(Q_{\mathrm{clop}}\) is the quotient of finite-support clopen Boolean-stream predicates by extensional equality. Two representatives are identified exactly when they return the same Boolean value on every infinite Boolean stream.
+- $Q_{\mathrm{clop}}$ is the quotient of finite-support clopen Boolean-stream predicates by extensional equality. Two representatives are identified exactly when they return the same Boolean value on every infinite Boolean stream.
 
 Plain English reading:
 
@@ -683,7 +683,7 @@ $$
 
 Standard reading:
 
-- The quotient carrier \(Q_{\mathrm{clop}}\) satisfies Lean's Boolean-algebra typeclass laws.
+- The quotient carrier $Q_{\mathrm{clop}}$ satisfies Lean's Boolean-algebra typeclass laws.
 
 Plain English reading:
 
@@ -699,7 +699,7 @@ $$
 
 Standard reading:
 
-- If the finite approximant sequence generated by \(F\) stabilizes at some finite stage \(N\), then the least fixed point is the stabilized value \(F^N(\bot)\).
+- If the finite approximant sequence generated by $F$ stabilizes at some finite stage $N$, then the least fixed point is the stabilized value $F^N(\bot)$.
 
 Plain English reading:
 
@@ -725,7 +725,7 @@ $$
 
 Standard reading:
 
-- There exists a quotient clopen \(x\) that misses mask \(m\) and hits target \(h\) if and only if the part of \(h\) outside \(m\) is nonempty.
+- There exists a quotient clopen $x$ that misses mask $m$ and hits target $h$ if and only if the part of $h$ outside $m$ is nonempty.
 
 Plain English reading:
 
@@ -744,7 +744,7 @@ $$
 
 Standard reading:
 
-- There exists a quotient clopen \(x\) that misses every mask in the finite list \(M\) and hits \(h\) if and only if \(h\) has a nonempty part outside the join of all masks in \(M\).
+- There exists a quotient clopen $x$ that misses every mask in the finite list $M$ and hits $h$ if and only if $h$ has a nonempty part outside the join of all masks in $M$.
 
 Boundary:
 
@@ -767,11 +767,11 @@ $$
 
 Standard reading:
 
-- There exists a quotient clopen \(x\) that misses mask \(m\), hits \(h\), and whose prime hits \(c\), if and only if \(h\) has a nonempty part outside \(m\) and \(c\) itself is nonempty.
+- There exists a quotient clopen $x$ that misses mask $m$, hits $h$, and whose prime hits $c$, if and only if $h$ has a nonempty part outside $m$ and $c$ itself is nonempty.
 
 Plain English reading:
 
-- If the positive target has live room outside the mask, and the complement target is live at all, the atomless splitter lets \(x\) take one live piece while leaving another live piece for \(x'\).
+- If the positive target has live room outside the mask, and the complement target is live at all, the atomless splitter lets $x$ take one live piece while leaving another live piece for $x'$.
 
 The splitter receipt behind that rule is:
 
@@ -815,7 +815,7 @@ $$
 
 Standard reading:
 
-- There exists a quotient clopen \(x\) that misses mask \(m\), hits \(h\), and whose prime hits every element of the finite list \(C\), if and only if \(h\) has a nonempty part outside \(m\), and every element of \(C\) is non-bottom.
+- There exists a quotient clopen $x$ that misses mask $m$, hits $h$, and whose prime hits every element of the finite list $C$, if and only if $h$ has a nonempty part outside $m$, and every element of $C$ is non-bottom.
 
 Plain English reading:
 
@@ -831,11 +831,11 @@ $$
 
 Standard reading:
 
-- If \(y\) is disjoint from the join of \(m\) and \(x'\), then \(y\) is below \(x\).
+- If $y$ is disjoint from the join of $m$ and $x'$, then $y$ is below $x$.
 
 Plain English reading:
 
-- Strengthening the mask by adding \(x'\) forces the next witness to live inside the old witness.
+- Strengthening the mask by adding $x'$ forces the next witness to live inside the old witness.
 
 The preservation law is:
 
@@ -849,11 +849,11 @@ $$
 
 Standard reading:
 
-- If \(y\) is below \(x\), and the prime of \(x\) has nonempty meet with \(c\), then the prime of \(y\) has nonempty meet with \(c\).
+- If $y$ is below $x$, and the prime of $x$ has nonempty meet with $c$, then the prime of $y$ has nonempty meet with $c$.
 
 Plain English reading:
 
-- Shrinking \(x\) cannot erase complement-side hits already achieved by \(x'\), because \(y'\) contains at least everything that \(x'\) contained.
+- Shrinking $x$ cannot erase complement-side hits already achieved by $x'$, because $y'$ contains at least everything that $x'$ contained.
 
 Boundary:
 
@@ -878,7 +878,7 @@ $$
 
 Standard reading:
 
-- There exists a quotient clopen \(x\) that misses mask \(m\), hits every element of the finite list \(H\), and whose prime hits every element of the finite list \(C\), if and only if every \(h\in H\) has a nonempty part outside \(m\), and every \(c\in C\) is non-bottom.
+- There exists a quotient clopen $x$ that misses mask $m$, hits every element of the finite list $H$, and whose prime hits every element of the finite list $C$, if and only if every $h\in H$ has a nonempty part outside $m$, and every $c\in C$ is non-bottom.
 
 Plain English reading:
 
@@ -903,7 +903,7 @@ $$
 
 Standard reading:
 
-- If \(x\) already leaves every complement target in \(C\) visible to \(x'\), and \(h\) has nonempty overlap with \(m'\), then there is an extension \(y\) above \(x\) that still misses \(m\), hits \(h\), and leaves every complement target visible to \(y'\).
+- If $x$ already leaves every complement target in $C$ visible to $x'$, and $h$ has nonempty overlap with $m'$, then there is an extension $y$ above $x$ that still misses $m$, hits $h$, and leaves every complement target visible to $y'$.
 
 Plain English reading:
 
@@ -934,7 +934,7 @@ $$
 
 Standard reading:
 
-- There exists a quotient clopen \(x\) satisfying every literal in the finite list \(L\), if and only if every normalized hit has nonempty overlap with the prime of the joined normalized masks, and every normalized cohit is non-bottom.
+- There exists a quotient clopen $x$ satisfying every literal in the finite list $L$, if and only if every normalized hit has nonempty overlap with the prime of the joined normalized masks, and every normalized cohit is non-bottom.
 
 Plain English reading:
 
@@ -980,7 +980,7 @@ $$
 
 Standard reading:
 
-- There exists a quotient clopen \(x\) satisfying the positive formula \(\varphi\), if and only if there exists a clause \(C\) in the DNF compilation of \(\varphi\) whose quantifier-free v512 condition holds.
+- There exists a quotient clopen $x$ satisfying the positive formula $\varphi$, if and only if there exists a clause $C$ in the DNF compilation of $\varphi$ whose quantifier-free v512 condition holds.
 
 Plain English reading:
 
@@ -1004,7 +1004,7 @@ $$
 
 Standard reading:
 
-- For a finite witness list \(W\) and a body assigning each witness \(w\) a positive formula over \(Q_{\mathrm{clop}}\), there exists a listed witness \(w\) and a quotient clopen \(x\) satisfying \(\operatorname{Body}(w)\), if and only if there exists a listed witness \(w\) and a clause \(C\) in the DNF compilation of \(\operatorname{Body}(w)\) whose quantifier-free v514 condition holds.
+- For a finite witness list $W$ and a body assigning each witness $w$ a positive formula over $Q_{\mathrm{clop}}$, there exists a listed witness $w$ and a quotient clopen $x$ satisfying $\operatorname{Body}(w)$, if and only if there exists a listed witness $w$ and a clause $C$ in the DNF compilation of $\operatorname{Body}(w)$ whose quantifier-free v514 condition holds.
 
 Plain English reading:
 
@@ -1029,7 +1029,7 @@ $$
 
 Standard reading:
 
-- There exists a quotient clopen \(x\) satisfying the bounded positive formula \(\Phi\), if and only if there exists a clause \(C\) in the bounded-DNF compilation of \(\Phi\) whose quantifier-free mixed-QE condition holds.
+- There exists a quotient clopen $x$ satisfying the bounded positive formula $\Phi$, if and only if there exists a clause $C$ in the bounded-DNF compilation of $\Phi$ whose quantifier-free mixed-QE condition holds.
 
 Plain English reading:
 
@@ -1056,7 +1056,7 @@ $$
 
 Standard reading:
 
-- The join of all cells generated by recursively splitting on \(v_1,\ldots,v_n\) is top, and the generated list has \(2^n\) cells.
+- The join of all cells generated by recursively splitting on $v_1,\ldots,v_n$ is top, and the generated list has $2^n$ cells.
 
 The conditional forward-domination receipt is:
 
@@ -1070,7 +1070,7 @@ $$
 
 Standard reading:
 
-- If \(f\) is constant on every cell of the splitter partition, and if some non-bottom \(x\) satisfies \(f(x)=\top\), then there exists a partition cell \(c\) such that \(f(c)\wedge c\) is non-bottom.
+- If $f$ is constant on every cell of the splitter partition, and if some non-bottom $x$ satisfies $f(x)=\top$, then there exists a partition cell $c$ such that $f(c)\wedge c$ is non-bottom.
 
 Plain English reading:
 
@@ -1094,7 +1094,7 @@ $$
 
 Standard reading:
 
-- If witness \(x\) covers cell \(c\), then evaluating unary Boolean term \(t\) at \(x\) and evaluating \(t\) at \(c\) give the same result inside \(c\).
+- If witness $x$ covers cell $c$, then evaluating unary Boolean term $t$ at $x$ and evaluating $t$ at $c$ give the same result inside $c$.
 
 The corresponding domination receipt is:
 
@@ -1111,7 +1111,7 @@ $$
 
 Standard reading:
 
-- If there exists a non-bottom witness \(x\) that is a union of whole splitter cells and \(t\) evaluates to top at \(x\), then some splitter cell \(c\) has non-bottom local satisfaction for \(t\).
+- If there exists a non-bottom witness $x$ that is a union of whole splitter cells and $t$ evaluates to top at $x$, then some splitter cell $c$ has non-bottom local satisfaction for $t$.
 
 Plain English reading:
 
@@ -1176,7 +1176,7 @@ $$
 \neg\operatorname{CellConst}(x\mapsto x,[\top])
 $$
 
-over the concrete Boolean algebra \(\operatorname{Fin}(2)\to\operatorname{Bool}\).
+over the concrete Boolean algebra $\operatorname{Fin}(2)\to\operatorname{Bool}$.
 
 Standard reading:
 
@@ -1205,7 +1205,7 @@ $$
 
 Standard reading:
 
-- If partition \(P\) has the property that any two cells with nonzero overlap are equal, and every selected element is a cell of \(P\), then the join of the selected cells is cell-aligned with \(P\).
+- If partition $P$ has the property that any two cells with nonzero overlap are equal, and every selected element is a cell of $P$, then the join of the selected cells is cell-aligned with $P$.
 
 The domination receipt is:
 
@@ -1227,7 +1227,7 @@ $$
 
 Standard reading:
 
-- If a non-bottom finite union of selected partition cells satisfies unary term \(t\), then some single partition cell has non-bottom local satisfaction for \(t\), provided the partition is overlap-separating.
+- If a non-bottom finite union of selected partition cells satisfies unary term $t$, then some single partition cell has non-bottom local satisfaction for $t$, provided the partition is overlap-separating.
 
 Plain English reading:
 
@@ -1254,7 +1254,7 @@ $$
 
 Standard reading:
 
-- If \(c\) and \(d\) are both cells generated by \(\operatorname{SplitPart}(V)\), and their meet is non-bottom, then \(c\) and \(d\) are the same cell.
+- If $c$ and $d$ are both cells generated by $\operatorname{SplitPart}(V)$, and their meet is non-bottom, then $c$ and $d$ are the same cell.
 
 Plain English reading:
 
@@ -1278,7 +1278,7 @@ $$
 
 Standard reading:
 
-- If the selected witness is a non-bottom finite union of cells from \(\operatorname{SplitPart}(V)\), and unary term \(t\) evaluates to top at that witness, then some generated cell \(c\) has non-bottom local satisfaction for \(t\).
+- If the selected witness is a non-bottom finite union of cells from $\operatorname{SplitPart}(V)$, and unary term $t$ evaluates to top at that witness, then some generated cell $c$ has non-bottom local satisfaction for $t$.
 
 Plain English reading:
 
@@ -1332,7 +1332,7 @@ $$
 
 Standard reading:
 
-- If witness expression \(w\) is well formed over \(\operatorname{SplitPart}(V)\), then its denotation is cell-aligned with \(\operatorname{SplitPart}(V)\).
+- If witness expression $w$ is well formed over $\operatorname{SplitPart}(V)$, then its denotation is cell-aligned with $\operatorname{SplitPart}(V)$.
 
 Plain English reading:
 
@@ -1356,7 +1356,7 @@ $$
 
 Standard reading:
 
-- If a well-formed aligned witness expression denotes a non-bottom witness and unary term \(t\) evaluates to top at that witness, then some generated cell \(c\) has non-bottom local satisfaction for \(t\).
+- If a well-formed aligned witness expression denotes a non-bottom witness and unary term $t$ evaluates to top at that witness, then some generated cell $c$ has non-bottom local satisfaction for $t$.
 
 Plain English reading:
 
@@ -1378,7 +1378,7 @@ $$
 
 Standard reading:
 
-- Table \(T\) is aligned with partition \(P\) exactly when every entry \(T(k)\) is cell-aligned with \(P\).
+- Table $T$ is aligned with partition $P$ exactly when every entry $T(k)$ is cell-aligned with $P$.
 
 The checked pointwise operation laws include:
 
@@ -1462,7 +1462,7 @@ $$
 
 Standard reading:
 
-- If recurrence body \(r\) is well formed over partition \(P\), and the current state \(S\) is table-aligned with \(P\), then evaluating \(r\) in state \(S\) produces another table-aligned state.
+- If recurrence body $r$ is well formed over partition $P$, and the current state $S$ is table-aligned with $P$, then evaluating $r$ in state $S$ produces another table-aligned state.
 
 The finite-approximant law is:
 
@@ -1478,7 +1478,7 @@ $$
 
 Standard reading:
 
-- Starting from the empty table and repeatedly applying a well-formed recurrence body, every finite approximant \(S_n\) is table-aligned.
+- Starting from the empty table and repeatedly applying a well-formed recurrence body, every finite approximant $S_n$ is table-aligned.
 
 Plain English reading:
 
@@ -1511,7 +1511,7 @@ $$
 
 Standard reading:
 
-- A conditional Boolean function over a point space \(X\) is either a Boolean-function leaf, or a conditional node with a Boolean guard and two conditional Boolean-function branches.
+- A conditional Boolean function over a point space $X$ is either a Boolean-function leaf, or a conditional node with a Boolean guard and two conditional Boolean-function branches.
 
 Plain English reading:
 
@@ -1530,7 +1530,7 @@ $$
 
 Standard reading:
 
-- At point \(x\), evaluate the guard \(\varphi(x)\). If it is true, return the denotation of the then branch at \(x\). If it is false, return the denotation of the else branch at \(x\).
+- At point $x$, evaluate the guard $\varphi(x)$. If it is true, return the denotation of the then branch at $x$. If it is false, return the denotation of the else branch at $x$.
 
 The guarded-choice expansion is:
 
@@ -1544,11 +1544,11 @@ $$
 
 Standard reading:
 
-- The value at \(x\) is the join of two guarded contributions: the then value guarded by \(\varphi(x)\), and the else value guarded by the negation of \(\varphi(x)\).
+- The value at $x$ is the join of two guarded contributions: the then value guarded by $\varphi(x)$, and the else value guarded by the negation of $\varphi(x)$.
 
 Plain English reading:
 
-- The guard partitions the point \(x\) into exactly one active branch. The formula writes the same if-then-else decision as Boolean algebra.
+- The guard partitions the point $x$ into exactly one active branch. The formula writes the same if-then-else decision as Boolean algebra.
 
 The checked compiler proof artifact is:
 
@@ -1558,7 +1558,7 @@ $$
 
 Standard reading:
 
-- For every narrow `CBF` expression \(c\), the compiled ordinary Boolean function is extensionally equal to the recursive denotation of \(c\).
+- For every narrow `CBF` expression $c$, the compiled ordinary Boolean function is extensionally equal to the recursive denotation of $c$.
 
 Boundary:
 
@@ -1594,7 +1594,7 @@ $$
 
 Standard reading:
 
-- For every narrow Boolean-algebra-valued `CBF` expression \(c\), the compiled Boolean-algebra element equals the recursive denotation of \(c\).
+- For every narrow Boolean-algebra-valued `CBF` expression $c$, the compiled Boolean-algebra element equals the recursive denotation of $c$.
 
 Boundary:
 
@@ -1615,7 +1615,7 @@ $$
 
 Standard reading:
 
-- If the guard \(g\) is a lower-stratum guard, and both branches \(t\) and \(e\) are positive value terms, then the conditional expression is admitted as a CBF-bearing positive value term.
+- If the guard $g$ is a lower-stratum guard, and both branches $t$ and $e$ are positive value terms, then the conditional expression is admitted as a CBF-bearing positive value term.
 
 The guarded value equation is:
 
@@ -1631,7 +1631,7 @@ $$
 
 Standard reading:
 
-- In lower environment \(\rho\) and current state \(s\), the conditional value is the guarded join of the then-branch value and the else-branch value. The guard is evaluated only in the lower environment.
+- In lower environment $\rho$ and current state $s$, the conditional value is the guarded join of the then-branch value and the else-branch value. The guard is evaluated only in the lower environment.
 
 Plain English reading:
 
@@ -1649,7 +1649,7 @@ $$
 
 Standard reading:
 
-- For every increasing omega-chain of states \(X_n\), the update function \(F\) produced by CBF-bearing value terms preserves the chain supremum.
+- For every increasing omega-chain of states $X_n$, the update function $F$ produced by CBF-bearing value terms preserves the chain supremum.
 
 The fixed-point receipt is:
 
@@ -1697,7 +1697,7 @@ $$
 
 Standard reading:
 
-- Evaluating the compiled priority rows in lower environment \(\rho\) and state \(s\) gives the same Boolean-algebra value as directly evaluating the surface table.
+- Evaluating the compiled priority rows in lower environment $\rho$ and state $s$ gives the same Boolean-algebra value as directly evaluating the surface table.
 
 Plain English reading:
 
@@ -1731,7 +1731,7 @@ $$
 
 Standard reading:
 
-- \(c_{\neg}\) is the conditional expression that reads the current state as its guard, returns bottom when the current state is true, and returns top when the current state is false.
+- $c_{\neg}$ is the conditional expression that reads the current state as its guard, returns bottom when the current state is true, and returns top when the current state is false.
 
 It evaluates as:
 
@@ -1808,7 +1808,7 @@ Boundary:
 - v489 does not yet extend the v487 table compiler.
 
 The v490 relation-parametric recovery theorem removes the Boolean-output
-accident. Let \(S\) be any source relation, let \(T\) be any target relation,
+accident. Let $S$ be any source relation, let $T$ be any target relation,
 and assume the target relation is transitive. Then:
 
 $$
@@ -1827,7 +1827,7 @@ $$
 
 Standard reading:
 
-- If the Boolean guard is monotone from the source relation into the order \(\bot\le\top\), both branches are monotone into the target relation, the target relation is transitive, and the else branch is pointwise below the then branch, then the conditional is monotone into the target relation.
+- If the Boolean guard is monotone from the source relation into the order $\bot\le\top$, both branches are monotone into the target relation, the target relation is transitive, and the else branch is pointwise below the then branch, then the conditional is monotone into the target relation.
 
 Plain English reading:
 
@@ -1879,7 +1879,7 @@ $$
 
 Standard reading:
 
-- The conditional function \(C\) is monotone. For every finite stage \(X_n\), \(C(X_n)\) is bottom. At the omega-supremum of the chain, \(C\) is top.
+- The conditional function $C$ is monotone. For every finite stage $X_n$, $C(X_n)$ is bottom. At the omega-supremum of the chain, $C$ is top.
 
 The failed recurrence law is:
 
@@ -1891,7 +1891,7 @@ $$
 
 Standard reading:
 
-- Applying \(C\) after taking the omega-supremum does not equal taking the omega-supremum after applying \(C\) at every finite stage.
+- Applying $C$ after taking the omega-supremum does not equal taking the omega-supremum after applying $C$ at every finite stage.
 
 Plain English reading:
 
@@ -1917,7 +1917,7 @@ $$
 
 Standard reading:
 
-- \(f\) preserves the Boolean supremum of the chain \(X\) at \(s\) when \(f(s)\) is true exactly when \(f\) is true at some finite stage of the chain.
+- $f$ preserves the Boolean supremum of the chain $X$ at $s$ when $f(s)$ is true exactly when $f$ is true at some finite stage of the chain.
 
 The theorem is:
 
@@ -1955,8 +1955,8 @@ Boundary:
 - v492 is not yet integrated into the restricted table compiler.
 
 The v493 lift replaces Boolean branch values by an ordered branch carrier. Let
-\(\operatorname{supSeq}\) be a sequence-supremum operator satisfying upper-bound
-and least-bound laws, with a transitive and antisymmetric order \(\le_T\).
+$\operatorname{supSeq}$ be a sequence-supremum operator satisfying upper-bound
+and least-bound laws, with a transitive and antisymmetric order $\le_T$.
 
 The branch supremum condition is:
 
@@ -1968,7 +1968,7 @@ $$
 
 Standard reading:
 
-- \(f\) preserves the chosen sequence supremum of \(X\) at \(s\) when evaluating \(f\) at \(s\) equals the supremum of the sequence obtained by evaluating \(f\) at every finite stage \(X_n\).
+- $f$ preserves the chosen sequence supremum of $X$ at $s$ when evaluating $f$ at $s$ equals the supremum of the sequence obtained by evaluating $f$ at every finite stage $X_n$.
 
 The theorem is:
 
@@ -2043,8 +2043,8 @@ Boundary:
 - v494 is not yet integrated into table syntax.
 
 The v495 recurrence-shaped theorem uses pointwise omega-union preservation. Let
-\(X_n\) be a source chain with designated supremum \(s\), and let \(P\) be the
-point space for Boolean-algebra values \(P\to\mathbb{B}\). Define:
+$X_n$ be a source chain with designated supremum $s$, and let $P$ be the
+point space for Boolean-algebra values $P\to\mathbb{B}$. Define:
 
 $$
 \operatorname{PresUnion}(X,s,f)
@@ -2057,7 +2057,7 @@ $$
 
 Standard reading:
 
-- \(f\) preserves pointwise omega-unions along \(X\) at \(s\) when, at every point \(p\), \(f\) is true at the supremum exactly when it is true at some finite stage.
+- $f$ preserves pointwise omega-unions along $X$ at $s$ when, at every point $p$, $f$ is true at the supremum exactly when it is true at some finite stage.
 
 The theorem is:
 
@@ -2087,7 +2087,7 @@ Standard reading:
 
 Plain English reading:
 
-- BA-valued current guards can be recurrence-safe, but only after adding two gates: the branch-order gate \(e\le t\), and the omega-union preservation gate for the guard and branches.
+- BA-valued current guards can be recurrence-safe, but only after adding two gates: the branch-order gate $e\le t$, and the omega-union preservation gate for the guard and branches.
 
 Boundary:
 
@@ -2146,13 +2146,13 @@ $$
 
 Standard reading:
 
-- Splitting an element \(a\) by every splitter in a finite list \(S\), then joining all resulting leaves, gives back exactly \(a\).
-- The explicit leaf-list version says that the finite splitter schedule produces \(2^{|S|}\) dyadic leaves, and that the join of exactly those leaves is \(a\).
+- Splitting an element $a$ by every splitter in a finite list $S$, then joining all resulting leaves, gives back exactly $a$.
+- The explicit leaf-list version says that the finite splitter schedule produces $2^{|S|}$ dyadic leaves, and that the join of exactly those leaves is $a$.
 
 Plain English reading:
 
 - c051 proves one cut preserves the whole region. v496 proves any finite splitter tree preserves the whole region.
-- v497 adds the bookkeeping that a depth-\(n\) splitter schedule really has \(2^n\) terminal pieces.
+- v497 adds the bookkeeping that a depth-$n$ splitter schedule really has $2^n$ terminal pieces.
 
 Boundary:
 
@@ -2193,7 +2193,7 @@ $$
 \bigvee_{n<\omega}T_n(k).
 $$
 
-For a monotone and omega-continuous table update \(F\), define:
+For a monotone and omega-continuous table update $F$, define:
 
 $$
 X_0:=\bot,\qquad X_{n+1}:=F(X_n),
@@ -2210,7 +2210,7 @@ $$
 Standard reading:
 
 - If the value carrier has a valid countable-supremum semantics, then the table carrier inherits that semantics one key at a time.
-- If a table update \(F\) is monotone and preserves countable suprema of increasing chains, then the supremum of its finite approximants is a fixed point.
+- If a table update $F$ is monotone and preserves countable suprema of increasing chains, then the supremum of its finite approximants is a fixed point.
 
 Plain English reading:
 
@@ -2221,10 +2221,10 @@ Boundary:
 - v498 is an abstract semantic receipt, not an executable representation.
 - v498 does not choose between Borel codes, automata, prefix-open cells, or another concrete carrier.
 - v498 does not prove atomlessness or splitter existence.
-- v498 does not compile TABA syntax into \(F\).
+- v498 does not compile TABA syntax into $F$.
 
 v499 adds a splitter interface to the same abstract carrier. Suppose the value
-carrier can split every non-bottom value \(a\) into two non-bottom pieces:
+carrier can split every non-bottom value $a$ into two non-bottom pieces:
 
 $$
 \operatorname{split}_L(a)\vee\operatorname{split}_R(a)=a,
@@ -2240,8 +2240,8 @@ $$
 \operatorname{split}_R(a)\ne\bot.
 $$
 
-For a table \(T:K\to A\) and a supplied live key \(k_0\) with
-\(T(k_0)\ne\bot\), define:
+For a table $T:K\to A$ and a supplied live key $k_0$ with
+$T(k_0)\ne\bot$, define:
 
 $$
 L(k):=
@@ -2303,8 +2303,8 @@ Boundary:
 - v499 does not compile TABA syntax.
 
 v500 then applies the discretization trick to the positive prefix-open lane.
-For a finite binary word \(w\), write \([w]\) for the cylinder of streams
-beginning with \(w\). The checked basis identity is:
+For a finite binary word $w$, write $[w]$ for the cylinder of streams
+beginning with $w$. The checked basis identity is:
 
 $$
 [w]=[w0]\vee[w1].
@@ -2326,9 +2326,9 @@ $$
 
 Standard reading:
 
-- Every stream beginning with \(w\) begins with either \(w0\) or \(w1\).
-- No stream can begin with both \(w0\) and \(w1\).
-- There is at least one stream beginning with \(w0\), and at least one stream beginning with \(w1\).
+- Every stream beginning with $w$ begins with either $w0$ or $w1$.
+- No stream can begin with both $w0$ and $w1$.
+- There is at least one stream beginning with $w0$, and at least one stream beginning with $w1$.
 
 Plain English reading:
 
@@ -2349,7 +2349,7 @@ U=\bigcup_{w\in G}[w]
 U\ne\bot,
 $$
 
-then there exist prefix-open \(L\) and \(R\) such that:
+then there exist prefix-open $L$ and $R$ such that:
 
 $$
 L\ne\bot
@@ -2369,8 +2369,8 @@ $$
 
 Standard reading:
 
-- If \(U\) is a nonempty prefix-open region, then some generator cylinder \([w]\) lies inside it.
-- The two child cylinders \([w0]\) and \([w1]\) are nonempty, disjoint, prefix-open, and both are contained in \(U\).
+- If $U$ is a nonempty prefix-open region, then some generator cylinder $[w]$ lies inside it.
+- The two child cylinders $[w0]$ and $[w1]$ are nonempty, disjoint, prefix-open, and both are contained in $U$.
 
 Plain English reading:
 
@@ -2378,12 +2378,12 @@ Plain English reading:
 
 Boundary:
 
-- v501 does not prove \(L\vee R=U\).
+- v501 does not prove $L\vee R=U$.
 - The missing covering equation would require a difference or complement-like operation.
 - That distinction matters because prefix-open regions are a positive carrier, not a full Boolean carrier.
 
 v502 proves the omega-supremum side of the positive prefix-open lane. Given a
-sequence of generators \(G_n\), define:
+sequence of generators $G_n$, define:
 
 $$
 G_\omega(w)
@@ -2432,8 +2432,8 @@ Boundary:
 - v502 still does not add complement.
 - v502 gives positive omega semantics, not full Boolean table semantics.
 
-v503 corrects the boundary around finite multi-hit QE. Let \(M\) be a finite
-list of mask regions and \(H\) be a finite list of hit regions. The checked
+v503 corrects the boundary around finite multi-hit QE. Let $M$ be a finite
+list of mask regions and $H$ be a finite list of hit regions. The checked
 formula is:
 
 $$
@@ -2448,16 +2448,16 @@ $$
 
 Standard reading:
 
-- There exists a Boolean-algebra element \(x\) such that \(x\) is disjoint from every mask \(t\in M\), and \(x\) has nonzero overlap with every hit region \(s\in H\), if and only if every hit region \(s\in H\) has nonzero overlap with the prime of the join of all masks.
+- There exists a Boolean-algebra element $x$ such that $x$ is disjoint from every mask $t\in M$, and $x$ has nonzero overlap with every hit region $s\in H$, if and only if every hit region $s\in H$ has nonzero overlap with the prime of the join of all masks.
 
 Plain English reading:
 
-- The same witness can serve every same-polarity hit. Choose \(x\) to be everything outside the joined masks. This works exactly when each requested hit region still has a nonzero part outside those masks.
+- The same witness can serve every same-polarity hit. Choose $x$ to be everything outside the joined masks. This works exactly when each requested hit region still has a nonzero part outside those masks.
 
 Trap:
 
 - This is not where atomlessness enters. No region needs to be split into two independent live pieces. The witness is just the mask complement.
-- Atomlessness begins to matter for mixed-polarity constraints, where the formula demands live overlap for both \(x\) and \(x'\).
+- Atomlessness begins to matter for mixed-polarity constraints, where the formula demands live overlap for both $x$ and $x'$.
 
 Boundary:
 
@@ -2466,8 +2466,8 @@ Boundary:
 - v503 does not prove NSO or Tau lowering.
 
 v504 proves the first checked rule where atomless-style splitting is actually
-used. With one mask \(t\), one positive hit \(s\), and one complement hit
-\(r\), assume the carrier can split every nonzero element into two disjoint
+used. With one mask $t$, one positive hit $s$, and one complement hit
+$r$, assume the carrier can split every nonzero element into two disjoint
 nonzero pieces. Then:
 
 $$
@@ -2486,11 +2486,11 @@ $$
 
 Standard reading:
 
-- There exists a Boolean-algebra element \(x\) that avoids \(t\), has nonzero overlap with \(s\), and whose prime has nonzero overlap with \(r\), if and only if \(s\) has a nonzero part outside \(t\), and \(r\) itself is nonzero.
+- There exists a Boolean-algebra element $x$ that avoids $t$, has nonzero overlap with $s$, and whose prime has nonzero overlap with $r$, if and only if $s$ has a nonzero part outside $t$, and $r$ itself is nonzero.
 
 Plain English reading:
 
-- The positive side needs live material outside the mask. The complement-hit side only needs \(r\) to be live somewhere. If \(r\) is already inside the masked part, then \(x'\) hits it automatically. If not, the live region outside the mask may have to be split so that one piece goes into \(x\) and another remains for \(x'\).
+- The positive side needs live material outside the mask. The complement-hit side only needs $r$ to be live somewhere. If $r$ is already inside the masked part, then $x'$ hits it automatically. If not, the live region outside the mask may have to be split so that one piece goes into $x$ and another remains for $x'$.
 
 Trap:
 
@@ -2505,9 +2505,9 @@ Boundary:
 - v504 does not prove NSO or Tau lowering.
 
 v505 extracts the extension step needed for finite positive-hit lists. Suppose
-\(y\) already avoids the mask and already leaves live room for the complement
-hit. If a new positive hit \(s\) has nonzero residue outside the mask, then
-\(y\) can be extended to a larger \(x\):
+$y$ already avoids the mask and already leaves live room for the complement
+hit. If a new positive hit $s$ has nonzero residue outside the mask, then
+$y$ can be extended to a larger $x$:
 
 $$
 \begin{aligned}
@@ -2531,7 +2531,7 @@ $$
 
 Standard reading:
 
-- If \(y\) is disjoint from \(t\), the prime of \(y\) has nonzero overlap with \(r\), and \(s\) has a nonzero part outside \(t\), then there is an \(x\) above \(y\) that is still disjoint from \(t\), has nonzero overlap with \(s\), and whose prime still has nonzero overlap with \(r\).
+- If $y$ is disjoint from $t$, the prime of $y$ has nonzero overlap with $r$, and $s$ has a nonzero part outside $t$, then there is an $x$ above $y$ that is still disjoint from $t$, has nonzero overlap with $s$, and whose prime still has nonzero overlap with $r$.
 
 Plain English reading:
 
@@ -2550,7 +2550,7 @@ Boundary:
 - v505 does not prove NSO or Tau lowering.
 
 v506 iterates the v505 extension step over a finite list of positive-hit
-targets \(H\), while preserving one complement-hit target \(r\):
+targets $H$, while preserving one complement-hit target $r$:
 
 $$
 \exists x.\left(
@@ -2570,11 +2570,11 @@ $$
 
 Standard reading:
 
-- There exists an \(x\) that avoids \(t\), hits every positive target \(s\in H\), and whose prime hits \(r\), if and only if every positive target has nonzero residue outside \(t\), and \(r\) is nonzero.
+- There exists an $x$ that avoids $t$, hits every positive target $s\in H$, and whose prime hits $r$, if and only if every positive target has nonzero residue outside $t$, and $r$ is nonzero.
 
 Plain English reading:
 
-- The witness starts at \(\bot\). Each positive obligation is added one at a time. Since the witness only grows, earlier positive hits stay hit. The splitter is used to preserve the one remaining complement obligation.
+- The witness starts at $\bot$. Each positive obligation is added one at a time. Since the witness only grows, earlier positive hits stay hit. The splitter is used to preserve the one remaining complement obligation.
 
 Trap:
 
@@ -2644,7 +2644,7 @@ $$
 
 This is why the replay includes a high-bit case. The test is not incidental.
 It checks that the executable carrier is exactly the low-four-cell carrier,
-not an accidental eight-cell table. Bits with index \(k\ge 4\) are outside the
+not an accidental eight-cell table. Bits with index $k\ge 4$ are outside the
 declared carrier and are discarded by the model.
 
 The finite join formula is:
@@ -2655,9 +2655,9 @@ $$
 
 Standard reading:
 
-For each cell \(k\), the cell \(k\) is present in
-\(\operatorname{join}_4(A,B)\) if and only if \(k\) is present in \(A\) or
-\(k\) is present in \(B\).
+For each cell $k$, the cell $k$ is present in
+$\operatorname{join}_4(A,B)$ if and only if $k$ is present in $A$ or
+$k$ is present in $B$.
 
 The formula is pointwise. It does not say "append rows" syntactically. It says
 that the denotation of the joined table is the union of the denotations of the
@@ -2671,9 +2671,9 @@ $$
 
 Standard reading:
 
-For each cell \(k\), the cell \(k\) is present in
-\(\operatorname{common}_4(A,B)\) if and only if \(k\) is present in \(A\) and
-\(k\) is present in \(B\).
+For each cell $k$, the cell $k$ is present in
+$\operatorname{common}_4(A,B)$ if and only if $k$ is present in $A$ and
+$k$ is present in $B$.
 
 This is the finite-set intersection operation. It corresponds to the TABA
 `common` idea only at this finite Boolean-carrier level. The full table-level
@@ -2687,9 +2687,9 @@ $$
 
 Standard reading:
 
-For each cell \(k\), the cell \(k\) is present in
-\(\operatorname{select}_4(A,G)\) if and only if \(k\) is present in \(A\) and
-the guard \(G\) contains \(k\).
+For each cell $k$, the cell $k$ is present in
+$\operatorname{select}_4(A,G)$ if and only if $k$ is present in $A$ and
+the guard $G$ contains $k$.
 
 The guard is a region, not a procedural if-statement. In the finite mask carrier
 it is represented by another four-bit set.
@@ -2712,8 +2712,8 @@ $$
 
 Standard reading:
 
-For each cell \(k\), if \(k\) is inside guard \(G\), the result uses \(V_k\).
-If \(k\) is outside \(G\), the result uses \(A_k\).
+For each cell $k$, if $k$ is inside guard $G$, the result uses $V_k$.
+If $k$ is outside $G$, the result uses $A_k$.
 
 The prime `G'` is complement inside the finite four-cell universe. It is not a
 propositional negation over formulas and not a derivative. At the mask level:
@@ -2762,8 +2762,8 @@ $$
 
 Standard reading:
 
-Parent cell \(p\) is present after projection if and only if at least one child
-cell of \(p\) was present before projection.
+Parent cell $p$ is present after projection if and only if at least one child
+cell of $p$ was present before projection.
 
 Projection is therefore existential elimination over the child-side coordinate.
 It is not a choice of one representative child. It is a finite "there exists a
@@ -2783,8 +2783,8 @@ $$
 
 Standard reading:
 
-For each parent cell \(p\), \(p\) is present after projecting the union of
-\(A\) and \(B\) if and only if \(p\) is present after unioning the two
+For each parent cell $p$, $p$ is present after projecting the union of
+$A$ and $B$ if and only if $p$ is present after unioning the two
 projected tables.
 
 Expanded proof shape:
@@ -2840,9 +2840,9 @@ $$
 
 Standard reading:
 
-\(o_7\) is native `ft4` join. \(o_8\) is native `ft4` common. \(o_9\) is
-native `ft4` guard selection. \(o_{10}\) is native `ft4` masked update.
-\(o_{11}\) checks that a finite region and its prime are disjoint.
+$o_7$ is native `ft4` join. $o_8$ is native `ft4` common. $o_9$ is
+native `ft4` guard selection. $o_{10}$ is native `ft4` masked update.
+$o_{11}$ checks that a finite region and its prime are disjoint.
 
 The `ft4` splitter used by Tau's solver is deliberately finite:
 
@@ -2855,8 +2855,8 @@ $$
 
 Standard reading:
 
-If \(A\) is nonzero, \(\operatorname{splitter}(A)\) returns one live singleton
-cell of \(A\).
+If $A$ is nonzero, $\operatorname{splitter}(A)$ returns one live singleton
+cell of $A$.
 
 This makes finite solving practical, but it is also exactly why `ft4` is not an
 atomless carrier. An atomless splitter must split every nonzero element into two
@@ -2872,7 +2872,7 @@ $$
 
 Standard reading:
 
-For every checked replay case \(c\) in the finite corpus \(C_{\mathrm{finite}}\),
+For every checked replay case $c$ in the finite corpus $C_{\mathrm{finite}}$,
 the Tau-produced output vector equals the output vector computed by the
 independent finite-mask model.
 
@@ -2925,8 +2925,8 @@ $$
 
 Standard reading:
 
-For an input point \(x\), the table returns the value attached to the guard
-containing \(x\). If no row guard contains \(x\), the table returns zero.
+For an input point $x$, the table returns the value attached to the guard
+containing $x$. If no row guard contains $x$, the table returns zero.
 
 This is the bridge from Ohad's table notation to the local finite masks. In the
 finite executable carrier, the points `x` are the four cells `0,1,2,3`, and a
@@ -3108,8 +3108,8 @@ $$
 
 Standard reading:
 
-A compiled family state assigns one value in the Boolean algebra \(V\) to each
-component index in \(I\).
+A compiled family state assigns one value in the Boolean algebra $V$ to each
+component index in $I$.
 
 The expression grammar checked in c035 is:
 
@@ -3142,9 +3142,9 @@ $$
 
 Standard reading:
 
-The compiled update for target \(n\) computes the body expression \(B(n)\) in
-the old state \(S\), writes that value at component \(n\), and leaves every
-other component \(r\) unchanged.
+The compiled update for target $n$ computes the body expression $B(n)$ in
+the old state $S$, writes that value at component $n$, and leaves every
+other component $r$ unchanged.
 
 The dependency law is:
 
@@ -3158,9 +3158,9 @@ $$
 
 Standard reading:
 
-If component \(d\) occurs syntactically inside the body for component \(n\), and
-the certified order is prefix-ready for those formula dependencies, then \(d\)
-appears before \(n\) in the certified order.
+If component $d$ occurs syntactically inside the body for component $n$, and
+the certified order is prefix-ready for those formula dependencies, then $d$
+appears before $n$ in the certified order.
 
 The finite recurrence theorem is:
 
@@ -3200,7 +3200,7 @@ $$
 Standard reading:
 
 An `ft4` value is a truth value for each of four cells. A cell maps to
-\(\mathrm{true}\) exactly when that cell is present in the finite region.
+$\mathrm{true}$ exactly when that cell is present in the finite region.
 
 The checked pointwise runtime laws are:
 
@@ -3246,8 +3246,8 @@ $$
 
 Standard reading:
 
-At a guarded cell, the new value comes from \(V\). Outside the guard, the old
-value from \(A\) is preserved.
+At a guarded cell, the new value comes from $V$. Outside the guard, the old
+value from $A$ is preserved.
 
 The finiteness receipts are:
 
@@ -3300,8 +3300,8 @@ $$
 Standard reading:
 
 A Boolean algebra has splitters exactly when every nonzero element can be cut
-by some \(s\) into two nonzero parts, the part inside \(s\) and the part outside
-\(s\).
+by some $s$ into two nonzero parts, the part inside $s$ and the part outside
+$s$.
 
 This is the formal version of the atomless idea. It is not an executable search
 algorithm for such an `s` in an arbitrary infinite Boolean algebra.
@@ -3314,7 +3314,7 @@ $$
 
 Standard reading:
 
-A table with key type \(K\) and Boolean-algebra value type \(\alpha\) is a
+A table with key type $K$ and Boolean-algebra value type $\alpha$ is a
 function that assigns one Boolean-algebra value to each key.
 
 No finiteness assumption is placed on `K`. The key type can be finite or
@@ -3378,7 +3378,7 @@ $$
 
 Standard reading:
 
-Selecting first by \(\varphi\) and then by \(\psi\) is the same as selecting
+Selecting first by $\varphi$ and then by $\psi$ is the same as selecting
 once by the conjunction of both predicates.
 
 The checked common operation is:
@@ -3426,9 +3426,9 @@ $$
 
 Standard reading:
 
-If \(T_1\) already has value \(v\) at key \(k\), then setting \(T_2\) at \(k\)
-to \(v\) before taking common is the same as taking common first and then
-setting the result at \(k\) to \(v\).
+If $T_1$ already has value $v$ at key $k$, then setting $T_2$ at $k$
+to $v$ before taking common is the same as taking common first and then
+setting the result at $k$ to $v$.
 
 The table-level splitter partition formulas are:
 
@@ -3452,7 +3452,7 @@ $$
 
 Standard reading:
 
-At key \(k\), the two splitter tables cover the old value and are disjoint.
+At key $k$, the two splitter tables cover the old value and are disjoint.
 
 The atomless table capstone is:
 
@@ -3474,8 +3474,8 @@ $$
 
 Standard reading:
 
-If the value Boolean algebra is atomless and table \(T\) has a nonzero value at
-key \(k\), then the table can be split at that key into two nonzero table
+If the value Boolean algebra is atomless and table $T$ has a nonzero value at
+key $k$, then the table can be split at that key into two nonzero table
 values.
 
 This is the precise solved part of "atomless infinite tables." It proves the
@@ -3516,8 +3516,8 @@ Standard reading:
 
 If a semantic clopen table value is nonzero, it can be split into two nonzero
 semantic clopen pieces. If a table indexed by an arbitrary key type has such a
-value at key \(k\), the value at \(k\) can be replaced by either split piece,
-and both replacements remain nonzero at \(k\).
+value at key $k$, the value at $k$ can be replaced by either split piece,
+and both replacements remain nonzero at $k$.
 
 This is stronger than the earlier raw-tree result because the theorem is stated
 at the semantic `Clopen` subtype level. It is still not recurrence, countable
@@ -3572,7 +3572,7 @@ $$
 
 Standard reading:
 
-At the algebraic table-value layer, tables may have arbitrary key type \(K\),
+At the algebraic table-value layer, tables may have arbitrary key type $K$,
 and values live in the semantic `Clopen` carrier. Updating the same key twice
 keeps the second update, updates to different keys commute, common is pointwise
 meet, and any nonzero table entry can be split into two nonzero clopen parts.
@@ -3596,8 +3596,8 @@ $$
 Standard reading:
 
 If two Boolean streams agree on every position below the structural depth of the
-Cantor tree \(c\), then evaluating \(c\) on the first stream gives the same
-Boolean result as evaluating \(c\) on the second stream.
+Cantor tree $c$, then evaluating $c$ on the first stream gives the same
+Boolean result as evaluating $c$ on the second stream.
 
 The depth equation is structural:
 
@@ -3626,10 +3626,10 @@ $$
 
 Standard reading:
 
-A table with keys in \(K\) and values in \(\alpha\) is a function assigning one
-\(\alpha\)-value to each key.
+A table with keys in $K$ and values in $\alpha$ is a function assigning one
+$\alpha$-value to each key.
 
-If \(\alpha\) is a complete Boolean algebra, countable table suprema are
+If $\alpha$ is a complete Boolean algebra, countable table suprema are
 pointwise:
 
 $$
@@ -3640,8 +3640,8 @@ $$
 
 Standard reading:
 
-The value at key \(k\) of the countable join of tables is the countable join of
-the values that the tables assign to \(k\).
+The value at key $k$ of the countable join of tables is the countable join of
+the values that the tables assign to $k$.
 
 The omega-continuity condition used by c022 is:
 
@@ -3655,8 +3655,8 @@ $$
 
 Standard reading:
 
-For every increasing omega-chain \(X_0,X_1,\ldots\), applying \(F\) after taking
-the chain supremum gives the same result as applying \(F\) at every finite stage
+For every increasing omega-chain $X_0,X_1,\ldots$, applying $F$ after taking
+the chain supremum gives the same result as applying $F$ at every finite stage
 and then taking the supremum.
 
 The finite approximants are:
@@ -3679,8 +3679,8 @@ $$
 
 Standard reading:
 
-If \(F\) preserves order and commutes with increasing omega-chain suprema, then
-the supremum of its finite approximants is a fixed point of \(F\).
+If $F$ preserves order and commutes with increasing omega-chain suprema, then
+the supremum of its finite approximants is a fixed point of $F$.
 
 c022 also proves the rewrite-certificate bridge:
 
@@ -3741,7 +3741,7 @@ $$
 
 Standard reading:
 
-If \(a\) is below \(b\), then the prime of \(b\) is below the prime of \(a\).
+If $a$ is below $b$, then the prime of $b$ is below the prime of $a$.
 The order reverses.
 
 The monotonicity theorem for positive expressions is:
@@ -3756,9 +3756,9 @@ $$
 
 Standard reading:
 
-If every component value in state \(S\) is below the corresponding component
-value in state \(T\), then evaluating a positive expression in \(S\) gives a
-value below the result of evaluating the same expression in \(T\).
+If every component value in state $S$ is below the corresponding component
+value in state $T$, then evaluating a positive expression in $S$ gives a
+value below the result of evaluating the same expression in $T$.
 
 The omega-continuity theorem is:
 
@@ -3784,8 +3784,8 @@ $$
 
 Standard reading:
 
-The update transformer \(F_B\) assigns to component \(i\) the value obtained by
-evaluating the body expression \(B(i)\) in the old state \(S\).
+The update transformer $F_B$ assigns to component $i$ the value obtained by
+evaluating the body expression $B(i)$ in the old state $S$.
 
 v472 proves:
 
@@ -3795,7 +3795,7 @@ F_B\left(\bigvee_{n<\omega}S_n\right)
 \bigvee_{n<\omega}F_B(S_n)
 $$
 
-for every increasing chain \(S_0\le S_1\le\cdots\). It then instantiates the
+for every increasing chain $S_0\le S_1\le\cdots$. It then instantiates the
 omega fixed-point construction:
 
 $$
@@ -3813,10 +3813,10 @@ $$
 
 Standard reading:
 
-A row \(r\) is a pair. The first component \(g_r\) is its guard expression, and
-the second component \(v_r\) is its value expression.
+A row $r$ is a pair. The first component $g_r$ is its guard expression, and
+the second component $v_r$ is its value expression.
 
-Its semantic value in state \(S\) is:
+Its semantic value in state $S$ is:
 
 $$
 \llbracket r\rrbracket_S
@@ -3828,11 +3828,11 @@ $$
 
 Standard reading:
 
-The value of a row in state \(S\) is the meet of the guard value and the row
+The value of a row in state $S$ is the meet of the guard value and the row
 value. The row contributes only the part of the value that lies inside the
 guard.
 
-For a finite row list \(R\), v473 uses guarded-join semantics:
+For a finite row list $R$, v473 uses guarded-join semantics:
 
 $$
 \llbracket R\rrbracket_S
@@ -3847,7 +3847,7 @@ $$
 
 Standard reading:
 
-The value of a finite row list in state \(S\) is the join of all guarded row
+The value of a finite row list in state $S$ is the join of all guarded row
 contributions.
 
 Reading trap:
@@ -3881,8 +3881,8 @@ $$
 
 Standard reading:
 
-The row-update transformer \(F_B\) assigns to component \(i\) the value obtained
-by evaluating the finite row list \(B(i)\) in the old state \(S\).
+The row-update transformer $F_B$ assigns to component $i$ the value obtained
+by evaluating the finite row list $B(i)$ in the old state $S$.
 
 v473 proves:
 
@@ -3892,7 +3892,7 @@ F_B\left(\bigvee_{n<\omega}S_n\right)
 \bigvee_{n<\omega}F_B(S_n)
 $$
 
-for every increasing chain \(S_0\le S_1\le\cdots\). It then proves:
+for every increasing chain $S_0\le S_1\le\cdots$. It then proves:
 
 $$
 F_B\left(\bigvee_{n<\omega}F_B^n(\bot)\right)
@@ -3916,7 +3916,7 @@ allowed in the positive recurrence kernel. Prime applied to a fixed lower
 stratum is different, because the lower stratum is already completed before the
 current recurrence step is evaluated.
 
-Let \(E:L\to A\) be a lower-stratum environment. The stratified-prime
+Let $E:L\to A$ be a lower-stratum environment. The stratified-prime
 constructor is interpreted as:
 
 $$
@@ -3927,15 +3927,15 @@ $$
 
 Standard reading:
 
-The expression \(\operatorname{lowerPrime}(\ell)\) evaluates to the prime of
-the lower-stratum value \(E(\ell)\). It does not take the prime of a current
+The expression $\operatorname{lowerPrime}(\ell)$ evaluates to the prime of
+the lower-stratum value $E(\ell)$. It does not take the prime of a current
 state component.
 
 Reading trap:
 
-This is not the same as \(\operatorname{ref}(i)'\). The expression
-\(\operatorname{ref}(i)'\) would apply prime to the current recursive state, and
-that reverses order. The expression \(\operatorname{lowerPrime}(\ell)\) is
+This is not the same as $\operatorname{ref}(i)'$. The expression
+$\operatorname{ref}(i)'$ would apply prime to the current recursive state, and
+that reverses order. The expression $\operatorname{lowerPrime}(\ell)$ is
 constant with respect to the current state.
 
 The independence law is:
@@ -3948,8 +3948,8 @@ $$
 
 Standard reading:
 
-Changing the current state from \(S\) to \(T\) does not change a lower-prime
-term, because its value is determined by \(E\), not by the current state.
+Changing the current state from $S$ to $T$ does not change a lower-prime
+term, because its value is determined by $E$, not by the current state.
 
 v474 proves omega-continuity for expressions with positive current references
 and lower-stratum prime:
@@ -4013,10 +4013,10 @@ $$
 Standard reading:
 
 The row contributes the meet of its stratified guard value and its stratified
-row value. Lower-prime subterms read from \(E\), while current references read
-from \(S\).
+row value. Lower-prime subterms read from $E$, while current references read
+from $S$.
 
-For a finite row list \(R\):
+For a finite row list $R$:
 
 $$
 \llbracket R\rrbracket_{E,S}
@@ -4032,8 +4032,8 @@ $$
 Standard reading:
 
 The row-list value is the join of all guarded contributions, with each
-contribution evaluated against the fixed lower environment \(E\) and the
-current state \(S\).
+contribution evaluated against the fixed lower environment $E$ and the
+current state $S$.
 
 v475 proves:
 
@@ -4077,7 +4077,7 @@ semantics, not priority-row or first-match semantics, and it does not prove
 disjoint-row normalization.
 
 v476 adds the fixed-guard priority normal form. For a row list
-\(R=[(g_i,v_i)]_{i<m}\), define the effective guard of row \(i\) as:
+$R=[(g_i,v_i)]_{i<m}$, define the effective guard of row $i$ as:
 
 $$
 h_i
@@ -4089,7 +4089,7 @@ $$
 
 Standard reading:
 
-The effective guard \(h_i\) is the original guard \(g_i\), restricted to the
+The effective guard $h_i$ is the original guard $g_i$, restricted to the
 part of the Boolean space not already claimed by any earlier guard.
 
 The normalized guarded-join value is:
@@ -4122,7 +4122,7 @@ Reading trap:
 
 This proof is not a recurrence theorem. It is a pointwise normalization theorem
 for fixed guards and fixed values. If guards depend on the current recursive
-state, the primes \(g_j'\) can become same-stratum negative dependencies.
+state, the primes $g_j'$ can become same-stratum negative dependencies.
 
 v477 proves the corresponding safe recurrence fragment. In v477, priority
 guards are fixed Boolean-algebra values, while row values may depend positively
@@ -4143,8 +4143,8 @@ $$
 Standard reading:
 
 An empty priority list evaluates to bottom. A nonempty priority list first takes
-the part of the head value inside the fixed guard \(g\), then evaluates the tail
-only outside \(g\).
+the part of the head value inside the fixed guard $g$, then evaluates the tail
+only outside $g$.
 
 v477 proves:
 
@@ -4184,11 +4184,11 @@ lower-stratum data.
 
 Reading trap:
 
-The guard \(g\) is fixed. This theorem does not allow a priority guard such as
-\(g(S)\) that changes with the current recursive state.
+The guard $g$ is fixed. This theorem does not allow a priority guard such as
+$g(S)$ that changes with the current recursive state.
 
-v479 is the next safe widening. Instead of requiring \(g\) to be a raw fixed
-Boolean-algebra value, it allows \(g\) to be evaluated from a guard-only
+v479 is the next safe widening. Instead of requiring $g$ to be a raw fixed
+Boolean-algebra value, it allows $g$ to be evaluated from a guard-only
 lower-stratum expression:
 
 $$
@@ -4215,7 +4215,7 @@ $$
 Standard reading:
 
 An empty priority list evaluates to bottom. A nonempty priority list evaluates
-the guard \(\gamma\) from the lower-stratum environment \(E\), takes the head
+the guard $\gamma$ from the lower-stratum environment $E$, takes the head
 value inside that guard, and evaluates the tail only outside that guard.
 
 Plain English:
@@ -4241,7 +4241,7 @@ supremum of priority evaluations at each finite stage.
 
 Reading trap:
 
-The expression \(\llbracket\gamma\rrbracket_E\) has no \(S\) subscript. That is
+The expression $\llbracket\gamma\rrbracket_E$ has no $S$ subscript. That is
 the entire point. The guard is lower-stratum data during the current recurrence
 proof, so its prime is not same-stratum negation.
 
@@ -4254,8 +4254,8 @@ $$
 \llbracket e\rrbracket_{E,S}\right).
 $$
 
-For a priority row list \(R\), let
-\(\operatorname{mat}_{E,S}(R)\) be the row list obtained by materializing each
+For a priority row list $R$, let
+$\operatorname{mat}_{E,S}(R)$ be the row list obtained by materializing each
 row. Then v480 proves:
 
 $$
@@ -4285,7 +4285,7 @@ $$
 T := (R,d),
 $$
 
-where \(R\) is a finite list of priority rows and \(d\) is an explicit default
+where $R$ is a finite list of priority rows and $d$ is an explicit default
 value. The compiler appends the default as a final top-guarded row:
 
 $$
@@ -4311,8 +4311,8 @@ $$
 
 Standard reading:
 
-For every lower environment \(E\), current state \(S\), and restricted table
-\(T\), evaluating the compiled priority-row kernel gives the same Boolean
+For every lower environment $E$, current state $S$, and restricted table
+$T$, evaluating the compiled priority-row kernel gives the same Boolean
 algebra value as evaluating the surface table.
 
 Plain English:
@@ -4358,7 +4358,7 @@ stratified negation, CBFs, table rows, NSO semantics, automata lowering, or Tau
 runtime integration.
 
 c023 closes a negative boundary around the simple powerset reference carrier.
-Let \(\Omega := \mathbb{N}\to\mathbb{B}\). Then:
+Let $\Omega := \mathbb{N}\to\mathbb{B}$. Then:
 
 $$
 \neg\operatorname{HasSplitters}(\mathcal{P}(\Omega)).
@@ -4376,10 +4376,10 @@ $$
 
 Standard reading:
 
-For any single stream \(x\), no subset \(s\) can split the singleton set
-\(\{x\}\) into two nonempty pieces. Either \(x\in s\), in which case
-\(\{x\}\cap s'\) is empty, or \(x\notin s\), in which case
-\(\{x\}\cap s\) is empty.
+For any single stream $x$, no subset $s$ can split the singleton set
+$\{x\}$ into two nonempty pieces. Either $x\in s$, in which case
+$\{x\}\cap s'$ is empty, or $x\notin s$, in which case
+$\{x\}\cap s$ is empty.
 
 This matters because the powerset carrier is closed under arbitrary unions, but
 it is atomic. It can serve as a reference semantics for sets of streams, but it
@@ -4387,7 +4387,7 @@ cannot be the final atomless value carrier if the table semantics requires the
 TABA splitter property.
 
 c024 formalizes the recurrence-loop core that is closer to the TABA 0.25 draft.
-Let \(\alpha\) be a finite semantic quotient, let \(F:\alpha\to\alpha\) be a
+Let $\alpha$ be a finite semantic quotient, let $F:\alpha\to\alpha$ be a
 deterministic recurrence step, and define:
 
 $$
@@ -4396,8 +4396,8 @@ $$
 
 Standard reading:
 
-The recurrence starts at initial semantic state \(a\). Each next state is
-obtained by applying the deterministic recurrence transformer \(F\) to the
+The recurrence starts at initial semantic state $a$. Each next state is
+obtained by applying the deterministic recurrence transformer $F$ to the
 previous state.
 
 c024 proves the finite loop guarantee:
@@ -4414,7 +4414,7 @@ $$
 Standard reading:
 
 If there are only finitely many semantic states, then among the first
-\(|\alpha|+1\) samples of the recurrence sequence, two samples must denote the
+$|\alpha|+1$ samples of the recurrence sequence, two samples must denote the
 same semantic state.
 
 The adjacent-loop theorem is:
@@ -4471,7 +4471,7 @@ multi-index recurrence, or Tau lowering. It does give the checked finite
 semantic loop core that the fuller recurrence semantics can target.
 
 c025 adds the first mutual-recurrence lift. For two semantic component carriers
-\(\alpha\) and \(\beta\), define the product semantic state:
+$\alpha$ and $\beta$, define the product semantic state:
 
 $$
 \operatorname{State}:=\alpha\times\beta.
@@ -4531,8 +4531,8 @@ semantic move that justifies compiling a mutually recursive block into one
 product-state recurrence after the dependency graph and schedule have been
 validated.
 
-c026 removes the two-component restriction. Let \(I\) be a finite index family,
-let \(\alpha_i\) be the semantic carrier for component \(i\), and define the
+c026 removes the two-component restriction. Let $I$ be a finite index family,
+let $\alpha_i$ be the semantic carrier for component $i$, and define the
 compiled family state:
 
 $$
@@ -4542,7 +4542,7 @@ $$
 Standard reading:
 
 The state of a finite mutually recursive block is one tuple-like object. Its
-\(i\)-th projection is the current semantic value of component \(i\).
+$i$-th projection is the current semantic value of component $i$.
 
 The recurrence is still one deterministic orbit:
 
@@ -4621,8 +4621,8 @@ $$
 
 Standard reading:
 
-If update \(u\) targets some component other than \(r\), then applying that
-update does not change the \(r\)-component of the family state.
+If update $u$ targets some component other than $r$, then applying that
+update does not change the $r$-component of the family state.
 
 A finite schedule is a list of updates:
 
@@ -4655,8 +4655,8 @@ $$
 
 Standard reading:
 
-If no update in the schedule targets component \(r\), then running the whole
-schedule leaves component \(r\) unchanged.
+If no update in the schedule targets component $r$, then running the whole
+schedule leaves component $r$ unchanged.
 
 The scheduled recurrence is:
 
@@ -4700,10 +4700,10 @@ $$
 
 Standard reading:
 
-`Before(a,b,\Gamma)` means that the finite order \(\Gamma\) contains an
-occurrence of \(a\), and later in the remaining suffix contains \(b\).
+`Before(a,b,\Gamma)` means that the finite order $\Gamma$ contains an
+occurrence of $a$, and later in the remaining suffix contains $b$.
 
-Given a dependency map \(\operatorname{deps}\), a target order \(\Gamma\) is
+Given a dependency map $\operatorname{deps}$, a target order $\Gamma$ is
 valid when:
 
 $$
@@ -4719,8 +4719,8 @@ $$
 
 Standard reading:
 
-For every component \(n\) listed in the order, every declared dependency \(d\)
-of \(n\) must occur before \(n\) in that order.
+For every component $n$ listed in the order, every declared dependency $d$
+of $n$ must occur before $n$ in that order.
 
 The schedule certificate ties the semantic schedule to the target order:
 
@@ -4834,8 +4834,8 @@ $$
 
 Standard reading:
 
-Component \(i\) occurs syntactically in expression \(e\) exactly when \(i\) is
-listed by the dependency extractor for \(e\).
+Component $i$ occurs syntactically in expression $e$ exactly when $i$ is
+listed by the dependency extractor for $e$.
 
 For a finite family of formula bodies:
 
@@ -4855,8 +4855,8 @@ $$
 
 Standard reading:
 
-A component \(d\) occurs in the body of component \(n\) exactly when \(d\) is
-recorded as a dependency of \(n\).
+A component $d$ occurs in the body of component $n$ exactly when $d$ is
+recorded as a dependency of $n$.
 
 c030 is not the full TABA formula language and not the CBF quotient language. It
 does not prove semantic dependence minimization, formula-to-update compilation,
@@ -4890,9 +4890,9 @@ $$
 
 Standard reading:
 
-If component \(d\) occurs syntactically in the formula body for component \(n\),
-and the order is prefix-ready for formula-derived dependencies, then \(d\)
-appears before \(n\) in the order.
+If component $d$ occurs syntactically in the formula body for component $n$,
+and the order is prefix-ready for formula-derived dependencies, then $d$
+appears before $n$ in the order.
 
 c031 still uses the small formula fragment. It does not cover the full TABA
 formula or CBF language, semantic dependence minimization, formula-to-update
@@ -4961,8 +4961,8 @@ $$
 S:I\to\{\bot,\top\}.
 $$
 
-For a formula body map \(\operatorname{body}:I\to\operatorname{Expr}(I)\), the
-compiled update for component \(n\) is:
+For a formula body map $\operatorname{body}:I\to\operatorname{Expr}(I)$, the
+compiled update for component $n$ is:
 
 $$
 \operatorname{compileUpdate}(\operatorname{body},n)(S)(r)
@@ -5734,7 +5734,7 @@ full omega-regular theory because acceptance is still written semantically and
 there is no equivalence or minimization procedure.
 
 The v408 proof makes the automata move generic. Given deterministic automata
-\(A\) and \(B\), the product state is:
+$A$ and $B$, the product state is:
 
 $$
 (q_A,q_B).
@@ -6597,8 +6597,8 @@ $$
 
 Standard reading:
 
-For the full-style demo table \(T\), the explicit raw Boolean-algebra denotation
-is equal to the denotation Tau obtains by parsing and lowering \(T\).
+For the full-style demo table $T$, the explicit raw Boolean-algebra denotation
+is equal to the denotation Tau obtains by parsing and lowering $T$.
 
 Boundary:
 
@@ -6625,8 +6625,8 @@ $$
 Q_{n+1}=D(Q_n\vee \mathrm{Seed}_{n+1}).
 $$
 
-Here \(D\) is the one-hop dependency operator. The host closes the recursive
-loop by feeding \(Q_n\) into the next step. Tau checks the claimed transition
+Here $D$ is the one-hop dependency operator. The host closes the recursive
+loop by feeding $Q_n$ into the next step. Tau checks the claimed transition
 and the claimed stability condition for each step. The replay, run from the
 `TauLang-Experiments` repo root, is:
 
@@ -6872,7 +6872,7 @@ That is the v526 oscillator. The safe form is:
 F(T)=G(T,C')
 ```
 
-where \(C\) is fixed lower-stratum data, and the prime is computed before the
+where $C$ is fixed lower-stratum data, and the prime is computed before the
 recurrence step. The checked compiler law is:
 
 ```latex
@@ -6939,8 +6939,8 @@ This is a monotonicity statement. It is not a stabilization statement.
 ```
 
 v531 proves that the trap is real. In the two-bit Boolean algebra, let
-\(a\) and \(b\) be disjoint atoms, and let \(P(x)\) mean that both bits of
-\(x\) are true. Then:
+$a$ and $b$ be disjoint atoms, and let $P(x)$ mean that both bits of
+$x$ are true. Then:
 
 ```latex
 F(T)=b\vee \operatorname{Select}_{P}(a\vee T).
@@ -7030,7 +7030,7 @@ encoding of the menu.
 ```
 
 v533 then composes the source-fragment theorem with the menu theorem. For a
-well-formed aligned witness expression \(E\), define:
+well-formed aligned witness expression $E$, define:
 
 ```latex
 \operatorname{Menu}_{C}(E)
@@ -7184,7 +7184,7 @@ prefix comparison or BDD-style normalization.
 ```
 
 v536 closes the representative-level finite-prefix theorem needed by that
-selector bridge. For finite-support clopen representatives \(a\) and \(b\),
+selector bridge. For finite-support clopen representatives $a$ and $b$,
 define:
 
 ```latex
@@ -7467,7 +7467,7 @@ $$
 
 Standard reading:
 
-The BF grammar is the ordinary Boolean-function grammar over \(n\) indexed
+The BF grammar is the ordinary Boolean-function grammar over $n$ indexed
 variables. The CBF grammar adds finite guarded conditionals whose guards are BF
 terms and whose branches are CBF terms. The table grammar is a finite priority
 row list plus a default CBF value.
@@ -7486,12 +7486,12 @@ $$
 
 Standard reading:
 
-\(C_g(t,e)\) is the join of \(g\wedge t\) and \(g'\wedge e\).
+$C_g(t,e)$ is the join of $g\wedge t$ and $g'\wedge e$.
 
 Plain English:
 
-The guard splits the Boolean space into the part where \(g\) holds and the part
-where \(g'\) holds. The then-branch fills the first part, and the else-branch
+The guard splits the Boolean space into the part where $g$ holds and the part
+where $g'$ holds. The then-branch fills the first part, and the else-branch
 fills the second part.
 
 The CBF compiler theorem is:
@@ -7507,9 +7507,9 @@ $$
 
 Standard reading:
 
-For every finite arity \(n\), every CBF expression \(c\), and every Boolean
-assignment \(\rho\), evaluating the compiled BF term gives the same Boolean
-value as evaluating \(c\).
+For every finite arity $n$, every CBF expression $c$, and every Boolean
+assignment $\rho$, evaluating the compiled BF term gives the same Boolean
+value as evaluating $c$.
 
 The table compiler theorem is:
 
@@ -7524,9 +7524,9 @@ $$
 
 Standard reading:
 
-For every finite arity \(n\), every priority table \(T\), and every Boolean
-assignment \(\rho\), evaluating the compiled BF term gives the same Boolean
-value as evaluating \(T\).
+For every finite arity $n$, every priority table $T$, and every Boolean
+assignment $\rho$, evaluating the compiled BF term gives the same Boolean
+value as evaluating $T$.
 
 This is the new positive result: finite Boolean-valued CBF and priority-table
 syntax collapse to a BF kernel by guarded-choice expansion.
@@ -7541,8 +7541,8 @@ $$
 
 Standard reading:
 
-For the prime-step function \(F(x)=x'\), it is false that \(F\) preserves order
-for every ordered pair \(a\le b\).
+For the prime-step function $F(x)=x'$, it is false that $F$ preserves order
+for every ordered pair $a\le b$.
 
 Plain English:
 
@@ -7559,8 +7559,8 @@ $$
 
 Standard reading:
 
-If the resolver returns a fixed result \(x\), then applying \(F\) to \(x\) gives
-back \(x\).
+If the resolver returns a fixed result $x$, then applying $F$ to $x$ gives
+back $x$.
 
 Plain English:
 
@@ -7644,10 +7644,10 @@ $$
 
 Standard reading:
 
-For every finite arity \(n\), every Boolean-valued CBF priority table \(T\),
-and every Boolean assignment \(\rho\), the explicit minterm tree compiled from
-\(T\) evaluates to the same Boolean value as \(T\). The compiled tree has
-exactly \(2^n\) leaves.
+For every finite arity $n$, every Boolean-valued CBF priority table $T$,
+and every Boolean assignment $\rho$, the explicit minterm tree compiled from
+$T$ evaluates to the same Boolean value as $T$. The compiled tree has
+exactly $2^n$ leaves.
 
 Plain English:
 

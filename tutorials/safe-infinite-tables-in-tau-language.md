@@ -31,7 +31,7 @@ collapsed into one claim.
 - The semantic proof artifact proves the safe recursive update shape over a completed
   Boolean-algebra setting.
 - The finite CBF and priority-table proofs show that finite table syntax can be
-  collapsed to ordinary Boolean-function terms and explicit \(2^n\)-leaf
+  collapsed to ordinary Boolean-function terms and explicit $2^n$-leaf
   minterm trees.
 
 The current evidence supports this formula:
@@ -69,15 +69,15 @@ s : I \to \alpha.
 $$
 
 <strong>Standard reading.</strong>
-The symbol \(s\) is a function from table keys in \(I\) to Boolean-algebra
-values in \(\alpha\).
+The symbol $s$ is a function from table keys in $I$ to Boolean-algebra
+values in $\alpha$.
 
 <strong>Plain English.</strong>
 A table assigns one Boolean region to each key.
 
 <strong>Trap.</strong>
 This is not a spreadsheet cell containing an ordinary number.
-The value \(s(i)\) is a Boolean-algebra element, so it can be joined, met,
+The value $s(i)$ is a Boolean-algebra element, so it can be joined, met,
 split, complemented, and compared by the Boolean order.
 
 The safe table body denotes an update function:
@@ -87,7 +87,7 @@ U_T : (I \to \alpha) \to (I \to \alpha).
 $$
 
 <strong>Standard reading.</strong>
-\(U_T\) maps a current table state to the next table state.
+$U_T$ maps a current table state to the next table state.
 
 <strong>Plain English.</strong>
 One table-update pass computes every next entry from the current entries and
@@ -107,11 +107,11 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-\(\mathrm{select}_G(x)\) is defined as the meet of the fixed guard \(G\) and
-the value \(x\).
+$\mathrm{select}_G(x)$ is defined as the meet of the fixed guard $G$ and
+the value $x$.
 
 <strong>Plain English.</strong>
-Keep the part of \(x\) that lies under \(G\), and remove the rest.
+Keep the part of $x$ that lies under $G$, and remove the rest.
 
 <strong>Trap.</strong>
 This is not arbitrary selection by any predicate.
@@ -126,17 +126,17 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-Inside \(G\), use replacement value \(a\).
-Inside \(G'\), use the old value \(x\).
+Inside $G$, use replacement value $a$.
+Inside $G'$, use the old value $x$.
 Then join the two regions.
 
 <strong>Plain English.</strong>
 Overwrite the guarded region and leave everything outside the guard unchanged.
 
 <strong>Trap.</strong>
-The prime in \(G'\) is the Boolean-algebra prime of the lower-stratum guard.
-It is allowed here because \(G\) is fixed relative to the current recurrence.
-This is not permission to use \(x'\) on the same recursive stratum.
+The prime in $G'$ is the Boolean-algebra prime of the lower-stratum guard.
+It is allowed here because $G$ is fixed relative to the current recurrence.
+This is not permission to use $x'$ on the same recursive stratum.
 
 The table-level implementation law is pointwise revision:
 
@@ -149,9 +149,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-For every table key \(i\), \(\operatorname{Rev}_{G,A}(T)(i)\) is obtained by
-using replacement entry \(A(i)\) inside guard entry \(G(i)\), and using old
-entry \(T(i)\) inside \(G(i)'\).
+For every table key $i$, $\operatorname{Rev}_{G,A}(T)(i)$ is obtained by
+using replacement entry $A(i)$ inside guard entry $G(i)$, and using old
+entry $T(i)$ inside $G(i)'$.
 
 <strong>Plain English.</strong>
 Revise each table entry locally: replace the guarded part and preserve the rest.
@@ -171,7 +171,7 @@ They are not the whole table.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">How to read the visualizer</p>
-  <p>Click a region, split it, and then apply the pointwise revision. The split button is a teaching model for Ohad's splitter idea, not a proof of atomlessness. The proof obligation is the formula \(0 < b < a\): every nonzero region \(a\) has a proper nonzero subregion \(b\).</p>
+  <p>Click a region, split it, and then apply the pointwise revision. The split button is a teaching model for Ohad's splitter idea, not a proof of atomlessness. The proof obligation is the formula $0 < b < a$: every nonzero region $a$ has a proper nonzero subregion $b$.</p>
 </div>
 
 <div data-taba-table-visualizer></div>
@@ -180,7 +180,7 @@ They are not the whole table.
 The visualizer is meant to connect four ideas.
 
 - A table entry is a Boolean region, not a scalar cell.
-- Fixed-guard revision updates only the part selected by \(G(i)\).
+- Fixed-guard revision updates only the part selected by $G(i)$.
 - Atomlessness says that a live nonzero region can be split again, so there is
   no final smallest live cell.
 - In the NSO picture, formulas themselves can denote Boolean-algebra values, so
@@ -203,8 +203,8 @@ T \le U
 $$
 
 <strong>Standard reading.</strong>
-If old table \(T\) is pointwise below old table \(U\), then revising \(T\) with
-fixed \(G,A\) is pointwise below revising \(U\) with the same fixed \(G,A\).
+If old table $T$ is pointwise below old table $U$, then revising $T$ with
+fixed $G,A$ is pointwise below revising $U$ with the same fixed $G,A$.
 
 <strong>Plain English.</strong>
 Pointwise revision is monotone in the old table.
@@ -219,7 +219,7 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-For an increasing omega-chain \(T_n\), revising the supremum table equals the
+For an increasing omega-chain $T_n$, revising the supremum table equals the
 supremum of the revised tables.
 
 <strong>Plain English.</strong>
@@ -235,7 +235,7 @@ s_0 := \bot.
 $$
 
 <strong>Standard reading.</strong>
-The zeroth approximant \(s_0\) is the bottom table state.
+The zeroth approximant $s_0$ is the bottom table state.
 
 <strong>Plain English.</strong>
 Start with the empty table meaning.
@@ -247,7 +247,7 @@ s_{n+1} := U_T(s_n).
 $$
 
 <strong>Standard reading.</strong>
-The next approximant is obtained by applying \(U_T\) to the current approximant.
+The next approximant is obtained by applying $U_T$ to the current approximant.
 
 <strong>Plain English.</strong>
 Run one more safe table-update pass.
@@ -259,8 +259,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-\(\mu U_T\) is defined as the countable join of the approximants \(s_n\), for
-all natural numbers \(n\).
+$\mu U_T$ is defined as the countable join of the approximants $s_n$, for
+all natural numbers $n$.
 
 <strong>Plain English.</strong>
 Collect everything that appears at any finite stage.
@@ -279,8 +279,8 @@ U_T(\mu U_T) = \mu U_T.
 $$
 
 <strong>Standard reading.</strong>
-Applying the update to the recursively defined value \(\mu U_T\) returns
-\(\mu U_T\) again.
+Applying the update to the recursively defined value $\mu U_T$ returns
+$\mu U_T$ again.
 
 <strong>Plain English.</strong>
 The limit is stable under one more update.
@@ -388,7 +388,7 @@ U(U(x)) = U(x).
 $$
 
 <strong>Standard reading.</strong>
-Applying \(U\) twice gives the same value as applying \(U\) once.
+Applying $U$ twice gives the same value as applying $U$ once.
 
 <strong>Plain English.</strong>
 This concrete update stabilizes after one Tau step.
@@ -547,17 +547,17 @@ C_g(a,b) := (g \wedge a) \vee (g' \wedge b).
 $$
 
 <strong>Standard reading.</strong>
-\(C_g(a,b)\) is the join of the part of \(a\) under guard \(g\) and the part of
-\(b\) under the prime of \(g\).
+$C_g(a,b)$ is the join of the part of $a$ under guard $g$ and the part of
+$b$ under the prime of $g$.
 
 <strong>Plain English.</strong>
-Use \(a\) inside \(g\), and use \(b\) outside \(g\).
+Use $a$ inside $g$, and use $b$ outside $g$.
 
 <strong>Trap.</strong>
 This is a Boolean-algebra merge. It is not a procedural if-statement in a
-program, and \(g'\) is the Boolean prime of the guard.
+program, and $g'$ is the Boolean prime of the guard.
 
-For two variables \(x\) and \(y\), a four-coefficient minterm form is:
+For two variables $x$ and $y$, a four-coefficient minterm form is:
 
 $$
 M_{\vec a}(x,y)
@@ -577,8 +577,8 @@ M_{\vec a}(x,y)
 $$
 
 <strong>Standard reading.</strong>
-The value of \(M_{\vec a}(x,y)\) is the join of four guarded coefficients, one
-for each truth corner of \(x\) and \(y\).
+The value of $M_{\vec a}(x,y)$ is the join of four guarded coefficients, one
+for each truth corner of $x$ and $y$.
 
 <strong>Plain English.</strong>
 The formula splits the Boolean space into four guarded regions:
@@ -591,7 +591,7 @@ x'\wedge y'.
 $$
 
 Those regions are the Boolean-algebra version of the four truth corners
-\((\top,\top)\), \((\top,\bot)\), \((\bot,\top)\), and \((\bot,\bot)\).
+$(\top,\top)$, $(\top,\bot)$, $(\bot,\top)$, and $(\bot,\bot)$.
 The formula assigns one coefficient to each guarded region and joins the four
 pieces.
 
@@ -605,9 +605,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-Every binary Boolean-polynomial term \(t\) built from constants, \(x\), \(y\),
+Every binary Boolean-polynomial term $t$ built from constants, $x$, $y$,
 meet, join, and prime has a four-coefficient minterm representation with the
-same denotation for every \(x\) and \(y\).
+same denotation for every $x$ and $y$.
 
 <strong>Plain English.</strong>
 For this binary term fragment, the proof assistant can compile the expression
@@ -632,13 +632,13 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-For every finite arity \(n\), every Boolean-polynomial term over variables
-indexed by \(\mathrm{Fin}(n)\) compiles to a minterm tree with the same
-denotation under every assignment \(\rho\), and that tree has \(2^n\) leaves.
+For every finite arity $n$, every Boolean-polynomial term over variables
+indexed by $\mathrm{Fin}(n)$ compiles to a minterm tree with the same
+denotation under every assignment $\rho$, and that tree has $2^n$ leaves.
 
 <strong>Plain English.</strong>
-The proof is no longer limited to four cases. With \(n\) Boolean variables, it
-builds the \(2^n\)-case table and proves that the table means the same thing as
+The proof is no longer limited to four cases. With $n$ Boolean variables, it
+builds the $2^n$-case table and proves that the table means the same thing as
 the original expression.
 
 <strong>Trap.</strong>
@@ -660,8 +660,8 @@ C_g(t,e) := (g \wedge t)\vee(g'\wedge e).
 $$
 
 <strong>Standard reading.</strong>
-\(C_g(t,e)\) is the join of \(t\) met with guard \(g\) and \(e\) met with the
-prime of \(g\).
+$C_g(t,e)$ is the join of $t$ met with guard $g$ and $e$ met with the
+prime of $g$.
 
 <strong>Plain English.</strong>
 Inside the guard, keep the then-branch. Outside the guard, keep the
@@ -672,7 +672,7 @@ This is not an operational if-statement.
 It is a Boolean-algebra identity.
 The word "then" is only a reading aid for the guarded split.
 
-For a CBF expression \(c\), the compiler theorem is:
+For a CBF expression $c$, the compiler theorem is:
 
 $$
 \forall c\in\mathrm{CBF}_n,\quad
@@ -683,16 +683,16 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-For every finite-arity CBF expression \(c\) and every assignment \(\rho\), the
-ordinary Boolean-function term produced by \(\operatorname{cbfToBF}\) has the
-same denotation as \(c\).
+For every finite-arity CBF expression $c$ and every assignment $\rho$, the
+ordinary Boolean-function term produced by $\operatorname{cbfToBF}$ has the
+same denotation as $c$.
 
 <strong>Plain English.</strong>
 The conditional syntax does not add a new meaning layer in this fragment.
 It can be expanded into ordinary Boolean meet, join, and prime without changing
 what it denotes.
 
-For a priority table \(T\), the table compiler theorem is:
+For a priority table $T$, the table compiler theorem is:
 
 $$
 \forall T\in\mathrm{Table}_n,\quad
@@ -703,8 +703,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-For every finite-arity priority table \(T\) and every assignment \(\rho\), the
-Boolean-function term produced by \(\operatorname{tableToBF}\) has the same
+For every finite-arity priority table $T$ and every assignment $\rho$, the
+Boolean-function term produced by $\operatorname{tableToBF}$ has the same
 denotation as the table.
 
 <strong>Plain English.</strong>
@@ -741,12 +741,12 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-For every finite-arity priority table \(T\), the compiled minterm tree \(m_T\)
-has the same denotation as \(T\) under every assignment \(\rho\), and the tree
-has exactly \(2^n\) leaves.
+For every finite-arity priority table $T$, the compiled minterm tree $m_T$
+has the same denotation as $T$ under every assignment $\rho$, and the tree
+has exactly $2^n$ leaves.
 
 <strong>Plain English.</strong>
-The finite table can be expanded into the complete case tree over its \(n\)
+The finite table can be expanded into the complete case tree over its $n$
 Boolean inputs. No case is missing, and no case changes meaning.
 
 <strong>Trap.</strong>
@@ -762,8 +762,8 @@ F(x):=x',
 $$
 
 <strong>Standard reading.</strong>
-For the prime-step function \(F(x)=x'\), it is not true that every ordered pair
-\(a\le b\) is sent to an ordered pair \(F(a)\le F(b)\).
+For the prime-step function $F(x)=x'$, it is not true that every ordered pair
+$a\le b$ is sent to an ordered pair $F(a)\le F(b)$.
 
 <strong>Plain English.</strong>
 Prime reverses order.
@@ -783,8 +783,8 @@ F(x)=x.
 $$
 
 <strong>Standard reading.</strong>
-If the resolver returns the result \(\operatorname{fixed}(x)\), then \(x\) is a
-fixed point of \(F\).
+If the resolver returns the result $\operatorname{fixed}(x)$, then $x$ is a
+fixed point of $F$.
 
 <strong>Plain English.</strong>
 When the checker accepts a loop certificate as a fixed point, the reported
@@ -804,9 +804,9 @@ It is intentionally small: four toy assets, with dependency flow:
 asset 0 -> asset 1 -> asset 2 -> asset 3
 ```
 
-The one-hop dependency operator is written \(D\).
-For a quarantine set \(Q_n\) and a newly discovered seed set
-\(\mathrm{Seed}_{n+1}\), the recursive update is:
+The one-hop dependency operator is written $D$.
+For a quarantine set $Q_n$ and a newly discovered seed set
+$\mathrm{Seed}_{n+1}$, the recursive update is:
 
 $$
 Q_{n+1} := D(Q_n \vee \mathrm{Seed}_{n+1}).
@@ -815,7 +815,7 @@ $$
 <strong>Standard reading.</strong>
 The next quarantine set is obtained by joining the previous quarantine set with
 the newly seeded risk set, then applying the dependency-propagation operator
-\(D\).
+$D$.
 
 <strong>Plain English.</strong>
 Keep everything already quarantined, add new direct risk, then quarantine every
@@ -823,8 +823,8 @@ asset reached by one dependency edge.
 
 <strong>Trap.</strong>
 This is not a static lookup table.
-The meaning is recursive because the output \(Q_{n+1}\) becomes the next input
-\(Q_n\).
+The meaning is recursive because the output $Q_{n+1}$ becomes the next input
+$Q_n$.
 
 The fixed-point reading is:
 
@@ -833,8 +833,8 @@ Q_\infty := \mu Q.\,D(Q \vee \mathrm{Seed}).
 $$
 
 <strong>Standard reading.</strong>
-\(Q_\infty\) is the least fixed point of the function
-\(Q \mapsto D(Q \vee \mathrm{Seed})\).
+$Q_\infty$ is the least fixed point of the function
+$Q \mapsto D(Q \vee \mathrm{Seed})$.
 
 <strong>Plain English.</strong>
 It is the smallest quarantine set closed under the dependency rule.
@@ -894,12 +894,12 @@ The local Lean proof artifacts establish the semantic shape behind the feature:
 - v556 proves that binary Boolean-polynomial terms compile to four-coefficient
   minterm form without changing their denotation.
 - v557 generalizes the minterm compiler to arbitrary finite arity, using a
-  \(2^n\)-leaf minterm tree.
+  $2^n$-leaf minterm tree.
 - v558 proves that finite Boolean-valued CBF and priority-table syntax collapses
   to an ordinary Boolean-function kernel, and proves that same-stratum prime is
   outside the monotone Kleene lane.
 - v559 proves that finite Boolean-valued CBF priority tables compile to explicit
-  \(2^n\)-leaf minterm trees with denotation preservation.
+  $2^n$-leaf minterm trees with denotation preservation.
 
 The research note keeps the detailed evidence ladder:
 
@@ -940,10 +940,10 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-An expression \(e\) receives least-fixed-point semantics when it belongs to the
-monotone fragment \(\mathcal L_{\mathrm{mono}}\). It receives certified resolver
+An expression $e$ receives least-fixed-point semantics when it belongs to the
+monotone fragment $\mathcal L_{\mathrm{mono}}$. It receives certified resolver
 semantics when it belongs to the certificate fragment
-\(\mathcal L_{\mathrm{cert}}\). Otherwise it is rejected.
+$\mathcal L_{\mathrm{cert}}$. Otherwise it is rejected.
 
 <strong>Plain English.</strong>
 Safe recursive expressions use the monotone fixed-point rule.

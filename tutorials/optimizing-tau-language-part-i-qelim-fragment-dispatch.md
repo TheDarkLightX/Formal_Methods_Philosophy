@@ -87,10 +87,10 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If eliminating \(x\) from \(\exists x.\,\varphi\) returns \(\psi\), then for
-every assignment \(\rho\) of the remaining variables, \(\psi\) is true exactly
-when there exists a Boolean value \(b\) such that \(\varphi\) is true after
-setting \(x\) to \(b\).
+If eliminating $x$ from $\exists x.\,\varphi$ returns $\psi$, then for
+every assignment $\rho$ of the remaining variables, $\psi$ is true exactly
+when there exists a Boolean value $b$ such that $\varphi$ is true after
+setting $x$ to $b$.
 
 <strong>Plain English.</strong>
 The eliminated formula must answer the same yes-or-no question about the visible
@@ -98,8 +98,8 @@ variables as the original existential formula.
 
 <strong>Trap.</strong>
 Quantifier elimination is not witness extraction.
-It does not have to return the value of \(x\).
-It must remove \(x\) while preserving whether some value of \(x\) makes the
+It does not have to return the value of $x$.
+It must remove $x$ while preserving whether some value of $x$ makes the
 formula true.
 
 For a Boolean variable, the basic compiled-forgetting identity is:
@@ -111,17 +111,17 @@ f[x:=\bot]\vee f[x:=\top].
 $$
 
 <strong>Standard reading.</strong>
-The existential abstraction of \(x\) from \(f\) is the join of the cofactor of
-\(f\) with \(x\) forced to \(\bot\) and the cofactor of \(f\) with \(x\) forced
-to \(\top\).
+The existential abstraction of $x$ from $f$ is the join of the cofactor of
+$f$ with $x$ forced to $\bot$ and the cofactor of $f$ with $x$ forced
+to $\top$.
 
 <strong>Plain English.</strong>
-Forget \(x\) by keeping both possible branches and joining them.
+Forget $x$ by keeping both possible branches and joining them.
 
 <strong>Trap.</strong>
-The notation \(f[x:=\bot]\) is substitution, not multiplication and not
+The notation $f[x:=\bot]$ is substitution, not multiplication and not
 function application in the calculus sense.
-It means: evaluate the Boolean formula \(f\) after forcing \(x\) to the bottom
+It means: evaluate the Boolean formula $f$ after forcing $x$ to the bottom
 Boolean value.
 
 In a BDD, this operation is existential abstraction.
@@ -152,17 +152,17 @@ A\wedge \exists x.\,B
 $$
 
 <strong>Standard reading.</strong>
-If \(x\) is not a free variable of \(A\), then existential quantification over
-\(x\) can move inward past \(A\), leaving \(A\) outside and quantifying only
-\(B\).
+If $x$ is not a free variable of $A$, then existential quantification over
+$x$ can move inward past $A$, leaving $A$ outside and quantifying only
+$B$.
 
 <strong>Plain English.</strong>
 If one part of a conjunction does not mention the hidden variable, keep that
 part outside the search.
 
 <strong>Trap.</strong>
-The side condition \(x\notin FV(A)\) is not decorative.
-If \(A\) depends on \(x\), moving the quantifier past \(A\) can change the
+The side condition $x\notin FV(A)$ is not decorative.
+If $A$ depends on $x$, moving the quantifier past $A$ can change the
 meaning.
 
 This is why `anti_prenex` is not merely "old code."
@@ -189,8 +189,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If \(\varphi\) belongs to the supported leading-existential propositional
-fragment \(\mathcal{F}_{\exists\mathrm{prop}}\), Tau uses BDD existential
+If $\varphi$ belongs to the supported leading-existential propositional
+fragment $\mathcal{F}_{\exists\mathrm{prop}}$, Tau uses BDD existential
 abstraction. Otherwise Tau uses the default qelim route.
 
 <strong>Plain English.</strong>
@@ -238,7 +238,7 @@ The negation of an existential statement is equivalent to a universal statement
 of the negated body.
 
 <strong>Plain English.</strong>
-"There is no \(y\) satisfying \(P\)" means "every \(y\) fails \(P\)."
+"There is no $y$ satisfying $P$" means "every $y$ fails $P$."
 
 <strong>Trap.</strong>
 It does not mean:
@@ -247,7 +247,7 @@ $$
 \exists y.\,\neg P(y).
 $$
 
-That would say "some \(y\) fails \(P\)," which is weaker and usually different.
+That would say "some $y$ fails $P$," which is weaker and usually different.
 
 The concrete failing shape was:
 
@@ -255,7 +255,7 @@ The concrete failing shape was:
 qelim !(ex y (y = 0))
 ```
 
-The inner sentence is true because \(y=0\) has a witness, namely \(0\).
+The inner sentence is true because $y=0$ has a witness, namely $0$.
 Its negation is false.
 Tau's default route returned `F`.
 The old unguarded BDD experiment returned `T`.
@@ -287,7 +287,7 @@ $$
 \bigwedge_{i=1}^{k}\exists X_i.\,F_i,
 $$
 
-when each \(X_i = X\cap FV(F_i)\) and no quantified variable is shared between
+when each $X_i = X\cap FV(F_i)$ and no quantified variable is shared between
 different components.
 
 <strong>Standard reading.</strong>
@@ -319,7 +319,7 @@ $$
 p_x := (x=0).
 $$
 
-If \(p_x\) occurs only positively, the safe rewrite is:
+If $p_x$ occurs only positively, the safe rewrite is:
 
 $$
 \exists x.\,\Phi(p_x,y)
@@ -327,7 +327,7 @@ $$
 \Phi(\top,y).
 $$
 
-If \(p_x\) occurs only negatively, the dual rewrite is:
+If $p_x$ occurs only negatively, the dual rewrite is:
 
 $$
 \exists x.\,\Phi(p_x,y)
@@ -336,17 +336,17 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-When the zero-test atom \(p_x\) for an existential variable occurs in only one
+When the zero-test atom $p_x$ for an existential variable occurs in only one
 polarity, choose the truth value that satisfies that polarity and remove the
 quantified atom.
 
 <strong>Plain English.</strong>
-If the formula only asks for \(x=0\), choose \(x=0\).
-If it only asks against \(x=0\), choose a value that makes \(x=0\) false.
+If the formula only asks for $x=0$, choose $x=0$.
+If it only asks against $x=0$, choose a value that makes $x=0$ false.
 
 <strong>Trap.</strong>
-This is not a general rewrite for every expression named \(x\).
-It is a polarity rule for the supported zero-test atom \(p_x := (x=0)\) inside
+This is not a general rewrite for every expression named $x$.
+It is a polarity rule for the supported zero-test atom $p_x := (x=0)$ inside
 the guarded propositional fragment.
 
 The checked lane skipped BDD construction on the pure-route cases and matched
@@ -373,18 +373,18 @@ R\wedge
 $$
 
 <strong>Standard reading.</strong>
-To existentially eliminate \(x\) from a CNF formula, keep the clauses \(R\) that
-do not mention \(x\), and add every resolvent \((A_i\vee B_j)\) formed from a
-positive \(x\)-clause and a negative \(x\)-clause.
+To existentially eliminate $x$ from a CNF formula, keep the clauses $R$ that
+do not mention $x$, and add every resolvent $(A_i\vee B_j)$ formed from a
+positive $x$-clause and a negative $x$-clause.
 
 <strong>Plain English.</strong>
 Pair each positive occurrence of the hidden atom with each negative occurrence,
 resolve the pairs, then drop the old clauses mentioning that atom.
 
 <strong>Trap.</strong>
-The product \(\bigwedge_{i,j}\) is the danger.
-If there are \(m\) positive clauses and \(n\) negative clauses, the raw step can
-create \(mn\) resolvents.
+The product $\bigwedge_{i,j}$ is the danger.
+If there are $m$ positive clauses and $n$ negative clauses, the raw step can
+create $mn$ resolvents.
 So this route needs an explicit cap or a minimization step before promotion.
 
 The experiment added thresholded Davis-Putnam distribution under an explicit
@@ -430,9 +430,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-For every checked command \(i\), sum the default qelim time
-\(t_{\mathrm{default}}(i)\), sum the `auto` qelim time
-\(t_{\mathrm{auto}}(i)\), then divide the first sum by the second sum.
+For every checked command $i$, sum the default qelim time
+$t_{\mathrm{default}}(i)$, sum the `auto` qelim time
+$t_{\mathrm{auto}}(i)$, then divide the first sum by the second sum.
 
 <strong>Plain English.</strong>
 On this measured corpus, the guarded `auto` route used about one third of the

@@ -19,7 +19,7 @@ TABA-inspired table semantics.
 First, quantifier elimination in Tau benefits from fragment-sensitive dispatch:
 on a checked leading-existential propositional fragment, a guarded BDD route
 with structural preprocessing produced a measured aggregate qelim-time speedup
-of about \(3.47\) over Tau's default route on the bounded corpus.
+of about $3.47$ over Tau's default route on the bounded corpus.
 Second, a safe table-update fragment can be given a precise pointwise revision
 semantics and executed in a feature-gated Tau experiment.
 Neither result proves full Tau Language optimization, full TABA tables, full
@@ -66,7 +66,7 @@ f[x:=\bot]\vee f[x:=\top].
 $$
 
 This identity is valid for the propositional Boolean function represented by
-\(f\).
+$f$.
 It does not imply that arbitrary Tau formulas can be projected by collecting all
 existentials globally.
 The experimental dispatcher therefore has the guarded form:
@@ -81,8 +81,8 @@ Q_0(\varphi),
 \end{cases}
 $$
 
-where \(Q_0\) is Tau's default qelim route and
-\(\mathcal{F}_{\exists\mathrm{prop}}\) is the supported leading-existential
+where $Q_0$ is Tau's default qelim route and
+$\mathcal{F}_{\exists\mathrm{prop}}$ is the supported leading-existential
 propositional fragment.
 The guard is part of correctness.
 The counterexample shape
@@ -105,7 +105,7 @@ $$
 $$
 
 provided no quantified variable is shared between distinct components.
-For a pure zero-test atom \(p_x:=(x=0)\):
+For a pure zero-test atom $p_x:=(x=0)$:
 
 $$
 \exists x.\,\Phi(p_x,y)\equiv \Phi(\top,y)
@@ -164,7 +164,7 @@ $$
 T:I\to\alpha,
 $$
 
-where \(I\) is the key space and \(\alpha\) is a Boolean-algebra value carrier.
+where $I$ is the key space and $\alpha$ is a Boolean-algebra value carrier.
 The pointwise revision operator is:
 
 $$
@@ -175,9 +175,9 @@ $$
 \bigl(G(i)'\wedge T(i)\bigr).
 $$
 
-For each key \(i\), the revised table uses \(A(i)\) inside guard \(G(i)\) and
-the old value \(T(i)\) inside the prime \(G(i)'\).
-This is safe in the checked recurrence fragment because \(G\) and \(A\) are
+For each key $i$, the revised table uses $A(i)$ inside guard $G(i)$ and
+the old value $T(i)$ inside the prime $G(i)'$.
+This is safe in the checked recurrence fragment because $G$ and $A$ are
 fixed relative to the current recursive state.
 It is not permission to use same-stratum prime on the current table.
 
