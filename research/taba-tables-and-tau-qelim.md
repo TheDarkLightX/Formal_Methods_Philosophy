@@ -262,6 +262,30 @@ Boundary:
 - This receipt measures the standalone c111 normalizer.
 - It does not yet measure Tau Language runtime speed.
 
+The Tau patch also now includes an opt-in qelim probe flag:
+
+```text
+TAU_QELIM_BDD_KB_REWRITE=1
+```
+
+The probe compares the experimental BDD qelim backend with and without the
+rewrite pass on five formulas chosen to expose absorption, De Morgan, and
+double-complement opportunities.
+
+Current qelim probe receipt:
+
+```text
+5 probes
+5 matching outputs
+0 output mismatches
+compiled-node reductions on targeted cases, including 6 -> 2 and 5 -> 1
+```
+
+Boundary:
+
+- This is a correctness-and-simplification probe.
+- The timings are too small and mixed to claim a Tau runtime speedup.
+
 The strongest qelim measurement currently recorded is the auto-density matrix:
 
 $$

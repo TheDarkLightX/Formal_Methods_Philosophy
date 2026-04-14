@@ -564,6 +564,24 @@ speedup.
 It becomes a Tau performance claim only after the normalizer is wired into a Tau
 execution path and measured there.
 
+There is now a first opt-in Tau-side probe:
+
+```bash
+TAU_QELIM_BDD_KB_REWRITE=1
+```
+
+In the current patch, this flag runs a c111-inspired simplification pass inside
+the experimental BDD qelim backend.
+The probe suite checks five targeted qelim formulas and compares the backend
+with and without the flag.
+The current receipt has `5` matching outputs and `0` mismatches.
+On the targeted absorption cases, the compiled expression shrank from `6` nodes
+to `2`, and from `5` nodes to `1`.
+
+<strong>Boundary.</strong>
+The timing evidence is mixed on this tiny corpus.
+This is a correctness-and-simplification result, not yet a promoted speedup.
+
 ## Part VIII: What the optimizer should look like
 
 The honest optimizer shape is a portfolio, not one heroic backend.
