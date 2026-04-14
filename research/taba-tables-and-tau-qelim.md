@@ -364,8 +364,8 @@ from adding guarded KB to `auto`.
 
 Boundary:
 
-- This is negative promotion evidence for promoting guarded KB into the default
-  configuration.
+- This is evidence against promoting guarded KB into the default configuration
+  right now.
 - Guarded KB remains useful as simplification evidence inside the BDD sublane.
   It is not currently a win for the composed `auto` portfolio.
 
@@ -378,11 +378,11 @@ It is not yet validated as a default performance optimization.
 
 The next proof-and-engineering target is a fragment selector:
 
-```text
+$$
 \operatorname{ShouldKB}(\varphi)
 \Longrightarrow
 \operatorname{Benefit}(\operatorname{KB}(\varphi)).
-```
+$$
 
 Standard reading:
 
@@ -5423,93 +5423,75 @@ muller_finite_lasso_certificate_receipt
 
 It says that finite prelude data, finite cycle data, wrap consistency, periodic
 tail input, cycle coverage, recurring-state sightings, and acceptance compose
-into a proof of nonempty accepted language. This is a checked finite lasso
-certificate surface. v434 adds a bounded Python graph-search emitter for the
-same shape, and v435 proves the explicit finite accepting-set bridge. The
-emitter's list-shaped output now has a v436 bridge into the dependent proof
-surface. v437 adds the raw list validator soundness theorem. v438 adds the
-local raw-list validator theorem, which is closer to the shape of executable
-emitter checks. v439 removes the remaining stream-constructor reference from
-the validator fields. v440 adds a proved finite Boolean checker for that
-validator. v441 adds the optional-output adapter for untrusted emitters. The
-v442 wrapper gives the proof-backed API for consuming untrusted emitters. v443
-adds a Lean finite graph-search emitter and routes it through that wrapper. The
-emitter is still not proved complete or lowered into Tau. v444 removes the
-ordered-list accepting-set hazard by proving a permutation-insensitive checker
-sound. v445 packages that unordered checker as a safe optional-emitter wrapper.
-v446 composes the Lean graph-search emitter with that unordered wrapper. v447
-translates every v434 emitted certificate into Lean fixture data and checks it
-with the unordered checker.
-v448 proves the reverse direction for the ordered executable checker, making it
-exact for the v439 local witness predicate.
-v449 defines the matching extensional predicate for the unordered checker and
-proves the unordered checker exact for that predicate.
-v450 composes that exactness result with the unordered graph-search wrapper, so
-returned graph-search witnesses satisfy the extensional local predicate and
-prove nonempty accepted language.
-v451 promotes the audited Claude pointwise-revision idea into the main sequence
-and checks the two-case preservation/fallback law.
-v452 promotes the existential-bridge idea into the main sequence by proving
-both directions generically for terms and DNF in the cleaner pair-indexed
-carrier. Claude c005 separately shows that the fixed `Fin 8` term bridge is
-also non-vacuous. v453 promotes that fixed bit-indexed bridge into the
-main-sequence and adds the DNF lift. Arbitrary-width bit-indexed lowering is
-still open. v454 isolates that remaining task by proving the bridge from
-abstract split-index laws, leaving the concrete `Fin (2*n)` arithmetic instance
-as the next proof obligation. v455 closes the fixed two-step iterated case over
-`Fin 8 -> Fin 4 -> Fin 2`, so the next iterated-elimination problem is generic
-split-index composition rather than the fixed two-step witness chain.
-v456 does not add a new table theorem. It adds a proof-quality audit lane for
-v451: the representation, abstraction, constraints, goals, obligations, solvers,
-and metadata are made explicit before the prose claim is reused.
-v457 is the first Morph-guided proof-shape improvement that moved the projection
-frontier: v455's fixed two-step `Fin 8 -> Fin 4 -> Fin 2` result is replaced by
-an abstract two-step composition theorem for any two compatible split-index
-interfaces.
-v458 then applies finite truncation first: arbitrary finite-depth composition is
-proved for homogeneous split-index chains where every stage has type
-`SplitIndex Cell Cell`.
-v459 then applies abstract-interface-then-concrete-instance: the product carrier
-`Base x Bool` now satisfies the split-index laws directly, and the one-step and
-two-step DNF bridge receipts specialize to that concrete carrier. This closes
-the product-carrier instance, not the packed `Fin (2*n)` representation.
-v460 then takes a finite heterogeneous step: three product-carrier stages are
-checked directly, with explicit witnesses for the first, second, and third
-atomless extensions. It also checks an all-free DNF instance, so the bridge is
-not only an empty equivalence surface. This is not arbitrary dependent finite
-depth, but it proves that the heterogeneous-chain route is not blocked at depth
-three.
-v461 closes the finite heterogeneous split-index chain itself by making carrier
-agreement part of the chain type. The constructor for a nonempty chain requires
-the rest of the chain to start at the current stage's `fullCells`. That removes
-the loose side condition and gives the arbitrary finite DNF bridge.
-v462 then adds a table-expression compiler layer over that semantics. In this
-layer, `rows` carries a DNF, `join` appends DNFs and means disjunction, and
-`project` compiles by projecting each DNF term while its direct semantics is
-existential atomless projection. The adequacy theorem proves those two readings
-match. This is not yet the v400 prefix-word clopen row-table layer.
-v463 narrows that remaining bridge by accepting v400-style finite prefix-word
-rows as input shape, but only after the missing embedding is explicit:
-`path : PrefixWord -> Cell`. Under the premise that every listed path cell is
-present in the carrier list, a compiled row is feasible exactly when some
-listed prefix word has a nonzero embedded carrier cell. This still does not
-prove stream-clopen equivalence.
-v464 opens a separate mathlib-backed packed-representation lane. It proves the
-cardinality receipt `Fin n x Bool ~= Fin (2*n)` as an equivalence-existence
-theorem. v465 then strengthens that lane from existence to concrete arithmetic:
-`low(i)=2*i`, `high(i)=2*i+1`, `parent(c)=c/2`, and `side(c)=c mod 2`.
-The checked theorem proves that encode and decode are inverse. v466 then plugs
-that mathlib-backed concrete carrier into the split-index DNF bridge. v467 then
-extends the bridge to the finite `rows`, `join`, and `project` expression
-compiler. The remaining packed-lowering task is no longer one-step DNF
-projection or finite expression compilation. It is stream-clopen row
-equivalence, recurrence, and Tau runtime integration.
-v468 closes the extended pointwise revision gap, but only for the pointwise
-partial-update operator. It does not prove recursive table revision or
-revision-safe partial recomputation. v469 moves the atomless splitter story into
-mathlib's Boolean-algebra interface. v470 adds the finite BL disjointness and
-membership characterization. Coverage-to-top and splitter independence remain
-separate obligations.
+into a proof of nonempty accepted language.
+
+The subsequent receipts split into proof roles:
+
+- v434 adds a bounded Python graph-search emitter for the same certificate
+  shape.
+- v435 proves the explicit finite accepting-set bridge.
+- v436 bridges list-shaped emitter output into the dependent proof surface.
+- v437 through v440 move from raw list validation to a finite Boolean checker.
+- v441 and v442 add the optional-output wrapper for untrusted emitters.
+- v443 adds a Lean finite graph-search emitter and routes it through that
+  wrapper.
+- The emitter is still not proved complete or lowered into Tau.
+- v444 removes the ordered-list accepting-set hazard with a
+  permutation-insensitive checker.
+- v445 through v447 package the unordered checker, compose it with graph search,
+  and replay all 30 emitted certificates in Lean.
+- v448 through v450 prove exactness for ordered and unordered local witness
+  predicates, then lift that exactness to returned graph-search output.
+- v451 checks the pointwise-revision preservation/fallback law.
+- v452 through v455 move the existential bridge from pair-indexed terms and DNF
+  to fixed bit-indexed and fixed two-step split-index bridges.
+- v456 adds a proof-quality audit lane for v451 by making the representation,
+  abstraction, constraints, goals, obligations, solvers, and metadata explicit.
+
+Arbitrary-width bit-indexed lowering remains open, but the projection frontier
+has been narrowed.
+
+Projection-composition receipts:
+
+- v457 replaces the fixed two-step `Fin 8 -> Fin 4 -> Fin 2` result with an
+  abstract two-step composition theorem for compatible split-index interfaces.
+- v458 proves arbitrary finite-depth composition for homogeneous split-index
+  chains.
+- v459 specializes the one-step and two-step DNF bridge receipts to the concrete
+  product carrier `Base x Bool`.
+- v460 checks a three-stage heterogeneous product-carrier bridge directly.
+- v461 closes the finite heterogeneous split-index chain by making carrier
+  agreement part of the chain type.
+
+Table-expression receipts:
+
+- v462 adds the DNF table-expression compiler layer for `rows`, `join`, and
+  `project`.
+- v463 accepts v400-style finite prefix-word rows after making the embedding
+  premise explicit as `path : PrefixWord -> Cell`.
+- This still does not prove stream-clopen equivalence.
+
+Packed-representation receipts:
+
+- v464 proves the cardinality receipt `Fin n x Bool ~= Fin (2*n)`.
+- v465 proves the concrete arithmetic encoding:
+  `low(i)=2*i`, `high(i)=2*i+1`, `parent(c)=c/2`, and `side(c)=c mod 2`.
+- v466 plugs that concrete carrier into the split-index DNF bridge.
+- v467 extends the bridge to the finite `rows`, `join`, and `project`
+  expression compiler.
+- The remaining packed-lowering task is stream-clopen row equivalence,
+  recurrence, and Tau runtime integration.
+
+Revision and algebraic receipts:
+
+- v468 closes the extended pointwise revision gap only for the pointwise
+  partial-update operator.
+- It does not prove recursive table revision or revision-safe partial
+  recomputation.
+- v469 moves the atomless splitter property into mathlib's Boolean-algebra
+  interface.
+- v470 adds the finite BL disjointness and membership characterization.
+- Coverage-to-top and splitter independence remain separate obligations.
 
 The current carrier stack should be read as:
 
@@ -6535,95 +6517,107 @@ $$
 $$
 
 This is now a finite lasso certificate lane with an executable Lean emitter
-handoff. It is still not full graph-search completeness: v434 implements the
-search procedure in Python for a bounded finite acceptance domain, and v443
-ports a bounded Lean emitter whose returned witnesses are filtered through the
-proved checker and wrapper. v444 removes a checker-order hazard by accepting
-recurring lists extensionally, when they have the same finite members as one of
-the accepting lists. v445 packages that unordered checker as an optional-output
-wrapper. v446 composes the graph-search emitter with that wrapper. v447 gives
-Lean-native coverage for the 30 certificates emitted by the v434 corpus. v448
-proves the ordered checker exact for supplied local witnesses. v449 proves the
-unordered checker exact for supplied extensional local witnesses. v450 composes
-that exactness theorem with the unordered graph-search wrapper. v435 proves that
-explicit finite accepting-set membership
-supplies the acceptance proof required by the finite-lasso certificate. v436
-bridges length-checked list witnesses into the dependent certificate tables.
-v437 proves validator soundness for raw list witnesses. For `TailCycleStream`,
-the bit matches are derived by v431. The cycle-start match is derived from
-finite prelude path data by v432. Eventual membership in the recurring list is
-derived by v433.
+handoff.
+
+What is checked:
+
+- v435 proves that explicit finite accepting-set membership supplies the
+  acceptance proof required by the finite-lasso certificate.
+- v436 bridges length-checked list witnesses into the dependent certificate
+  tables.
+- v437 proves validator soundness for raw list witnesses.
+- v444 removes a checker-order hazard by accepting recurring lists
+  extensionally, when they have the same finite members as one of the accepting
+  lists.
+- v445 packages that unordered checker as an optional-output wrapper.
+- v446 composes the graph-search emitter with that wrapper.
+- v447 gives Lean-native coverage for the 30 certificates emitted by the v434
+  corpus.
+- v448 proves the ordered checker exact for supplied local witnesses.
+- v449 proves the unordered checker exact for supplied extensional local
+  witnesses.
+- v450 composes that exactness theorem with the unordered graph-search wrapper.
+
+What remains outside the claim:
+
+- v434 implements the search procedure in Python for a bounded finite
+  acceptance domain.
+- v443 ports a bounded Lean emitter whose returned witnesses are filtered
+  through the proved checker and wrapper.
+- This is still not full graph-search completeness.
+
+For `TailCycleStream`, the bit matches are derived by v431. The cycle-start
+match is derived from finite prelude path data by v432. Eventual membership in
+the recurring list is derived by v433.
 
 ## 8. What remains unsolved
 
 Full TABA tables are not solved yet.
 The remaining semantic work is specific:
 
-- specialize deterministic stream automata to finite parity or Muller acceptance data, or prove finite stabilization for the supported recurrence fragment,
-- prove complete emptiness or nonemptiness decision procedures for the finite emitter lane, not only sound returned-witness certificates,
-- turn c021 finite-prefix adequacy into an explicit clopen-to-DFA or clopen-to-Muller compiler theorem,
-- either instantiate c022's least-fixed-point completion theorem with a concrete carrier, such as a regular-open or quotient-completion carrier, or extend c034 from the compiled Boolean toy kernel to the real TABA formula/CBF language, table-valued expressions, and executable ready-node search,
+- specialize deterministic stream automata to finite parity or Muller
+  acceptance data, or prove finite stabilization for the supported recurrence
+  fragment,
+- prove complete emptiness or nonemptiness decision procedures for the finite
+  emitter lane, not only sound returned-witness certificates,
+- turn c021 finite-prefix adequacy into an explicit clopen-to-DFA or
+  clopen-to-Muller compiler theorem,
+- either instantiate c022's least-fixed-point completion theorem with a concrete
+  carrier, such as a regular-open or quotient-completion carrier, or extend c034
+  from the compiled Boolean toy kernel to the real TABA formula/CBF language,
+  table-valued expressions, and executable ready-node search,
 - add composition and pullback to the quotient-valued recursive expression grammar,
 - extend the schedule model to heterogeneous typed table entries,
 - prove revision-safe partial recomputation,
 - connect the supported fragment to real Tau syntax and runtime behavior.
 
-The current blocker has moved again. Before v393, the finite-union clopen carrier
-existed only as bounded Python evidence. After v393, the semantic carrier had a
-Lean proof. After v394, the DNF projection theorem lands on the semantic quotient
-carrier. After v395, executable word-list normalization has a precise validation
-contract. After v396, the two primitive normalizer rewrites have certificates.
-After v397, finite normalizer traces are sound. After v398, there is a bounded-tested
-trace-emitting normalizer. After v399, trace logs have an external checker. After
-v400, row-level trace soundness lifts through the first typed table-expression
-operators. After v401, finite recurrence approximants are preserved under
-certified body rewrites. After v402, finite clopen cells are proved insufficient
-for arbitrary countable recurrence suprema. After v403, the powerset reference
-completion is checked. After v404, a smaller prefix-open positive-recursion
-carrier is checked. After v405, its complement-closure failure is checked. The
-next blocker is no longer projection completeness, the validation boundary,
-primitive rewrite soundness, trace composition, the first typed row/projection
-bridge, finite approximant preservation, the existence of a semantic completion,
-the positive-recursion prefix-open lane, symbolic Boolean expressiveness, a
-concrete automata witness, semantic automata closure, finite acceptance data for
-the running witness, co-Buchi intersection closure, the two-state Muller product
-projection, the finite-list projection core, a listed finite-state Muller
-Boolean carrier, the self-loop nonempty certificate, the symmetric-difference
-equivalence reduction, the eventual-set nonempty certificate, the finite
-recurring-list certificate, the non-equivalence certificate bridge, executable
-product-state Boolean carriers, the constructed symmetric-difference carrier, or
-the constructed symmetric-difference non-equivalence certificate, or the
-constructed symmetric-difference decision specification, or the periodic-run
-bridge into finite recurring-list evidence, or the input-periodicity bridge into
-periodic-run evidence, the finite tail-cycle input bridge, or the finite
-cycle-state membership bridge, the cycle-anchor wrap bridge, or bounded
-transition-consistency run/table agreement, or compact Fin-cycle lowering into
-that bounded table, or the integrated finite-cycle certificate lane. It is
-adding minimization, complete recurrence compilation, and a reference-semantics
-embedding, or proving a stabilization criterion. The
-run-predicate closure scaffold is done; one finite co-Buchi witness is done;
-co-Buchi intersection is done; the naive co-Buchi union-good construction is
-refuted; two-state Muller projection is done; arbitrary finite-list projection
-is done; listed finite-state Muller Boolean receipts are done; executable
-product-state union and intersection carriers are done; one narrow nonempty
-witness format is done; equivalence has a checked emptiness reduction; semantic
-eventual-set nonemptiness is done; finite recurring-list nonemptiness is done;
-non-equivalence from a constructed symmetric-difference finite-list certificate
-is done; the constructed symmetric-difference decision specification is done;
-periodic-run evidence now generates finite recurring-list evidence;
-input periodicity plus a state anchor now generates periodic-run evidence;
-finite tail-cycle data now generates input periodicity;
-finite cycle-state table membership now generates sighting evidence;
-the final cycle wrap transition now generates the state-anchor equality;
-bounded transition consistency now generates run/table agreement;
-compact Fin-cycle data now lowers into bounded transition consistency;
-the finite-cycle pieces now compose into one nonempty certificate lane;
-complete executable emptiness and minimization are not. c024 through c028 add
-the finite recurrence and schedule-certificate side: finite semantic recurrence,
-mutual recurrence, finite-family recurrence, supplied semantic schedules, and
-supplied dependency-order certificates are checked. Dependency extraction,
-checked topological-sort construction, formula-to-update compilation, and Tau
-runtime lowering are still open.
+The blocker has narrowed.
+
+Already closed:
+
+- finite-union clopen semantics for the quotient carrier,
+- DNF projection into that semantic carrier,
+- executable word-list normalization and certified primitive rewrites,
+- sound finite normalizer traces and externally checkable trace logs,
+- the first typed row/projection table-expression bridge,
+- finite recurrence approximant preservation under certified body rewrites,
+- the negative result that finite clopens do not carry arbitrary countable
+  recurrence suprema,
+- powerset reference completion,
+- prefix-open positive-recursion completion,
+- the proof that prefix-open cells are not a full Boolean carrier.
+
+Also closed in the automata lane:
+
+- a concrete stream-automaton witness,
+- semantic automata closure,
+- finite acceptance data for the running witness,
+- co-Buchi intersection and the refutation of naive co-Buchi union-good,
+- two-state Muller projection,
+- finite-list projection,
+- listed finite-state Muller Boolean receipts,
+- self-loop nonempty certificates,
+- symmetric-difference equivalence reduction,
+- finite recurring-list nonempty certificates,
+- non-equivalence certificates from constructed symmetric-difference evidence,
+- executable product-state Boolean carriers,
+- finite-cycle lasso certificates for nonempty accepted language.
+
+Still open:
+
+- complete executable emptiness,
+- minimization,
+- recurrence compilation,
+- a reference-semantics embedding for the executable automata lane,
+- or a fragment theorem proving finite stabilization before completion is
+  needed.
+
+The finite recurrence and schedule-certificate side is also partially checked:
+c024 through c028 cover finite semantic recurrence, mutual recurrence,
+finite-family recurrence, supplied semantic schedules, and supplied
+dependency-order certificates. Dependency extraction, checked topological-sort
+construction, formula-to-update compilation, and Tau runtime lowering are still
+open.
 
 ## 9. Research status
 
@@ -6940,108 +6934,53 @@ finite table replay is that v554 proves the same update shape over complete
 Boolean algebras, and the new prelude also exposes the shape over Tau's symbolic
 `tau` carrier. This is still not a claim of full unrestricted TABA.
 
-The remaining target is smaller and sharper than "solve tables." v402 shows why finite
-clopens are insufficient, v403 gives the reference semantics, and v405 prevents
-overclaiming the prefix-open lane. v406 restores Boolean expressiveness but
-exposes the next implementation problem: effective equivalence and minimization.
-v407 through v450 suggest the right shape for the executable problem is automata,
-but c022, c023, c024, c025, c026, c027, c028, c029, c030, c031, and c032 show that the semantic recurrence side splits into two
-honest lanes: complete atomless least-fixed-point semantics, or TABA-style
-finite quotient loop semantics. Neither is solved by a finite clopen carrier or
-an atomic powerset reference model. v410
-also shows that plain co-Buchi product intuition is not enough for
-the whole Boolean table story. v411 shows that a Muller-style infinite-state-set
-carrier can cross that obstacle in the two-state case. v412 generalizes the finite-pigeonhole
-projection core to arbitrary finite lists of side states. v413 packages that
-core into listed finite-state Muller Boolean receipts. v414 adds the first
-checked nonempty witness format, but not complete emptiness. v415 fixes the
-equivalence target as symmetric-difference emptiness. v416 defines the semantic
-eventual-set certificate that a future finite lasso checker should emit. v417
-makes that certificate finite-list shaped. v418 composes that evidence with
-symmetric-difference realization to prove non-equivalence. v419 turns semantic
-product predicates into executable product-state carriers. v420 constructs the
-symmetric-difference carrier. v421 proves that finite-list evidence on that
-constructed carrier implies non-equivalence. v422 proves that emptiness of the
-constructed symmetric-difference carrier is exactly equivalence, while
-nonemptiness is exactly non-equivalence. v423 proves that eventual periodicity
-of a supplied run can generate the infinitely-often evidence required by the
-finite recurring-list certificate. v424 proves that periodic input bits plus a
-state-anchor equality generate that run periodicity. v425 constructs the
-periodic input tail from finite cycle data. v426 replaces abstract sightings
-with finite cycle-state table membership. v427 derives the anchor equality from
-the final cycle wrap transition. v428 proves that bounded transition
-consistency makes the run agree with the cycle-state table at every bounded
-index. v429 lowers compact `Fin period` cycle data into that bounded table
-theorem for ordinary, non-wrap edges. v430 composes ordinary-edge agreement, the
-wrap anchor, finite cycle-state sightings, and acceptance into one nonempty
-certificate lane. v431 removes the explicit stream bit-match field for the
-tail-cycle stream case. v432 removes the supplied start-match field by replacing
-the abstract prelude function with finite prelude path data. v433 removes the
-supplied eventual-in-recurring predicate by proving it from periodicity and
-cycle coverage. v434 implements and bounded-tests a finite graph-search emitter
-for explicit finite Muller accepting sets. v435 proves the formal acceptance
-bridge for those explicit finite accepting sets. v436 proves the data-shape
-bridge from ordinary length-checked lists to dependent certificate tables. v437
-proves raw list witness validator soundness. v438 and v439 narrow that validator
-to ordinary local list checks. v440 proves executable checker soundness. v441
-and v442 add safe optional-output wrappers. v443 adds a Lean graph-search
-emitter behind that wrapper. v444 through v446 repair the accepting-set order
-hazard and route graph-search output through the unordered checker. v447 checks
-the whole v434 emitted-certificate corpus natively in Lean. v448 proves ordered
-checker exactness for the local predicate. v449 proves unordered checker
-exactness for the extensional local predicate. v450 lifts that exactness to
-returned output from the unordered graph-search wrapper. v451 adds the first
-checked pointwise revision-preservation receipt. v452 proves the pair-indexed
-atomless existential bridge for terms and DNF formulas. v453 proves the fixed
-bit-indexed version over `Fin 8` / `Fin 4`. v454 abstracts this into a
-split-index interface, so arbitrary-width lowering now means instantiating the
-interface for the concrete carrier. v455 proves the fixed two-step iterated
-bridge, so finite-depth iteration now has a concrete checked base case beyond
-single-step projection. v456 audits the pointwise revision prose by exposing
-its `Pi` obligations and `Delta` constraints, then checking the collapsed
-Boolean state machine with SMT and ESSO.
-v457 then turns the fixed two-step bridge into a generic composable theorem:
-two projected split-index bridges compose when the fine interface's base-cell
-list is the coarse interface's full-cell list.
-v458 proves the arbitrary finite-depth version for homogeneous chains. The
-witness object is explicit: `ChainExtends stages ba fa` records the
-stage-by-stage atomless extension path from the base assignment to the final
-assignment.
-v459 proves the concrete `Base x Bool` product carrier. v460 then proves a
-three-step product-carrier bridge. v461 closes the finite dependent
-heterogeneous chain theorem by encoding adjacent carrier-list agreement into
-the chain type itself. The remaining gap is no longer finite heterogeneous
-composition. v462 adds the first table-expression compiler adequacy theorem for
-the DNF layer. The remaining gap is recurrence, omega-limits, packed
-representation lowering, and the bridge from prefix-word clopen row tables to
-this DNF layer. v463 closes the first part of that last gap by compiling
-finite prefix-word rows into DNF rows under an explicit path embedding, but the
-stream-clopen quotient semantics from v400 still needs a separate theorem.
-v464 proves that the product carrier can be packed into a finite index type in
-the cardinality sense. v465 proves the concrete arithmetic encoding itself:
-even cells are low children, odd cells are high children, parent is division by
-two, side is parity, and the encode/decode maps are inverse. The remaining
-packed-lowering theorem was then reduced to integration with the DNF bridge.
-v466 closes the one-step packed DNF projection bridge by constructing
-`packedSplitIndex n : SplitIndex (Fin n) (Fin (2*n))`. The remaining packed
-work was then table-expression lowering and recurrence, not the one-step
-projection carrier. v467 closes the finite table-expression part for
-`rows`, `join`, and `project` over the packed carrier. The remaining packed
-work is recurrence, stream-clopen row equivalence, and Tau lowering.
-v468 closes extended pointwise revision for partial updates. v469 proves that
-the splitter property is exactly atomlessness over mathlib Boolean algebras.
-v470 proves the BL disjointness and membership core. The c013/c017 mathlib
-receipts also check the algebraic atomless table layer: c013 proves splitter
-property iff atomlessness, and c017 proves the pointwise BA-valued table laws
-plus the table-level splitter lift for arbitrary key type `K` and Boolean
-algebra value type `alpha`. v471 then checks the concrete semantic clopen bridge:
-Claude's raw Cantor splitter proof and semantic clopen-subtype proof combine
-into splitter existence for nonzero `Clopen` values, with an arbitrary-key
-table lift for `K -> Clopen`. Claude c020 then assembles that result with
-`setAt` and `commonTables` laws into a single checked file for the algebraic
-non-recursive table layer.
+The remaining target is smaller and sharper than "solve tables."
 
-These are real semantic receipts, but they do not yet supply constructive
+Semantic carrier boundary:
+
+- v402 shows why finite clopens are insufficient for arbitrary countable
+  recurrence unions.
+- v403 gives the powerset reference semantics.
+- v405 prevents overclaiming the prefix-open positive lane.
+- v406 restores Boolean expressiveness, but shifts the hard runtime problem to
+  effective equivalence and minimization.
+
+Automata and lasso-certificate lane:
+
+- v407 through v433 build the deterministic-stream, Muller, equivalence, and
+  finite-cycle certificate scaffolding.
+- v434 through v450 add bounded emitter output, executable checkers, unordered
+  accepting-set repair, corpus checks, and exact local witness predicates.
+- This lane now has sound returned-witness certificates.
+- It still does not have complete graph-search emptiness or minimization.
+
+Split-index and table-expression lane:
+
+- v452 through v456 check the pair-indexed, fixed bit-indexed, split-index,
+  two-step, and audited pointwise-revision bridges.
+- v457 and v458 turn fixed two-step projection into arbitrary finite-depth
+  homogeneous composition.
+- v459 through v461 close product-carrier and finite dependent heterogeneous
+  chain composition.
+- v462 through v467 connect the DNF layer, prefix-word rows, packed finite
+  carriers, and finite `rows`/`join`/`project` expression compilation.
+- The remaining packed work is recurrence, stream-clopen row equivalence, and
+  Tau lowering.
+
+Atomless table layer:
+
+- v468 closes extended pointwise revision for partial updates.
+- v469 proves that the splitter property is exactly atomlessness over mathlib
+  Boolean algebras.
+- v470 proves the BL disjointness and membership core.
+- c013 and c017 check the algebraic atomless table layer over arbitrary key
+  type and Boolean-algebra value type.
+- v471 checks the concrete semantic `Clopen` splitter bridge and arbitrary-key
+  table lift.
+- Claude c020 assembles the algebraic non-recursive table layer with `setAt`
+  and `commonTables` laws.
+
+These are real semantic receipts. They do not yet supply constructive
 infinite-table executability, recurrence, NSO semantics, or full Tau lowering.
 
 The later QClopen table-alignment lane sharpens the recurrence boundary. v523
