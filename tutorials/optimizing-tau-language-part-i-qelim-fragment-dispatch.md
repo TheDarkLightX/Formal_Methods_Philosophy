@@ -468,12 +468,15 @@ The rewrite soundness theorem has this shape:
 $$
 e\to e'
 \Longrightarrow
-\llbracket e\rrbracket=\llbracket e'\rrbracket.
+\operatorname{Den}(e)=\operatorname{Den}(e').
 $$
 
 <strong>Standard reading.</strong>
 If one rewrite step sends expression $e$ to expression $e'$, then both
 expressions have the same denotation.
+
+Here $\operatorname{Den}(e)$ means the Boolean-algebra value denoted by
+expression $e$.
 
 <strong>Plain English.</strong>
 Every accepted simplification step keeps the same meaning.

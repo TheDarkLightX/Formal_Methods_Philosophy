@@ -174,12 +174,14 @@ The c111 rewrite receipt is:
 $$
 e\to e'
 \Longrightarrow
-\llbracket e\rrbracket=\llbracket e'\rrbracket.
+\operatorname{Den}(e)=\operatorname{Den}(e').
 $$
 
 Standard reading:
 
 - Every one-step rewrite in the restricted rule set preserves denotation.
+  Here $\operatorname{Den}(e)$ is the Boolean-algebra value denoted by
+  expression $e$.
 
 The termination measure is weighted at complement nodes:
 
