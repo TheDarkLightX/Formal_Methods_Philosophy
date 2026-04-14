@@ -155,6 +155,8 @@ What the optimizer and stream artifacts give us:
 - Rewrite normalization: c111 proves semantics preservation, termination,
   local confluence, full confluence, normal-form existence, and normal-form
   uniqueness for a restricted Tau Boolean-expression rewrite system.
+- Executable companion: the public TauLang-Experiments repo now includes a
+  standalone c111 normalizer and deterministic corpus benchmark.
 
 Boundary:
 
@@ -162,6 +164,8 @@ Boundary:
   every Tau or TABA expression.
 - c111 deliberately drops commutativity, associativity, and distributivity as
   oriented rewrite rules, so it is not a complete Boolean-algebra normalizer.
+- The executable c111 benchmark is a standalone normalizer benchmark, not a Tau
+  runtime benchmark.
 - The equivalence decider is sound where it returns success, but incompleteness
   means failure to prove equality is not evidence of inequality.
 
@@ -222,6 +226,41 @@ Boundary:
 
 - This is not qelim and not full Boolean-algebra equality. It is a checked
   normalizer for a restricted Tau expression rewrite relation.
+
+The executable companion is:
+
+```text
+https://github.com/TheDarkLightX/TauLang-Experiments/blob/main/docs/rewrite-normalizer.md
+```
+
+The direct command is:
+
+```bash
+python3 scripts/tau_kb_normalizer.py normalize \
+  'pointCompl(common(a, pointJoin(a, b)))' \
+  --json
+```
+
+The benchmark command is:
+
+```bash
+./scripts/run_benchmarks.sh
+```
+
+The current deterministic corpus receipt records:
+
+```text
+255 expressions
+5161 rewrite steps
+0 Boolean-parity failures
+11984 input nodes
+870 normal-form nodes
+```
+
+Boundary:
+
+- This receipt measures the standalone c111 normalizer.
+- It does not yet measure Tau Language runtime speed.
 
 The strongest qelim measurement currently recorded is the auto-density matrix:
 

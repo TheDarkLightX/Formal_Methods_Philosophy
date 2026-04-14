@@ -530,6 +530,40 @@ So this is not a complete Boolean-algebra equivalence procedure.
 It is a terminating and confluent simplifier for a useful Tau-expression
 fragment.
 
+The executable companion is in the public experiment repo:
+
+[TauLang-Experiments restricted rewrite normalizer](https://github.com/TheDarkLightX/TauLang-Experiments/blob/main/docs/rewrite-normalizer.md)
+
+The direct demo command is:
+
+```bash
+python3 scripts/tau_kb_normalizer.py normalize \
+  'pointCompl(common(a, pointJoin(a, b)))' \
+  --json
+```
+
+The expected normal form is:
+
+```text
+pointCompl(a)
+```
+
+The benchmark command is:
+
+```bash
+./scripts/run_benchmarks.sh
+```
+
+The latest local deterministic corpus receipt checked `255` expressions,
+performed `5161` rewrite steps, found `0` Boolean-parity failures, and reduced
+total expression size from `11984` nodes to `870` nodes.
+
+<strong>Boundary.</strong>
+That is a benchmark of the standalone restricted normalizer, not a Tau runtime
+speedup.
+It becomes a Tau performance claim only after the normalizer is wired into a Tau
+execution path and measured there.
+
 ## Part VIII: What the optimizer should look like
 
 The honest optimizer shape is a portfolio, not one heroic backend.
