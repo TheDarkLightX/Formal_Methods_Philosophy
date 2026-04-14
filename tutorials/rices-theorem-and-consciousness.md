@@ -40,7 +40,7 @@ Under the assumptions below, the conclusion will be no. The derived conclusion i
 
 $$
 \neg \exists D \in TM \; \forall p \in \mathbb{N}\;
-\bigl(D(p)=1 \leftrightarrow Conscious(\llbracket p \rrbracket)\bigr)
+\bigl(D(p)=1 \leftrightarrow Conscious([\![p]\!])\bigr)
 $$
 
 ### Symbol guide
@@ -112,13 +112,13 @@ An equivalent expanded form is:
 $$
 \forall P\;
 \Bigl(
-\bigl(\forall p,q \in \mathbb{N}\; (\llbracket p \rrbracket = \llbracket q \rrbracket \rightarrow (P(\llbracket p \rrbracket) \leftrightarrow P(\llbracket q \rrbracket)))\bigr)
+\bigl(\forall p,q \in \mathbb{N}\; ([\![p]\!] = [\![q]\!] \rightarrow (P([\![p]\!]) \leftrightarrow P([\![q]\!])))\bigr)
 \land
-\bigl(\exists p \in \mathbb{N}\; P(\llbracket p \rrbracket)\bigr)
+\bigl(\exists p \in \mathbb{N}\; P([\![p]\!])\bigr)
 \land
-\bigl(\exists q \in \mathbb{N}\; \neg P(\llbracket q \rrbracket)\bigr)
+\bigl(\exists q \in \mathbb{N}\; \neg P([\![q]\!])\bigr)
 \rightarrow
-\neg \exists D \in TM\; \forall e \in \mathbb{N}\; (D(e)=1 \leftrightarrow P(\llbracket e \rrbracket))
+\neg \exists D \in TM\; \forall e \in \mathbb{N}\; (D(e)=1 \leftrightarrow P([\![e]\!]))
 \Bigr)
 $$
 
@@ -155,9 +155,9 @@ Consciousness depends on what is computed, not on mere syntactic presentation:
 $$
 \forall p,q \in \mathbb{N}\;
 \bigl(
-\llbracket p \rrbracket = \llbracket q \rrbracket
+[\![p]\!] = [\![q]\!]
 \rightarrow
-(Conscious(\llbracket p \rrbracket) \leftrightarrow Conscious(\llbracket q \rrbracket))
+(Conscious([\![p]\!]) \leftrightarrow Conscious([\![q]\!]))
 \bigr)
 $$
 
@@ -170,9 +170,9 @@ Two programs with the same denotation are either both conscious or both not.
 Some computations are conscious and some are not:
 
 $$
-\bigl(\exists p \in \mathbb{N}\; Conscious(\llbracket p \rrbracket)\bigr)
+\bigl(\exists p \in \mathbb{N}\; Conscious([\![p]\!])\bigr)
 \land
-\bigl(\exists q \in \mathbb{N}\; \neg Conscious(\llbracket q \rrbracket)\bigr)
+\bigl(\exists q \in \mathbb{N}\; \neg Conscious([\![q]\!])\bigr)
 $$
 
 Without this, the property is trivial and the theorem does not bite.
@@ -186,18 +186,18 @@ The result is:
 $$
 \Bigl(
 \forall p,q \in \mathbb{N}\;
-(\llbracket p \rrbracket = \llbracket q \rrbracket \rightarrow (Conscious(\llbracket p \rrbracket) \leftrightarrow Conscious(\llbracket q \rrbracket)))
+([\![p]\!] = [\![q]\!] \rightarrow (Conscious([\![p]\!]) \leftrightarrow Conscious([\![q]\!])))
 \Bigr)
 \land
-\Bigl(\exists p \in \mathbb{N}\; Conscious(\llbracket p \rrbracket)\Bigr)
+\Bigl(\exists p \in \mathbb{N}\; Conscious([\![p]\!])\Bigr)
 \land
-\Bigl(\exists q \in \mathbb{N}\; \neg Conscious(\llbracket q \rrbracket)\Bigr)
+\Bigl(\exists q \in \mathbb{N}\; \neg Conscious([\![q]\!])\Bigr)
 $$
 
 $$
 \rightarrow
 \neg \exists D \in TM\; \forall e \in \mathbb{N}\;
-\bigl(D(e)=1 \leftrightarrow Conscious(\llbracket e \rrbracket)\bigr)
+\bigl(D(e)=1 \leftrightarrow Conscious([\![e]\!])\bigr)
 $$
 
 Compressed:
@@ -225,7 +225,7 @@ Rice says:
 $$
 \mathrm{Extensional}(P) \land \mathrm{NonTrivial}(P)
 \rightarrow
-\neg \exists D \in TM\; \forall e\; (D(e)=1 \leftrightarrow P(\llbracket e \rrbracket))
+\neg \exists D \in TM\; \forall e\; (D(e)=1 \leftrightarrow P([\![e]\!]))
 $$
 
 ### Step 2: instantiate
@@ -237,7 +237,7 @@ If `Conscious` is semantic and nontrivial, then the right-hand undecidability co
 $$
 \mathrm{Semantic}(Conscious) \land \mathrm{NonTrivial}(Conscious)
 \rightarrow
-\neg \exists D \in TM\; \forall e\; (D(e)=1 \leftrightarrow Conscious(\llbracket e \rrbracket))
+\neg \exists D \in TM\; \forall e\; (D(e)=1 \leftrightarrow Conscious([\![e]\!]))
 $$
 
 That is the proof.
@@ -250,7 +250,7 @@ The contrapositive is just as important:
 
 $$
 \exists D \in TM\; \forall p \in \mathbb{N}\;
-\bigl(D(p)=1 \leftrightarrow Conscious(\llbracket p \rrbracket)\bigr)
+\bigl(D(p)=1 \leftrightarrow Conscious([\![p]\!])\bigr)
 $$
 
 $$
@@ -289,9 +289,9 @@ Then consciousness depends on more than denotation.
 Two extensionally equivalent programs might differ:
 
 $$
-\llbracket p \rrbracket = \llbracket q \rrbracket
+[\![p]\!] = [\![q]\!]
 \land
-\bigl(Conscious(\llbracket p \rrbracket) \not\leftrightarrow Conscious(\llbracket q \rrbracket)\bigr)
+\bigl(Conscious([\![p]\!]) \not\leftrightarrow Conscious([\![q]\!])\bigr)
 $$
 
 This is the route of substrate-sensitive or implementation-sensitive theories.
@@ -367,7 +367,7 @@ If someone claimed this transcript-analysis pipeline were a perfect general dete
 
 $$
 \forall p \in \mathbb{N}\;
-\bigl(R(Trace_{\Pi,k}(p)) = Conscious(\llbracket p \rrbracket)\bigr)
+\bigl(R(Trace_{\Pi,k}(p)) = Conscious([\![p]\!])\bigr)
 $$
 
 But then one could define:
@@ -380,7 +380,7 @@ and obtain:
 
 $$
 \forall p \in \mathbb{N}\;
-\bigl(D(p) = Conscious(\llbracket p \rrbracket)\bigr)
+\bigl(D(p) = Conscious([\![p]\!])\bigr)
 $$
 
 So any total computable perfect detector from bounded transcripts would immediately induce a total computable perfect detector from program encodings. Under the assumptions of the theorem, that is impossible.
@@ -397,7 +397,7 @@ Level 1, ruled out by the theorem:
 
 $$
 \forall p \in \mathbb{N}\;
-\bigl(R(Trace_{\Pi,k}(p)) = Conscious(\llbracket p \rrbracket)\bigr)
+\bigl(R(Trace_{\Pi,k}(p)) = Conscious([\![p]\!])\bigr)
 $$
 
 This is the universal perfect detector claim. Under the theorem's assumptions, it fails.
@@ -406,7 +406,7 @@ Level 2, not ruled out:
 
 $$
 \exists F \subsetneq \mathbb{N}\; \forall p \in F\;
-\bigl(R(Trace_{\Pi,k}(p)) = Conscious(\llbracket p \rrbracket)\bigr)
+\bigl(R(Trace_{\Pi,k}(p)) = Conscious([\![p]\!])\bigr)
 $$
 
 This says the detector works on some restricted family `F`, not on all possible programs. Rice does not forbid that.
@@ -441,17 +441,17 @@ to mean the bounded transcript contains claims like "I am afraid" or "I feel anx
 That transcript predicate is not the same thing as a phenomenal predicate such as:
 
 $$
-Fear_x(\llbracket p \rrbracket)
+Fear_x([\![p]\!])
 $$
 
 In general, neither of these implications follows from Rice's theorem alone:
 
 $$
-SaysAfraid_{\Pi,k}(p) \rightarrow Fear_x(\llbracket p \rrbracket)
+SaysAfraid_{\Pi,k}(p) \rightarrow Fear_x([\![p]\!])
 $$
 
 $$
-Fear_x(\llbracket p \rrbracket) \rightarrow SaysAfraid_{\Pi,k}(p)
+Fear_x([\![p]\!]) \rightarrow SaysAfraid_{\Pi,k}(p)
 $$
 
 So the careful reading is:
@@ -482,7 +482,7 @@ $$
 \mathrm{NonTrivial}(Fear_x)
 \rightarrow
 \neg \exists D \in TM\; \forall p \in \mathbb{N}\;
-\bigl(D(p)=1 \leftrightarrow Fear_x(\llbracket p \rrbracket)\bigr)
+\bigl(D(p)=1 \leftrightarrow Fear_x([\![p]\!])\bigr)
 $$
 
 and likewise for `Anxiety_x`.
@@ -519,14 +519,14 @@ $$
 \mathrm{NonTrivial}(Conscious)
 \rightarrow
 \neg \exists D \in TM\; \forall p \in \mathbb{N}\;
-\bigl(D(p)=1 \leftrightarrow Conscious(\llbracket p \rrbracket)\bigr)
+\bigl(D(p)=1 \leftrightarrow Conscious([\![p]\!])\bigr)
 $$
 
 and equivalently:
 
 $$
 \exists D \in TM\; \forall p \in \mathbb{N}\;
-\bigl(D(p)=1 \leftrightarrow Conscious(\llbracket p \rrbracket)\bigr)
+\bigl(D(p)=1 \leftrightarrow Conscious([\![p]\!])\bigr)
 \rightarrow
 \neg \mathrm{Computationalism}
 \lor
