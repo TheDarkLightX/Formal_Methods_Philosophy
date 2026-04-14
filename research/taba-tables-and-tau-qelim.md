@@ -286,6 +286,48 @@ Boundary:
 - This is a correctness-and-simplification probe.
 - The timings are too small and mixed to claim a Tau runtime speedup.
 
+The generated qelim KB matrix compares:
+
+```text
+bdd
+bdd+kb
+bdd+ac
+bdd+ac+kb
+```
+
+The wider generated corpus preserved output parity and recorded about `41%`
+compiled-node reduction for `bdd+kb`.
+The promotion boundary remains negative: timing did not improve reliably across
+the smaller repeated corpus and the wider corpus.
+
+Research conclusion:
+
+```text
+TAU_QELIM_BDD_KB_REWRITE is validated as an opt-in simplification lane.
+It is not yet validated as a default performance optimization.
+```
+
+The next proof-and-engineering target is a fragment selector:
+
+```text
+\operatorname{ShouldKB}(\varphi)
+\Longrightarrow
+\operatorname{Benefit}(\operatorname{KB}(\varphi)).
+```
+
+Standard reading:
+
+- If the selector says that formula $\varphi$ should use the KB pass, then
+  applying KB to $\varphi$ should produce a measurable benefit under the chosen
+  benefit model.
+
+Boundary:
+
+- No such selector theorem is proved yet.
+- The current matrix only supplies candidate features for such a selector:
+  absorption opportunities, De Morgan growth risk, node count, support size, and
+  interaction with AC canonicalization.
+
 The strongest qelim measurement currently recorded is the auto-density matrix:
 
 $$

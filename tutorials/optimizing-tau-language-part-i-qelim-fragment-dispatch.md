@@ -582,6 +582,31 @@ to `2`, and from `5` nodes to `1`.
 The timing evidence is mixed on this tiny corpus.
 This is a correctness-and-simplification result, not yet a promoted speedup.
 
+The generated matrix makes the promotion boundary sharper.
+It compares four modes:
+
+```text
+bdd
+bdd+kb
+bdd+ac
+bdd+ac+kb
+```
+
+The wider generated corpus preserved output parity and showed about `41%`
+compiled-node reduction for `bdd+kb`.
+But the timing signal remained small and unstable: some generated corpora showed
+a slight internal win, while repeated smaller runs did not.
+
+So the current engineering decision is:
+
+```text
+keep TAU_QELIM_BDD_KB_REWRITE opt-in
+do not promote it to default yet
+```
+
+The next optimization problem is a selector problem:
+detect when the rewrite pass is worth running before paying for it.
+
 ## Part VIII: What the optimizer should look like
 
 The honest optimizer shape is a portfolio, not one heroic backend.
