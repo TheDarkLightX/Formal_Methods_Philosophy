@@ -422,8 +422,8 @@ show_title: false
   >
     <h2 class="fp-card-title">Tutorial 39: Safe infinite-recursive tables in Tau Language</h2>
     <p class="fp-card-text">
-      Build the checked safe table fragment, read the select, revision, and fixed-point formulas exactly,
-      then replay the feature-flagged Tau experiment without claiming full unrestricted TABA.
+      Study the safe table fragment for Tau, including pointwise revision, fixed-point semantics,
+      runnable demos, and the boundary between this prototype and full TABA tables.
     </p>
   </a>
   <a

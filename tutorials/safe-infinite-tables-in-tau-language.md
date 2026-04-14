@@ -2,7 +2,7 @@
 title: "Safe infinite-recursive tables in Tau Language"
 layout: docs
 kicker: Tutorial 39
-description: "Build the safe TABA-inspired table fragment that can run in Tau, read the exact fixed-point formulas, and understand why the implementation is useful without claiming full unrestricted TABA tables."
+description: "A safe table fragment for Tau: pointwise revision, fixed-point semantics, runnable demos, and the boundary between this prototype and full TABA tables."
 ---
 
 This tutorial is about the part of TABA tables that is now safe enough to run as
