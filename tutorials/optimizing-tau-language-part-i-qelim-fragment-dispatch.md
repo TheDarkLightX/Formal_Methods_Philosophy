@@ -582,30 +582,74 @@ to `2`, and from `5` nodes to `1`.
 The timing evidence is mixed on this tiny corpus.
 This is a correctness-and-simplification result, not yet a promoted speedup.
 
+There is also a guarded version:
+
+```bash
+TAU_QELIM_BDD_KB_REWRITE=guarded
+```
+
+The guarded selector has this shape:
+
+$$
+\operatorname{KB}_{\mathrm{guard}}(e)
+=
+\begin{cases}
+\operatorname{normalize}_{\mathrm{KB}}(e),
+& \operatorname{Absorb}(e)>0,\\
+e,
+& \operatorname{Absorb}(e)=0.
+\end{cases}
+$$
+
+<strong>Standard reading.</strong>
+The guarded KB pass normalizes expression $e$ only when a cheap scan finds at
+least one absorption opportunity. If the scan finds no absorption opportunity,
+the pass returns $e$ unchanged.
+
+<strong>Plain English.</strong>
+Run the normalizer only where the expression already shows the local pattern
+the normalizer is designed to remove.
+
+<strong>Trap.</strong>
+This is not complete Boolean-equivalence checking.
+It is a selector for one restricted simplifier.
+
 The generated matrix makes the promotion boundary sharper.
-It compares four modes:
+It compares six modes:
 
 ```text
 bdd
 bdd+kb
+bdd+kb_guarded
 bdd+ac
 bdd+ac+kb
+bdd+ac+kb_guarded
 ```
 
-The wider generated corpus preserved output parity and showed about `41%`
-compiled-node reduction for `bdd+kb`.
-But the timing signal remained small and unstable: some generated corpora showed
-a slight internal win, while repeated smaller runs did not.
+The current receipts preserved output parity across all modes.
+On the 18-case generated matrix with `3` repetitions, guarded KB reduced
+compiled KB nodes by `42.73%` and had internal qelim-time ratio about `0.95`
+against plain BDD.
+On the 34-case generated matrix with `3` repetitions, guarded KB reduced
+compiled KB nodes by `40.81%` and had internal qelim-time ratio about `0.952`
+against plain BDD.
+
+<strong>Boundary.</strong>
+These are internal qelim measurements in a generated harness.
+Whole-command elapsed time stayed effectively neutral because this harness is
+dominated by Tau process startup.
 
 So the current engineering decision is:
 
 ```text
-keep TAU_QELIM_BDD_KB_REWRITE opt-in
+keep TAU_QELIM_BDD_KB_REWRITE and guarded mode opt-in
 do not promote it to default yet
 ```
 
-The next optimization problem is a selector problem:
-detect when the rewrite pass is worth running before paying for it.
+The next optimization problem is still a selector problem.
+The current absorption-only guard has useful signal on generated
+absorption-heavy formulas, but it is not strong enough to justify default
+promotion.
 
 ## Part VIII: What the optimizer should look like
 

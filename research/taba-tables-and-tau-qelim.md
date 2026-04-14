@@ -286,24 +286,61 @@ Boundary:
 - This is a correctness-and-simplification probe.
 - The timings are too small and mixed to claim a Tau runtime speedup.
 
+The patched Tau experiment now also includes a guarded selector:
+
+```text
+TAU_QELIM_BDD_KB_REWRITE=guarded
+```
+
+The selector equation is:
+
+$$
+\operatorname{KB}_{\mathrm{guard}}(e)
+=
+\begin{cases}
+\operatorname{normalize}_{\mathrm{KB}}(e),
+& \operatorname{Absorb}(e)>0,\\
+e,
+& \operatorname{Absorb}(e)=0.
+\end{cases}
+$$
+
+Standard reading:
+
+- The guarded KB pass normalizes expression $e$ if the compiled expression
+  contains at least one absorption opportunity. Otherwise it returns $e$
+  unchanged.
+
+Boundary:
+
+- This is an implemented structural selector, not a proved benefit theorem.
+- It is still scoped to the experimental BDD qelim backend.
+
 The generated qelim KB matrix compares:
 
 ```text
 bdd
 bdd+kb
+bdd+kb_guarded
 bdd+ac
 bdd+ac+kb
+bdd+ac+kb_guarded
 ```
 
-The wider generated corpus preserved output parity and recorded about `41%`
-compiled-node reduction for `bdd+kb`.
-The promotion boundary remains negative: timing did not improve reliably across
-the smaller repeated corpus and the wider corpus.
+The current generated matrices preserved output parity across all six modes.
+On the 18-case matrix with `3` repetitions, `bdd+kb_guarded` reduced compiled
+KB nodes by `42.73%` and had internal qelim-time ratio about `0.95` against
+plain `bdd`.
+On the 34-case matrix with `3` repetitions, `bdd+kb_guarded` reduced compiled
+KB nodes by `40.81%` and had internal qelim-time ratio about `0.952` against
+plain `bdd`.
+Whole-command elapsed time stayed effectively neutral in this harness, because
+Tau process startup dominates.
 
 Research conclusion:
 
 ```text
-TAU_QELIM_BDD_KB_REWRITE is validated as an opt-in simplification lane.
+TAU_QELIM_BDD_KB_REWRITE=guarded is validated as an opt-in simplification lane.
 It is not yet validated as a default performance optimization.
 ```
 
