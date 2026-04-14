@@ -38,9 +38,9 @@ The current evidence supports this formula:
 
 $$
 \begin{aligned}
-&\operatorname{FiniteDemo}\cr
-&\wedge\operatorname{SafeRecEvidence}\cr
-&\wedge\operatorname{FiniteCBFEvidence}\cr
+&\operatorname{FiniteDemo}\\
+&\wedge\operatorname{SafeRecEvidence}\\
+&\wedge\operatorname{FiniteCBFEvidence}\\
 &\Longrightarrow \operatorname{RunnableSafeTableFragment}.
 \end{aligned}
 $$
@@ -142,7 +142,7 @@ The table-level implementation law is pointwise revision:
 $$
 \begin{aligned}
 \operatorname{Rev}_{G,A}(T)(i)
-&:= \bigl(G(i)\wedge A(i)\bigr)\cr
+&:= \bigl(G(i)\wedge A(i)\bigr)\\
 &\vee \bigl(G(i)'\wedge T(i)\bigr).
 \end{aligned}
 $$
@@ -503,7 +503,7 @@ Its public-facing equation is:
 
 $$
 \begin{aligned}
-&\operatorname{priority\_quarantine\_update}\cr
+&\operatorname{priority\_quarantine\_update}\\
 &= \operatorname{priority\_quarantine\_raw}.
 \end{aligned}
 $$
@@ -550,7 +550,7 @@ For two variables $x$ and $y$, a four-coefficient minterm form is:
 $$
 \begin{aligned}
 M_{\vec a}(x,y)
-&:= C_x\bigl(C_y(a_{11},a_{10}),\cr
+&:= C_x\bigl(C_y(a_{11},a_{10}),\\
 &\qquad C_y(a_{01},a_{00})\bigr).
 \end{aligned}
 $$
@@ -560,9 +560,9 @@ The same expression expands to:
 $$
 \begin{aligned}
 M_{\vec a}(x,y)
-={}&(a_{11}\wedge x\wedge y)\cr
-&\vee(a_{10}\wedge x\wedge y')\cr
-&\vee(a_{01}\wedge x'\wedge y)\cr
+={}&(a_{11}\wedge x\wedge y)\\
+&\vee(a_{10}\wedge x\wedge y')\\
+&\vee(a_{01}\wedge x'\wedge y)\\
 &\vee(a_{00}\wedge x'\wedge y').
 \end{aligned}
 $$
@@ -576,9 +576,9 @@ The formula splits the Boolean space into four guarded regions:
 
 $$
 \begin{aligned}
-&x\wedge y,\cr
-&x\wedge y',\cr
-&x'\wedge y,\cr
+&x\wedge y,\\
+&x\wedge y',\\
+&x'\wedge y,\\
 &x'\wedge y'.
 \end{aligned}
 $$
@@ -592,9 +592,9 @@ The checked compiler theorem is:
 
 $$
 \begin{aligned}
-&\forall t\in\mathrm{Term}_2,\cr
-&\exists \vec a,\cr
-&\forall x,y,\cr
+&\forall t\in\mathrm{Term}_2,\\
+&\exists \vec a,\\
+&\forall x,y,\\
 &\llbracket t\rrbracket(x,y)=M_{\vec a}(x,y).
 \end{aligned}
 $$
@@ -614,11 +614,11 @@ minterm tree:
 
 $$
 \begin{aligned}
-&\forall n,\cr
-&\forall t\in\mathrm{Term}_n,\cr
-&\exists m,\cr
-&\forall \rho,\cr
-&\llbracket t\rrbracket(\rho)\cr
+&\forall n,\\
+&\forall t\in\mathrm{Term}_n,\\
+&\exists m,\\
+&\forall \rho,\\
+&\llbracket t\rrbracket(\rho)\\
 &= \llbracket m\rrbracket(\rho).
 \end{aligned}
 $$
@@ -674,9 +674,9 @@ For a CBF expression $c$, the compiler theorem is:
 
 $$
 \begin{aligned}
-&\forall c\in\mathrm{CBF}_n,\cr
-&\forall \rho,\cr
-&\llbracket \operatorname{cbfToBF}(c)\rrbracket_\rho\cr
+&\forall c\in\mathrm{CBF}_n,\\
+&\forall \rho,\\
+&\llbracket \operatorname{cbfToBF}(c)\rrbracket_\rho\\
 &= \llbracket c\rrbracket_\rho.
 \end{aligned}
 $$
@@ -695,9 +695,9 @@ For a priority table $T$, the table compiler theorem is:
 
 $$
 \begin{aligned}
-&\forall T\in\mathrm{Table}_n,\cr
-&\forall \rho,\cr
-&\llbracket \operatorname{tableToBF}(T)\rrbracket_\rho\cr
+&\forall T\in\mathrm{Table}_n,\\
+&\forall \rho,\\
+&\llbracket \operatorname{tableToBF}(T)\rrbracket_\rho\\
 &= \llbracket T\rrbracket_\rho.
 \end{aligned}
 $$
@@ -728,9 +728,9 @@ The semantic theorem is:
 
 $$
 \begin{aligned}
-&\forall T\in\mathrm{Table}_n,\cr
-&\forall \rho,\cr
-&\operatorname{evalMinterm}(m_T,\rho)\cr
+&\forall T\in\mathrm{Table}_n,\\
+&\forall \rho,\\
+&\operatorname{evalMinterm}(m_T,\rho)\\
 &= \llbracket T\rrbracket_\rho.
 \end{aligned}
 $$
@@ -758,8 +758,8 @@ The same proof also marks the unsafe boundary:
 
 $$
 \begin{aligned}
-F(x)&:=x',\cr
-&\neg\bigl(\forall a\,b,\;a\le b \Rightarrow\cr
+F(x)&:=x',\\
+&\neg\bigl(\forall a\,b,\;a\le b \Rightarrow\\
 &\qquad F(a)\le F(b)\bigr).
 \end{aligned}
 $$
@@ -870,11 +870,10 @@ The evidence supports this claim:
 
 $$
 \begin{aligned}
-&\text{safe helpers}\cr
-&+ \text{Tau transition checks}\cr
-&+ \text{Lean semantic evidence}\cr
-&\Rightarrow \text{a runnable safe recursive}\cr
-&\qquad \text{table fragment}.
+&\operatorname{SafeHelpers}\\
+&\wedge \operatorname{TauTransitionChecks}\\
+&\wedge \operatorname{LeanSemanticEvidence}\\
+&\Longrightarrow \operatorname{RunnableSafeRecursiveTableFragment}.
 \end{aligned}
 $$
 
@@ -938,12 +937,12 @@ $$
 \operatorname{Sem}(e)=
 \begin{cases}
 \mu F_e,
-  & e\in\mathcal L_{\mathrm{mono}},\cr
+  & e\in\mathcal L_{\mathrm{mono}},\\
 \operatorname{resolve}(F_e,c),
-  & e\in\mathcal L_{\mathrm{cert}},\cr
+  & e\in\mathcal L_{\mathrm{cert}},\\
 \bot_{\mathrm{reject}},
   & \begin{aligned}[t]
-    e&\notin \mathcal L_{\mathrm{mono}}\cr
+    e&\notin \mathcal L_{\mathrm{mono}}\\
      &\cup \mathcal L_{\mathrm{cert}}.
     \end{aligned}
 \end{cases}
