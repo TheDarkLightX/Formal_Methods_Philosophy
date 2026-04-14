@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
   </head>
 
-  <body class="fp-body">
+  <body class="fp-body{% if page.math_heavy %} fp-math-heavy is-math-loading{% endif %}">
     <a class="fp-skip-link" href="#main">Skip to content</a>
 
     <header class="fp-header">
@@ -97,6 +97,12 @@
                 >
               </div>
             </header>
+            {% if page.math_heavy %}
+              <div class="fp-math-loading" role="status" aria-live="polite">
+                Rendering formulas. This research log has many checked equations, so
+                the first load may take a few seconds.
+              </div>
+            {% endif %}
             <div class="fp-doc-content">
               {{ content }}
             </div>
@@ -248,6 +254,23 @@
         options: {
           skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
         },
+        startup: {
+          pageReady: () => {
+            const revealMathPage = () => {
+              document.body.classList.remove("is-math-loading");
+              document.body.classList.add("is-math-ready");
+            };
+            return MathJax.startup.defaultPageReady().then(
+              () => {
+                revealMathPage();
+              },
+              (error) => {
+                revealMathPage();
+                throw error;
+              },
+            );
+          },
+        },
       };
     </script>
     <script
@@ -255,5 +278,16 @@
       async
       src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js"
     ></script>
+    {% if page.math_heavy %}
+      <script>
+        window.setTimeout(() => {
+          if (!document.body.classList.contains("is-math-loading")) {
+            return;
+          }
+          document.body.classList.remove("is-math-loading");
+          document.body.classList.add("is-math-timeout");
+        }, 30000);
+      </script>
+    {% endif %}
   </body>
 </html>

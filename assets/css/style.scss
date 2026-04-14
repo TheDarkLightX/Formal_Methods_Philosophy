@@ -1027,6 +1027,31 @@ mjx-container {
     font-size: 0.88em;
   }
 }
+
+.fp-math-loading {
+  display: none;
+  margin: var(--space-lg);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #eff6ff;
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+.fp-math-heavy.is-math-loading .fp-math-loading,
+.fp-math-heavy.is-math-timeout .fp-math-loading {
+  display: block;
+}
+
+.fp-math-heavy.is-math-loading .fp-doc-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.fp-math-heavy.is-math-ready .fp-math-loading {
+  display: none;
+}
 /* TABA safe table visualizer */
 .taba-viz {
   position: relative;

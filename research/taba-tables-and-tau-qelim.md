@@ -3,6 +3,7 @@ title: "Tau qelim and TABA table semantics"
 layout: docs
 kicker: Research log
 description: "A neuro-symbolic research log for fragment-sensitive Tau quantifier elimination and the current atomless TABA table-semantics frontier."
+math_heavy: true
 ---
 
 This research log records the neuro-symbolic loop behind two tutorial threads:
