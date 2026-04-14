@@ -337,6 +337,35 @@ plain `bdd`.
 Whole-command elapsed time stayed effectively neutral in this harness, because
 Tau process startup dominates.
 
+The auto-route matrix asks whether guarded KB improves the already-promoted
+`TAU_QELIM_BACKEND=auto` portfolio.
+This matrix checks exact parity against the unmodified `auto` route and records
+exact default parity separately, because default and `auto` may print equivalent
+residual formulas in different syntactic forms.
+
+Current auto-route receipts:
+
+- 18-case matrix, `3` repetitions:
+  - `auto` qelim total: `18.334684 ms`
+  - `auto+kb_guarded` qelim total: `19.228504 ms`
+  - ratio `auto+kb_guarded / auto`: about `1.049`
+- 34-case matrix, `3` repetitions:
+  - `auto` qelim total: `45.620071 ms`
+  - `auto+kb_guarded` qelim total: `45.8326 ms`
+  - ratio `auto+kb_guarded / auto`: about `1.005`
+
+With only `3` repetitions, the `1.005` ratio is within measurement noise, and
+the `1.049` ratio is suggestive rather than conclusive.
+The safe conclusion is that these receipts are consistent with no improvement
+from adding guarded KB to `auto`.
+
+Boundary:
+
+- This is negative promotion evidence for promoting guarded KB into the default
+  configuration.
+- Guarded KB remains useful as simplification evidence inside the BDD sublane.
+  It is not currently a win for the composed `auto` portfolio.
+
 Research conclusion:
 
 ```text

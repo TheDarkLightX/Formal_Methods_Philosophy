@@ -639,6 +639,36 @@ These are internal qelim measurements in a generated harness.
 Whole-command elapsed time stayed effectively neutral because this harness is
 dominated by Tau process startup.
 
+The production-shaped follow-up asks a different question:
+
+```text
+does guarded KB improve TAU_QELIM_BACKEND=auto?
+```
+
+That answer is currently no.
+The auto-route matrix checks exact output parity against the unmodified `auto`
+route and records exact default parity separately, because default and `auto`
+can print equivalent residual formulas in different syntactic forms.
+
+Current auto-route receipts:
+
+- 18-case matrix, `3` repetitions: `auto` qelim total `18.334684 ms`;
+  `auto+kb_guarded` qelim total `19.228504 ms`; ratio
+  `auto+kb_guarded / auto` about `1.049`.
+- 34-case matrix, `3` repetitions: `auto` qelim total `45.620071 ms`;
+  `auto+kb_guarded` qelim total `45.8326 ms`; ratio
+  `auto+kb_guarded / auto` about `1.005`.
+
+With only `3` repetitions, the `1.005` ratio is within measurement noise, and
+the `1.049` ratio is suggestive rather than conclusive.
+The safe conclusion is narrower: this matrix is consistent with no improvement
+from adding guarded KB to `auto`.
+
+<strong>Trap.</strong>
+Compiled-node reduction is not the same thing as portfolio-level speedup.
+Here, guarded KB reduced intermediate nodes in the BDD sublane above, but did
+not improve the composed `auto` route.
+
 So the current engineering decision is:
 
 ```text
