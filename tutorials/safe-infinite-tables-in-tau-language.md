@@ -581,9 +581,19 @@ The value of \(M_{\vec a}(x,y)\) is the join of four guarded coefficients, one
 for each truth corner of \(x\) and \(y\).
 
 <strong>Plain English.</strong>
-The formula splits the Boolean space into the four cases
-\((x,y)=(1,1),(1,0),(0,1),(0,0)\), assigns one coefficient to each case, and
-joins the four guarded pieces.
+The formula splits the Boolean space into four guarded regions:
+
+$$
+x\wedge y,\qquad
+x\wedge y',\qquad
+x'\wedge y,\qquad
+x'\wedge y'.
+$$
+
+Those regions are the Boolean-algebra version of the four truth corners
+\((\top,\top)\), \((\top,\bot)\), \((\bot,\top)\), and \((\bot,\bot)\).
+The formula assigns one coefficient to each guarded region and joins the four
+pieces.
 
 The checked compiler theorem is:
 
