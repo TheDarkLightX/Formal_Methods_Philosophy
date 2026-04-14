@@ -280,13 +280,38 @@
     ></script>
     {% if page.math_heavy %}
       <script>
-        window.setTimeout(() => {
-          if (!document.body.classList.contains("is-math-loading")) {
-            return;
-          }
-          document.body.classList.remove("is-math-loading");
-          document.body.classList.add("is-math-timeout");
-        }, 30000);
+        (() => {
+          const revealMathPage = (statusClass) => {
+            document.body.classList.remove("is-math-loading");
+            document.body.classList.add(statusClass);
+          };
+
+          const poll = window.setInterval(() => {
+            if (!document.body.classList.contains("is-math-loading")) {
+              window.clearInterval(poll);
+              return;
+            }
+            const renderedMath = document.querySelectorAll("mjx-container").length;
+            const text = document.body.innerText || "";
+            const rawMath =
+              text.includes("\\[") ||
+              text.includes("\\]") ||
+              text.includes("$$");
+            if (renderedMath > 0 && !rawMath) {
+              window.clearInterval(poll);
+              revealMathPage("is-math-ready");
+            }
+          }, 250);
+
+          window.setTimeout(() => {
+            if (!document.body.classList.contains("is-math-loading")) {
+              return;
+            }
+            window.clearInterval(poll);
+            document.body.classList.remove("is-math-loading");
+            document.body.classList.add("is-math-timeout");
+          }, 30000);
+        })();
       </script>
     {% endif %}
   </body>
