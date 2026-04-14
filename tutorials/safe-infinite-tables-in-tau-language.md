@@ -37,13 +37,12 @@ collapsed into one claim.
 The current evidence supports this formula:
 
 $$
-\operatorname{FiniteDemo}
-\wedge
-\operatorname{SafeRecEvidence}
-\wedge
-\operatorname{FiniteCBFEvidence}
-\Longrightarrow
-\operatorname{RunnableSafeTableFragment}.
+\begin{aligned}
+&\operatorname{FiniteDemo}\cr
+&\wedge\operatorname{SafeRecEvidence}\cr
+&\wedge\operatorname{FiniteCBFEvidence}\cr
+&\Longrightarrow \operatorname{RunnableSafeTableFragment}.
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
@@ -141,11 +140,11 @@ This is not permission to use $x'$ on the same recursive stratum.
 The table-level implementation law is pointwise revision:
 
 $$
+\begin{aligned}
 \operatorname{Rev}_{G,A}(T)(i)
-:=
-\bigl(G(i)\wedge A(i)\bigr)
-\vee
-\bigl(G(i)'\wedge T(i)\bigr).
+&:= \bigl(G(i)\wedge A(i)\bigr)\cr
+&\vee \bigl(G(i)'\wedge T(i)\bigr).
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
@@ -503,9 +502,10 @@ The same check is the centerpiece of the standalone experiment repo.
 Its public-facing equation is:
 
 $$
-\operatorname{priority\_quarantine\_update}
-=
-\operatorname{priority\_quarantine\_raw}.
+\begin{aligned}
+&\operatorname{priority\_quarantine\_update}\cr
+&= \operatorname{priority\_quarantine\_raw}.
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
@@ -560,20 +560,23 @@ program, and $g'$ is the Boolean prime of the guard.
 For two variables $x$ and $y$, a four-coefficient minterm form is:
 
 $$
+\begin{aligned}
 M_{\vec a}(x,y)
-:=
-C_x\bigl(C_y(a_{11},a_{10}),\,C_y(a_{01},a_{00})\bigr).
+&:= C_x\bigl(C_y(a_{11},a_{10}),\cr
+&\qquad C_y(a_{01},a_{00})\bigr).
+\end{aligned}
 $$
 
 The same expression expands to:
 
 $$
+\begin{aligned}
 M_{\vec a}(x,y)
-=
-(a_{11}\wedge x\wedge y)
-\vee(a_{10}\wedge x\wedge y')
-\vee(a_{01}\wedge x'\wedge y)
-\vee(a_{00}\wedge x'\wedge y').
+={}&(a_{11}\wedge x\wedge y)\cr
+&\vee(a_{10}\wedge x\wedge y')\cr
+&\vee(a_{01}\wedge x'\wedge y)\cr
+&\vee(a_{00}\wedge x'\wedge y').
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
@@ -584,10 +587,12 @@ for each truth corner of $x$ and $y$.
 The formula splits the Boolean space into four guarded regions:
 
 $$
-x\wedge y,\qquad
-x\wedge y',\qquad
-x'\wedge y,\qquad
-x'\wedge y'.
+\begin{aligned}
+&x\wedge y,\cr
+&x\wedge y',\cr
+&x'\wedge y,\cr
+&x'\wedge y'.
+\end{aligned}
 $$
 
 Those regions are the Boolean-algebra version of the four truth corners
@@ -598,10 +603,12 @@ pieces.
 The checked compiler theorem is:
 
 $$
-\forall t\in\mathrm{Term}_2,\quad
-\exists \vec a,\quad
-\forall x,y,\quad
-\llbracket t\rrbracket(x,y)=M_{\vec a}(x,y).
+\begin{aligned}
+&\forall t\in\mathrm{Term}_2,\cr
+&\exists \vec a,\cr
+&\forall x,y,\cr
+&\llbracket t\rrbracket(x,y)=M_{\vec a}(x,y).
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
@@ -618,11 +625,14 @@ number of variables. Instead of four coefficients, the target is a full
 minterm tree:
 
 $$
-\forall n,\quad
-\forall t\in\mathrm{Term}_n,\quad
-\exists m,\quad
-\forall \rho,\quad
-\llbracket t\rrbracket(\rho)=\llbracket m\rrbracket(\rho).
+\begin{aligned}
+&\forall n,\cr
+&\forall t\in\mathrm{Term}_n,\cr
+&\exists m,\cr
+&\forall \rho,\cr
+&\llbracket t\rrbracket(\rho)\cr
+&= \llbracket m\rrbracket(\rho).
+\end{aligned}
 $$
 
 It also proves:
@@ -675,11 +685,12 @@ The word "then" is only a reading aid for the guarded split.
 For a CBF expression $c$, the compiler theorem is:
 
 $$
-\forall c\in\mathrm{CBF}_n,\quad
-\forall \rho,\quad
-\llbracket \operatorname{cbfToBF}(c)\rrbracket_\rho
-=
-\llbracket c\rrbracket_\rho.
+\begin{aligned}
+&\forall c\in\mathrm{CBF}_n,\cr
+&\forall \rho,\cr
+&\llbracket \operatorname{cbfToBF}(c)\rrbracket_\rho\cr
+&= \llbracket c\rrbracket_\rho.
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
@@ -695,11 +706,12 @@ what it denotes.
 For a priority table $T$, the table compiler theorem is:
 
 $$
-\forall T\in\mathrm{Table}_n,\quad
-\forall \rho,\quad
-\llbracket \operatorname{tableToBF}(T)\rrbracket_\rho
-=
-\llbracket T\rrbracket_\rho.
+\begin{aligned}
+&\forall T\in\mathrm{Table}_n,\cr
+&\forall \rho,\cr
+&\llbracket \operatorname{tableToBF}(T)\rrbracket_\rho\cr
+&= \llbracket T\rrbracket_\rho.
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
@@ -727,11 +739,12 @@ $$
 The semantic theorem is:
 
 $$
-\forall T\in\mathrm{Table}_n,\quad
-\forall \rho,\quad
-\operatorname{evalMinterm}(m_T,\rho)
-=
-\llbracket T\rrbracket_\rho.
+\begin{aligned}
+&\forall T\in\mathrm{Table}_n,\cr
+&\forall \rho,\cr
+&\operatorname{evalMinterm}(m_T,\rho)\cr
+&= \llbracket T\rrbracket_\rho.
+\end{aligned}
 $$
 
 The size theorem is:
@@ -756,9 +769,11 @@ It is not yet recurrence, NSO, Guarded Successor, or full infinite TABA.
 The same proof also marks the unsafe boundary:
 
 $$
-F(x):=x',
-\qquad
-\neg\bigl(\forall a\,b,\;a\le b \Rightarrow F(a)\le F(b)\bigr).
+\begin{aligned}
+F(x)&:=x',\cr
+&\neg\bigl(\forall a\,b,\;a\le b \Rightarrow\cr
+&\qquad F(a)\le F(b)\bigr).
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
@@ -868,9 +883,13 @@ It proves a scoped fragment, not full TABA tables.
 The evidence supports this claim:
 
 $$
-\text{safe helpers} + \text{Tau transition checks} + \text{Lean semantic evidence}
-\Rightarrow
-\text{a runnable safe recursive table fragment}.
+\begin{aligned}
+&\text{safe helpers}\cr
+&+ \text{Tau transition checks}\cr
+&+ \text{Lean semantic evidence}\cr
+&\Rightarrow \text{a runnable safe recursive}\cr
+&\qquad \text{table fragment}.
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
@@ -932,10 +951,15 @@ It needs a split semantic architecture:
 $$
 \operatorname{Sem}(e)=
 \begin{cases}
-\mu F_e, & e\in\mathcal L_{\mathrm{mono}},\\
-\operatorname{resolve}(F_e,c), & e\in\mathcal L_{\mathrm{cert}},\\
-\bot_{\mathrm{reject}}, & e\notin
-\mathcal L_{\mathrm{mono}}\cup\mathcal L_{\mathrm{cert}}.
+\mu F_e,
+  & e\in\mathcal L_{\mathrm{mono}},\cr
+\operatorname{resolve}(F_e,c),
+  & e\in\mathcal L_{\mathrm{cert}},\cr
+\bot_{\mathrm{reject}},
+  & \begin{aligned}[t]
+    e&\notin \mathcal L_{\mathrm{mono}}\cr
+     &\cup \mathcal L_{\mathrm{cert}}.
+    \end{aligned}
 \end{cases}
 $$
 
