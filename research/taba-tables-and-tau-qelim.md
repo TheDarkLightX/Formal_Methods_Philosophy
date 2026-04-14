@@ -1327,7 +1327,7 @@ $$
 \operatorname{WF}_{\operatorname{SplitPart}(V)}(w)
 \Longrightarrow
 \operatorname{CellAligned}
-\bigl(\llbracket w\rrbracket,\operatorname{SplitPart}(V)\bigr).
+\bigl([\![w]\!],\operatorname{SplitPart}(V)\bigr).
 $$
 
 Standard reading:
@@ -1343,9 +1343,9 @@ The domination receipt is:
 $$
 \operatorname{WF}_{\operatorname{SplitPart}(V)}(w)
 \wedge
-\llbracket w\rrbracket\neq\bot
+[\![w]\!]\neq\bot
 \wedge
-\operatorname{Eval}(\llbracket w\rrbracket,t)=\top
+\operatorname{Eval}([\![w]\!],t)=\top
 $$
 
 $$
@@ -1457,7 +1457,7 @@ $$
 \wedge
 \operatorname{TableAligned}(P,S)
 \Longrightarrow
-\operatorname{TableAligned}(P,\llbracket r\rrbracket_S).
+\operatorname{TableAligned}(P,[\![r]\!]_S).
 $$
 
 Standard reading:
@@ -1469,7 +1469,7 @@ The finite-approximant law is:
 $$
 S_0=\operatorname{empty},
 \qquad
-S_{n+1}=\llbracket r\rrbracket_{S_n},
+S_{n+1}=[\![r]\!]_{S_n},
 \qquad
 \operatorname{WF}_P(r)
 \Longrightarrow
@@ -1520,11 +1520,11 @@ Plain English reading:
 The denotation is:
 
 $$
-\llbracket \operatorname{cond}(\varphi,t,e)\rrbracket(x)
+[\![\operatorname{cond}(\varphi,t,e)]\!](x)
 =
 \begin{cases}
-\llbracket t\rrbracket(x), & \varphi(x)=\top,\\
-\llbracket e\rrbracket(x), & \varphi(x)=\bot.
+[\![t]\!](x), & \varphi(x)=\top,\\
+[\![e]\!](x), & \varphi(x)=\bot.
 \end{cases}
 $$
 
@@ -1553,7 +1553,7 @@ Plain English reading:
 The checked compiler proof artifact is:
 
 $$
-\operatorname{compile}(c)=\llbracket c\rrbracket.
+\operatorname{compile}(c)=[\![c]\!].
 $$
 
 Standard reading:
@@ -1571,11 +1571,11 @@ The v485 generalization moves the same equation from pointwise Boolean
 functions to arbitrary Boolean algebras:
 
 $$
-\llbracket \operatorname{cond}(\varphi,t,e)\rrbracket
+[\![\operatorname{cond}(\varphi,t,e)]\!]
 =
-(\varphi\wedge \llbracket t\rrbracket)
+(\varphi\wedge [\![t]\!])
 \vee
-(\varphi'\wedge \llbracket e\rrbracket).
+(\varphi'\wedge [\![e]\!]).
 $$
 
 Standard reading:
@@ -1589,7 +1589,7 @@ Plain English reading:
 The checked Boolean-algebra receipt is:
 
 $$
-\operatorname{compile}_{\mathrm{BA}}(c)=\llbracket c\rrbracket_{\mathrm{BA}}.
+\operatorname{compile}_{\mathrm{BA}}(c)=[\![c]\!]_{\mathrm{BA}}.
 $$
 
 Standard reading:
@@ -1620,13 +1620,13 @@ Standard reading:
 The guarded value equation is:
 
 $$
-\llbracket \operatorname{cond}(g,t,e)\rrbracket_{\rho,s}
+[\![\operatorname{cond}(g,t,e)]\!]_{\rho,s}
 =
-\bigl(\llbracket g\rrbracket_{\rho}\wedge
-  \llbracket t\rrbracket_{\rho,s}\bigr)
+\bigl([\![g]\!]_{\rho}\wedge
+  [\![t]\!]_{\rho,s}\bigr)
 \vee
-\bigl(\llbracket g\rrbracket_{\rho}'\wedge
-  \llbracket e\rrbracket_{\rho,s}\bigr).
+\bigl([\![g]\!]_{\rho}'\wedge
+  [\![e]\!]_{\rho,s}\bigr).
 $$
 
 Standard reading:
@@ -1736,9 +1736,9 @@ Standard reading:
 It evaluates as:
 
 $$
-\llbracket c_{\neg}\rrbracket(\bot)=\top,
+[\![c_{\neg}]\!](\bot)=\top,
 \qquad
-\llbracket c_{\neg}\rrbracket(\top)=\bot.
+[\![c_{\neg}]\!](\top)=\bot.
 $$
 
 Standard reading:
@@ -1750,9 +1750,9 @@ The monotonicity failure is:
 $$
 \bot\le\top
 \quad\text{but}\quad
-\llbracket c_{\neg}\rrbracket(\bot)
+[\![c_{\neg}]\!](\bot)
 \nleq
-\llbracket c_{\neg}\rrbracket(\top).
+[\![c_{\neg}]\!](\top).
 $$
 
 Standard reading:
@@ -2916,7 +2916,7 @@ $$
 The extensional reading is:
 
 $$
-\llbracket T\rrbracket(x)=
+[\![T]\!](x)=
 \begin{cases}
 a_i, & x\in G_i\text{ for some }i<m,\\
 0, & \text{otherwise.}
@@ -3135,7 +3135,7 @@ $$
 \operatorname{compileUpdate}(B,n)(S)(r)
 :=
 \begin{cases}
-\llbracket B(n)\rrbracket_S, & r=n,\\
+[\![B(n)]\!]_S, & r=n,\\
 S(r), & r\ne n.
 \end{cases}
 $$
@@ -3749,9 +3749,9 @@ The monotonicity theorem for positive expressions is:
 $$
 S\le T
 \Longrightarrow
-\llbracket e\rrbracket_S
+[\![e]\!]_S
 \le
-\llbracket e\rrbracket_T.
+[\![e]\!]_T.
 $$
 
 Standard reading:
@@ -3765,9 +3765,9 @@ The omega-continuity theorem is:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-\llbracket e\rrbracket_{\bigvee_{n<\omega}S_n}
+[\![e]\!]_{\bigvee_{n<\omega}S_n}
 =
-\bigvee_{n<\omega}\llbracket e\rrbracket_{S_n}.
+\bigvee_{n<\omega}[\![e]\!]_{S_n}.
 $$
 
 Standard reading:
@@ -3779,7 +3779,7 @@ stage and then taking the supremum of those values.
 The compiled simultaneous update is:
 
 $$
-F_B(S)(i):=\llbracket B(i)\rrbracket_S.
+F_B(S)(i):=[\![B(i)]\!]_S.
 $$
 
 Standard reading:
@@ -3819,11 +3819,11 @@ the second component $v_r$ is its value expression.
 Its semantic value in state $S$ is:
 
 $$
-\llbracket r\rrbracket_S
+[\![r]\!]_S
 :=
-\llbracket g_r\rrbracket_S
+[\![g_r]\!]_S
 \wedge
-\llbracket v_r\rrbracket_S.
+[\![v_r]\!]_S.
 $$
 
 Standard reading:
@@ -3835,13 +3835,13 @@ guard.
 For a finite row list $R$, v473 uses guarded-join semantics:
 
 $$
-\llbracket R\rrbracket_S
+[\![R]\!]_S
 :=
 \bigvee_{r\in R}
 \left(
-\llbracket g_r\rrbracket_S
+[\![g_r]\!]_S
 \wedge
-\llbracket v_r\rrbracket_S
+[\![v_r]\!]_S
 \right).
 $$
 
@@ -3862,9 +3862,9 @@ v473 proves the row-list continuity theorem:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-\llbracket R\rrbracket_{\bigvee_{n<\omega}S_n}
+[\![R]\!]_{\bigvee_{n<\omega}S_n}
 =
-\bigvee_{n<\omega}\llbracket R\rrbracket_{S_n}.
+\bigvee_{n<\omega}[\![R]\!]_{S_n}.
 $$
 
 Standard reading:
@@ -3876,7 +3876,7 @@ every finite stage and then taking the supremum of those row-list values.
 The simultaneous row update is:
 
 $$
-F_B(S)(i):=\llbracket B(i)\rrbracket_S.
+F_B(S)(i):=[\![B(i)]\!]_S.
 $$
 
 Standard reading:
@@ -3920,7 +3920,7 @@ Let $E:L\to A$ be a lower-stratum environment. The stratified-prime
 constructor is interpreted as:
 
 $$
-\llbracket \operatorname{lowerPrime}(\ell)\rrbracket_{E,S}
+[\![\operatorname{lowerPrime}(\ell)]\!]_{E,S}
 :=
 E(\ell)'.
 $$
@@ -3941,9 +3941,9 @@ constant with respect to the current state.
 The independence law is:
 
 $$
-\llbracket \operatorname{lowerPrime}(\ell)\rrbracket_{E,S}
+[\![\operatorname{lowerPrime}(\ell)]\!]_{E,S}
 =
-\llbracket \operatorname{lowerPrime}(\ell)\rrbracket_{E,T}.
+[\![\operatorname{lowerPrime}(\ell)]\!]_{E,T}.
 $$
 
 Standard reading:
@@ -3957,9 +3957,9 @@ and lower-stratum prime:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-\llbracket e\rrbracket_{E,\bigvee_{n<\omega}S_n}
+[\![e]\!]_{E,\bigvee_{n<\omega}S_n}
 =
-\bigvee_{n<\omega}\llbracket e\rrbracket_{E,S_n}.
+\bigvee_{n<\omega}[\![e]\!]_{E,S_n}.
 $$
 
 Standard reading:
@@ -3971,7 +3971,7 @@ at every finite stage and then taking the supremum of those values.
 For simultaneous updates,
 
 $$
-F_{E,B}(S)(i):=\llbracket B(i)\rrbracket_{E,S},
+F_{E,B}(S)(i):=[\![B(i)]\!]_{E,S},
 $$
 
 v474 proves:
@@ -4003,11 +4003,11 @@ Now the guard and value may mention both current positive references and
 lower-stratum prime terms. The row semantics is:
 
 $$
-\llbracket r\rrbracket_{E,S}
+[\![r]\!]_{E,S}
 :=
-\llbracket g_r\rrbracket_{E,S}
+[\![g_r]\!]_{E,S}
 \wedge
-\llbracket v_r\rrbracket_{E,S}.
+[\![v_r]\!]_{E,S}.
 $$
 
 Standard reading:
@@ -4019,13 +4019,13 @@ from $S$.
 For a finite row list $R$:
 
 $$
-\llbracket R\rrbracket_{E,S}
+[\![R]\!]_{E,S}
 :=
 \bigvee_{r\in R}
 \left(
-\llbracket g_r\rrbracket_{E,S}
+[\![g_r]\!]_{E,S}
 \wedge
-\llbracket v_r\rrbracket_{E,S}
+[\![v_r]\!]_{E,S}
 \right).
 $$
 
@@ -4040,9 +4040,9 @@ v475 proves:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-\llbracket R\rrbracket_{E,\bigvee_{n<\omega}S_n}
+[\![R]\!]_{E,\bigvee_{n<\omega}S_n}
 =
-\bigvee_{n<\omega}\llbracket R\rrbracket_{E,S_n}.
+\bigvee_{n<\omega}[\![R]\!]_{E,S_n}.
 $$
 
 Standard reading:
@@ -4054,7 +4054,7 @@ at every finite stage and then taking the supremum of those values.
 For simultaneous row updates,
 
 $$
-F_{E,B}(S)(i):=\llbracket B(i)\rrbracket_{E,S},
+F_{E,B}(S)(i):=[\![B(i)]\!]_{E,S},
 $$
 
 v475 proves:
@@ -4129,15 +4129,15 @@ guards are fixed Boolean-algebra values, while row values may depend positively
 on the current state and may use lower-stratum prime. The priority semantics is:
 
 $$
-\llbracket []\rrbracket_{E,S}:=\bot,
+[\![[]]\!]_{E,S}:=\bot,
 $$
 
 $$
-\llbracket (g,e)::R\rrbracket_{E,S}
+[\![(g,e)::R]\!]_{E,S}
 :=
-\left(g\wedge\llbracket e\rrbracket_{E,S}\right)
+\left(g\wedge[\![e]\!]_{E,S}\right)
 \vee
-\left(g'\wedge\llbracket R\rrbracket_{E,S}\right).
+\left(g'\wedge[\![R]\!]_{E,S}\right).
 $$
 
 Standard reading:
@@ -4151,9 +4151,9 @@ v477 proves:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-\llbracket R\rrbracket_{E,\bigvee_{n<\omega}S_n}
+[\![R]\!]_{E,\bigvee_{n<\omega}S_n}
 =
-\bigvee_{n<\omega}\llbracket R\rrbracket_{E,S_n}.
+\bigvee_{n<\omega}[\![R]\!]_{E,S_n}.
 $$
 
 Standard reading:
@@ -4165,7 +4165,7 @@ every finite stage and then taking the supremum of those values.
 For simultaneous updates,
 
 $$
-F_{E,B}(S)(i):=\llbracket B(i)\rrbracket_{E,S},
+F_{E,B}(S)(i):=[\![B(i)]\!]_{E,S},
 $$
 
 v477 proves:
@@ -4199,17 +4199,17 @@ $$
 The priority rule becomes:
 
 $$
-\llbracket []\rrbracket_{E,S}:=\bot,
+[\![[]]\!]_{E,S}:=\bot,
 $$
 
 $$
-\llbracket (\gamma,e)::R\rrbracket_{E,S}
+[\![(\gamma,e)::R]\!]_{E,S}
 :=
-\left(\llbracket\gamma\rrbracket_E\wedge
-\llbracket e\rrbracket_{E,S}\right)
+\left([\![\gamma]\!]_E\wedge
+[\![e]\!]_{E,S}\right)
 \vee
-\left(\llbracket\gamma\rrbracket_E'
-\wedge\llbracket R\rrbracket_{E,S}\right).
+\left([\![\gamma]\!]_E'
+\wedge[\![R]\!]_{E,S}\right).
 $$
 
 Standard reading:
@@ -4228,9 +4228,9 @@ v479 proves:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-\llbracket R\rrbracket_{E,\bigvee_{n<\omega}S_n}
+[\![R]\!]_{E,\bigvee_{n<\omega}S_n}
 =
-\bigvee_{n<\omega}\llbracket R\rrbracket_{E,S_n}.
+\bigvee_{n<\omega}[\![R]\!]_{E,S_n}.
 $$
 
 Standard reading:
@@ -4241,7 +4241,7 @@ supremum of priority evaluations at each finite stage.
 
 Reading trap:
 
-The expression $\llbracket\gamma\rrbracket_E$ has no $S$ subscript. That is
+The expression $[\![\gamma]\!]_E$ has no $S$ subscript. That is
 the entire point. The guard is lower-stratum data during the current recurrence
 proof, so its prime is not same-stratum negation.
 
@@ -4250,8 +4250,8 @@ v480 then proves the pointwise normal-form bridge. Define materialization by:
 $$
 \operatorname{mat}_{E,S}(\gamma,e)
 :=
-\left(\llbracket\gamma\rrbracket_E,\;
-\llbracket e\rrbracket_{E,S}\right).
+\left([\![\gamma]\!]_E,\;
+[\![e]\!]_{E,S}\right).
 $$
 
 For a priority row list $R$, let
@@ -4264,7 +4264,7 @@ $$
 \operatorname{disjointize}(\operatorname{mat}_{E,S}(R))
 \right)
 =
-\llbracket R\rrbracket_{E,S}.
+[\![R]\!]_{E,S}.
 $$
 
 Standard reading:
@@ -4304,9 +4304,9 @@ fires exactly when no earlier priority row has captured the point.
 v481 proves the compiler theorem:
 
 $$
-\llbracket \operatorname{compile}(T)\rrbracket_{E,S}^{\operatorname{prio}}
+[\![\operatorname{compile}(T)]\!]_{E,S}^{\operatorname{prio}}
 =
-\llbracket T\rrbracket_{E,S}^{\operatorname{table}}.
+[\![T]\!]_{E,S}^{\operatorname{table}}.
 $$
 
 Standard reading:
@@ -4324,7 +4324,7 @@ rows.
 For simultaneous restricted-table updates,
 
 $$
-F_{E,B}(S)(i):=\llbracket B(i)\rrbracket_{E,S}^{\operatorname{table}},
+F_{E,B}(S)(i):=[\![B(i)]\!]_{E,S}^{\operatorname{table}},
 $$
 
 v481 proves:
@@ -7035,7 +7035,7 @@ well-formed aligned witness expression $E$, define:
 ```latex
 \operatorname{Menu}_{C}(E)
 :=
-\operatorname{HitCells}(C,\llbracket E\rrbracket).
+\operatorname{HitCells}(C,[\![E]\!]).
 ```
 
 Standard reading:
@@ -7050,7 +7050,7 @@ The checked reconstruction theorem is:
 ```latex
 \operatorname{WF}_{C}(E)
 \Longrightarrow
-\llbracket E\rrbracket
+[\![E]\!]
 =
 \bigvee \operatorname{Menu}_{C}(E).
 ```
@@ -7065,10 +7065,10 @@ the cells in its menu.
 The domination theorem has the shape:
 
 ```latex
-\llbracket E\rrbracket \ne 0
+[\![E]\!] \ne 0
 \;\wedge\;
-\operatorname{eval}_{t}(\llbracket E\rrbracket)
-  \wedge \llbracket E\rrbracket \ne 0
+\operatorname{eval}_{t}([\![E]\!])
+  \wedge [\![E]\!] \ne 0
 \Longrightarrow
 \exists c\in \operatorname{Menu}_{C}(E).\,
 \operatorname{eval}_{t}(c)\wedge c\ne 0.
@@ -7115,9 +7115,9 @@ The bounded search theorem is:
 \exists E\in \mathcal{E}.\,
 \operatorname{WF}_{C}(E)
 \wedge
-\llbracket E\rrbracket\ne 0
+[\![E]\!]\ne 0
 \wedge
-\operatorname{eval}_{t}(\llbracket E\rrbracket)=1
+\operatorname{eval}_{t}([\![E]\!])=1
 \Longrightarrow
 \exists c\in \operatorname{MenuList}_{C}(\mathcal{E}).\,
 \operatorname{eval}_{t}(c)\wedge c\ne 0.
@@ -7335,7 +7335,7 @@ $$
 \forall t\in\mathrm{Term}_2,\quad
 \exists \vec a,\quad
 \forall x,y,\quad
-\llbracket t\rrbracket(x,y)=M_{\vec a}(x,y).
+[\![t]\!](x,y)=M_{\vec a}(x,y).
 $$
 
 Standard reading:
@@ -7350,7 +7350,7 @@ $$
 \forall t\in\mathrm{Term}_2,\quad
 \exists \vec a,\quad
 \forall x,y,\quad
-\left(\llbracket t\rrbracket(x,y)=0
+\left([\![t]\!](x,y)=0
 \Longleftrightarrow
 M_{\vec a}(x,y)=0\right).
 $$
@@ -7391,7 +7391,7 @@ $$
 \forall t\in\mathrm{Term}_n,\quad
 \exists m:\operatorname{Minterm}(\alpha,n),\quad
 \forall \rho:\operatorname{Fin}(n)\to\alpha,\quad
-\llbracket t\rrbracket(\rho)=\llbracket m\rrbracket(\rho).
+[\![t]\!](\rho)=[\![m]\!](\rho).
 $$
 
 The size theorem is:
@@ -7500,9 +7500,9 @@ $$
 \forall n,\quad
 \forall c\in\mathrm{CBF}_n,\quad
 \forall \rho:\operatorname{Fin}(n)\to\mathrm{Bool},\quad
-\llbracket \operatorname{cbfToBF}(c)\rrbracket_\rho
+[\![\operatorname{cbfToBF}(c)]\!]_\rho
 =
-\llbracket c\rrbracket_\rho.
+[\![c]\!]_\rho.
 $$
 
 Standard reading:
@@ -7517,9 +7517,9 @@ $$
 \forall n,\quad
 \forall T\in\mathrm{Table}_n,\quad
 \forall \rho:\operatorname{Fin}(n)\to\mathrm{Bool},\quad
-\llbracket \operatorname{tableToBF}(T)\rrbracket_\rho
+[\![\operatorname{tableToBF}(T)]\!]_\rho
 =
-\llbracket T\rrbracket_\rho.
+[\![T]\!]_\rho.
 $$
 
 Standard reading:
@@ -7631,7 +7631,7 @@ $$
 \operatorname{evalMinterm}
 \bigl(\operatorname{compileTableToMinterm}(T),\rho\bigr)
 =
-\llbracket T\rrbracket_\rho.
+[\![T]\!]_\rho.
 $$
 
 The size theorem is:
