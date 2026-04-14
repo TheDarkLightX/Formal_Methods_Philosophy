@@ -1550,7 +1550,7 @@ Plain English reading:
 
 - The guard partitions the point \(x\) into exactly one active branch. The formula writes the same if-then-else decision as Boolean algebra.
 
-The checked compiler receipt is:
+The checked compiler proof artifact is:
 
 $$
 \operatorname{compile}(c)=\llbracket c\rrbracket.
@@ -7311,7 +7311,14 @@ $$
 Standard reading:
 
 The nested guarded-choice minterm value is equal to the join of the four
-truth-corner coefficients, restricted respectively to xy, xy', x'y, and x'y'.
+truth-corner coefficients, restricted respectively to:
+
+$$
+x\wedge y,\qquad
+x\wedge y',\qquad
+x'\wedge y,\qquad
+x'\wedge y'.
+$$
 
 The binary source grammar is:
 
@@ -7322,7 +7329,7 @@ t ::= 0 \mid 1 \mid c \mid x \mid y
 \mid t'.
 $$
 
-The compiler receipt is:
+The compiler proof artifact is:
 
 $$
 \forall t\in\mathrm{Term}_2,\quad
