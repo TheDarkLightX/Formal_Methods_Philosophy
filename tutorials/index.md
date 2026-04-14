@@ -416,5 +416,25 @@ show_title: false
       Learn the Boolean-algebra machinery behind TABA, read the quantifier-elimination and guarded-successor formulas step by step, and see which future extensions are plausible from the current literature.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/safe-infinite-tables-in-tau-language/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 39: Safe infinite-recursive tables in Tau Language</h2>
+    <p class="fp-card-text">
+      Build the checked safe table fragment, read the select, revision, and fixed-point formulas exactly,
+      then replay the feature-flagged Tau experiment without claiming full unrestricted TABA.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/optimizing-tau-language-part-i-qelim-fragment-dispatch/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 40: Optimizing Tau Language, Part I</h2>
+    <p class="fp-card-text">
+      Learn why Tau qelim optimization is a fragment-dispatch problem, read the compiled-forgetting
+      formulas exactly, and see how guarded BDD and CNF-native routes can speed up scoped formulas.
+    </p>
+  </a>
 
 </div>

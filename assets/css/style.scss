@@ -1027,3 +1027,403 @@ mjx-container {
     font-size: 0.88em;
   }
 }
+/* TABA safe table visualizer */
+.taba-viz {
+  position: relative;
+  isolation: isolate;
+  margin: var(--space-xl) 0;
+  padding: var(--space-xl);
+  overflow: hidden;
+  border: 1px solid rgba(30, 41, 59, 0.12);
+  border-radius: 26px;
+  background:
+    linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(30, 64, 175, 0.9)),
+    radial-gradient(circle at 15% 10%, rgba(96, 165, 250, 0.42), transparent 36%),
+    radial-gradient(circle at 82% 18%, rgba(249, 115, 22, 0.32), transparent 30%);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+  color: #f8fafc;
+}
+
+.taba-viz-orbit {
+  position: absolute;
+  inset: -40% -20% auto auto;
+  z-index: -1;
+  width: 420px;
+  height: 420px;
+  border: 1px solid rgba(226, 232, 240, 0.12);
+  border-radius: 999px;
+  background:
+    repeating-radial-gradient(
+      circle,
+      rgba(226, 232, 240, 0.14) 0,
+      rgba(226, 232, 240, 0.14) 1px,
+      transparent 1px,
+      transparent 26px
+    );
+  transform: rotate(-18deg);
+}
+
+.taba-viz-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-lg);
+  align-items: start;
+}
+
+.taba-viz-kicker {
+  margin: 0 0 var(--space-xs);
+  color: #fed7aa;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.taba-viz-title {
+  margin: 0;
+  color: #ffffff;
+  font-family:
+    "Crimson Pro",
+    ui-serif,
+    Georgia,
+    serif;
+  font-size: clamp(1.5rem, 3vw, 2.35rem);
+  line-height: 1.05;
+}
+
+.taba-viz-copy {
+  max-width: 720px;
+  margin: var(--space-sm) 0 0;
+  color: rgba(248, 250, 252, 0.82);
+}
+
+.taba-viz-formula {
+  max-width: 340px;
+  padding: 14px 16px;
+  border: 1px solid rgba(226, 232, 240, 0.18);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.42);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  color: #dbeafe;
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    monospace;
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.taba-viz-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin: var(--space-lg) 0;
+}
+
+.taba-viz-button {
+  border: 1px solid rgba(226, 232, 240, 0.2);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  color: #0f172a;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    transform 160ms var(--ease-out),
+    border-color 160ms var(--ease-out),
+    background-color 160ms var(--ease-out);
+}
+
+.taba-viz-button:hover {
+  border-color: rgba(249, 115, 22, 0.72);
+  transform: translateY(-1px);
+}
+
+.taba-viz-button:disabled {
+  opacity: 0.52;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.taba-viz-button:focus-visible,
+.taba-viz-region:focus-visible,
+.taba-viz-row-select:focus-visible {
+  outline: 3px solid rgba(253, 186, 116, 0.8);
+  outline-offset: 3px;
+}
+
+.taba-viz-button-ghost {
+  background: rgba(15, 23, 42, 0.2);
+  color: #f8fafc;
+}
+
+.taba-viz-stage {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.74fr) minmax(0, 1.26fr);
+  gap: var(--space-lg);
+  align-items: stretch;
+}
+
+.taba-viz-map {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  padding: 14px;
+  border: 1px solid rgba(226, 232, 240, 0.16);
+  border-radius: 20px;
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.52), rgba(15, 23, 42, 0.2)),
+    linear-gradient(90deg, rgba(96, 165, 250, 0.12), rgba(249, 115, 22, 0.08));
+}
+
+.taba-viz-region {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 10px;
+  align-items: center;
+  min-height: 74px;
+  border: 1px solid rgba(226, 232, 240, 0.16);
+  border-radius: 16px;
+  padding: 12px;
+  color: #f8fafc;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    transform 180ms var(--ease-out),
+    border-color 180ms var(--ease-out),
+    box-shadow 180ms var(--ease-out);
+}
+
+.taba-viz-region.is-guard {
+  background:
+    linear-gradient(135deg, rgba(249, 115, 22, 0.56), rgba(234, 88, 12, 0.18)),
+    rgba(15, 23, 42, 0.5);
+}
+
+.taba-viz-region.is-outside {
+  background:
+    linear-gradient(135deg, rgba(59, 130, 246, 0.54), rgba(37, 99, 235, 0.16)),
+    rgba(15, 23, 42, 0.5);
+}
+
+.taba-viz-region.is-applied {
+  box-shadow: inset 4px 0 0 #86efac;
+}
+
+.taba-viz-region.is-selected {
+  border-color: rgba(253, 186, 116, 0.95);
+  box-shadow: 0 0 0 3px rgba(253, 186, 116, 0.16);
+  transform: translateX(3px);
+}
+
+.taba-viz-region-key,
+.taba-viz-region-rule {
+  color: rgba(248, 250, 252, 0.86);
+  font-size: 0.82rem;
+}
+
+.taba-viz-region-name {
+  grid-row: span 2;
+  color: #ffffff;
+  font-family:
+    "Crimson Pro",
+    ui-serif,
+    Georgia,
+    serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+}
+
+.taba-viz-table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(226, 232, 240, 0.16);
+  border-radius: 20px;
+  background: rgba(248, 250, 252, 0.96);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.taba-viz-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  color: #0f172a;
+  font-size: 0.88rem;
+}
+
+.taba-viz-table th,
+.taba-viz-table td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+  vertical-align: middle;
+}
+
+.taba-viz-table th {
+  background: #e2e8f0;
+  color: #334155;
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.taba-viz-table tr.is-selected td {
+  background: rgba(253, 186, 116, 0.18);
+}
+
+.taba-viz-table tr.is-applied td {
+  box-shadow: inset 0 -1px 0 rgba(34, 197, 94, 0.2);
+}
+
+.taba-viz-row-select {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.taba-viz-row-select span {
+  color: #64748b;
+  font-size: 0.78rem;
+}
+
+.taba-viz-row-select strong {
+  color: #0f172a;
+  font-size: 1rem;
+}
+
+.taba-viz-pill {
+  display: inline-flex;
+  align-items: center;
+  max-width: 260px;
+  min-height: 30px;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.taba-viz-pill-old {
+  background: #dbeafe;
+  color: #1e3a8a;
+}
+
+.taba-viz-pill-guard {
+  background: #fed7aa;
+  color: #7c2d12;
+}
+
+.taba-viz-pill-outside {
+  background: #e0f2fe;
+  color: #075985;
+}
+
+.taba-viz-pill-replacement {
+  background: #fef3c7;
+  color: #78350f;
+}
+
+.taba-viz-pill-pending {
+  background: #e2e8f0;
+  color: #475569;
+}
+
+.taba-viz-pill-done {
+  background: #dcfce7;
+  color: #14532d;
+}
+
+.taba-viz-footer {
+  display: grid;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.taba-viz-status {
+  min-height: 1.6em;
+  margin: 0;
+  color: rgba(248, 250, 252, 0.88);
+  font-weight: 700;
+}
+
+.taba-viz-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm) var(--space-md);
+  color: rgba(248, 250, 252, 0.78);
+  font-size: 0.84rem;
+}
+
+.taba-viz-legend span {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.taba-viz-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 999px;
+}
+
+.taba-viz-dot-guard {
+  background: #fb923c;
+}
+
+.taba-viz-dot-outside {
+  background: #60a5fa;
+}
+
+.taba-viz-dot-done {
+  background: #86efac;
+}
+
+.taba-viz-scope {
+  margin: 0;
+  color: rgba(226, 232, 240, 0.72);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 960px) {
+  .taba-viz {
+    padding: var(--space-lg);
+  }
+
+  .taba-viz-header,
+  .taba-viz-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .taba-viz-formula {
+    max-width: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .taba-viz {
+    margin-left: calc(-1 * var(--space-md));
+    margin-right: calc(-1 * var(--space-md));
+    border-radius: 0;
+  }
+
+  .taba-viz-controls {
+    display: grid;
+  }
+
+  .taba-viz-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .taba-viz-button,
+  .taba-viz-region {
+    transition: none;
+  }
+}
