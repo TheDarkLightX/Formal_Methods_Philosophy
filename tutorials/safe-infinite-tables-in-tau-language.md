@@ -595,7 +595,7 @@ $$
 &\forall t\in\mathrm{Term}_2,\\
 &\exists \vec a,\\
 &\forall x,y,\\
-&\llbracket t\rrbracket(x,y)=M_{\vec a}(x,y).
+&[\![t]\!](x,y)=M_{\vec a}(x,y).
 \end{aligned}
 $$
 
@@ -618,8 +618,8 @@ $$
 &\forall t\in\mathrm{Term}_n,\\
 &\exists m,\\
 &\forall \rho,\\
-&\llbracket t\rrbracket(\rho)\\
-&= \llbracket m\rrbracket(\rho).
+&[\![t]\!](\rho)\\
+&= [\![m]\!](\rho).
 \end{aligned}
 $$
 
@@ -676,8 +676,8 @@ $$
 \begin{aligned}
 &\forall c\in\mathrm{CBF}_n,\\
 &\forall \rho,\\
-&\llbracket \operatorname{cbfToBF}(c)\rrbracket_\rho\\
-&= \llbracket c\rrbracket_\rho.
+&[\![\operatorname{cbfToBF}(c)]\!]_\rho\\
+&= [\![c]\!]_\rho.
 \end{aligned}
 $$
 
@@ -697,8 +697,8 @@ $$
 \begin{aligned}
 &\forall T\in\mathrm{Table}_n,\\
 &\forall \rho,\\
-&\llbracket \operatorname{tableToBF}(T)\rrbracket_\rho\\
-&= \llbracket T\rrbracket_\rho.
+&[\![\operatorname{tableToBF}(T)]\!]_\rho\\
+&= [\![T]\!]_\rho.
 \end{aligned}
 $$
 
@@ -717,38 +717,47 @@ This is a finite Boolean-valued table result.
 It does not yet prove first-class NSO, Guarded Successor, unrestricted
 recurrence, or production Tau lowering.
 
-The next bridge compiles the table all the way to an explicit minterm tree.
-Define:
+The next checked bridge stays in the same finite Boolean-valued fragment and
+compiles each priority table to an explicit minterm tree. For a fixed table
+$T$, the compiled tree is:
 
 $$
 m_T := \operatorname{compileTableToMinterm}(T).
 $$
 
-The semantic theorem is:
+The symbol $m_T$ is local to that same table $T$. Written without the
+abbreviation, the semantic theorem is:
 
 $$
 \begin{aligned}
 &\forall T\in\mathrm{Table}_n,\\
 &\forall \rho,\\
-&\operatorname{evalMinterm}(m_T,\rho)\\
-&= \llbracket T\rrbracket_\rho.
+&\operatorname{evalMinterm}(\\
+&\qquad \operatorname{compileTableToMinterm}(T),\rho)\\
+&= [\![T]\!]_\rho.
 \end{aligned}
 $$
 
 The size theorem is:
 
 $$
-\operatorname{leafCount}(m_T)=2^n.
+\begin{aligned}
+&\forall T\in\mathrm{Table}_n,\\
+&\operatorname{leafCount}(\\
+&\qquad \operatorname{compileTableToMinterm}(T))\\
+&=2^n.
+\end{aligned}
 $$
 
 <strong>Standard reading.</strong>
-For every finite-arity priority table $T$, the compiled minterm tree $m_T$
-has the same denotation as $T$ under every assignment $\rho$, and the tree
-has exactly $2^n$ leaves.
+For every finite-arity priority table $T$, the minterm tree compiled from that
+same $T$ has the same denotation as $T$ under every assignment $\rho$, and
+that tree has exactly $2^n$ leaves.
 
 <strong>Plain English.</strong>
-The finite table can be expanded into the complete case tree over its $n$
-Boolean inputs. No case is missing, and no case changes meaning.
+Each finite table can be expanded into the complete case tree over its $n$
+Boolean inputs. In that compiled tree, every input case is present, and no
+case changes meaning.
 
 <strong>Trap.</strong>
 This is an explicit finite case tree.
