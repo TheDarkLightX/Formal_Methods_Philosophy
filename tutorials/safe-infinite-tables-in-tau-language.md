@@ -362,10 +362,10 @@ st_revise_tau(x,g,a)
 st_update_tau(x,b,g,a)
 ```
 
-The symbolic helpers are closer to the recursive-table semantics. They operate
-over Tau's symbolic Boolean-algebra type, not merely over the four-cell `ft4`
-carrier, so guarded updates can be tested as symbolic Boolean expressions
-rather than only as four explicit cells.
+The symbolic helpers are closer to the infinite-recursive semantics than the
+four-cell demo. They operate over Tau's symbolic Boolean-algebra type, not
+merely over the finite `ft4` carrier, so guarded updates can be tested as
+symbolic Boolean expressions rather than only as explicit cells.
 
 The executable update is:
 
