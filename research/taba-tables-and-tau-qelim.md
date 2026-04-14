@@ -7050,133 +7050,110 @@ approximants preserve table alignment. v525 adds `select` back into the checked
 grammar as a computable Boolean predicate on each entry. The exact preservation
 shape is:
 
-```latex
+$$
 \operatorname{Aligned}(T)
 \Longrightarrow
 \operatorname{Aligned}(F(T)).
-```
+$$
 
-Standard reading:
-
-```text
-If the current table is aligned with the splitter partition, then one
-well-formed recurrence-body step produces another aligned table.
-```
+Standard reading: if the current table is aligned with the splitter partition,
+then one well-formed recurrence-body step produces another aligned table.
 
 The important trap is that preservation is not stabilization. v526 proves that
 unrestricted same-stratum prime can oscillate. The checked witness is the
 one-key Boolean recurrence:
 
-```latex
+$$
 F(T)=T'
-```
+$$
 
 and the checked non-stabilization statement is:
 
-```latex
+$$
 \neg \exists N.\ \forall n\ge N,\ F^n(\bot)=F^N(\bot).
-```
+$$
 
-Standard reading:
-
-```text
-There is no finite stage N such that every later approximant is equal to the
-approximant at N.
-```
+Standard reading: there is no finite stage $N$ such that every later
+approximant is equal to the approximant at $N$.
 
 So the constructive recurrence lane must be positive or stratified. v527
 therefore defines a positive recurrence fragment, excluding same-stratum prime
 and arbitrary select predicates, and proves:
 
-```latex
+$$
 T\le U
 \Longrightarrow
 F(T)\le F(U).
-```
+$$
 
-Standard reading:
-
-```text
-If one input table is pointwise below another input table, then evaluating the
-same positive recurrence body preserves that pointwise order.
-```
+Standard reading: if one input table is pointwise below another input table,
+then evaluating the same positive recurrence body preserves that pointwise
+order.
 
 v528 then proves the finite-height theorem for this positive fragment, and it
 collapses to one step:
 
-```latex
+$$
 \forall n\ge 1,\quad F^n(\bot)=F(\bot).
-```
+$$
 
-Standard reading:
-
-```text
-For every iterate index n at least one, the nth approximant from bottom equals
-the first approximant from bottom.
-```
+Standard reading: for every iterate index $n$ at least one, the $n$th
+approximant from bottom equals the first approximant from bottom.
 
 The proof does not enumerate the finite state space. It uses the polynomial
-shape of positive recurrence bodies. For every table T:
+shape of positive recurrence bodies. For every table $T$:
 
-```latex
+$$
 F(T)\le F(\bot)\vee T.
-```
+$$
 
 Together with monotonicity, this gives:
 
-```latex
+$$
 F(\bot)\le F(F(\bot))\le F(\bot)\vee F(\bot)=F(\bot).
-```
+$$
 
-Standard reading:
-
-```text
-The first inequality says monotonicity pushes the first approximant below the
-second. The second inequality says a positive body evaluated at any table T
-cannot exceed the join of its first approximant and T. At T = F(bottom), the
-upper bound collapses back to F(bottom).
-```
+Standard reading: the first inequality says monotonicity pushes the first
+approximant below the second. The second inequality says a positive body
+evaluated at any table $T$ cannot exceed the join of its first approximant and
+$T$. At $T=F(\bot)$, the upper bound collapses back to $F(\bot)$.
 
 So the positive recurrence lane is now not merely monotone. It is checked as
 one-step stabilizing. This remains a scoped theorem, not full TABA recurrence:
 same-stratum prime is excluded by the v526 oscillator, and arbitrary select
 predicates are excluded until their monotonicity obligations are made explicit.
 
-v529 adds the safe stratified-prime interpretation. The safe form is not:
+v529 adds the safe stratified-prime interpretation. The unsafe form is:
 
-```latex
+$$
 F(T)=T'.
-```
+$$
 
 That is the v526 oscillator. The safe form is:
 
-```latex
+$$
 F(T)=G(T,C')
-```
+$$
 
 where $C$ is fixed lower-stratum data, and the prime is computed before the
 recurrence step. The checked compiler law is:
 
-```latex
+$$
 \operatorname{eval}_{\mathrm{strat}}(E,T)
 =
 \operatorname{eval}_{\mathrm{pos}}(\operatorname{compile}(E),T).
-```
+$$
 
-Standard reading:
-
-```text
-Evaluating a stratified-prime recurrence body at table T gives the same table
-as first compiling it into a positive recurrence body and then evaluating that
-positive body at T.
-```
+Standard reading: evaluating a stratified-prime recurrence body at table $T$
+gives the same table as first compiling it into a positive recurrence body and
+then evaluating that positive body at $T$.
 
 Since the compiled body is positive, v528 transfers immediately:
 
-```latex
+$$
 \forall n\ge 1,\quad
 F_{\mathrm{strat}}^n(\bot)=F_{\mathrm{strat}}(\bot).
-```
+$$
 
 This is the exact semantic difference: prime on lower-stratum constants is
 constant preprocessing; prime on the current recursive state is recurrence
@@ -7185,69 +7162,50 @@ negation and can oscillate.
 v530 adds the next safe select lane. The predicate is no longer arbitrary. It
 must be upward-closed:
 
-```latex
+$$
 \operatorname{Up}(P)
 \;:\!\!\Longleftrightarrow\;
 \forall x,y.\ x\le y \wedge P(x)=\mathrm{true}
 \Longrightarrow P(y)=\mathrm{true}.
-```
+$$
 
-Standard reading:
-
-```text
-The predicate P is upward-closed exactly when every accepted value remains
-accepted after moving upward in the Boolean order.
-```
+Standard reading: the predicate $P$ is upward-closed exactly when every accepted
+value remains accepted after moving upward in the Boolean order.
 
 With that premise, select is monotone:
 
-```latex
+$$
 T\le U \wedge \operatorname{Up}(P)
 \Longrightarrow
 \operatorname{Select}_{P}(T)\le \operatorname{Select}_{P}(U).
-```
+$$
 
-Standard reading:
+Standard reading: if table $T$ is pointwise below table $U$, and $P$ is
+upward-closed, then selecting entries of $T$ by $P$ gives a table pointwise
+below selecting entries of $U$ by $P$.
 
-```text
-If table T is pointwise below table U, and P is upward-closed, then selecting
-entries of T by P gives a table pointwise below selecting entries of U by P.
-```
-
-Trap:
-
-```text
-This is a monotonicity statement. It is not a stabilization statement.
-```
+Trap: this is a monotonicity statement. It is not a stabilization statement.
 
 v531 proves that the trap is real. In the two-bit Boolean algebra, let
 $a$ and $b$ be disjoint atoms, and let $P(x)$ mean that both bits of
 $x$ are true. Then:
 
-```latex
+$$
 F(T)=b\vee \operatorname{Select}_{P}(a\vee T).
-```
+$$
 
-Standard reading:
-
-```text
-The recurrence body always includes atom b. It also includes the selected part
-of a joined with the current recursive table T, but only when the joined value
-passes the threshold predicate P.
-```
+Standard reading: the recurrence body always includes atom $b$. It also includes
+the selected part of $a$ joined with the current recursive table $T$, but only
+when the joined value passes the threshold predicate $P$.
 
 The checked boundary is:
 
-```latex
+$$
 F(\bot)\ne F^{2}(\bot).
-```
+$$
 
-Standard reading:
-
-```text
-The first approximant from bottom is not equal to the second approximant from
-bottom.
-```
+Standard reading: the first approximant from bottom is not equal to the second
+approximant from bottom.
 
 This means upward-closed select is safe for recurrence monotonicity, but not
 safe for copying the v528 one-step stabilization theorem. Any stronger theorem
@@ -7257,189 +7215,146 @@ finite-height bound.
 v532 adds a finite witness-menu theorem suggested by Aristotle and then checked
 locally in the project chain. The premise is important:
 
-```latex
+$$
 \operatorname{CellAligned}(C,x)
 \;\wedge\;
 \bigvee_{c\in C} c = 1.
-```
+$$
 
-Standard reading:
-
-```text
-The witness x is aligned with the finite cell list C, and the cells in C cover
-the whole Boolean space.
-```
+Standard reading: the witness $x$ is aligned with the finite cell list $C$, and
+the cells in $C$ cover the whole Boolean space.
 
 Under that premise:
 
-```latex
+$$
 x
 =
 \bigvee \operatorname{HitCells}(C,x).
-```
+$$
 
-Standard reading:
-
-```text
-The witness x is equal to the join of exactly the cells in C whose meet with x
-is non-bottom.
-```
+Standard reading: the witness $x$ is equal to the join of exactly the cells in
+$C$ whose meet with $x$ is non-bottom.
 
 This is the finite-menu bridge:
 
-```latex
+$$
 \operatorname{CellAligned}(\operatorname{SplitPartition}(v_1,\ldots,v_n),x)
 \Longrightarrow
 x=
 \bigvee \operatorname{HitCells}(\operatorname{SplitPartition}(v_1,\ldots,v_n),x).
-```
+$$
 
-Standard reading:
+Standard reading: if $x$ is aligned with the split partition generated by the
+splitter values, then $x$ is completely determined by the finite list of
+generated cells it hits.
 
-```text
-If x is aligned with the split partition generated by the splitter values, then
-x is completely determined by the finite list of generated cells it hits.
-```
-
-Trap:
-
-```text
-This is not a theorem that every TABA or NSO witness is aligned. It says that
-once alignment is proved, the search space collapses to a finite hit-cell menu.
+Trap: this is not a theorem that every TABA or NSO witness is aligned. It says
+that once alignment is proved, the search space collapses to a finite hit-cell
+menu.
 In the current local proof chain, `HitCells` is proof-level noncomputable. An
 executable compiler still needs a decidable hit test or a canonical finite
 encoding of the menu.
-```
 
 v533 then composes the source-fragment theorem with the menu theorem. For a
-well-formed aligned witness expression $E$, define:
+well-formed aligned witness expression $E$, write $\operatorname{Den}(E)$ for
+the value denoted by $E$, and define:
 
-```latex
+$$
 \operatorname{Menu}_{C}(E)
 :=
-\operatorname{HitCells}(C,[\![E]\!]).
-```
+\operatorname{HitCells}(C,\operatorname{Den}(E)).
+$$
 
-Standard reading:
-
-```text
-The menu of E over the cell list C is the list of cells in C whose meet with
-the value denoted by E is non-bottom.
-```
+Standard reading: the menu of $E$ over the cell list $C$ is the list of cells in
+$C$ whose meet with the value denoted by $E$ is non-bottom.
 
 The checked reconstruction theorem is:
 
-```latex
+$$
 \operatorname{WF}_{C}(E)
 \Longrightarrow
-[\![E]\!]
+\operatorname{Den}(E)
 =
 \bigvee \operatorname{Menu}_{C}(E).
-```
+$$
 
-Standard reading:
-
-```text
-If E is well formed over C, then the value denoted by E is equal to the join of
-the cells in its menu.
-```
+Standard reading: if $E$ is well formed over $C$, then the value denoted by $E$
+is equal to the join of the cells in its menu.
 
 The domination theorem has the shape:
 
-```latex
-[\![E]\!] \ne 0
+$$
+\operatorname{Den}(E) \ne 0
 \;\wedge\;
-\operatorname{eval}_{t}([\![E]\!])
-  \wedge [\![E]\!] \ne 0
+\bigl(\operatorname{eval}_{t}(\operatorname{Den}(E))
+\wedge
+\operatorname{Den}(E)\bigr) \ne 0
 \Longrightarrow
 \exists c\in \operatorname{Menu}_{C}(E).\,
-\operatorname{eval}_{t}(c)\wedge c\ne 0.
-```
+\bigl(\operatorname{eval}_{t}(c)\wedge c\bigr)\ne 0.
+$$
 
-Standard reading:
+Standard reading: if the value denoted by $E$ is non-bottom and the unary term
+$t$ still has non-bottom overlap with that value, then some cell in $E$'s finite
+menu also has non-bottom overlap with its own $t$-evaluation.
 
-```text
-If the value denoted by E is non-bottom and the unary term t still has
-non-bottom overlap with that value, then some cell in E's finite menu also has
-non-bottom overlap with its own t-evaluation.
-```
-
-Trap:
-
-```text
-This is a compiler theorem for the `AlignedWitnessExpr` fragment. It is not yet
-a compiler theorem for arbitrary TABA, NSO, or Guarded Successor syntax. It also
-does not make the menu executable. In this proof chain, the menu is defined by
-semantic hit testing, so a runtime compiler still needs a canonical finite
-encoding or a decidable hit-test implementation.
-```
+Trap: this is a compiler theorem for the `AlignedWitnessExpr` fragment. It is
+not yet a compiler theorem for arbitrary TABA, NSO, or Guarded Successor syntax.
+It also does not make the menu executable. In this proof chain, the menu is
+defined by semantic hit testing, so a runtime compiler still needs a canonical
+finite encoding or a decidable hit-test implementation.
 
 v534 lifts the same idea over a finite list of candidate expressions. Define:
 
-```latex
+$$
 \operatorname{MenuList}_{C}(E_1,\ldots,E_n)
 :=
 \operatorname{Menu}_{C}(E_1)
 \mathbin{++}\cdots\mathbin{++}
 \operatorname{Menu}_{C}(E_n).
-```
+$$
 
-Standard reading:
-
-```text
-The menu list of a finite expression list is the concatenation of the finite
-menus of the individual expressions.
-```
+Standard reading: the menu list of a finite expression list is the
+concatenation of the finite menus of the individual expressions.
 
 The bounded search theorem is:
 
-```latex
+$$
 \exists E\in \mathcal{E}.\,
 \operatorname{WF}_{C}(E)
 \wedge
-[\![E]\!]\ne 0
+\operatorname{Den}(E)\ne 0
 \wedge
-\operatorname{eval}_{t}([\![E]\!])=1
+\operatorname{eval}_{t}(\operatorname{Den}(E))=1
 \Longrightarrow
 \exists c\in \operatorname{MenuList}_{C}(\mathcal{E}).\,
 \operatorname{eval}_{t}(c)\wedge c\ne 0.
-```
+$$
 
-Standard reading:
-
-```text
-If some expression in the finite candidate list is well formed, denotes a
-non-bottom value, and satisfies the unary-term premise, then some cell in the
+Standard reading: if some expression in the finite candidate list is well
+formed, denotes a non-bottom value, and satisfies the unary-term premise, then
+some cell in the
 flattened finite menu of that candidate list satisfies the local domination
 premise.
-```
 
-Trap:
-
-```text
-This is bounded search, not unbounded NSO quantifier elimination. The finite
-candidate list is an explicit premise. A full NSO theorem still needs a
+Trap: this is bounded search, not unbounded NSO quantifier elimination. The
+finite candidate list is an explicit premise. A full NSO theorem still needs a
 source-language argument showing which candidates must be included.
-```
 
 v535 separates executable enumeration from semantic overlap testing. Define:
 
-```latex
+$$
 \operatorname{SelectCells}_{p}(c_1,\ldots,c_n)
 :=
 [\,c_i\mid p(c_i)=\mathrm{true}\,].
-```
+$$
 
-Standard reading:
-
-```text
-SelectCells_p returns exactly those cells in the finite list for which the
-Boolean predicate p returns true.
-```
+Standard reading: $\operatorname{SelectCells}_{p}$ returns exactly those cells
+in the finite list for which the Boolean predicate $p$ returns true.
 
 The checked bridge is:
 
-```latex
+$$
 \Bigl(\forall c\in C.\,
 p(c)=\mathrm{true}
 \Longleftrightarrow
@@ -7448,116 +7363,84 @@ x\wedge c\ne 0\Bigr)
 \operatorname{SelectCells}_{p}(C)
 =
 \operatorname{HitCells}(C,x).
-```
+$$
 
-Standard reading:
+Standard reading: if $p$ agrees with the semantic hit test on every cell in
+$C$, then selecting cells by $p$ gives exactly the same cell list as
+$\operatorname{HitCells}(C,x)$.
 
-```text
-If p agrees with the semantic hit test on every cell in C, then selecting cells
-by p gives exactly the same cell list as HitCells(C,x).
-```
-
-Trap:
-
-```text
-This proves the selector bridge, not the hit test itself. A Tau implementation
-still needs a concrete overlap test for QClopen cells, for example by finite
-prefix comparison or BDD-style normalization.
-```
+Trap: this proves the selector bridge, not the hit test itself. A Tau
+implementation still needs a concrete overlap test for QClopen cells, for
+example by finite prefix comparison or BDD-style normalization.
 
 v536 closes the representative-level finite-prefix theorem needed by that
 selector bridge. For finite-support clopen representatives $a$ and $b$,
 define:
 
-```latex
+$$
 \operatorname{PrefixHit}(a,b)
 :=
 \exists \beta\in 2^{\max(d(a),d(b))}.\,
 (a\wedge b)(\operatorname{extend}(\beta))=1.
-```
+$$
 
-Standard reading:
-
-```text
-PrefixHit(a,b) means that there is a finite bit assignment, long enough to cover
-the support depths of a and b, on which their meet evaluates to true.
-```
+Standard reading: $\operatorname{PrefixHit}(a,b)$ means that there is a finite
+bit assignment, long enough to cover the support depths of $a$ and $b$, on which
+their meet evaluates to true.
 
 The checked theorem is:
 
-```latex
-[\bar a]\wedge[\bar b]\ne 0
+$$
+\operatorname{class}(a)\wedge\operatorname{class}(b)\ne 0
 \Longleftrightarrow
 \operatorname{PrefixHit}(a,b).
-```
+$$
 
-Standard reading:
+Standard reading: the meet of the quotient classes represented by $a$ and $b$
+is non-bottom exactly when there is a finite max-depth prefix witness where the
+representative meet is true.
 
-```text
-The meet of the quotient classes represented by a and b is non-bottom exactly
-when there is a finite max-depth prefix witness where the representative meet is
-true.
-```
-
-Trap:
-
-```text
-This is representative-level. It is enough to explain the finite search behind
-the hit predicate, but it is not yet a quotient-independent canonical BDD
+Trap: this is representative-level. It is enough to explain the finite search
+behind the hit predicate, but it is not yet a quotient-independent canonical BDD
 implementation.
-```
 
 v537 proves the matching negative theorem for arbitrary countable recurrence
 unions. Define:
 
-```latex
+$$
 \operatorname{EventuallyOne}(s)
 :=
 \exists n.\,s(n)=1.
-```
+$$
 
-Standard reading:
-
-```text
-EventuallyOne holds of a stream exactly when at least one position in the stream
-is true.
-```
+Standard reading: $\operatorname{EventuallyOne}$ holds of a stream exactly when
+at least one position in the stream is true.
 
 The obstruction is:
 
-```latex
+$$
 \neg\exists c\in \operatorname{Clopen}.\,
 \forall s.\,
 c(s)=1
 \Longleftrightarrow
 \operatorname{EventuallyOne}(s).
-```
+$$
 
-Standard reading:
-
-```text
-There is no finite-support clopen whose truth set is exactly the set of streams
-with at least one true bit.
-```
+Standard reading: there is no finite-support clopen whose truth set is exactly
+the set of streams with at least one true bit.
 
 Why this proof works:
 
-```text
-Any finite-support clopen c has some depth N. The all-false stream and the
-stream with a single true bit at position N agree on every position below N.
-So c must assign them the same value. But EventuallyOne assigns them different
-values.
-```
+Any finite-support clopen $c$ has some depth $N$. The all-false stream and the
+stream with a single true bit at position $N$ agree on every position below
+$N$. Therefore $c$ must assign them the same value. But
+$\operatorname{EventuallyOne}$ assigns them different values.
 
-Trap:
-
-```text
-This does not kill finite tables. It kills the stronger claim that finite-support
-clopens alone are a complete semantic carrier for arbitrary countable recurrence
-unions. Full infinite tables need a completion, a larger effective carrier, or a
-fragment theorem proving finite stabilization before the countable union is
-needed.
-```
+Trap: this does not kill finite tables. It kills the stronger claim that
+finite-support clopens alone are a complete semantic carrier for arbitrary
+countable recurrence unions. Full infinite tables need a completion, a larger
+effective carrier, or a fragment theorem proving finite stabilization before the
+countable union is needed.
 
 v556 closes one local representation assumption in the Skolem/minterm lane.
 Define guarded choice:
@@ -7566,10 +7449,8 @@ $$
 C_g(a,b):=(g\wedge a)\vee(g'\wedge b).
 $$
 
-Standard reading:
-
-C_g(a,b) is the join of the part of a under guard g and the part of b under
-the prime of g.
+Standard reading: $C_g(a,b)$ is the join of the part of $a$ under guard $g$ and
+the part of $b$ under the prime of $g$.
 
 The four-coefficient binary minterm representation is:
 
