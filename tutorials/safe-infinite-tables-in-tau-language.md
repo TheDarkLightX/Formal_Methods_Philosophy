@@ -314,7 +314,7 @@ The public demo checks:
 - pointwise revision is idempotent for the same guard and replacement,
 - table syntax is rejected when `TAU_ENABLE_SAFE_TABLES` is absent.
 
-The visible breakthroughs are:
+The demo shows these concrete gains:
 
 - parser-level table syntax, not just JSON-side lowering,
 - a raw-formula equivalence check, not just a successful parse,
@@ -507,18 +507,6 @@ $$
 &= \operatorname{priority\_quarantine\_raw}.
 \end{aligned}
 $$
-
-<strong>Standard reading.</strong>
-The Tau-native `table { when ... else ... }` definition denotes the same
-Boolean-algebra value as the hand-expanded guarded-choice formula.
-
-<strong>Plain English.</strong>
-The table syntax is not just accepted by the parser. Tau also checks that it
-means the same thing as the raw formula it is supposed to lower into.
-
-<strong>Trap.</strong>
-This is a syntax-and-lowering breakthrough for safe guarded choice. It is not a
-claim that the official full TABA table language has been implemented.
 
 <strong>Standard reading.</strong>
 The Tau-native table term is parsed, lowered to nested guarded choice, and
@@ -858,8 +846,6 @@ The Tau demo uses a host loop.
 The host computes a candidate next state, feeds it to Tau, and Tau checks the
 claim. This is the same architecture as many production policy engines: the
 host proposes, the policy checker accepts or rejects.
-
-Replay it:
 
 Run the replay from the `TauLang-Experiments` repo root:
 
