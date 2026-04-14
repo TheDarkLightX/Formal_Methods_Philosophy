@@ -5529,87 +5529,131 @@ The executable Boolean guard target is a separate embedding problem:
 AutomataEff -> BoolRef
 ```
 
-The evidence for that lane is now v407 through v421: concrete deterministic
-witnesses, semantic closure scaffolding, co-Buchi finite acceptance for the
-running witness, a co-Buchi union boundary, and a two-state Muller product
-projection, followed by the arbitrary finite-list projection core and a listed
-finite-state Muller carrier. A narrow self-loop nonempty certificate is also
-checked, and semantic equivalence is reduced to symmetric-difference emptiness.
-A general eventual-set nonempty certificate and its finite recurring-list
-specialization are also checked. A non-equivalence certificate bridge from
-symmetric-difference realization plus finite-list nonempty evidence is checked.
-Executable product-state union and intersection carriers are checked. A
-constructed symmetric-difference carrier is checked. Finite-list nonempty
-evidence on that constructed carrier now proves non-equivalence. Empty and
-nonempty outcomes for the constructed carrier now have the exact equivalence
-specification. The periodic-run bridge now derives the infinitely-often evidence
-needed by the finite-list certificate from eventual periodicity. Periodic input
-plus a state anchor now derives that run periodicity. Complete finite graph
-emptiness, minimization, recurrence compilation, and Tau lowering are still
-open. The finite-cycle input bridge now derives input periodicity from finite
-tail-cycle data, but not yet from a fully finite path-plus-cycle graph witness.
-The finite-cycle state bridge now derives post-cutoff sightings from finite
-cycle-state table membership. The cycle-anchor bridge now derives the anchor
-equality from the final wrap transition. Bounded transition consistency now
-derives run/table agreement for every bounded cycle index. Compact `Fin period`
-cycle data now lowers into that bounded table theorem. These pieces now compose
-into one integrated finite-cycle nonempty certificate lane. For `TailCycleStream`,
-the compact cycle-offset bit matches are now derived from the stream definition
-rather than supplied as certificate fields. Finite prelude path data now derives
-the cycle-start run match. The eventual-in-recurring predicate is now derived
-from periodicity plus cycle coverage. A bounded graph-search emitter now
-constructs and validates finite lasso certificates for explicit finite Muller
-accepting sets.
-For explicit finite Muller acceptance data, Lean now bridges finite accepting
-set membership into the v433 certificate surface.
-For list-shaped emitted lasso data, Lean now bridges length-checked lists into
-the dependent `Fin` tables consumed by the certificate.
-For raw emitted list witnesses, Lean now proves that satisfying the validator
-predicate is enough to reach nonempty accepted language.
-For raw local list checks, Lean now proves that natural-number-indexed ordinary
-list checks imply the validator predicate and therefore reach nonempty accepted
-language.
-For truly local raw list checks, Lean now proves that the wrap transition can be
-checked as a plain final-cycle transition and still bridge into the stream-shaped
-certificate lane.
-For executable raw list checks, Lean now proves that a finite Boolean checker
-returning `true` is enough to establish nonempty accepted language.
-For optional emitter output, Lean now proves that checked `some` output is enough
-to establish nonempty accepted language, while `none` is rejected.
-For wrapped emitter output, Lean now proves that any returned witness has already
-passed the checker and is therefore sound evidence.
-For the Lean graph-search emitter, Lean now proves that any returned witness
-surviving the wrapper is structurally valid and proves nonempty accepted
-language. A failed search is still not an emptiness proof.
-For unordered accepting-set checks, Lean now proves that replacing exact list
-order with mutual finite membership preserves soundness. This fixes a concrete
-emitter hazard: `[B,A]` no longer fails only because the accepting family stores
-`[A,B]`.
-For unordered optional emitter output, Lean now proves the same safe wrapper
-shape as v442: any returned witness has already passed the unordered checker
-and therefore proves nonempty accepted language.
-For graph-search output routed through the unordered wrapper, Lean now proves
-that any returned witness from the executable finite search lane proves
-nonempty accepted language.
-For the v434 emitted-certificate corpus, Lean now checks all 30 emitted
-certificates natively and composes each accepted witness with v444 soundness.
-For the ordered checker itself, Lean now proves exactness against the v439 local
-witness predicate: checker `true` if and only if that predicate holds.
-For the unordered checker itself, Lean now proves exactness against the
-extensional local witness predicate: checker `true` if and only if the local
-lasso conditions hold and the recurring list has the same finite members as an
-accepted list.
-For unordered graph-search output, Lean now proves the exact returned-output
-contract: any returned witness satisfies that extensional local predicate and
-proves nonempty accepted language.
-For pointwise revision, Lean now proves that the revision formula preserves
-the new spec unconditionally, preserves the old spec when a joint witness
-exists, falls back to the new spec when no joint witness exists, and is
-idempotent when revising a spec by itself.
-The same pointwise law now also has a v456 sigma audit. The collapsed Boolean
-abstraction is `p = phi(x,y)`, `q = psi(x,y)`, `j = exists t, phi(x,t) and
-psi(x,t)`, and `r = q and (j -> p)`. The explicit obligations are checked by
-brute force, Z3, cvc5, ESSO, and the v451 Lean receipt.
+The evidence for that lane is organized by proof role.
+
+<strong>Carrier and closure evidence, v407 through v421.</strong>
+
+- Concrete deterministic witnesses are checked.
+- Semantic closure scaffolding is checked.
+- The running witness has finite co-Buchi acceptance data.
+- The co-Buchi union boundary is recorded.
+- A two-state Muller product projection is checked.
+- The arbitrary finite-list projection core and listed finite-state Muller
+  carrier are checked.
+
+<strong>Equivalence and non-equivalence evidence.</strong>
+
+- A narrow self-loop nonempty certificate is checked.
+- Semantic equivalence is reduced to symmetric-difference emptiness.
+- A general eventual-set nonempty certificate and its finite recurring-list
+  specialization are checked.
+- A non-equivalence bridge is checked: symmetric-difference realization plus
+  finite-list nonempty evidence proves non-equivalence.
+- Executable product-state union and intersection carriers are checked.
+- A constructed symmetric-difference carrier is checked.
+- Finite-list nonempty evidence on that constructed carrier proves
+  non-equivalence.
+- Empty and nonempty outcomes for the constructed carrier now have the exact
+  equivalence specification.
+
+<strong>Finite-cycle and periodic-run evidence.</strong>
+
+- The periodic-run bridge derives the infinitely-often evidence needed by the
+  finite-list certificate from eventual periodicity.
+- Periodic input plus a state anchor derives run periodicity.
+- The finite-cycle input bridge derives input periodicity from finite
+  tail-cycle data, but not yet from a fully finite path-plus-cycle graph
+  witness.
+- The finite-cycle state bridge derives post-cutoff sightings from finite
+  cycle-state table membership.
+- The cycle-anchor bridge derives anchor equality from the final wrap
+  transition.
+- Bounded transition consistency derives run/table agreement for every bounded
+  cycle index.
+- Compact `Fin period` cycle data lowers into that bounded table theorem.
+- These pieces compose into one integrated finite-cycle nonempty certificate
+  lane.
+
+<strong>Tail-cycle stream evidence.</strong>
+
+- For `TailCycleStream`, compact cycle-offset bit matches are derived from the
+  stream definition rather than supplied as certificate fields.
+- Finite prelude path data derives the cycle-start run match.
+- The eventual-in-recurring predicate is derived from periodicity plus cycle
+  coverage.
+
+<strong>Emitter and lasso-certificate evidence.</strong>
+
+- A bounded graph-search emitter constructs and validates finite lasso
+  certificates for explicit finite Muller accepting sets.
+- For explicit finite Muller acceptance data, Lean bridges finite accepting set
+  membership into the v433 certificate surface.
+- For list-shaped emitted lasso data, Lean bridges length-checked lists into the
+  dependent `Fin` tables consumed by the certificate.
+- For raw emitted list witnesses, Lean proves that satisfying the validator
+  predicate is enough to reach nonempty accepted language.
+- For raw local list checks, Lean proves that natural-number-indexed ordinary
+  list checks imply the validator predicate and therefore reach nonempty
+  accepted language.
+- For truly local raw list checks, Lean proves that the wrap transition can be
+  checked as a plain final-cycle transition and still bridge into the
+  stream-shaped certificate lane.
+- For executable raw list checks, Lean proves that a finite Boolean checker
+  returning `true` is enough to establish nonempty accepted language.
+- For optional emitter output, Lean proves that checked `some` output is enough
+  to establish nonempty accepted language, while `none` is rejected.
+- For wrapped emitter output, Lean proves that any returned witness has already
+  passed the checker and is therefore sound evidence.
+- For the Lean graph-search emitter, Lean proves that any returned witness
+  surviving the wrapper is structurally valid and proves nonempty accepted
+  language.
+- A failed search is still not an emptiness proof.
+
+<strong>Unordered accepting-set evidence.</strong>
+
+- Lean proves that replacing exact list order with mutual finite membership
+  preserves soundness.
+- This fixes a concrete emitter hazard: `[B,A]` no longer fails only because
+  the accepting family stores `[A,B]`.
+- For unordered optional emitter output, Lean proves the same safe wrapper shape
+  as v442: any returned witness has already passed the unordered checker and
+  therefore proves nonempty accepted language.
+- For graph-search output routed through the unordered wrapper, Lean proves that
+  any returned witness from the executable finite search lane proves nonempty
+  accepted language.
+- For the v434 emitted-certificate corpus, Lean checks all 30 emitted
+  certificates natively and composes each accepted witness with v444 soundness.
+- For the ordered checker itself, Lean proves exactness against the v439 local
+  witness predicate: checker `true` if and only if that predicate holds.
+- For the unordered checker itself, Lean proves exactness against the
+  extensional local witness predicate: checker `true` if and only if the local
+  lasso conditions hold and the recurring list has the same finite members as
+  an accepted list.
+- For unordered graph-search output, Lean proves the exact returned-output
+  contract: any returned witness satisfies that extensional local predicate and
+  proves nonempty accepted language.
+
+<strong>Pointwise revision evidence.</strong>
+
+- Lean proves that the revision formula preserves the new spec
+  unconditionally.
+- Lean proves that the revision formula preserves the old spec when a joint
+  witness exists.
+- Lean proves that the revision formula falls back to the new spec when no joint
+  witness exists.
+- Lean proves that revision is idempotent when revising a spec by itself.
+- The same pointwise law has a v456 sigma audit.
+- The collapsed Boolean abstraction is `p = phi(x,y)`, `q = psi(x,y)`,
+  `j = exists t, phi(x,t) and psi(x,t)`, and `r = q and (j -> p)`.
+- The explicit obligations are checked by brute force, Z3, cvc5, ESSO, and the
+  v451 Lean receipt.
+
+<strong>Open boundary.</strong>
+
+- Complete finite graph emptiness is still open.
+- Minimization is still open.
+- Recurrence compilation is still open.
+- Tau lowering is still open.
 
 ## 5. The v393 semantic object
 
