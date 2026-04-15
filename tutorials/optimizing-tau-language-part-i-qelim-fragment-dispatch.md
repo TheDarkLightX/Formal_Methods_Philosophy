@@ -764,6 +764,9 @@ baseline first-pass idempotent cases: 7 / 200
 enabled first-pass idempotent cases:  140 / 200
 enabled non-idempotent cases:         60 / 200
 enabled second-pass growth cases:     30 / 200
+guarded-presentation target-sized:    200 / 200
+guarded-presentation exact matches:   160 / 200
+guarded-presentation characters:      1980
 ```
 
 <strong>Standard reading.</strong>
@@ -771,17 +774,22 @@ Without the recombination flag, only \(7\) of the \(200\) baseline first-pass
 normal forms are unchanged by a second `normalize` call. With the recombination
 flag enabled, \(140\) of the \(200\) first-pass normal forms are unchanged.
 There are still \(60\) enabled cases that change on the second pass, and \(30\)
-of those become longer.
+of those become longer. If the probe accepts the second-pass output only when
+it is no longer than the first-pass output, then all \(200\) cases remain
+target-sized, \(160\) cases match the target text exactly, and the total
+guarded-presentation size remains \(1980\) characters.
 
 <strong>Plain English.</strong>
 The recombination patch improves stability, but it does not make `normalize`
-fully idempotent on this corpus.
+fully idempotent on this corpus. A guarded second pass improves exact
+presentation without giving up the size win.
 
 <strong>Trap.</strong>
 This is a different boundary from semantic correctness. All \(200\) enabled
 cases still match under `mnf`. The open issue is fixed-point presentation: the
 first `normalize` output should ideally already be the form that another
-`normalize` call would return.
+`normalize` call would return. The guarded second-pass rule is probe evidence,
+not yet a Tau C++ optimizer patch.
 
 The new rule that closed the larger corpus is an equality-graph implication
 rule:

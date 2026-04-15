@@ -8031,6 +8031,9 @@ baseline first-pass idempotent cases: 7 / 200
 enabled first-pass idempotent cases:  140 / 200
 enabled non-idempotent cases:         60 / 200
 enabled second-pass growth cases:     30 / 200
+guarded-presentation target-sized:    200 / 200
+guarded-presentation exact matches:   160 / 200
+guarded-presentation characters:      1980
 ```
 
 Research conclusion:
@@ -8039,7 +8042,11 @@ The feature-gated pass improves normalize fixed-point stability relative to
 baseline, but does not close it. The next Tau-normalizer target is not another
 branch-recombination law on this corpus. It is a presentation pass that makes
 the first `normalize` output stable under a second `normalize` call, without
-growing the target-sized formulas.
+growing the target-sized formulas. A guarded second-pass candidate, meaning
+accept the second `normalize` output only when it does not increase size,
+improves exact presentation to `160 / 200` while preserving `200 / 200`
+target-sized output. This is currently probe evidence, not an implemented Tau
+C++ pass.
 
 The term-level representative substitution law that moved the frontier is:
 
