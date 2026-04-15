@@ -8008,6 +8008,22 @@ The wide corpus did not expose a new size-failure class. It strengthens the
 evidence that the current remaining boundary is presentation canonicalization,
 not branch recombination, on these generated equality-chain corpora.
 
+Timing screen for the same corpus:
+
+```text
+baseline normalize time:     19958.521 ms
+enabled normalize time:      19432.444 ms
+baseline MNF time:           16847.849 ms
+enabled MNF time:            16813.717 ms
+```
+
+Research conclusion:
+
+This is not an in-process microbenchmark. The probe invokes Tau separately for
+each command, so process startup and file I/O are included. The useful result is
+narrower: the feature-gated recombination pass removes the normalized-size
+blowup on the wide corpus without showing a whole-command timing regression.
+
 The term-level representative substitution law that moved the frontier is:
 
 $$

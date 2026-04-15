@@ -731,6 +731,31 @@ The wide corpus is still generated evidence. It is not a proof over every Tau
 formula and it is not a reason to enable the pass by default without a profit
 guard and broader workload testing.
 
+The timing screen for the same corpus is:
+
+```text
+baseline normalize time:     19958.521 ms
+enabled normalize time:      19432.444 ms
+baseline MNF time:           16847.849 ms
+enabled MNF time:            16813.717 ms
+```
+
+<strong>Standard reading.</strong>
+In this harness, the total elapsed time for the \(200\) baseline `normalize`
+commands is \(19958.521\) milliseconds, and the total elapsed time for the
+\(200\) feature-gated `normalize` commands is \(19432.444\) milliseconds. The
+same screen reports \(16847.849\) milliseconds for baseline `mnf` commands and
+\(16813.717\) milliseconds for feature-gated `mnf` commands.
+
+<strong>Plain English.</strong>
+The pass removes the normalized-size blowup without showing a timing regression
+in this screening run.
+
+<strong>Trap.</strong>
+This is whole-command timing. Each row calls Tau as a separate process, so the
+numbers include startup and file I/O. They are useful for catching an obvious
+regression, not for proving an in-process speedup.
+
 The new rule that closed the larger corpus is an equality-graph implication
 rule:
 
