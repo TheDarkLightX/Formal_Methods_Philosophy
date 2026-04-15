@@ -652,9 +652,9 @@ The generated path-sensitive corpus is harder:
 
 ```text
 baseline target-sized cases:   2 / 24
-enabled target-sized cases:   14 / 24
+enabled target-sized cases:   24 / 24
 baseline normalize chars:    828
-enabled normalize chars:     505
+enabled normalize chars:     189
 target normalize chars:      189
 MNF-matched target cases:     24 / 24
 ```
@@ -662,19 +662,21 @@ MNF-matched target cases:     24 / 24
 <strong>Standard reading.</strong>
 On the generated corpus, the feature flag improves the number of formulas whose
 normalized output is no longer larger than the target from \(2\) out of \(24\)
-to \(14\) out of \(24\). All \(24\) cases still match the target under Tau's
-`mnf` command.
+to \(24\) out of \(24\). The enabled normalized-character count is \(189\),
+which is exactly the target count. Exact `normalize` text still matches \(12\)
+out of \(24\) cases, and all \(24\) cases match the target under Tau's `mnf`
+command.
 
 <strong>Plain English.</strong>
-The first recombination pass helps, but it does not solve the harder equality
-path problem.
+The feature-gated recombination pass now closes this generated corpus on size.
+What remains is canonical printing of equivalent Boolean terms.
 
 <strong>Trap.</strong>
-This is not just a display-order problem. In the generated cases, the residual
-condition can be simplified differently under the equality branch and under the
-complement branch. The current patch handles the equality and inequality
-residual subcase. The remaining cases need broader term-level representative
-substitution before recombination.
+The \(12\) textual mismatches are not semantic mismatches. They are presentation
+differences under `normalize`, such as equivalent Boolean terms printed in
+different orders. This is still not a default Tau optimization: the pass remains
+feature-gated until larger generated corpora and presentation canonicalization
+are checked.
 
 ## Part VIII: Effects, derivatives, and finite equivalence
 

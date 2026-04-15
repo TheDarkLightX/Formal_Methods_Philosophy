@@ -7959,22 +7959,22 @@ The generated path-sensitive corpus moves the frontier:
 
 ```text
 baseline target-sized cases:   2 / 24
-enabled target-sized cases:   14 / 24
+enabled target-sized cases:   24 / 24
 baseline normalize chars:    828
-enabled normalize chars:     505
+enabled normalize chars:     189
 target normalize chars:      189
 MNF-matched target cases:     24 / 24
 ```
 
 Research conclusion:
 
-The scoped recombination pass is useful, but not sufficient. The current patch
-handles the equality and inequality residual subcase, but the remaining
-generated cases include Boolean-algebra term residuals that Tau rewrites
-differently under the equality branch and under the complement branch. That
-means the next meaningful normalizer step is not merely presentation
-canonicalization. It is broader term-level representative substitution followed
-by recombination:
+The scoped recombination pass now closes this generated corpus on normalized
+size. The enabled normalized-character count is `189`, exactly the target count.
+Exact `normalize` text still matches `12` of `24` cases, while all `24` cases
+match under `mnf`. The remaining mismatch is presentation canonicalization, not
+missed semantic recombination on this generated corpus.
+
+The term-level representative substitution law that moved the frontier is:
 
 $$
 \left(\forall x,\ \rho(\operatorname{rep}(x))=\rho(x)\right)
@@ -7983,6 +7983,10 @@ $$
 =
 \llbracket R\rrbracket_\rho.
 $$
+
+The next meaningful normalizer step is to canonicalize equivalent
+Boolean-algebra term orderings, then test larger generated equality-split
+corpora before considering any default route.
 
 Standard reading:
 
