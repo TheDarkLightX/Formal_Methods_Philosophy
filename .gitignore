@@ -14,3 +14,7 @@ examples/**/outputs/
 **/.lake
 **/mathlib4_link
 experiments/claude_experiments_mathlib/
+experiments/claude_experiments/
+experiments/aristotle_tasks/
+experiments/aristotle_results/
+experiments/orch_unit_parallel_*/
