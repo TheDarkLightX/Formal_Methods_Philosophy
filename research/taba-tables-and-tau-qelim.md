@@ -8046,7 +8046,9 @@ growing the target-sized formulas. A guarded second-pass candidate, meaning
 accept the second `normalize` output only when it does not increase size,
 improves exact presentation to `160 / 200` while preserving `200 / 200`
 target-sized output. This is currently probe evidence, not an implemented Tau
-C++ pass.
+C++ pass. A direct AST-level second-normalize hook was tested and did not
+improve the corpus, which points to presentation-aware canonicalization as the
+next implementation target.
 
 The term-level representative substitution law that moved the frontier is:
 

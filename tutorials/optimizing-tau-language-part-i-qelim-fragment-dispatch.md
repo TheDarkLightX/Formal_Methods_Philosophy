@@ -789,7 +789,10 @@ This is a different boundary from semantic correctness. All \(200\) enabled
 cases still match under `mnf`. The open issue is fixed-point presentation: the
 first `normalize` output should ideally already be the form that another
 `normalize` call would return. The guarded second-pass rule is probe evidence,
-not yet a Tau C++ optimizer patch.
+not yet a Tau C++ optimizer patch. A direct AST-level second-normalize hook was
+tested and did not improve the corpus. The remaining target is a
+presentation-aware canonicalization pass, not simply running the same tree
+through `normalize` again.
 
 The new rule that closed the larger corpus is an equality-graph implication
 rule:
