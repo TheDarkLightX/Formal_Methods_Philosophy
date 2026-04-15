@@ -21,7 +21,7 @@ echo "Checking tracked text for local filesystem leaks..."
 while IFS= read -r path; do
   [[ "$path" == "$SELF" ]] && continue
   [[ "$path" == ".gitignore" ]] && continue
-  if grep -I -n -E '(/home/|/Users/|C:\\Users|Downloads/FormalPhilosophy|mathlib4_link|experiments/claude_experiments_mathlib)' "$path" >/tmp/public_repo_safety_hits.$$ 2>/dev/null; then
+  if grep -I -n -E '(/home/|/Users/|C:\\Users|Downloads/FormalPhilosophy|mathlib4_link|experiments/claude_experiments_mathlib|experiments/claude_experiments)' "$path" >/tmp/public_repo_safety_hits.$$ 2>/dev/null; then
     sed "s#^#$path:#" /tmp/public_repo_safety_hits.$$ >&2
     FAILED=1
   fi
