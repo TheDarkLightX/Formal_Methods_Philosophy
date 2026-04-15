@@ -705,6 +705,32 @@ This still does not prove a default Tau optimization. It proves a stronger
 feature-gated experiment over a larger generated corpus. The remaining gap is
 canonical presentation and broader workload testing.
 
+The five-variable wide corpus extends the same check:
+
+```text
+enabled target-sized cases:  200 / 200
+enabled normalize chars:    1980
+target normalize chars:     1980
+MNF-matched target cases:    200 / 200
+exact normalize matches:     130 / 200
+```
+
+<strong>Standard reading.</strong>
+On the wide corpus, all \(200\) feature-gated normal forms are target-sized.
+The total enabled normalized-character count is \(1980\), exactly the target
+total. All \(200\) cases match under `mnf`, and \(130\) cases match exactly
+under `normalize`.
+
+<strong>Plain English.</strong>
+The current recombination rules survive the next generated-corpus expansion.
+The next unsolved problem is not branch recombination on these corpora, it is
+canonical presentation of equivalent Boolean terms.
+
+<strong>Trap.</strong>
+The wide corpus is still generated evidence. It is not a proof over every Tau
+formula and it is not a reason to enable the pass by default without a profit
+guard and broader workload testing.
+
 The new rule that closed the larger corpus is an equality-graph implication
 rule:
 

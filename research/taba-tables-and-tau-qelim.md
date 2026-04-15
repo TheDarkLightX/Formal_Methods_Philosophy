@@ -7992,6 +7992,22 @@ different atom, and cases where the alias branch makes the residual true. Exact
 `normalize` text still has presentation-order mismatches, but all `105` cases
 match under `mnf`.
 
+The five-variable wide corpus extends the stress result:
+
+```text
+enabled target-sized cases:  200 / 200
+enabled normalize chars:    1980
+target normalize chars:     1980
+MNF-matched target cases:    200 / 200
+exact normalize matches:     130 / 200
+```
+
+Research conclusion:
+
+The wide corpus did not expose a new size-failure class. It strengthens the
+evidence that the current remaining boundary is presentation canonicalization,
+not branch recombination, on these generated equality-chain corpora.
+
 The term-level representative substitution law that moved the frontier is:
 
 $$
