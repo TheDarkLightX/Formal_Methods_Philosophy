@@ -517,7 +517,8 @@ the two denotations can differ. The expected answer is `no solution`.
 <strong>Plain English.</strong>
 Tau itself now accepts the safe table syntax when the feature flag is on, and
 the checked symbolic query says that the parsed table means the same thing as
-the expanded formula.
+the hand-expanded guarded-choice formula. The relevant evidence is a checked
+lowering theorem, not a narrative claim.
 
 <strong>Trap.</strong>
 This is a full-style demo, not a full unrestricted TABA implementation.

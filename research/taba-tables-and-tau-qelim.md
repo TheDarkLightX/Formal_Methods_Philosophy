@@ -138,7 +138,7 @@ The shortest current summary is:
 - unrestricted TABA tables remain open because same-stratum prime,
   current-state-dependent guards, unrestricted recurrence, NSO, and Guarded
   Successor still need a fully connected syntax, semantics, and runtime
-  lowering story.
+  lowering theorem.
 
 What the optimizer and stream artifacts give us:
 
@@ -687,7 +687,7 @@ $$
 \text{ can avoid fragment-unnecessary syntax work.}
 $$
 
-Outside that fragment, the fallback remains part of the safety story.
+Outside that fragment, the fallback remains part of the safety argument.
 
 ## 4. The table-semantics ladder
 
@@ -825,7 +825,7 @@ Current checked ladder:
 - `v476` proves priority-row normalization for fixed guards: priority evaluation is equal to guarded-join evaluation of a disjointized normal form.
 - `v477` proves the safe priority recurrence fragment: fixed-guard priority rows whose values use positive current references plus lower-stratum prime are omega-continuous and have an omega-supremum fixed point.
 - `v479` generalizes fixed priority guards to lower-stratum guard expressions: guards may read fixed lower-stratum data and lower-stratum prime, but still cannot read the current recursive state.
-- `v480` connects the lower-stratum priority fragment back to the normal-form story: after materializing guards and row values, lower-stratum priority rows normalize to disjoint guarded joins.
+- `v480` connects the lower-stratum priority fragment back to the normal-form proof artifact: after materializing guards and row values, lower-stratum priority rows normalize to disjoint guarded joins.
 - `v481` adds a restricted table syntax compiler: priority rows plus an explicit default compile into the lower-stratum priority kernel, preserve semantics, and retain omega-continuity.
 - `v484` adds a narrow TABA `CBF` syntax-and-denotation bridge: recursive if-then-else expressions over pointwise Boolean functions compile to ordinary Boolean functions by guarded-choice expansion.
 - `v485` lifts the narrow `CBF` bridge to arbitrary Boolean algebras: a conditional expression denotes as guard meet then-branch, joined with guard-prime meet else-branch.
