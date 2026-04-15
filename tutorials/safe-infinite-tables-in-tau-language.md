@@ -291,15 +291,22 @@ The limit is stable under one more update.
 The public reproduction path now lives in the
 [TauLang-Experiments repo](https://github.com/TheDarkLightX/TauLang-Experiments).
 
-The smooth demo command is:
+The smooth public demo command is:
+
+```bash
+./scripts/run_public_demos.sh --accept-tau-license
+```
+
+That command runs the safe table demo and the qelim-backed policy-shape demo.
+To run only the safe table syntax and solver-equivalence demo, use:
 
 ```bash
 ./scripts/run_table_demos.sh --accept-tau-license
 ```
 
-That repo does not redistribute Tau Language. The script downloads Tau from the
-official IDNI repository, checks out the tested commit, applies the experiment
-patch locally, regenerates Tau's parser, builds Tau, and runs the table demos.
+That repo does not redistribute Tau Language. The scripts download Tau from the
+official IDNI repository, check out the tested commit, apply the experiment
+patch locally, regenerate Tau's parser, build Tau, and run the demos.
 The default runner uses the compound equivalence check for the table-vs-raw
 obligations. The older one-check-at-a-time audit path is still available with
 `TABLE_DEMO_EQUIV_MODE=individual`.

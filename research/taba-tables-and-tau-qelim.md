@@ -125,9 +125,9 @@ The shortest current summary is:
   `TAU_QELIM_BACKEND=auto`,
 - the safe table tutorial has runnable Tau demos behind
   `TAU_ENABLE_SAFE_TABLES=1`,
-- the standalone experiment repo now has a public one-command table demo that
+- the standalone experiment repo now has a public one-command demo suite that
   downloads official Tau, applies the local patch, rebuilds Tau, and runs the
-  checks,
+  table and qelim-backed policy checks,
 - the finite CBF and priority-table bridge has a checked minterm-tree compiler,
 - the safe infinite-recursive table fragment has checked monotone fixed-point
   evidence,
@@ -301,6 +301,12 @@ The demo repo is
 [TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments).
 
 The public reproduction command is:
+
+```bash
+./scripts/run_public_demos.sh --accept-tau-license
+```
+
+The table-only command is:
 
 ```bash
 ./scripts/run_table_demos.sh --accept-tau-license
@@ -6653,6 +6659,12 @@ compiler.
 
 For public reproduction, the patch and replay path lives in
 `TauLang-Experiments`:
+
+```bash
+./scripts/run_public_demos.sh --accept-tau-license
+```
+
+The focused table-only replay remains:
 
 ```bash
 ./scripts/run_table_demos.sh --accept-tau-license
