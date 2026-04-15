@@ -7935,8 +7935,9 @@ simple equality paths, but it does not yet recombine all resulting equality
 split branches without the feature flag. The feature-gated patch closes all
 four checked size-reduction cases. Three match the target text exactly under
 `normalize`, and all four match under `mnf`. The remaining work is
-presentation-level: canonicalize equivalent term ordering in the three-alias
-residual case, then benchmark the full normalizer path on a wider corpus.
+presentation-level on the checked cases: canonicalize equivalent term ordering
+in the three-alias residual case, then test the full normalizer path on a larger
+equality-split corpus.
 
 The wider alias-order smoke test extends the same result:
 

@@ -629,7 +629,8 @@ premise is precise and Tau already proves the target formulas equivalent.
 The current implementation is still scoped and feature-gated. The remaining
 technical issue is canonical presentation: the three-alias case reaches the
 target size but prints an equivalent Boolean term ordering instead of the exact
-target string. The next step is a wider benchmark of the real normalizer path.
+target string. The next step is to move beyond the smoke corpus and test the
+real normalizer path on a larger equality-split corpus.
 
 The wider alias-order smoke test is also useful:
 
