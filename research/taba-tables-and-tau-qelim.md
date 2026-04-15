@@ -7974,6 +7974,24 @@ Exact `normalize` text still matches `24` of `48` cases, while all `48` cases
 match under `mnf`. The remaining mismatch is presentation canonicalization, not
 missed semantic recombination on this generated corpus.
 
+The four-variable equality-chain stress corpus moves the frontier again:
+
+```text
+enabled target-sized cases:  105 / 105
+enabled normalize chars:     847
+target normalize chars:      847
+MNF-matched target cases:    105 / 105
+exact normalize matches:      84 / 105
+```
+
+Research conclusion:
+
+The scoped recombination pass also closes the stress corpus on normalized size.
+This corpus includes cases where the alias branch rewrites the residual to a
+different atom, and cases where the alias branch makes the residual true. Exact
+`normalize` text still has presentation-order mismatches, but all `105` cases
+match under `mnf`.
+
 The term-level representative substitution law that moved the frontier is:
 
 $$
@@ -8022,6 +8040,46 @@ Plain English:
 
 The normalizer can remove a disjunction of edge-failures when an endpoint
 inequality already guarantees that one of those edge-failures must hold.
+
+The stress corpus required an alias-component complement law:
+
+$$
+\left(\neg D\Rightarrow A\right)
+\Longrightarrow
+A\vee D\equiv \top .
+$$
+
+Standard reading:
+
+If not \(D\) implies the alias conjunction \(A\), then \(A\vee D\) is
+equivalent to truth.
+
+Plain English:
+
+A failed-guard disjunction can be enough even when it is not the literal
+negation of every stored alias. It is enough when the failed edges connect the
+same alias components, because if none of those edge failures happens, the
+aliases must all hold.
+
+The stress corpus also required the alias-entails-residual law:
+
+$$
+(A\Rightarrow R)\wedge(A\vee D\equiv\top)
+\Longrightarrow
+A\vee(D\wedge R)\equiv R.
+$$
+
+Standard reading:
+
+If the alias conjunction \(A\) implies residual \(R\), and \(A\vee D\) is
+equivalent to truth, then \(A\vee(D\wedge R)\) is equivalent to \(R\).
+
+Plain English:
+
+When the alias branch already guarantees the residual, the alias-side residual
+may disappear as true. The split can still be recombined because the complement
+branch carries the residual and the two branch guards cover the whole case
+space.
 
 The next meaningful normalizer step is to canonicalize equivalent
 Boolean-algebra term orderings, then test larger generated equality-split

@@ -678,6 +678,33 @@ different orders. This is still not a default Tau optimization: the pass remains
 feature-gated until larger generated corpora and presentation canonicalization
 are checked.
 
+The next stress corpus uses four-variable equality chains:
+
+```text
+enabled target-sized cases:  105 / 105
+enabled normalize chars:     847
+target normalize chars:      847
+MNF-matched target cases:    105 / 105
+exact normalize matches:      84 / 105
+```
+
+<strong>Standard reading.</strong>
+On the stress corpus, every one of the \(105\) formulas produced by the
+feature-gated normalizer has normalized size no larger than the corresponding
+target formula. The total normalized-character count is \(847\), exactly the
+target total. All \(105\) cases match under `mnf`, while \(84\) cases match the
+target text exactly under `normalize`.
+
+<strong>Plain English.</strong>
+The pass now handles equality chains where the alias branch changes the shape
+of the residual, including cases where the alias branch makes the residual
+trivially true.
+
+<strong>Trap.</strong>
+This still does not prove a default Tau optimization. It proves a stronger
+feature-gated experiment over a larger generated corpus. The remaining gap is
+canonical presentation and broader workload testing.
+
 The new rule that closed the larger corpus is an equality-graph implication
 rule:
 
