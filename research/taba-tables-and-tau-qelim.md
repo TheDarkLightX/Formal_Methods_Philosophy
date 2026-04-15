@@ -7959,20 +7959,22 @@ The generated path-sensitive corpus moves the frontier:
 
 ```text
 baseline target-sized cases:   2 / 24
-enabled target-sized cases:   10 / 24
+enabled target-sized cases:   14 / 24
 baseline normalize chars:    828
-enabled normalize chars:     619
+enabled normalize chars:     505
 target normalize chars:      189
 MNF-matched target cases:     24 / 24
 ```
 
 Research conclusion:
 
-The scoped recombination pass is useful, but not sufficient. The generated
-cases include residual formulas that Tau rewrites differently under the equality
-branch and under the complement branch. That means the next meaningful
-normalizer step is not merely presentation canonicalization. It is branch-local
-representative substitution followed by recombination:
+The scoped recombination pass is useful, but not sufficient. The current patch
+handles the equality and inequality residual subcase, but the remaining
+generated cases include Boolean-algebra term residuals that Tau rewrites
+differently under the equality branch and under the complement branch. That
+means the next meaningful normalizer step is not merely presentation
+canonicalization. It is broader term-level representative substitution followed
+by recombination:
 
 $$
 \left(\forall x,\ \rho(\operatorname{rep}(x))=\rho(x)\right)
@@ -7985,8 +7987,8 @@ $$
 Standard reading:
 
 If the current branch environment assigns each variable the same value as its
-chosen representative, then evaluating the residual after representative
-substitution gives the same value as evaluating the original residual.
+chosen representative, then evaluating the residual term after representative
+substitution gives the same value as evaluating the original residual term.
 
 Plain English:
 
