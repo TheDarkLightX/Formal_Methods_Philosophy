@@ -10,7 +10,7 @@ FAILED=0
 echo "Checking tracked paths for local-only artifacts..."
 while IFS= read -r path; do
   case "$path" in
-    experiments/claude_experiments_mathlib/*|experiments/claude_experiments/*|experiments/aristotle_tasks/*|experiments/aristotle_results/*|experiments/orch_unit_parallel_*/*|*/.lake|*/.lake/*|*/mathlib4_link)
+    .mcp.json|.preview-build/*|.tmp-build/*|.write_test|_site/*|*/__pycache__/*|*.pyc|experiments/claude_experiments_mathlib/*|experiments/claude_experiments/*|experiments/aristotle_tasks/*|experiments/aristotle_results/*|experiments/orch_unit_parallel_*/*|*/.lake|*/.lake/*|*/mathlib4_link)
       echo "forbidden tracked path: $path" >&2
       FAILED=1
       ;;
