@@ -35,6 +35,11 @@
             >Labs</a
           >
           <a
+            class="fp-nav-link{% if fp_url contains '/research' %} is-active{% endif %}"
+            href="{{ '/research/' | relative_url }}"
+            >Research</a
+          >
+          <a
             class="fp-nav-link{% if fp_url contains '/glossary' %} is-active{% endif %}"
             href="{{ '/glossary/' | relative_url }}"
             >Glossary</a
@@ -57,6 +62,9 @@
             >
             <a class="fp-nav-link" href="{{ '/labs/' | relative_url }}"
               >Labs</a
+            >
+            <a class="fp-nav-link" href="{{ '/research/' | relative_url }}"
+              >Research</a
             >
             <a class="fp-nav-link" href="{{ '/glossary/' | relative_url }}"
               >Glossary</a
@@ -94,6 +102,9 @@
           >
           <a class="fp-footer-link" href="{{ '/labs/' | relative_url }}"
             >Labs</a
+          >
+          <a class="fp-footer-link" href="{{ '/research/' | relative_url }}"
+            >Research</a
           >
           <a class="fp-footer-link" href="{{ '/glossary/' | relative_url }}"
             >Glossary</a

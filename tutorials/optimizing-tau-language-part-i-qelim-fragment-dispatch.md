@@ -30,7 +30,7 @@ table work:
 > method depends on where the structure lives: in syntax, or in the compiled
 > carrier.
 
-The story is easiest to follow as a ladder.
+The argument is easiest to follow as a ladder.
 
 1. Quantifier elimination removes a hidden variable while preserving truth over
    the visible variables.
@@ -50,10 +50,7 @@ The story is easiest to follow as a ladder.
 </div>
 
 The detailed research log lives here:
-
-```text
-research/taba-tables-and-tau-qelim.md
-```
+[Tau qelim and TABA table semantics]({{ '/research/taba-tables-and-tau-qelim/' | relative_url }}).
 
 That page is not just a benchmark appendix.
 It shows the neuro-symbolic loop in practice: propose a route, formalize the
@@ -61,10 +58,7 @@ claim, let Lean, Tau, Aristotle, SMT, or bounded replay try to break it, then
 promote only the scoped claim that survives.
 
 There is also a shorter academic-style note:
-
-```text
-research/fragment-sensitive-qelim-and-safe-tables.md
-```
+[Fragment-Sensitive Quantifier Elimination and Safe Table Updates in Tau]({{ '/research/fragment-sensitive-qelim-and-safe-tables/' | relative_url }}).
 
 That note includes a two-page PDF and gives the main equations and results
 without the tutorial prose or the full research log.
@@ -87,10 +81,10 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If eliminating $x$ from $\exists x.\,\varphi$ returns $\psi$, then for
-every assignment $\rho$ of the remaining variables, $\psi$ is true exactly
-when there exists a Boolean value $b$ such that $\varphi$ is true after
-setting $x$ to $b$.
+If eliminating \(x\) from \(\exists x.\,\varphi\) returns \(\psi\), then for
+every assignment \(\rho\) of the remaining variables, \(\psi\) is true exactly
+when there exists a Boolean value \(b\) such that \(\varphi\) is true after
+setting \(x\) to \(b\).
 
 <strong>Plain English.</strong>
 The eliminated formula must answer the same yes-or-no question about the visible
@@ -98,8 +92,8 @@ variables as the original existential formula.
 
 <strong>Trap.</strong>
 Quantifier elimination is not witness extraction.
-It does not have to return the value of $x$.
-It must remove $x$ while preserving whether some value of $x$ makes the
+It does not have to return the value of \(x\).
+It must remove \(x\) while preserving whether some value of \(x\) makes the
 formula true.
 
 For a Boolean variable, the basic compiled-forgetting identity is:
@@ -111,17 +105,17 @@ f[x:=\bot]\vee f[x:=\top].
 $$
 
 <strong>Standard reading.</strong>
-The existential abstraction of $x$ from $f$ is the join of the cofactor of
-$f$ with $x$ forced to $\bot$ and the cofactor of $f$ with $x$ forced
-to $\top$.
+The existential abstraction of \(x\) from \(f\) is the join of the cofactor of
+\(f\) with \(x\) forced to \(\bot\) and the cofactor of \(f\) with \(x\) forced
+to \(\top\).
 
 <strong>Plain English.</strong>
-Forget $x$ by keeping both possible branches and joining them.
+Forget \(x\) by keeping both possible branches and joining them.
 
 <strong>Trap.</strong>
-The notation $f[x:=\bot]$ is substitution, not multiplication and not
+The notation \(f[x:=\bot]\) is substitution, not multiplication and not
 function application in the calculus sense.
-It means: evaluate the Boolean formula $f$ after forcing $x$ to the bottom
+It means: evaluate the Boolean formula \(f\) after forcing \(x\) to the bottom
 Boolean value.
 
 In a BDD, this operation is existential abstraction.
@@ -152,17 +146,17 @@ A\wedge \exists x.\,B
 $$
 
 <strong>Standard reading.</strong>
-If $x$ is not a free variable of $A$, then existential quantification over
-$x$ can move inward past $A$, leaving $A$ outside and quantifying only
-$B$.
+If \(x\) is not a free variable of \(A\), then existential quantification over
+\(x\) can move inward past \(A\), leaving \(A\) outside and quantifying only
+\(B\).
 
 <strong>Plain English.</strong>
 If one part of a conjunction does not mention the hidden variable, keep that
 part outside the search.
 
 <strong>Trap.</strong>
-The side condition $x\notin FV(A)$ is not decorative.
-If $A$ depends on $x$, moving the quantifier past $A$ can change the
+The side condition \(x\notin FV(A)\) is not decorative.
+If \(A\) depends on \(x\), moving the quantifier past \(A\) can change the
 meaning.
 
 This is why `anti_prenex` is not merely "old code."
@@ -189,8 +183,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If $\varphi$ belongs to the supported leading-existential propositional
-fragment $\mathcal{F}_{\exists\mathrm{prop}}$, Tau uses BDD existential
+If \(\varphi\) belongs to the supported leading-existential propositional
+fragment \(\mathcal{F}_{\exists\mathrm{prop}}\), Tau uses BDD existential
 abstraction. Otherwise Tau uses the default qelim route.
 
 <strong>Plain English.</strong>
@@ -238,7 +232,7 @@ The negation of an existential statement is equivalent to a universal statement
 of the negated body.
 
 <strong>Plain English.</strong>
-"There is no $y$ satisfying $P$" means "every $y$ fails $P$."
+"There is no \(y\) satisfying \(P\)" means "every \(y\) fails \(P\)."
 
 <strong>Trap.</strong>
 It does not mean:
@@ -247,7 +241,7 @@ $$
 \exists y.\,\neg P(y).
 $$
 
-That would say "some $y$ fails $P$," which is weaker and usually different.
+That would say "some \(y\) fails \(P\)," which is weaker and usually different.
 
 The concrete failing shape was:
 
@@ -255,7 +249,7 @@ The concrete failing shape was:
 qelim !(ex y (y = 0))
 ```
 
-The inner sentence is true because $y=0$ has a witness, namely $0$.
+The inner sentence is true because \(y=0\) has a witness, namely \(0\).
 Its negation is false.
 Tau's default route returned `F`.
 The old unguarded BDD experiment returned `T`.
@@ -287,7 +281,7 @@ $$
 \bigwedge_{i=1}^{k}\exists X_i.\,F_i,
 $$
 
-when each $X_i = X\cap FV(F_i)$ and no quantified variable is shared between
+when each \(X_i = X\cap FV(F_i)\) and no quantified variable is shared between
 different components.
 
 <strong>Standard reading.</strong>
@@ -319,7 +313,7 @@ $$
 p_x := (x=0).
 $$
 
-If $p_x$ occurs only positively, the safe rewrite is:
+If \(p_x\) occurs only positively, the safe rewrite is:
 
 $$
 \exists x.\,\Phi(p_x,y)
@@ -327,7 +321,7 @@ $$
 \Phi(\top,y).
 $$
 
-If $p_x$ occurs only negatively, the dual rewrite is:
+If \(p_x\) occurs only negatively, the dual rewrite is:
 
 $$
 \exists x.\,\Phi(p_x,y)
@@ -336,17 +330,17 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-When the zero-test atom $p_x$ for an existential variable occurs in only one
+When the zero-test atom \(p_x\) for an existential variable occurs in only one
 polarity, choose the truth value that satisfies that polarity and remove the
 quantified atom.
 
 <strong>Plain English.</strong>
-If the formula only asks for $x=0$, choose $x=0$.
-If it only asks against $x=0$, choose a value that makes $x=0$ false.
+If the formula only asks for \(x=0\), choose \(x=0\).
+If it only asks against \(x=0\), choose a value that makes \(x=0\) false.
 
 <strong>Trap.</strong>
-This is not a general rewrite for every expression named $x$.
-It is a polarity rule for the supported zero-test atom $p_x := (x=0)$ inside
+This is not a general rewrite for every expression named \(x\).
+It is a polarity rule for the supported zero-test atom \(p_x := (x=0)\) inside
 the guarded propositional fragment.
 
 The checked lane skipped BDD construction on the pure-route cases and matched
@@ -373,18 +367,18 @@ R\wedge
 $$
 
 <strong>Standard reading.</strong>
-To existentially eliminate $x$ from a CNF formula, keep the clauses $R$ that
-do not mention $x$, and add every resolvent $(A_i\vee B_j)$ formed from a
-positive $x$-clause and a negative $x$-clause.
+To existentially eliminate \(x\) from a CNF formula, keep the clauses \(R\) that
+do not mention \(x\), and add every resolvent \((A_i\vee B_j)\) formed from a
+positive \(x\)-clause and a negative \(x\)-clause.
 
 <strong>Plain English.</strong>
 Pair each positive occurrence of the hidden atom with each negative occurrence,
 resolve the pairs, then drop the old clauses mentioning that atom.
 
 <strong>Trap.</strong>
-The product $\bigwedge_{i,j}$ is the danger.
-If there are $m$ positive clauses and $n$ negative clauses, the raw step can
-create $mn$ resolvents.
+The product \(\bigwedge_{i,j}\) is the danger.
+If there are \(m\) positive clauses and \(n\) negative clauses, the raw step can
+create \(mn\) resolvents.
 So this route needs an explicit cap or a minimization step before promotion.
 
 The experiment added thresholded Davis-Putnam distribution under an explicit
@@ -430,9 +424,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-For every checked command $i$, sum the default qelim time
-$t_{\mathrm{default}}(i)$, sum the `auto` qelim time
-$t_{\mathrm{auto}}(i)$, then divide the first sum by the second sum.
+For every checked command \(i\), sum the default qelim time
+\(t_{\mathrm{default}}(i)\), sum the `auto` qelim time
+\(t_{\mathrm{auto}}(i)\), then divide the first sum by the second sum.
 
 <strong>Plain English.</strong>
 On this measured corpus, the guarded `auto` route used about one third of the
@@ -440,7 +434,7 @@ qelim time used by the default route.
 
 <strong>Trap.</strong>
 This is not a global Tau speed theorem.
-It is a same-binary benchmark receipt over a bounded generated corpus.
+It is a same-binary benchmark record over a bounded generated corpus.
 
 The checked matrix recorded:
 
@@ -451,147 +445,19 @@ The checked matrix recorded:
 - aggregate qelim-time speedup about `3.47x`.
 
 Other flags stayed opt-in because they did not justify default promotion in the
-latest receipts.
+latest check records.
 For example, double-negation rewriting preserved meaning on its checked
 regression, but `auto + rewrite` was slower than `auto` alone in the latest
-wall-clock receipt.
+wall-clock record.
 
-## Part VII: A separate rewrite-normalizer lane
+The later restricted Knuth-Bendix-style normalizer gives a different kind of
+optimization evidence.
+It is not a whole-language qelim backend.
+It is a small convergent rewrite system whose proof says: these seven oriented
+rules terminate, preserve denotation, and have unique normal forms inside the
+restricted expression language.
 
-There is now a second kind of optimization evidence.
-It is not qelim.
-It is a checked rewrite-normalizer lane for a restricted Tau Boolean-expression
-language with `common`, `pointJoin`, and `pointCompl`.
-
-The rewrite soundness theorem has this shape:
-
-$$
-e\to e'
-\Longrightarrow
-\operatorname{Den}(e)=\operatorname{Den}(e').
-$$
-
-<strong>Standard reading.</strong>
-If one rewrite step sends expression $e$ to expression $e'$, then both
-expressions have the same denotation.
-
-Here $\operatorname{Den}(e)$ means the Boolean-algebra value denoted by
-expression $e$.
-
-<strong>Plain English.</strong>
-Every accepted simplification step keeps the same meaning.
-
-The termination theorem uses a measure $M$ with the complement case weighted
-more heavily:
-
-$$
-M(\operatorname{pointCompl}(a)) := 3M(a)+1.
-$$
-
-The checked decrease law is:
-
-$$
-e\to e'
-\Longrightarrow
-M(e')<M(e).
-$$
-
-<strong>Standard reading.</strong>
-Every rewrite step strictly decreases the measure $M$.
-
-<strong>Plain English.</strong>
-The simplifier cannot run forever, because every step moves down a
-well-founded numeric measure.
-
-The confluence theorem has the usual diamond shape:
-
-$$
-e\to^{*} a
-\wedge
-e\to^{*} b
-\Longrightarrow
-\exists c.\,
-a\to^{*} c
-\wedge
-b\to^{*} c.
-$$
-
-<strong>Standard reading.</strong>
-If one expression rewrites to $a$ and also rewrites to $b$ through zero or more
-steps, then $a$ and $b$ have a common reduct $c$.
-
-<strong>Plain English.</strong>
-Different rewrite orders can still be joined again.
-That gives unique normal forms for this restricted rewrite system.
-
-<strong>Trap.</strong>
-The restriction is essential.
-The checked system intentionally drops commutativity, associativity, and
-distributivity as rewrite rules, because oriented versions can cycle or grow
-terms.
-So this is not a complete Boolean-algebra equivalence procedure.
-It is a terminating and confluent simplifier for a useful Tau-expression
-fragment.
-
-The executable companion is in the public experiment repo:
-
-[TauLang-Experiments restricted rewrite normalizer](https://github.com/TheDarkLightX/TauLang-Experiments/blob/main/docs/rewrite-normalizer.md)
-
-The direct demo command is:
-
-```bash
-python3 scripts/tau_kb_normalizer.py normalize \
-  'pointCompl(common(a, pointJoin(a, b)))' \
-  --json
-```
-
-The expected normal form is:
-
-```text
-pointCompl(a)
-```
-
-The benchmark command is:
-
-```bash
-./scripts/run_benchmarks.sh
-```
-
-The latest local deterministic corpus receipt checked `255` expressions,
-performed `5161` rewrite steps, found `0` Boolean-parity failures, and reduced
-total expression size from `11984` nodes to `870` nodes.
-
-<strong>Boundary.</strong>
-That is a benchmark of the standalone restricted normalizer, not a Tau runtime
-speedup.
-It becomes a Tau performance claim only after the normalizer is wired into a Tau
-execution path and measured there.
-
-There is now a first opt-in Tau-side probe:
-
-```bash
-TAU_QELIM_BDD_KB_REWRITE=1
-```
-
-In the current patch, this flag runs a c111-inspired simplification pass inside
-the experimental BDD qelim backend.
-The probe suite checks five targeted qelim formulas and compares the backend
-with and without the flag.
-The current receipt has `5` matching outputs and `0` mismatches.
-On the targeted absorption cases, the compiled expression shrank from `6` nodes
-to `2`, and from `5` nodes to `1`.
-
-<strong>Boundary.</strong>
-The timing evidence is mixed on this tiny corpus.
-This is a correctness-and-simplification result, not yet a promoted speedup.
-
-There is also a guarded version:
-
-```bash
-TAU_QELIM_BDD_KB_REWRITE=guarded
-```
-
-The guarded selector has this shape:
+The Tau qelim patch uses that idea only as an opt-in prepass:
 
 $$
 \operatorname{KB}_{\mathrm{guard}}(e)
@@ -605,86 +471,357 @@ e,
 $$
 
 <strong>Standard reading.</strong>
-The guarded KB pass normalizes expression $e$ only when a cheap scan finds at
+The guarded KB pass normalizes expression \(e\) only when a cheap scan finds at
 least one absorption opportunity. If the scan finds no absorption opportunity,
-the pass returns $e$ unchanged.
+the pass returns \(e\) unchanged.
 
 <strong>Plain English.</strong>
-Run the normalizer only where the expression already shows the local pattern
-the normalizer is designed to remove.
+Do not run the rewrite normalizer everywhere. Run it only where the expression
+already shows the local pattern the normalizer is meant to remove.
 
 <strong>Trap.</strong>
-This is not complete Boolean-equivalence checking.
-It is a selector for one restricted simplifier.
+This is not complete Boolean equivalence checking.
+Two expressions can be semantically equal even if this restricted normalizer
+does not reduce them to the same form.
 
-The generated matrix makes the promotion boundary sharper.
-It compares six modes:
+Current patched-Tau check records:
+
+- the qelim probe preserved output parity on all `5` targeted formulas,
+- the 18-case generated matrix with `3` repetitions preserved output parity
+  across all modes,
+- on that 18-case matrix, guarded KB reduced compiled KB nodes by `42.73%` and
+  had internal qelim-time ratio about `0.95` against plain BDD,
+- on a 34-case generated matrix with `3` repetitions, guarded KB reduced
+  compiled KB nodes by `40.81%` and had internal qelim-time ratio about `0.952`
+  against plain BDD,
+- elapsed whole-command time stayed effectively neutral because this harness is
+  dominated by Tau process startup.
+
+So the promotion decision is deliberately conservative:
 
 ```text
-bdd
-bdd+kb
-bdd+kb_guarded
-bdd+ac
-bdd+ac+kb
-bdd+ac+kb_guarded
+TAU_QELIM_BDD_KB_REWRITE=guarded is useful research evidence.
+It is not ready as a default Tau optimization.
 ```
 
-The current receipts preserved output parity across all modes.
-On the 18-case generated matrix with `3` repetitions, guarded KB reduced
-compiled KB nodes by `42.73%` and had an internal qelim-time ratio of about `0.95`
-against plain BDD.
-On the 34-case generated matrix with `3` repetitions, guarded KB reduced
-compiled KB nodes by `40.81%` and had an internal qelim-time ratio of about `0.952`
-against plain BDD.
+## Part VII: A separate path-simplification target
+
+Tau's public known-issues list also points to a different optimization surface:
+path simplification should use equalities between variables.
+This is not qelim itself.
+It is a normalizer pass that can shrink branch-local formulas before later
+passes see them.
+
+The safe law is:
+
+$$
+\left(\forall x,\ \rho(\operatorname{rep}(x))=\rho(x)\right)
+\Longrightarrow
+\llbracket \operatorname{subst}_{\operatorname{rep}}(e)\rrbracket_\rho
+=
+\llbracket e\rrbracket_\rho.
+$$
+
+<strong>Standard reading.</strong>
+If the environment \(\rho\) gives every variable \(x\) the same value as its
+chosen representative \(\operatorname{rep}(x)\), then evaluating the expression
+after representative substitution gives the same value as evaluating the
+original expression.
+
+<strong>Plain English.</strong>
+On a branch where the formula already says two variables are equal, the
+normalizer may replace one by the other inside that branch.
+
+<strong>Trap.</strong>
+The equality premise is load-bearing.
+The replacement is not globally valid.
+It is valid only in the path where those equalities are known.
+
+Tau already handles some simple branch-local equality reductions. For example,
+it normalizes \(x=y\wedge ((x\wedge y')=0)\) to \(x=y\). The next gap is
+recombination: after an equality split creates two residual branches, the
+normalizer may still print a longer formula than it needs.
+
+The recombination law is:
+
+$$
+(A\wedge B)\vee(\neg A\wedge B)\Longleftrightarrow B.
+$$
+
+<strong>Standard reading.</strong>
+The disjunction of the branch where \(A\) and \(B\) both hold and the branch
+where \(A\) is false but \(B\) holds is equivalent to \(B\).
+
+<strong>Plain English.</strong>
+If both sides of a split keep the same residual condition \(B\), the split no
+longer matters.
+
+<strong>Trap.</strong>
+This recombination law is not equality-specific. Equality matters here because
+equality-path simplification can create the repeated residual \(B\).
+
+The Tau-facing branch-recombination probe asks Tau to prove:
+
+$$
+\operatorname{Unsat}
+\left(
+  \neg(\operatorname{Original}\leftrightarrow\operatorname{Target})
+\right).
+$$
+
+<strong>Standard reading.</strong>
+There is no satisfying assignment that separates the original formula from the
+candidate shorter target.
+
+<strong>Plain English.</strong>
+Tau itself confirms that the shorter target says the same thing.
+
+Current probe check record:
+
+- `4` checked cases,
+- `4` useful reduction cases,
+- baseline matched target cases: `0`,
+- combined current normalized size `152` characters,
+- combined target normalized size `36` characters,
+- candidate character reduction `76.316%`,
+- all equivalence checks passed.
+
+The proof packet `tau_equality_split_recombination_2026_04_15` checks the
+Boolean and propositional forms of the recombination law.
+
+The first feature-gated Tau patch is:
+
+```text
+TAU_EQUALITY_SPLIT_RECOMBINE=1
+```
+
+With the flag enabled, the current patch makes Tau emit the target normal form
+for `3` of the `4` checked cases and reduces the combined normalized-character
+count from `152` to `36`, the same combined size as the target forms.
+
+This is the strongest current Tau-native normalizer target because the semantic
+premise is precise and Tau already proves the target formulas equivalent.
+The current implementation is still scoped and feature-gated. The remaining
+technical issue is canonical presentation: the three-alias case reaches the
+target size but prints an equivalent Boolean term ordering instead of the exact
+target string. The next step is a wider benchmark of the real normalizer path.
+
+The wider alias-order smoke test is also useful:
+
+```text
+cases:                         8
+matched target cases:          3
+target-sized cases:            8
+Tau-normalized characters:   108
+target-normalized characters: 108
+```
+
+The additional cases permute the equality path. They show that the pass is not
+limited to one hand-written alias order.
+
+## Part VIII: Effects, derivatives, and finite equivalence
+
+The next optimizer lane is not another qelim backend. It is an execution model
+for deciding which parts of a Tau expression need to run again.
+
+The read-set law is:
+
+$$
+\rho\!\restriction_{\operatorname{Reads}(e)}
+=
+\rho'\!\restriction_{\operatorname{Reads}(e)}
+\Longrightarrow
+\llbracket e\rrbracket_{\rho}
+=
+\llbracket e\rrbracket_{\rho'}.
+$$
+
+<strong>Standard reading.</strong>
+If two environments agree on every key read by expression \(e\), then evaluating
+\(e\) in the first environment gives the same value as evaluating \(e\) in the
+second environment.
+
+<strong>Plain English.</strong>
+Only recompute the expression when one of its actual inputs changed.
+
+<strong>Trap.</strong>
+This is not a whole-language Tau theorem yet. The checked packet proves the law
+for the Tau-like expression kernel with explicit variable reads.
+
+The derivative lane writes a single-key perturbation as an expression transform:
+
+$$
+\partial_{k,v} e.
+$$
+
+The checked soundness shape is:
+
+$$
+\llbracket \partial_{k,v} e\rrbracket
+=
+\operatorname{update}
+\left(
+  \llbracket e\rrbracket,
+  k,
+  \operatorname{evalConst}(e,v)
+\right).
+$$
+
+<strong>Standard reading.</strong>
+Evaluating the derivative of \(e\) at key \(k\) with replacement value \(v\)
+equals the original denotation of \(e\), updated at \(k\) by the constant-leaf
+evaluation of \(e\) at \(v\).
+
+<strong>Plain English.</strong>
+The derivative is a symbolic description of the local effect of one input-key
+change.
+
+<strong>Trap.</strong>
+This is inspired by Brzozowski derivatives, but it is not a regular-language
+derivative. Here the derivative is over Tau-style Boolean-algebra expression
+trees.
+
+The equivalence-checking lane has a sharp boundary. For the restricted
+`const/common/pointJoin/pointCompl` expression kernel, the extended relation
+can reduce every expression to its semantic constant:
+
+$$
+e \sim_{\mathrm{eval}} \operatorname{const}(\llbracket e\rrbracket).
+$$
+
+So semantic equality implies extended bisimulation:
+
+$$
+\llbracket e_1\rrbracket=\llbracket e_2\rrbracket
+\Longrightarrow
+e_1\sim_{\mathrm{eval}} e_2.
+$$
+
+<strong>Standard reading.</strong>
+If two expressions have the same denotation, then the extended bisimulation
+relation relates them.
+
+<strong>Plain English.</strong>
+After adding constant-evaluation rules, the rewrite relation is complete for
+this kernel.
+
+<strong>Trap.</strong>
+The completeness theorem is algebraic. Turning it into an executable decision
+procedure still requires deciding whether
+\(\llbracket e_1\rrbracket=\llbracket e_2\rrbracket\). That is immediate on a
+finite carrier, but it is not automatic over arbitrary infinite carriers.
+
+This gives a cleaner optimizer map:
+
+```text
+read sets decide what can be skipped
+derivatives describe one-key changes
+partial evaluation compiles known inputs away
+finite-carrier equivalence checks decide restricted expression equality
+```
+
+The executable companion in `TauLang-Experiments` is:
+
+```text
+scripts/run_tau_derivative_equivalence_demo.py
+```
+
+Current check record:
+
+```text
+cases:                         80
+derivative sound cases:        80
+size-preserved cases:          80
+equivalence classifications:   80
+equivalent cases:              61
+non-equivalent cases:          19
+result:                        passed
+```
 
 <strong>Boundary.</strong>
-These are internal qelim measurements in a generated harness.
-Whole-command elapsed time stayed effectively neutral because this harness is
-dominated by Tau process startup.
+This check record is for a finite Tau-like kernel. It is useful because it shows the
+optimizer architecture can be executed and tested, not because it proves the
+full Tau runtime already implements derivatives.
 
-The production-shaped follow-up asks a different question:
-
-```text
-does guarded KB improve TAU_QELIM_BACKEND=auto?
-```
-
-That answer is currently no.
-The auto-route matrix checks exact output parity against the unmodified `auto`
-route and records exact default parity separately, because default and `auto`
-can print equivalent residual formulas in different syntactic forms.
-
-Current auto-route receipts:
-
-- 18-case matrix, `3` repetitions: `auto` qelim total `18.334684 ms`;
-  `auto+kb_guarded` qelim total `19.228504 ms`; ratio
-  `auto+kb_guarded / auto` about `1.049`.
-- 34-case matrix, `3` repetitions: `auto` qelim total `45.620071 ms`;
-  `auto+kb_guarded` qelim total `45.8326 ms`; ratio
-  `auto+kb_guarded / auto` about `1.005`.
-
-With only `3` repetitions, the `1.005` ratio is within measurement noise, and
-the `1.049` ratio is suggestive rather than conclusive.
-The safe conclusion is narrower: this matrix is consistent with no improvement
-from adding guarded KB to `auto`.
-
-<strong>Trap.</strong>
-Compiled-node reduction is not the same thing as portfolio-level speedup.
-Here, guarded KB reduced intermediate nodes in the BDD sublane above, but did
-not improve the composed `auto` route.
-
-So the current engineering decision is:
+The incremental runtime-cache prototype now checks the concrete data-structure
+shape too:
 
 ```text
-keep TAU_QELIM_BDD_KB_REWRITE and guarded mode opt-in
-do not promote it to default yet
+full unique residual nodes:    193
+runtime-delta recomputed:       31
+runtime-delta saving:       83.938%
+runtime delta checks:        passed
 ```
 
-The next optimization problem is still a selector problem.
-The current absorption-only guard has useful signal on generated
-absorption-heavy formulas, but it is not strong enough to justify default
-promotion.
+<strong>Plain English.</strong>
+The demo no longer only says that an unread key can be skipped. It builds the
+node table, marks dirty node IDs from a dependency index, recomputes those IDs,
+and checks the cached result against full reevaluation.
 
-## Part VIII: What the optimizer should look like
+There is also a native Tau runtime measurement hook:
+
+```text
+TAU_RUN_STATS=1
+```
+
+The first opt-in runtime optimization on that surface is:
+
+```text
+TAU_SKIP_UNCHANGED_IO_REBUILD=1
+```
+
+Current native-run check record:
+
+```text
+step count:              3
+accepted update count:   3
+total paths attempted:   6
+total paths solved:      6
+total revisions tried:   1
+total added spec parts:  2
+input rebuilds skipped:  3
+output rebuilds skipped: 1
+output parity:           passed
+final memory size:       9
+```
+
+<strong>Standard reading.</strong>
+On the update-stream pointwise-revision smoke case, the native Tau interpreter
+executed three steps, accepted three updates, attempted six disjunct paths,
+solved six disjunct paths, added two new specification parts, revised one
+existing specification part, and ended with nine stored memory bindings.
+
+<strong>Plain English.</strong>
+Tau's real `run` loop is now measurable at the point where a future
+incremental runtime cache would attach, and one small IO-rebuild optimization
+now has baseline-output parity evidence.
+
+<strong>Boundary.</strong>
+This skip flag does not cache expression values or change the solver. It only
+avoids recreating IO stream objects when the IO stream set is unchanged and the
+active stream class declares that unchanged rebuild skipping is safe.
+
+The follow-up regression checks the boundary directly:
+
+```text
+vector input rebuilds skipped:  3
+vector output rebuilds skipped: 1
+file input rebuilds skipped:    0
+file output rebuilds skipped:   0
+vector output parity:           passed
+file output parity:             passed
+```
+
+<strong>Standard reading.</strong>
+Vector-remapped streams may skip unchanged rebuilds while preserving observed
+outputs. File-remapped streams perform zero skips under the same flag.
+
+<strong>Plain English.</strong>
+The optimization has a stream safety gate. Tau may skip rebuilds for streams
+whose rebuild is only a state-preserving wrapper operation, but it does not skip
+file streams, because rebuilding a file stream reopens the file.
+
+## Part IX: What the optimizer should look like
 
 The honest optimizer shape is a portfolio, not one heroic backend.
 
@@ -699,7 +836,6 @@ else:
     build the BDD carrier only for the residual
     existentially abstract the remaining quantified variables
     parity-check against the reference route on bounded regressions
-    run terminating rewrite normalization only on its checked rule fragment
 ```
 
 This is not meant as pseudocode for the final Tau optimizer.
@@ -708,7 +844,7 @@ It is the architecture lesson from the evidence.
 The hard part is not inventing one fast path.
 The hard part is keeping the semantic bridge explicit at each dispatch point.
 
-## Part IX: What to remember
+## Part X: What to remember
 
 The beginner takeaway is:
 
@@ -720,16 +856,18 @@ The beginner takeaway is:
 - Component splitting can dominate BDD order.
 - CNF-native elimination can avoid a carrier build, but only under explicit
   blowup controls.
-- Rewrite normalization is a separate lane: useful after its rule set is proved
-  terminating, confluent, and semantics-preserving.
+- Equality-aware path simplification is path-scoped. The equality facts must
+  justify the representative substitution in the branch where it is used.
+- Read-set and derivative proofs suggest a second optimizer family: avoid
+  rerunning unaffected expression parts after small input changes.
+- Extended bisimulation is complete for the checked expression kernel, but an
+  executable decision procedure still depends on the carrier's equality
+  decision.
 - A benchmark speedup is evidence for a scoped engineering choice, not a proof
   of universal superiority.
 
 The research log gives the full experiment record:
-
-```text
-research/taba-tables-and-tau-qelim.md
-```
+[Tau qelim and TABA table semantics]({{ '/research/taba-tables-and-tau-qelim/' | relative_url }}).
 
 That page is intentionally more detailed.
 This tutorial keeps the mental model:

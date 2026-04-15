@@ -64,15 +64,32 @@
           </p>
         </div>
         <div class="taba-viz-formula" aria-label="Pointwise revision formula">
-          Rev(i) = (G(i) meet A(i)) join (G(i)' meet T(i))
+          <span class="taba-viz-formula-label">Pointwise revision</span>
+          <span class="taba-viz-formula-body">Rev(i) = (G(i) ∧ A(i)) ∨ (G(i)′ ∧ T(i))</span>
         </div>
       </div>
 
       <div class="taba-viz-controls" role="group" aria-label="Visualizer controls">
-        <button class="taba-viz-button" type="button" data-action="step">Step revision</button>
-        <button class="taba-viz-button" type="button" data-action="play">Play</button>
-        <button class="taba-viz-button" type="button" data-action="split">Split selected region</button>
-        <button class="taba-viz-button taba-viz-button-ghost" type="button" data-action="reset">Reset</button>
+        <button class="taba-viz-button" type="button" data-action="step" title="Apply revision to next region (Space)">
+          <span class="taba-viz-button-icon" aria-hidden="true">▶</span>
+          <span>Step revision</span>
+        </button>
+        <button class="taba-viz-button" type="button" data-action="play" title="Auto-advance every 0.9s (P)">
+          <span class="taba-viz-button-icon" aria-hidden="true">⏵</span>
+          <span class="taba-viz-button-label">Play</span>
+        </button>
+        <button class="taba-viz-button" type="button" data-action="split" title="Refine the selected region (S)">
+          <span class="taba-viz-button-icon" aria-hidden="true">⇅</span>
+          <span>Split selected region</span>
+        </button>
+        <button class="taba-viz-button taba-viz-button-ghost" type="button" data-action="reset" title="Restart (R)">
+          <span class="taba-viz-button-icon" aria-hidden="true">↺</span>
+          <span>Reset</span>
+        </button>
+        <div class="taba-viz-counter" aria-live="polite" aria-atomic="true">
+          <span class="taba-viz-counter-num"><span data-counter-applied>0</span> / <span data-counter-total>4</span></span>
+          <span class="taba-viz-counter-label">revisions applied</span>
+        </div>
       </div>
 
       <div class="taba-viz-stage" aria-describedby="taba-viz-status-${index}">
@@ -113,7 +130,11 @@
     const tbody = root.querySelector("tbody");
     const status = root.querySelector(".taba-viz-status");
     const playButton = root.querySelector('[data-action="play"]');
+    const playLabel = playButton.querySelector(".taba-viz-button-label");
+    const playIcon = playButton.querySelector(".taba-viz-button-icon");
     const splitButton = root.querySelector('[data-action="split"]');
+    const counterApplied = root.querySelector("[data-counter-applied]");
+    const counterTotal = root.querySelector("[data-counter-total]");
 
     function revisedValue(region, rowIndex) {
       if (rowIndex >= appliedCount) return "pending";
@@ -124,9 +145,11 @@
       const selected = regions.find((region) => region.id === selectedId);
       if (!selected) return "Select a region to inspect the pointwise update.";
       if (appliedCount >= regions.length) {
-        return "Revision complete. Inside G used A. Outside G used the old value T.";
+        return "Revision complete. Inside G, each entry now shows A. Outside G, the old T was preserved.";
       }
-      return `Selected ${selected.key}, region ${selected.region}. Step revision applies Rev to the next sampled region. Split refines the selected nonzero region into two visible children.`;
+      const remaining = regions.length - appliedCount;
+      const next = regions[appliedCount];
+      return `${remaining} ${remaining === 1 ? "region" : "regions"} pending. Next step revises ${next.key} (${next.region}) ${next.guard ? "inside G, so A wins" : "outside G, so T is kept"}.`;
     }
 
     function renderMap() {
@@ -190,13 +213,16 @@
       renderMap();
       renderRows();
       status.textContent = statusText();
-      playButton.textContent = playTimer ? "Pause" : "Play";
+      if (playLabel) playLabel.textContent = playTimer ? "Pause" : "Play";
+      if (playIcon) playIcon.textContent = playTimer ? "⏸" : "⏵";
+      counterApplied.textContent = String(appliedCount);
+      counterTotal.textContent = String(regions.length);
       splitButton.disabled = regions.length >= 10;
       splitButton.setAttribute("aria-disabled", regions.length >= 10 ? "true" : "false");
       splitButton.title =
         regions.length >= 10
           ? "The visualizer caps visible samples at ten rows."
-          : "Split the selected nonzero region into two visible children.";
+          : "Refine the selected region into two halves (S)";
     }
 
     function stopPlay() {
@@ -280,6 +306,33 @@
       splitCounter = 0;
       render();
     });
+
+    root.addEventListener("keydown", (event) => {
+      if (event.target.closest("button, input, textarea, select")) return;
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      const key = event.key.toLowerCase();
+      if (key === " " || key === "enter") {
+        event.preventDefault();
+        stopPlay();
+        stepRevision();
+      } else if (key === "s") {
+        event.preventDefault();
+        stopPlay();
+        splitSelectedRegion();
+      } else if (key === "p") {
+        event.preventDefault();
+        togglePlay();
+      } else if (key === "r") {
+        event.preventDefault();
+        stopPlay();
+        regions = cloneSeed();
+        selectedId = regions[0].id;
+        appliedCount = 0;
+        splitCounter = 0;
+        render();
+      }
+    });
+    root.setAttribute("tabindex", "0");
 
     render();
   }

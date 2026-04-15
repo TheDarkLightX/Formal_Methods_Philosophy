@@ -3,10 +3,9 @@ title: "Tau qelim and TABA table semantics"
 layout: docs
 kicker: Research log
 description: "A neuro-symbolic research log for fragment-sensitive Tau quantifier elimination and the current atomless TABA table-semantics frontier."
-math_heavy: true
 ---
 
-This research log records the neuro-symbolic loop behind two tutorial threads:
+This log records the neuro-symbolic research loop behind two tutorial threads:
 
 - Tau Language quantifier-elimination optimization,
 - TABA table semantics and the Tau table-kernel replay for the executable
@@ -133,12 +132,14 @@ The shortest current summary is:
 - the safe infinite-recursive table fragment has checked monotone fixed-point
   evidence,
 - the latest local Lean artifacts add set/select algebraic laws, stream-level
-  Tau semantics, stream laws, a terminating iterated optimizer API, and a
-  restricted, terminating, confluent Tau rewrite system,
+  Tau semantics, stream laws, and a terminating iterated optimizer API,
+- the restricted c111 rewrite normalizer proves a seven-rule Tau-expression
+  rewrite system terminating, semantics-preserving, confluent, and
+  normal-form unique inside its scoped expression language,
 - unrestricted TABA tables remain open because same-stratum prime,
   current-state-dependent guards, unrestricted recurrence, NSO, and Guarded
   Successor still need a fully connected syntax, semantics, and runtime
-  lowering theorem.
+  lowering bridge.
 
 What the optimizer and stream artifacts give us:
 
@@ -153,249 +154,17 @@ What the optimizer and stream artifacts give us:
 - Higher-order and equivalence surface: c088, c089, and c110 provide a
   higher-order recurrence syntax with examples and a sound but incomplete
   equivalence decider based on simplification and structural equality.
-- Rewrite normalization: c111 proves semantics preservation, termination,
-  local confluence, full confluence, normal-form existence, and normal-form
-  uniqueness for a restricted Tau Boolean-expression rewrite system.
-- Executable companion: the public TauLang-Experiments repo now includes a
-  standalone c111 normalizer and deterministic corpus benchmark.
+- Restricted rewrite surface: c111 gives a proof-backed normalizer for a small
+  expression language with `common`, `pointJoin`, and `pointCompl`. The proof
+  supports a scoped compiler prepass, not complete Boolean equivalence for all
+  Tau syntax.
 
 Boundary:
 
 - This is a verified fragment pipeline, not a proof of complete equivalence for
   every Tau or TABA expression.
-- c111 deliberately drops commutativity, associativity, and distributivity as
-  oriented rewrite rules, so it is not a complete Boolean-algebra normalizer.
-- The executable c111 benchmark is a standalone normalizer benchmark, not a Tau
-  runtime benchmark.
 - The equivalence decider is sound where it returns success, but incompleteness
   means failure to prove equality is not evidence of inequality.
-
-The c111 rewrite receipt is:
-
-$$
-e\to e'
-\Longrightarrow
-\operatorname{Den}(e)=\operatorname{Den}(e').
-$$
-
-Standard reading:
-
-- Every one-step rewrite in the restricted rule set preserves denotation.
-  Here $\operatorname{Den}(e)$ is the Boolean-algebra value denoted by
-  expression $e$.
-
-The termination measure is weighted at complement nodes:
-
-$$
-M(\operatorname{pointCompl}(a)) := 3M(a)+1.
-$$
-
-The checked decrease law is:
-
-$$
-e\to e'
-\Longrightarrow
-M(e')<M(e).
-$$
-
-Standard reading:
-
-- Every rewrite step strictly decreases the measure $M$, so infinite rewrite
-  chains are impossible.
-
-The confluence theorem is:
-
-$$
-e\to^{*} a
-\wedge
-e\to^{*} b
-\Longrightarrow
-\exists c.\,
-a\to^{*} c
-\wedge
-b\to^{*} c.
-$$
-
-Standard reading:
-
-- Any two reducts of the same starting expression can be joined by further
-  rewriting.
-
-Plain English reading:
-
-- The simplifier is order-independent inside this restricted rule system.
-
-Boundary:
-
-- This is not qelim and not full Boolean-algebra equality. It is a checked
-  normalizer for a restricted Tau expression rewrite relation.
-
-The executable companion is:
-
-```text
-https://github.com/TheDarkLightX/TauLang-Experiments/blob/main/docs/rewrite-normalizer.md
-```
-
-The direct command is:
-
-```bash
-python3 scripts/tau_kb_normalizer.py normalize \
-  'pointCompl(common(a, pointJoin(a, b)))' \
-  --json
-```
-
-The benchmark command is:
-
-```bash
-./scripts/run_benchmarks.sh
-```
-
-The current deterministic corpus receipt records:
-
-```text
-255 expressions
-5161 rewrite steps
-0 Boolean-parity failures
-11984 input nodes
-870 normal-form nodes
-```
-
-Boundary:
-
-- This receipt measures the standalone c111 normalizer.
-- It does not yet measure Tau Language runtime speed.
-
-The Tau patch also now includes an opt-in qelim probe flag:
-
-```text
-TAU_QELIM_BDD_KB_REWRITE=1
-```
-
-The probe compares the experimental BDD qelim backend with and without the
-rewrite pass on five formulas chosen to expose absorption, De Morgan, and
-double-complement opportunities.
-
-Current qelim probe receipt:
-
-```text
-5 probes
-5 matching outputs
-0 output mismatches
-compiled-node reductions on targeted cases, including 6 -> 2 and 5 -> 1
-```
-
-Boundary:
-
-- This is a correctness-and-simplification probe.
-- The timings are too small and mixed to claim a Tau runtime speedup.
-
-The patched Tau experiment now also includes a guarded selector:
-
-```text
-TAU_QELIM_BDD_KB_REWRITE=guarded
-```
-
-The selector equation is:
-
-$$
-\operatorname{KB}_{\mathrm{guard}}(e)
-=
-\begin{cases}
-\operatorname{normalize}_{\mathrm{KB}}(e),
-& \operatorname{Absorb}(e)>0,\\
-e,
-& \operatorname{Absorb}(e)=0.
-\end{cases}
-$$
-
-Standard reading:
-
-- The guarded KB pass normalizes expression $e$ if the compiled expression
-  contains at least one absorption opportunity. Otherwise it returns $e$
-  unchanged.
-
-Boundary:
-
-- This is an implemented structural selector, not a proved benefit theorem.
-- It is still scoped to the experimental BDD qelim backend.
-
-The generated qelim KB matrix compares:
-
-```text
-bdd
-bdd+kb
-bdd+kb_guarded
-bdd+ac
-bdd+ac+kb
-bdd+ac+kb_guarded
-```
-
-The current generated matrices preserved output parity across all six modes.
-On the 18-case matrix with `3` repetitions, `bdd+kb_guarded` reduced compiled
-KB nodes by `42.73%` and had an internal qelim-time ratio of about `0.95` against
-plain `bdd`.
-On the 34-case matrix with `3` repetitions, `bdd+kb_guarded` reduced compiled
-KB nodes by `40.81%` and had an internal qelim-time ratio of about `0.952` against
-plain `bdd`.
-Whole-command elapsed time stayed effectively neutral in this harness, because
-Tau process startup dominates.
-
-The auto-route matrix asks whether guarded KB improves the already-promoted
-`TAU_QELIM_BACKEND=auto` portfolio.
-This matrix checks exact parity against the unmodified `auto` route and records
-exact default parity separately, because default and `auto` may print equivalent
-residual formulas in different syntactic forms.
-
-Current auto-route receipts:
-
-- 18-case matrix, `3` repetitions:
-  - `auto` qelim total: `18.334684 ms`
-  - `auto+kb_guarded` qelim total: `19.228504 ms`
-  - ratio `auto+kb_guarded / auto`: about `1.049`
-- 34-case matrix, `3` repetitions:
-  - `auto` qelim total: `45.620071 ms`
-  - `auto+kb_guarded` qelim total: `45.8326 ms`
-  - ratio `auto+kb_guarded / auto`: about `1.005`
-
-With only `3` repetitions, the `1.005` ratio is within measurement noise, and
-the `1.049` ratio is suggestive rather than conclusive.
-The safe conclusion is that these receipts are consistent with no improvement
-from adding guarded KB to `auto`.
-
-Boundary:
-
-- This is evidence against promoting guarded KB into the default configuration
-  right now.
-- Guarded KB remains useful as simplification evidence inside the BDD sublane.
-  It is not currently a win for the composed `auto` portfolio.
-
-Research conclusion:
-
-```text
-TAU_QELIM_BDD_KB_REWRITE=guarded is validated as an opt-in simplification lane.
-It is not yet validated as a default performance optimization.
-```
-
-The next proof-and-engineering target is a fragment selector:
-
-$$
-\operatorname{ShouldKB}(\varphi)
-\Longrightarrow
-\operatorname{Benefit}(\operatorname{KB}(\varphi)).
-$$
-
-Standard reading:
-
-- If the selector says that formula $\varphi$ should use the KB pass, then
-  applying KB to $\varphi$ should produce a measurable benefit under the chosen
-  benefit model.
-
-Boundary:
-
-- No such selector theorem is proved yet.
-- The current matrix only supplies candidate features for such a selector:
-  absorption opportunities, De Morgan growth risk, node count, support size, and
-  interaction with AC canonicalization.
 
 The strongest qelim measurement currently recorded is the auto-density matrix:
 
@@ -430,6 +199,51 @@ Boundary:
   results did not justify making them default.
 - The measurement is a same-binary benchmark record on a generated corpus. It
   is not a proof that `auto` is faster on all Tau inputs.
+
+The later c111-inspired qelim prepass has a more modest guarded form:
+
+$$
+\operatorname{KB}_{\mathrm{guard}}(e)
+=
+\begin{cases}
+\operatorname{normalize}_{\mathrm{KB}}(e),
+& \operatorname{Absorb}(e)>0,\\
+e,
+& \operatorname{Absorb}(e)=0.
+\end{cases}
+$$
+
+Standard reading:
+
+- The guarded KB pass normalizes expression $e$ if the compiled expression
+  contains at least one absorption opportunity. Otherwise it returns $e$
+  unchanged.
+
+Plain English reading:
+
+- The rewrite pass is selected by a cheap structural sign that the pass has
+  something local and useful to remove.
+
+Current check record:
+
+- `TAU_QELIM_BDD_KB_REWRITE=guarded` preserved output parity on the targeted
+  qelim probe and on generated matrices.
+- On the current 18-case generated matrix with `3` repetitions, guarded KB
+  reduced compiled KB nodes by `42.73%` and had internal qelim-time ratio about
+  `0.95` against plain BDD.
+- On the current 34-case generated matrix with `3` repetitions, guarded KB
+  reduced compiled KB nodes by `40.81%` and had internal qelim-time ratio about
+  `0.952` against plain BDD.
+- Whole-command elapsed time remained effectively neutral in this harness
+  because process startup dominates.
+
+Boundary:
+
+- This supports `TAU_QELIM_BDD_KB_REWRITE=guarded` as opt-in research evidence.
+  It does not justify making the pass default.
+- The Lean proof is about the restricted rewrite language. The patched Tau
+  prepass is an implementation inspired by that proof, with output parity and
+  benchmark records, not a proof of the entire Tau qelim engine.
 
 ## Why compile Tau fragments?
 
@@ -476,7 +290,7 @@ Boundary:
 ## Public table demo evidence
 
 The demo repo is
-[TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments).
+[TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments).
 
 The public reproduction command is:
 
@@ -687,7 +501,7 @@ $$
 \text{ can avoid fragment-unnecessary syntax work.}
 $$
 
-Outside that fragment, the fallback remains part of the safety argument.
+Outside that fragment, the fallback remains part of the safety boundary.
 
 ## 4. The table-semantics ladder
 
@@ -825,7 +639,9 @@ Current checked ladder:
 - `v476` proves priority-row normalization for fixed guards: priority evaluation is equal to guarded-join evaluation of a disjointized normal form.
 - `v477` proves the safe priority recurrence fragment: fixed-guard priority rows whose values use positive current references plus lower-stratum prime are omega-continuous and have an omega-supremum fixed point.
 - `v479` generalizes fixed priority guards to lower-stratum guard expressions: guards may read fixed lower-stratum data and lower-stratum prime, but still cannot read the current recursive state.
-- `v480` connects the lower-stratum priority fragment back to the normal-form proof artifact: after materializing guards and row values, lower-stratum priority rows normalize to disjoint guarded joins.
+- `v480` connects the lower-stratum priority fragment back to the normal-form
+  theorem: after materializing guards and row values, lower-stratum priority
+  rows normalize to disjoint guarded joins.
 - `v481` adds a restricted table syntax compiler: priority rows plus an explicit default compile into the lower-stratum priority kernel, preserve semantics, and retain omega-continuity.
 - `v484` adds a narrow TABA `CBF` syntax-and-denotation bridge: recursive if-then-else expressions over pointwise Boolean functions compile to ordinary Boolean functions by guarded-choice expansion.
 - `v485` lifts the narrow `CBF` bridge to arbitrary Boolean algebras: a conditional expression denotes as guard meet then-branch, joined with guard-prime meet else-branch.
@@ -1565,7 +1381,7 @@ $$
 \operatorname{WF}_{\operatorname{SplitPart}(V)}(w)
 \Longrightarrow
 \operatorname{CellAligned}
-\bigl([\![w]\!],\operatorname{SplitPart}(V)\bigr).
+\bigl(\llbracket w\rrbracket,\operatorname{SplitPart}(V)\bigr).
 $$
 
 Standard reading:
@@ -1581,9 +1397,9 @@ The domination receipt is:
 $$
 \operatorname{WF}_{\operatorname{SplitPart}(V)}(w)
 \wedge
-[\![w]\!]\neq\bot
+\llbracket w\rrbracket\neq\bot
 \wedge
-\operatorname{Eval}([\![w]\!],t)=\top
+\operatorname{Eval}(\llbracket w\rrbracket,t)=\top
 $$
 
 $$
@@ -1695,7 +1511,7 @@ $$
 \wedge
 \operatorname{TableAligned}(P,S)
 \Longrightarrow
-\operatorname{TableAligned}(P,[\![r]\!]_S).
+\operatorname{TableAligned}(P,\llbracket r\rrbracket_S).
 $$
 
 Standard reading:
@@ -1707,7 +1523,7 @@ The finite-approximant law is:
 $$
 S_0=\operatorname{empty},
 \qquad
-S_{n+1}=[\![r]\!]_{S_n},
+S_{n+1}=\llbracket r\rrbracket_{S_n},
 \qquad
 \operatorname{WF}_P(r)
 \Longrightarrow
@@ -1758,11 +1574,11 @@ Plain English reading:
 The denotation is:
 
 $$
-[\![\operatorname{cond}(\varphi,t,e)]\!](x)
+\llbracket \operatorname{cond}(\varphi,t,e)\rrbracket(x)
 =
 \begin{cases}
-[\![t]\!](x), & \varphi(x)=\top,\\
-[\![e]\!](x), & \varphi(x)=\bot.
+\llbracket t\rrbracket(x), & \varphi(x)=\top,\\
+\llbracket e\rrbracket(x), & \varphi(x)=\bot.
 \end{cases}
 $$
 
@@ -1788,10 +1604,10 @@ Plain English reading:
 
 - The guard partitions the point $x$ into exactly one active branch. The formula writes the same if-then-else decision as Boolean algebra.
 
-The checked compiler proof artifact is:
+The checked compiler receipt is:
 
 $$
-\operatorname{compile}(c)=[\![c]\!].
+\operatorname{compile}(c)=\llbracket c\rrbracket.
 $$
 
 Standard reading:
@@ -1809,11 +1625,11 @@ The v485 generalization moves the same equation from pointwise Boolean
 functions to arbitrary Boolean algebras:
 
 $$
-[\![\operatorname{cond}(\varphi,t,e)]\!]
+\llbracket \operatorname{cond}(\varphi,t,e)\rrbracket
 =
-(\varphi\wedge [\![t]\!])
+(\varphi\wedge \llbracket t\rrbracket)
 \vee
-(\varphi'\wedge [\![e]\!]).
+(\varphi'\wedge \llbracket e\rrbracket).
 $$
 
 Standard reading:
@@ -1827,7 +1643,7 @@ Plain English reading:
 The checked Boolean-algebra receipt is:
 
 $$
-\operatorname{compile}_{\mathrm{BA}}(c)=[\![c]\!]_{\mathrm{BA}}.
+\operatorname{compile}_{\mathrm{BA}}(c)=\llbracket c\rrbracket_{\mathrm{BA}}.
 $$
 
 Standard reading:
@@ -1858,13 +1674,13 @@ Standard reading:
 The guarded value equation is:
 
 $$
-[\![\operatorname{cond}(g,t,e)]\!]_{\rho,s}
+\llbracket \operatorname{cond}(g,t,e)\rrbracket_{\rho,s}
 =
-\bigl([\![g]\!]_{\rho}\wedge
-  [\![t]\!]_{\rho,s}\bigr)
+\bigl(\llbracket g\rrbracket_{\rho}\wedge
+  \llbracket t\rrbracket_{\rho,s}\bigr)
 \vee
-\bigl([\![g]\!]_{\rho}'\wedge
-  [\![e]\!]_{\rho,s}\bigr).
+\bigl(\llbracket g\rrbracket_{\rho}'\wedge
+  \llbracket e\rrbracket_{\rho,s}\bigr).
 $$
 
 Standard reading:
@@ -1878,9 +1694,9 @@ Plain English reading:
 The omega-continuity receipt is:
 
 $$
-F\left(\bigvee_{n<\omega} X_n\right)
+F\left(\bigvee_{n < \omega} X_n\right)
 =
-\bigvee_{n<\omega} F(X_n),
+\bigvee_{n < \omega} F(X_n),
 \qquad
 X_n\le X_{n+1}.
 $$
@@ -1892,9 +1708,9 @@ Standard reading:
 The fixed-point receipt is:
 
 $$
-F\left(\bigvee_{n<\omega}F^n(\bot)\right)
+F\left(\bigvee_{n < \omega}F^n(\bot)\right)
 =
-\bigvee_{n<\omega}F^n(\bot).
+\bigvee_{n < \omega}F^n(\bot).
 $$
 
 Standard reading:
@@ -1914,7 +1730,7 @@ $$
 \begin{aligned}
 \mathrm{Table}
 &=
-\bigl[(g_i,v_i)\bigr]_{i<m};d,\\
+\bigl[(g_i,v_i)\bigr]_{i < m};d,\\
 g_i &\in \mathrm{Guard}_{\mathrm{lower}},\\
 v_i,d &\in \mathrm{Value}_{+}^{\mathrm{CBF}}.
 \end{aligned}
@@ -1974,9 +1790,9 @@ Standard reading:
 It evaluates as:
 
 $$
-[\![c_{\neg}]\!](\bot)=\top,
+\llbracket c_{\neg}\rrbracket(\bot)=\top,
 \qquad
-[\![c_{\neg}]\!](\top)=\bot.
+\llbracket c_{\neg}\rrbracket(\top)=\bot.
 $$
 
 Standard reading:
@@ -1988,9 +1804,9 @@ The monotonicity failure is:
 $$
 \bot\le\top
 \quad\text{but}\quad
-[\![c_{\neg}]\!](\bot)
+\llbracket c_{\neg}\rrbracket(\bot)
 \nleq
-[\![c_{\neg}]\!](\top).
+\llbracket c_{\neg}\rrbracket(\top).
 $$
 
 Standard reading:
@@ -2091,7 +1907,7 @@ Let:
 $$
 \begin{aligned}
 X_n &:= n,\\
-\bigvee_{n<\omega}X_n &:= \infty,\\
+\bigvee_{n < \omega}X_n &:= \infty,\\
 g(n)&:=\bot,\\
 g(\infty)&:=\top,\\
 t(x)&:=\top,\\
@@ -2112,7 +1928,7 @@ $$
 \qquad
 \forall n,\ C(X_n)=\bot,
 \qquad
-C\left(\bigvee_{n<\omega}X_n\right)=\top.
+C\left(\bigvee_{n < \omega}X_n\right)=\top.
 $$
 
 Standard reading:
@@ -2122,9 +1938,9 @@ Standard reading:
 The failed recurrence law is:
 
 $$
-C\left(\bigvee_{n<\omega}X_n\right)
+C\left(\bigvee_{n < \omega}X_n\right)
 \neq
-\bigvee_{n<\omega}C(X_n).
+\bigvee_{n < \omega}C(X_n).
 $$
 
 Standard reading:
@@ -2287,7 +2103,7 @@ point space for Boolean-algebra values $P\to\mathbb{B}$. Define:
 $$
 \operatorname{PresUnion}(X,s,f)
 :=
-\forall p\in P,\ 
+\forall p\in P,\\
 f(s)(p)=\top
 \iff
 \exists n,\ f(X_n)(p)=\top.
@@ -2408,7 +2224,7 @@ carrier must pass.
 The abstract carrier interface is:
 
 $$
-\mathcal{C}=(A,\le,\bot,\bigvee_{n<\omega}).
+\mathcal{C}=(A,\le,\bot,\bigvee_{n < \omega}).
 $$
 
 The table carrier is:
@@ -2426,9 +2242,9 @@ T\le_{\operatorname{Table}}U
 $$
 
 $$
-\left(\bigvee_{n<\omega}^{\operatorname{Table}}T_n\right)(k)
+\left(\bigvee_{n < \omega}^{\operatorname{Table}}T_n\right)(k)
 :=
-\bigvee_{n<\omega}T_n(k).
+\bigvee_{n < \omega}T_n(k).
 $$
 
 For a monotone and omega-continuous table update $F$, define:
@@ -2436,7 +2252,7 @@ For a monotone and omega-continuous table update $F$, define:
 $$
 X_0:=\bot,\qquad X_{n+1}:=F(X_n),
 \qquad
-\mu F:=\bigvee_{n<\omega}X_n.
+\mu F:=\bigvee_{n < \omega}X_n.
 $$
 
 The checked theorem is:
@@ -2632,7 +2448,7 @@ $$
 Then:
 
 $$
-\bigcup_{n<\omega}\operatorname{Open}(G_n)
+\bigcup_{n < \omega}\operatorname{Open}(G_n)
 =
 \operatorname{Open}(G_\omega).
 $$
@@ -3141,7 +2957,7 @@ That means a table is interpreted by the function it denotes, not by the
 particular syntax of its row list. The sparse row-list picture is:
 
 $$
-T=[(G_i,a_i)]_{i<m}.
+T=[(G_i,a_i)]_{i < m}.
 $$
 
 where each `G_i` is a guard region and each `a_i` is the value assigned on that
@@ -3154,9 +2970,9 @@ $$
 The extensional reading is:
 
 $$
-[\![T]\!](x)=
+\llbracket T\rrbracket(x)=
 \begin{cases}
-a_i, & x\in G_i\text{ for some }i<m,\\
+a_i, & x\in G_i\text{ for some }i < m,\\
 0, & \text{otherwise.}
 \end{cases}
 $$
@@ -3373,7 +3189,7 @@ $$
 \operatorname{compileUpdate}(B,n)(S)(r)
 :=
 \begin{cases}
-[\![B(n)]\!]_S, & r=n,\\
+\llbracket B(n)\rrbracket_S, & r=n,\\
 S(r), & r\ne n.
 \end{cases}
 $$
@@ -3406,7 +3222,7 @@ $$
 \operatorname{Finite}(I\to V)
 \Longrightarrow
 \exists i,j,\;
-i<j\le |I\to V|
+i < j\le |I\to V|
 \land
 S_i=S_j.
 $$
@@ -3825,7 +3641,7 @@ syntax:
 
 $$
 \left(
-\forall n,\;n<\operatorname{depth}(c)\Longrightarrow s_1(n)=s_2(n)
+\forall n,\;n < \operatorname{depth}(c)\Longrightarrow s_1(n)=s_2(n)
 \right)
 \Longrightarrow
 \operatorname{eval}(c,s_1)=\operatorname{eval}(c,s_2).
@@ -3871,9 +3687,9 @@ If $\alpha$ is a complete Boolean algebra, countable table suprema are
 pointwise:
 
 $$
-\left(\bigvee_{n<\omega}X_n\right)(k)
+\left(\bigvee_{n < \omega}X_n\right)(k)
 =
-\bigvee_{n<\omega}X_n(k).
+\bigvee_{n < \omega}X_n(k).
 $$
 
 Standard reading:
@@ -3886,9 +3702,9 @@ The omega-continuity condition used by c022 is:
 $$
 X_n\le X_{n+1}\;\text{for all }n
 \Longrightarrow
-F\left(\bigvee_{n<\omega}X_n\right)
+F\left(\bigvee_{n < \omega}X_n\right)
 =
-\bigvee_{n<\omega}F(X_n).
+\bigvee_{n < \omega}F(X_n).
 $$
 
 Standard reading:
@@ -3902,7 +3718,7 @@ The finite approximants are:
 $$
 X_0=\bot,\qquad X_{n+1}=F(X_n),
 \qquad
-\mu_\omega F:=\bigvee_{n<\omega}X_n.
+\mu_\omega F:=\bigvee_{n < \omega}X_n.
 $$
 
 c022 proves:
@@ -3987,9 +3803,9 @@ The monotonicity theorem for positive expressions is:
 $$
 S\le T
 \Longrightarrow
-[\![e]\!]_S
+\llbracket e\rrbracket_S
 \le
-[\![e]\!]_T.
+\llbracket e\rrbracket_T.
 $$
 
 Standard reading:
@@ -4003,9 +3819,9 @@ The omega-continuity theorem is:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-[\![e]\!]_{\bigvee_{n<\omega}S_n}
+\llbracket e\rrbracket_{\bigvee_{n < \omega}S_n}
 =
-\bigvee_{n<\omega}[\![e]\!]_{S_n}.
+\bigvee_{n < \omega}\llbracket e\rrbracket_{S_n}.
 $$
 
 Standard reading:
@@ -4017,7 +3833,7 @@ stage and then taking the supremum of those values.
 The compiled simultaneous update is:
 
 $$
-F_B(S)(i):=[\![B(i)]\!]_S.
+F_B(S)(i):=\llbracket B(i)\rrbracket_S.
 $$
 
 Standard reading:
@@ -4028,16 +3844,16 @@ evaluating the body expression $B(i)$ in the old state $S$.
 v472 proves:
 
 $$
-F_B\left(\bigvee_{n<\omega}S_n\right)
+F_B\left(\bigvee_{n < \omega}S_n\right)
 =
-\bigvee_{n<\omega}F_B(S_n)
+\bigvee_{n < \omega}F_B(S_n)
 $$
 
 for every increasing chain $S_0\le S_1\le\cdots$. It then instantiates the
 omega fixed-point construction:
 
 $$
-\mu_\omega F_B:=\bigvee_{n<\omega}F_B^n(\bot),
+\mu_\omega F_B:=\bigvee_{n < \omega}F_B^n(\bot),
 \qquad
 F_B(\mu_\omega F_B)=\mu_\omega F_B.
 $$
@@ -4057,11 +3873,11 @@ the second component $v_r$ is its value expression.
 Its semantic value in state $S$ is:
 
 $$
-[\![r]\!]_S
+\llbracket r\rrbracket_S
 :=
-[\![g_r]\!]_S
+\llbracket g_r\rrbracket_S
 \wedge
-[\![v_r]\!]_S.
+\llbracket v_r\rrbracket_S.
 $$
 
 Standard reading:
@@ -4073,13 +3889,13 @@ guard.
 For a finite row list $R$, v473 uses guarded-join semantics:
 
 $$
-[\![R]\!]_S
+\llbracket R\rrbracket_S
 :=
 \bigvee_{r\in R}
 \left(
-[\![g_r]\!]_S
+\llbracket g_r\rrbracket_S
 \wedge
-[\![v_r]\!]_S
+\llbracket v_r\rrbracket_S
 \right).
 $$
 
@@ -4100,9 +3916,9 @@ v473 proves the row-list continuity theorem:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-[\![R]\!]_{\bigvee_{n<\omega}S_n}
+\llbracket R\rrbracket_{\bigvee_{n < \omega}S_n}
 =
-\bigvee_{n<\omega}[\![R]\!]_{S_n}.
+\bigvee_{n < \omega}\llbracket R\rrbracket_{S_n}.
 $$
 
 Standard reading:
@@ -4114,7 +3930,7 @@ every finite stage and then taking the supremum of those row-list values.
 The simultaneous row update is:
 
 $$
-F_B(S)(i):=[\![B(i)]\!]_S.
+F_B(S)(i):=\llbracket B(i)\rrbracket_S.
 $$
 
 Standard reading:
@@ -4125,17 +3941,17 @@ by evaluating the finite row list $B(i)$ in the old state $S$.
 v473 proves:
 
 $$
-F_B\left(\bigvee_{n<\omega}S_n\right)
+F_B\left(\bigvee_{n < \omega}S_n\right)
 =
-\bigvee_{n<\omega}F_B(S_n)
+\bigvee_{n < \omega}F_B(S_n)
 $$
 
 for every increasing chain $S_0\le S_1\le\cdots$. It then proves:
 
 $$
-F_B\left(\bigvee_{n<\omega}F_B^n(\bot)\right)
+F_B\left(\bigvee_{n < \omega}F_B^n(\bot)\right)
 =
-\bigvee_{n<\omega}F_B^n(\bot).
+\bigvee_{n < \omega}F_B^n(\bot).
 $$
 
 Standard reading:
@@ -4158,7 +3974,7 @@ Let $E:L\to A$ be a lower-stratum environment. The stratified-prime
 constructor is interpreted as:
 
 $$
-[\![\operatorname{lowerPrime}(\ell)]\!]_{E,S}
+\llbracket \operatorname{lowerPrime}(\ell)\rrbracket_{E,S}
 :=
 E(\ell)'.
 $$
@@ -4179,9 +3995,9 @@ constant with respect to the current state.
 The independence law is:
 
 $$
-[\![\operatorname{lowerPrime}(\ell)]\!]_{E,S}
+\llbracket \operatorname{lowerPrime}(\ell)\rrbracket_{E,S}
 =
-[\![\operatorname{lowerPrime}(\ell)]\!]_{E,T}.
+\llbracket \operatorname{lowerPrime}(\ell)\rrbracket_{E,T}.
 $$
 
 Standard reading:
@@ -4195,9 +4011,9 @@ and lower-stratum prime:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-[\![e]\!]_{E,\bigvee_{n<\omega}S_n}
+\llbracket e\rrbracket_{E,\bigvee_{n < \omega}S_n}
 =
-\bigvee_{n<\omega}[\![e]\!]_{E,S_n}.
+\bigvee_{n < \omega}\llbracket e\rrbracket_{E,S_n}.
 $$
 
 Standard reading:
@@ -4209,15 +4025,15 @@ at every finite stage and then taking the supremum of those values.
 For simultaneous updates,
 
 $$
-F_{E,B}(S)(i):=[\![B(i)]\!]_{E,S},
+F_{E,B}(S)(i):=\llbracket B(i)\rrbracket_{E,S},
 $$
 
 v474 proves:
 
 $$
-F_{E,B}\left(\bigvee_{n<\omega}F_{E,B}^n(\bot)\right)
+F_{E,B}\left(\bigvee_{n < \omega}F_{E,B}^n(\bot)\right)
 =
-\bigvee_{n<\omega}F_{E,B}^n(\bot).
+\bigvee_{n < \omega}F_{E,B}^n(\bot).
 $$
 
 Standard reading:
@@ -4241,11 +4057,11 @@ Now the guard and value may mention both current positive references and
 lower-stratum prime terms. The row semantics is:
 
 $$
-[\![r]\!]_{E,S}
+\llbracket r\rrbracket_{E,S}
 :=
-[\![g_r]\!]_{E,S}
+\llbracket g_r\rrbracket_{E,S}
 \wedge
-[\![v_r]\!]_{E,S}.
+\llbracket v_r\rrbracket_{E,S}.
 $$
 
 Standard reading:
@@ -4257,13 +4073,13 @@ from $S$.
 For a finite row list $R$:
 
 $$
-[\![R]\!]_{E,S}
+\llbracket R\rrbracket_{E,S}
 :=
 \bigvee_{r\in R}
 \left(
-[\![g_r]\!]_{E,S}
+\llbracket g_r\rrbracket_{E,S}
 \wedge
-[\![v_r]\!]_{E,S}
+\llbracket v_r\rrbracket_{E,S}
 \right).
 $$
 
@@ -4278,9 +4094,9 @@ v475 proves:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-[\![R]\!]_{E,\bigvee_{n<\omega}S_n}
+\llbracket R\rrbracket_{E,\bigvee_{n < \omega}S_n}
 =
-\bigvee_{n<\omega}[\![R]\!]_{E,S_n}.
+\bigvee_{n < \omega}\llbracket R\rrbracket_{E,S_n}.
 $$
 
 Standard reading:
@@ -4292,15 +4108,15 @@ at every finite stage and then taking the supremum of those values.
 For simultaneous row updates,
 
 $$
-F_{E,B}(S)(i):=[\![B(i)]\!]_{E,S},
+F_{E,B}(S)(i):=\llbracket B(i)\rrbracket_{E,S},
 $$
 
 v475 proves:
 
 $$
-F_{E,B}\left(\bigvee_{n<\omega}F_{E,B}^n(\bot)\right)
+F_{E,B}\left(\bigvee_{n < \omega}F_{E,B}^n(\bot)\right)
 =
-\bigvee_{n<\omega}F_{E,B}^n(\bot).
+\bigvee_{n < \omega}F_{E,B}^n(\bot).
 $$
 
 Standard reading:
@@ -4315,14 +4131,14 @@ semantics, not priority-row or first-match semantics, and it does not prove
 disjoint-row normalization.
 
 v476 adds the fixed-guard priority normal form. For a row list
-$R=[(g_i,v_i)]_{i<m}$, define the effective guard of row $i$ as:
+$R=[(g_i,v_i)]_{i < m}$, define the effective guard of row $i$ as:
 
 $$
 h_i
 :=
 g_i
 \wedge
-\bigwedge_{j<i} g_j'.
+\bigwedge_{j < i} g_j'.
 $$
 
 Standard reading:
@@ -4335,7 +4151,7 @@ The normalized guarded-join value is:
 $$
 \operatorname{JoinNorm}(R)
 :=
-\bigvee_{i<m}(h_i\wedge v_i).
+\bigvee_{i < m}(h_i\wedge v_i).
 $$
 
 Standard reading:
@@ -4367,15 +4183,15 @@ guards are fixed Boolean-algebra values, while row values may depend positively
 on the current state and may use lower-stratum prime. The priority semantics is:
 
 $$
-[\![[]]\!]_{E,S}:=\bot,
+\llbracket []\rrbracket_{E,S}:=\bot,
 $$
 
 $$
-[\![(g,e)::R]\!]_{E,S}
+\llbracket (g,e)::R\rrbracket_{E,S}
 :=
-\left(g\wedge[\![e]\!]_{E,S}\right)
+\left(g\wedge\llbracket e\rrbracket_{E,S}\right)
 \vee
-\left(g'\wedge[\![R]\!]_{E,S}\right).
+\left(g'\wedge\llbracket R\rrbracket_{E,S}\right).
 $$
 
 Standard reading:
@@ -4389,9 +4205,9 @@ v477 proves:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-[\![R]\!]_{E,\bigvee_{n<\omega}S_n}
+\llbracket R\rrbracket_{E,\bigvee_{n < \omega}S_n}
 =
-\bigvee_{n<\omega}[\![R]\!]_{E,S_n}.
+\bigvee_{n < \omega}\llbracket R\rrbracket_{E,S_n}.
 $$
 
 Standard reading:
@@ -4403,15 +4219,15 @@ every finite stage and then taking the supremum of those values.
 For simultaneous updates,
 
 $$
-F_{E,B}(S)(i):=[\![B(i)]\!]_{E,S},
+F_{E,B}(S)(i):=\llbracket B(i)\rrbracket_{E,S},
 $$
 
 v477 proves:
 
 $$
-F_{E,B}\left(\bigvee_{n<\omega}F_{E,B}^n(\bot)\right)
+F_{E,B}\left(\bigvee_{n < \omega}F_{E,B}^n(\bot)\right)
 =
-\bigvee_{n<\omega}F_{E,B}^n(\bot).
+\bigvee_{n < \omega}F_{E,B}^n(\bot).
 $$
 
 Standard reading:
@@ -4437,17 +4253,17 @@ $$
 The priority rule becomes:
 
 $$
-[\![[]]\!]_{E,S}:=\bot,
+\llbracket []\rrbracket_{E,S}:=\bot,
 $$
 
 $$
-[\![(\gamma,e)::R]\!]_{E,S}
+\llbracket (\gamma,e)::R\rrbracket_{E,S}
 :=
-\left([\![\gamma]\!]_E\wedge
-[\![e]\!]_{E,S}\right)
+\left(\llbracket\gamma\rrbracket_E\wedge
+\llbracket e\rrbracket_{E,S}\right)
 \vee
-\left([\![\gamma]\!]_E'
-\wedge[\![R]\!]_{E,S}\right).
+\left(\llbracket\gamma\rrbracket_E'
+\wedge\llbracket R\rrbracket_{E,S}\right).
 $$
 
 Standard reading:
@@ -4466,9 +4282,9 @@ v479 proves:
 $$
 \left(\forall n,\;S_n\le S_{n+1}\right)
 \Longrightarrow
-[\![R]\!]_{E,\bigvee_{n<\omega}S_n}
+\llbracket R\rrbracket_{E,\bigvee_{n < \omega}S_n}
 =
-\bigvee_{n<\omega}[\![R]\!]_{E,S_n}.
+\bigvee_{n < \omega}\llbracket R\rrbracket_{E,S_n}.
 $$
 
 Standard reading:
@@ -4479,7 +4295,7 @@ supremum of priority evaluations at each finite stage.
 
 Reading trap:
 
-The expression $[\![\gamma]\!]_E$ has no $S$ subscript. That is
+The expression $\llbracket\gamma\rrbracket_E$ has no $S$ subscript. That is
 the entire point. The guard is lower-stratum data during the current recurrence
 proof, so its prime is not same-stratum negation.
 
@@ -4488,8 +4304,8 @@ v480 then proves the pointwise normal-form bridge. Define materialization by:
 $$
 \operatorname{mat}_{E,S}(\gamma,e)
 :=
-\left([\![\gamma]\!]_E,\;
-[\![e]\!]_{E,S}\right).
+\left(\llbracket\gamma\rrbracket_E,\;
+\llbracket e\rrbracket_{E,S}\right).
 $$
 
 For a priority row list $R$, let
@@ -4502,7 +4318,7 @@ $$
 \operatorname{disjointize}(\operatorname{mat}_{E,S}(R))
 \right)
 =
-[\![R]\!]_{E,S}.
+\llbracket R\rrbracket_{E,S}.
 $$
 
 Standard reading:
@@ -4542,9 +4358,9 @@ fires exactly when no earlier priority row has captured the point.
 v481 proves the compiler theorem:
 
 $$
-[\![\operatorname{compile}(T)]\!]_{E,S}^{\operatorname{prio}}
+\llbracket \operatorname{compile}(T)\rrbracket_{E,S}^{\operatorname{prio}}
 =
-[\![T]\!]_{E,S}^{\operatorname{table}}.
+\llbracket T\rrbracket_{E,S}^{\operatorname{table}}.
 $$
 
 Standard reading:
@@ -4562,15 +4378,15 @@ rows.
 For simultaneous restricted-table updates,
 
 $$
-F_{E,B}(S)(i):=[\![B(i)]\!]_{E,S}^{\operatorname{table}},
+F_{E,B}(S)(i):=\llbracket B(i)\rrbracket_{E,S}^{\operatorname{table}},
 $$
 
 v481 proves:
 
 $$
-F_{E,B}\left(\bigvee_{n<\omega}F_{E,B}^{n}(\bot)\right)
+F_{E,B}\left(\bigvee_{n < \omega}F_{E,B}^{n}(\bot)\right)
 =
-\bigvee_{n<\omega}F_{E,B}^{n}(\bot).
+\bigvee_{n < \omega}F_{E,B}^{n}(\bot).
 $$
 
 Standard reading:
@@ -4644,7 +4460,7 @@ $$
 \operatorname{Finite}(\alpha)
 \Longrightarrow
 \exists i,j,\;
-i<j\le|\alpha|
+i < j\le|\alpha|
 \land
 x_i=x_j.
 $$
@@ -4753,7 +4569,7 @@ $$
 \operatorname{Finite}(\alpha)\land\operatorname{Finite}(\beta)
 \Longrightarrow
 \exists i,j,\;
-i<j\le|\alpha\times\beta|
+i < j\le|\alpha\times\beta|
 \land
 S_i=S_j.
 $$
@@ -4794,7 +4610,7 @@ $$
 \operatorname{Finite}(\operatorname{State})
 \Longrightarrow
 \exists i,j,\;
-i<j\le|\operatorname{State}|
+i < j\le|\operatorname{State}|
 \land
 S_i=S_j.
 $$
@@ -4910,7 +4726,7 @@ $$
 \operatorname{Finite}(\operatorname{State})
 \Longrightarrow
 \exists i,j,\;
-i<j\le|\operatorname{State}|
+i < j\le|\operatorname{State}|
 \land
 S_i=S_j.
 $$
@@ -4938,7 +4754,7 @@ $$
 
 Standard reading:
 
-`Before(a,b,\Gamma)` means that the finite order $\Gamma$ contains an
+$\operatorname{Before}(a,b,\Gamma)$ means that the finite order $\Gamma$ contains an
 occurrence of $a$, and later in the remaining suffix contains $b$.
 
 Given a dependency map $\operatorname{deps}$, a target order $\Gamma$ is
@@ -5174,7 +4990,7 @@ $$
 \operatorname{Finite}(\operatorname{State})
 \Longrightarrow
 \exists i,j,\;
-i<j\le|\operatorname{State}|
+i < j\le|\operatorname{State}|
 \land
 S_i=S_j,
 \qquad
@@ -5234,7 +5050,7 @@ $$
 \operatorname{Finite}(I\to\{\bot,\top\})
 \Longrightarrow
 \exists i,j,\;
-i<j\le|I\to\{\bot,\top\}|
+i < j\le|I\to\{\bot,\top\}|
 \land
 S_i=S_j,
 \qquad
@@ -5328,14 +5144,14 @@ Third, recurrence needs countable suprema:
 $$
 X_0=\bot,\qquad
 X_{n+1}=F(X_n),\qquad
-\mu F=\bigvee_{n<\omega}X_n.
+\mu F=\bigvee_{n < \omega}X_n.
 $$
 
 Finite clopen cells do not contain all such countable joins. The v402 witness is
 the countable union:
 
 $$
-\bigcup_{n<\omega}[0^n1].
+\bigcup_{n < \omega}[0^n1].
 $$
 
 Standard reading:
@@ -5425,73 +5241,71 @@ It says that finite prelude data, finite cycle data, wrap consistency, periodic
 tail input, cycle coverage, recurring-state sightings, and acceptance compose
 into a proof of nonempty accepted language.
 
-The subsequent receipts split into proof roles:
+That finite lasso surface then splits into four checked sub-lanes:
 
-- v434 adds a bounded Python graph-search emitter for the same certificate
-  shape.
-- v435 proves the explicit finite accepting-set bridge.
-- v436 bridges list-shaped emitter output into the dependent proof surface.
-- v437 through v440 move from raw list validation to a finite Boolean checker.
-- v441 and v442 add the optional-output wrapper for untrusted emitters.
-- v443 adds a Lean finite graph-search emitter and routes it through that
-  wrapper.
-- The emitter is still not proved complete or lowered into Tau.
-- v444 removes the ordered-list accepting-set hazard with a
-  permutation-insensitive checker.
-- v445 through v447 package the unordered checker, compose it with graph search,
-  and replay all 30 emitted certificates in Lean.
-- v448 through v450 prove exactness for ordered and unordered local witness
+- v434 through v440 move from a bounded Python graph-search emitter to
+  list-shaped dependent proof bridges, raw-list validator soundness, local
+  validator checks, and a proved finite Boolean checker.
+- v441 through v447 add optional-output wrappers for untrusted emitters,
+  route a Lean finite graph-search emitter through those wrappers, repair the
+  accepting-set order hazard, and check the emitted-certificate corpus natively
+  in Lean.
+- v448 through v450 prove checker exactness for the ordered and unordered local
   predicates, then lift that exactness to returned graph-search output.
-- v451 checks the pointwise-revision preservation/fallback law.
-- v452 through v455 move the existential bridge from pair-indexed terms and DNF
-  to fixed bit-indexed and fixed two-step split-index bridges.
-- v456 adds a proof-quality audit lane for v451 by making the representation,
-  abstraction, constraints, goals, obligations, solvers, and metadata explicit.
+- v451 through v455 move back to table semantics: pointwise revision,
+  pair-indexed atomless existential bridges, fixed bit-indexed bridges,
+  abstract split-index laws, and the fixed two-step iterated bridge over
+  `Fin 8 -> Fin 4 -> Fin 2`.
 
-Arbitrary-width bit-indexed lowering remains open, but the projection frontier
-has been narrowed.
+The emitter is still not proved complete and is not lowered into Tau. The
+remaining iterated-elimination problem is generic split-index composition,
+not the fixed two-step witness chain.
 
-Projection-composition receipts:
+The next proof artifacts move the projection frontier in stages:
 
+- v456 is a proof-quality audit lane for v451. It exposes representation,
+  abstraction, constraints, goals, obligations, solvers, and metadata before
+  the prose claim is reused.
 - v457 replaces the fixed two-step `Fin 8 -> Fin 4 -> Fin 2` result with an
   abstract two-step composition theorem for compatible split-index interfaces.
 - v458 proves arbitrary finite-depth composition for homogeneous split-index
   chains.
-- v459 specializes the one-step and two-step DNF bridge receipts to the concrete
+- v459 specializes the one-step and two-step DNF bridges to the concrete
   product carrier `Base x Bool`.
-- v460 checks a three-stage heterogeneous product-carrier bridge directly.
+- v460 checks a depth-three heterogeneous product-carrier chain and an all-free
+  DNF instance, showing that the heterogeneous route is not blocked at depth
+  three.
 - v461 closes the finite heterogeneous split-index chain by making carrier
   agreement part of the chain type.
+- v462 adds a table-expression compiler layer for `rows`, `join`, and
+  existential atomless `project`, but not yet the v400 prefix-word clopen
+  row-table layer.
+- v463 accepts v400-style finite prefix-word rows only under an explicit
+  embedding `path : PrefixWord -> Cell`. This narrows the bridge but does not
+  prove stream-clopen equivalence.
 
-Table-expression receipts:
+The packed-representation lane is separate:
 
-- v462 adds the DNF table-expression compiler layer for `rows`, `join`, and
-  `project`.
-- v463 accepts v400-style finite prefix-word rows after making the embedding
-  premise explicit as `path : PrefixWord -> Cell`.
-- This still does not prove stream-clopen equivalence.
-
-Packed-representation receipts:
-
-- v464 proves the cardinality receipt `Fin n x Bool ~= Fin (2*n)`.
-- v465 proves the concrete arithmetic encoding:
-  `low(i)=2*i`, `high(i)=2*i+1`, `parent(c)=c/2`, and `side(c)=c mod 2`.
+- v464 proves `Fin n x Bool ~= Fin (2*n)` as an equivalence-existence theorem.
+- v465 gives the concrete arithmetic encoding: `low(i)=2*i`,
+  `high(i)=2*i+1`, `parent(c)=c/2`, and `side(c)=c mod 2`.
 - v466 plugs that concrete carrier into the split-index DNF bridge.
-- v467 extends the bridge to the finite `rows`, `join`, and `project`
-  expression compiler.
-- The remaining packed-lowering task is stream-clopen row equivalence,
-  recurrence, and Tau runtime integration.
+- v467 extends the bridge to finite `rows`, `join`, and `project`.
 
-Revision and algebraic receipts:
+The remaining packed-lowering task is no longer one-step DNF projection or
+finite expression compilation. It is stream-clopen row equivalence, recurrence,
+and Tau runtime integration.
 
-- v468 closes the extended pointwise revision gap only for the pointwise
-  partial-update operator.
-- It does not prove recursive table revision or revision-safe partial
-  recomputation.
-- v469 moves the atomless splitter property into mathlib's Boolean-algebra
+The pointwise and atomless side has a separate boundary:
+
+- v468 closes extended pointwise revision only for the pointwise partial-update
+  operator.
+- v469 moves the atomless splitter law into mathlib's Boolean-algebra
   interface.
-- v470 adds the finite BL disjointness and membership characterization.
-- Coverage-to-top and splitter independence remain separate obligations.
+- v470 adds finite BL disjointness and membership characterization.
+
+Recursive table revision, revision-safe partial recomputation, coverage-to-top,
+and splitter independence remain separate obligations.
 
 The current carrier stack should be read as:
 
@@ -5503,7 +5317,7 @@ FinClopen -> PrefixOpen -> BoolRef
 `PrefixOpen` is the positive-recursion completion lane. `BoolRef` is the full
 Boolean reference semantics, currently represented most faithfully by the
 v406-style Borel-code lane, with v403 powersets kept as the simplest reference
-receipt.
+model.
 
 The executable Boolean guard target is a separate embedding problem:
 
@@ -5511,131 +5325,47 @@ The executable Boolean guard target is a separate embedding problem:
 AutomataEff -> BoolRef
 ```
 
-The evidence for that lane is organized by proof role.
+The evidence for that lane should be read in stages, not as one undifferentiated
+claim.
 
-<strong>Carrier and closure evidence, v407 through v421.</strong>
+First, v407 through v413 build the automata-shaped Boolean surface: concrete
+deterministic witnesses, semantic closure scaffolding, co-Buchi finite
+acceptance for the running witness, a two-state Muller product projection, the
+arbitrary finite-list projection core, and a listed finite-state Muller carrier.
 
-- Concrete deterministic witnesses are checked.
-- Semantic closure scaffolding is checked.
-- The running witness has finite co-Buchi acceptance data.
-- The co-Buchi union boundary is recorded.
-- A two-state Muller product projection is checked.
-- The arbitrary finite-list projection core and listed finite-state Muller
-  carrier are checked.
+Second, v414 through v421 connect acceptance evidence to language reasoning. A
+narrow self-loop nonempty certificate is checked. Semantic equivalence is
+reduced to symmetric-difference emptiness. General eventual-set nonemptiness,
+finite recurring-list specialization, non-equivalence certificates, product-state
+union and intersection, constructed symmetric difference, and exact empty versus
+nonempty outcome specifications are all checked at the finite certificate level.
 
-<strong>Equivalence and non-equivalence evidence.</strong>
+Third, v422 through v447 turn the finite-lasso idea into an executable certificate
+lane. The periodic-run bridge derives the infinitely-often evidence from
+eventual periodicity. Finite cycle input and state bridges derive the needed
+periodic stream facts. Bounded transition consistency proves run/table agreement
+for each cycle index. Compact `Fin period` cycle data lowers into that bounded
+theorem. The resulting finite-cycle nonempty certificate lane is integrated, and
+the graph-search emitter can construct checked finite lasso certificates for
+explicit finite Muller accepting sets.
 
-- A narrow self-loop nonempty certificate is checked.
-- Semantic equivalence is reduced to symmetric-difference emptiness.
-- A general eventual-set nonempty certificate and its finite recurring-list
-  specialization are checked.
-- A non-equivalence bridge is checked: symmetric-difference realization plus
-  finite-list nonempty evidence proves non-equivalence.
-- Executable product-state union and intersection carriers are checked.
-- A constructed symmetric-difference carrier is checked.
-- Finite-list nonempty evidence on that constructed carrier proves
-  non-equivalence.
-- Empty and nonempty outcomes for the constructed carrier now have the exact
-  equivalence specification.
+Fourth, v448 through v456 remove representation hazards and connect pointwise
+revision. Lean bridges explicit accepting-set membership, list-shaped emitted
+lasso data, raw local checks, executable Boolean checks, optional emitter output,
+unordered accepting-set checks, and unordered graph-search output into the same
+soundness surface. The unordered check fixes a concrete emitter hazard: `[B,A]`
+no longer fails only because the accepting family stores `[A,B]`. The pointwise
+revision law is also checked: the formula preserves the new spec
+unconditionally, preserves the old spec when a joint witness exists, falls back
+to the new spec when no joint witness exists, and is idempotent when revising a
+spec by itself.
 
-<strong>Finite-cycle and periodic-run evidence.</strong>
-
-- The periodic-run bridge derives the infinitely-often evidence needed by the
-  finite-list certificate from eventual periodicity.
-- Periodic input plus a state anchor derives run periodicity.
-- The finite-cycle input bridge derives input periodicity from finite
-  tail-cycle data, but not yet from a fully finite path-plus-cycle graph
-  witness.
-- The finite-cycle state bridge derives post-cutoff sightings from finite
-  cycle-state table membership.
-- The cycle-anchor bridge derives anchor equality from the final wrap
-  transition.
-- Bounded transition consistency derives run/table agreement for every bounded
-  cycle index.
-- Compact `Fin period` cycle data lowers into that bounded table theorem.
-- These pieces compose into one integrated finite-cycle nonempty certificate
-  lane.
-
-<strong>Tail-cycle stream evidence.</strong>
-
-- For `TailCycleStream`, compact cycle-offset bit matches are derived from the
-  stream definition rather than supplied as certificate fields.
-- Finite prelude path data derives the cycle-start run match.
-- The eventual-in-recurring predicate is derived from periodicity plus cycle
-  coverage.
-
-<strong>Emitter and lasso-certificate evidence.</strong>
-
-- A bounded graph-search emitter constructs and validates finite lasso
-  certificates for explicit finite Muller accepting sets.
-- For explicit finite Muller acceptance data, Lean bridges finite accepting set
-  membership into the v433 certificate surface.
-- For list-shaped emitted lasso data, Lean bridges length-checked lists into the
-  dependent `Fin` tables consumed by the certificate.
-- For raw emitted list witnesses, Lean proves that satisfying the validator
-  predicate is enough to reach nonempty accepted language.
-- For raw local list checks, Lean proves that natural-number-indexed ordinary
-  list checks imply the validator predicate and therefore reach nonempty
-  accepted language.
-- For truly local raw list checks, Lean proves that the wrap transition can be
-  checked as a plain final-cycle transition and still bridge into the
-  stream-shaped certificate lane.
-- For executable raw list checks, Lean proves that a finite Boolean checker
-  returning `true` is enough to establish nonempty accepted language.
-- For optional emitter output, Lean proves that checked `some` output is enough
-  to establish nonempty accepted language, while `none` is rejected.
-- For wrapped emitter output, Lean proves that any returned witness has already
-  passed the checker and is therefore sound evidence.
-- For the Lean graph-search emitter, Lean proves that any returned witness
-  surviving the wrapper is structurally valid and proves nonempty accepted
-  language.
-- A failed search is still not an emptiness proof.
-
-<strong>Unordered accepting-set evidence.</strong>
-
-- Lean proves that replacing exact list order with mutual finite membership
-  preserves soundness.
-- This fixes a concrete emitter hazard: `[B,A]` no longer fails only because
-  the accepting family stores `[A,B]`.
-- For unordered optional emitter output, Lean proves the same safe wrapper shape
-  as v442: any returned witness has already passed the unordered checker and
-  therefore proves nonempty accepted language.
-- For graph-search output routed through the unordered wrapper, Lean proves that
-  any returned witness from the executable finite search lane proves nonempty
-  accepted language.
-- For the v434 emitted-certificate corpus, Lean checks all 30 emitted
-  certificates natively and composes each accepted witness with v444 soundness.
-- For the ordered checker itself, Lean proves exactness against the v439 local
-  witness predicate: checker `true` if and only if that predicate holds.
-- For the unordered checker itself, Lean proves exactness against the
-  extensional local witness predicate: checker `true` if and only if the local
-  lasso conditions hold and the recurring list has the same finite members as
-  an accepted list.
-- For unordered graph-search output, Lean proves the exact returned-output
-  contract: any returned witness satisfies that extensional local predicate and
-  proves nonempty accepted language.
-
-<strong>Pointwise revision evidence.</strong>
-
-- Lean proves that the revision formula preserves the new spec
-  unconditionally.
-- Lean proves that the revision formula preserves the old spec when a joint
-  witness exists.
-- Lean proves that the revision formula falls back to the new spec when no joint
-  witness exists.
-- Lean proves that revision is idempotent when revising a spec by itself.
-- The same pointwise law has a v456 sigma audit.
-- The collapsed Boolean abstraction is `p = phi(x,y)`, `q = psi(x,y)`,
-  `j = exists t, phi(x,t) and psi(x,t)`, and `r = q and (j -> p)`.
-- The explicit obligations are checked by brute force, Z3, cvc5, ESSO, and the
-  v451 Lean receipt.
-
-<strong>Open boundary.</strong>
-
-- Complete finite graph emptiness is still open.
-- Minimization is still open.
-- Recurrence compilation is still open.
-- Tau lowering is still open.
+The remaining boundary is still important. Complete finite graph emptiness,
+minimization, recurrence compilation, and Tau lowering are not closed by this
+automata lane. The same pointwise law also has a v456 sigma audit. The collapsed
+Boolean abstraction is `p = phi(x,y)`, `q = psi(x,y)`,
+`j = exists t, phi(x,t) and psi(x,t)`, and `r = q and (j -> p)`. The explicit
+obligations are checked by brute force, Z3, cvc5, ESSO, and the v451 Lean proof.
 
 ## 5. The v393 semantic object
 
@@ -5675,7 +5405,7 @@ $$
 \end{aligned}
 $$
 
-The key semantic receipts are:
+The key semantic facts are:
 
 $$
 \operatorname{Eval}(\operatorname{compl}(t),s)
@@ -6452,7 +6182,7 @@ The v428 proof handles the ordinary cycle edges:
 $$
 \operatorname{Run}(A,s,N)=\operatorname{cycle\_state}(0)
 \land
-\forall j<L,\;s(N+j)=\operatorname{cycle\_bit}(j)
+\forall j < L,\;s(N+j)=\operatorname{cycle\_bit}(j)
 $$
 
 $$
@@ -6517,9 +6247,18 @@ $$
 $$
 
 This is now a finite lasso certificate lane with an executable Lean emitter
-handoff.
+handoff. It is still not full graph-search completeness.
 
-What is checked:
+The bounded search side is:
+
+- v434 implements the search procedure in Python for a bounded finite
+  acceptance domain.
+- v443 ports a bounded Lean emitter whose returned witnesses are filtered
+  through the proved checker and wrapper.
+- v447 gives Lean-native coverage for the 30 certificates emitted by the v434
+  corpus.
+
+The checker-correctness side is:
 
 - v435 proves that explicit finite accepting-set membership supplies the
   acceptance proof required by the finite-lasso certificate.
@@ -6531,20 +6270,10 @@ What is checked:
   lists.
 - v445 packages that unordered checker as an optional-output wrapper.
 - v446 composes the graph-search emitter with that wrapper.
-- v447 gives Lean-native coverage for the 30 certificates emitted by the v434
-  corpus.
 - v448 proves the ordered checker exact for supplied local witnesses.
 - v449 proves the unordered checker exact for supplied extensional local
   witnesses.
 - v450 composes that exactness theorem with the unordered graph-search wrapper.
-
-What remains outside the claim:
-
-- v434 implements the search procedure in Python for a bounded finite
-  acceptance domain.
-- v443 ports a bounded Lean emitter whose returned witnesses are filtered
-  through the proved checker and wrapper.
-- This is still not full graph-search completeness.
 
 For `TailCycleStream`, the bit matches are derived by v431. The cycle-start
 match is derived from finite prelude path data by v432. Eventual membership in
@@ -6555,69 +6284,60 @@ the recurring list is derived by v433.
 Full TABA tables are not solved yet.
 The remaining semantic work is specific:
 
-- specialize deterministic stream automata to finite parity or Muller
-  acceptance data, or prove finite stabilization for the supported recurrence
-  fragment,
-- prove complete emptiness or nonemptiness decision procedures for the finite
-  emitter lane, not only sound returned-witness certificates,
-- turn c021 finite-prefix adequacy into an explicit clopen-to-DFA or
-  clopen-to-Muller compiler theorem,
-- either instantiate c022's least-fixed-point completion theorem with a concrete
-  carrier, such as a regular-open or quotient-completion carrier, or extend c034
-  from the compiled Boolean toy kernel to the real TABA formula/CBF language,
-  table-valued expressions, and executable ready-node search,
+- specialize deterministic stream automata to finite parity or Muller acceptance data, or prove finite stabilization for the supported recurrence fragment,
+- prove complete emptiness or nonemptiness decision procedures for the finite emitter lane, not only sound returned-witness certificates,
+- turn c021 finite-prefix adequacy into an explicit clopen-to-DFA or clopen-to-Muller compiler theorem,
+- either instantiate c022's least-fixed-point completion theorem with a concrete carrier, such as a regular-open or quotient-completion carrier, or extend c034 from the compiled Boolean toy kernel to the real TABA formula/CBF language, table-valued expressions, and executable ready-node search,
 - add composition and pullback to the quotient-valued recursive expression grammar,
 - extend the schedule model to heterogeneous typed table entries,
 - prove revision-safe partial recomputation,
 - connect the supported fragment to real Tau syntax and runtime behavior.
 
-The blocker has narrowed.
+The current blocker has moved again.
 
-Already closed:
+What is no longer the blocker:
 
-- finite-union clopen semantics for the quotient carrier,
-- DNF projection into that semantic carrier,
-- executable word-list normalization and certified primitive rewrites,
-- sound finite normalizer traces and externally checkable trace logs,
-- the first typed row/projection table-expression bridge,
-- finite recurrence approximant preservation under certified body rewrites,
-- the negative result that finite clopens do not carry arbitrary countable
-  recurrence suprema,
+- finite-union clopen carrier semantics,
+- semantic quotient projection,
+- executable word-list validation,
+- primitive rewrite certificates,
+- sound finite normalizer traces,
+- external trace-log checking,
+- the first typed row/projection bridge,
+- finite recurrence approximant preservation,
 - powerset reference completion,
-- prefix-open positive-recursion completion,
-- the proof that prefix-open cells are not a full Boolean carrier.
-
-Also closed in the automata lane:
-
-- a concrete stream-automaton witness,
+- prefix-open positive-recursion semantics,
+- prefix-open complement failure,
+- concrete deterministic automata witnesses,
 - semantic automata closure,
 - finite acceptance data for the running witness,
-- co-Buchi intersection and the refutation of naive co-Buchi union-good,
-- two-state Muller projection,
-- finite-list projection,
-- listed finite-state Muller Boolean receipts,
-- self-loop nonempty certificates,
+- two-state Muller product projection,
+- finite-list Muller projection,
 - symmetric-difference equivalence reduction,
 - finite recurring-list nonempty certificates,
-- non-equivalence certificates from constructed symmetric-difference evidence,
-- executable product-state Boolean carriers,
-- finite-cycle lasso certificates for nonempty accepted language.
+- product-state Boolean carriers,
+- constructed symmetric-difference decision specification,
+- periodic-run and input-periodicity bridges,
+- finite cycle-state membership,
+- wrap-anchor equality,
+- bounded transition-consistency agreement,
+- compact finite-cycle lowering,
+- the integrated finite-cycle nonempty certificate lane.
 
-Still open:
+What remains open:
 
 - complete executable emptiness,
 - minimization,
-- recurrence compilation,
-- a reference-semantics embedding for the executable automata lane,
-- or a fragment theorem proving finite stabilization before completion is
-  needed.
+- complete recurrence compilation,
+- embedding the executable carrier into the reference semantics,
+- or, alternatively, a stabilization criterion strong enough for the intended
+  recurrence fragment.
 
-The finite recurrence and schedule-certificate side is also partially checked:
-c024 through c028 cover finite semantic recurrence, mutual recurrence,
-finite-family recurrence, supplied semantic schedules, and supplied
-dependency-order certificates. Dependency extraction, checked topological-sort
-construction, formula-to-update compilation, and Tau runtime lowering are still
-open.
+c024 through c028 add the finite recurrence and schedule-certificate side:
+finite semantic recurrence, mutual recurrence, finite-family recurrence,
+supplied semantic schedules, and supplied dependency-order certificates are
+checked. Dependency extraction, checked topological-sort construction,
+formula-to-update compilation, and Tau runtime lowering remain open.
 
 ## 9. Research status
 
@@ -6935,53 +6655,82 @@ Boolean algebras, and the new prelude also exposes the shape over Tau's symbolic
 `tau` carrier. This is still not a claim of full unrestricted TABA.
 
 The remaining target is smaller and sharper than "solve tables."
-
-Semantic carrier boundary:
+The proof artifacts split into separate lanes:
 
 - v402 shows why finite clopens are insufficient for arbitrary countable
-  recurrence unions.
-- v403 gives the powerset reference semantics.
-- v405 prevents overclaiming the prefix-open positive lane.
-- v406 restores Boolean expressiveness, but shifts the hard runtime problem to
+  recurrence limits.
+- v403 gives the reference semantics.
+- v405 prevents overclaiming the prefix-open lane.
+- v406 restores Boolean expressiveness, but exposes the implementation problem:
   effective equivalence and minimization.
+- c022 through c032 split the semantic recurrence problem into two honest
+  lanes: complete atomless least-fixed-point semantics, or TABA-style finite
+  quotient loop semantics.
 
-Automata and lasso-certificate lane:
+Neither lane is solved by a finite clopen carrier or an atomic powerset
+reference model. That is the core lesson. The implementation carrier and the
+truth semantics cannot be silently identified.
 
-- v407 through v433 build the deterministic-stream, Muller, equivalence, and
-  finite-cycle certificate scaffolding.
-- v434 through v450 add bounded emitter output, executable checkers, unordered
-  accepting-set repair, corpus checks, and exact local witness predicates.
-- This lane now has sound returned-witness certificates.
-- It still does not have complete graph-search emptiness or minimization.
+The automata lane then turns equivalence into a finite certificate problem:
 
-Split-index and table-expression lane:
+- v407 through v413 move from concrete deterministic witnesses to a listed
+  finite-state Muller surface.
+- v414 and v415 fix the first nonempty-witness format and the equivalence
+  target, namely symmetric-difference emptiness.
+- v416 through v422 define finite recurring-list evidence, construct the
+  symmetric-difference carrier, and prove the exact equivalence versus
+  non-equivalence specification.
+- v423 through v433 remove supplied semantic assumptions one by one, replacing
+  them with periodic input, finite cycle data, bounded transition consistency,
+  wrap-anchor equality, and cycle coverage.
+- v434 through v450 build the executable finite-lasso lane: emitter, validator,
+  optional-output wrapper, unordered accepting-set repair, native Lean checks
+  for the emitted corpus, checker exactness, and returned-output soundness.
 
-- v452 through v456 check the pair-indexed, fixed bit-indexed, split-index,
-  two-step, and audited pointwise-revision bridges.
-- v457 and v458 turn fixed two-step projection into arbitrary finite-depth
-  homogeneous composition.
-- v459 through v461 close product-carrier and finite dependent heterogeneous
-  chain composition.
-- v462 through v467 connect the DNF layer, prefix-word rows, packed finite
-  carriers, and finite `rows`/`join`/`project` expression compilation.
-- The remaining packed work is recurrence, stream-clopen row equivalence, and
-  Tau lowering.
+The atomless and finite-depth projection lane handles a different obstacle:
 
-Atomless table layer:
+- v451 adds the first checked pointwise revision-preservation artifact.
+- v452 through v456 build fixed atomless existential bridges, split-index
+  interfaces, a two-step bridge, and an ESSO/SMT audit of the collapsed
+  pointwise-revision obligations.
+- v457 and v458 turn finite-depth projection into a composable theorem. The
+  explicit witness object, `ChainExtends stages ba fa`, records the
+  stage-by-stage atomless extension path.
+- v459 through v461 prove product-carrier and heterogeneous-chain versions, so
+  the remaining gap is no longer finite heterogeneous composition.
+
+The table-expression and packed-carrier lane narrows the compiler boundary:
+
+- v462 adds the first DNF-layer table-expression compiler adequacy theorem.
+- v463 compiles finite prefix-word rows into DNF rows under an explicit path
+  embedding, while leaving stream-clopen quotient semantics as a separate
+  theorem.
+- v464 through v466 prove the finite packing arithmetic and the one-step packed
+  DNF projection bridge through
+  `packedSplitIndex n : SplitIndex (Fin n) (Fin (2*n))`.
+- v467 closes the finite table-expression fragment for `rows`, `join`, and
+  `project` over the packed carrier.
+
+The algebraic atomless table lane states exactly what is solved and what is
+not:
 
 - v468 closes extended pointwise revision for partial updates.
 - v469 proves that the splitter property is exactly atomlessness over mathlib
   Boolean algebras.
 - v470 proves the BL disjointness and membership core.
-- c013 and c017 check the algebraic atomless table layer over arbitrary key
-  type and Boolean-algebra value type.
-- v471 checks the concrete semantic `Clopen` splitter bridge and arbitrary-key
-  table lift.
-- Claude c020 assembles the algebraic non-recursive table layer with `setAt`
-  and `commonTables` laws.
+- c013 and c017 check the algebraic atomless table layer: splitter iff
+  atomlessness, pointwise Boolean-algebra-valued table laws, and table-level
+  splitter lift for arbitrary key type `K` and Boolean-algebra value type
+  `alpha`.
+- v471 checks the concrete semantic clopen bridge: Cantor splitter plus
+  semantic clopen subtype proof gives splitter existence for nonzero `Clopen`
+  values, with an arbitrary-key table lift for `K -> Clopen`.
+- c020 assembles that result with `setAt` and `commonTables` laws for the
+  algebraic non-recursive table layer.
 
-These are real semantic receipts. They do not yet supply constructive
-infinite-table executability, recurrence, NSO semantics, or full Tau lowering.
+These are real semantic proof artifacts, but they do not yet supply
+constructive infinite-table executability, recurrence, NSO semantics, or full
+Tau lowering.
 
 The later QClopen table-alignment lane sharpens the recurrence boundary. v523
 lifts cell alignment to table entries. v524 proves that finite recurrence
@@ -6995,8 +6744,12 @@ $$
 \operatorname{Aligned}(F(T)).
 $$
 
-Standard reading: if the current table is aligned with the splitter partition,
-then one well-formed recurrence-body step produces another aligned table.
+Standard reading:
+
+```text
+If the current table is aligned with the splitter partition, then one
+well-formed recurrence-body step produces another aligned table.
+```
 
 The important trap is that preservation is not stabilization. v526 proves that
 unrestricted same-stratum prime can oscillate. The checked witness is the
@@ -7012,8 +6765,12 @@ $$
 \neg \exists N.\ \forall n\ge N,\ F^n(\bot)=F^N(\bot).
 $$
 
-Standard reading: there is no finite stage $N$ such that every later
-approximant is equal to the approximant at $N$.
+Standard reading:
+
+```text
+There is no finite stage N such that every later approximant is equal to the
+approximant at N.
+```
 
 So the constructive recurrence lane must be positive or stratified. v527
 therefore defines a positive recurrence fragment, excluding same-stratum prime
@@ -7025,9 +6782,12 @@ T\le U
 F(T)\le F(U).
 $$
 
-Standard reading: if one input table is pointwise below another input table,
-then evaluating the same positive recurrence body preserves that pointwise
-order.
+Standard reading:
+
+```text
+If one input table is pointwise below another input table, then evaluating the
+same positive recurrence body preserves that pointwise order.
+```
 
 v528 then proves the finite-height theorem for this positive fragment, and it
 collapses to one step:
@@ -7036,11 +6796,15 @@ $$
 \forall n\ge 1,\quad F^n(\bot)=F(\bot).
 $$
 
-Standard reading: for every iterate index $n$ at least one, the $n$th
-approximant from bottom equals the first approximant from bottom.
+Standard reading:
+
+```text
+For every iterate index n at least one, the nth approximant from bottom equals
+the first approximant from bottom.
+```
 
 The proof does not enumerate the finite state space. It uses the polynomial
-shape of positive recurrence bodies. For every table $T$:
+shape of positive recurrence bodies. For every table T:
 
 $$
 F(T)\le F(\bot)\vee T.
@@ -7052,17 +6816,21 @@ $$
 F(\bot)\le F(F(\bot))\le F(\bot)\vee F(\bot)=F(\bot).
 $$
 
-Standard reading: the first inequality says monotonicity pushes the first
-approximant below the second. The second inequality says a positive body
-evaluated at any table $T$ cannot exceed the join of its first approximant and
-$T$. At $T=F(\bot)$, the upper bound collapses back to $F(\bot)$.
+Standard reading:
+
+```text
+The first inequality says monotonicity pushes the first approximant below the
+second. The second inequality says a positive body evaluated at any table T
+cannot exceed the join of its first approximant and T. At T = F(bottom), the
+upper bound collapses back to F(bottom).
+```
 
 So the positive recurrence lane is now not merely monotone. It is checked as
 one-step stabilizing. This remains a scoped theorem, not full TABA recurrence:
 same-stratum prime is excluded by the v526 oscillator, and arbitrary select
 predicates are excluded until their monotonicity obligations are made explicit.
 
-v529 adds the safe stratified-prime interpretation. The unsafe form is:
+v529 adds the safe stratified-prime interpretation. The safe form is not:
 
 $$
 F(T)=T'.
@@ -7083,9 +6851,13 @@ $$
 \operatorname{eval}_{\mathrm{pos}}(\operatorname{compile}(E),T).
 $$
 
-Standard reading: evaluating a stratified-prime recurrence body at table $T$
-gives the same table as first compiling it into a positive recurrence body and
-then evaluating that positive body at $T$.
+Standard reading:
+
+```text
+Evaluating a stratified-prime recurrence body at table T gives the same table
+as first compiling it into a positive recurrence body and then evaluating that
+positive body at T.
+```
 
 Since the compiled body is positive, v528 transfers immediately:
 
@@ -7108,8 +6880,12 @@ $$
 \Longrightarrow P(y)=\mathrm{true}.
 $$
 
-Standard reading: the predicate $P$ is upward-closed exactly when every accepted
-value remains accepted after moving upward in the Boolean order.
+Standard reading:
+
+```text
+The predicate P is upward-closed exactly when every accepted value remains
+accepted after moving upward in the Boolean order.
+```
 
 With that premise, select is monotone:
 
@@ -7119,11 +6895,18 @@ T\le U \wedge \operatorname{Up}(P)
 \operatorname{Select}_{P}(T)\le \operatorname{Select}_{P}(U).
 $$
 
-Standard reading: if table $T$ is pointwise below table $U$, and $P$ is
-upward-closed, then selecting entries of $T$ by $P$ gives a table pointwise
-below selecting entries of $U$ by $P$.
+Standard reading:
 
-Trap: this is a monotonicity statement. It is not a stabilization statement.
+```text
+If table T is pointwise below table U, and P is upward-closed, then selecting
+entries of T by P gives a table pointwise below selecting entries of U by P.
+```
+
+Trap:
+
+```text
+This is a monotonicity statement. It is not a stabilization statement.
+```
 
 v531 proves that the trap is real. In the two-bit Boolean algebra, let
 $a$ and $b$ be disjoint atoms, and let $P(x)$ mean that both bits of
@@ -7133,9 +6916,13 @@ $$
 F(T)=b\vee \operatorname{Select}_{P}(a\vee T).
 $$
 
-Standard reading: the recurrence body always includes atom $b$. It also includes
-the selected part of $a$ joined with the current recursive table $T$, but only
-when the joined value passes the threshold predicate $P$.
+Standard reading:
+
+```text
+The recurrence body always includes atom b. It also includes the selected part
+of a joined with the current recursive table T, but only when the joined value
+passes the threshold predicate P.
+```
 
 The checked boundary is:
 
@@ -7143,8 +6930,12 @@ $$
 F(\bot)\ne F^{2}(\bot).
 $$
 
-Standard reading: the first approximant from bottom is not equal to the second
-approximant from bottom.
+Standard reading:
+
+```text
+The first approximant from bottom is not equal to the second approximant from
+bottom.
+```
 
 This means upward-closed select is safe for recurrence monotonicity, but not
 safe for copying the v528 one-step stabilization theorem. Any stronger theorem
@@ -7160,8 +6951,12 @@ $$
 \bigvee_{c\in C} c = 1.
 $$
 
-Standard reading: the witness $x$ is aligned with the finite cell list $C$, and
-the cells in $C$ cover the whole Boolean space.
+Standard reading:
+
+```text
+The witness x is aligned with the finite cell list C, and the cells in C cover
+the whole Boolean space.
+```
 
 Under that premise:
 
@@ -7171,8 +6966,12 @@ x
 \bigvee \operatorname{HitCells}(C,x).
 $$
 
-Standard reading: the witness $x$ is equal to the join of exactly the cells in
-$C$ whose meet with $x$ is non-bottom.
+Standard reading:
+
+```text
+The witness x is equal to the join of exactly the cells in C whose meet with x
+is non-bottom.
+```
 
 This is the finite-menu bridge:
 
@@ -7183,65 +6982,85 @@ x=
 \bigvee \operatorname{HitCells}(\operatorname{SplitPartition}(v_1,\ldots,v_n),x).
 $$
 
-Standard reading: if $x$ is aligned with the split partition generated by the
-splitter values, then $x$ is completely determined by the finite list of
-generated cells it hits.
+Standard reading:
 
-Trap: this is not a theorem that every TABA or NSO witness is aligned. It says
-that once alignment is proved, the search space collapses to a finite hit-cell
-menu.
+```text
+If x is aligned with the split partition generated by the splitter values, then
+x is completely determined by the finite list of generated cells it hits.
+```
+
+Trap:
+
+```text
+This is not a theorem that every TABA or NSO witness is aligned. It says that
+once alignment is proved, the search space collapses to a finite hit-cell menu.
 In the current local proof chain, `HitCells` is proof-level noncomputable. An
 executable compiler still needs a decidable hit test or a canonical finite
 encoding of the menu.
+```
 
 v533 then composes the source-fragment theorem with the menu theorem. For a
-well-formed aligned witness expression $E$, write $\operatorname{Den}(E)$ for
-the value denoted by $E$, and define:
+well-formed aligned witness expression $E$, define:
 
 $$
 \operatorname{Menu}_{C}(E)
 :=
-\operatorname{HitCells}(C,\operatorname{Den}(E)).
+\operatorname{HitCells}(C,\llbracket E\rrbracket).
 $$
 
-Standard reading: the menu of $E$ over the cell list $C$ is the list of cells in
-$C$ whose meet with the value denoted by $E$ is non-bottom.
+Standard reading:
+
+```text
+The menu of E over the cell list C is the list of cells in C whose meet with
+the value denoted by E is non-bottom.
+```
 
 The checked reconstruction theorem is:
 
 $$
 \operatorname{WF}_{C}(E)
 \Longrightarrow
-\operatorname{Den}(E)
+\llbracket E\rrbracket
 =
 \bigvee \operatorname{Menu}_{C}(E).
 $$
 
-Standard reading: if $E$ is well formed over $C$, then the value denoted by $E$
-is equal to the join of the cells in its menu.
+Standard reading:
+
+```text
+If E is well formed over C, then the value denoted by E is equal to the join of
+the cells in its menu.
+```
 
 The domination theorem has the shape:
 
 $$
-\operatorname{Den}(E) \ne 0
+\llbracket E\rrbracket \ne 0
 \;\wedge\;
-\bigl(\operatorname{eval}_{t}(\operatorname{Den}(E))
-\wedge
-\operatorname{Den}(E)\bigr) \ne 0
+\operatorname{eval}_{t}(\llbracket E\rrbracket)
+  \wedge \llbracket E\rrbracket \ne 0
 \Longrightarrow
 \exists c\in \operatorname{Menu}_{C}(E).\,
-\bigl(\operatorname{eval}_{t}(c)\wedge c\bigr)\ne 0.
+\operatorname{eval}_{t}(c)\wedge c\ne 0.
 $$
 
-Standard reading: if the value denoted by $E$ is non-bottom and the unary term
-$t$ still has non-bottom overlap with that value, then some cell in $E$'s finite
-menu also has non-bottom overlap with its own $t$-evaluation.
+Standard reading:
 
-Trap: this is a compiler theorem for the `AlignedWitnessExpr` fragment. It is
-not yet a compiler theorem for arbitrary TABA, NSO, or Guarded Successor syntax.
-It also does not make the menu executable. In this proof chain, the menu is
-defined by semantic hit testing, so a runtime compiler still needs a canonical
-finite encoding or a decidable hit-test implementation.
+```text
+If the value denoted by E is non-bottom and the unary term t still has
+non-bottom overlap with that value, then some cell in E's finite menu also has
+non-bottom overlap with its own t-evaluation.
+```
+
+Trap:
+
+```text
+This is a compiler theorem for the `AlignedWitnessExpr` fragment. It is not yet
+a compiler theorem for arbitrary TABA, NSO, or Guarded Successor syntax. It also
+does not make the menu executable. In this proof chain, the menu is defined by
+semantic hit testing, so a runtime compiler still needs a canonical finite
+encoding or a decidable hit-test implementation.
+```
 
 v534 lifts the same idea over a finite list of candidate expressions. Define:
 
@@ -7253,8 +7072,12 @@ $$
 \operatorname{Menu}_{C}(E_n).
 $$
 
-Standard reading: the menu list of a finite expression list is the
-concatenation of the finite menus of the individual expressions.
+Standard reading:
+
+```text
+The menu list of a finite expression list is the concatenation of the finite
+menus of the individual expressions.
+```
 
 The bounded search theorem is:
 
@@ -7262,23 +7085,30 @@ $$
 \exists E\in \mathcal{E}.\,
 \operatorname{WF}_{C}(E)
 \wedge
-\operatorname{Den}(E)\ne 0
+\llbracket E\rrbracket\ne 0
 \wedge
-\operatorname{eval}_{t}(\operatorname{Den}(E))=1
+\operatorname{eval}_{t}(\llbracket E\rrbracket)=1
 \Longrightarrow
 \exists c\in \operatorname{MenuList}_{C}(\mathcal{E}).\,
 \operatorname{eval}_{t}(c)\wedge c\ne 0.
 $$
 
-Standard reading: if some expression in the finite candidate list is well
-formed, denotes a non-bottom value, and satisfies the unary-term premise, then
-some cell in the
+Standard reading:
+
+```text
+If some expression in the finite candidate list is well formed, denotes a
+non-bottom value, and satisfies the unary-term premise, then some cell in the
 flattened finite menu of that candidate list satisfies the local domination
 premise.
+```
 
-Trap: this is bounded search, not unbounded NSO quantifier elimination. The
-finite candidate list is an explicit premise. A full NSO theorem still needs a
+Trap:
+
+```text
+This is bounded search, not unbounded NSO quantifier elimination. The finite
+candidate list is an explicit premise. A full NSO theorem still needs a
 source-language argument showing which candidates must be included.
+```
 
 v535 separates executable enumeration from semantic overlap testing. Define:
 
@@ -7288,8 +7118,12 @@ $$
 [\,c_i\mid p(c_i)=\mathrm{true}\,].
 $$
 
-Standard reading: $\operatorname{SelectCells}_{p}$ returns exactly those cells
-in the finite list for which the Boolean predicate $p$ returns true.
+Standard reading:
+
+```text
+SelectCells_p returns exactly those cells in the finite list for which the
+Boolean predicate p returns true.
+```
 
 The checked bridge is:
 
@@ -7304,13 +7138,20 @@ x\wedge c\ne 0\Bigr)
 \operatorname{HitCells}(C,x).
 $$
 
-Standard reading: if $p$ agrees with the semantic hit test on every cell in
-$C$, then selecting cells by $p$ gives exactly the same cell list as
-$\operatorname{HitCells}(C,x)$.
+Standard reading:
 
-Trap: this proves the selector bridge, not the hit test itself. A Tau
-implementation still needs a concrete overlap test for QClopen cells, for
-example by finite prefix comparison or BDD-style normalization.
+```text
+If p agrees with the semantic hit test on every cell in C, then selecting cells
+by p gives exactly the same cell list as HitCells(C,x).
+```
+
+Trap:
+
+```text
+This proves the selector bridge, not the hit test itself. A Tau implementation
+still needs a concrete overlap test for QClopen cells, for example by finite
+prefix comparison or BDD-style normalization.
+```
 
 v536 closes the representative-level finite-prefix theorem needed by that
 selector bridge. For finite-support clopen representatives $a$ and $b$,
@@ -7323,25 +7164,36 @@ $$
 (a\wedge b)(\operatorname{extend}(\beta))=1.
 $$
 
-Standard reading: $\operatorname{PrefixHit}(a,b)$ means that there is a finite
-bit assignment, long enough to cover the support depths of $a$ and $b$, on which
-their meet evaluates to true.
+Standard reading:
+
+```text
+PrefixHit(a,b) means that there is a finite bit assignment, long enough to cover
+the support depths of a and b, on which their meet evaluates to true.
+```
 
 The checked theorem is:
 
 $$
-\operatorname{class}(a)\wedge\operatorname{class}(b)\ne 0
+[\bar a]\wedge[\bar b]\ne 0
 \Longleftrightarrow
 \operatorname{PrefixHit}(a,b).
 $$
 
-Standard reading: the meet of the quotient classes represented by $a$ and $b$
-is non-bottom exactly when there is a finite max-depth prefix witness where the
-representative meet is true.
+Standard reading:
 
-Trap: this is representative-level. It is enough to explain the finite search
-behind the hit predicate, but it is not yet a quotient-independent canonical BDD
+```text
+The meet of the quotient classes represented by a and b is non-bottom exactly
+when there is a finite max-depth prefix witness where the representative meet is
+true.
+```
+
+Trap:
+
+```text
+This is representative-level. It is enough to explain the finite search behind
+the hit predicate, but it is not yet a quotient-independent canonical BDD
 implementation.
+```
 
 v537 proves the matching negative theorem for arbitrary countable recurrence
 unions. Define:
@@ -7352,8 +7204,12 @@ $$
 \exists n.\,s(n)=1.
 $$
 
-Standard reading: $\operatorname{EventuallyOne}$ holds of a stream exactly when
-at least one position in the stream is true.
+Standard reading:
+
+```text
+EventuallyOne holds of a stream exactly when at least one position in the stream
+is true.
+```
 
 The obstruction is:
 
@@ -7365,21 +7221,31 @@ c(s)=1
 \operatorname{EventuallyOne}(s).
 $$
 
-Standard reading: there is no finite-support clopen whose truth set is exactly
-the set of streams with at least one true bit.
+Standard reading:
+
+```text
+There is no finite-support clopen whose truth set is exactly the set of streams
+with at least one true bit.
+```
 
 Why this proof works:
 
-Any finite-support clopen $c$ has some depth $N$. The all-false stream and the
-stream with a single true bit at position $N$ agree on every position below
-$N$. Therefore $c$ must assign them the same value. But
-$\operatorname{EventuallyOne}$ assigns them different values.
+```text
+Any finite-support clopen c has some depth N. The all-false stream and the
+stream with a single true bit at position N agree on every position below N.
+So c must assign them the same value. But EventuallyOne assigns them different
+values.
+```
 
-Trap: this does not kill finite tables. It kills the stronger claim that
-finite-support clopens alone are a complete semantic carrier for arbitrary
-countable recurrence unions. Full infinite tables need a completion, a larger
-effective carrier, or a fragment theorem proving finite stabilization before the
-countable union is needed.
+Trap:
+
+```text
+This does not kill finite tables. It kills the stronger claim that finite-support
+clopens alone are a complete semantic carrier for arbitrary countable recurrence
+unions. Full infinite tables need a completion, a larger effective carrier, or a
+fragment theorem proving finite stabilization before the countable union is
+needed.
+```
 
 v556 closes one local representation assumption in the Skolem/minterm lane.
 Define guarded choice:
@@ -7388,8 +7254,10 @@ $$
 C_g(a,b):=(g\wedge a)\vee(g'\wedge b).
 $$
 
-Standard reading: $C_g(a,b)$ is the join of the part of $a$ under guard $g$ and
-the part of $b$ under the prime of $g$.
+Standard reading:
+
+C_g(a,b) is the join of the part of a under guard g and the part of b under
+the prime of g.
 
 The four-coefficient binary minterm representation is:
 
@@ -7413,14 +7281,7 @@ $$
 Standard reading:
 
 The nested guarded-choice minterm value is equal to the join of the four
-truth-corner coefficients, restricted respectively to:
-
-$$
-x\wedge y,\qquad
-x\wedge y',\qquad
-x'\wedge y,\qquad
-x'\wedge y'.
-$$
+truth-corner coefficients, restricted respectively to xy, xy', x'y, and x'y'.
 
 The binary source grammar is:
 
@@ -7431,13 +7292,13 @@ t ::= 0 \mid 1 \mid c \mid x \mid y
 \mid t'.
 $$
 
-The compiler proof artifact is:
+The compiler receipt is:
 
 $$
 \forall t\in\mathrm{Term}_2,\quad
 \exists \vec a,\quad
 \forall x,y,\quad
-[\![t]\!](x,y)=M_{\vec a}(x,y).
+\llbracket t\rrbracket(x,y)=M_{\vec a}(x,y).
 $$
 
 Standard reading:
@@ -7452,7 +7313,7 @@ $$
 \forall t\in\mathrm{Term}_2,\quad
 \exists \vec a,\quad
 \forall x,y,\quad
-\left([\![t]\!](x,y)=0
+\left(\llbracket t\rrbracket(x,y)=0
 \Longleftrightarrow
 M_{\vec a}(x,y)=0\right).
 $$
@@ -7493,7 +7354,7 @@ $$
 \forall t\in\mathrm{Term}_n,\quad
 \exists m:\operatorname{Minterm}(\alpha,n),\quad
 \forall \rho:\operatorname{Fin}(n)\to\alpha,\quad
-[\![t]\!](\rho)=[\![m]\!](\rho).
+\llbracket t\rrbracket(\rho)=\llbracket m\rrbracket(\rho).
 $$
 
 The size theorem is:
@@ -7562,7 +7423,7 @@ $$
 $$
 \mathrm{Table}_n
 ::=
-\bigl[(g_i,c_i)\bigr]_{i<m}
+\bigl[(g_i,c_i)\bigr]_{i < m}
 \;+\;
 c_{\mathrm{default}}.
 $$
@@ -7602,9 +7463,9 @@ $$
 \forall n,\quad
 \forall c\in\mathrm{CBF}_n,\quad
 \forall \rho:\operatorname{Fin}(n)\to\mathrm{Bool},\quad
-[\![\operatorname{cbfToBF}(c)]\!]_\rho
+\llbracket \operatorname{cbfToBF}(c)\rrbracket_\rho
 =
-[\![c]\!]_\rho.
+\llbracket c\rrbracket_\rho.
 $$
 
 Standard reading:
@@ -7619,9 +7480,9 @@ $$
 \forall n,\quad
 \forall T\in\mathrm{Table}_n,\quad
 \forall \rho:\operatorname{Fin}(n)\to\mathrm{Bool},\quad
-[\![\operatorname{tableToBF}(T)]\!]_\rho
+\llbracket \operatorname{tableToBF}(T)\rrbracket_\rho
 =
-[\![T]\!]_\rho.
+\llbracket T\rrbracket_\rho.
 $$
 
 Standard reading:
@@ -7733,7 +7594,7 @@ $$
 \operatorname{evalMinterm}
 \bigl(\operatorname{compileTableToMinterm}(T),\rho\bigr)
 =
-[\![T]\!]_\rho.
+\llbracket T\rrbracket_\rho.
 $$
 
 The size theorem is:
@@ -7816,3 +7677,521 @@ Milestone P:
   flatten v557 minterm trees into packed Fin (2^n) coefficient vectors, then
   connect that compiler to the bounded NSO witness-menu source grammar
 ```
+
+## 13. Compound mismatch checking for the Tau table demos
+
+After the type-inference cache experiments failed to produce a speedup, the
+next successful optimization came from changing the proof obligation shape used
+by the public demo harness.
+
+The separate demo checks ask Tau to solve one mismatch query at a time:
+
+$$
+\operatorname{Unsat}(\operatorname{Diff}_1),\quad
+\operatorname{Unsat}(\operatorname{Diff}_2),\quad
+\ldots,\quad
+\operatorname{Unsat}(\operatorname{Diff}_n).
+$$
+
+The compound check asks one larger question:
+
+$$
+\operatorname{Unsat}
+\left(
+  \bigvee_{i < n}\operatorname{Diff}_i
+\right).
+$$
+
+The checked logical law is:
+
+$$
+\operatorname{Unsat}
+\left(
+  \bigvee_{i < n}\operatorname{Diff}_i
+\right)
+\Longleftrightarrow
+\forall i < n,\ \operatorname{Unsat}(\operatorname{Diff}_i).
+$$
+
+Standard reading:
+
+The disjunction of all mismatch predicates is unsatisfiable if and only if
+every listed mismatch predicate is unsatisfiable.
+
+Plain English:
+
+The harness can ask, "does any table-vs-raw mismatch exist?" If the answer is
+no, then every listed table equivalence passes.
+
+The proof packet is:
+
+```text
+tau_compound_table_check_2026_04_15
+```
+
+The current executable receipt from `TauLang-Experiments` is:
+
+```text
+checks:              15
+individual elapsed:  118544.824 ms
+compound elapsed:     53147.339 ms
+elapsed reduction:       55.167%
+```
+
+The smooth table-demo runner now uses the compound-only mode by default. Its
+latest fresh receipt is:
+
+```text
+equivalence mode: compound
+compound checks:  15
+compound elapsed: 54939.340 ms
+result:           passed
+```
+
+Research conclusion:
+
+This is a real optimization, but it is not a new table semantic feature. It
+reduces repeated process startup, parsing, source loading, and command setup in
+the public demo harness. It also gives a useful pattern for Tau optimization
+work: sometimes the fastest improvement is to reshape the verification question
+before changing the solver internals.
+
+## 14. Equality-aware path simplification
+
+The next target comes from Tau's own known-issues list. Tau's README says that
+path simplification does not take equalities between variables into account,
+which can lead to later blowups.
+
+The safe substitution premise is:
+
+$$
+\forall x,\quad \rho(\operatorname{rep}(x))=\rho(x).
+$$
+
+Standard reading:
+
+For every variable $x$, the environment $\rho$ gives $x$ the same Boolean value
+as the representative chosen for $x$.
+
+The semantic preservation theorem is:
+
+$$
+\left(\forall x,\ \rho(\operatorname{rep}(x))=\rho(x)\right)
+\Longrightarrow
+\llbracket \operatorname{subst}_{\operatorname{rep}}(e)\rrbracket_\rho
+=
+\llbracket e\rrbracket_\rho.
+$$
+
+Standard reading:
+
+If the environment respects the representative map, then evaluating the
+representative-substituted expression gives the same Boolean value as evaluating
+the original expression.
+
+Plain English:
+
+On a branch where the formula already says two variables are equal, the
+normalizer can replace one by the other inside that branch and then simplify the
+resulting expression.
+
+Trap:
+
+The branch condition is essential. Representative substitution is not globally
+valid. The executable model records counterexamples where the substitution
+changes the value outside the equality-assumption path.
+
+The proof packet is:
+
+```text
+tau_equality_path_simplification_2026_04_15
+```
+
+The executable model is:
+
+```text
+scripts/run_equality_path_simplification_demo.py
+```
+
+Current receipt:
+
+```text
+cases:             3
+original nodes:    29
+optimized nodes:   10
+node reduction: 65.517%
+semantic checks: passed
+```
+
+The related Tau-facing branch-recombination probe is:
+
+```text
+scripts/run_equality_split_tau_probe.py
+```
+
+Tau already simplifies simple branch-local equality paths, such as
+`x = y:sbf && ((x & y') = 0)`, to `x = y`. The remaining probe is narrower:
+after an equality split creates two branches, can the normalizer recombine the
+residual branches?
+
+The recombination law is:
+
+$$
+(A\wedge B)\vee(\neg A\wedge B)\Longleftrightarrow B.
+$$
+
+Standard reading:
+
+The disjunction of the branch where $A$ and $B$ both hold and the branch where
+$A$ is false but $B$ holds is equivalent to $B$.
+
+Plain English:
+
+If both sides of a split keep the same residual condition, the split can be
+removed.
+
+It checks candidate shorter targets with Tau itself by asking:
+
+$$
+\operatorname{Unsat}
+\left(
+  \neg(\operatorname{Original}\leftrightarrow\operatorname{Target})
+\right).
+$$
+
+Standard reading:
+
+The negation of the equivalence between the original formula and the target
+formula is unsatisfiable.
+
+Plain English:
+
+Tau found no counterexample separating the longer current normal form from the
+shorter target form.
+
+Current Tau-facing branch-recombination receipt:
+
+```text
+cases:                         4
+useful reduction cases:        4
+matched target cases:          0
+Tau-normalized characters:   152
+target-normalized characters: 36
+character reduction:      76.316%
+equivalence checks:       passed
+```
+
+The local proof packet is:
+
+```text
+tau_equality_split_recombination_2026_04_15
+```
+
+The first feature-gated Tau patch is:
+
+```text
+TAU_EQUALITY_SPLIT_RECOMBINE=1
+```
+
+Current enabled receipt:
+
+```text
+cases:                         4
+matched target cases:          3
+target-sized cases:            4
+Tau-normalized characters:    36
+target-normalized characters: 36
+```
+
+Research conclusion:
+
+This is now the strongest next Tau-native normalization target. It is named by
+Tau's own README, has a small checked semantic law, and has a bounded
+executable model with both positive reductions and negative counterexamples.
+The Tau-facing probe sharpens the implementation frontier: Tau can simplify
+simple equality paths, but it does not yet recombine all resulting equality
+split branches without the feature flag. The feature-gated patch closes all
+four checked size-reduction cases. Three match the target text exactly, and the
+remaining work is presentation-level: canonicalize equivalent term ordering in
+the three-alias residual case, then benchmark the full normalizer path on a
+wider corpus.
+
+The wider alias-order smoke test extends the same result:
+
+```text
+cases:                         8
+matched target cases:          3
+target-sized cases:            8
+Tau-normalized characters:   108
+target-normalized characters: 108
+```
+
+The additional cases permute the equality path and include a transitive alias
+chain. They are still bounded smoke tests, not a proof of all equality-path
+normalization.
+
+## 15. Effects, derivatives, and finite-carrier equivalence
+
+The latest optimizer proof lane is not qelim-specific. It asks a different
+question: once a Tau-shaped expression exists, which parts need to be evaluated,
+reevaluated, or compared?
+
+The locally audited packets are:
+
+```text
+c117  optimization-lifting coherence
+c118  reads/effect analysis
+c119  incremental evaluation bound
+c120  Tau-Brzozowski derivative
+c121  extended bisimulation completeness
+c122  complete equivalence check by evaluation wrapping
+c123  partial evaluation
+c124  table Reader-monad laws
+```
+
+All eight packets were rebuilt locally with `lake build` in their pinned
+mathlib projects, and the `Proofs.lean` files scanned clean for `sorry`,
+`admit`, `axiom`, `unsafe`, and `sorryAx`.
+
+The read-set theorem has this shape:
+
+$$
+\rho\!\restriction_{\operatorname{Reads}(e)}
+=
+\rho'\!\restriction_{\operatorname{Reads}(e)}
+\Longrightarrow
+\llbracket e\rrbracket_{\rho}
+=
+\llbracket e\rrbracket_{\rho'}.
+$$
+
+Standard reading:
+
+If two environments agree on all keys read by expression $e$, then evaluating
+$e$ in those two environments gives the same table.
+
+Plain English:
+
+The compiler can skip reevaluation when the changed input is not in the
+expression's read set.
+
+Boundary:
+
+This is proved for the Tau-like kernel with explicit variable reads. It is not
+yet a proof about Tau's full C++ IR or runtime cache.
+
+The derivative theorem introduces a symbolic one-key update:
+
+$$
+\partial_{k,v} e.
+$$
+
+Its soundness theorem is:
+
+$$
+\llbracket \partial_{k,v} e\rrbracket
+=
+\operatorname{update}
+\left(
+  \llbracket e\rrbracket,
+  k,
+  \operatorname{evalConst}(e,v)
+\right).
+$$
+
+Standard reading:
+
+The denotation of the derivative is the old denotation updated at key $k$ by
+the value obtained from evaluating the expression shape with constant leaf value
+$v$.
+
+Plain English:
+
+The derivative describes the semantic effect of a single-key perturbation
+without rebuilding an unrelated expression.
+
+Boundary:
+
+This is not a regex derivative and not a whole Tau delta engine. It is a
+checked expression-transform law that can guide such an engine.
+
+The extended bisimulation result is the most important correction to the
+rewrite-normalizer account. The original seven-rule relation is sound but not
+complete. The counterexample is structural: it lacks rules that evaluate
+compound expressions built from constants. Adding constant-evaluation rules
+gives:
+
+$$
+e \sim_{\mathrm{eval}} \operatorname{const}(\llbracket e\rrbracket).
+$$
+
+Therefore:
+
+$$
+\llbracket e_1\rrbracket=\llbracket e_2\rrbracket
+\Longrightarrow
+e_1\sim_{\mathrm{eval}} e_2.
+$$
+
+Standard reading:
+
+Every expression is related to the constant expression containing its denotation.
+Therefore, if two expressions have equal denotations, the extended relation
+relates the two expressions.
+
+Plain English:
+
+The extended relation is complete because it can always collapse the expression
+to its meaning.
+
+Boundary:
+
+This is algebraic completeness, not automatic executable equivalence over every
+carrier. For finite Boolean-algebra carriers, semantic table equality is
+decidable, so the relation gives a real decision procedure for the checked
+kernel. For infinite carriers, the semantic equality premise may still be hard
+or undecidable.
+
+The partial-evaluation theorem is:
+
+$$
+\operatorname{Compatible}(K,\rho)
+\Longrightarrow
+\llbracket \operatorname{partialEval}(K,e)\rrbracket_{\rho}
+=
+\llbracket e\rrbracket_{\rho}.
+$$
+
+Standard reading:
+
+If runtime environment $\rho$ agrees with the compile-time known-input map $K$,
+then partially evaluating $e$ with $K$ preserves the denotation of $e$.
+
+Plain English:
+
+Known inputs can be compiled away, but only under the compatibility condition.
+
+Research conclusion:
+
+The optimizer frontier has split into two complementary lanes. The qelim lane
+chooses a backend for eliminating quantifiers. The effect/derivative lane
+chooses what should be recomputed after a small input change. The second lane is
+especially relevant for stream-like Tau workloads and table demos, because most
+ticks may change only a small part of the input environment.
+
+The executable companion now lives in `TauLang-Experiments`:
+
+```text
+scripts/run_tau_derivative_equivalence_demo.py
+```
+
+Current receipt:
+
+```text
+cases:                         80
+derivative sound cases:        80
+size-preserved cases:          80
+away-from-key cases:           80
+at-key cases:                  80
+equivalence classifications:   80
+equivalent cases:              61
+non-equivalent cases:          19
+result:                        passed
+```
+
+Boundary:
+
+The script checks the c120/c121/c122 idea on a finite Tau-like kernel. It does
+not prove Tau parser integration, a runtime delta engine, or infinite-carrier
+equivalence decidability.
+
+The earlier incremental-execution demo has also moved closer to a runtime
+shape. It now builds a child-before-parent node table, records a dependency
+index from input key to node IDs, and executes a one-pass dirty-node update.
+The current receipt is:
+
+```text
+full unique residual nodes:    193
+runtime-delta recomputed:       31
+runtime-delta saving:       83.938%
+runtime dependency checks:   passed
+runtime delta checks:        passed
+```
+
+Boundary:
+
+This remains a standalone Tau-like kernel. It demonstrates the data structure
+shape a Tau runtime patch would need, but it is not yet wired into Tau's C++
+runtime.
+
+The native Tau runtime now has a measurement hook:
+
+```text
+TAU_RUN_STATS=1
+```
+
+The hook records per-step interpreter counters from the real `run` loop. The
+first opt-in optimization on this surface is:
+
+```text
+TAU_SKIP_UNCHANGED_IO_REBUILD=1
+```
+
+It avoids rebuilding input or output stream objects when an accepted update does
+not change the IO stream set. The current update-stream pointwise-revision
+smoke case gives:
+
+```text
+step count:              3
+accepted update count:   3
+total paths attempted:   6
+total paths solved:      6
+total outputs:           6
+total revisions tried:   1
+total added spec parts:  2
+input rebuilds skipped:  3
+output rebuilds skipped: 1
+output parity:           passed
+final memory size:       9
+```
+
+Standard reading:
+
+On the native Tau run-loop smoke case, three execution steps were performed.
+The interpreter accepted three updates, attempted six disjunct paths, solved six
+disjunct paths, emitted six output bindings in total, added two specification
+parts, revised one existing specification part, and ended with nine memory
+bindings.
+
+Plain English reading:
+
+The real interpreter is now instrumented at the step boundary needed for the
+next cache experiment, and a small IO-rebuild skip now has baseline-output
+parity evidence.
+
+Boundary:
+
+This is an IO-rebuild optimization, not incremental expression evaluation. It
+does not skip solver work or prove whole-language cache correctness.
+
+The follow-up stream-class regression adds the missing boundary check:
+
+```text
+vector input rebuilds skipped:  3
+vector output rebuilds skipped: 1
+file input rebuilds skipped:    0
+file output rebuilds skipped:   0
+vector output parity:           passed
+file output parity:             passed
+```
+
+Standard reading:
+
+On vector-remapped streams, unchanged rebuild skipping preserves the observed
+outputs. On file-remapped streams, the skip flag performs zero skips.
+
+Plain English reading:
+
+The optimization is now guarded by the stream class. It may skip streams whose
+rebuild operation preserves state, but it does not skip file streams because
+file rebuilds intentionally reopen files.

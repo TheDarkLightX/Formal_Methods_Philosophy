@@ -5,59 +5,62 @@ kicker: Tutorial 39
 description: "A safe table fragment for Tau: pointwise revision, fixed-point semantics, runnable demos, and the boundary between this prototype and full TABA tables."
 ---
 
-This tutorial is about the part of TABA tables that is now safe enough to run as
-a Tau Language experiment.
+TABA tables are designed as infinite updateable objects: one symbolic rule,
+revised a region at a time. Most of that language is still out of reach for
+execution. This tutorial walks through the fragment that is safe to run today.
 
-The important word is <strong>safe</strong>.
-The experiment does not implement unrestricted TABA tables.
-It implements the fragment whose recursive update has a checked semantic proof
-artifact:
-the update is monotone, it is omega-continuous, and the supremum of its finite
-approximants is a fixed point.
+"Safe" is the load-bearing word. The fragment implements pointwise revision
+under a Kleene-style recurrence whose update has been proved monotone and
+omega-continuous, so the supremum of its finite approximants really is a fixed
+point. The fragment deliberately excludes everything that could break that
+proof: same-stratum prime, current-state-dependent guards, unrestricted
+recursive `common`, full NSO, and full Guarded Successor.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Scope</p>
-  <p>The Tau artifact in this tutorial executes on a four-cell finite carrier. The Lean proof artifact proves the same table-update shape over a complete Boolean algebra. That is why the tutorial calls the semantics infinite-recursive, but the executable Tau replay finite-carrier. This is not full unrestricted TABA.</p>
+  <p>The Tau artifact executes on a four-cell finite carrier. The Lean proof artifact establishes the same table-update shape over a complete Boolean algebra. That is why the tutorial calls the semantics infinite-recursive even though the executable Tau replay stays finite-carrier. This is not full unrestricted TABA.</p>
   <p><strong>Project boundary.</strong> This is a community research prototype. It is not an official IDNI or Tau Language table implementation, not an endorsement claim, and not a statement about what IDNI intends to ship. The design may fail standards that the official Tau team would require.</p>
 </div>
 
 ## Current status
 
-There are three separate objects in this tutorial, and they should not be
-collapsed into one claim.
+Four objects carry the evidence here. Each one stands on its own, and they do
+not combine into a single claim:
 
-- The Tau demo runs a feature-gated safe table surface with
+- **The Tau demo** runs a feature-gated safe table surface behind
   `TAU_ENABLE_SAFE_TABLES=1`.
-- The semantic proof artifact proves the safe recursive update shape over a completed
-  Boolean-algebra setting.
-- The finite CBF and priority-table proofs show that finite table syntax can be
-  collapsed to ordinary Boolean-function terms and explicit $2^n$-leaf
-  minterm trees.
+- **The semantic proof artifact** establishes the safe recursive update shape
+  over a completed Boolean-algebra setting.
+- **The finite CBF and priority-table proofs** collapse finite table syntax
+  down to ordinary Boolean-function terms and explicit minterm trees with
+  $2^n$ leaves.
+- **The lowering proof** establishes that the safe priority-table source layer
+  and pointwise revision lower into a Tau-helper IR without changing
+  denotation.
 
 The current evidence supports this formula:
 
 $$
-\begin{aligned}
-&\operatorname{FiniteDemo}\\
-&\wedge\operatorname{SafeRecEvidence}\\
-&\wedge\operatorname{FiniteCBFEvidence}\\
-&\Longrightarrow \operatorname{RunnableSafeTableFragment}.
-\end{aligned}
+\operatorname{FiniteDemo}
+\wedge
+\operatorname{SafeRecEvidence}
+\wedge
+\operatorname{FiniteCBFEvidence}
+\wedge
+\operatorname{LoweringEvidence}
+\Longrightarrow
+\operatorname{RunnableSafeTableFragment}.
 $$
 
 <strong>Standard reading.</strong>
-If the finite Tau demo runs, the safe-recursive semantic proof artifact holds,
-and the finite CBF/table compiler evidence holds, then the supported conclusion is a
-runnable safe table fragment.
+If the finite Tau demo runs, the safe-recursive proof artifact holds, the
+finite CBF evidence holds, and the lowering evidence holds, then the supported
+conclusion is a runnable safe table fragment.
 
 <strong>Plain English.</strong>
-The tutorial has enough evidence to run and explain the safe fragment.
-It does not have enough evidence to claim unrestricted TABA tables.
-
-<strong>Trap.</strong>
-The word "safe" is load-bearing.
-The current fragment excludes same-stratum prime, current-state-dependent
-guards, unrestricted recursive `common`, full NSO, and full Guarded Successor.
+Each conjunct is a separate artifact, and each one has been checked. Together
+they support a runnable safe table fragment whose safe source layer has a
+checked helper-IR lowering. They do not support unrestricted TABA.
 
 ## The table update
 
@@ -140,11 +143,11 @@ This is not permission to use $x'$ on the same recursive stratum.
 The table-level implementation law is pointwise revision:
 
 $$
-\begin{aligned}
 \operatorname{Rev}_{G,A}(T)(i)
-&:= \bigl(G(i)\wedge A(i)\bigr)\\
-&\vee \bigl(G(i)'\wedge T(i)\bigr).
-\end{aligned}
+:=
+\bigl(G(i)\wedge A(i)\bigr)
+\vee
+\bigl(G(i)'\wedge T(i)\bigr).
 $$
 
 <strong>Standard reading.</strong>
@@ -163,35 +166,55 @@ at any key.
 
 ## Visualize the update
 
-Before reading the recurrence formulas, visualize the table as a living map of
-Boolean regions.
-The visible cells below are only sampled regions.
-They are not the whole table.
+Before the recurrence formulas get abstract, the visualizer below shows one
+pointwise revision step at a time, over four sampled regions. Every row is a
+sampled region; the symbolic table is the rule behind the rows.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">How to read the visualizer</p>
-  <p>Click a region, split it, and then apply the pointwise revision. The split button is a teaching model for Ohad's splitter idea, not a proof of atomlessness. The proof obligation is the formula $0 < b < a$: every nonzero region $a$ has a proper nonzero subregion $b$.</p>
+  <p>Click a region to select it, then step revision to apply Rev row by row. Inside the guard $G$, the entry is replaced by $A$; outside $G$, the old $T$ is preserved. Split refines the selected nonzero region into two halves. This is a teaching model for Ohad's splitter idea, not a proof of atomlessness. The proof obligation behind the split button is $0 < b < a$: every nonzero region $a$ has a proper nonzero subregion $b$.</p>
+  <p><strong>Keyboard:</strong> Space steps, S splits, P plays, R resets.</p>
 </div>
 
 <div data-taba-table-visualizer></div>
 <script src="{{ '/assets/js/taba-table-visualizer.js' | relative_url }}" defer></script>
 
-The visualizer is meant to connect four ideas.
+The visualizer is meant to connect four ideas at once:
 
 - A table entry is a Boolean region, not a scalar cell.
 - Fixed-guard revision updates only the part selected by $G(i)$.
-- Atomlessness says that a live nonzero region can be split again, so there is
+- Atomlessness says every live nonzero region can be split again, so there is
   no final smallest live cell.
-- In the NSO picture, formulas themselves can denote Boolean-algebra values, so
-  a sentence can act as a guard or splitter in the semantic model.
+- In the NSO picture, formulas themselves denote Boolean-algebra values, so a
+  sentence can act as a guard or splitter in the semantic model.
 
 <strong>Trap.</strong>
-The visualizer does not implement full NSO, unrestricted recurrence, or full
-TABA tables.
-It shows the safe pointwise update shape and the mental picture behind
-atomless splitting.
+This is a teaching model. It does not implement full NSO, unrestricted
+recurrence, or full TABA tables. It shows only the safe pointwise update shape
+and the mental picture behind atomless splitting.
 
-The proof checks the safe recurrence laws:
+## The recurrence meaning
+
+The recurrence starts from bottom and advances one update at a time:
+
+$$
+s_0 := \bot,
+\qquad
+s_{n+1} := U_T(s_n).
+$$
+
+<strong>Standard reading.</strong>
+The zeroth approximant $s_0$ is the bottom table state, and the next
+approximant $s_{n+1}$ is obtained by applying the update function $U_T$ to the
+current approximant $s_n$.
+
+<strong>Plain English.</strong>
+Start with the empty table meaning. Each step applies one safe table-update
+pass to the previous approximant.
+
+For this sequence to converge to something that deserves to be called a fixed
+point, two properties of $\operatorname{Rev}_{G,A}$ need to hold. The first
+says the approximants stay ordered:
 
 $$
 T \le U
@@ -202,67 +225,46 @@ T \le U
 $$
 
 <strong>Standard reading.</strong>
-If old table $T$ is pointwise below old table $U$, then revising $T$ with
-fixed $G,A$ is pointwise below revising $U$ with the same fixed $G,A$.
+If table $T$ is pointwise below table $U$, then revising $T$ with fixed guard
+$G$ and fixed replacement $A$ is pointwise below revising $U$ with the same
+$G$ and $A$.
 
 <strong>Plain English.</strong>
-Pointwise revision is monotone in the old table.
+Pointwise revision is monotone. If $T$ is pointwise below $U$, revising $T$
+lands pointwise below revising $U$.
 
-And:
+The second says the limit passes through the update:
 
 $$
-\operatorname{Rev}_{G,A}\!\left(\bigvee_{n<\omega} T_n\right)
+\operatorname{Rev}_{G,A}\!\left(\bigvee_{n < \omega} T_n\right)
 =
-\bigvee_{n<\omega}
+\bigvee_{n < \omega}
 \operatorname{Rev}_{G,A}(T_n).
 $$
 
 <strong>Standard reading.</strong>
-For an increasing omega-chain $T_n$, revising the supremum table equals the
-supremum of the revised tables.
+For an increasing omega-chain of tables $T_n$, revision of the countable join
+equals the countable join of the revised tables.
 
 <strong>Plain English.</strong>
-Pointwise revision commutes with the infinite limit used by the safe recurrence
-semantics.
+Pointwise revision commutes with the infinite join. Revising first and then
+taking the supremum gives the same table as taking the supremum first and then
+revising.
 
-## The recurrence meaning
-
-The recurrence starts from bottom:
-
-$$
-s_0 := \bot.
-$$
-
-<strong>Standard reading.</strong>
-The zeroth approximant $s_0$ is the bottom table state.
-
-<strong>Plain English.</strong>
-Start with the empty table meaning.
-
-The recurrence advances by applying the update:
-
-$$
-s_{n+1} := U_T(s_n).
-$$
-
-<strong>Standard reading.</strong>
-The next approximant is obtained by applying $U_T$ to the current approximant.
-
-<strong>Plain English.</strong>
-Run one more safe table-update pass.
-
-The infinite-recursive meaning is the supremum of all finite approximants:
+Together, monotonicity and omega-continuity let the approximants close up.
+The infinite-recursive meaning is the supremum:
 
 $$
 \mu U_T := \bigvee_{n < \omega} s_n.
 $$
 
 <strong>Standard reading.</strong>
-$\mu U_T$ is defined as the countable join of the approximants $s_n$, for
-all natural numbers $n$.
+The value $\mu U_T$ is defined as the countable join of all approximants
+$s_n$ for natural numbers $n < \omega$.
 
 <strong>Plain English.</strong>
-Collect everything that appears at any finite stage.
+The limit collects everything that appears at any finite stage: the countable
+join of all approximants.
 
 <strong>Trap.</strong>
 This is where finite clopens alone are not enough in the general case.
@@ -286,8 +288,8 @@ The limit is stable under one more update.
 
 ## What Tau runs
 
-The public reproduction path now lives in the experiment repo:
-[TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments).
+The public reproduction path now lives in the
+[TauLang-Experiments repo](https://github.com/TheDarkLightX/TauLang-Experiments).
 
 The smooth demo command is:
 
@@ -298,6 +300,14 @@ The smooth demo command is:
 That repo does not redistribute Tau Language. The script downloads Tau from the
 official IDNI repository, checks out the tested commit, applies the experiment
 patch locally, regenerates Tau's parser, builds Tau, and runs the table demos.
+The default runner uses the compound equivalence check for the table-vs-raw
+obligations. The older one-check-at-a-time audit path is still available with
+`TABLE_DEMO_EQUIV_MODE=individual`.
+
+The latest smooth run used `TABLE_DEMO_EQUIV_MODE=compound`, checked the fifteen
+table-vs-raw mismatch obligations as one compound query, and passed. The
+compound-equivalence step took `54939.340 ms` on that local check. This timing
+is descriptive, not a cross-machine performance claim.
 
 The public demo checks:
 
@@ -314,10 +324,12 @@ The public demo checks:
 - pointwise revision is idempotent for the same guard and replacement,
 - table syntax is rejected when `TAU_ENABLE_SAFE_TABLES` is absent.
 
-The demo shows these concrete gains:
+The visible breakthroughs are:
 
 - parser-level table syntax, not just JSON-side lowering,
 - a raw-formula equivalence check, not just a successful parse,
+- compound mismatch checking, where one unsatisfiable disjunction proves all
+  table-vs-raw checks at once,
 - priority-table behavior with overlapping guards,
 - explanation-carrying table rows, not just admit-or-deny formulas,
 - state-transforming rows that read the old symbolic state positively,
@@ -326,11 +338,29 @@ The demo shows these concrete gains:
 - official-Tau download plus local patching, rather than redistribution of a
   modified Tau fork.
 
-The standalone demo gallery is documented in the experiment repo at:
+The standalone demo gallery is documented in
+[`docs/demo-gallery.md`](https://github.com/TheDarkLightX/TauLang-Experiments/blob/main/docs/demo-gallery.md).
 
-```text
-docs/demo-gallery.md
-```
+The compound check uses this proof obligation:
+
+$$
+\operatorname{Unsat}\!\left(\bigvee_i \operatorname{Diff}_i\right)
+\Longrightarrow
+\forall i,\ \operatorname{Unsat}(\operatorname{Diff}_i).
+$$
+
+<strong>Standard reading.</strong>
+If the disjunction of all mismatch predicates has no satisfying assignment,
+then every individual mismatch predicate has no satisfying assignment.
+
+<strong>Plain English.</strong>
+Instead of asking Tau to restart and check each table-vs-raw mismatch
+separately, the demo asks one larger question: does any mismatch exist? If the
+answer is no, all checked table equivalences pass.
+
+<strong>Boundary.</strong>
+This is an optimization of the demo proof obligation. It does not add a new
+table operator, and it does not prove unrestricted TABA tables.
 
 The Tau experiment uses the feature flag:
 
@@ -362,10 +392,9 @@ st_revise_tau(x,g,a)
 st_update_tau(x,b,g,a)
 ```
 
-The symbolic helpers are closer to the infinite-recursive semantics than the
-four-cell demo. They operate over Tau's symbolic Boolean-algebra type, not
-merely over the finite `ft4` carrier, so guarded updates can be tested as
-symbolic Boolean expressions rather than only as explicit cells.
+The symbolic helpers are closer to the infinite-recursive semantic target than
+the four-cell demo helpers. They operate over Tau's symbolic Boolean-algebra
+type, not merely over the finite `ft4` carrier.
 
 The executable update is:
 
@@ -455,6 +484,29 @@ This is still useful as a compiler-smoke test, but it is no longer the main Tau
 native demo. It starts from JSON, so it checks the semantic lowering shape
 outside Tau's parser.
 
+The corresponding Lean theorem is:
+
+$$
+\operatorname{evalTauTable}
+\bigl(\operatorname{compileTableProgram}(P)\bigr)
+=
+\operatorname{evalTableProgram}(P).
+$$
+
+<strong>Standard reading.</strong>
+For a safe key-indexed table program $P$, evaluating the compiled Tau-helper
+program gives the same Boolean-algebra value as evaluating the source table
+program.
+
+<strong>Plain English.</strong>
+The JSON compiler demo is backed by a checked denotational theorem: the helper
+IR has the same meaning as the safe source table.
+
+<strong>Trap.</strong>
+This proves the semantic compiler contract for the helper IR. It is still not
+a proof of Tau's C++ parser, Tau's full runtime, unrestricted recurrence, full
+NSO, or Guarded Successor.
+
 ## Demo: Tau-native table syntax
 
 The next demo uses Tau's own parser. In `TauLang-Experiments`, the
@@ -503,27 +555,27 @@ The same check is the centerpiece of the standalone experiment repo.
 Its public-facing equation is:
 
 $$
-\begin{aligned}
-&\operatorname{priority\_quarantine\_update}\\
-&= \operatorname{priority\_quarantine\_raw}.
-\end{aligned}
+\operatorname{priority\_quarantine\_update}
+=
+\operatorname{priority\_quarantine\_raw}.
 $$
 
 <strong>Standard reading.</strong>
-The Tau-native table term is parsed, lowered to nested guarded choice, and
-checked against an explicit raw Boolean-algebra denotation. Tau is asked whether
-the two denotations can differ. The expected answer is `no solution`.
+The Tau-native `table { when ... else ... }` definition is parsed, lowered to
+nested guarded choice, and checked against an explicit raw Boolean-algebra
+denotation. Tau is asked whether the two denotations can differ. The expected
+answer is `no solution`.
 
 <strong>Plain English.</strong>
 Tau itself now accepts the safe table syntax when the feature flag is on, and
-the checked symbolic query says that the parsed table means the same thing as
-the hand-expanded guarded-choice formula. The relevant evidence is a checked
-lowering theorem, not a narrative claim.
+the checked symbolic query confirms the parsed table means the same thing as
+the expanded formula. The syntax is not just accepted; it is checked.
 
 <strong>Trap.</strong>
-This is a full-style demo, not a full unrestricted TABA implementation.
-The table form is safe guarded choice. It does not add unrestricted recurrence,
-same-stratum prime, NSO, or Guarded Successor to Tau.
+This is a syntax-and-lowering breakthrough for safe guarded choice. The table
+form is safe guarded choice only: it does not add unrestricted recurrence,
+same-stratum prime, NSO, or Guarded Successor to Tau, and it is not a claim
+that the official full TABA table language has been implemented.
 
 ## New proof bridge: finite minterms
 
@@ -550,23 +602,20 @@ program, and $g'$ is the Boolean prime of the guard.
 For two variables $x$ and $y$, a four-coefficient minterm form is:
 
 $$
-\begin{aligned}
 M_{\vec a}(x,y)
-&:= C_x\bigl(C_y(a_{11},a_{10}),\\
-&\qquad C_y(a_{01},a_{00})\bigr).
-\end{aligned}
+:=
+C_x\bigl(C_y(a_{11},a_{10}),\,C_y(a_{01},a_{00})\bigr).
 $$
 
 The same expression expands to:
 
 $$
-\begin{aligned}
 M_{\vec a}(x,y)
-={}&(a_{11}\wedge x\wedge y)\\
-&\vee(a_{10}\wedge x\wedge y')\\
-&\vee(a_{01}\wedge x'\wedge y)\\
-&\vee(a_{00}\wedge x'\wedge y').
-\end{aligned}
+=
+(a_{11}\wedge x\wedge y)
+\vee(a_{10}\wedge x\wedge y')
+\vee(a_{01}\wedge x'\wedge y)
+\vee(a_{00}\wedge x'\wedge y').
 $$
 
 <strong>Standard reading.</strong>
@@ -574,31 +623,17 @@ The value of $M_{\vec a}(x,y)$ is the join of four guarded coefficients, one
 for each truth corner of $x$ and $y$.
 
 <strong>Plain English.</strong>
-The formula splits the Boolean space into four guarded regions:
-
-$$
-\begin{aligned}
-&x\wedge y,\\
-&x\wedge y',\\
-&x'\wedge y,\\
-&x'\wedge y'.
-\end{aligned}
-$$
-
-Those regions are the Boolean-algebra version of the four truth corners
-$(\top,\top)$, $(\top,\bot)$, $(\bot,\top)$, and $(\bot,\bot)$.
-The formula assigns one coefficient to each guarded region and joins the four
-pieces.
+The formula splits the Boolean space into the four cases
+$(x,y)=(1,1),(1,0),(0,1),(0,0)$, assigns one coefficient to each case, and
+joins the four guarded pieces.
 
 The checked compiler theorem is:
 
 $$
-\begin{aligned}
-&\forall t\in\mathrm{Term}_2,\\
-&\exists \vec a,\\
-&\forall x,y,\\
-&[\![t]\!](x,y)=M_{\vec a}(x,y).
-\end{aligned}
+\forall t\in\mathrm{Term}_2,\quad
+\exists \vec a,\quad
+\forall x,y,\quad
+\llbracket t\rrbracket(x,y)=M_{\vec a}(x,y).
 $$
 
 <strong>Standard reading.</strong>
@@ -615,14 +650,11 @@ number of variables. Instead of four coefficients, the target is a full
 minterm tree:
 
 $$
-\begin{aligned}
-&\forall n,\\
-&\forall t\in\mathrm{Term}_n,\\
-&\exists m,\\
-&\forall \rho,\\
-&[\![t]\!](\rho)\\
-&= [\![m]\!](\rho).
-\end{aligned}
+\forall n,\quad
+\forall t\in\mathrm{Term}_n,\quad
+\exists m,\quad
+\forall \rho,\quad
+\llbracket t\rrbracket(\rho)=\llbracket m\rrbracket(\rho).
 $$
 
 It also proves:
@@ -675,12 +707,11 @@ The word "then" is only a reading aid for the guarded split.
 For a CBF expression $c$, the compiler theorem is:
 
 $$
-\begin{aligned}
-&\forall c\in\mathrm{CBF}_n,\\
-&\forall \rho,\\
-&[\![\operatorname{cbfToBF}(c)]\!]_\rho\\
-&= [\![c]\!]_\rho.
-\end{aligned}
+\forall c\in\mathrm{CBF}_n,\quad
+\forall \rho,\quad
+\llbracket \operatorname{cbfToBF}(c)\rrbracket_\rho
+=
+\llbracket c\rrbracket_\rho.
 $$
 
 <strong>Standard reading.</strong>
@@ -696,12 +727,11 @@ what it denotes.
 For a priority table $T$, the table compiler theorem is:
 
 $$
-\begin{aligned}
-&\forall T\in\mathrm{Table}_n,\\
-&\forall \rho,\\
-&[\![\operatorname{tableToBF}(T)]\!]_\rho\\
-&= [\![T]\!]_\rho.
-\end{aligned}
+\forall T\in\mathrm{Table}_n,\quad
+\forall \rho,\quad
+\llbracket \operatorname{tableToBF}(T)\rrbracket_\rho
+=
+\llbracket T\rrbracket_\rho.
 $$
 
 <strong>Standard reading.</strong>
@@ -719,47 +749,37 @@ This is a finite Boolean-valued table result.
 It does not yet prove first-class NSO, Guarded Successor, unrestricted
 recurrence, or production Tau lowering.
 
-The next checked bridge stays in the same finite Boolean-valued fragment and
-compiles each priority table to an explicit minterm tree. For a fixed table
-$T$, the compiled tree is:
+The next bridge compiles the table all the way to an explicit minterm tree.
+Define:
 
 $$
 m_T := \operatorname{compileTableToMinterm}(T).
 $$
 
-The symbol $m_T$ is local to that same table $T$. Written without the
-abbreviation, the semantic theorem is:
+The semantic theorem is:
 
 $$
-\begin{aligned}
-&\forall T\in\mathrm{Table}_n,\\
-&\forall \rho,\\
-&\operatorname{evalMinterm}(\\
-&\qquad \operatorname{compileTableToMinterm}(T),\rho)\\
-&= [\![T]\!]_\rho.
-\end{aligned}
+\forall T\in\mathrm{Table}_n,\quad
+\forall \rho,\quad
+\operatorname{evalMinterm}(m_T,\rho)
+=
+\llbracket T\rrbracket_\rho.
 $$
 
 The size theorem is:
 
 $$
-\begin{aligned}
-&\forall T\in\mathrm{Table}_n,\\
-&\operatorname{leafCount}(\\
-&\qquad \operatorname{compileTableToMinterm}(T))\\
-&=2^n.
-\end{aligned}
+\operatorname{leafCount}(m_T)=2^n.
 $$
 
 <strong>Standard reading.</strong>
-For every finite-arity priority table $T$, the minterm tree compiled from that
-same $T$ has the same denotation as $T$ under every assignment $\rho$, and
-that tree has exactly $2^n$ leaves.
+For every finite-arity priority table $T$, the compiled minterm tree $m_T$
+has the same denotation as $T$ under every assignment $\rho$, and the tree
+has exactly $2^n$ leaves.
 
 <strong>Plain English.</strong>
-Each finite table can be expanded into the complete case tree over its $n$
-Boolean inputs. In that compiled tree, every input case is present, and no
-case changes meaning.
+The finite table can be expanded into the complete case tree over its $n$
+Boolean inputs. No case is missing, and no case changes meaning.
 
 <strong>Trap.</strong>
 This is an explicit finite case tree.
@@ -768,11 +788,9 @@ It is not yet recurrence, NSO, Guarded Successor, or full infinite TABA.
 The same proof also marks the unsafe boundary:
 
 $$
-\begin{aligned}
-F(x)&:=x',\\
-&\neg\bigl(\forall a\,b,\;a\le b \Rightarrow\\
-&\qquad F(a)\le F(b)\bigr).
-\end{aligned}
+F(x):=x',
+\qquad
+\neg\bigl(\forall a\,b,\;a\le b \Rightarrow F(a)\le F(b)\bigr).
 $$
 
 <strong>Standard reading.</strong>
@@ -858,7 +876,7 @@ The host computes a candidate next state, feeds it to Tau, and Tau checks the
 claim. This is the same architecture as many production policy engines: the
 host proposes, the policy checker accepts or rejects.
 
-Run the replay from the `TauLang-Experiments` repo root:
+Replay it from the `TauLang-Experiments` repo root:
 
 ```bash
 python3 scripts/generate_quarantine_closure_tau_artifacts.py
@@ -880,12 +898,9 @@ It proves a scoped fragment, not full TABA tables.
 The evidence supports this claim:
 
 $$
-\begin{aligned}
-&\operatorname{SafeHelpers}\\
-&\wedge \operatorname{TauTransitionChecks}\\
-&\wedge \operatorname{LeanSemanticEvidence}\\
-&\Longrightarrow \operatorname{RunnableSafeRecursiveTableFragment}.
-\end{aligned}
+\text{safe helpers} + \text{Tau transition checks} + \text{Lean semantic evidence}
+\Rightarrow
+\text{a runnable safe recursive table fragment}.
 $$
 
 <strong>Standard reading.</strong>
@@ -905,16 +920,21 @@ The local Lean proof artifacts establish the semantic shape behind the feature:
 - v553 proves fixed-guard selection and fixed-guard revision are safe, and gives counterexamples for unsafe variants.
 - v554 puts safe selection and safe revision into the table grammar itself.
 - v555 proves that the safe table grammar lowers into an abstract Tau-helper
-  target language without changing its denotation.
+  target language without changing its denotation; the later Aristotle-audited
+  lowering packet rebuilds the same source-to-helper-IR contract for safe
+  priority tables and pointwise revision.
 - v556 proves that binary Boolean-polynomial terms compile to four-coefficient
   minterm form without changing their denotation.
 - v557 generalizes the minterm compiler to arbitrary finite arity, using a
-  $2^n$-leaf minterm tree.
+  minterm tree with $2^n$ leaves.
 - v558 proves that finite Boolean-valued CBF and priority-table syntax collapses
   to an ordinary Boolean-function kernel, and proves that same-stratum prime is
   outside the monotone Kleene lane.
-- v559 proves that finite Boolean-valued CBF priority tables compile to explicit
-  $2^n$-leaf minterm trees with denotation preservation.
+- v559 proves that finite Boolean-valued CBF priority tables compile to
+  explicit minterm trees with $2^n$ leaves and denotation preservation.
+- `tau_compound_table_check_2026_04_15` proves the finite-list law behind the
+  compound demo check: unsatisfiability of the compound mismatch predicate is
+  equivalent to unsatisfiability of every listed mismatch predicate.
 
 The research log keeps the detailed evidence ladder:
 
@@ -936,26 +956,21 @@ The current feature does not include:
 - full Guarded Successor syntax,
 - full official TABA table semantics,
 - a flat packed `Fin (2^n)` Skolem/minterm coefficient vector,
-- a production Tau lowering pipeline.
+- production parser and runtime lowering correctness for the whole Tau feature.
 
 ## Route to full TABA
 
-The theoretically feasible target is now clearer.
-Full TABA should not be modeled as one unrestricted least-fixed-point universe.
-It needs a split semantic architecture:
+The target is clearer now. Full TABA cannot live in a single unrestricted
+least-fixed-point universe. It needs a split semantic architecture, one lane
+for each kind of recurrence:
 
 $$
 \operatorname{Sem}(e)=
 \begin{cases}
-\mu F_e,
-  & e\in\mathcal L_{\mathrm{mono}},\\
-\operatorname{resolve}(F_e,c),
-  & e\in\mathcal L_{\mathrm{cert}},\\
-\bot_{\mathrm{reject}},
-  & \begin{aligned}[t]
-    e&\notin \mathcal L_{\mathrm{mono}}\\
-     &\cup \mathcal L_{\mathrm{cert}}.
-    \end{aligned}
+\mu F_e, & e\in\mathcal L_{\mathrm{mono}},\\
+\operatorname{resolve}(F_e,c), & e\in\mathcal L_{\mathrm{cert}},\\
+\bot_{\mathrm{reject}}, & e\notin
+\mathcal L_{\mathrm{mono}}\cup\mathcal L_{\mathrm{cert}}.
 \end{cases}
 $$
 
@@ -985,10 +1000,9 @@ To claim full TABA tables, these pieces still need to line up:
 - demos that exercise the official syntax path rather than only hand-written
   helper expressions.
 
-The current work has checked meaningful pieces of that ladder.
-It has not closed the ladder.
+The current work has checked meaningful pieces of that ladder. It has not
+closed the ladder.
 
-This boundary is not a weakness in the tutorial.
-It is the point of the tutorial.
-The safe fragment is useful because the exact reason it works is known, and the
-exact reason the excluded forms are dangerous is also known.
+This boundary is not a weakness of the tutorial. It is the point. The safe
+fragment earns its usefulness by making both sides of the line explicit: why
+the included forms work, and why each excluded form would break the proof.

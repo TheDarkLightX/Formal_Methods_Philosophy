@@ -1,14 +1,14 @@
 ---
-title: Research Notes
+title: Research Logs
 layout: base
 show_title: false
-description: "Indexed research notes behind the tutorials, with neuro-symbolic research logs, scoped claims, and code-shaped evidence."
+description: "Indexed research logs behind the tutorials, with neuro-symbolic methods, scoped claims, and code-shaped evidence."
 ---
 
 <section class="fp-hero">
   <div class="fp-hero-grid">
     <div>
-      <h1 class="fp-hero-title">Research Notes</h1>
+      <h1 class="fp-hero-title">Research Logs</h1>
       <p class="fp-hero-subtitle">
         Detailed experiment logs behind the tutorials. These pages keep the claims,
         failed boundaries, formal checks, and implementation sketches separate from the
@@ -63,7 +63,7 @@ description: "Indexed research notes behind the tutorials, with neuro-symbolic r
   <div class="fp-card fp-card-span-12">
     <h2 class="fp-card-title">How to read these pages</h2>
     <p class="fp-card-text">
-      A research note is not a tutorial and not a proof of unrestricted behavior.
+      A research log is not a tutorial and not a proof of unrestricted behavior.
       Each note states what was checked, what was only tested, what failed, and what
       remains outside the current model.
     </p>

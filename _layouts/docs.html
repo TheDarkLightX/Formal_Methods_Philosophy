@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
   </head>
 
-  <body class="fp-body{% if page.math_heavy %} fp-math-heavy is-math-loading{% endif %}">
+  <body class="fp-body">
     <a class="fp-skip-link" href="#main">Skip to content</a>
 
     <header class="fp-header">
@@ -33,6 +33,11 @@
             class="fp-nav-link{% if fp_url contains '/labs' %} is-active{% endif %}"
             href="{{ '/labs/' | relative_url }}"
             >Labs</a
+          >
+          <a
+            class="fp-nav-link{% if fp_url contains '/research' %} is-active{% endif %}"
+            href="{{ '/research/' | relative_url }}"
+            >Research</a
           >
           <a
             class="fp-nav-link{% if fp_url contains '/glossary' %} is-active{% endif %}"
@@ -57,6 +62,9 @@
             >
             <a class="fp-nav-link" href="{{ '/labs/' | relative_url }}"
               >Labs</a
+            >
+            <a class="fp-nav-link" href="{{ '/research/' | relative_url }}"
+              >Research</a
             >
             <a class="fp-nav-link" href="{{ '/glossary/' | relative_url }}"
               >Glossary</a
@@ -97,12 +105,6 @@
                 >
               </div>
             </header>
-            {% if page.math_heavy %}
-              <div class="fp-math-loading" role="status" aria-live="polite">
-                Rendering formulas. This research log has many checked equations, so
-                the first load may take a few seconds.
-              </div>
-            {% endif %}
             <div class="fp-doc-content">
               {{ content }}
             </div>
@@ -118,6 +120,9 @@
               >
               <a class="fp-aside-link" href="{{ '/labs/' | relative_url }}"
                 >Interactive labs</a
+              >
+              <a class="fp-aside-link" href="{{ '/research/' | relative_url }}"
+                >Research logs</a
               >
               <a class="fp-aside-link" href="{{ '/glossary/' | relative_url }}"
                 >Glossary</a
@@ -146,6 +151,9 @@
           >
           <a class="fp-footer-link" href="{{ '/labs/' | relative_url }}"
             >Labs</a
+          >
+          <a class="fp-footer-link" href="{{ '/research/' | relative_url }}"
+            >Research</a
           >
           <a class="fp-footer-link" href="{{ '/glossary/' | relative_url }}"
             >Glossary</a
@@ -254,23 +262,6 @@
         options: {
           skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
         },
-        startup: {
-          pageReady: () => {
-            const revealMathPage = () => {
-              document.body.classList.remove("is-math-loading");
-              document.body.classList.add("is-math-ready");
-            };
-            return MathJax.startup.defaultPageReady().then(
-              () => {
-                revealMathPage();
-              },
-              (error) => {
-                revealMathPage();
-                throw error;
-              },
-            );
-          },
-        },
       };
     </script>
     <script
@@ -278,41 +269,5 @@
       async
       src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"
     ></script>
-    {% if page.math_heavy %}
-      <script>
-        (() => {
-          const revealMathPage = (statusClass) => {
-            document.body.classList.remove("is-math-loading");
-            document.body.classList.add(statusClass);
-          };
-
-          const poll = window.setInterval(() => {
-            if (!document.body.classList.contains("is-math-loading")) {
-              window.clearInterval(poll);
-              return;
-            }
-            const renderedMath = document.querySelectorAll("mjx-container").length;
-            const text = document.body.innerText || "";
-            const rawMath =
-              text.includes("\\[") ||
-              text.includes("\\]") ||
-              text.includes("$$");
-            if (renderedMath > 0 && !rawMath) {
-              window.clearInterval(poll);
-              revealMathPage("is-math-ready");
-            }
-          }, 250);
-
-          window.setTimeout(() => {
-            if (!document.body.classList.contains("is-math-loading")) {
-              return;
-            }
-            window.clearInterval(poll);
-            document.body.classList.remove("is-math-loading");
-            document.body.classList.add("is-math-timeout");
-          }, 30000);
-        })();
-      </script>
-    {% endif %}
   </body>
 </html>
