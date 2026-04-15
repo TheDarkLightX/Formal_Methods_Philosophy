@@ -756,6 +756,33 @@ This is whole-command timing. Each row calls Tau as a separate process, so the
 numbers include startup and file I/O. They are useful for catching an obvious
 regression, not for proving an in-process speedup.
 
+The same wide corpus also checks whether the first `normalize` output is stable
+under a second `normalize` call:
+
+```text
+baseline first-pass idempotent cases: 7 / 200
+enabled first-pass idempotent cases:  140 / 200
+enabled non-idempotent cases:         60 / 200
+enabled second-pass growth cases:     30 / 200
+```
+
+<strong>Standard reading.</strong>
+Without the recombination flag, only \(7\) of the \(200\) baseline first-pass
+normal forms are unchanged by a second `normalize` call. With the recombination
+flag enabled, \(140\) of the \(200\) first-pass normal forms are unchanged.
+There are still \(60\) enabled cases that change on the second pass, and \(30\)
+of those become longer.
+
+<strong>Plain English.</strong>
+The recombination patch improves stability, but it does not make `normalize`
+fully idempotent on this corpus.
+
+<strong>Trap.</strong>
+This is a different boundary from semantic correctness. All \(200\) enabled
+cases still match under `mnf`. The open issue is fixed-point presentation: the
+first `normalize` output should ideally already be the form that another
+`normalize` call would return.
+
 The new rule that closed the larger corpus is an equality-graph implication
 rule:
 

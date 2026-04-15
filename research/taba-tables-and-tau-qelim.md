@@ -8024,6 +8024,23 @@ each command, so process startup and file I/O are included. The useful result is
 narrower: the feature-gated recombination pass removes the normalized-size
 blowup on the wide corpus without showing a whole-command timing regression.
 
+Idempotence screen for the same corpus:
+
+```text
+baseline first-pass idempotent cases: 7 / 200
+enabled first-pass idempotent cases:  140 / 200
+enabled non-idempotent cases:         60 / 200
+enabled second-pass growth cases:     30 / 200
+```
+
+Research conclusion:
+
+The feature-gated pass improves normalize fixed-point stability relative to
+baseline, but does not close it. The next Tau-normalizer target is not another
+branch-recombination law on this corpus. It is a presentation pass that makes
+the first `normalize` output stable under a second `normalize` call, without
+growing the target-sized formulas.
+
 The term-level representative substitution law that moved the frontier is:
 
 $$
