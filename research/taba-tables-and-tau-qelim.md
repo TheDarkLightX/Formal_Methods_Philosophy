@@ -7901,6 +7901,7 @@ matched target cases:          3
 target-sized cases:            4
 Tau-normalized characters:    36
 target-normalized characters: 36
+MNF-matched target cases:      4
 ```
 
 Research conclusion:
@@ -7911,10 +7912,10 @@ executable model with both positive reductions and negative counterexamples.
 The Tau-facing probe sharpens the implementation frontier: Tau can simplify
 simple equality paths, but it does not yet recombine all resulting equality
 split branches without the feature flag. The feature-gated patch closes all
-four checked size-reduction cases. Three match the target text exactly, and the
-remaining work is presentation-level: canonicalize equivalent term ordering in
-the three-alias residual case, then benchmark the full normalizer path on a
-wider corpus.
+four checked size-reduction cases. Three match the target text exactly under
+`normalize`, and all four match under `mnf`. The remaining work is
+presentation-level: canonicalize equivalent term ordering in the three-alias
+residual case, then benchmark the full normalizer path on a wider corpus.
 
 The wider alias-order smoke test extends the same result:
 
@@ -7924,11 +7925,13 @@ matched target cases:          3
 target-sized cases:            8
 Tau-normalized characters:   108
 target-normalized characters: 108
+MNF-matched target cases:      8
 ```
 
 The additional cases permute the equality path and include a transitive alias
 chain. They are still bounded smoke tests, not a proof of all equality-path
-normalization.
+normalization. They do show that the remaining mismatch is display
+canonicalization, not a missed semantic reduction on the checked corpus.
 
 ## 15. Effects, derivatives, and finite-carrier equivalence
 

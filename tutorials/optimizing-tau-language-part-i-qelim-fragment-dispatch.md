@@ -598,6 +598,8 @@ TAU_EQUALITY_SPLIT_RECOMBINE=1
 With the flag enabled, the current patch makes Tau emit the target normal form
 for `3` of the `4` checked cases and reduces the combined normalized-character
 count from `152` to `36`, the same combined size as the target forms.
+The fourth case matches under Tau's `mnf` command, so the remaining mismatch is
+presentation-level ordering in `normalize`, not a semantic failure.
 
 This is the strongest current Tau-native normalizer target because the semantic
 premise is precise and Tau already proves the target formulas equivalent.
@@ -614,10 +616,13 @@ matched target cases:          3
 target-sized cases:            8
 Tau-normalized characters:   108
 target-normalized characters: 108
+MNF-matched target cases:      8
 ```
 
 The additional cases permute the equality path. They show that the pass is not
-limited to one hand-written alias order.
+limited to one hand-written alias order. They also show the current boundary:
+the feature-gated pass has closed the size-reduction obligation on this corpus,
+while final presentation canonicalization remains separate work.
 
 ## Part VIII: Effects, derivatives, and finite equivalence
 
