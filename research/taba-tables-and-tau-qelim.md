@@ -7958,19 +7958,19 @@ canonicalization, not a missed semantic reduction on the checked corpus.
 The generated path-sensitive corpus moves the frontier:
 
 ```text
-baseline target-sized cases:   2 / 24
-enabled target-sized cases:   24 / 24
-baseline normalize chars:    828
-enabled normalize chars:     189
-target normalize chars:      189
-MNF-matched target cases:     24 / 24
+baseline target-sized cases:   2 / 48
+enabled target-sized cases:   48 / 48
+baseline normalize chars:    2088
+enabled normalize chars:     378
+target normalize chars:      378
+MNF-matched target cases:     48 / 48
 ```
 
 Research conclusion:
 
 The scoped recombination pass now closes this generated corpus on normalized
-size. The enabled normalized-character count is `189`, exactly the target count.
-Exact `normalize` text still matches `12` of `24` cases, while all `24` cases
+size. The enabled normalized-character count is `378`, exactly the target count.
+Exact `normalize` text still matches `24` of `48` cases, while all `48` cases
 match under `mnf`. The remaining mismatch is presentation canonicalization, not
 missed semantic recombination on this generated corpus.
 
@@ -7983,6 +7983,45 @@ $$
 =
 \llbracket R\rrbracket_\rho.
 $$
+
+The equality-graph implication rule that closed the six additional generated
+cases is:
+
+$$
+(A\Rightarrow R)\wedge(R\wedge\neg D\Rightarrow A)
+\Longrightarrow
+A\vee(R\wedge D)\equiv R.
+$$
+
+Standard reading:
+
+If alias branch \(A\) implies residual \(R\), and \(R\) together with not \(D\)
+implies \(A\), then \(A\vee(R\wedge D)\) is equivalent to \(R\).
+
+Plain English:
+
+The split is redundant when the alias branch is already inside the residual and
+the residual plus the failed guard-disjunction reconstructs the alias branch.
+
+The conjunction cleanup uses this equality-path law:
+
+$$
+a\ne b
+\Longrightarrow
+\bigvee_{i<k}(t_i\ne t_{i+1})
+\quad
+\text{when }t_0=a\text{ and }t_k=b.
+$$
+
+Standard reading:
+
+If \(a\) is not equal to \(b\), then on any finite path from \(a\) to \(b\),
+at least one adjacent equality on that path fails.
+
+Plain English:
+
+The normalizer can remove a disjunction of edge-failures when an endpoint
+inequality already guarantees that one of those edge-failures must hold.
 
 The next meaningful normalizer step is to canonicalize equivalent
 Boolean-algebra term orderings, then test larger generated equality-split

@@ -651,20 +651,20 @@ while final presentation canonicalization remains separate work.
 The generated path-sensitive corpus is harder:
 
 ```text
-baseline target-sized cases:   2 / 24
-enabled target-sized cases:   24 / 24
-baseline normalize chars:    828
-enabled normalize chars:     189
-target normalize chars:      189
-MNF-matched target cases:     24 / 24
+baseline target-sized cases:   2 / 48
+enabled target-sized cases:   48 / 48
+baseline normalize chars:    2088
+enabled normalize chars:     378
+target normalize chars:      378
+MNF-matched target cases:     48 / 48
 ```
 
 <strong>Standard reading.</strong>
 On the generated corpus, the feature flag improves the number of formulas whose
-normalized output is no longer larger than the target from \(2\) out of \(24\)
-to \(24\) out of \(24\). The enabled normalized-character count is \(189\),
-which is exactly the target count. Exact `normalize` text still matches \(12\)
-out of \(24\) cases, and all \(24\) cases match the target under Tau's `mnf`
+normalized output is no longer larger than the target from \(2\) out of \(48\)
+to \(48\) out of \(48\). The enabled normalized-character count is \(378\),
+which is exactly the target count. Exact `normalize` text still matches \(24\)
+out of \(48\) cases, and all \(48\) cases match the target under Tau's `mnf`
 command.
 
 <strong>Plain English.</strong>
@@ -672,11 +672,49 @@ The feature-gated recombination pass now closes this generated corpus on size.
 What remains is canonical printing of equivalent Boolean terms.
 
 <strong>Trap.</strong>
-The \(12\) textual mismatches are not semantic mismatches. They are presentation
+The \(24\) textual mismatches are not semantic mismatches. They are presentation
 differences under `normalize`, such as equivalent Boolean terms printed in
 different orders. This is still not a default Tau optimization: the pass remains
 feature-gated until larger generated corpora and presentation canonicalization
 are checked.
+
+The new rule that closed the larger corpus is an equality-graph implication
+rule:
+
+$$
+(A\Rightarrow R)\wedge(R\wedge\neg D\Rightarrow A)
+\Longrightarrow
+A\vee(R\wedge D)\equiv R.
+$$
+
+<strong>Standard reading.</strong>
+If alias condition \(A\) implies residual \(R\), and \(R\) together with not
+\(D\) implies \(A\), then the disjunction \(A\vee(R\wedge D)\) is equivalent to
+\(R\).
+
+<strong>Plain English.</strong>
+If the left branch already guarantees the residual, and the residual covers the
+right branch whether the guard-disjunction \(D\) holds or fails, the whole split
+can be collapsed to the residual.
+
+The conjunction cleanup uses the equality-path law:
+
+$$
+a\ne b
+\Longrightarrow
+\bigvee_{i<k}(t_i\ne t_{i+1})
+\quad
+\text{when }t_0=a\text{ and }t_k=b.
+$$
+
+<strong>Standard reading.</strong>
+If \(a\) is not equal to \(b\), then along any finite path
+\(a=t_0,t_1,\ldots,t_k=b\), at least one adjacent equality on that path must
+fail.
+
+<strong>Plain English.</strong>
+If the endpoints differ, some edge in any proposed equality chain between them
+must differ.
 
 ## Part VIII: Effects, derivatives, and finite equivalence
 
