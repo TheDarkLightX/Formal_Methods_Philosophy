@@ -19,7 +19,7 @@ TABA-inspired table semantics.
 First, quantifier elimination in Tau benefits from fragment-sensitive dispatch:
 on a checked leading-existential propositional fragment, a guarded BDD route
 with structural preprocessing produced a measured aggregate qelim-time speedup
-of about \(5.17\) over Tau's default route on the policy-shaped corpus.
+of about \(5.15\) over Tau's default route on the policy-shaped corpus.
 Second, a safe table-update fragment can be given a precise pointwise revision
 semantics and executed in a feature-gated Tau experiment.
 Neither result proves full Tau Language optimization, full TABA tables, full
@@ -149,8 +149,8 @@ $$
 \frac{\sum_i t_{\mathrm{default}}(i)}
      {\sum_i t_{\mathrm{auto}}(i)}
 =
-\frac{218.703}{42.283483}
-\approx 5.17.
+\frac{210.853}{40.940207}
+\approx 5.15.
 $$
 
 This is a bounded same-binary benchmark result for `TAU_QELIM_BACKEND=auto`.

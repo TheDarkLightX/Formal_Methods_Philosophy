@@ -419,8 +419,8 @@ $$
   \sum_i t_{\mathrm{auto}}(i)
 }
 =
-\frac{218.703}{42.283483}
-\approx 5.17.
+\frac{210.853}{40.940207}
+\approx 5.15.
 $$
 
 <strong>Standard reading.</strong>
@@ -442,9 +442,9 @@ The current policy-shaped semantic corpus recorded:
 - semantic residual validation on `9` policy-shaped cases,
 - `45` total `auto` runs across `5` repetitions,
 - route counts `{ components: 10, dp: 5, monolithic: 30 }`,
-- summed default qelim time `218.703 ms`,
-- summed `auto` qelim time about `42.283 ms`,
-- aggregate qelim-time speedup about `5.17x`.
+- summed default qelim time `210.853 ms`,
+- summed `auto` qelim time about `40.940 ms`,
+- aggregate qelim-time speedup about `5.15x`.
 
 The older bounded ladder-and-mux matrix recorded about `3.47x`. The newer
 policy-shaped corpus is the stronger tutorial evidence because it mirrors the

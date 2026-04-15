@@ -176,16 +176,16 @@ $$
   \sum \operatorname{time}_{\mathrm{auto}}
 }
 =
-\frac{218.703}{42.283483}
+\frac{210.853}{40.940207}
 \approx
-5.17.
+5.15.
 $$
 
 Standard reading:
 
 - On the checked policy-shaped corpus, the summed default qelim time was
-  $218.703$ ms and the summed `auto` qelim time was about $42.283$ ms, so the
-  aggregate qelim-time speedup was about $5.17$.
+  $210.853$ ms and the summed `auto` qelim time was about $40.940$ ms, so the
+  aggregate qelim-time speedup was about $5.15$.
 
 Plain English reading:
 
@@ -242,7 +242,7 @@ Current check record:
   because process startup dominates.
 - On the policy-shaped semantic corpus, `auto + guarded KB` preserved parity
   but recorded `0` KB rewrite steps and was slightly slower than `auto` alone,
-  so the `5.17x` result belongs to the auto BDD/component route rather than to
+  so the `5.15x` result belongs to the auto BDD/component route rather than to
   KB rewriting.
 
 Boundary:
@@ -281,7 +281,7 @@ Plain English reading:
 Concrete benefits already seen in this work:
 
 - qelim compilation: the `auto` route lowers supported existential formulas to
-  a BDD existential-abstraction path and produced the measured `5.17x`
+  a BDD existential-abstraction path and produced the measured `5.15x`
   aggregate qelim-time speedup on the checked policy-shaped corpus.
 - table lowering: the safe table syntax lowers to guarded helper expressions
   and is checked against an explicit raw Boolean-algebra denotation.
@@ -488,9 +488,9 @@ The current checked auto-density report records:
 - exact output parity on the checked policy-shaped corpus,
 - semantic residual validation on `9` cases,
 - route counts `{ components: 10, dp: 5, monolithic: 30 }`,
-- summed default qelim time `218.703 ms`,
-- summed `auto` qelim time about `42.283 ms`,
-- aggregate qelim-time speedup about `5.17x`.
+- summed default qelim time `210.853 ms`,
+- summed `auto` qelim time about `40.940 ms`,
+- aggregate qelim-time speedup about `5.15x`.
 
 The surviving engineering rule is that direct BDD qelim is a guarded fast path,
 not a universal replacement.

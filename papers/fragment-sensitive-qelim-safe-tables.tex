@@ -33,7 +33,7 @@ We summarize two scoped results from a neuro-symbolic study of Tau Language and
 TABA-inspired table semantics. First, quantifier elimination in Tau benefits from
 fragment-sensitive dispatch: on a checked leading-existential propositional
 fragment, a guarded BDD route with structural preprocessing produced a measured
-aggregate qelim-time speedup of about \(5.17\) over Tau's default route on the
+aggregate qelim-time speedup of about \(5.15\) over Tau's default route on the
 policy-shaped corpus. Second, a safe table-update fragment has a precise pointwise
 revision semantics and a feature-gated Tau experiment. Neither result proves
 full Tau optimization, full TABA tables, NSO lowering, or unrestricted
@@ -118,7 +118,7 @@ The current measured candidate is
 \operatorname{speedup}_{\mathrm{agg}}
 :=\frac{\sum_i t_{\mathrm{default}}(i)}
         {\sum_i t_{\mathrm{auto}}(i)}
-=\frac{218.703}{42.283483}\approx 5.17.
+=\frac{210.853}{40.940207}\approx 5.15.
 \]
 This is a bounded same-binary benchmark result for
 \texttt{TAU\_QELIM\_BACKEND=auto}, not a global speed theorem. The measured
