@@ -434,7 +434,21 @@ fifth of the qelim time used by the default route.
 
 <strong>Trap.</strong>
 This is not a global Tau speed theorem.
-It is a same-binary benchmark record over a bounded generated corpus.
+It is a same-binary benchmark record over a bounded policy-shaped corpus.
+
+The public reproduction command, run from the
+[TauLang-Experiments repo](https://github.com/TheDarkLightX/TauLang-Experiments),
+is:
+
+```bash
+./scripts/run_qelim_table_demos.sh --accept-tau-license
+```
+
+For the full safe-table plus qelim-backed demo suite, use:
+
+```bash
+./scripts/run_public_demos.sh --accept-tau-license
+```
 
 The current policy-shaped semantic corpus recorded:
 
