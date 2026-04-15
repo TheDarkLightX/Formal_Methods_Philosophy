@@ -419,8 +419,8 @@ $$
   \sum_i t_{\mathrm{auto}}(i)
 }
 =
-\frac{83.878}{24.158}
-\approx 3.47.
+\frac{218.703}{42.283483}
+\approx 5.17.
 $$
 
 <strong>Standard reading.</strong>
@@ -429,20 +429,27 @@ For every checked command \(i\), sum the default qelim time
 \(t_{\mathrm{auto}}(i)\), then divide the first sum by the second sum.
 
 <strong>Plain English.</strong>
-On this measured corpus, the guarded `auto` route used about one third of the
-qelim time used by the default route.
+On this measured policy-shaped corpus, the guarded `auto` route used about one
+fifth of the qelim time used by the default route.
 
 <strong>Trap.</strong>
 This is not a global Tau speed theorem.
 It is a same-binary benchmark record over a bounded generated corpus.
 
-The checked matrix recorded:
+The current policy-shaped semantic corpus recorded:
 
 - exact output parity on the checked corpus,
-- `10` wins, `1` loss, and `0` ties against Tau's default qelim path,
-- summed default qelim time `83.878 ms`,
-- summed `auto` qelim time about `24.158 ms`,
-- aggregate qelim-time speedup about `3.47x`.
+- semantic residual validation on `9` policy-shaped cases,
+- `45` total `auto` runs across `5` repetitions,
+- route counts `{ components: 10, dp: 5, monolithic: 30 }`,
+- summed default qelim time `218.703 ms`,
+- summed `auto` qelim time about `42.283 ms`,
+- aggregate qelim-time speedup about `5.17x`.
+
+The older bounded ladder-and-mux matrix recorded about `3.47x`. The newer
+policy-shaped corpus is the stronger tutorial evidence because it mirrors the
+safe-table demo domain and validates residual formulas semantically rather
+than relying only on printed syntax.
 
 Other flags stayed opt-in because they did not justify default promotion in the
 latest check records.
@@ -494,6 +501,8 @@ Current patched-Tau check records:
 - on a 34-case generated matrix with `3` repetitions, guarded KB reduced
   compiled KB nodes by `40.81%` and had internal qelim-time ratio about `0.952`
   against plain BDD,
+- on the policy-shaped semantic corpus, `auto + guarded KB` preserved parity
+  but recorded `0` KB rewrite steps and was slightly slower than `auto` alone,
 - elapsed whole-command time stayed effectively neutral because this harness is
   dominated by Tau process startup.
 

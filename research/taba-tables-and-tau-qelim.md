@@ -166,7 +166,8 @@ Boundary:
 - The equivalence decider is sound where it returns success, but incompleteness
   means failure to prove equality is not evidence of inequality.
 
-The strongest qelim measurement currently recorded is the auto-density matrix:
+The strongest qelim measurement currently recorded is the policy-shaped
+semantic corpus:
 
 $$
 \frac{
@@ -175,21 +176,21 @@ $$
   \sum \operatorname{time}_{\mathrm{auto}}
 }
 =
-\frac{83.878}{24.158}
+\frac{218.703}{42.283483}
 \approx
-3.47.
+5.17.
 $$
 
 Standard reading:
 
-- On the checked bounded ladder-and-mux corpus, the summed default qelim time
-  was $83.878$ ms and the summed `auto` qelim time was about $24.158$ ms,
-  so the aggregate qelim-time speedup was about $3.47$.
+- On the checked policy-shaped corpus, the summed default qelim time was
+  $218.703$ ms and the summed `auto` qelim time was about $42.283$ ms, so the
+  aggregate qelim-time speedup was about $5.17$.
 
 Plain English reading:
 
 - On this measured corpus, the guarded `auto` route did the same checked work
-  in about one third of the qelim time.
+  in about one fifth of the qelim time.
 
 Boundary:
 
@@ -197,8 +198,11 @@ Boundary:
 - `TAU_QELIM_AUTO_GUARD`, `TAU_QELIM_BDD_AC_CANON`, and
   `TAU_REWRITE_DOUBLE_NEG` remain opt-in lanes because their latest measured
   results did not justify making them default.
-- The measurement is a same-binary benchmark record on a generated corpus. It
-  is not a proof that `auto` is faster on all Tau inputs.
+- The measurement is a same-binary benchmark record on a policy-shaped corpus.
+  It is not a proof that `auto` is faster on all Tau inputs.
+- The earlier bounded ladder-and-mux matrix recorded about `3.47x`; the
+  policy-shaped corpus is the stronger result because its cases mirror the
+  safe-table demo domain and the residual validator checks semantic parity.
 
 The later c111-inspired qelim prepass has a more modest guarded form:
 
@@ -236,6 +240,10 @@ Current check record:
   `0.952` against plain BDD.
 - Whole-command elapsed time remained effectively neutral in this harness
   because process startup dominates.
+- On the policy-shaped semantic corpus, `auto + guarded KB` preserved parity
+  but recorded `0` KB rewrite steps and was slightly slower than `auto` alone,
+  so the `5.17x` result belongs to the auto BDD/component route rather than to
+  KB rewriting.
 
 Boundary:
 
@@ -273,8 +281,8 @@ Plain English reading:
 Concrete benefits already seen in this work:
 
 - qelim compilation: the `auto` route lowers supported existential formulas to
-  a BDD existential-abstraction path and produced the measured `3.47x`
-  aggregate qelim-time speedup on the checked corpus.
+  a BDD existential-abstraction path and produced the measured `5.17x`
+  aggregate qelim-time speedup on the checked policy-shaped corpus.
 - table lowering: the safe table syntax lowers to guarded helper expressions
   and is checked against an explicit raw Boolean-algebra denotation.
 - finite table carriers: schema-checked bitset carriers can run finite relation
@@ -477,11 +485,12 @@ The `auto` route means:
 
 The current checked auto-density report records:
 
-- exact on the checked corpus,
-- `10` wins, `1` loss, and `0` ties against the default route,
-- summed default qelim time `83.878 ms`,
-- summed `auto` qelim time about `24.158 ms`,
-- aggregate qelim-time speedup about `3.47x`.
+- exact output parity on the checked policy-shaped corpus,
+- semantic residual validation on `9` cases,
+- route counts `{ components: 10, dp: 5, monolithic: 30 }`,
+- summed default qelim time `218.703 ms`,
+- summed `auto` qelim time about `42.283 ms`,
+- aggregate qelim-time speedup about `5.17x`.
 
 The surviving engineering rule is that direct BDD qelim is a guarded fast path,
 not a universal replacement.
