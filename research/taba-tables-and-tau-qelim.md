@@ -7955,6 +7955,45 @@ chain. They are still bounded smoke tests, not a proof of all equality-path
 normalization. They do show that the remaining mismatch is display
 canonicalization, not a missed semantic reduction on the checked corpus.
 
+The generated path-sensitive corpus moves the frontier:
+
+```text
+baseline target-sized cases:   2 / 24
+enabled target-sized cases:   10 / 24
+baseline normalize chars:    828
+enabled normalize chars:     619
+target normalize chars:      189
+MNF-matched target cases:     24 / 24
+```
+
+Research conclusion:
+
+The scoped recombination pass is useful, but not sufficient. The generated
+cases include residual formulas that Tau rewrites differently under the equality
+branch and under the complement branch. That means the next meaningful
+normalizer step is not merely presentation canonicalization. It is branch-local
+representative substitution followed by recombination:
+
+$$
+\left(\forall x,\ \rho(\operatorname{rep}(x))=\rho(x)\right)
+\Longrightarrow
+\llbracket \operatorname{subst}_{\operatorname{rep}}(R)\rrbracket_\rho
+=
+\llbracket R\rrbracket_\rho.
+$$
+
+Standard reading:
+
+If the current branch environment assigns each variable the same value as its
+chosen representative, then evaluating the residual after representative
+substitution gives the same value as evaluating the original residual.
+
+Plain English:
+
+Inside one branch, the normalizer may use the equalities known on that branch to
+rewrite the residual into a common shape. Only then can the two branches be
+recombined safely.
+
 ## 15. Effects, derivatives, and finite-carrier equivalence
 
 The latest optimizer proof lane is not qelim-specific. It asks a different

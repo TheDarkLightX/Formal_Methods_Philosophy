@@ -648,6 +648,33 @@ limited to one hand-written alias order. They also show the current boundary:
 the feature-gated pass has closed the size-reduction obligation on this corpus,
 while final presentation canonicalization remains separate work.
 
+The generated path-sensitive corpus is harder:
+
+```text
+baseline target-sized cases:   2 / 24
+enabled target-sized cases:   10 / 24
+baseline normalize chars:    828
+enabled normalize chars:     619
+target normalize chars:      189
+MNF-matched target cases:     24 / 24
+```
+
+<strong>Standard reading.</strong>
+On the generated corpus, the feature flag improves the number of formulas whose
+normalized output is no longer larger than the target from \(2\) out of \(24\)
+to \(10\) out of \(24\). All \(24\) cases still match the target under Tau's
+`mnf` command.
+
+<strong>Plain English.</strong>
+The first recombination pass helps, but it does not solve the harder equality
+path problem.
+
+<strong>Trap.</strong>
+This is not just a display-order problem. In the generated cases, the residual
+condition can be simplified differently under the equality branch and under the
+complement branch. The next optimizer must build a branch-local representative
+map before it tries to recombine the branches.
+
 ## Part VIII: Effects, derivatives, and finite equivalence
 
 The next optimizer lane is not another qelim backend. It is an execution model
