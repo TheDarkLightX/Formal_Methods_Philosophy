@@ -8075,6 +8075,12 @@ route is now implemented as an experimental opt-in Tau patch behind
 fragment-sensitive presentation routing. The timing receipt is a process-level
 regression screen, not an in-process speedup proof.
 
+The next attempted shortcut was print-and-reparse stabilization. It did not
+move the remaining `10 / 200` same-size ordering flips, and it increased
+whole-command time. The result is useful negative evidence: the remaining
+presentation problem is not caused by failing to run the parser again. It
+requires an internal ordering rule for Boolean-algebra term representatives.
+
 The term-level representative substitution law that moved the frontier is:
 
 $$

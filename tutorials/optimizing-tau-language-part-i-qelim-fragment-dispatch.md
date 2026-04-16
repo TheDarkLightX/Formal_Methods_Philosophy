@@ -817,6 +817,12 @@ an opt-in Tau patch behind `TAU_NORMALIZE_GUARDED_MNF=1`. This is still not a
 claim that `mnf` should replace `normalize` globally. The timing receipt is a
 process-level regression screen, not an in-process speedup proof.
 
+One tempting shortcut also failed. Reparsing the guarded-MNF candidate inside
+the C++ normalizer did not close the remaining \(10/200\) same-size ordering
+flips, and it increased whole-command time on the corpus. The remaining problem
+is not "run the parser again." It is an internal ordering rule for
+Boolean-algebra term representatives.
+
 The new rule that closed the larger corpus is an equality-graph implication
 rule:
 
