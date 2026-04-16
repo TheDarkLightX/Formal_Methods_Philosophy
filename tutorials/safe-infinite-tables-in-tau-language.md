@@ -691,7 +691,7 @@ $$
 \forall t\in\mathrm{Term}_2,\quad
 \exists \vec a,\quad
 \forall x,y,\quad
-\llbracket t\rrbracket(x,y)=M_{\vec a}(x,y).
+\operatorname{Eval}(t,x,y)=M_{\vec a}(x,y).
 $$
 
 <strong>Standard reading.</strong>
@@ -712,7 +712,7 @@ $$
 \forall t\in\mathrm{Term}_n,\quad
 \exists m,\quad
 \forall \rho,\quad
-\llbracket t\rrbracket(\rho)=\llbracket m\rrbracket(\rho).
+\operatorname{Eval}(t,\rho)=\operatorname{Eval}(m,\rho).
 $$
 
 It also proves:
@@ -767,9 +767,9 @@ For a CBF expression $c$, the compiler theorem is:
 $$
 \forall c\in\mathrm{CBF}_n,\quad
 \forall \rho,\quad
-\llbracket \operatorname{cbfToBF}(c)\rrbracket_\rho
+\operatorname{Eval}(\operatorname{cbfToBF}(c),\rho)
 =
-\llbracket c\rrbracket_\rho.
+\operatorname{Eval}(c,\rho).
 $$
 
 <strong>Standard reading.</strong>
@@ -787,9 +787,9 @@ For a priority table $T$, the table compiler theorem is:
 $$
 \forall T\in\mathrm{Table}_n,\quad
 \forall \rho,\quad
-\llbracket \operatorname{tableToBF}(T)\rrbracket_\rho
+\operatorname{Eval}(\operatorname{tableToBF}(T),\rho)
 =
-\llbracket T\rrbracket_\rho.
+\operatorname{Eval}(T,\rho).
 $$
 
 <strong>Standard reading.</strong>
@@ -821,7 +821,7 @@ $$
 \forall \rho,\quad
 \operatorname{evalMinterm}(m_T,\rho)
 =
-\llbracket T\rrbracket_\rho.
+\operatorname{Eval}(T,\rho).
 $$
 
 The size theorem is:

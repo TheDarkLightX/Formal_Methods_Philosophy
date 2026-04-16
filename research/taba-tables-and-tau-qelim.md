@@ -8572,19 +8572,20 @@ mathlib projects, and the `Proofs.lean` files scanned clean for `sorry`,
 The read-set theorem has this shape:
 
 $$
-\rho\!\restriction_{\operatorname{Reads}(e)}
+\rho|_{\operatorname{Reads}(e)}
 =
-\rho'\!\restriction_{\operatorname{Reads}(e)}
+\rho'|_{\operatorname{Reads}(e)}
 \Longrightarrow
-\llbracket e\rrbracket_{\rho}
+\operatorname{Eval}(e,\rho)
 =
-\llbracket e\rrbracket_{\rho'}.
+\operatorname{Eval}(e,\rho').
 $$
 
 Standard reading:
 
-If two environments agree on all keys read by expression $e$, then evaluating
-$e$ in those two environments gives the same table.
+If the environments $\rho$ and $\rho'$ agree after both are restricted to the
+keys read by expression $e$, then evaluating $e$ under $\rho$ gives the same
+table as evaluating $e$ under $\rho'$.
 
 Plain English:
 
@@ -8596,28 +8597,29 @@ Boundary:
 This is proved for the Tau-like kernel with explicit variable reads. It is not
 yet a proof about Tau's full C++ IR or runtime cache.
 
-The derivative theorem introduces a symbolic one-key update:
+Write $\Delta_{k,v}e$ for the derivative-style transform that records the
+effect of changing key $k$ to value $v$.
 
 $$
-\partial_{k,v} e.
+\Delta_{k,v}e.
 $$
 
 Its soundness theorem is:
 
 $$
-\llbracket \partial_{k,v} e\rrbracket
+\operatorname{Eval}(\Delta_{k,v}e)
 =
-\operatorname{update}
+\operatorname{Update}
 \left(
-  \llbracket e\rrbracket,
+  \operatorname{Eval}(e),
   k,
-  \operatorname{evalConst}(e,v)
+  \operatorname{EvalConst}(e,v)
 \right).
 $$
 
 Standard reading:
 
-The denotation of the derivative is the old denotation updated at key $k$ by
+Evaluating $\Delta_{k,v}e$ equals the evaluation of $e$, updated at key $k$ by
 the value obtained from evaluating the expression shape with constant leaf value
 $v$.
 
@@ -8638,13 +8640,13 @@ compound expressions built from constants. Adding constant-evaluation rules
 gives:
 
 $$
-e \sim_{\mathrm{eval}} \operatorname{const}(\llbracket e\rrbracket).
+e \sim_{\mathrm{eval}} \operatorname{Const}(\operatorname{Eval}(e)).
 $$
 
 Therefore:
 
 $$
-\llbracket e_1\rrbracket=\llbracket e_2\rrbracket
+\operatorname{Eval}(e_1)=\operatorname{Eval}(e_2)
 \Longrightarrow
 e_1\sim_{\mathrm{eval}} e_2.
 $$
@@ -8673,9 +8675,9 @@ The partial-evaluation theorem is:
 $$
 \operatorname{Compatible}(K,\rho)
 \Longrightarrow
-\llbracket \operatorname{partialEval}(K,e)\rrbracket_{\rho}
+\operatorname{Eval}(\operatorname{PartialEval}(K,e),\rho)
 =
-\llbracket e\rrbracket_{\rho}.
+\operatorname{Eval}(e,\rho).
 $$
 
 Standard reading:

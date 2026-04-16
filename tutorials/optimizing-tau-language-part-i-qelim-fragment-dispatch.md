@@ -683,19 +683,19 @@ for deciding which parts of a Tau expression need to run again.
 The read-set law is:
 
 $$
-\rho\!\restriction_{\operatorname{Reads}(e)}
+\rho|_{\operatorname{Reads}(e)}
 =
-\rho'\!\restriction_{\operatorname{Reads}(e)}
+\rho'|_{\operatorname{Reads}(e)}
 \Longrightarrow
-\llbracket e\rrbracket_{\rho}
+\operatorname{Eval}(e,\rho)
 =
-\llbracket e\rrbracket_{\rho'}.
+\operatorname{Eval}(e,\rho').
 $$
 
 <strong>Standard reading.</strong>
-If two environments agree on every key read by expression \(e\), then evaluating
-\(e\) in the first environment gives the same value as evaluating \(e\) in the
-second environment.
+If the environments \(\rho\) and \(\rho'\) agree after both are restricted to
+the keys read by \(e\), then evaluating \(e\) under \(\rho\) gives the same
+value as evaluating \(e\) under \(\rho'\).
 
 <strong>Plain English.</strong>
 Only recompute the expression when one of its actual inputs changed.
@@ -704,29 +704,29 @@ Only recompute the expression when one of its actual inputs changed.
 This is not a whole-language Tau theorem yet. The checked packet proves the law
 for the Tau-like expression kernel with explicit variable reads.
 
-The derivative lane writes a single-key perturbation as an expression transform:
+Write \(\Delta_{k,v}e\) for the derivative-style transform that records the
+effect of changing key \(k\) to value \(v\).
 
 $$
-\partial_{k,v} e.
+\Delta_{k,v}e.
 $$
 
 The checked soundness shape is:
 
 $$
-\llbracket \partial_{k,v} e\rrbracket
+\operatorname{Eval}(\Delta_{k,v}e)
 =
-\operatorname{update}
+\operatorname{Update}
 \left(
-  \llbracket e\rrbracket,
+  \operatorname{Eval}(e),
   k,
-  \operatorname{evalConst}(e,v)
+  \operatorname{EvalConst}(e,v)
 \right).
 $$
 
 <strong>Standard reading.</strong>
-Evaluating the derivative of \(e\) at key \(k\) with replacement value \(v\)
-equals the original denotation of \(e\), updated at \(k\) by the constant-leaf
-evaluation of \(e\) at \(v\).
+Evaluating \(\Delta_{k,v}e\) equals the evaluation of \(e\), updated at key
+\(k\) by the constant-leaf evaluation of \(e\) at \(v\).
 
 <strong>Plain English.</strong>
 The derivative is a symbolic description of the local effect of one input-key
@@ -742,13 +742,13 @@ The equivalence-checking lane has a sharp boundary. For the restricted
 can reduce every expression to its semantic constant:
 
 $$
-e \sim_{\mathrm{eval}} \operatorname{const}(\llbracket e\rrbracket).
+e \sim_{\mathrm{eval}} \operatorname{Const}(\operatorname{Eval}(e)).
 $$
 
 So semantic equality implies extended bisimulation:
 
 $$
-\llbracket e_1\rrbracket=\llbracket e_2\rrbracket
+\operatorname{Eval}(e_1)=\operatorname{Eval}(e_2)
 \Longrightarrow
 e_1\sim_{\mathrm{eval}} e_2.
 $$
@@ -764,7 +764,7 @@ this kernel.
 <strong>Trap.</strong>
 The completeness theorem is algebraic. Turning it into an executable decision
 procedure still requires deciding whether
-\(\llbracket e_1\rrbracket=\llbracket e_2\rrbracket\). That is immediate on a
+\(\operatorname{Eval}(e_1)=\operatorname{Eval}(e_2)\). That is immediate on a
 finite carrier, but it is not automatic over arbitrary infinite carriers.
 
 This gives a cleaner optimizer map:
