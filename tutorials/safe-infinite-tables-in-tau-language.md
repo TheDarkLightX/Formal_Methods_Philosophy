@@ -360,7 +360,10 @@ both earlier RR flags held fixed, the three-repetition batched receipt skipped
 by `88.821%`, reduced internal solve-command time by `73.402%`, and reduced
 whole-process elapsed time by `3.625%`. These are internal-path optimization
 candidates. They are not default Tau behavior, because the active-rule filter
-still needs a proof or code invariant for the delayed rewrite schedule.
+still needs a proof or code invariant for the delayed rewrite schedule. The
+audit flag `TAU_RR_ACTIVE_RULES_AUDIT=1` checks the final active
+repeated-rewrite result against the full repeated-rewrite result. The current
+batched audit has `15 / 15` structurally equal rows.
 
 The public demo checks:
 

@@ -1098,6 +1098,11 @@ missing proof is not merely the local nonmatch law. The full proof must show
 that delaying skipped rules across repeated passes preserves the same rewrite
 fixed point.
 
+The audit flag `TAU_RR_ACTIVE_RULES_AUDIT=1` checks that final active
+repeated-rewrite results match full repeated-rewrite results. On the current
+batched receipt, `15 / 15` audit rows were structurally equal. That is stronger
+than output parity, but still corpus evidence.
+
 ## Part IX: What the optimizer should look like
 
 The honest optimizer shape is a portfolio, not one heroic backend.

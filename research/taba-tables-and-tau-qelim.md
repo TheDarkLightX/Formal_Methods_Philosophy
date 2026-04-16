@@ -8114,6 +8114,28 @@ This says the filter preserves outputs on small ordinary definitions, but it
 does not help rewrite time there. The current positive claim is therefore
 scoped to rule-heavy batched workloads.
 
+The feature-gated audit mode is:
+
+```bash
+TAU_RR_ACTIVE_RULES_AUDIT=1
+```
+
+Audit mode is not a performance mode. It computes the active repeated-rewrite
+result and the full repeated-rewrite result, then requires structural equality.
+
+Current audit receipt:
+
+```text
+checks:                              15
+output parity:                       passed
+active audit rows:                   15
+active audit structurally equal rows: 15
+```
+
+This is stronger than ordinary solver-output parity. It checks the internal
+result of the delayed active schedule against the full repeated-rewrite result
+on the current corpus. It is still not a proof for all Tau inputs.
+
 ## 14. Equality-aware path simplification
 
 The next target comes from Tau's own known-issues list. Tau's README says that
