@@ -8046,24 +8046,25 @@ Native opt-in guarded-MNF receipt with
 exact normalize-text matches:         200 / 200
 target-sized cases:                   200 / 200
 normalized characters:                1480
-first-pass idempotent cases:          190 / 200
+first-pass idempotent cases:          200 / 200
 second-pass growth cases:             0 / 200
-whole-command normalize time:         19761.508 ms
+same-size second-pass changes:        0 / 200
+whole-command normalize time:         18893.125 ms
 ```
 
 Research conclusion:
 
-The feature-gated pass improves normalize fixed-point stability relative to
-baseline, but does not close it. The next Tau-normalizer target is not another
-branch-recombination law on this corpus. It is a presentation pass that makes
-the first `normalize` output stable under a second `normalize` call, without
-growing the target-sized formulas. A guarded second-pass candidate, meaning
-accept the second `normalize` output only when it does not increase size,
-improves exact presentation to `160 / 200` while preserving `200 / 200`
-target-sized output. This is currently probe evidence, not an implemented Tau
-C++ pass. A direct AST-level second-normalize hook was tested and did not
-improve the corpus, which points to presentation-aware canonicalization as the
-next implementation target.
+The feature-gated pass closes fixed-point presentation on this wide corpus
+when the idempotence screen reparses Tau's compact pretty output in
+one-character-variable mode. That parser mode is load-bearing. Tau prints meets
+by adjacency, so `wx` must be read back as `w & x`, not as one multi-character
+variable. The earlier `190 / 200` ceiling was a probe-mode artifact, not a
+remaining optimizer failure on this corpus.
+
+A direct AST-level second-normalize hook was tested and did not improve the
+corpus. That negative result remains useful: the successful path is guarded-MNF
+presentation selection, not simply running the same tree through `normalize`
+again.
 
 The stronger current presentation candidate is guarded `mnf`: accept `mnf`
 output only when it does not increase printed size. In the wide equality-path
@@ -8076,10 +8077,10 @@ fragment-sensitive presentation routing. The timing receipt is a process-level
 regression screen, not an in-process speedup proof.
 
 The next attempted shortcut was print-and-reparse stabilization. It did not
-move the remaining `10 / 200` same-size ordering flips, and it increased
-whole-command time. The result is useful negative evidence: the remaining
-presentation problem is not caused by failing to run the parser again. It
-requires an internal ordering rule for Boolean-algebra term representatives.
+improve the corpus and increased whole-command time. The result is useful
+negative evidence: the useful fix was not print-and-reparse stabilization. It
+was correcting the probe so compact printed meets are checked under the intended
+one-character-variable semantics.
 
 The term-level representative substitution law that moved the frontier is:
 
