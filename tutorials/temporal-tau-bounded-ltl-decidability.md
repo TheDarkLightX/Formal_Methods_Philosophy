@@ -286,8 +286,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-The value carrier $\alpha$ is finite, equality on $\alpha$ is decidable,
-and $\alpha$ is a Boolean algebra.
+The value carrier alpha is finite, equality on that carrier is decidable, and
+the carrier is a Boolean algebra.
 
 <strong>Plain English.</strong>
 There are finitely many possible output values, equality can be checked, and
