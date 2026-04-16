@@ -767,6 +767,9 @@ enabled second-pass growth cases:     30 / 200
 guarded-presentation target-sized:    200 / 200
 guarded-presentation exact matches:   160 / 200
 guarded-presentation characters:      1980
+guarded-MNF non-growing cases:        200 / 200
+guarded-MNF shrinking cases:          40 / 200
+guarded-MNF characters:               1480
 ```
 
 <strong>Standard reading.</strong>
@@ -793,6 +796,12 @@ not yet a Tau C++ optimizer patch. A direct AST-level second-normalize hook was
 tested and did not improve the corpus. The remaining target is a
 presentation-aware canonicalization pass, not simply running the same tree
 through `normalize` again.
+
+The stronger candidate is guarded `mnf`: use the `mnf` presentation only when
+it does not increase printed size. On this corpus it is non-growing for all
+\(200\) cases, shrinks \(40\) cases, and reduces total printed size from
+\(1980\) to \(1480\) characters. This is still a candidate presentation mode,
+not a claim that `mnf` should replace `normalize` globally.
 
 The new rule that closed the larger corpus is an equality-graph implication
 rule:

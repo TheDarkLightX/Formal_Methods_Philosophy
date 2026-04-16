@@ -8034,6 +8034,9 @@ enabled second-pass growth cases:     30 / 200
 guarded-presentation target-sized:    200 / 200
 guarded-presentation exact matches:   160 / 200
 guarded-presentation characters:      1980
+guarded-MNF non-growing cases:        200 / 200
+guarded-MNF shrinking cases:          40 / 200
+guarded-MNF characters:               1480
 ```
 
 Research conclusion:
@@ -8049,6 +8052,13 @@ target-sized output. This is currently probe evidence, not an implemented Tau
 C++ pass. A direct AST-level second-normalize hook was tested and did not
 improve the corpus, which points to presentation-aware canonicalization as the
 next implementation target.
+
+The stronger current presentation candidate is guarded `mnf`: accept `mnf`
+output only when it does not increase printed size. In the wide equality-path
+corpus, guarded `mnf` is non-growing on `200 / 200` cases, shrinks `40 / 200`
+cases, and reduces total printed size from `1980` to `1480` characters. This
+does not mean `mnf` should replace `normalize` globally. It means the next
+optimization question is fragment-sensitive presentation routing.
 
 The term-level representative substitution law that moved the frontier is:
 
