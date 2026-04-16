@@ -44,6 +44,64 @@ The argument is easiest to follow as a ladder.
 6. The measured default candidate is `TAU_QELIM_BACKEND=auto`, not a claim that
    all Tau qelim is solved.
 
+<figure class="fp-figure">
+  <svg viewBox="0 0 880 310" role="img" aria-labelledby="qelim-dispatch-title qelim-dispatch-desc">
+    <title id="qelim-dispatch-title">Guarded Tau qelim dispatch</title>
+    <desc id="qelim-dispatch-desc">A Tau formula first goes through a fragment guard. Rejected formulas fall back to the default syntax route. Accepted formulas enter structural preprocessing, compiled carrier elimination, and parity checks.</desc>
+    <defs>
+      <marker id="qelim-arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+        <path d="M0,0 L8,3 L0,6 Z" fill="#273044"></path>
+      </marker>
+      <style>
+        .qelim-box { fill: #f7f3ea; stroke: #273044; stroke-width: 2; rx: 18; }
+        .qelim-guard { fill: #fff7d6; stroke: #9a6b00; stroke-width: 2; }
+        .qelim-fast { fill: #e8f5ee; stroke: #24724a; stroke-width: 2; }
+        .qelim-fallback { fill: #fbeaea; stroke: #8a2f2f; stroke-width: 2; }
+        .qelim-text { font: 600 18px Georgia, serif; fill: #273044; }
+        .qelim-small { font: 14px Georgia, serif; fill: #4d5668; }
+        .qelim-edge { stroke: #273044; stroke-width: 2.5; fill: none; marker-end: url(#qelim-arrow); }
+        .qelim-good { stroke: #24724a; }
+        .qelim-bad { stroke: #8a2f2f; }
+      </style>
+    </defs>
+
+    <rect x="40" y="120" width="145" height="70" class="qelim-box"></rect>
+    <text x="112" y="150" text-anchor="middle" class="qelim-text">Tau formula</text>
+    <text x="112" y="174" text-anchor="middle" class="qelim-small">meaning fixed</text>
+
+    <rect x="245" y="105" width="155" height="100" class="qelim-guard"></rect>
+    <text x="322" y="145" text-anchor="middle" class="qelim-text">Fragment</text>
+    <text x="322" y="170" text-anchor="middle" class="qelim-text">guard</text>
+
+    <rect x="480" y="35" width="170" height="78" class="qelim-fast"></rect>
+    <text x="565" y="65" text-anchor="middle" class="qelim-text">Compiled</text>
+    <text x="565" y="90" text-anchor="middle" class="qelim-text">carrier route</text>
+
+    <rect x="480" y="198" width="170" height="78" class="qelim-fallback"></rect>
+    <text x="565" y="228" text-anchor="middle" class="qelim-text">Default</text>
+    <text x="565" y="253" text-anchor="middle" class="qelim-text">syntax route</text>
+
+    <rect x="710" y="35" width="130" height="78" class="qelim-fast"></rect>
+    <text x="775" y="65" text-anchor="middle" class="qelim-text">Parity</text>
+    <text x="775" y="90" text-anchor="middle" class="qelim-text">checks</text>
+
+    <path d="M185,155 L245,155" class="qelim-edge"></path>
+    <path d="M400,140 C430,105 440,74 480,74" class="qelim-edge qelim-good"></path>
+    <path d="M400,170 C430,205 440,237 480,237" class="qelim-edge qelim-bad"></path>
+    <path d="M650,74 L710,74" class="qelim-edge qelim-good"></path>
+
+    <text x="435" y="105" text-anchor="middle" class="qelim-small">accept</text>
+    <text x="435" y="218" text-anchor="middle" class="qelim-small">fallback</text>
+    <text x="565" y="132" text-anchor="middle" class="qelim-small">BDD, components, pure atoms, CNF</text>
+    <text x="775" y="132" text-anchor="middle" class="qelim-small">same meaning or reject promotion</text>
+  </svg>
+  <figcaption>
+    The optimizer is a guarded portfolio. The compiled route is allowed only
+    after the fragment guard accepts; fallback is part of the correctness
+    argument.
+  </figcaption>
+</figure>
+
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Scope</p>
   <p>This tutorial explains the checked Tau qelim experiment for a supported leading-existential propositional fragment. The current result is a guarded optimization candidate, not a proof that every Tau formula should use the same backend.</p>
@@ -423,13 +481,9 @@ $$
 \approx 5.15.
 $$
 
-<strong>Standard reading.</strong>
-For every checked command \(i\), sum the default qelim time
-\(t_{\mathrm{default}}(i)\), sum the `auto` qelim time
-\(t_{\mathrm{auto}}(i)\), then divide the first sum by the second sum.
-
-<strong>Plain English.</strong>
-On this measured policy-shaped corpus, the guarded `auto` route used about one
+This ratio sums the default qelim time over the checked commands, sums the
+`auto` qelim time over the same commands, and divides the first total by the
+second. On this policy-shaped corpus, the guarded `auto` route used about one
 fifth of the qelim time used by the default route.
 
 <strong>Trap.</strong>
@@ -471,9 +525,9 @@ For example, double-negation rewriting preserved meaning on its checked
 regression, but `auto + rewrite` was slower than `auto` alone in the latest
 wall-clock record.
 
-The later restricted Knuth-Bendix-style normalizer gives a different kind of
-optimization evidence.
-It is not a whole-language qelim backend.
+The next question is whether a rewrite normalizer should run before the
+compiled route. The restricted Knuth-Bendix-style normalizer gives a useful
+answer, but only in a narrow setting. It is not a whole-language qelim backend.
 It is a small convergent rewrite system whose proof says: these seven oriented
 rules terminate, preserve denotation, and have unique normal forms inside the
 restricted expression language.
@@ -505,20 +559,11 @@ This is not complete Boolean equivalence checking.
 Two expressions can be semantically equal even if this restricted normalizer
 does not reduce them to the same form.
 
-Current patched-Tau check records:
-
-- the qelim probe preserved output parity on all `5` targeted formulas,
-- the 18-case generated matrix with `3` repetitions preserved output parity
-  across all modes,
-- on that 18-case matrix, guarded KB reduced compiled KB nodes by `42.73%` and
-  had internal qelim-time ratio about `0.95` against plain BDD,
-- on a 34-case generated matrix with `3` repetitions, guarded KB reduced
-  compiled KB nodes by `40.81%` and had internal qelim-time ratio about `0.952`
-  against plain BDD,
-- on the policy-shaped semantic corpus, `auto + guarded KB` preserved parity
-  but recorded `0` KB rewrite steps and was slightly slower than `auto` alone,
-- elapsed whole-command time stayed effectively neutral because this harness is
-  dominated by Tau process startup.
+The patched-Tau checks preserved output parity on the targeted qelim probes and
+reduced the internal compiled KB node count on generated matrices. On the
+policy-shaped semantic corpus, however, guarded KB found no useful rewrite
+steps and was slightly slower than `auto` alone. That is enough to keep it as
+research evidence, not a default optimization.
 
 So the promotion decision is deliberately conservative:
 
@@ -527,29 +572,32 @@ TAU_QELIM_BDD_KB_REWRITE=guarded is useful research evidence.
 It is not ready as a default Tau optimization.
 ```
 
-## Part VII: A separate path-simplification target
+## Part VII: Other optimizer lanes
 
-Tau's public known-issues list also points to a different optimization surface:
-path simplification should use equalities between variables.
-This is not qelim itself.
-It is a normalizer pass that can shrink branch-local formulas before later
-passes see them.
+Not every Tau optimization is qelim. The qelim work exposed adjacent optimizer
+lanes that belong in the same map. The research log keeps the run counts; this
+tutorial keeps the laws and boundaries.
 
-The safe law is:
+The first lane is equality-aware path simplification. It is not qelim. It is a
+branch-local normalizer pass that can shrink formulas before later passes see
+them.
+
+Write \(r(x)\) for the representative chosen for variable \(x\).
+The safe representative-substitution law is:
 
 $$
-\left(\forall x,\ \rho(\operatorname{rep}(x))=\rho(x)\right)
+\Bigl(\forall x.\ \rho(x)=\rho(r(x))\Bigr)
 \Longrightarrow
-\llbracket \operatorname{subst}_{\operatorname{rep}}(e)\rrbracket_\rho
+\operatorname{Eval}(\operatorname{Subst}_{r}(e),\rho)
 =
-\llbracket e\rrbracket_\rho.
+\operatorname{Eval}(e,\rho).
 $$
 
 <strong>Standard reading.</strong>
 If the environment \(\rho\) gives every variable \(x\) the same value as its
-chosen representative \(\operatorname{rep}(x)\), then evaluating the expression
-after representative substitution gives the same value as evaluating the
-original expression.
+chosen representative \(r(x)\), then evaluating the expression after replacing
+each variable by its representative gives the same value as evaluating the
+original expression in \(\rho\).
 
 <strong>Plain English.</strong>
 On a branch where the formula already says two variables are equal, the
@@ -583,248 +631,14 @@ longer matters.
 This recombination law is not equality-specific. Equality matters here because
 equality-path simplification can create the repeated residual \(B\).
 
-The Tau-facing branch-recombination probe asks Tau to prove:
+The research log records the current feature-gated Tau probes. The tutorial
+takeaway is narrower: equality-aware simplification is a strong Tau-native
+normalizer target because its semantic premise is precise, the shorter forms
+can be checked by Tau itself, and presentation differences can be separated
+from semantic failures.
 
-$$
-\operatorname{Unsat}
-\left(
-  \neg(\operatorname{Original}\leftrightarrow\operatorname{Target})
-\right).
-$$
-
-<strong>Standard reading.</strong>
-There is no satisfying assignment that separates the original formula from the
-candidate shorter target.
-
-<strong>Plain English.</strong>
-Tau itself confirms that the shorter target says the same thing.
-
-Current probe check record:
-
-- `4` checked cases,
-- `4` useful reduction cases,
-- baseline matched target cases: `0`,
-- combined current normalized size `152` characters,
-- combined target normalized size `36` characters,
-- candidate character reduction `76.316%`,
-- all equivalence checks passed.
-
-The proof packet `tau_equality_split_recombination_2026_04_15` checks the
-Boolean and propositional forms of the recombination law.
-
-The first feature-gated Tau patch is:
-
-```text
-TAU_EQUALITY_SPLIT_RECOMBINE=1
-```
-
-With the flag enabled, the current patch makes Tau emit the target normal form
-for `3` of the `4` checked cases and reduces the combined normalized-character
-count from `152` to `36`, the same combined size as the target forms.
-The fourth case matches under Tau's `mnf` command, so the remaining mismatch is
-presentation-level ordering in `normalize`, not a semantic failure.
-
-This is the strongest current Tau-native normalizer target because the semantic
-premise is precise and Tau already proves the target formulas equivalent.
-The current implementation is still scoped and feature-gated. The remaining
-technical issue is canonical presentation: the three-alias case reaches the
-target size but prints an equivalent Boolean term ordering instead of the exact
-target string. The next step is to move beyond the smoke corpus and test the
-real normalizer path on a larger equality-split corpus.
-
-The wider alias-order smoke test is also useful:
-
-```text
-cases:                         8
-matched target cases:          3
-target-sized cases:            8
-Tau-normalized characters:   108
-target-normalized characters: 108
-MNF-matched target cases:      8
-```
-
-The additional cases permute the equality path. They show that the pass is not
-limited to one hand-written alias order. They also show the current boundary:
-the feature-gated pass has closed the size-reduction obligation on this corpus,
-while final presentation canonicalization remains separate work.
-
-The generated path-sensitive corpus is harder:
-
-```text
-baseline target-sized cases:   2 / 48
-enabled target-sized cases:   48 / 48
-baseline normalize chars:    2088
-enabled normalize chars:     378
-target normalize chars:      378
-MNF-matched target cases:     48 / 48
-```
-
-<strong>Standard reading.</strong>
-On the generated corpus, the feature flag improves the number of formulas whose
-normalized output is no longer larger than the target from \(2\) out of \(48\)
-to \(48\) out of \(48\). The enabled normalized-character count is \(378\),
-which is exactly the target count. Exact `normalize` text still matches \(24\)
-out of \(48\) cases, and all \(48\) cases match the target under Tau's `mnf`
-command.
-
-<strong>Plain English.</strong>
-The feature-gated recombination pass now closes this generated corpus on size.
-What remains is canonical printing of equivalent Boolean terms.
-
-<strong>Trap.</strong>
-The \(24\) textual mismatches are not semantic mismatches. They are presentation
-differences under `normalize`, such as equivalent Boolean terms printed in
-different orders. This is still not a default Tau optimization: the pass remains
-feature-gated until larger generated corpora and presentation canonicalization
-are checked.
-
-The next stress corpus uses four-variable equality chains:
-
-```text
-enabled target-sized cases:  105 / 105
-enabled normalize chars:     847
-target normalize chars:      847
-MNF-matched target cases:    105 / 105
-exact normalize matches:      84 / 105
-```
-
-<strong>Standard reading.</strong>
-On the stress corpus, every one of the \(105\) formulas produced by the
-feature-gated normalizer has normalized size no larger than the corresponding
-target formula. The total normalized-character count is \(847\), exactly the
-target total. All \(105\) cases match under `mnf`, while \(84\) cases match the
-target text exactly under `normalize`.
-
-<strong>Plain English.</strong>
-The pass now handles equality chains where the alias branch changes the shape
-of the residual, including cases where the alias branch makes the residual
-trivially true.
-
-<strong>Trap.</strong>
-This still does not prove a default Tau optimization. It proves a stronger
-feature-gated experiment over a larger generated corpus. The remaining gap is
-canonical presentation and broader workload testing.
-
-The five-variable wide corpus extends the same check:
-
-```text
-enabled target-sized cases:  200 / 200
-enabled normalize chars:    1980
-target normalize chars:     1980
-MNF-matched target cases:    200 / 200
-exact normalize matches:     130 / 200
-```
-
-<strong>Standard reading.</strong>
-On the wide corpus, all \(200\) feature-gated normal forms are target-sized.
-The total enabled normalized-character count is \(1980\), exactly the target
-total. All \(200\) cases match under `mnf`, and \(130\) cases match exactly
-under `normalize`.
-
-<strong>Plain English.</strong>
-The current recombination rules survive the next generated-corpus expansion.
-The next unsolved problem is not branch recombination on these corpora, it is
-canonical presentation of equivalent Boolean terms.
-
-<strong>Trap.</strong>
-The wide corpus is still generated evidence. It is not a proof over every Tau
-formula and it is not a reason to enable the pass by default without a profit
-guard and broader workload testing.
-
-The timing screen for the same corpus is:
-
-```text
-baseline normalize time:     19958.521 ms
-enabled normalize time:      19432.444 ms
-baseline MNF time:           16847.849 ms
-enabled MNF time:            16813.717 ms
-```
-
-<strong>Standard reading.</strong>
-In this harness, the total elapsed time for the \(200\) baseline `normalize`
-commands is \(19958.521\) milliseconds, and the total elapsed time for the
-\(200\) feature-gated `normalize` commands is \(19432.444\) milliseconds. The
-same screen reports \(16847.849\) milliseconds for baseline `mnf` commands and
-\(16813.717\) milliseconds for feature-gated `mnf` commands.
-
-<strong>Plain English.</strong>
-The pass removes the normalized-size blowup without showing a timing regression
-in this screening run.
-
-<strong>Trap.</strong>
-This is whole-command timing. Each row calls Tau as a separate process, so the
-numbers include startup and file I/O. They are useful for catching an obvious
-regression, not for proving an in-process speedup.
-
-The same wide corpus also checks whether the first `normalize` output is stable
-under a second `normalize` call:
-
-```text
-baseline first-pass idempotent cases: 7 / 200
-enabled first-pass idempotent cases:  140 / 200
-enabled non-idempotent cases:         60 / 200
-enabled second-pass growth cases:     30 / 200
-guarded-presentation target-sized:    200 / 200
-guarded-presentation exact matches:   160 / 200
-guarded-presentation characters:      1980
-guarded-MNF non-growing cases:        200 / 200
-guarded-MNF shrinking cases:          40 / 200
-guarded-MNF characters:               1480
-```
-
-Native opt-in guarded-MNF receipt with
-`TAU_NORMALIZE_GUARDED_MNF=1`:
-
-```text
-exact normalize-text matches:         200 / 200
-target-sized cases:                   200 / 200
-normalized characters:                1480
-first-pass idempotent cases:          190 / 200
-second-pass growth cases:             0 / 200
-whole-command normalize time:         19761.508 ms
-```
-
-<strong>Standard reading.</strong>
-Without the recombination flag, only \(7\) of the \(200\) baseline first-pass
-normal forms are unchanged by a second `normalize` call. With the recombination
-flag enabled, \(140\) of the \(200\) first-pass normal forms are unchanged.
-There are still \(60\) enabled cases that change on the second pass, and \(30\)
-of those become longer. If the probe accepts the second-pass output only when
-it is no longer than the first-pass output, then all \(200\) cases remain
-target-sized, \(160\) cases match the target text exactly, and the total
-guarded-presentation size remains \(1980\) characters.
-
-<strong>Plain English.</strong>
-The recombination patch improves stability, but it does not make `normalize`
-fully idempotent on this corpus. A guarded second pass improves exact
-presentation without giving up the size win.
-
-<strong>Trap.</strong>
-This is a different boundary from semantic correctness. All \(200\) enabled
-cases still match under `mnf`. The open issue is fixed-point presentation: the
-first `normalize` output should ideally already be the form that another
-`normalize` call would return. The guarded second-pass rule is probe evidence,
-not yet a Tau C++ optimizer patch. A direct AST-level second-normalize hook was
-tested and did not improve the corpus. The remaining target is a
-presentation-aware canonicalization pass, not simply running the same tree
-through `normalize` again.
-
-The stronger candidate is guarded `mnf`: use the `mnf` presentation only when
-it does not increase printed size. On this corpus it is non-growing for all
-\(200\) cases, shrinks \(40\) cases, and reduces total printed size from
-\(1980\) to \(1480\) characters. The experiment repo now implements this as
-an opt-in Tau patch behind `TAU_NORMALIZE_GUARDED_MNF=1`. This is still not a
-claim that `mnf` should replace `normalize` globally. The timing receipt is a
-process-level regression screen, not an in-process speedup proof.
-
-One tempting shortcut also failed. Reparsing the guarded-MNF candidate inside
-the C++ normalizer did not close the remaining \(10/200\) same-size ordering
-flips, and it increased whole-command time on the corpus. The remaining problem
-is not "run the parser again." It is an internal ordering rule for
-Boolean-algebra term representatives.
-
-The new rule that closed the larger corpus is an equality-graph implication
-rule:
+One later rule that closed the larger equality corpus is an equality-graph
+implication rule:
 
 $$
 (A\Rightarrow R)\wedge(R\wedge\neg D\Rightarrow A)
@@ -962,106 +776,10 @@ partial evaluation compiles known inputs away
 finite-carrier equivalence checks decide restricted expression equality
 ```
 
-The executable companion in `TauLang-Experiments` is:
-
-```text
-scripts/run_tau_derivative_equivalence_demo.py
-```
-
-Current check record:
-
-```text
-cases:                         80
-derivative sound cases:        80
-size-preserved cases:          80
-equivalence classifications:   80
-equivalent cases:              61
-non-equivalent cases:          19
-result:                        passed
-```
-
-<strong>Boundary.</strong>
-This check record is for a finite Tau-like kernel. It is useful because it shows the
-optimizer architecture can be executed and tested, not because it proves the
-full Tau runtime already implements derivatives.
-
-The incremental runtime-cache prototype now checks the concrete data-structure
-shape too:
-
-```text
-full unique residual nodes:    193
-runtime-delta recomputed:       31
-runtime-delta saving:       83.938%
-runtime delta checks:        passed
-```
-
-<strong>Plain English.</strong>
-The demo no longer only says that an unread key can be skipped. It builds the
-node table, marks dirty node IDs from a dependency index, recomputes those IDs,
-and checks the cached result against full reevaluation.
-
-There is also a native Tau runtime measurement hook:
-
-```text
-TAU_RUN_STATS=1
-```
-
-The first opt-in runtime optimization on that surface is:
-
-```text
-TAU_SKIP_UNCHANGED_IO_REBUILD=1
-```
-
-Current native-run check record:
-
-```text
-step count:              3
-accepted update count:   3
-total paths attempted:   6
-total paths solved:      6
-total revisions tried:   1
-total added spec parts:  2
-input rebuilds skipped:  3
-output rebuilds skipped: 1
-output parity:           passed
-final memory size:       9
-```
-
-<strong>Standard reading.</strong>
-On the update-stream pointwise-revision smoke case, the native Tau interpreter
-executed three steps, accepted three updates, attempted six disjunct paths,
-solved six disjunct paths, added two new specification parts, revised one
-existing specification part, and ended with nine stored memory bindings.
-
-<strong>Plain English.</strong>
-Tau's real `run` loop is now measurable at the point where a future
-incremental runtime cache would attach, and one small IO-rebuild optimization
-now has baseline-output parity evidence.
-
-<strong>Boundary.</strong>
-This skip flag does not cache expression values or change the solver. It only
-avoids recreating IO stream objects when the IO stream set is unchanged and the
-active stream class declares that unchanged rebuild skipping is safe.
-
-The follow-up regression checks the boundary directly:
-
-```text
-vector input rebuilds skipped:  3
-vector output rebuilds skipped: 1
-file input rebuilds skipped:    0
-file output rebuilds skipped:   0
-vector output parity:           passed
-file output parity:             passed
-```
-
-<strong>Standard reading.</strong>
-Vector-remapped streams may skip unchanged rebuilds while preserving observed
-outputs. File-remapped streams perform zero skips under the same flag.
-
-<strong>Plain English.</strong>
-The optimization has a stream safety gate. Tau may skip rebuilds for streams
-whose rebuild is only a state-preserving wrapper operation, but it does not skip
-file streams, because rebuilding a file stream reopens the file.
+The executable companions check these ideas on finite Tau-like kernels and on
+a small native Tau runtime measurement hook. That is useful engineering
+evidence, but it is not a solver-level qelim breakthrough. The detailed counts
+belong in the research log.
 
 There is also a newer RR rewrite-stage experiment:
 

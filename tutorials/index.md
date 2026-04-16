@@ -436,5 +436,15 @@ show_title: false
       formulas exactly, and see how guarded BDD and CNF-native routes can speed up scoped formulas.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/temporal-tau-bounded-ltl-decidability/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 41: Temporal Tau, Part I</h2>
+    <p class="fp-card-text">
+      Learn how bounded LTL-style operators fit Tau, why finite-horizon temporal formulas
+      are decidable on finite carriers, and how this creates a new optimizer layer.
+    </p>
+  </a>
 
 </div>
