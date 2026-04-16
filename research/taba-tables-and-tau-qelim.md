@@ -7759,6 +7759,37 @@ compound elapsed:     53147.339 ms
 elapsed reduction:       55.167%
 ```
 
+There is now a second batching lane that does not combine the mismatch
+predicates. It uses Tau's existing prefix-dot CLI shape:
+
+```text
+cmd_1 . cmd_2 . ... . cmd_n
+```
+
+The batched check asks the same separate questions:
+
+$$
+\operatorname{Unsat}(\operatorname{Diff}_1),\quad
+\operatorname{Unsat}(\operatorname{Diff}_2),\quad
+\ldots,\quad
+\operatorname{Unsat}(\operatorname{Diff}_n),
+$$
+
+but sends them through one Tau process and expects one solver result for each
+obligation.
+
+The current executable receipt is:
+
+```text
+checks:                15
+individual processes:  15
+batched processes:      1
+individual elapsed:  117482.283 ms
+batched elapsed:      58561.321 ms
+elapsed reduction:       50.153%
+result:               passed
+```
+
 The smooth table-demo runner now uses the compound-only mode by default. Its
 latest fresh receipt is:
 
@@ -7775,7 +7806,9 @@ This is a real optimization, but it is not a new table semantic feature. It
 reduces repeated process startup, parsing, source loading, and command setup in
 the public demo harness. It also gives a useful pattern for Tau optimization
 work: sometimes the fastest improvement is to reshape the verification question
-before changing the solver internals.
+before changing the solver internals. The compound lane is the proof-compressed
+form. The batched lane is the audit-preserving form, because it still returns
+one `no solution` result per obligation.
 
 ## 14. Equality-aware path simplification
 

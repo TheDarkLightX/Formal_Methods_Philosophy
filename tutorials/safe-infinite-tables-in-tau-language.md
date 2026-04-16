@@ -309,12 +309,19 @@ official IDNI repository, check out the tested commit, apply the experiment
 patch locally, regenerate Tau's parser, build Tau, and run the demos.
 The default runner uses the compound equivalence check for the table-vs-raw
 obligations. The older one-check-at-a-time audit path is still available with
-`TABLE_DEMO_EQUIV_MODE=individual`.
+`TABLE_DEMO_EQUIV_MODE=individual`. There is also an audit-friendly batched
+path with `TABLE_DEMO_EQUIV_MODE=batched`, which keeps one solver result per
+obligation while running the checks in one Tau process.
 
 The latest smooth run used `TABLE_DEMO_EQUIV_MODE=compound`, checked the fifteen
 table-vs-raw mismatch obligations as one compound query, and passed. The
 compound-equivalence step took `54939.340 ms` on that local check. This timing
 is descriptive, not a cross-machine performance claim.
+
+The latest batched audit run checked the same fifteen obligations, returned
+fifteen `no solution` results, reduced Tau process count from `15` to `1`, and
+reduced elapsed time by about `50.153%` against the separate-process audit path.
+This is a demo-harness optimization, not a solver speedup claim.
 
 The public demo checks:
 
