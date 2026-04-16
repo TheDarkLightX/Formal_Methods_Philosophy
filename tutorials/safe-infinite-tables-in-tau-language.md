@@ -333,7 +333,8 @@ solve-command time by `76.963%`, and reduced measured `get_rr` time by
 `97.804%`. The same receipt did not improve whole-process elapsed time, because
 the wrapper still spends most of its wall-clock time launching Tau processes and
 loading sources. This is an opt-in internal optimization candidate, not a
-default Tau behavior.
+default Tau behavior. A separate audit run also checked that all five skipped
+RR branches were structurally equal to the full-inference branch.
 
 The public demo checks:
 

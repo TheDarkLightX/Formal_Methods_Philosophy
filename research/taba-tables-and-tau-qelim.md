@@ -7886,6 +7886,15 @@ get_rr improvement:          97.804%
 whole-process elapsed change: -0.343%
 ```
 
+The structural audit receipt is:
+
+```text
+checks:                        5
+repetitions:                   1
+audit rows:                    5
+structurally equal audit rows: 5
+```
+
 Research conclusion:
 
 This moved the optimization frontier from "demo harness only" into Tau's
@@ -7893,6 +7902,11 @@ internal command path. The speedup is visible inside `solve_cmd` and
 `get_nso_rr_with_defs`, not in whole-process elapsed time. The elapsed-time
 result is expected because the current benchmark still launches many Tau
 processes and repeatedly loads sources.
+
+The audit mode is important because it checks the intended stronger claim for
+the skipped branch. On the checked corpus, the skipped RR is structurally equal
+to the RR extracted by the full inference path. This is still corpus evidence,
+not a whole-language proof.
 
 ## 14. Equality-aware path simplification
 
