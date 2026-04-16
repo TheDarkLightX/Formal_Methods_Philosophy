@@ -8005,6 +8005,94 @@ definition list. The boundary is equally important: the current receipt did not
 improve whole-process elapsed time, so it is not ready as a public demo default
 or an upstream-style optimization claim.
 
+## 13.2 Dynamic active-rule filtering
+
+After transformed-definition caching, the remaining measured hotspot in
+`apply_rr_to_formula` was recurrence-definition rewriting. The next candidate
+does not change the recurrence definitions. It changes which rules are tried
+on a given term.
+
+For a term $t$, define the visible reference signatures:
+
+$$
+\operatorname{Refs}(t)
+:=
+\{\operatorname{sig}(r)\mid r\text{ is a reference node occurring in }t\}.
+$$
+
+For a rewrite rule $q$, define its head signature when the left side has a
+recognizable reference head:
+
+$$
+\operatorname{Head}(q):=\operatorname{sig}(\operatorname{lhs}(q)).
+$$
+
+The local nonmatch law is:
+
+$$
+\operatorname{Head}(q)\notin\operatorname{Refs}(t)
+\Longrightarrow
+\operatorname{apply}(q,t)=t.
+$$
+
+Standard reading:
+
+If the head reference signature of rewrite rule $q$ is not present anywhere in
+the current term $t$, then applying $q$ to $t$ does not change $t$.
+
+Plain English:
+
+Do not try a definition rule whose function symbol is not in the expression
+currently being rewritten.
+
+Trap:
+
+This is a current-term statement. It is not permission to permanently delete
+the rule. A different rule may introduce that reference later. The experiment
+therefore recomputes the active rule set on each rewrite pass, and the
+surrounding `repeat_all` loop remains part of the intended proof surface.
+
+The feature flag is:
+
+```bash
+TAU_RR_ACTIVE_RULES=1
+```
+
+The direct comparison keeps the two earlier RR flags enabled in both modes:
+
+```bash
+TAU_RR_SKIP_VALUE_INFER=1
+TAU_RR_TRANSFORM_DEFS_CACHE=1
+```
+
+Current local receipt:
+
+```text
+checks:                         15
+output parity:                  passed
+active-rule rows:               45
+rules before filter:            2250
+rules after filter:               60
+rules skipped:                  2190
+baseline solve total:           123.479850 ms
+active solve total:              35.047750 ms
+solve improvement:               71.617%
+baseline rewrite:                99.341180 ms
+active rewrite:                  11.068379 ms
+rewrite improvement:             88.858%
+elapsed improvement:             -0.124%
+```
+
+Research conclusion:
+
+This is the strongest current internal-path optimization after the RR
+extraction shortcut. It directly attacks the rewrite-stage work that remained
+after transformed-definition caching. The boundary is still sharp: this is not
+a default Tau optimization. It needs a proof or code invariant that the dynamic
+filter preserves the fixed point reached by the full rewrite loop, and it needs
+a larger workload where the internal reduction is visible in whole-command
+elapsed time.
+
 ## 14. Equality-aware path simplification
 
 The next target comes from Tau's own known-issues list. Tau's README says that

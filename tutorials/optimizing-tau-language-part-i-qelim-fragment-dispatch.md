@@ -1063,6 +1063,38 @@ The optimization has a stream safety gate. Tau may skip rebuilds for streams
 whose rebuild is only a state-preserving wrapper operation, but it does not skip
 file streams, because rebuilding a file stream reopens the file.
 
+There is also a newer RR rewrite-stage experiment:
+
+```text
+TAU_RR_ACTIVE_RULES=1
+```
+
+It is not a qelim backend. It is a dynamic filter for recurrence-definition
+rewriting. On each rewrite pass, it scans the current term for visible
+reference signatures and tries only the rules whose head signature is present.
+
+The local law is:
+
+$$
+\operatorname{Head}(q)\notin\operatorname{Refs}(t)
+\Longrightarrow
+\operatorname{apply}(q,t)=t.
+$$
+
+<strong>Standard reading.</strong>
+If rewrite rule \(q\)'s head reference signature is not present in term \(t\),
+then applying \(q\) to \(t\) leaves \(t\) unchanged.
+
+<strong>Plain English.</strong>
+Do not spend time trying a definition rule whose function symbol does not
+appear in the expression currently being rewritten.
+
+<strong>Boundary.</strong>
+The rule is not deleted globally. The active set is recomputed on later passes,
+because another rewrite may introduce that reference. The current receipt
+reduces internal RR rewrite time by `88.858%` on the batched table corpus, but
+it is still opt-in and not a default Tau optimization.
+
 ## Part IX: What the optimizer should look like
 
 The honest optimizer shape is a portfolio, not one heroic backend.

@@ -348,6 +348,20 @@ rows, reduced measured `get_rr` time by `79.109%`, and reduced internal
 solve-command time by `55.564%`. This is broader evidence for the shortcut, but
 it is still a synthetic corpus, not a default Tau optimization claim.
 
+Two later internal RR experiments target the formula-application path left
+after that shortcut. `TAU_RR_TRANSFORM_DEFS_CACHE=1` caches transformed
+definition lists inside one Tau process. With the RR skip held fixed, the
+batched local receipt saw `14` cache hits over `15` formula applications,
+reduced RR formula-transform time by `91.860%`, and reduced internal
+solve-command time by `35.339%`. `TAU_RR_ACTIVE_RULES=1` then filters the
+rewrite rules by the reference signatures currently visible in the term. With
+both earlier RR flags held fixed, the batched receipt skipped `2190` of `2250`
+candidate rule applications, reduced RR formula-rewrite time by `88.858%`, and
+reduced internal solve-command time by `71.617%`. These are internal-path
+optimization candidates. They are not default Tau behavior, and the measured
+whole-process wall time was still dominated by process setup and source
+loading.
+
 The public demo checks:
 
 - safe symbolic table update idempotence,
