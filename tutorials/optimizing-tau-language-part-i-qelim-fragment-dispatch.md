@@ -772,6 +772,17 @@ guarded-MNF shrinking cases:          40 / 200
 guarded-MNF characters:               1480
 ```
 
+Native opt-in guarded-MNF receipt with
+`TAU_NORMALIZE_GUARDED_MNF=1`:
+
+```text
+exact normalize-text matches:         200 / 200
+target-sized cases:                   200 / 200
+normalized characters:                1480
+first-pass idempotent cases:          190 / 200
+second-pass growth cases:             0 / 200
+```
+
 <strong>Standard reading.</strong>
 Without the recombination flag, only \(7\) of the \(200\) baseline first-pass
 normal forms are unchanged by a second `normalize` call. With the recombination
@@ -800,8 +811,9 @@ through `normalize` again.
 The stronger candidate is guarded `mnf`: use the `mnf` presentation only when
 it does not increase printed size. On this corpus it is non-growing for all
 \(200\) cases, shrinks \(40\) cases, and reduces total printed size from
-\(1980\) to \(1480\) characters. This is still a candidate presentation mode,
-not a claim that `mnf` should replace `normalize` globally.
+\(1980\) to \(1480\) characters. The experiment repo now implements this as
+an opt-in Tau patch behind `TAU_NORMALIZE_GUARDED_MNF=1`. This is still not a
+claim that `mnf` should replace `normalize` globally.
 
 The new rule that closed the larger corpus is an equality-graph implication
 rule:

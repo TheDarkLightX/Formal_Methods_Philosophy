@@ -8039,6 +8039,17 @@ guarded-MNF shrinking cases:          40 / 200
 guarded-MNF characters:               1480
 ```
 
+Native opt-in guarded-MNF receipt with
+`TAU_NORMALIZE_GUARDED_MNF=1`:
+
+```text
+exact normalize-text matches:         200 / 200
+target-sized cases:                   200 / 200
+normalized characters:                1480
+first-pass idempotent cases:          190 / 200
+second-pass growth cases:             0 / 200
+```
+
 Research conclusion:
 
 The feature-gated pass improves normalize fixed-point stability relative to
@@ -8057,8 +8068,10 @@ The stronger current presentation candidate is guarded `mnf`: accept `mnf`
 output only when it does not increase printed size. In the wide equality-path
 corpus, guarded `mnf` is non-growing on `200 / 200` cases, shrinks `40 / 200`
 cases, and reduces total printed size from `1980` to `1480` characters. This
-does not mean `mnf` should replace `normalize` globally. It means the next
-optimization question is fragment-sensitive presentation routing.
+route is now implemented as an experimental opt-in Tau patch behind
+`TAU_NORMALIZE_GUARDED_MNF=1`. It does not mean `mnf` should replace
+`normalize` globally. It means the next optimization question is
+fragment-sensitive presentation routing.
 
 The term-level representative substitution law that moved the frontier is:
 
