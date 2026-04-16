@@ -7969,6 +7969,42 @@ So more `get_rr` work is no longer the best next target on this corpus. The
 next internal solver-path target is `apply_rr_to_formula`, especially
 reference-argument transformation and recurrence-definition rewriting.
 
+The first response was a feature-gated transformed-definition cache:
+
+```bash
+TAU_RR_TRANSFORM_DEFS_CACHE=1
+```
+
+This cache stores transformed recurrence-definition lists inside one Tau
+process. It is meant for batched workloads where several solver obligations
+share the same stored definitions.
+
+The direct comparison keeps `TAU_RR_SKIP_VALUE_INFER=1` enabled in both modes:
+
+```text
+checks:                         15
+cache hits:                     14 / 15
+no-cache solve total:           201.090410 ms
+cache solve total:              130.026990 ms
+solve improvement:              35.339%
+no-cache rr_apply_formula:      187.126540 ms
+cache rr_apply_formula:         115.095850 ms
+apply improvement:              38.493%
+no-cache rr_formula_transform:   81.398570 ms
+cache rr_formula_transform:       6.625784 ms
+transform improvement:          91.860%
+elapsed improvement:            -4.291%
+```
+
+Research conclusion:
+
+This is a real internal-path improvement and a clean example of a
+fragment-sensitive optimization. Once the same definition list is transformed
+once, later obligations in the same Tau process can reuse that transformed
+definition list. The boundary is equally important: the current receipt did not
+improve whole-process elapsed time, so it is not ready as a public demo default
+or an upstream-style optimization claim.
+
 ## 14. Equality-aware path simplification
 
 The next target comes from Tau's own known-issues list. Tau's README says that
