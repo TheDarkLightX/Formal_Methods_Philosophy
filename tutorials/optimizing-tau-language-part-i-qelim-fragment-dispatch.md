@@ -514,6 +514,71 @@ The current policy-shaped semantic corpus recorded:
 - summed `auto` qelim time about `40.940 ms`,
 - aggregate qelim-time speedup about `5.15x`.
 
+<figure class="fp-figure">
+  <svg viewBox="0 0 920 520" role="img" aria-labelledby="tau-opt-chart-title tau-opt-chart-desc">
+    <title id="tau-opt-chart-title">Scoped Tau optimization benchmark results</title>
+    <desc id="tau-opt-chart-desc">Three scoped benchmark comparisons: qelim time falls from 210.853 milliseconds to 40.940 milliseconds, recurrence rewrite rule attempts fall from 6750 to 180, and recurrence rewrite time falls from 100 percent to 11.179 percent.</desc>
+    <defs>
+      <style>
+        .tau-chart-bg { fill: #fbf7ef; }
+        .tau-chart-panel { fill: #fffdf8; stroke: #d8cbb8; stroke-width: 1.5; rx: 18; }
+        .tau-chart-title { font: 700 26px Georgia, serif; fill: #283044; }
+        .tau-chart-subtitle { font: 15px Georgia, serif; fill: #5f6678; }
+        .tau-chart-label { font: 700 15px Georgia, serif; fill: #283044; }
+        .tau-chart-small { font: 13px Georgia, serif; fill: #5f6678; }
+        .tau-chart-base { fill: #c9d3df; }
+        .tau-chart-opt { fill: #236c4c; }
+        .tau-chart-grid { stroke: #e6dccd; stroke-width: 1; }
+        .tau-chart-axis { stroke: #8b806f; stroke-width: 1.25; }
+        .tau-chart-badge { fill: #e8f5ee; stroke: #236c4c; stroke-width: 1; rx: 14; }
+        .tau-chart-badge-text { font: 700 14px Georgia, serif; fill: #1f5b41; }
+      </style>
+    </defs>
+
+    <rect width="920" height="520" class="tau-chart-bg"></rect>
+    <text x="40" y="46" class="tau-chart-title">Fragment-specific optimization gains</text>
+    <text x="40" y="72" class="tau-chart-subtitle">Each panel compares the original route with the scoped optimized route for that fragment.</text>
+
+    <rect x="36" y="105" width="848" height="108" class="tau-chart-panel"></rect>
+    <text x="62" y="135" class="tau-chart-label">Qelim time on policy-shaped corpus</text>
+    <text x="62" y="158" class="tau-chart-small">Default route: 210.853 ms</text>
+    <rect x="250" y="142" width="560" height="18" class="tau-chart-base"></rect>
+    <text x="820" y="157" class="tau-chart-small">100%</text>
+    <text x="62" y="188" class="tau-chart-small">Fragment-sensitive auto route: 40.940 ms</text>
+    <rect x="250" y="172" width="109" height="18" class="tau-chart-opt"></rect>
+    <text x="372" y="187" class="tau-chart-small">19.4% of baseline</text>
+    <rect x="660" y="132" width="128" height="30" class="tau-chart-badge"></rect>
+    <text x="724" y="152" text-anchor="middle" class="tau-chart-badge-text">5.15x faster</text>
+
+    <rect x="36" y="235" width="848" height="108" class="tau-chart-panel"></rect>
+    <text x="62" y="265" class="tau-chart-label">Recurrence rewrite rule attempts</text>
+    <text x="62" y="288" class="tau-chart-small">Unfiltered rewrite pass: 6750 attempts</text>
+    <rect x="250" y="272" width="560" height="18" class="tau-chart-base"></rect>
+    <text x="820" y="287" class="tau-chart-small">100%</text>
+    <text x="62" y="318" class="tau-chart-small">Active-rule filter: 180 attempts</text>
+    <rect x="250" y="302" width="15" height="18" class="tau-chart-opt"></rect>
+    <text x="280" y="317" class="tau-chart-small">2.7% of baseline</text>
+    <rect x="650" y="262" width="150" height="30" class="tau-chart-badge"></rect>
+    <text x="725" y="282" text-anchor="middle" class="tau-chart-badge-text">37.5x fewer tries</text>
+
+    <rect x="36" y="365" width="848" height="108" class="tau-chart-panel"></rect>
+    <text x="62" y="395" class="tau-chart-label">Recurrence rewrite internal time</text>
+    <text x="62" y="418" class="tau-chart-small">Baseline rewrite time</text>
+    <rect x="250" y="402" width="560" height="18" class="tau-chart-base"></rect>
+    <text x="820" y="417" class="tau-chart-small">100%</text>
+    <text x="62" y="448" class="tau-chart-small">Filtered rewrite time</text>
+    <rect x="250" y="432" width="63" height="18" class="tau-chart-opt"></rect>
+    <text x="328" y="447" class="tau-chart-small">11.2% of baseline</text>
+    <rect x="642" y="392" width="166" height="30" class="tau-chart-badge"></rect>
+    <text x="725" y="412" text-anchor="middle" class="tau-chart-badge-text">88.821% lower</text>
+  </svg>
+  <figcaption>
+    The graph compares original and optimized routes only inside the fragments
+    measured here. It is evidence for fragment-sensitive optimization, not a
+    global claim that every Tau input becomes faster.
+  </figcaption>
+</figure>
+
 The older bounded ladder-and-mux matrix recorded about `3.47x`. The newer
 policy-shaped corpus is the stronger tutorial evidence because it mirrors the
 safe-table demo domain and validates residual formulas semantically rather
