@@ -8048,9 +8048,11 @@ currently being rewritten.
 Trap:
 
 This is a current-term statement. It is not permission to permanently delete
-the rule. A different rule may introduce that reference later. The experiment
-therefore recomputes the active rule set on each rewrite pass, and the
-surrounding `repeat_all` loop remains part of the intended proof surface.
+the rule. It also does not prove one-pass equality with the ordinary sequential
+rewrite pass. A rule skipped at the start of a pass can become applicable after
+an earlier rewrite introduces its head reference. The experiment therefore
+recomputes the active rule set on each rewrite pass, and the surrounding
+`repeat_all` loop remains part of the intended proof surface.
 
 The feature flag is:
 
@@ -8070,17 +8072,18 @@ Current local receipt:
 ```text
 checks:                         15
 output parity:                  passed
-active-rule rows:               45
-rules before filter:            2250
-rules after filter:               60
-rules skipped:                  2190
-baseline solve total:           123.479850 ms
-active solve total:              35.047750 ms
-solve improvement:               71.617%
-baseline rewrite:                99.341180 ms
-active rewrite:                  11.068379 ms
-rewrite improvement:             88.858%
-elapsed improvement:             -0.124%
+repetitions:                    3
+active-rule rows:               135
+rules before filter:            6750
+rules after filter:              180
+rules skipped:                  6570
+baseline solve total:           385.513630 ms
+active solve total:             102.538519 ms
+solve improvement:               73.402%
+baseline rewrite:               309.808340 ms
+active rewrite:                  34.633010 ms
+rewrite improvement:             88.821%
+elapsed improvement:              3.625%
 ```
 
 Research conclusion:
@@ -8089,9 +8092,27 @@ This is the strongest current internal-path optimization after the RR
 extraction shortcut. It directly attacks the rewrite-stage work that remained
 after transformed-definition caching. The boundary is still sharp: this is not
 a default Tau optimization. It needs a proof or code invariant that the dynamic
-filter preserves the fixed point reached by the full rewrite loop, and it needs
-a larger workload where the internal reduction is visible in whole-command
-elapsed time.
+filter preserves the fixed point reached by the full rewrite loop. More exactly,
+it needs a fair delayed-scheduling argument plus termination and confluence for
+the relevant rewrite fragment, or a Tau-specific invariant that gives the same
+result.
+
+The ordinary reference-definition corpus gives a useful boundary check:
+
+```text
+cases:                         9
+output parity:                 passed
+rules before filter:           34
+rules after filter:            15
+rules skipped:                 19
+solve improvement:             0.736%
+rewrite improvement:          -45.847%
+elapsed improvement:           0.326%
+```
+
+This says the filter preserves outputs on small ordinary definitions, but it
+does not help rewrite time there. The current positive claim is therefore
+scoped to rule-heavy batched workloads.
 
 ## 14. Equality-aware path simplification
 

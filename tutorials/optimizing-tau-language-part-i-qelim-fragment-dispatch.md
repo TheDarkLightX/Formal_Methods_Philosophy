@@ -1092,8 +1092,11 @@ appear in the expression currently being rewritten.
 <strong>Boundary.</strong>
 The rule is not deleted globally. The active set is recomputed on later passes,
 because another rewrite may introduce that reference. The current receipt
-reduces internal RR rewrite time by `88.858%` on the batched table corpus, but
-it is still opt-in and not a default Tau optimization.
+reduces internal RR rewrite time by `88.821%` on the three-repetition batched
+table corpus, but it is still opt-in and not a default Tau optimization. The
+missing proof is not merely the local nonmatch law. The full proof must show
+that delaying skipped rules across repeated passes preserves the same rewrite
+fixed point.
 
 ## Part IX: What the optimizer should look like
 

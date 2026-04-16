@@ -355,12 +355,12 @@ batched local receipt saw `14` cache hits over `15` formula applications,
 reduced RR formula-transform time by `91.860%`, and reduced internal
 solve-command time by `35.339%`. `TAU_RR_ACTIVE_RULES=1` then filters the
 rewrite rules by the reference signatures currently visible in the term. With
-both earlier RR flags held fixed, the batched receipt skipped `2190` of `2250`
-candidate rule applications, reduced RR formula-rewrite time by `88.858%`, and
-reduced internal solve-command time by `71.617%`. These are internal-path
-optimization candidates. They are not default Tau behavior, and the measured
-whole-process wall time was still dominated by process setup and source
-loading.
+both earlier RR flags held fixed, the three-repetition batched receipt skipped
+`6570` of `6750` candidate rule applications, reduced RR formula-rewrite time
+by `88.821%`, reduced internal solve-command time by `73.402%`, and reduced
+whole-process elapsed time by `3.625%`. These are internal-path optimization
+candidates. They are not default Tau behavior, because the active-rule filter
+still needs a proof or code invariant for the delayed rewrite schedule.
 
 The public demo checks:
 
