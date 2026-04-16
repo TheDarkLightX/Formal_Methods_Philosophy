@@ -677,7 +677,7 @@ Current checked ladder:
 - `v500` starts the concrete positive prefix-open lane: every binary prefix cylinder is the disjoint nonempty union of its false-child and true-child cylinders.
 - `v501` lifts that basis move to arbitrary prefix-open regions in the positive sense: every nonempty prefix-open region contains two nonempty disjoint prefix-open subregions. This is refinement, not a covering partition.
 - `v502` proves countable-union closure for prefix-open regions, giving the positive lane an explicit omega-supremum construction by existential union of finite-word generators.
-- `v503` sharpens the finite QE boundary: finite masks plus finitely many same-polarity hit constraints eliminate to restricted nonzero checks in any Boolean algebra, so atomlessness is not needed until a formula forces a genuine split between $x$ and $x'$.
+- `v503` sharpens the finite QE boundary: finite masks plus finitely many same-polarity hit constraints eliminate to restricted nonzero checks in any Boolean algebra, so atomlessness is not needed until a formula forces a genuine split between $x$ and $x^{\prime}$.
 - `v504` proves the first narrow mixed-polarity QE rule: one positive hit plus one complement hit eliminates under an abstract non-bottom splitter interface.
 - `v505` turns the v504 mixed-polarity proof into an induction-ready extension lemma: one more positive hit can be added while preserving one complement-hit residual.
 - `v506` proves the first finite-list mixed-polarity theorem: finite positive-hit lists plus one complement-hit target eliminate under the splitter interface.
@@ -840,7 +840,7 @@ Standard reading:
 
 Plain English reading:
 
-- If the positive target has live room outside the mask, and the complement target is live at all, the atomless splitter lets $x$ take one live piece while leaving another live piece for $x'$.
+- If the positive target has live room outside the mask, and the complement target is live at all, the atomless splitter lets $x$ take one live piece while leaving another live piece for $x^{\prime}$.
 
 The splitter receipt behind that rule is:
 
@@ -900,11 +900,11 @@ $$
 
 Standard reading:
 
-- If $y$ is disjoint from the join of $m$ and $x'$, then $y$ is below $x$.
+- If $y$ is disjoint from the join of $m$ and $x^{\prime}$, then $y$ is below $x$.
 
 Plain English reading:
 
-- Strengthening the mask by adding $x'$ forces the next witness to live inside the old witness.
+- Strengthening the mask by adding $x^{\prime}$ forces the next witness to live inside the old witness.
 
 The preservation law is:
 
@@ -922,7 +922,7 @@ Standard reading:
 
 Plain English reading:
 
-- Shrinking $x$ cannot erase complement-side hits already achieved by $x'$, because $y'$ contains at least everything that $x'$ contained.
+- Shrinking $x$ cannot erase complement-side hits already achieved by $x^{\prime}$, because $y^{\prime}$ contains at least everything that $x^{\prime}$ contained.
 
 Boundary:
 
@@ -972,7 +972,7 @@ $$
 
 Standard reading:
 
-- If $x$ already leaves every complement target in $C$ visible to $x'$, and $h$ has nonempty overlap with $m'$, then there is an extension $y$ above $x$ that still misses $m$, hits $h$, and leaves every complement target visible to $y'$.
+- If $x$ already leaves every complement target in $C$ visible to $x^{\prime}$, and $h$ has nonempty overlap with $m^{\prime}$, then there is an extension $y$ above $x$ that still misses $m$, hits $h$, and leaves every complement target visible to $y^{\prime}$.
 
 Plain English reading:
 
@@ -2526,7 +2526,7 @@ Plain English reading:
 Trap:
 
 - This is not where atomlessness enters. No region needs to be split into two independent live pieces. The witness is just the mask complement.
-- Atomlessness begins to matter for mixed-polarity constraints, where the formula demands live overlap for both $x$ and $x'$.
+- Atomlessness begins to matter for mixed-polarity constraints, where the formula demands live overlap for both $x$ and $x^{\prime}$.
 
 Boundary:
 
@@ -2559,7 +2559,7 @@ Standard reading:
 
 Plain English reading:
 
-- The positive side needs live material outside the mask. The complement-hit side only needs $r$ to be live somewhere. If $r$ is already inside the masked part, then $x'$ hits it automatically. If not, the live region outside the mask may have to be split so that one piece goes into $x$ and another remains for $x'$.
+- The positive side needs live material outside the mask. The complement-hit side only needs $r$ to be live somewhere. If $r$ is already inside the masked part, then $x^{\prime}$ hits it automatically. If not, the live region outside the mask may have to be split so that one piece goes into $x$ and another remains for $x^{\prime}$.
 
 Trap:
 
@@ -4002,8 +4002,8 @@ state component.
 
 Reading trap:
 
-This is not the same as $\operatorname{ref}(i)'$. The expression
-$\operatorname{ref}(i)'$ would apply prime to the current recursive state, and
+This is not the same as $\operatorname{ref}(i)^{\prime}$. The expression
+$\operatorname{ref}(i)^{\prime}$ would apply prime to the current recursive state, and
 that reverses order. The expression $\operatorname{lowerPrime}(\ell)$ is
 constant with respect to the current state.
 
@@ -4191,7 +4191,7 @@ Reading trap:
 
 This proof is not a recurrence theorem. It is a pointwise normalization theorem
 for fixed guards and fixed values. If guards depend on the current recursive
-state, the primes $g_j'$ can become same-stratum negative dependencies.
+state, the primes $g_j^{\prime}$ can become same-stratum negative dependencies.
 
 v477 proves the corresponding safe recurrence fragment. In v477, priority
 guards are fixed Boolean-algebra values, while row values may depend positively
@@ -4447,7 +4447,7 @@ Standard reading:
 
 For any single stream $x$, no subset $s$ can split the singleton set
 $\{x\}$ into two nonempty pieces. Either $x\in s$, in which case
-$\{x\}\cap s'$ is empty, or $x\notin s$, in which case
+$\{x\}\cap s^{\prime}$ is empty, or $x\notin s$, in which case
 $\{x\}\cap s$ is empty.
 
 This matters because the powerset carrier is closed under arbitrary unions, but
@@ -7294,9 +7294,9 @@ $$
 M_{\vec a}(x,y)
 =
 (a_{11}\wedge x\wedge y)
-\vee(a_{10}\wedge x\wedge y')
+\vee(a_{10}\wedge x\wedge y^{\prime})
 \vee(a_{01}\wedge x'\wedge y)
-\vee(a_{00}\wedge x'\wedge y').
+\vee(a_{00}\wedge x'\wedge y^{\prime}).
 $$
 
 Standard reading:
@@ -7470,12 +7470,12 @@ $$
 
 Standard reading:
 
-$C_g(t,e)$ is the join of $g\wedge t$ and $g'\wedge e$.
+$C_g(t,e)$ is the join of $g\wedge t$ and $g^{\prime}\wedge e$.
 
 Plain English:
 
 The guard splits the Boolean space into the part where $g$ holds and the part
-where $g'$ holds. The then-branch fills the first part, and the else-branch
+where $g^{\prime}$ holds. The then-branch fills the first part, and the else-branch
 fills the second part.
 
 The CBF compiler theorem is:
@@ -7525,7 +7525,7 @@ $$
 
 Standard reading:
 
-For the prime-step function $F(x)=x'$, it is false that $F$ preserves order
+For the prime-step function $F(x)=x^{\prime}$, it is false that $F$ preserves order
 for every ordered pair $a\le b$.
 
 Plain English:
@@ -8210,7 +8210,7 @@ scripts/run_equality_split_tau_probe.py
 ```
 
 Tau already simplifies simple branch-local equality paths, such as
-`x = y:sbf && ((x & y') = 0)`, to `x = y`. The remaining probe is narrower:
+`x = y:sbf && ((x & y^{\prime}) = 0)`, to `x = y`. The remaining probe is narrower:
 after an equality split creates two branches, can the normalizer recombine the
 residual branches?
 
@@ -8583,9 +8583,9 @@ $$
 
 Standard reading:
 
-If the environments $\rho$ and $\rho'$ agree after both are restricted to the
+If the environments $\rho$ and $\rho^{\prime}$ agree after both are restricted to the
 keys read by expression $e$, then evaluating $e$ under $\rho$ gives the same
-table as evaluating $e$ under $\rho'$.
+table as evaluating $e$ under $\rho^{\prime}$.
 
 Plain English:
 

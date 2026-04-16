@@ -177,7 +177,7 @@ $$
 $$
 
 For each key $i$, the revised table uses $A(i)$ inside guard $G(i)$ and
-the old value $T(i)$ inside the prime $G(i)'$.
+the old value $T(i)$ inside the prime $G(i)^{\prime}$.
 This is safe in the checked recurrence fragment because $G$ and $A$ are
 fixed relative to the current recursive state.
 It is not permission to use same-stratum prime on the current table.

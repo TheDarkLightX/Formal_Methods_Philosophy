@@ -129,16 +129,16 @@ $$
 
 <strong>Standard reading.</strong>
 Inside $G$, use replacement value $a$.
-Inside $G'$, use the old value $x$.
+Inside $G^{\prime}$, use the old value $x$.
 Then join the two regions.
 
 <strong>Plain English.</strong>
 Overwrite the guarded region and leave everything outside the guard unchanged.
 
 <strong>Trap.</strong>
-The prime in $G'$ is the Boolean-algebra prime of the lower-stratum guard.
+The prime in $G^{\prime}$ is the Boolean-algebra prime of the lower-stratum guard.
 It is allowed here because $G$ is fixed relative to the current recurrence.
-This is not permission to use $x'$ on the same recursive stratum.
+This is not permission to use $x^{\prime}$ on the same recursive stratum.
 
 The table-level implementation law is pointwise revision:
 
@@ -153,7 +153,7 @@ $$
 <strong>Standard reading.</strong>
 For every table key $i$, $\operatorname{Rev}_{G,A}(T)(i)$ is obtained by
 using replacement entry $A(i)$ inside guard entry $G(i)$, and using old
-entry $T(i)$ inside $G(i)'$.
+entry $T(i)$ inside $G(i)^{\prime}$.
 
 <strong>Plain English.</strong>
 Revise each table entry locally: replace the guarded part and preserve the rest.
@@ -655,7 +655,7 @@ Use $a$ inside $g$, and use $b$ outside $g$.
 
 <strong>Trap.</strong>
 This is a Boolean-algebra merge. It is not a procedural if-statement in a
-program, and $g'$ is the Boolean prime of the guard.
+program, and $g^{\prime}$ is the Boolean prime of the guard.
 
 For two variables $x$ and $y$, a four-coefficient minterm form is:
 
@@ -671,9 +671,9 @@ $$
 M_{\vec a}(x,y)
 =
 (a_{11}\wedge x\wedge y)
-\vee(a_{10}\wedge x\wedge y')
+\vee(a_{10}\wedge x\wedge y^{\prime})
 \vee(a_{01}\wedge x'\wedge y)
-\vee(a_{00}\wedge x'\wedge y').
+\vee(a_{00}\wedge x'\wedge y^{\prime}).
 $$
 
 <strong>Standard reading.</strong>
@@ -852,7 +852,7 @@ F(x):=x',
 $$
 
 <strong>Standard reading.</strong>
-For the prime-step function $F(x)=x'$, it is not true that every ordered pair
+For the prime-step function $F(x)=x^{\prime}$, it is not true that every ordered pair
 $a\le b$ is sent to an ordered pair $F(a)\le F(b)$.
 
 <strong>Plain English.</strong>

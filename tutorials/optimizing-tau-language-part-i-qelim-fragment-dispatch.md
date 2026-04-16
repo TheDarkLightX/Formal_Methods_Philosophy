@@ -609,7 +609,7 @@ The replacement is not globally valid.
 It is valid only in the path where those equalities are known.
 
 Tau already handles some simple branch-local equality reductions. For example,
-it normalizes $x=y\wedge ((x\wedge y')=0)$ to $x=y$. The next gap is
+it normalizes $x=y\wedge ((x\wedge y^{\prime})=0)$ to $x=y$. The next gap is
 recombination: after an equality split creates two residual branches, the
 normalizer may still print a longer formula than it needs.
 
@@ -693,9 +693,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If the environments $\rho$ and $\rho'$ agree after both are restricted to
+If the environments $\rho$ and $\rho^{\prime}$ agree after both are restricted to
 the keys read by $e$, then evaluating $e$ under $\rho$ gives the same
-value as evaluating $e$ under $\rho'$.
+value as evaluating $e$ under $\rho^{\prime}$.
 
 <strong>Plain English.</strong>
 Only recompute the expression when one of its actual inputs changed.
