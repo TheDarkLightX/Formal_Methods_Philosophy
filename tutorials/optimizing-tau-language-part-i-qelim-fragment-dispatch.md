@@ -139,10 +139,10 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If eliminating \(x\) from \(\exists x.\,\varphi\) returns \(\psi\), then for
-every assignment \(\rho\) of the remaining variables, \(\psi\) is true exactly
-when there exists a Boolean value \(b\) such that \(\varphi\) is true after
-setting \(x\) to \(b\).
+If eliminating $x$ from $\exists x.\,\varphi$ returns $\psi$, then for
+every assignment $\rho$ of the remaining variables, $\psi$ is true exactly
+when there exists a Boolean value $b$ such that $\varphi$ is true after
+setting $x$ to $b$.
 
 <strong>Plain English.</strong>
 The eliminated formula must answer the same yes-or-no question about the visible
@@ -150,8 +150,8 @@ variables as the original existential formula.
 
 <strong>Trap.</strong>
 Quantifier elimination is not witness extraction.
-It does not have to return the value of \(x\).
-It must remove \(x\) while preserving whether some value of \(x\) makes the
+It does not have to return the value of $x$.
+It must remove $x$ while preserving whether some value of $x$ makes the
 formula true.
 
 For a Boolean variable, the basic compiled-forgetting identity is:
@@ -163,17 +163,17 @@ f[x:=\bot]\vee f[x:=\top].
 $$
 
 <strong>Standard reading.</strong>
-The existential abstraction of \(x\) from \(f\) is the join of the cofactor of
-\(f\) with \(x\) forced to \(\bot\) and the cofactor of \(f\) with \(x\) forced
-to \(\top\).
+The existential abstraction of $x$ from $f$ is the join of the cofactor of
+$f$ with $x$ forced to $\bot$ and the cofactor of $f$ with $x$ forced
+to $\top$.
 
 <strong>Plain English.</strong>
-Forget \(x\) by keeping both possible branches and joining them.
+Forget $x$ by keeping both possible branches and joining them.
 
 <strong>Trap.</strong>
-The notation \(f[x:=\bot]\) is substitution, not multiplication and not
+The notation $f[x:=\bot]$ is substitution, not multiplication and not
 function application in the calculus sense.
-It means: evaluate the Boolean formula \(f\) after forcing \(x\) to the bottom
+It means: evaluate the Boolean formula $f$ after forcing $x$ to the bottom
 Boolean value.
 
 In a BDD, this operation is existential abstraction.
@@ -204,17 +204,17 @@ A\wedge \exists x.\,B
 $$
 
 <strong>Standard reading.</strong>
-If \(x\) is not a free variable of \(A\), then existential quantification over
-\(x\) can move inward past \(A\), leaving \(A\) outside and quantifying only
-\(B\).
+If $x$ is not a free variable of $A$, then existential quantification over
+$x$ can move inward past $A$, leaving $A$ outside and quantifying only
+$B$.
 
 <strong>Plain English.</strong>
 If one part of a conjunction does not mention the hidden variable, keep that
 part outside the search.
 
 <strong>Trap.</strong>
-The side condition \(x\notin FV(A)\) is not decorative.
-If \(A\) depends on \(x\), moving the quantifier past \(A\) can change the
+The side condition $x\notin FV(A)$ is not decorative.
+If $A$ depends on $x$, moving the quantifier past $A$ can change the
 meaning.
 
 This is why `anti_prenex` is not merely "old code."
@@ -241,8 +241,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If \(\varphi\) belongs to the supported leading-existential propositional
-fragment \(\mathcal{F}_{\exists\mathrm{prop}}\), Tau uses BDD existential
+If $\varphi$ belongs to the supported leading-existential propositional
+fragment $\mathcal{F}_{\exists\mathrm{prop}}$, Tau uses BDD existential
 abstraction. Otherwise Tau uses the default qelim route.
 
 <strong>Plain English.</strong>
@@ -290,7 +290,7 @@ The negation of an existential statement is equivalent to a universal statement
 of the negated body.
 
 <strong>Plain English.</strong>
-"There is no \(y\) satisfying \(P\)" means "every \(y\) fails \(P\)."
+"There is no $y$ satisfying $P$" means "every $y$ fails $P$."
 
 <strong>Trap.</strong>
 It does not mean:
@@ -299,7 +299,7 @@ $$
 \exists y.\,\neg P(y).
 $$
 
-That would say "some \(y\) fails \(P\)," which is weaker and usually different.
+That would say "some $y$ fails $P$," which is weaker and usually different.
 
 The concrete failing shape was:
 
@@ -307,7 +307,7 @@ The concrete failing shape was:
 qelim !(ex y (y = 0))
 ```
 
-The inner sentence is true because \(y=0\) has a witness, namely \(0\).
+The inner sentence is true because $y=0$ has a witness, namely $0$.
 Its negation is false.
 Tau's default route returned `F`.
 The old unguarded BDD experiment returned `T`.
@@ -339,7 +339,7 @@ $$
 \bigwedge_{i=1}^{k}\exists X_i.\,F_i,
 $$
 
-when each \(X_i = X\cap FV(F_i)\) and no quantified variable is shared between
+when each $X_i = X\cap FV(F_i)$ and no quantified variable is shared between
 different components.
 
 <strong>Standard reading.</strong>
@@ -371,7 +371,7 @@ $$
 p_x := (x=0).
 $$
 
-If \(p_x\) occurs only positively, the safe rewrite is:
+If $p_x$ occurs only positively, the safe rewrite is:
 
 $$
 \exists x.\,\Phi(p_x,y)
@@ -379,7 +379,7 @@ $$
 \Phi(\top,y).
 $$
 
-If \(p_x\) occurs only negatively, the dual rewrite is:
+If $p_x$ occurs only negatively, the dual rewrite is:
 
 $$
 \exists x.\,\Phi(p_x,y)
@@ -388,17 +388,17 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-When the zero-test atom \(p_x\) for an existential variable occurs in only one
+When the zero-test atom $p_x$ for an existential variable occurs in only one
 polarity, choose the truth value that satisfies that polarity and remove the
 quantified atom.
 
 <strong>Plain English.</strong>
-If the formula only asks for \(x=0\), choose \(x=0\).
-If it only asks against \(x=0\), choose a value that makes \(x=0\) false.
+If the formula only asks for $x=0$, choose $x=0$.
+If it only asks against $x=0$, choose a value that makes $x=0$ false.
 
 <strong>Trap.</strong>
-This is not a general rewrite for every expression named \(x\).
-It is a polarity rule for the supported zero-test atom \(p_x := (x=0)\) inside
+This is not a general rewrite for every expression named $x$.
+It is a polarity rule for the supported zero-test atom $p_x := (x=0)$ inside
 the guarded propositional fragment.
 
 The checked lane skipped BDD construction on the pure-route cases and matched
@@ -425,18 +425,18 @@ R\wedge
 $$
 
 <strong>Standard reading.</strong>
-To existentially eliminate \(x\) from a CNF formula, keep the clauses \(R\) that
-do not mention \(x\), and add every resolvent \((A_i\vee B_j)\) formed from a
-positive \(x\)-clause and a negative \(x\)-clause.
+To existentially eliminate $x$ from a CNF formula, keep the clauses $R$ that
+do not mention $x$, and add every resolvent $(A_i\vee B_j)$ formed from a
+positive $x$-clause and a negative $x$-clause.
 
 <strong>Plain English.</strong>
 Pair each positive occurrence of the hidden atom with each negative occurrence,
 resolve the pairs, then drop the old clauses mentioning that atom.
 
 <strong>Trap.</strong>
-The product \(\bigwedge_{i,j}\) is the danger.
-If there are \(m\) positive clauses and \(n\) negative clauses, the raw step can
-create \(mn\) resolvents.
+The product $\bigwedge_{i,j}$ is the danger.
+If there are $m$ positive clauses and $n$ negative clauses, the raw step can
+create $mn$ resolvents.
 So this route needs an explicit cap or a minimization step before promotion.
 
 The experiment added thresholded Davis-Putnam distribution under an explicit
@@ -546,9 +546,9 @@ e,
 $$
 
 <strong>Standard reading.</strong>
-The guarded KB pass normalizes expression \(e\) only when a cheap scan finds at
+The guarded KB pass normalizes expression $e$ only when a cheap scan finds at
 least one absorption opportunity. If the scan finds no absorption opportunity,
-the pass returns \(e\) unchanged.
+the pass returns $e$ unchanged.
 
 <strong>Plain English.</strong>
 Do not run the rewrite normalizer everywhere. Run it only where the expression
@@ -582,7 +582,7 @@ The first lane is equality-aware path simplification. It is not qelim. It is a
 branch-local normalizer pass that can shrink formulas before later passes see
 them.
 
-Write \(r(x)\) for the representative chosen for variable \(x\).
+Write $r(x)$ for the representative chosen for variable $x$.
 The safe representative-substitution law is:
 
 $$
@@ -594,10 +594,10 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If the environment \(\rho\) gives every variable \(x\) the same value as its
-chosen representative \(r(x)\), then evaluating the expression after replacing
+If the environment $\rho$ gives every variable $x$ the same value as its
+chosen representative $r(x)$, then evaluating the expression after replacing
 each variable by its representative gives the same value as evaluating the
-original expression in \(\rho\).
+original expression in $\rho$.
 
 <strong>Plain English.</strong>
 On a branch where the formula already says two variables are equal, the
@@ -609,7 +609,7 @@ The replacement is not globally valid.
 It is valid only in the path where those equalities are known.
 
 Tau already handles some simple branch-local equality reductions. For example,
-it normalizes \(x=y\wedge ((x\wedge y')=0)\) to \(x=y\). The next gap is
+it normalizes $x=y\wedge ((x\wedge y')=0)$ to $x=y$. The next gap is
 recombination: after an equality split creates two residual branches, the
 normalizer may still print a longer formula than it needs.
 
@@ -620,16 +620,16 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-The disjunction of the branch where \(A\) and \(B\) both hold and the branch
-where \(A\) is false but \(B\) holds is equivalent to \(B\).
+The disjunction of the branch where $A$ and $B$ both hold and the branch
+where $A$ is false but $B$ holds is equivalent to $B$.
 
 <strong>Plain English.</strong>
-If both sides of a split keep the same residual condition \(B\), the split no
+If both sides of a split keep the same residual condition $B$, the split no
 longer matters.
 
 <strong>Trap.</strong>
 This recombination law is not equality-specific. Equality matters here because
-equality-path simplification can create the repeated residual \(B\).
+equality-path simplification can create the repeated residual $B$.
 
 The research log records the current feature-gated Tau probes. The tutorial
 takeaway is narrower: equality-aware simplification is a strong Tau-native
@@ -647,13 +647,13 @@ A\vee(R\wedge D)\equiv R.
 $$
 
 <strong>Standard reading.</strong>
-If alias condition \(A\) implies residual \(R\), and \(R\) together with not
-\(D\) implies \(A\), then the disjunction \(A\vee(R\wedge D)\) is equivalent to
-\(R\).
+If alias condition $A$ implies residual $R$, and $R$ together with not
+$D$ implies $A$, then the disjunction $A\vee(R\wedge D)$ is equivalent to
+$R$.
 
 <strong>Plain English.</strong>
 If the left branch already guarantees the residual, and the residual covers the
-right branch whether the guard-disjunction \(D\) holds or fails, the whole split
+right branch whether the guard-disjunction $D$ holds or fails, the whole split
 can be collapsed to the residual.
 
 The conjunction cleanup uses the equality-path law:
@@ -667,8 +667,8 @@ a\ne b
 $$
 
 <strong>Standard reading.</strong>
-If \(a\) is not equal to \(b\), then along any finite path
-\(a=t_0,t_1,\ldots,t_k=b\), at least one adjacent equality on that path must
+If $a$ is not equal to $b$, then along any finite path
+$a=t_0,t_1,\ldots,t_k=b$, at least one adjacent equality on that path must
 fail.
 
 <strong>Plain English.</strong>
@@ -693,9 +693,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If the environments \(\rho\) and \(\rho'\) agree after both are restricted to
-the keys read by \(e\), then evaluating \(e\) under \(\rho\) gives the same
-value as evaluating \(e\) under \(\rho'\).
+If the environments $\rho$ and $\rho'$ agree after both are restricted to
+the keys read by $e$, then evaluating $e$ under $\rho$ gives the same
+value as evaluating $e$ under $\rho'$.
 
 <strong>Plain English.</strong>
 Only recompute the expression when one of its actual inputs changed.
@@ -704,8 +704,8 @@ Only recompute the expression when one of its actual inputs changed.
 This is not a whole-language Tau theorem yet. The checked packet proves the law
 for the Tau-like expression kernel with explicit variable reads.
 
-Write \(\Delta_{k,v}e\) for the derivative-style transform that records the
-effect of changing key \(k\) to value \(v\).
+Write $\Delta_{k,v}e$ for the derivative-style transform that records the
+effect of changing key $k$ to value $v$.
 
 $$
 \Delta_{k,v}e.
@@ -725,8 +725,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-Evaluating \(\Delta_{k,v}e\) equals the evaluation of \(e\), updated at key
-\(k\) by the constant-leaf evaluation of \(e\) at \(v\).
+Evaluating $\Delta_{k,v}e$ equals the evaluation of $e$, updated at key
+$k$ by the constant-leaf evaluation of $e$ at $v$.
 
 <strong>Plain English.</strong>
 The derivative is a symbolic description of the local effect of one input-key
@@ -764,7 +764,7 @@ this kernel.
 <strong>Trap.</strong>
 The completeness theorem is algebraic. Turning it into an executable decision
 procedure still requires deciding whether
-\(\operatorname{Eval}(e_1)=\operatorname{Eval}(e_2)\). That is immediate on a
+$\operatorname{Eval}(e_1)=\operatorname{Eval}(e_2)$. That is immediate on a
 finite carrier, but it is not automatic over arbitrary infinite carriers.
 
 This gives a cleaner optimizer map:
@@ -800,8 +800,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-If rewrite rule \(q\)'s head reference signature is not present in term \(t\),
-then applying \(q\) to \(t\) leaves \(t\) unchanged.
+If rewrite rule $q$'s head reference signature is not present in term $t$,
+then applying $q$ to $t$ leaves $t$ unchanged.
 
 <strong>Plain English.</strong>
 Do not spend time trying a definition rule whose function symbol does not

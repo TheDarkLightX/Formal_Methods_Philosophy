@@ -8462,8 +8462,8 @@ $$
 
 Standard reading:
 
-If alias branch \(A\) implies residual \(R\), and \(R\) together with not \(D\)
-implies \(A\), then \(A\vee(R\wedge D)\) is equivalent to \(R\).
+If alias branch $A$ implies residual $R$, and $R$ together with not $D$
+implies $A$, then $A\vee(R\wedge D)$ is equivalent to $R$.
 
 Plain English:
 
@@ -8482,7 +8482,7 @@ $$
 
 Standard reading:
 
-If \(a\) is not equal to \(b\), then on any finite path from \(a\) to \(b\),
+If $a$ is not equal to $b$, then on any finite path from $a$ to $b$,
 at least one adjacent equality on that path fails.
 
 Plain English:
@@ -8500,7 +8500,7 @@ $$
 
 Standard reading:
 
-If not \(D\) implies the alias conjunction \(A\), then \(A\vee D\) is
+If not $D$ implies the alias conjunction $A$, then $A\vee D$ is
 equivalent to truth.
 
 Plain English:
@@ -8520,8 +8520,8 @@ $$
 
 Standard reading:
 
-If the alias conjunction \(A\) implies residual \(R\), and \(A\vee D\) is
-equivalent to truth, then \(A\vee(D\wedge R)\) is equivalent to \(R\).
+If the alias conjunction $A$ implies residual $R$, and $A\vee D$ is
+equivalent to truth, then $A\vee(D\wedge R)$ is equivalent to $R$.
 
 Plain English:
 

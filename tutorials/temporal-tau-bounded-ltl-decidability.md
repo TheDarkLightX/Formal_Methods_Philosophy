@@ -12,7 +12,7 @@ a solver-routing problem: choose the right qelim backend only when a fragment
 guard proves that the route is legal.
 
 Temporal Tau is a different layer.
-It asks how a Tau expression should be read at time \(t\), time \(t+1\), and
+It asks how a Tau expression should be read at time $t$, time $t+1$, and
 over a bounded future window. The checked result is not "all temporal logic is
 solved." The checked result is narrower and more useful:
 
@@ -99,9 +99,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-A table of arity \(n\) with values in \(\alpha\) is a function from Boolean
-assignments over \(n\) finite input positions to a Boolean-algebra value in
-\(\alpha\).
+A table of arity $n$ with values in $\alpha$ is a function from Boolean
+assignments over $n$ finite input positions to a Boolean-algebra value in
+$\alpha$.
 
 <strong>Plain English.</strong>
 For each finite input pattern, the table returns a Boolean-algebra value.
@@ -118,7 +118,7 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-Evaluating temporal expression \(e\) at time \(t\) returns a table.
+Evaluating temporal expression $e$ at time $t$ returns a table.
 
 <strong>Plain English.</strong>
 The same expression can have different table meanings at different time steps.
@@ -138,8 +138,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-Evaluating `next e` at time \(t\) is the same as evaluating \(e\) at time
-\(t+1\).
+Evaluating `next e` at time $t$ is the same as evaluating $e$ at time
+$t+1$.
 
 <strong>Plain English.</strong>
 `next` shifts the expression one tick into the future.
@@ -153,15 +153,15 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-At time \(0\), `prev e` evaluates to bottom. At successor time \(t+1\), `prev e`
-evaluates to what \(e\) evaluated to at time \(t\).
+At time $0$, `prev e` evaluates to bottom. At successor time $t+1$, `prev e`
+evaluates to what $e$ evaluated to at time $t$.
 
 <strong>Plain English.</strong>
-`prev` reads one tick backward, but there is no earlier tick before time \(0\),
+`prev` reads one tick backward, but there is no earlier tick before time $0$,
 so the proof chooses bottom there.
 
 <strong>Trap.</strong>
-The bottom value at time \(0\) is a design choice in the checked model. Another
+The bottom value at time $0$ is a design choice in the checked model. Another
 runtime could choose an explicit error or option type, but then the proof
 surface would be different.
 
@@ -179,8 +179,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-Evaluating bounded always for \(N\) steps is the meet of the evaluations of
-\(e\) at times \(t,t+1,\ldots,t+N-1\).
+Evaluating bounded always for $N$ steps is the meet of the evaluations of
+$e$ at times $t,t+1,\ldots,t+N-1$.
 
 <strong>Plain English.</strong>
 The property must hold at every tick in the finite window.
@@ -194,15 +194,15 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-Evaluating bounded eventually for \(N\) steps is the join of the evaluations of
-\(e\) at times \(t,t+1,\ldots,t+N-1\).
+Evaluating bounded eventually for $N$ steps is the join of the evaluations of
+$e$ at times $t,t+1,\ldots,t+N-1$.
 
 <strong>Plain English.</strong>
 The property must hold at least somewhere in the finite window.
 
 <strong>Trap.</strong>
-These are bounded operators. \(\Box_{<N}\) is not the unbounded LTL operator
-\(\Box\), and \(\Diamond_{<N}\) is not the unbounded LTL operator \(\Diamond\).
+These are bounded operators. $\Box_{<N}$ is not the unbounded LTL operator
+$\Box$, and $\Diamond_{<N}$ is not the unbounded LTL operator $\Diamond$.
 The finite bound is what keeps the evaluator structurally recursive.
 
 The bounded De Morgan law has the expected form:
@@ -214,8 +214,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-The complement of "always \(e\) within \(N\) steps" equals "eventually not
-\(e\) within \(N\) steps."
+The complement of "always $e$ within $N$ steps" equals "eventually not
+$e$ within $N$ steps."
 
 <strong>Plain English.</strong>
 A finite window fails an always-check exactly when the window contains a
@@ -235,17 +235,17 @@ p\,U_{<N+1}\,q := q\vee(p\wedge\operatorname{next}(p\,U_{<N}\,q)).
 $$
 
 <strong>Standard reading.</strong>
-At horizon \(0\), bounded until is bottom. At horizon \(N+1\), \(p\) until
-\(q\) holds if \(q\) holds now, or if \(p\) holds now and the bounded-until
-condition holds over the remaining \(N\) future steps.
+At horizon $0$, bounded until is bottom. At horizon $N+1$, $p$ until
+$q$ holds if $q$ holds now, or if $p$ holds now and the bounded-until
+condition holds over the remaining $N$ future steps.
 
 <strong>Plain English.</strong>
 Either the goal has already arrived, or the guard must hold now while the same
 question is passed to the next tick with one fewer step left.
 
 <strong>Trap.</strong>
-The guard \(p\) does not have to hold after \(q\) appears. The word "until"
-means "keep \(p\) true up to the first successful \(q\)-point," not "keep \(p\)
+The guard $p$ does not have to hold after $q$ appears. The word "until"
+means "keep $p$ true up to the first successful $q$-point," not "keep $p$
 true forever."
 
 This is the bounded version of the standard LTL idea:
@@ -259,11 +259,11 @@ p\,U_{<N}\,q
 $$
 
 <strong>Standard reading.</strong>
-There is a future offset \(j\) inside the \(N\)-step window where \(q\) holds,
-and at every earlier offset \(i<j\), \(p\) holds.
+There is a future offset $j$ inside the $N$-step window where $q$ holds,
+and at every earlier offset $i<j$, $p$ holds.
 
 <strong>Plain English.</strong>
-Reach \(q\) before the window closes, while maintaining \(p\) on the way there.
+Reach $q$ before the window closes, while maintaining $p$ on the way there.
 
 <strong>Trap.</strong>
 This existential reading is a helpful semantic explanation. The Lean proof
@@ -286,8 +286,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-The value carrier \(\alpha\) is finite, equality on \(\alpha\) is decidable,
-and \(\alpha\) is a Boolean algebra.
+The value carrier $\alpha$ is finite, equality on $\alpha$ is decidable,
+and $\alpha$ is a Boolean algebra.
 
 <strong>Plain English.</strong>
 There are finitely many possible output values, equality can be checked, and
@@ -303,7 +303,7 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-For two temporal Tau expressions \(e_1,e_2\) at a fixed time \(t\), there is a
+For two temporal Tau expressions $e_1,e_2$ at a fixed time $t$, there is a
 decision procedure for whether their evaluated tables are equal.
 
 <strong>Plain English.</strong>
@@ -320,8 +320,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-There is a decision procedure for whether some time \(t\) up to horizon \(T\)
-and some Boolean input assignment \(k\) make \(e\)'s evaluation non-bottom.
+There is a decision procedure for whether some time $t$ up to horizon $T$
+and some Boolean input assignment $k$ make $e$'s evaluation non-bottom.
 
 <strong>Plain English.</strong>
 Within the bounded horizon, the checker can decide whether the property is ever
@@ -337,8 +337,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-There is a decision procedure for whether every time \(t\) up to horizon \(T\)
-and every Boolean input assignment \(k\) make \(e\)'s evaluation top.
+There is a decision procedure for whether every time $t$ up to horizon $T$
+and every Boolean input assignment $k$ make $e$'s evaluation top.
 
 <strong>Plain English.</strong>
 Within the bounded horizon, the checker can decide whether the property always
@@ -354,8 +354,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-There is a decision procedure for whether \(e_1\) and \(e_2\) evaluate to the
-same table at every time up to horizon \(T\).
+There is a decision procedure for whether $e_1$ and $e_2$ evaluate to the
+same table at every time up to horizon $T$.
 
 <strong>Plain English.</strong>
 Within the bounded horizon, the checker can decide whether two temporal
