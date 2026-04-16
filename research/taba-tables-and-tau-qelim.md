@@ -7952,6 +7952,23 @@ three-variable distributivity candidate was left out because this Tau build
 segfaulted before solver stats in the baseline and skip paths, so it is not
 valid timing evidence for the RR skip.
 
+Post-skip telemetry also changes the next frontier. With
+`TAU_RR_SKIP_VALUE_INFER=1` enabled on the five representative table-demo
+solver checks, the compact receipt is:
+
+```text
+rr_get:                  1.800762 ms
+rr_apply_formula:       16.610380 ms
+rr_formula_transform:    9.079930 ms
+rr_formula_rewrite:      6.509593 ms
+rr_formula_fixed_point:  0.691629 ms
+solve total:            19.575530 ms
+```
+
+So more `get_rr` work is no longer the best next target on this corpus. The
+next internal solver-path target is `apply_rr_to_formula`, especially
+reference-argument transformation and recurrence-definition rewriting.
+
 ## 14. Equality-aware path simplification
 
 The next target comes from Tau's own known-issues list. Tau's README says that
