@@ -7760,7 +7760,8 @@ elapsed reduction:       55.167%
 ```
 
 There is now a second batching lane that does not combine the mismatch
-predicates. It uses Tau's existing prefix-dot CLI shape:
+predicates. It uses Tau's existing prefix-dot CLI shape and the opt-in
+command-file path behind `TAU_CLI_FILE_MODE=1`:
 
 ```text
 cmd_1 . cmd_2 . ... . cmd_n
@@ -7784,9 +7785,10 @@ The current executable receipt is:
 checks:                15
 individual processes:  15
 batched processes:      1
-individual elapsed:  117482.283 ms
-batched elapsed:      58561.321 ms
-elapsed reduction:       50.153%
+transport:            file
+individual elapsed:  118067.485 ms
+batched elapsed:      57865.218 ms
+elapsed reduction:       50.990%
 result:               passed
 ```
 

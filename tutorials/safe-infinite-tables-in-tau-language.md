@@ -320,7 +320,8 @@ is descriptive, not a cross-machine performance claim.
 
 The latest batched audit run checked the same fifteen obligations, returned
 fifteen `no solution` results, reduced Tau process count from `15` to `1`, and
-reduced elapsed time by about `50.153%` against the separate-process audit path.
+reduced elapsed time by about `50.990%` against the separate-process audit path.
+It also exercised the opt-in command-file path behind `TAU_CLI_FILE_MODE=1`.
 This is a demo-harness optimization, not a solver speedup claim.
 
 The public demo checks:
