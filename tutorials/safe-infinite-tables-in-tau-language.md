@@ -320,9 +320,20 @@ is descriptive, not a cross-machine performance claim.
 
 The latest batched audit run checked the same fifteen obligations, returned
 fifteen `no solution` results, reduced Tau process count from `15` to `1`, and
-reduced elapsed time by about `50.990%` against the separate-process audit path.
+reduced elapsed time by about `50.877%` against the separate-process audit path.
 It also exercised the opt-in command-file path behind `TAU_CLI_FILE_MODE=1`.
 This is a demo-harness optimization, not a solver speedup claim.
+
+There is also a newer internal solver-path experiment:
+`TAU_RR_SKIP_VALUE_INFER=1`. It skips a redundant second type-inference pass for
+non-`spec`, ref-valued command arguments that already passed parser-time type
+inference. On the current safe-table solver corpus, the three-repetition local
+receipt preserved all checked `no solution` results, reduced internal
+solve-command time by `76.963%`, and reduced measured `get_rr` time by
+`97.804%`. The same receipt did not improve whole-process elapsed time, because
+the wrapper still spends most of its wall-clock time launching Tau processes and
+loading sources. This is an opt-in internal optimization candidate, not a
+default Tau behavior.
 
 The public demo checks:
 
@@ -345,6 +356,8 @@ The visible breakthroughs are:
 - a raw-formula equivalence check, not just a successful parse,
 - compound mismatch checking, where one unsatisfiable disjunction proves all
   table-vs-raw checks at once,
+- an opt-in RR extraction shortcut that removes a redundant inference pass on
+  the checked safe-table solver corpus,
 - priority-table behavior with overlapping guards,
 - explanation-carrying table rows, not just admit-or-deny formulas,
 - state-transforming rows that read the old symbolic state positively,

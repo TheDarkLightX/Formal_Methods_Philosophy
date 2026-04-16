@@ -7786,9 +7786,9 @@ checks:                15
 individual processes:  15
 batched processes:      1
 transport:            file
-individual elapsed:  118067.485 ms
-batched elapsed:      57865.218 ms
-elapsed reduction:       50.990%
+individual elapsed:  118534.210 ms
+batched elapsed:      58227.056 ms
+elapsed reduction:       50.877%
 result:               passed
 ```
 
@@ -7811,6 +7811,88 @@ work: sometimes the fastest improvement is to reshape the verification question
 before changing the solver internals. The compound lane is the proof-compressed
 form. The batched lane is the audit-preserving form, because it still returns
 one `no solution` result per obligation.
+
+## 13.1 Internal RR extraction shortcut
+
+The next successful Tau-side optimization target was not a new qelim backend.
+It was the repeated representation-reduction extraction path used before the
+solver runs:
+
+```text
+solve_cmd
+  -> apply_rr_to_nso_rr_with_defs
+     -> get_nso_rr_with_defs
+        -> infer_ba_types
+```
+
+Telemetry showed that the safe-table solver checks all used the
+`ref_value_rr` branch, and that the `infer_ms` phase dominated
+`get_nso_rr_with_defs` in every checked case.
+
+The opt-in implementation flag is:
+
+```bash
+TAU_RR_SKIP_VALUE_INFER=1
+```
+
+The guarded shortcut applies only to non-`spec`, ref-valued command arguments
+that already passed parser-time type inference. The ordinary full-inference
+path remains the default when the flag is absent, and `spec` arguments remain
+outside the shortcut.
+
+The candidate law is:
+
+$$
+\operatorname{Typed}_{\mathrm{parse}}(v)
+\wedge
+\operatorname{RefVal}(v)
+\Longrightarrow
+\operatorname{RR}_{\mathrm{skip}}(v,D)
+=
+\operatorname{RR}_{\mathrm{full}}(v,D).
+$$
+
+Standard reading:
+
+If a command value $v$ has already been typed during parsing, and $v$ is a
+ref-valued non-`spec` argument, then the RR obtained by skipping the second
+definition-augmented inference pass should equal the RR obtained by the full
+path using the same stored definitions $D$.
+
+Plain English:
+
+Do not type the same already-typed value twice. Keep the full path for cases
+outside this branch.
+
+Boundary:
+
+This is not yet a proved theorem about all Tau inputs. It is a feature-gated
+candidate supported by parity tests on the safe-table solver corpus. Promotion
+would require a larger corpus and a code-level invariant or proof artifact for
+the parser-time typing premise.
+
+The current executable receipt is:
+
+```text
+checks:                       5
+repetitions:                  3
+output parity:                passed
+baseline solve total:       261.038000 ms
+skip solve total:            60.136580 ms
+solve improvement:           76.963%
+baseline get_rr:            209.216570 ms
+skip get_rr:                  4.595369 ms
+get_rr improvement:          97.804%
+whole-process elapsed change: -0.343%
+```
+
+Research conclusion:
+
+This moved the optimization frontier from "demo harness only" into Tau's
+internal command path. The speedup is visible inside `solve_cmd` and
+`get_nso_rr_with_defs`, not in whole-process elapsed time. The elapsed-time
+result is expected because the current benchmark still launches many Tau
+processes and repeatedly loads sources.
 
 ## 14. Equality-aware path simplification
 
