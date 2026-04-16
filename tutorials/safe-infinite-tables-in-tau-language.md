@@ -335,6 +335,10 @@ the wrapper still spends most of its wall-clock time launching Tau processes and
 loading sources. This is an opt-in internal optimization candidate, not a
 default Tau behavior. A separate audit run also checked that all five skipped
 RR branches were structurally equal to the full-inference branch.
+In the batched one-process table-check path, the same shortcut passed all
+fifteen obligations, reduced measured `get_rr` time by `99.266%`, reduced
+internal solve-command time by `75.435%`, and reduced wall-clock elapsed time
+by `3.186%` on the local demo corpus.
 
 The public demo checks:
 

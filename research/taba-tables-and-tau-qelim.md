@@ -7895,13 +7895,32 @@ audit rows:                    5
 structurally equal audit rows: 5
 ```
 
+The batched one-process timing receipt is:
+
+```text
+checks:                   15
+repetitions:               1
+output parity:             passed
+baseline elapsed:      59058.949 ms
+skip elapsed:          57177.551 ms
+elapsed improvement:       3.186%
+baseline solve total:    816.446700 ms
+skip solve total:        200.560990 ms
+solve improvement:        75.435%
+baseline get_rr:         619.139900 ms
+skip get_rr:               4.544364 ms
+get_rr improvement:       99.266%
+```
+
 Research conclusion:
 
 This moved the optimization frontier from "demo harness only" into Tau's
 internal command path. The speedup is visible inside `solve_cmd` and
-`get_nso_rr_with_defs`, not in whole-process elapsed time. The elapsed-time
-result is expected because the current benchmark still launches many Tau
-processes and repeatedly loads sources.
+`get_nso_rr_with_defs`. In the one-process-per-check wrapper, wall-clock time
+is still roughly flat because repeated Tau startup and source loading dominate
+elapsed time. In the batched command-file wrapper, which removes most repeated
+process startup, the same shortcut gives a small wall-clock improvement on the
+demo corpus.
 
 The audit mode is important because it checks the intended stronger claim for
 the skipped branch. On the checked corpus, the skipped RR is structurally equal
