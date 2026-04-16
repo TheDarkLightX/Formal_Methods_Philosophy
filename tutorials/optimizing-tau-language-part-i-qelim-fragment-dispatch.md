@@ -781,6 +781,7 @@ target-sized cases:                   200 / 200
 normalized characters:                1480
 first-pass idempotent cases:          190 / 200
 second-pass growth cases:             0 / 200
+whole-command normalize time:         19761.508 ms
 ```
 
 <strong>Standard reading.</strong>
@@ -813,7 +814,8 @@ it does not increase printed size. On this corpus it is non-growing for all
 \(200\) cases, shrinks \(40\) cases, and reduces total printed size from
 \(1980\) to \(1480\) characters. The experiment repo now implements this as
 an opt-in Tau patch behind `TAU_NORMALIZE_GUARDED_MNF=1`. This is still not a
-claim that `mnf` should replace `normalize` globally.
+claim that `mnf` should replace `normalize` globally. The timing receipt is a
+process-level regression screen, not an in-process speedup proof.
 
 The new rule that closed the larger corpus is an equality-graph implication
 rule:

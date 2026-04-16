@@ -8048,6 +8048,7 @@ target-sized cases:                   200 / 200
 normalized characters:                1480
 first-pass idempotent cases:          190 / 200
 second-pass growth cases:             0 / 200
+whole-command normalize time:         19761.508 ms
 ```
 
 Research conclusion:
@@ -8071,7 +8072,8 @@ cases, and reduces total printed size from `1980` to `1480` characters. This
 route is now implemented as an experimental opt-in Tau patch behind
 `TAU_NORMALIZE_GUARDED_MNF=1`. It does not mean `mnf` should replace
 `normalize` globally. It means the next optimization question is
-fragment-sensitive presentation routing.
+fragment-sensitive presentation routing. The timing receipt is a process-level
+regression screen, not an in-process speedup proof.
 
 The term-level representative substitution law that moved the frontier is:
 
