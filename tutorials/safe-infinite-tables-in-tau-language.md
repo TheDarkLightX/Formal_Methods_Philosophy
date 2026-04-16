@@ -340,6 +340,14 @@ fifteen obligations, reduced measured `get_rr` time by `99.266%`, reduced
 internal solve-command time by `75.435%`, and reduced wall-clock elapsed time
 by `3.186%` on the local demo corpus.
 
+A separate ordinary reference-definition corpus checks the same shortcut
+without safe-table syntax. It uses nine named `:tau` definition cases, including
+commutativity, absorption, double prime, De Morgan laws, and guarded choice.
+The local receipt passed all nine cases, checked nine structurally equal audit
+rows, reduced measured `get_rr` time by `79.109%`, and reduced internal
+solve-command time by `55.564%`. This is broader evidence for the shortcut, but
+it is still a synthetic corpus, not a default Tau optimization claim.
+
 The public demo checks:
 
 - safe symbolic table update idempotence,

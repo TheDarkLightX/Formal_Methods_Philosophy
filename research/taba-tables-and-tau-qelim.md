@@ -7912,6 +7912,23 @@ skip get_rr:               4.544364 ms
 get_rr improvement:       99.266%
 ```
 
+The ordinary reference-definition receipt is:
+
+```text
+cases:                         9
+audit rows:                    9
+structurally equal audit rows: 9
+baseline elapsed:        692.424 ms
+skip elapsed:            684.416 ms
+elapsed improvement:       1.157%
+baseline solve total:     16.448360 ms
+skip solve total:          7.309008 ms
+solve improvement:        55.564%
+baseline get_rr:          11.644820 ms
+skip get_rr:               2.432774 ms
+get_rr improvement:       79.109%
+```
+
 Research conclusion:
 
 This moved the optimization frontier from "demo harness only" into Tau's
@@ -7926,6 +7943,14 @@ The audit mode is important because it checks the intended stronger claim for
 the skipped branch. On the checked corpus, the skipped RR is structurally equal
 to the RR extracted by the full inference path. This is still corpus evidence,
 not a whole-language proof.
+
+The ordinary reference-definition corpus broadens the scope. It checks named
+`:tau` definitions and Boolean-algebra identities without safe-table syntax.
+That matters because it reduces one possible false explanation, namely that the
+shortcut only helps the new table surface. It is still synthetic. A
+three-variable distributivity candidate was left out because this Tau build
+segfaulted before solver stats in the baseline and skip paths, so it is not
+valid timing evidence for the RR skip.
 
 ## 14. Equality-aware path simplification
 
