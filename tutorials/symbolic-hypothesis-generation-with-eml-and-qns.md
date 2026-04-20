@@ -63,6 +63,7 @@ The TauLang-Experiments repo now has a runnable memory demo for this loop.
 The public repo is:
 
 - [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
+- [Short academic note: EML/qNS loop]({{ '/assets/papers/neuro-symbolic-eml-qns-loop.pdf' | relative_url }})
 
 The full public reproduction path is:
 

@@ -28,6 +28,7 @@ Reference notes for the experiment live in:
 
 - [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
 - [Neuro-symbolic Boolean algebras note](https://github.com/TheDarkLightX/TauLang-Experiments/blob/main/docs/neuro-symbolic-boolean-algebras.md)
+- [Short academic note: EML/qNS loop]({{ '/assets/papers/neuro-symbolic-eml-qns-loop.pdf' | relative_url }})
 
 The public Tau-facing reproduction path is:
 

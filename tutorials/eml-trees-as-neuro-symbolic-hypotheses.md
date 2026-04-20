@@ -34,6 +34,7 @@ basis.
 The Tau-facing experiment repo is:
 
 - [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
+- [Short academic note: EML/qNS loop]({{ '/assets/papers/neuro-symbolic-eml-qns-loop.pdf' | relative_url }})
 
 The public Tau-facing reproduction path is:
 
