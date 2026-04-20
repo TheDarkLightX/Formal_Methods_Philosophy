@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 620" role="img" aria-labelledby="title desc">
+  <title id="title">EML and qNS neuro-symbolic loop architecture</title>
+  <desc id="desc">A proposer emits EML trees, symbolic gates check them, qNS masks route accepted evidence into a Tau gate and pointwise table-memory revision.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#eef5ee"/>
+    </linearGradient>
+    <linearGradient id="neural" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#334155"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="symbolic" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6f0df"/>
+      <stop offset="1" stop-color="#e9d8a6"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f2937"/>
+    </marker>
+    <style>
+      .title { font: 700 28px Georgia, serif; fill: #172033; }
+      .subtitle { font: 18px Georgia, serif; fill: #475569; }
+      .label { font: 700 18px Georgia, serif; fill: #172033; }
+      .small { font: 15px Georgia, serif; fill: #334155; }
+      .tiny { font: 13px Georgia, serif; fill: #475569; }
+      .formula { font: 17px "Latin Modern Roman", Georgia, serif; fill: #172033; }
+      .box { fill: white; stroke: #1f2937; stroke-width: 1.5; rx: 18; }
+      .soft { fill: url(#symbolic); stroke: #8a6f2a; stroke-width: 1.3; rx: 18; }
+      .dark { fill: url(#neural); stroke: #0f172a; stroke-width: 1.3; rx: 18; }
+      .darkText { fill: #f8fafc; }
+      .lane { fill: none; stroke: #94a3b8; stroke-width: 1.1; stroke-dasharray: 6 6; rx: 24; }
+      .arrow { fill: none; stroke: #1f2937; stroke-width: 2.2; marker-end: url(#arrow); }
+      .reject { fill: none; stroke: #9f1239; stroke-width: 2; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width="1180" height="620" fill="url(#bg)"/>
+  <text class="title" x="48" y="56">Bounded EML/qNS Loop</text>
+  <text class="subtitle" x="48" y="86">Models propose. Symbolic gates decide. Tau stores only checked masks.</text>
+
+  <rect class="lane" x="36" y="118" width="530" height="300"/>
+  <text class="label" x="62" y="151">Proposal lane</text>
+  <text class="tiny" x="62" y="176">Untrusted, replaceable, measured by candidate quality</text>
+
+  <rect class="dark" x="74" y="212" width="190" height="100"/>
+  <text class="label darkText" x="104" y="248">Proposer</text>
+  <text class="small darkText" x="104" y="276">LLM, fixture,</text>
+  <text class="small darkText" x="104" y="297">or search engine</text>
+
+  <rect class="box" x="334" y="212" width="190" height="100"/>
+  <text class="label" x="372" y="248">EML tree</text>
+  <text class="formula" x="365" y="278">T ::= x | 1 | eml(T,T)</text>
+  <text class="tiny" x="374" y="300">symbolic hypothesis</text>
+
+  <path class="arrow" d="M 264 262 L 334 262"/>
+
+  <rect class="lane" x="612" y="118" width="532" height="300"/>
+  <text class="label" x="638" y="151">Symbolic decision lane</text>
+  <text class="tiny" x="638" y="176">Finite checks and proof metadata produce qNS Boolean masks</text>
+
+  <rect class="soft" x="640" y="212" width="130" height="100"/>
+  <text class="label" x="674" y="244">Parse</text>
+  <text class="tiny" x="667" y="272">grammar</text>
+  <text class="tiny" x="667" y="292">membership</text>
+
+  <rect class="soft" x="800" y="212" width="130" height="100"/>
+  <text class="label" x="830" y="244">Domain</text>
+  <text class="tiny" x="829" y="272">log inputs</text>
+  <text class="tiny" x="834" y="292">positive</text>
+
+  <rect class="soft" x="960" y="212" width="130" height="100"/>
+  <text class="label" x="996" y="244">Spec</text>
+  <text class="tiny" x="985" y="272">bounded</text>
+  <text class="tiny" x="986" y="292">sample check</text>
+
+  <path class="arrow" d="M 524 262 L 640 262"/>
+  <path class="arrow" d="M 770 262 L 800 262"/>
+  <path class="arrow" d="M 930 262 L 960 262"/>
+
+  <rect class="box" x="236" y="470" width="210" height="88"/>
+  <text class="label" x="288" y="502">qNS mask</text>
+  <text class="formula" x="276" y="532">B_U = P(U)</text>
+  <text class="tiny" x="275" y="550">finite Boolean algebra</text>
+
+  <rect class="box" x="516" y="470" width="210" height="88"/>
+  <text class="label" x="574" y="502">Tau gate</text>
+  <text class="tiny" x="554" y="530">promote, review,</text>
+  <text class="tiny" x="568" y="550">or reject</text>
+
+  <rect class="box" x="796" y="470" width="250" height="88"/>
+  <text class="label" x="844" y="502">Table memory</text>
+  <text class="formula" x="827" y="532">M' = (G &amp; A) | (G' &amp; M)</text>
+  <text class="tiny" x="862" y="550">pointwise revision</text>
+
+  <path class="arrow" d="M 1025 312 C 1025 376 386 390 350 470"/>
+  <path class="arrow" d="M 446 514 L 516 514"/>
+  <path class="arrow" d="M 726 514 L 796 514"/>
+  <path class="reject" d="M 705 312 C 630 365 118 362 116 472"/>
+  <rect class="box" x="52" y="470" width="128" height="88"/>
+  <text class="label" x="84" y="503" fill="#9f1239">Reject</text>
+  <text class="tiny" x="75" y="530">quarantine</text>
+  <text class="tiny" x="77" y="550">do not store</text>
+
+  <text class="formula" x="462" y="390">q_NS = normalize(q_N * chi_S)</text>
+  <text class="tiny" x="453" y="414">This is a routing equation, not a claim that Tau computes neural probabilities.</text>
+</svg>

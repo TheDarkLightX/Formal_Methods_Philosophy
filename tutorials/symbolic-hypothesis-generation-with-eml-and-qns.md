@@ -64,6 +64,12 @@ The public repo is:
 
 - [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
 - [Short academic note: EML/qNS loop]({{ '/assets/papers/neuro-symbolic-eml-qns-loop.pdf' | relative_url }})
+- [Companion architecture diagram]({{ '/assets/papers/neuro-symbolic-eml-qns-loop-architecture.svg' | relative_url }})
+
+<figure class="fp-figure">
+  <img src="{{ '/assets/papers/neuro-symbolic-eml-qns-loop-architecture.svg' | relative_url }}" alt="Bounded EML and qNS loop architecture showing proposal, symbolic checks, qNS masks, Tau gate, and table memory revision.">
+  <figcaption>Architecture view of the bounded EML/qNS loop. Proposals are untrusted until the symbolic gates produce checked qNS masks.</figcaption>
+</figure>
 
 The full public reproduction path is:
 
