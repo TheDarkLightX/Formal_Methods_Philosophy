@@ -1,0 +1,393 @@
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index bc4e87e5..7343dff0 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -13,6 +13,7 @@ set(TAU_HEADERS
+ 	boolean_algebras/nso_ba.h
+ 	boolean_algebras/tau_ba.h
+ 	boolean_algebras/bv_ba.h
++	boolean_algebras/qns_candidate_ba.h
+ 	defs.h             # common macro and types definitions
+ 	logging.h          # logging and its macros
+ 	tau_tree.h         # tau tree, node, tree traverser, builders,
+diff --git a/src/main.cpp b/src/main.cpp
+index baf1be99..7a0452c7 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -8,6 +8,7 @@
+ // including nso_ba, sbf_ba and interpreter directly instead of
+ // #include "tau.h" to avoid error lines pointing to a generated tau.h
+ #include "boolean_algebras/bv_ba.h"
++#include "boolean_algebras/qns_candidate_ba.h"
+ #include "boolean_algebras/sbf_ba.h"
+ #include "boolean_algebras/nso_ba.h"
+ #include "boolean_algebras/tau_ba.h"
+@@ -61,10 +62,10 @@ int error(const string& s) { TAU_LOG_ERROR << "" << s; return 1; }
+ // If a parse result is "Unexpected end of file", it appends next line and repeats.
+ // This is used for making the dot ('.') at the end of a statement optional at
+ // the end of a line.
+-std::optional<rr<node<tau_ba<bv, sbf_ba>, bv, sbf_ba>>> get_spec_multiline(
++std::optional<rr<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>> get_spec_multiline(
+ 	const string& src)
+ {
+-	using node = tau_lang::node<tau_ba<bv, sbf_ba>, bv, sbf_ba>;
++	using node = tau_lang::node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>;
+ 	using tau = tree<node>;
+ 	std::istringstream iss(src);
+ 	std::string attempt, line, msg;
+@@ -160,7 +161,7 @@ int run_tau_spec(string spec_file, bool charvar, bool /*exp*/,
+ 	}
+ 	if (src.empty()) return 0;
+ 
+-	using node = tau_lang::node<tau_ba<bv, sbf_ba>, bv, sbf_ba>;
++	using node = tau_lang::node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>;
+ 
+ 	std::set<std::string> guards{ charvar ? "charvar" : "var" };
+ 	tau_parser::instance().get_grammar().set_enabled_productions(guards);
+@@ -194,7 +195,7 @@ int run_tau_spec_old(string spec_file, bool charvar, bool exp,
+ 		src.resize(l), ifs.seekg(0), ifs.read(&src[0], l);
+ 	}
+ 	if (src.empty()) return 0;
+-	repl_evaluator<bv, sbf_ba> re({
++	repl_evaluator<bv, sbf_ba, qns8_ba> re({
+ 		.print_history_store = false,
+ 		.error_quits         = true,
+ 		.charvar             = charvar,
+@@ -220,7 +221,7 @@ void at_exit() {
+ 	// On exit we must clean up the ba constants so the rest of the static
+ 	// constants managers are able to properly clean everything (in particula,
+ 	// cvc5::TermManager).
+-	ba_constants<node<tau_ba<bv, sbf_ba>, bv, sbf_ba>>::cleanup();
++	ba_constants<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>::cleanup();
+ 	// On the tests using ba_constants we also need to explicitly call
+ 	// the clean up in the constants.
+ }
+@@ -269,7 +270,7 @@ int main(int argc, char** argv) {
+ 		else return run_tau_spec_old(files.front(), charvar, exp, sev);
+ 	}
+ 
+-	repl_evaluator<bv, sbf_ba> re({
++	repl_evaluator<bv, sbf_ba, qns8_ba> re({
+ 		.status = opts["status"].get<bool>(),
+ 		.colors = opts["color"].get<bool>(),
+ 		.charvar = charvar,
+diff --git a/src/runtime.h b/src/runtime.h
+index 46c9ff01..5b32ab60 100644
+--- a/src/runtime.h
++++ b/src/runtime.h
+@@ -7,6 +7,7 @@
+ #include "boolean_algebras/sbf_ba.h"
+ #include "boolean_algebras/tau_ba.h"
+ #include "boolean_algebras/bv_ba.h"
++#include "boolean_algebras/qns_candidate_ba.h"
+ #include "nso_rr.h"
+ 
+ namespace idni::tau_lang {
+@@ -55,6 +56,29 @@ struct nso_factory<tau_ba<bv, sbf_ba>, bv, sbf_ba> {
+ 
+ };
+ 
++/**
++ * @brief NSO factory used in REPL with the feature-gated qns8 BA.
++ */
++template<>
++struct nso_factory<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba> {
++	static std::vector<std::string> types();
++
++	static tref default_type();
++
++	static std::string one(tref type_tree = tau_type<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>());
++
++	static std::string zero(tref type_tree = tau_type<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>());
++
++	static tref splitter_one(tref type_tree);
++
++	static tref unpack_tau_ba(const std::variant<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>& v);
++
++	static std::variant<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba> pack_tau_ba(tref c);
++
++	static std::variant<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba> to_base_ba_type(tref type_tree);
++
++};
++
+ template <>
+ inline std::optional<ba_constants<node<bv, sbf_ba>>::constant_with_type> ba_constants<node<bv, sbf_ba>>::get(
+ 		const std::string& constant_source,
+@@ -77,8 +101,22 @@ inline std::optional<typename ba_constants<node<tau_ba<bv, sbf_ba>, bv, sbf_ba>>
+ 	return parse_tau<bv, sbf_ba>(constant_source);
+ }
+ 
++template <>
++inline std::optional<typename ba_constants<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>::constant_with_type> ba_constants<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>::get(
++		const std::string& constant_source,
++		tref type_tree,
++		[[maybe_unused]] const std::string options) {
++	if (is_sbf_type<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>(type_tree))
++		return parse_sbf<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>(constant_source);
++	if (is_bv_type_family<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>(type_tree))
++		return parse_bv<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>(constant_source, type_tree);
++	if (is_qns8_type<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>(type_tree))
++		return parse_qns8<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>(constant_source);
++	return parse_tau<bv, sbf_ba, qns8_ba>(constant_source);
++}
++
+ } // namespace idni::tau_lang
+ 
+ #include "runtime.tmpl.h"
+ 
+-#endif // __RUNTIME_H__
+\ No newline at end of file
++#endif // __RUNTIME_H__
+diff --git a/src/runtime.tmpl.h b/src/runtime.tmpl.h
+index 48f66413..b4dd32b5 100644
+--- a/src/runtime.tmpl.h
++++ b/src/runtime.tmpl.h
+@@ -122,4 +122,91 @@ inline std::variant<tau_ba<bv, sbf_ba>, bv, sbf_ba> nso_factory<tau_ba<bv, sbf_b
+ 		return { bv() };
+ 	}
+ }
+-} // namespace idni::tau_lang
+\ No newline at end of file
++
++inline std::vector<std::string> nso_factory<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>::types() {
++	return { "sbf", "tau", "bv", "qns8" };
++}
++
++inline tref nso_factory<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>::default_type() {
++	return tau_type<node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>>();
++}
++
++inline std::string nso_factory<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>::one(
++	tref type_tree)
++{
++	using node_t = node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>;
++	if (is_sbf_type<node_t>(type_tree)) {
++		return "1";
++	} else if (is_bv_type_family<node_t>(type_tree)) {
++		return make_bitvector_top_elem(get_bv_size<node_t>(type_tree)
++			).getBitVectorValue(10);
++	} else if (is_qns8_type<node_t>(type_tree)) {
++		return "255";
++	} else return "T";
++}
++
++inline std::string nso_factory<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>::zero(
++	tref type_tree)
++{
++	using node_t = node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>;
++	if (is_sbf_type<node_t>(type_tree)) {
++		return "0";
++	} else if (is_bv_type_family<node_t>(type_tree)) {
++		return make_bitvector_bottom_elem(get_bv_size<node_t>(type_tree)
++			).getBitVectorValue(10);
++	} else if (is_qns8_type<node_t>(type_tree)) {
++		return "0";
++	} else return "F";
++}
++
++inline tref nso_factory<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>::splitter_one(
++		tref type_tree)
++{
++	using node_t = node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>;
++	using tau = tree<node_t>;
++	DBG(assert(!is_bv_type_family<node_t>(type_tree)));
++	if (is_sbf_type<node_t>(type_tree)) {
++		return tau::get(tau::bf,
++			tau::get_ba_constant(
++				sbf_ba_factory<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>::splitter_one(),
++				sbf_type<node_t>()));
++	}
++	if (is_qns8_type<node_t>(type_tree)) {
++		splitter_type st;
++		return tau::get(tau::bf,
++			tau::get_ba_constant(
++				splitter(qns8_ba::one(), st),
++				qns8_type<node_t>()));
++	}
++	return tau::get(tau::bf,
++		tau::get_ba_constant(
++			tau_ba_factory<bv, sbf_ba, qns8_ba>::splitter_one(),
++			tau_type<node_t>()));
++}
++
++inline tref nso_factory<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>::unpack_tau_ba(
++		const std::variant<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>& v)
++{
++	if (!std::holds_alternative<tau_ba<bv, sbf_ba, qns8_ba>>(v)) return {};
++	const auto unpacked = std::get<tau_ba<bv, sbf_ba, qns8_ba>>(v);
++	return unpacked.nso_rr.main->get();
++}
++
++inline std::variant<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba> nso_factory<tau_ba<bv, sbf_ba, qns8_ba>,
++	bv, sbf_ba, qns8_ba>::pack_tau_ba(tref c) {
++	tau_ba<bv, sbf_ba, qns8_ba> t {c};
++	return {t};
++}
++
++inline std::variant<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba> nso_factory<tau_ba<bv, sbf_ba, qns8_ba>,
++	bv, sbf_ba, qns8_ba>::to_base_ba_type(tref type_tree) {
++	using node_t = node<tau_ba<bv, sbf_ba, qns8_ba>, bv, sbf_ba, qns8_ba>;
++	if (is_tau_type<node_t>(type_tree)) return { tau_ba<bv, sbf_ba, qns8_ba>() };
++	else if (is_sbf_type<node_t>(type_tree)) return { sbf_ba() };
++	else if (is_qns8_type<node_t>(type_tree)) return { qns8_ba() };
++	else {
++		DBG(assert(is_bv_type_family<node_t>(type_tree)));
++		return { bv() };
++	}
++}
++} // namespace idni::tau_lang
+diff --git a/src/boolean_algebras/qns_candidate_ba.h b/src/boolean_algebras/qns_candidate_ba.h
+new file mode 100644
+index 00000000..fba81ae1
+--- /dev/null
++++ b/src/boolean_algebras/qns_candidate_ba.h
+@@ -0,0 +1,149 @@
++// To view the license please visit https://github.com/IDNI/tau-lang/blob/main/LICENSE.md
++
++#ifndef __IDNI__TAU__BOOLEAN_ALGEBRAS__QNS_CANDIDATE_BA_H__
++#define __IDNI__TAU__BOOLEAN_ALGEBRAS__QNS_CANDIDATE_BA_H__
++
++#include <algorithm>
++#include <cctype>
++#include <cstdint>
++#include <cstdlib>
++#include <optional>
++#include <ostream>
++#include <string>
++
++#include "defs.h"
++#include "splitter_types.h"
++#include "tau_tree.h"
++
++namespace idni::tau_lang {
++
++struct qns8_ba {
++	static constexpr uint8_t mask_all = 0xff;
++
++	uint8_t mask = 0;
++
++	qns8_ba() = default;
++	explicit qns8_ba(uint8_t m) : mask(m) {}
++
++	static qns8_ba zero() { return qns8_ba(0); }
++	static qns8_ba one() { return qns8_ba(mask_all); }
++
++	qns8_ba operator&(const qns8_ba& x) const { return qns8_ba(mask & x.mask); }
++	qns8_ba operator|(const qns8_ba& x) const { return qns8_ba(mask | x.mask); }
++	qns8_ba operator^(const qns8_ba& x) const { return qns8_ba(mask ^ x.mask); }
++	qns8_ba operator+(const qns8_ba& x) const { return *this ^ x; }
++	qns8_ba operator~() const { return qns8_ba(static_cast<uint8_t>(~mask)); }
++
++	auto operator<=>(const qns8_ba& x) const = default;
++
++	bool is_zero() const { return mask == 0; }
++	bool is_one() const { return mask == mask_all; }
++};
++
++inline bool qns8_env_flag_enabled() {
++	const char* flag = std::getenv("TAU_ENABLE_QNS_BA");
++	if (!flag) return false;
++	std::string value(flag);
++	std::ranges::transform(value, value.begin(),
++		[](unsigned char c) { return static_cast<char>(std::tolower(c)); });
++	return value != "0" && value != "false" && value != "no";
++}
++
++template<NodeType node>
++tref qns8_type() {
++	using tau = tree<node>;
++	tref type = tau::get(tau::type, "qns8");
++	return tau::get(tau::typed, type);
++}
++
++template<NodeType node>
++bool is_qns8_type(tref t) {
++	using tau = tree<node>;
++	return tau::get(t)[0].get_string() == "qns8";
++}
++
++inline qns8_ba normalize(const qns8_ba& f) { return qns8_ba(f.mask); }
++inline bool is_syntactic_one(const qns8_ba& f) { return f.is_one(); }
++inline bool is_syntactic_zero(const qns8_ba& f) { return f.is_zero(); }
++inline bool is_closed(const qns8_ba&) { return true; }
++
++inline uint8_t qns8_least_atom(uint8_t mask) {
++	return static_cast<uint8_t>(mask & static_cast<uint8_t>(-mask));
++}
++
++inline qns8_ba splitter(const qns8_ba& f, splitter_type&) {
++	return qns8_ba(f.mask == 0 ? 0 : qns8_least_atom(f.mask));
++}
++
++inline bool operator==(const qns8_ba& lhs, const bool& rhs) {
++	return rhs ? lhs.is_one() : lhs.is_zero();
++}
++inline bool operator==(const bool& lhs, const qns8_ba& rhs) { return rhs == lhs; }
++inline bool operator!=(const qns8_ba& lhs, const bool& rhs) { return !(lhs == rhs); }
++inline bool operator!=(const bool& lhs, const qns8_ba& rhs) { return !(rhs == lhs); }
++
++inline std::ostream& operator<<(std::ostream& os, const qns8_ba& f) {
++	return os << static_cast<unsigned>(f.mask);
++}
++
++inline tref base_ba_symbol_simplification(tref symbol, const qns8_ba&) {
++	return symbol;
++}
++inline tref base_ba_term_simplification(tref term, const qns8_ba&) {
++	return term;
++}
++
++inline std::optional<uint8_t> parse_qns8_mask(std::string src) {
++	src.erase(std::remove_if(src.begin(), src.end(),
++		[](unsigned char c) { return std::isspace(c) || c == '{' || c == '}'; }),
++		src.end());
++	if (src.empty()) return {};
++
++	int base = 10;
++	if (src.size() > 2 && src[0] == '#' &&
++		(src[1] == 'x' || src[1] == 'X')) {
++		src = src.substr(2);
++		base = 16;
++	} else if (src.size() > 2 && src[0] == '0' &&
++		(src[1] == 'x' || src[1] == 'X')) {
++		src = src.substr(2);
++		base = 16;
++	}
++
++	size_t idx = 0;
++	try {
++		unsigned long value = std::stoul(src, &idx, base);
++		if (idx != src.size() || value > qns8_ba::mask_all) return {};
++		return static_cast<uint8_t>(value);
++	} catch (...) {
++		return {};
++	}
++}
++
++template<typename... BAs>
++requires BAsPack<BAs...>
++std::optional<typename node<BAs...>::constant_with_type> parse_qns8(
++	const std::string& src)
++{
++	using node_t = node<BAs...>;
++	if (!qns8_env_flag_enabled()) {
++		LOG_ERROR << "qns8 constants require TAU_ENABLE_QNS_BA=1";
++		return {};
++	}
++	auto mask = parse_qns8_mask(src);
++	if (!mask) return {};
++	return typename node_t::constant_with_type{
++		std::variant<BAs...>{ qns8_ba(*mask) },
++		qns8_type<node_t>() };
++}
++
++} // namespace idni::tau_lang
++
++template<>
++struct std::hash<idni::tau_lang::qns8_ba> {
++	size_t operator()(const idni::tau_lang::qns8_ba& f) const noexcept {
++		return static_cast<size_t>(f.mask);
++	}
++};
++
++#endif // __IDNI__TAU__BOOLEAN_ALGEBRAS__QNS_CANDIDATE_BA_H__

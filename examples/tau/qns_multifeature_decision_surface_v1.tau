@@ -1,0 +1,49 @@
+# qNS multi-feature decision surface.
+#
+# Carrier:
+# - qns8 is the finite powerset Boolean algebra over eight audited atoms.
+#
+# This spec combines:
+# - neural-proposer masks,
+# - exact symbolic filtering,
+# - review and rejection routing,
+# - pointwise revision over a finite policy-memory mask.
+#
+# Scope:
+# - finite audited atom universe only,
+# - toy proposer lives outside Tau,
+# - Tau computes exact qns8 Boolean expressions,
+# - this is not upstream nlang and not unrestricted natural-language semantics.
+
+set charvar off
+
+all8() := { #xFF }:qns8.
+not8(x) := x ^ all8().
+
+proposed(u,p) := u & p.
+eligible(u,p,a,h) := proposed(u,p) & a & not8(h).
+auto_accept(u,p,a,r,h) := eligible(u,p,a,h) & not8(r).
+human_review(u,p,a,r,h) := eligible(u,p,a,h) & r.
+symbolic_reject(u,p,a,h) := proposed(u,p) & (not8(a) | h).
+partition(u,p,a,r,h) :=
+  auto_accept(u,p,a,r,h) |
+  human_review(u,p,a,r,h) |
+  symbolic_reject(u,p,a,h).
+unsafe_leak(u,p,a,r,h) := auto_accept(u,p,a,r,h) & h.
+
+revise(old,guard,replacement) :=
+  (guard & replacement) | (not8(guard) & old).
+
+priority_revision(old,u,p,a,r,h,auto_add,review_add,reject_add) :=
+  revise(
+    revise(
+      revise(old, symbolic_reject(u,p,a,h), reject_add),
+      human_review(u,p,a,r,h),
+      review_add),
+    auto_accept(u,p,a,r,h),
+    auto_add).
+
+idempotence_probe(old,u,p,a,r,h,auto_add,review_add,reject_add) :=
+  priority_revision(
+    priority_revision(old,u,p,a,r,h,auto_add,review_add,reject_add),
+    u,p,a,r,h,auto_add,review_add,reject_add).

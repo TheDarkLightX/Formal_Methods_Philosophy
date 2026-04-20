@@ -1,0 +1,204 @@
+{
+  "schema": "eml_qns_demo_gallery_v1",
+  "generator": "scripts/generate_eml_qns_demo_gallery.py",
+  "scope": {
+    "claim": "The EML demo has a slow source lane that searches bounded formula corpora and a fast Tau qns8 lane that gates returned certificates before public display.",
+    "not_claimed": [
+      "not full symbolic regression",
+      "not neural proposal generation",
+      "not native Tau analytic semantics",
+      "not cryptographic attestation"
+    ]
+  },
+  "slow_lane": {
+    "description": "bounded exact and noisy EML regression artifacts",
+    "source_artifacts": {
+      "exact_bounded": {
+        "path": "assets/data/eml_bounded_symbolic_regression.json",
+        "sha256": "ab048dcfb5f0b8945a183cdb71e86cbe6a0a69809dd236ae81140863d33a6393",
+        "schema": "eml_bounded_symbolic_regression_v1"
+      },
+      "noisy_bounded": {
+        "path": "assets/data/eml_noisy_regression_certificates.json",
+        "sha256": "dbcf099a7f7573607c2079311cae43ca91a478d8eff4f584c63d441fa1babd2a",
+        "schema": "eml_noisy_regression_certificates_v1"
+      }
+    },
+    "certificate_count": 7
+  },
+  "fast_lane": {
+    "description": "Tau qns8 mask gate over certificate evidence bits",
+    "required_mask": 127,
+    "promoted_count": 7,
+    "row_count": 7
+  },
+  "negative_lane": {
+    "description": "tampered certificate rejection corpus",
+    "tampered_count": 28,
+    "tampered_rejected_count": 28,
+    "tau_rejected_count": 21,
+    "hash_rejected_count": 7
+  },
+  "rows": [
+    {
+      "target": "x",
+      "expression": "x",
+      "source_kind": "exact_bounded",
+      "source_artifact": "assets/data/eml_bounded_symbolic_regression.json",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "fast_tau_gate": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      },
+      "promoted": true
+    },
+    {
+      "target": "exp(x)",
+      "expression": "eml(x,1)",
+      "source_kind": "exact_bounded",
+      "source_artifact": "assets/data/eml_bounded_symbolic_regression.json",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "fast_tau_gate": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      },
+      "promoted": true
+    },
+    {
+      "target": "ln(x)",
+      "expression": "eml(1,eml(eml(1,x),1))",
+      "source_kind": "exact_bounded",
+      "source_artifact": "assets/data/eml_bounded_symbolic_regression.json",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "fast_tau_gate": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      },
+      "promoted": true
+    },
+    {
+      "target": "exp(exp(x))",
+      "expression": "eml(eml(x,1),1)",
+      "source_kind": "exact_bounded",
+      "source_artifact": "assets/data/eml_bounded_symbolic_regression.json",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "fast_tau_gate": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      },
+      "promoted": true
+    },
+    {
+      "target": "exp(x)",
+      "expression": "eml(x,1)",
+      "source_kind": "noisy_bounded",
+      "source_artifact": "assets/data/eml_noisy_regression_certificates.json",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "fast_tau_gate": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      },
+      "promoted": true
+    },
+    {
+      "target": "ln(x)",
+      "expression": "eml(1,eml(eml(1,x),1))",
+      "source_kind": "noisy_bounded",
+      "source_artifact": "assets/data/eml_noisy_regression_certificates.json",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "fast_tau_gate": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      },
+      "promoted": true
+    },
+    {
+      "target": "exp(exp(x))",
+      "expression": "eml(eml(x,1),1)",
+      "source_kind": "noisy_bounded",
+      "source_artifact": "assets/data/eml_noisy_regression_certificates.json",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "fast_tau_gate": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      },
+      "promoted": true
+    }
+  ],
+  "summary": {
+    "ok": true,
+    "slow_source_count": 2,
+    "fast_promoted_count": 7,
+    "negative_rejected_count": 28
+  }
+}

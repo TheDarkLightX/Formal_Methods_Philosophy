@@ -1,0 +1,426 @@
+{
+  "schema": "eml_bounded_symbolic_regression_v1",
+  "generator": "scripts/run_eml_bounded_symbolic_regression.py",
+  "scope": {
+    "claim": "Within the bounded EML corpus, enumerative regression can return minimal train-and-holdout fits with explicit certificate metadata.",
+    "not_claimed": [
+      "not full symbolic regression",
+      "not learned gradient search",
+      "not native Tau analytic semantics",
+      "not a global proof over all EML trees"
+    ]
+  },
+  "parameters": {
+    "max_depth": 3,
+    "tolerance": 1e-09,
+    "corpus_size": 1446
+  },
+  "summary": {
+    "ok": true,
+    "target_count": 4,
+    "all_targets_fit": true,
+    "all_best_minimal": true,
+    "proof_receipt_accept_count": 4,
+    "symbolic_identity_accept_count": 4
+  },
+  "results": [
+    {
+      "target": "x",
+      "train_xs": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "holdout_xs": [
+        0.25,
+        0.75,
+        1.5,
+        3.0
+      ],
+      "train_y": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "holdout_y": [
+        0.25,
+        0.75,
+        1.5,
+        3.0
+      ],
+      "domain_valid_count": 912,
+      "fit_count": 1,
+      "best_fit": {
+        "expr": "x",
+        "depth": 0,
+        "size": 1,
+        "domain_ok": true,
+        "train_error": 0.0,
+        "holdout_error": 0.0,
+        "train_ok": true,
+        "holdout_ok": true,
+        "fit_ok": true,
+        "domain_reason": null
+      },
+      "top_fits": [
+        {
+          "expr": "x",
+          "depth": 0,
+          "size": 1,
+          "domain_ok": true,
+          "train_error": 0.0,
+          "holdout_error": 0.0,
+          "train_ok": true,
+          "holdout_ok": true,
+          "fit_ok": true,
+          "domain_reason": null
+        }
+      ],
+      "minimality_certificate": {
+        "bounded_corpus_order": "size, then depth, then expression string",
+        "smaller_fit_count": 0,
+        "minimal_within_bounded_corpus": true
+      },
+      "proof_receipt": {
+        "accepted": true,
+        "certificate": "varTree",
+        "checker": "NeuroSymbolicMathV001.EML.Cert.check",
+        "soundness_theorem": "NeuroSymbolicMathV001.EML.Cert.sound",
+        "normal_form": "x",
+        "normal_form_checker": "NeuroSymbolicMathV001.EML.checkByNorm",
+        "normal_form_soundness_theorem": "NeuroSymbolicMathV001.EML.checkByNorm_sound",
+        "strategy_normalizer": {
+          "accepted": true,
+          "normalized_expr": "x",
+          "normal_form": "x",
+          "fuel_policy": "source compileExpr.size",
+          "stable": true,
+          "idempotent": true,
+          "reaches_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.var_emitChainFuel_size_reaches",
+          "api": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize",
+          "stable_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_stable",
+          "soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_sound",
+          "idempotence_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_idempotent",
+          "cert_norm_bridge_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_certNorm_reaches",
+          "canon_zero_receipt_soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalizeReceiptCanonZero_sound",
+          "boundary": "strategy-normalizer receipt, not a canonical semantic normal-form proof"
+        },
+        "rewrite_chain": {
+          "accepted": false
+        }
+      },
+      "symbolic_identity": {
+        "available": true,
+        "proved_by_simplify": true,
+        "symbolic_expression": "x",
+        "simplified_difference": "0"
+      },
+      "not_claimed": [
+        "not complete symbolic regression over all formulas",
+        "not proof that no deeper EML tree fits",
+        "not a native Tau analytic backend"
+      ]
+    },
+    {
+      "target": "exp(x)",
+      "train_xs": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "holdout_xs": [
+        0.25,
+        0.75,
+        1.5,
+        3.0
+      ],
+      "train_y": [
+        1.6487212707001282,
+        2.718281828459045,
+        7.38905609893065
+      ],
+      "holdout_y": [
+        1.2840254166877414,
+        2.117000016612675,
+        4.4816890703380645,
+        20.085536923187668
+      ],
+      "domain_valid_count": 912,
+      "fit_count": 1,
+      "best_fit": {
+        "expr": "eml(x,1)",
+        "depth": 1,
+        "size": 3,
+        "domain_ok": true,
+        "train_error": 0.0,
+        "holdout_error": 0.0,
+        "train_ok": true,
+        "holdout_ok": true,
+        "fit_ok": true,
+        "domain_reason": null
+      },
+      "top_fits": [
+        {
+          "expr": "eml(x,1)",
+          "depth": 1,
+          "size": 3,
+          "domain_ok": true,
+          "train_error": 0.0,
+          "holdout_error": 0.0,
+          "train_ok": true,
+          "holdout_ok": true,
+          "fit_ok": true,
+          "domain_reason": null
+        }
+      ],
+      "minimality_certificate": {
+        "bounded_corpus_order": "size, then depth, then expression string",
+        "smaller_fit_count": 0,
+        "minimal_within_bounded_corpus": true
+      },
+      "proof_receipt": {
+        "accepted": true,
+        "certificate": "expTree",
+        "checker": "NeuroSymbolicMathV001.EML.Cert.check",
+        "soundness_theorem": "NeuroSymbolicMathV001.EML.Cert.sound",
+        "normal_form": "expX",
+        "normal_form_checker": "NeuroSymbolicMathV001.EML.checkByNorm",
+        "normal_form_soundness_theorem": "NeuroSymbolicMathV001.EML.checkByNorm_sound",
+        "strategy_normalizer": {
+          "accepted": true,
+          "normalized_expr": "exp(x)",
+          "normal_form": "expX",
+          "fuel_policy": "source compileExpr.size",
+          "stable": true,
+          "idempotent": true,
+          "reaches_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.exp_emitChainFuel_size_reaches",
+          "api": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize",
+          "stable_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_stable",
+          "soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_sound",
+          "idempotence_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_idempotent",
+          "cert_norm_bridge_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_certNorm_reaches",
+          "canon_zero_receipt_soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalizeReceiptCanonZero_sound",
+          "boundary": "strategy-normalizer receipt, not a canonical semantic normal-form proof"
+        },
+        "rewrite_chain": {
+          "accepted": false
+        }
+      },
+      "symbolic_identity": {
+        "available": true,
+        "proved_by_simplify": true,
+        "symbolic_expression": "exp(x)",
+        "simplified_difference": "0"
+      },
+      "not_claimed": [
+        "not complete symbolic regression over all formulas",
+        "not proof that no deeper EML tree fits",
+        "not a native Tau analytic backend"
+      ]
+    },
+    {
+      "target": "ln(x)",
+      "train_xs": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "holdout_xs": [
+        0.25,
+        0.75,
+        1.5,
+        3.0
+      ],
+      "train_y": [
+        -0.6931471805599453,
+        0.0,
+        0.6931471805599453
+      ],
+      "holdout_y": [
+        -1.3862943611198906,
+        -0.2876820724517809,
+        0.4054651081081644,
+        1.0986122886681098
+      ],
+      "domain_valid_count": 912,
+      "fit_count": 2,
+      "best_fit": {
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "depth": 3,
+        "size": 7,
+        "domain_ok": true,
+        "train_error": 1.1102230246251565e-16,
+        "holdout_error": 2.220446049250313e-16,
+        "train_ok": true,
+        "holdout_ok": true,
+        "fit_ok": true,
+        "domain_reason": null
+      },
+      "top_fits": [
+        {
+          "expr": "eml(1,eml(eml(1,x),1))",
+          "depth": 3,
+          "size": 7,
+          "domain_ok": true,
+          "train_error": 1.1102230246251565e-16,
+          "holdout_error": 2.220446049250313e-16,
+          "train_ok": true,
+          "holdout_ok": true,
+          "fit_ok": true,
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(eml(x,x),1))",
+          "depth": 3,
+          "size": 7,
+          "domain_ok": true,
+          "train_error": 1.1102230246251565e-16,
+          "holdout_error": 1.1102230246251565e-15,
+          "train_ok": true,
+          "holdout_ok": true,
+          "fit_ok": true,
+          "domain_reason": null
+        }
+      ],
+      "minimality_certificate": {
+        "bounded_corpus_order": "size, then depth, then expression string",
+        "smaller_fit_count": 0,
+        "minimal_within_bounded_corpus": true
+      },
+      "proof_receipt": {
+        "accepted": true,
+        "certificate": "logStandardTree",
+        "checker": "NeuroSymbolicMathV001.EML.Cert.check",
+        "soundness_theorem": "NeuroSymbolicMathV001.EML.Cert.sound",
+        "normal_form": "logX",
+        "normal_form_checker": "NeuroSymbolicMathV001.EML.checkByNorm",
+        "normal_form_soundness_theorem": "NeuroSymbolicMathV001.EML.checkByNorm_sound",
+        "strategy_normalizer": {
+          "accepted": true,
+          "normalized_expr": "log(x)",
+          "normal_form": "logX",
+          "fuel_policy": "source compileExpr.size",
+          "stable": true,
+          "idempotent": true,
+          "reaches_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.logStandard_emitChainFuel_size_reaches",
+          "api": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize",
+          "stable_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_stable",
+          "soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_sound",
+          "idempotence_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_idempotent",
+          "cert_norm_bridge_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_certNorm_reaches",
+          "canon_zero_receipt_soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalizeReceiptCanonZero_sound",
+          "boundary": "strategy-normalizer receipt, not a canonical semantic normal-form proof"
+        },
+        "rewrite_chain": {
+          "accepted": false
+        }
+      },
+      "symbolic_identity": {
+        "available": true,
+        "proved_by_simplify": true,
+        "symbolic_expression": "E - log(exp(E)/x)",
+        "simplified_difference": "0"
+      },
+      "not_claimed": [
+        "not complete symbolic regression over all formulas",
+        "not proof that no deeper EML tree fits",
+        "not a native Tau analytic backend"
+      ]
+    },
+    {
+      "target": "exp(exp(x))",
+      "train_xs": [
+        0.1,
+        0.2,
+        0.3
+      ],
+      "holdout_xs": [
+        0.15,
+        0.25,
+        0.35
+      ],
+      "train_y": [
+        3.0197405529455232,
+        3.391942472949725,
+        3.8568809298835673
+      ],
+      "holdout_y": [
+        3.1957897574938143,
+        3.611146878218102,
+        4.133264574460135
+      ],
+      "domain_valid_count": 1370,
+      "fit_count": 1,
+      "best_fit": {
+        "expr": "eml(eml(x,1),1)",
+        "depth": 2,
+        "size": 5,
+        "domain_ok": true,
+        "train_error": 0.0,
+        "holdout_error": 0.0,
+        "train_ok": true,
+        "holdout_ok": true,
+        "fit_ok": true,
+        "domain_reason": null
+      },
+      "top_fits": [
+        {
+          "expr": "eml(eml(x,1),1)",
+          "depth": 2,
+          "size": 5,
+          "domain_ok": true,
+          "train_error": 0.0,
+          "holdout_error": 0.0,
+          "train_ok": true,
+          "holdout_ok": true,
+          "fit_ok": true,
+          "domain_reason": null
+        }
+      ],
+      "minimality_certificate": {
+        "bounded_corpus_order": "size, then depth, then expression string",
+        "smaller_fit_count": 0,
+        "minimal_within_bounded_corpus": true
+      },
+      "proof_receipt": {
+        "accepted": true,
+        "certificate": "expExpTree",
+        "checker": "NeuroSymbolicMathV001.EML.Cert.check",
+        "soundness_theorem": "NeuroSymbolicMathV001.EML.Cert.sound",
+        "normal_form": "expExpX",
+        "normal_form_checker": "NeuroSymbolicMathV001.EML.checkByNorm",
+        "normal_form_soundness_theorem": "NeuroSymbolicMathV001.EML.checkByNorm_sound",
+        "strategy_normalizer": {
+          "accepted": true,
+          "normalized_expr": "exp(exp(x))",
+          "normal_form": "expExpX",
+          "fuel_policy": "source compileExpr.size",
+          "stable": true,
+          "idempotent": true,
+          "reaches_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.expExp_emitChainFuel_size_reaches",
+          "api": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize",
+          "stable_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_stable",
+          "soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_sound",
+          "idempotence_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_idempotent",
+          "cert_norm_bridge_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_certNorm_reaches",
+          "canon_zero_receipt_soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalizeReceiptCanonZero_sound",
+          "boundary": "strategy-normalizer receipt, not a canonical semantic normal-form proof"
+        },
+        "rewrite_chain": {
+          "accepted": false
+        }
+      },
+      "symbolic_identity": {
+        "available": true,
+        "proved_by_simplify": true,
+        "symbolic_expression": "exp(exp(x))",
+        "simplified_difference": "0"
+      },
+      "not_claimed": [
+        "not complete symbolic regression over all formulas",
+        "not proof that no deeper EML tree fits",
+        "not a native Tau analytic backend"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,384 @@
+{
+  "schema": "qns_ontology_tau_bridge_traces_v1",
+  "generator": "scripts/generate_qns_ontology_tau_bridge_artifacts.py",
+  "scope": {
+    "claim": "Compiled qNS ontology masks can be passed into real Tau qns8 expressions for blocker detection and pointwise revision-style memory updates.",
+    "not_claimed": [
+      "not general natural-language understanding",
+      "not upstream nlang semantics",
+      "not official Tau Language support",
+      "not semantic correctness outside the audited ontology table"
+    ]
+  },
+  "parameters": {
+    "required_collateral_mask": 63,
+    "risk_atoms_mask": 64,
+    "old_memory_mask": 0
+  },
+  "summary": {
+    "ok": true,
+    "case_count": 3,
+    "tau_mismatch_count": 0,
+    "clean_blocker_failure_count": 0,
+    "nonclean_blocker_failure_count": 0,
+    "revision_idempotence_failure_count": 0
+  },
+  "rows": [
+    {
+      "name": "clean_collateral_report",
+      "text": "Registry verified, deep liquidity, old token, clean provenance, separated governance, stable oracle.",
+      "compiled": {
+        "observed_mask": 63,
+        "exact_mask": 63,
+        "review_mask": 0,
+        "unknown_terms": [],
+        "ambiguous_phrases": []
+      },
+      "expected": {
+        "present_required": 63,
+        "missing_required": 0,
+        "risk_hits": 0,
+        "review_hits": 0,
+        "blocker_surface": 0,
+        "clearance_surface": 63,
+        "revised_memory": 0,
+        "revised_twice": 0
+      },
+      "actual": {
+        "present_required": 63,
+        "missing_required": 0,
+        "risk_hits": 0,
+        "review_hits": 0,
+        "blocker_surface": 0,
+        "clearance_surface": 63,
+        "revised_memory": 0,
+        "revised_twice": 0
+      },
+      "named_outputs": {
+        "present_required": [
+          "registry_verified",
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated",
+          "oracle_stable"
+        ],
+        "missing_required": [],
+        "risk_hits": [],
+        "review_hits": [],
+        "blocker_surface": [],
+        "clearance_surface": [
+          "registry_verified",
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated",
+          "oracle_stable"
+        ],
+        "revised_memory": [],
+        "revised_twice": []
+      },
+      "checks": {
+        "tau_matches_host": true,
+        "clean_has_no_blockers": true,
+        "nonclean_input_has_blockers": true,
+        "revision_idempotent": true
+      },
+      "mismatches": {},
+      "measurements": {
+        "present_required": {
+          "ok": true,
+          "expression_bytes": 35
+        },
+        "missing_required": {
+          "ok": true,
+          "expression_bytes": 55
+        },
+        "risk_hits": {
+          "ok": true,
+          "expression_bytes": 35
+        },
+        "review_hits": {
+          "ok": true,
+          "expression_bytes": 13
+        },
+        "blocker_surface": {
+          "ok": true,
+          "expression_bytes": 117
+        },
+        "clearance_surface": {
+          "ok": true,
+          "expression_bytes": 121
+        },
+        "revised_memory": {
+          "ok": true,
+          "expression_bytes": 93,
+          "staged_from": "blocker_surface"
+        },
+        "revised_twice": {
+          "ok": true,
+          "expression_bytes": 93,
+          "staged_from": "blocker_surface"
+        }
+      }
+    },
+    {
+      "name": "ambiguous_risk_report",
+      "text": "Registry exists, liquidity is deep, review is requested, and risk language appears without a precise audited phrase.",
+      "compiled": {
+        "observed_mask": 1,
+        "exact_mask": 1,
+        "review_mask": 192,
+        "unknown_terms": [],
+        "ambiguous_phrases": [
+          {
+            "phrase": "review",
+            "candidate_atoms": [
+              "human_review_required",
+              "sanction_risk"
+            ],
+            "mask": 192
+          },
+          {
+            "phrase": "risk",
+            "candidate_atoms": [
+              "sanction_risk",
+              "human_review_required"
+            ],
+            "mask": 192
+          }
+        ]
+      },
+      "expected": {
+        "present_required": 1,
+        "missing_required": 62,
+        "risk_hits": 0,
+        "review_hits": 192,
+        "blocker_surface": 254,
+        "clearance_surface": 1,
+        "revised_memory": 254,
+        "revised_twice": 254
+      },
+      "actual": {
+        "present_required": 1,
+        "missing_required": 62,
+        "risk_hits": 0,
+        "review_hits": 192,
+        "blocker_surface": 254,
+        "clearance_surface": 1,
+        "revised_memory": 254,
+        "revised_twice": 254
+      },
+      "named_outputs": {
+        "present_required": [
+          "registry_verified"
+        ],
+        "missing_required": [
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated",
+          "oracle_stable"
+        ],
+        "risk_hits": [],
+        "review_hits": [
+          "sanction_risk",
+          "human_review_required"
+        ],
+        "blocker_surface": [
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated",
+          "oracle_stable",
+          "sanction_risk",
+          "human_review_required"
+        ],
+        "clearance_surface": [
+          "registry_verified"
+        ],
+        "revised_memory": [
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated",
+          "oracle_stable",
+          "sanction_risk",
+          "human_review_required"
+        ],
+        "revised_twice": [
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated",
+          "oracle_stable",
+          "sanction_risk",
+          "human_review_required"
+        ]
+      },
+      "checks": {
+        "tau_matches_host": true,
+        "clean_has_no_blockers": true,
+        "nonclean_input_has_blockers": true,
+        "revision_idempotent": true
+      },
+      "mismatches": {},
+      "measurements": {
+        "present_required": {
+          "ok": true,
+          "expression_bytes": 35
+        },
+        "missing_required": {
+          "ok": true,
+          "expression_bytes": 55
+        },
+        "risk_hits": {
+          "ok": true,
+          "expression_bytes": 35
+        },
+        "review_hits": {
+          "ok": true,
+          "expression_bytes": 13
+        },
+        "blocker_surface": {
+          "ok": true,
+          "expression_bytes": 117
+        },
+        "clearance_surface": {
+          "ok": true,
+          "expression_bytes": 121
+        },
+        "revised_memory": {
+          "ok": true,
+          "expression_bytes": 93,
+          "staged_from": "blocker_surface"
+        },
+        "revised_twice": {
+          "ok": true,
+          "expression_bytes": 93,
+          "staged_from": "blocker_surface"
+        }
+      }
+    },
+    {
+      "name": "unknown_term_report",
+      "text": "Registry verified and stable oracle, but quantum sentiment and vibe momentum are claimed as evidence.",
+      "compiled": {
+        "observed_mask": 33,
+        "exact_mask": 33,
+        "review_mask": 128,
+        "unknown_terms": [
+          "momentum",
+          "quantum",
+          "sentiment",
+          "vibe"
+        ],
+        "ambiguous_phrases": []
+      },
+      "expected": {
+        "present_required": 33,
+        "missing_required": 30,
+        "risk_hits": 0,
+        "review_hits": 128,
+        "blocker_surface": 158,
+        "clearance_surface": 33,
+        "revised_memory": 158,
+        "revised_twice": 158
+      },
+      "actual": {
+        "present_required": 33,
+        "missing_required": 30,
+        "risk_hits": 0,
+        "review_hits": 128,
+        "blocker_surface": 158,
+        "clearance_surface": 33,
+        "revised_memory": 158,
+        "revised_twice": 158
+      },
+      "named_outputs": {
+        "present_required": [
+          "registry_verified",
+          "oracle_stable"
+        ],
+        "missing_required": [
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated"
+        ],
+        "risk_hits": [],
+        "review_hits": [
+          "human_review_required"
+        ],
+        "blocker_surface": [
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated",
+          "human_review_required"
+        ],
+        "clearance_surface": [
+          "registry_verified",
+          "oracle_stable"
+        ],
+        "revised_memory": [
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated",
+          "human_review_required"
+        ],
+        "revised_twice": [
+          "liquidity_deep",
+          "token_old_enough",
+          "provenance_clean",
+          "governance_separated",
+          "human_review_required"
+        ]
+      },
+      "checks": {
+        "tau_matches_host": true,
+        "clean_has_no_blockers": true,
+        "nonclean_input_has_blockers": true,
+        "revision_idempotent": true
+      },
+      "mismatches": {},
+      "measurements": {
+        "present_required": {
+          "ok": true,
+          "expression_bytes": 35
+        },
+        "missing_required": {
+          "ok": true,
+          "expression_bytes": 55
+        },
+        "risk_hits": {
+          "ok": true,
+          "expression_bytes": 35
+        },
+        "review_hits": {
+          "ok": true,
+          "expression_bytes": 13
+        },
+        "blocker_surface": {
+          "ok": true,
+          "expression_bytes": 117
+        },
+        "clearance_surface": {
+          "ok": true,
+          "expression_bytes": 121
+        },
+        "revised_memory": {
+          "ok": true,
+          "expression_bytes": 93,
+          "staged_from": "blocker_surface"
+        },
+        "revised_twice": {
+          "ok": true,
+          "expression_bytes": 93,
+          "staged_from": "blocker_surface"
+        }
+      }
+    }
+  ]
+}

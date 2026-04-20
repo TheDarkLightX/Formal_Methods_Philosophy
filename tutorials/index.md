@@ -446,5 +446,38 @@ show_title: false
       are decidable on finite carriers, and how this creates a new optimizer layer.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/neuro-symbolic-boolean-algebras-in-tau-language/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 49: Neuro-symbolic Boolean algebras in Tau Language</h2>
+    <p class="fp-card-text">
+      Learn how a finite qNS carrier lets a neural model propose candidates,
+      Tau apply exact symbolic filtering, and the host renormalize only the
+      surviving audited atoms.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/eml-trees-as-neuro-symbolic-hypotheses/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 50: EML trees as neuro-symbolic hypotheses</h2>
+    <p class="fp-card-text">
+      Use EML trees as a tiny symbolic formula language inside a proposal,
+      filter, and renormalize loop, then see how shallow trees recover
+      sampled exp and log targets.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/symbolic-hypothesis-generation-with-eml-and-qns/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 51: Symbolic hypothesis generation with EML and qNS</h2>
+    <p class="fp-card-text">
+      Let untrusted formula proposals enter through a JSON surface, then route
+      them with qNS masks, counterexample diagnostics, and proof-backed EML
+      receipts before promotion.
+    </p>
+  </a>
 
 </div>

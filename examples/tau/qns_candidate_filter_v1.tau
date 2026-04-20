@@ -1,0 +1,62 @@
+# Neuro-symbolic candidate Boolean algebra, finite Tau experiment.
+#
+# Carrier:
+# - qns8 is used as the finite powerset Boolean algebra over eight candidate
+#   actions.
+# - each bit denotes one candidate.
+#
+# Inputs:
+# i1 = universe mask
+# i2 = neural proposer mask
+# i3 = symbolic allow mask
+# i4 = human-review-required mask
+# i5 = hard-reject mask
+#
+# Outputs:
+# o1 = eligible symbolic survivors
+# o2 = auto-accepted survivors
+# o3 = human-review survivors
+# o4 = symbolic rejects
+# o5 = partition of proposed candidates
+# o6 = unsafe leak check, expected to be zero
+#
+# Scope:
+# - finite candidate set only,
+# - exact Boolean filtering only,
+# - no probabilistic arithmetic inside Tau,
+# - no claim that this is Tau's upstream nlang Boolean algebra.
+
+set charvar off
+
+i1 : qns8 := in console
+i2 : qns8 := in console
+i3 : qns8 := in console
+i4 : qns8 := in console
+i5 : qns8 := in console
+
+o1 : qns8 := out console
+o2 : qns8 := out console
+o3 : qns8 := out console
+o4 : qns8 := out console
+o5 : qns8 := out console
+o6 : qns8 := out console
+
+all8() := { #xFF }:qns8.
+not8(x) := x ^ all8().
+proposed(u,p) := u & p.
+eligible(u,p,a,h) := proposed(u,p) & a & not8(h).
+auto_accept(u,p,a,r,h) := eligible(u,p,a,h) & not8(r).
+human_review(u,p,a,r,h) := eligible(u,p,a,h) & r.
+symbolic_reject(u,p,a,h) := proposed(u,p) & (not8(a) | h).
+
+always
+  (o1[t]:qns8 = eligible(i1[t]:qns8, i2[t]:qns8, i3[t]:qns8, i5[t]:qns8)) &&
+  (o2[t]:qns8 = auto_accept(i1[t]:qns8, i2[t]:qns8, i3[t]:qns8, i4[t]:qns8, i5[t]:qns8)) &&
+  (o3[t]:qns8 = human_review(i1[t]:qns8, i2[t]:qns8, i3[t]:qns8, i4[t]:qns8, i5[t]:qns8)) &&
+  (o4[t]:qns8 = symbolic_reject(i1[t]:qns8, i2[t]:qns8, i3[t]:qns8, i5[t]:qns8)) &&
+  (o5[t]:qns8 =
+    auto_accept(i1[t]:qns8, i2[t]:qns8, i3[t]:qns8, i4[t]:qns8, i5[t]:qns8) |
+    human_review(i1[t]:qns8, i2[t]:qns8, i3[t]:qns8, i4[t]:qns8, i5[t]:qns8) |
+    symbolic_reject(i1[t]:qns8, i2[t]:qns8, i3[t]:qns8, i5[t]:qns8)) &&
+  (o6[t]:qns8 =
+    auto_accept(i1[t]:qns8, i2[t]:qns8, i3[t]:qns8, i4[t]:qns8, i5[t]:qns8) & i5[t]:qns8).

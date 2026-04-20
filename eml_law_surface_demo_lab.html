@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EML Law-Surface Demo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,750&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap');
+  :root {
+    --paper: #f2eadb;
+    --panel: rgba(255, 250, 238, 0.92);
+    --panel-strong: #fffaf0;
+    --ink: #252018;
+    --muted: #716758;
+    --line: rgba(37, 32, 24, 0.14);
+    --line-strong: rgba(37, 32, 24, 0.28);
+    --green: #146c43;
+    --green-soft: rgba(20, 108, 67, 0.13);
+    --amber: #9a5207;
+    --amber-soft: rgba(154, 82, 7, 0.13);
+    --red: #a62626;
+    --red-soft: rgba(166, 38, 38, 0.12);
+    --blue: #245b74;
+    --blue-soft: rgba(36, 91, 116, 0.12);
+    --shadow: 0 28px 70px rgba(40, 32, 20, 0.10);
+    --radius-xl: 30px;
+    --radius-lg: 22px;
+    --radius-md: 15px;
+    --font-display: "Fraunces", ui-serif, Georgia, serif;
+    --font-body: "Source Serif 4", ui-serif, Georgia, serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #171510;
+      --panel: rgba(35, 31, 23, 0.92);
+      --panel-strong: #252015;
+      --ink: #ece3d3;
+      --muted: #b7aa95;
+      --line: rgba(236, 227, 211, 0.13);
+      --line-strong: rgba(236, 227, 211, 0.25);
+      --green: #55c98c;
+      --green-soft: rgba(85, 201, 140, 0.13);
+      --amber: #f0b252;
+      --amber-soft: rgba(240, 178, 82, 0.14);
+      --red: #f07171;
+      --red-soft: rgba(240, 113, 113, 0.13);
+      --blue: #7dc8e1;
+      --blue-soft: rgba(125, 200, 225, 0.13);
+      --shadow: 0 28px 70px rgba(0, 0, 0, 0.28);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 24px;
+    color: var(--ink);
+    font-family: var(--font-body);
+    background:
+      radial-gradient(circle at 8% 4%, rgba(20, 108, 67, 0.13), transparent 34%),
+      radial-gradient(circle at 92% 10%, rgba(154, 82, 7, 0.13), transparent 28%),
+      linear-gradient(135deg, rgba(255,255,255,0.34), rgba(255,255,255,0)),
+      var(--paper);
+  }
+  .shell { max-width: 1180px; margin: 0 auto; }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 26px;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+  .topbar a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 22px;
+    align-items: stretch;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 920px) { .hero { grid-template-columns: 1fr; } }
+  .hero-main, .panel, .metric-card, .law-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .hero-main {
+    border-radius: var(--radius-xl);
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-main::after {
+    content: "";
+    position: absolute;
+    inset: auto -60px -70px auto;
+    width: 240px;
+    height: 240px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--blue-soft), transparent 64%);
+  }
+  .kicker {
+    margin: 0 0 12px;
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  h1 {
+    margin: 0;
+    max-width: 780px;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    line-height: 0.94;
+    letter-spacing: -0.05em;
+  }
+  .lede {
+    position: relative;
+    z-index: 1;
+    margin: 18px 0 0;
+    max-width: 760px;
+    color: var(--muted);
+    font-size: 1.13rem;
+    line-height: 1.55;
+  }
+  .formula-strip {
+    margin-top: 22px;
+    display: grid;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+  }
+  .formula-strip code {
+    display: block;
+    padding: 12px 14px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.36);
+    white-space: pre-wrap;
+  }
+  .hero-side {
+    display: grid;
+    gap: 12px;
+  }
+  .metric-card {
+    border-radius: var(--radius-lg);
+    padding: 18px;
+  }
+  .metric-label {
+    margin: 0 0 6px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .metric-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+    line-height: 1;
+  }
+  .metric-note {
+    margin: 8px 0 0;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 18px;
+  }
+  @media (max-width: 920px) { .grid { grid-template-columns: 1fr; } }
+  .panel {
+    border-radius: var(--radius-xl);
+    padding: 22px;
+  }
+  .panel h2 {
+    margin: 0 0 12px;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    letter-spacing: -0.02em;
+  }
+  .panel p { color: var(--muted); line-height: 1.55; }
+  .pipeline {
+    display: grid;
+    gap: 12px;
+  }
+  .stage {
+    display: grid;
+    grid-template-columns: 190px 1fr 74px;
+    gap: 12px;
+    align-items: center;
+  }
+  @media (max-width: 620px) { .stage { grid-template-columns: 1fr; } }
+  .stage-name {
+    font-family: var(--font-mono);
+    color: var(--muted);
+    font-size: 0.75rem;
+  }
+  .track {
+    height: 18px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: rgba(0,0,0,0.07);
+    border: 1px solid var(--line);
+  }
+  .fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+    transition: width 0.25s ease;
+  }
+  .stage-value {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+  .law-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  @media (max-width: 720px) { .law-grid { grid-template-columns: 1fr; } }
+  .law-card {
+    border-radius: var(--radius-lg);
+    padding: 16px;
+  }
+  .law-card h3 {
+    margin: 0 0 8px;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+  }
+  .law-card code, .inline-code {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+  }
+  .law-card code {
+    display: block;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.28);
+    white-space: pre-wrap;
+  }
+  .toggle-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  button, select {
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    padding: 9px 13px;
+    color: var(--ink);
+    background: var(--panel-strong);
+    font-family: var(--font-mono);
+    cursor: pointer;
+  }
+  button.active {
+    background: var(--green-soft);
+    border-color: rgba(20, 108, 67, 0.36);
+    color: var(--green);
+  }
+  select { border-radius: var(--radius-md); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    border-radius: var(--radius-lg);
+    font-size: 0.92rem;
+  }
+  th, td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    color: var(--muted);
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  td code {
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 999px;
+    padding: 5px 9px;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+  .status.promote { color: var(--green); background: var(--green-soft); }
+  .status.review { color: var(--amber); background: var(--amber-soft); }
+  .blocker-list {
+    display: grid;
+    gap: 10px;
+  }
+  .blocker {
+    padding: 13px;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(166, 38, 38, 0.22);
+    background: var(--red-soft);
+  }
+  .blocker strong { display: block; margin-bottom: 4px; font-family: var(--font-mono); }
+  .blocker p { margin: 4px 0 0; color: var(--ink); }
+  .scope {
+    margin-top: 18px;
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.28);
+  }
+  .scope ul { margin: 8px 0 0; padding-left: 20px; color: var(--muted); }
+  .error {
+    padding: 14px;
+    border-radius: var(--radius-md);
+    background: var(--red-soft);
+    color: var(--red);
+    border: 1px solid rgba(166, 38, 38, 0.28);
+    font-family: var(--font-mono);
+  }
+</style>
+</head>
+<body>
+<main class="shell">
+  <nav class="topbar" aria-label="Lab links">
+    <a href="labs/">Labs</a>
+    <a href="tutorials/symbolic-hypothesis-generation-with-eml-and-qns/">Tutorial 51</a>
+    <a href="assets/data/eml_law_surface_demo.json">Artifact JSON</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-main">
+      <p class="kicker">EML proof-search evidence</p>
+      <h1>Law surfaces change what the loop may promote.</h1>
+      <p class="lede">
+        This lab visualizes the bounded EML constructor corpus. The same normalized
+        rows are checked first under the base EML laws, then under the stronger
+        bidirectional law surface. The remaining review rows stay visible because
+        a semantic law cannot erase a failed positivity obligation.
+      </p>
+      <div class="formula-strip" aria-label="Law surfaces">
+        <code>L_base includes: log(exp(a)) = a</code>
+        <code>L_bi = L_base union { forall a, exp(log(a)) = a }</code>
+      </div>
+    </div>
+    <div class="hero-side" id="metricCards" aria-live="polite">
+      <div class="metric-card">
+        <p class="metric-label">Loading</p>
+        <p class="metric-value">...</p>
+        <p class="metric-note">Reading the generated artifact.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="panel">
+      <h2>Pipeline</h2>
+      <p>
+        The counts below are generated from the same local report as the tutorial.
+        The important movement is not raw count. It is the split between symbolic
+        inverse obligations and positivity obligations.
+      </p>
+      <div class="pipeline" id="pipeline"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Two law surfaces</h2>
+      <p>
+        The base surface accepts only the direction already in the packet. The
+        stronger surface adds the converse direction as an explicit premise.
+      </p>
+      <div class="law-grid">
+        <div class="law-card">
+          <h3>Base</h3>
+          <code>log(exp(a)) = a</code>
+          <p><span class="inline-code" id="baseCount">...</span> promoted.</p>
+        </div>
+        <div class="law-card">
+          <h3>BiLaws</h3>
+          <code>log(exp(a)) = a
+forall a, exp(log(a)) = a</code>
+          <p><span class="inline-code" id="bilawsCount">...</span> promoted.</p>
+        </div>
+      </div>
+      <div class="scope">
+        <strong>Boundary.</strong>
+        <ul id="notClaimed"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" style="margin-top: 18px;">
+    <h2>Rows by selected surface</h2>
+    <p>
+      Toggle the law surface and filter by target. Promotion means the row passed
+      the recorded qNS, proof, and obligation gates for this bounded corpus.
+    </p>
+    <div class="toggle-row">
+      <button type="button" id="baseButton" class="active">Base laws</button>
+      <button type="button" id="bilawsButton">BiLaws</button>
+      <select id="targetFilter" aria-label="Target filter">
+        <option value="all">All targets</option>
+      </select>
+    </div>
+    <div style="overflow-x:auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Target</th>
+            <th>Expression</th>
+            <th>Status</th>
+            <th>Obligations</th>
+          </tr>
+        </thead>
+        <tbody id="rowTable"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="grid">
+    <div class="panel">
+      <h2>Remaining blockers</h2>
+      <p>
+        These are not failures of the law-surface switch. They are rows where a
+        logarithm-side domain obligation remains false in the bounded interval
+        evidence.
+      </p>
+      <div class="blocker-list" id="blockers"></div>
+    </div>
+    <div class="panel">
+      <h2>How to read the result</h2>
+      <p>
+        <strong>Standard reading.</strong>
+        Under the bounded corpus, selecting the BiLaws surface increases promoted
+        target-consistent normalized rows from 13 to 20 of 22. The two non-promoted
+        rows remain in review because the positive-value interval obligation is
+        not discharged.
+      </p>
+      <p>
+        <strong>Plain English.</strong>
+        Adding the missing inverse law lets the checker reuse more formula shapes,
+        but the checker still refuses formulas whose logarithm inputs are not known
+        to stay positive.
+      </p>
+    </div>
+  </section>
+</main>
+
+<script>
+const ARTIFACT_PATH = "assets/data/eml_law_surface_demo.json";
+let artifact = null;
+let selectedSurface = "base";
+let selectedTarget = "all";
+
+const $ = (id) => document.getElementById(id);
+
+function text(node, value) {
+  node.textContent = value == null ? "" : String(value);
+}
+
+function countOf(stage) {
+  if ("count" in stage) return stage.count;
+  if ("changed" in stage) return stage.changed;
+  if ("selected" in stage) return stage.selected;
+  if ("promoted" in stage) return stage.promoted;
+  if ("semantic_discharges" in stage) return stage.semantic_discharges;
+  return 0;
+}
+
+function renderMetrics(data) {
+  const s = data.summary;
+  $("metricCards").innerHTML = "";
+  [
+    ["Promotion delta", `+${s.promotion_delta}`, "Additional rows promoted by explicitly selecting BiLaws."],
+    ["BiLaws result", `${s.bilaws_promoted_count}/${s.target_consistent_count}`, "Target-consistent normalized rows promoted."],
+    ["Still in review", s.bilaws_review_count, "Rows blocked by positivity interval obligations."]
+  ].forEach(([label, value, note]) => {
+    const card = document.createElement("div");
+    card.className = "metric-card";
+    card.innerHTML = `<p class="metric-label"></p><p class="metric-value"></p><p class="metric-note"></p>`;
+    text(card.querySelector(".metric-label"), label);
+    text(card.querySelector(".metric-value"), value);
+    text(card.querySelector(".metric-note"), note);
+    $("metricCards").appendChild(card);
+  });
+  text($("baseCount"), `${s.base_promoted_count}/${s.target_consistent_count}`);
+  text($("bilawsCount"), `${s.bilaws_promoted_count}/${s.target_consistent_count}`);
+}
+
+function renderPipeline(data) {
+  const max = Math.max(...data.pipeline.map(countOf), 1);
+  $("pipeline").innerHTML = "";
+  data.pipeline.forEach((stage) => {
+    const count = countOf(stage);
+    const row = document.createElement("div");
+    row.className = "stage";
+    row.innerHTML = `
+      <div class="stage-name"></div>
+      <div class="track"><div class="fill"></div></div>
+      <div class="stage-value"></div>
+    `;
+    text(row.querySelector(".stage-name"), stage.stage);
+    row.querySelector(".fill").style.width = `${Math.max(4, (count / max) * 100)}%`;
+    text(row.querySelector(".stage-value"), count);
+    $("pipeline").appendChild(row);
+  });
+}
+
+function renderScope(data) {
+  $("notClaimed").innerHTML = "";
+  data.scope.not_claimed.forEach((item) => {
+    const li = document.createElement("li");
+    text(li, item);
+    $("notClaimed").appendChild(li);
+  });
+}
+
+function rowsForSurface() {
+  const surface = selectedSurface === "base" ? artifact.base_law_surface : artifact.bilaws_surface;
+  return surface.rows.filter((row) => selectedTarget === "all" || row.target === selectedTarget);
+}
+
+function renderTargets(data) {
+  const targets = new Set();
+  data.bilaws_surface.rows.forEach((row) => targets.add(row.target));
+  Array.from(targets).sort().forEach((target) => {
+    const option = document.createElement("option");
+    option.value = target;
+    text(option, target);
+    $("targetFilter").appendChild(option);
+  });
+}
+
+function renderRows() {
+  $("rowTable").innerHTML = "";
+  rowsForSurface().forEach((row) => {
+    const tr = document.createElement("tr");
+    const statusClass = row.status === "promote" ? "promote" : "review";
+    tr.innerHTML = `
+      <td></td>
+      <td><code></code></td>
+      <td><span class="status ${statusClass}"></span></td>
+      <td></td>
+    `;
+    text(tr.children[0], row.target);
+    text(tr.querySelector("code"), row.expr);
+    text(tr.querySelector(".status"), row.status);
+    text(tr.children[3], row.obligation_count);
+    $("rowTable").appendChild(tr);
+  });
+}
+
+function renderBlockers(data) {
+  $("blockers").innerHTML = "";
+  data.remaining_blockers.forEach((blocker) => {
+    const div = document.createElement("div");
+    div.className = "blocker";
+    const failed = blocker.failed_obligations[0] || {};
+    div.innerHTML = "<strong></strong><p></p><p></p>";
+    text(div.querySelector("strong"), `${blocker.target}: ${blocker.expr}`);
+    text(div.querySelectorAll("p")[0], `kind: ${failed.kind || "unknown"}`);
+    text(div.querySelectorAll("p")[1], `interval: ${JSON.stringify(failed.interval || failed.value_interval || failed)}`);
+    $("blockers").appendChild(div);
+  });
+}
+
+function setSurface(surface) {
+  selectedSurface = surface;
+  $("baseButton").classList.toggle("active", surface === "base");
+  $("bilawsButton").classList.toggle("active", surface === "bilaws");
+  renderRows();
+}
+
+async function load() {
+  try {
+    const response = await fetch(ARTIFACT_PATH, { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    artifact = await response.json();
+    renderMetrics(artifact);
+    renderPipeline(artifact);
+    renderScope(artifact);
+    renderTargets(artifact);
+    renderRows();
+    renderBlockers(artifact);
+  } catch (err) {
+    $("metricCards").innerHTML = `<div class="error">Could not load ${ARTIFACT_PATH}: ${err.message}</div>`;
+  }
+}
+
+$("baseButton").addEventListener("click", () => setSurface("base"));
+$("bilawsButton").addEventListener("click", () => setSurface("bilaws"));
+$("targetFilter").addEventListener("change", (event) => {
+  selectedTarget = event.target.value;
+  renderRows();
+});
+load();
+</script>
+</body>
+</html>

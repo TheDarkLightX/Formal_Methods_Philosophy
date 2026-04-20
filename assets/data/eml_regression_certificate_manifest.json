@@ -1,0 +1,229 @@
+{
+  "schema": "eml_regression_certificate_manifest_v1",
+  "generator": "scripts/generate_eml_regression_certificate_manifest.py",
+  "scope": {
+    "claim": "EML regression winners can be wrapped as qNS-style certificates and promoted only when required finite evidence bits are present.",
+    "not_claimed": [
+      "not full symbolic regression",
+      "not statistical consistency",
+      "not native Tau analytic semantics",
+      "not proof beyond each source artifact's bounded corpus"
+    ]
+  },
+  "certificate_bits": {
+    "grammar_bounded": 0,
+    "fit_passed": 1,
+    "holdout_passed": 2,
+    "minimality_scoped": 3,
+    "proof_receipt": 4,
+    "symbolic_identity": 5,
+    "residual_certificate": 6,
+    "review_required": 7
+  },
+  "required_mask": 127,
+  "source_artifacts": {
+    "exact_bounded": {
+      "path": "assets/data/eml_bounded_symbolic_regression.json",
+      "sha256": "ab048dcfb5f0b8945a183cdb71e86cbe6a0a69809dd236ae81140863d33a6393",
+      "schema": "eml_bounded_symbolic_regression_v1"
+    },
+    "noisy_bounded": {
+      "path": "assets/data/eml_noisy_regression_certificates.json",
+      "sha256": "dbcf099a7f7573607c2079311cae43ca91a478d8eff4f584c63d441fa1babd2a",
+      "schema": "eml_noisy_regression_certificates_v1"
+    }
+  },
+  "summary": {
+    "ok": true,
+    "certificate_count": 7,
+    "promoted_count": 7,
+    "review_count": 0,
+    "tau_blocker_count": 0,
+    "exact_source_count": 4,
+    "noisy_source_count": 3
+  },
+  "rows": [
+    {
+      "source_kind": "exact_bounded",
+      "target": "x",
+      "expr": "x",
+      "accepted_mask": 127,
+      "review_mask": 0,
+      "review_reasons": [],
+      "source_artifact": "assets/data/eml_bounded_symbolic_regression.json",
+      "source_sha256": "ab048dcfb5f0b8945a183cdb71e86cbe6a0a69809dd236ae81140863d33a6393",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "review_atoms": [],
+      "tau_check": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      }
+    },
+    {
+      "source_kind": "exact_bounded",
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "accepted_mask": 127,
+      "review_mask": 0,
+      "review_reasons": [],
+      "source_artifact": "assets/data/eml_bounded_symbolic_regression.json",
+      "source_sha256": "ab048dcfb5f0b8945a183cdb71e86cbe6a0a69809dd236ae81140863d33a6393",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "review_atoms": [],
+      "tau_check": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      }
+    },
+    {
+      "source_kind": "exact_bounded",
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "accepted_mask": 127,
+      "review_mask": 0,
+      "review_reasons": [],
+      "source_artifact": "assets/data/eml_bounded_symbolic_regression.json",
+      "source_sha256": "ab048dcfb5f0b8945a183cdb71e86cbe6a0a69809dd236ae81140863d33a6393",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "review_atoms": [],
+      "tau_check": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      }
+    },
+    {
+      "source_kind": "exact_bounded",
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "accepted_mask": 127,
+      "review_mask": 0,
+      "review_reasons": [],
+      "source_artifact": "assets/data/eml_bounded_symbolic_regression.json",
+      "source_sha256": "ab048dcfb5f0b8945a183cdb71e86cbe6a0a69809dd236ae81140863d33a6393",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "review_atoms": [],
+      "tau_check": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      }
+    },
+    {
+      "source_kind": "noisy_bounded",
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "accepted_mask": 127,
+      "review_mask": 0,
+      "review_reasons": [],
+      "source_artifact": "assets/data/eml_noisy_regression_certificates.json",
+      "source_sha256": "dbcf099a7f7573607c2079311cae43ca91a478d8eff4f584c63d441fa1babd2a",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "review_atoms": [],
+      "tau_check": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      }
+    },
+    {
+      "source_kind": "noisy_bounded",
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "accepted_mask": 127,
+      "review_mask": 0,
+      "review_reasons": [],
+      "source_artifact": "assets/data/eml_noisy_regression_certificates.json",
+      "source_sha256": "dbcf099a7f7573607c2079311cae43ca91a478d8eff4f584c63d441fa1babd2a",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "review_atoms": [],
+      "tau_check": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      }
+    },
+    {
+      "source_kind": "noisy_bounded",
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "accepted_mask": 127,
+      "review_mask": 0,
+      "review_reasons": [],
+      "source_artifact": "assets/data/eml_noisy_regression_certificates.json",
+      "source_sha256": "dbcf099a7f7573607c2079311cae43ca91a478d8eff4f584c63d441fa1babd2a",
+      "accepted_atoms": [
+        "grammar_bounded",
+        "fit_passed",
+        "holdout_passed",
+        "minimality_scoped",
+        "proof_receipt",
+        "symbolic_identity",
+        "residual_certificate"
+      ],
+      "review_atoms": [],
+      "tau_check": {
+        "missing_required_mask": 0,
+        "promoted_mask": 127,
+        "blocker_mask": 0,
+        "promoted": true
+      }
+    }
+  ]
+}

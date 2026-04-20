@@ -1,0 +1,461 @@
+{
+  "schema": "qns_multifeature_demo_traces_v1",
+  "generator": "scripts/generate_qns_multifeature_demo_artifacts.py",
+  "spec_relpath": "examples/tau/qns_multifeature_decision_surface_v1.tau",
+  "tau_bin_name": "tau",
+  "scope": {
+    "claim": "A toy micro-proposer can feed finite qns8 candidate masks into actual Tau qns8 expressions for exact routing and pointwise revision-style policy memory updates.",
+    "not_claimed": [
+      "not a real LLM proposer",
+      "not upstream nlang semantics",
+      "not unbounded natural-language understanding",
+      "not full TABA tables"
+    ]
+  },
+  "summary": {
+    "ok": true,
+    "scenario_count": 3,
+    "tau_mismatch_count": 0,
+    "partition_failure_count": 0,
+    "unsafe_leak_failure_count": 0,
+    "revision_idempotence_failure_count": 0,
+    "slow_monolithic_attempted": true,
+    "slow_monolithic_timeout": true
+  },
+  "rows": [
+    {
+      "name": "post_agi_tokenomics",
+      "prompt": "post AGI tokenomics value shock reward contributors but reject extraction",
+      "toy_micro_proposer": {
+        "proposed_mask": 178,
+        "scores": {
+          "manual_review_high_amount": 0.26,
+          "reward_contributor": 0.3,
+          "tax_extractor": 0.34,
+          "escalate_human_council": 0.09
+        },
+        "proposed_candidates": [
+          "manual_review_high_amount",
+          "reward_contributor",
+          "tax_extractor",
+          "escalate_human_council"
+        ]
+      },
+      "input_masks": {
+        "universe": 255,
+        "allow": 223,
+        "review": 202,
+        "hard_reject": 32,
+        "old_memory": 1,
+        "auto_add": 16,
+        "review_add": 130,
+        "reject_add": 32
+      },
+      "expected": {
+        "proposed": 178,
+        "eligible": 146,
+        "auto": 16,
+        "review": 130,
+        "reject": 32,
+        "partition": 178,
+        "unsafe": 0,
+        "revised": 179,
+        "revised_twice": 179
+      },
+      "actual": {
+        "proposed": 178,
+        "eligible": 146,
+        "auto": 16,
+        "review": 130,
+        "reject": 32,
+        "partition": 178,
+        "unsafe": 0,
+        "revised": 179,
+        "revised_twice": 179
+      },
+      "sets": {
+        "auto": [
+          "reward_contributor"
+        ],
+        "review": [
+          "manual_review_high_amount",
+          "escalate_human_council"
+        ],
+        "reject": [
+          "tax_extractor"
+        ],
+        "revised_memory": [
+          "approve_low_risk_loan",
+          "manual_review_high_amount",
+          "reward_contributor",
+          "tax_extractor",
+          "escalate_human_council"
+        ]
+      },
+      "checks": {
+        "tau_matches_host": true,
+        "partition_matches_proposed": true,
+        "unsafe_leak_zero": true,
+        "revision_idempotent": true
+      },
+      "fast_staged_measurements": {
+        "proposed": {
+          "ok": true,
+          "timeout": false,
+          "value": 178,
+          "elapsed_ms": 33.306
+        },
+        "eligible": {
+          "ok": true,
+          "timeout": false,
+          "value": 146,
+          "elapsed_ms": 133.339
+        },
+        "auto": {
+          "ok": true,
+          "timeout": false,
+          "value": 16,
+          "elapsed_ms": 306.058
+        },
+        "review": {
+          "ok": true,
+          "timeout": false,
+          "value": 130,
+          "elapsed_ms": 207.439
+        },
+        "reject": {
+          "ok": true,
+          "timeout": false,
+          "value": 32,
+          "elapsed_ms": 139.994
+        },
+        "partition": {
+          "ok": true,
+          "timeout": false,
+          "value": 178,
+          "elapsed_ms": 3208.08
+        },
+        "unsafe": {
+          "ok": true,
+          "timeout": false,
+          "value": 0,
+          "elapsed_ms": 393.899
+        },
+        "revised": {
+          "ok": true,
+          "timeout": false,
+          "value": 179,
+          "elapsed_ms": 1299.431
+        },
+        "revised_twice": {
+          "ok": true,
+          "timeout": false,
+          "value": 179,
+          "elapsed_ms": 1347.994
+        }
+      },
+      "mismatches": {},
+      "tau_outputs": {
+        "proposed": "%1: { 178 }:qns8",
+        "eligible": "%1: { 146 }:qns8",
+        "auto": "%1: { 16 }:qns8",
+        "review": "%1: { 130 }:qns8",
+        "reject": "%1: { 32 }:qns8",
+        "partition": "%1: { 178 }:qns8",
+        "unsafe": "%1: 0",
+        "revised": "%1: { 179 }:qns8",
+        "revised_twice": "%1: { 179 }:qns8"
+      }
+    },
+    {
+      "name": "dex_oracle_incident",
+      "prompt": "oracle anomaly detected freeze governance and quarantine incident actions",
+      "toy_micro_proposer": {
+        "proposed_mask": 72,
+        "scores": {
+          "quarantine_oracle_anomaly": 0.33,
+          "freeze_governance_compromise": 0.22
+        },
+        "proposed_candidates": [
+          "quarantine_oracle_anomaly",
+          "freeze_governance_compromise"
+        ]
+      },
+      "input_masks": {
+        "universe": 255,
+        "allow": 206,
+        "review": 202,
+        "hard_reject": 33,
+        "old_memory": 4,
+        "auto_add": 16,
+        "review_add": 200,
+        "reject_add": 1
+      },
+      "expected": {
+        "proposed": 72,
+        "eligible": 72,
+        "auto": 0,
+        "review": 72,
+        "reject": 0,
+        "partition": 72,
+        "unsafe": 0,
+        "revised": 76,
+        "revised_twice": 76
+      },
+      "actual": {
+        "proposed": 72,
+        "eligible": 72,
+        "auto": 0,
+        "review": 72,
+        "reject": 0,
+        "partition": 72,
+        "unsafe": 0,
+        "revised": 76,
+        "revised_twice": 76
+      },
+      "sets": {
+        "auto": [],
+        "review": [
+          "quarantine_oracle_anomaly",
+          "freeze_governance_compromise"
+        ],
+        "reject": [],
+        "revised_memory": [
+          "reject_sanctioned_wallet",
+          "quarantine_oracle_anomaly",
+          "freeze_governance_compromise"
+        ]
+      },
+      "checks": {
+        "tau_matches_host": true,
+        "partition_matches_proposed": true,
+        "unsafe_leak_zero": true,
+        "revision_idempotent": true
+      },
+      "fast_staged_measurements": {
+        "proposed": {
+          "ok": true,
+          "timeout": false,
+          "value": 72,
+          "elapsed_ms": 32.818
+        },
+        "eligible": {
+          "ok": true,
+          "timeout": false,
+          "value": 72,
+          "elapsed_ms": 139.345
+        },
+        "auto": {
+          "ok": true,
+          "timeout": false,
+          "value": 0,
+          "elapsed_ms": 300.812
+        },
+        "review": {
+          "ok": true,
+          "timeout": false,
+          "value": 72,
+          "elapsed_ms": 216.655
+        },
+        "reject": {
+          "ok": true,
+          "timeout": false,
+          "value": 0,
+          "elapsed_ms": 143.461
+        },
+        "partition": {
+          "ok": true,
+          "timeout": false,
+          "value": 72,
+          "elapsed_ms": 3277.805
+        },
+        "unsafe": {
+          "ok": true,
+          "timeout": false,
+          "value": 0,
+          "elapsed_ms": 423.85
+        },
+        "revised": {
+          "ok": true,
+          "timeout": false,
+          "value": 76,
+          "elapsed_ms": 1311.1
+        },
+        "revised_twice": {
+          "ok": true,
+          "timeout": false,
+          "value": 76,
+          "elapsed_ms": 1312.812
+        }
+      },
+      "mismatches": {},
+      "tau_outputs": {
+        "proposed": "%1: { 72 }:qns8",
+        "eligible": "%1: { 72 }:qns8",
+        "auto": "%1: 0",
+        "review": "%1: { 72 }:qns8",
+        "reject": "%1: 0",
+        "partition": "%1: { 72 }:qns8",
+        "unsafe": "%1: 0",
+        "revised": "%1: { 76 }:qns8",
+        "revised_twice": "%1: { 76 }:qns8"
+      }
+    },
+    {
+      "name": "collateral_admission",
+      "prompt": "new collateral token admission with sanction risk and manual review",
+      "toy_micro_proposer": {
+        "proposed_mask": 7,
+        "scores": {
+          "approve_low_risk_loan": 0.19,
+          "manual_review_high_amount": 0.26,
+          "reject_sanctioned_wallet": 0.2
+        },
+        "proposed_candidates": [
+          "approve_low_risk_loan",
+          "manual_review_high_amount",
+          "reject_sanctioned_wallet"
+        ]
+      },
+      "input_masks": {
+        "universe": 255,
+        "allow": 206,
+        "review": 202,
+        "hard_reject": 33,
+        "old_memory": 16,
+        "auto_add": 4,
+        "review_add": 138,
+        "reject_add": 1
+      },
+      "expected": {
+        "proposed": 7,
+        "eligible": 6,
+        "auto": 4,
+        "review": 2,
+        "reject": 1,
+        "partition": 7,
+        "unsafe": 0,
+        "revised": 23,
+        "revised_twice": 23
+      },
+      "actual": {
+        "proposed": 7,
+        "eligible": 6,
+        "auto": 4,
+        "review": 2,
+        "reject": 1,
+        "partition": 7,
+        "unsafe": 0,
+        "revised": 23,
+        "revised_twice": 23
+      },
+      "sets": {
+        "auto": [
+          "reject_sanctioned_wallet"
+        ],
+        "review": [
+          "manual_review_high_amount"
+        ],
+        "reject": [
+          "approve_low_risk_loan"
+        ],
+        "revised_memory": [
+          "approve_low_risk_loan",
+          "manual_review_high_amount",
+          "reject_sanctioned_wallet",
+          "reward_contributor"
+        ]
+      },
+      "checks": {
+        "tau_matches_host": true,
+        "partition_matches_proposed": true,
+        "unsafe_leak_zero": true,
+        "revision_idempotent": true
+      },
+      "fast_staged_measurements": {
+        "proposed": {
+          "ok": true,
+          "timeout": false,
+          "value": 7,
+          "elapsed_ms": 31.927
+        },
+        "eligible": {
+          "ok": true,
+          "timeout": false,
+          "value": 6,
+          "elapsed_ms": 141.468
+        },
+        "auto": {
+          "ok": true,
+          "timeout": false,
+          "value": 4,
+          "elapsed_ms": 287.001
+        },
+        "review": {
+          "ok": true,
+          "timeout": false,
+          "value": 2,
+          "elapsed_ms": 207.469
+        },
+        "reject": {
+          "ok": true,
+          "timeout": false,
+          "value": 1,
+          "elapsed_ms": 142.834
+        },
+        "partition": {
+          "ok": true,
+          "timeout": false,
+          "value": 7,
+          "elapsed_ms": 3336.926
+        },
+        "unsafe": {
+          "ok": true,
+          "timeout": false,
+          "value": 0,
+          "elapsed_ms": 404.434
+        },
+        "revised": {
+          "ok": true,
+          "timeout": false,
+          "value": 23,
+          "elapsed_ms": 1286.772
+        },
+        "revised_twice": {
+          "ok": true,
+          "timeout": false,
+          "value": 23,
+          "elapsed_ms": 1284.241
+        }
+      },
+      "mismatches": {},
+      "tau_outputs": {
+        "proposed": "%1: { 7 }:qns8",
+        "eligible": "%1: { 6 }:qns8",
+        "auto": "%1: { 4 }:qns8",
+        "review": "%1: { 2 }:qns8",
+        "reject": "%1: { 1 }:qns8",
+        "partition": "%1: { 7 }:qns8",
+        "unsafe": "%1: 0",
+        "revised": "%1: { 23 }:qns8",
+        "revised_twice": "%1: { 23 }:qns8"
+      }
+    }
+  ],
+  "slow_monolithic_demo": {
+    "name": "post_agi_tokenomics",
+    "mode": "slow_monolithic_fully_expanded_revision",
+    "expression_bytes": 877,
+    "timeout_s": 5.0,
+    "expected_revised": 179,
+    "result": {
+      "ok": false,
+      "timeout": true,
+      "value": null,
+      "elapsed_ms": 5008.575
+    },
+    "matches_expected": false,
+    "purpose": "This lane intentionally sends the fully expanded revision expression to Tau. It is a performance-boundary demo, not the recommended path."
+  },
+  "spec_text": "# qNS multi-feature decision surface.\n#\n# Carrier:\n# - qns8 is the finite powerset Boolean algebra over eight audited atoms.\n#\n# This spec combines:\n# - neural-proposer masks,\n# - exact symbolic filtering,\n# - review and rejection routing,\n# - pointwise revision over a finite policy-memory mask.\n#\n# Scope:\n# - finite audited atom universe only,\n# - toy proposer lives outside Tau,\n# - Tau computes exact qns8 Boolean expressions,\n# - this is not upstream nlang and not unrestricted natural-language semantics.\n\nset charvar off\n\nall8() := { #xFF }:qns8.\nnot8(x) := x ^ all8().\n\nproposed(u,p) := u & p.\neligible(u,p,a,h) := proposed(u,p) & a & not8(h).\nauto_accept(u,p,a,r,h) := eligible(u,p,a,h) & not8(r).\nhuman_review(u,p,a,r,h) := eligible(u,p,a,h) & r.\nsymbolic_reject(u,p,a,h) := proposed(u,p) & (not8(a) | h).\npartition(u,p,a,r,h) :=\n  auto_accept(u,p,a,r,h) |\n  human_review(u,p,a,r,h) |\n  symbolic_reject(u,p,a,h).\nunsafe_leak(u,p,a,r,h) := auto_accept(u,p,a,r,h) & h.\n\nrevise(old,guard,replacement) :=\n  (guard & replacement) | (not8(guard) & old).\n\npriority_revision(old,u,p,a,r,h,auto_add,review_add,reject_add) :=\n  revise(\n    revise(\n      revise(old, symbolic_reject(u,p,a,h), reject_add),\n      human_review(u,p,a,r,h),\n      review_add),\n    auto_accept(u,p,a,r,h),\n    auto_add).\n\nidempotence_probe(old,u,p,a,r,h,auto_add,review_add,reject_add) :=\n  priority_revision(\n    priority_revision(old,u,p,a,r,h,auto_add,review_add,reject_add),\n    u,p,a,r,h,auto_add,review_add,reject_add).\n"
+}

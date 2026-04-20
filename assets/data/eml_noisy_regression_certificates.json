@@ -1,0 +1,964 @@
+{
+  "schema": "eml_noisy_regression_certificates_v1",
+  "generator": "scripts/run_eml_noisy_regression_certificates.py",
+  "scope": {
+    "claim": "Within the bounded EML corpus, noisy regression can return an empirical minimizer with explicit residual certificates and proof metadata for the selected survivor.",
+    "not_claimed": [
+      "not full symbolic regression",
+      "not statistical consistency",
+      "not global optimality beyond the bounded corpus",
+      "not native Tau analytic semantics"
+    ]
+  },
+  "parameters": {
+    "max_depth": 3,
+    "corpus_size": 1446,
+    "selection_order": "train_mse_noisy, holdout_mse_clean, size, depth, expression"
+  },
+  "summary": {
+    "ok": true,
+    "target_count": 3,
+    "winner_count": 3,
+    "proof_receipt_accept_count": 3,
+    "symbolic_identity_accept_count": 3,
+    "zero_holdout_mse_count": 2
+  },
+  "results": [
+    {
+      "name": "noisy_exp",
+      "clean_target": "exp(x)",
+      "train_xs": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "holdout_xs": [
+        0.25,
+        0.75,
+        1.5,
+        3.0
+      ],
+      "noise": [
+        0.02,
+        -0.015,
+        0.01
+      ],
+      "train_y_clean": [
+        1.6487212707001282,
+        2.718281828459045,
+        7.38905609893065
+      ],
+      "train_y_noisy": [
+        1.6687212707001282,
+        2.703281828459045,
+        7.39905609893065
+      ],
+      "holdout_y_clean": [
+        1.2840254166877414,
+        2.117000016612675,
+        4.4816890703380645,
+        20.085536923187668
+      ],
+      "domain_valid_count": 912,
+      "winner": {
+        "expr": "eml(x,1)",
+        "depth": 1,
+        "size": 3,
+        "train_mse_noisy": 0.00024166666666666672,
+        "train_mse_clean": 0.0,
+        "holdout_mse_clean": 0.0,
+        "train_residual_noisy": [
+          -0.020000000000000018,
+          0.015000000000000124,
+          -0.009999999999999787
+        ],
+        "train_residual_clean": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "holdout_residual_clean": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "domain_reason": null
+      },
+      "top_candidates": [
+        {
+          "expr": "eml(x,1)",
+          "depth": 1,
+          "size": 3,
+          "train_mse_noisy": 0.00024166666666666672,
+          "train_mse_clean": 0.0,
+          "holdout_mse_clean": 0.0,
+          "train_residual_noisy": [
+            -0.020000000000000018,
+            0.015000000000000124,
+            -0.009999999999999787
+          ],
+          "train_residual_clean": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "holdout_residual_clean": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(1,eml(1,1)))",
+          "depth": 3,
+          "size": 7,
+          "train_mse_noisy": 0.29868751343449257,
+          "train_mse_clean": 0.2930325982216968,
+          "holdout_mse_clean": 0.2930325982216966,
+          "train_residual_noisy": [
+            -0.5613248546129181,
+            -0.526324854612918,
+            -0.5513248546129175
+          ],
+          "train_residual_clean": [
+            -0.5413248546129181,
+            -0.5413248546129181,
+            -0.5413248546129177
+          ],
+          "holdout_residual_clean": [
+            -0.541324854612918,
+            -0.5413248546129181,
+            -0.5413248546129181,
+            -0.5413248546129168
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,x)",
+          "depth": 1,
+          "size": 3,
+          "train_mse_noisy": 0.3159226947417346,
+          "train_mse_clean": 0.32030200927880104,
+          "holdout_mse_clean": 0.8439809862971767,
+          "train_residual_noisy": [
+            0.6731471805599454,
+            0.015000000000000124,
+            -0.7031471805599452
+          ],
+          "train_residual_clean": [
+            0.6931471805599454,
+            0.0,
+            -0.6931471805599454
+          ],
+          "holdout_residual_clean": [
+            1.3862943611198904,
+            0.2876820724517808,
+            -0.4054651081081646,
+            -1.098612288668111
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(1,eml(1,x)))",
+          "depth": 3,
+          "size": 7,
+          "train_mse_noisy": 0.31878594051962456,
+          "train_mse_clean": 0.3139672149670038,
+          "holdout_mse_clean": 0.3371622766319297,
+          "train_residual_noisy": [
+            -0.41954801037468137,
+            -0.526324854612918,
+            -0.7094500940631487
+          ],
+          "train_residual_clean": [
+            -0.39954801037468135,
+            -0.5413248546129181,
+            -0.699450094063149
+          ],
+          "holdout_residual_clean": [
+            -0.2671063364154791,
+            -0.4809952162021207,
+            -0.6311737333554621,
+            -0.8047152489466214
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(1,1))",
+          "depth": 2,
+          "size": 5,
+          "train_mse_noisy": 1.0102416666666665,
+          "train_mse_clean": 1.0,
+          "holdout_mse_clean": 1.0,
+          "train_residual_noisy": [
+            -1.02,
+            -0.9849999999999999,
+            -1.0099999999999998
+          ],
+          "train_residual_clean": [
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "holdout_residual_clean": [
+            -1.0,
+            -1.0,
+            -1.0,
+            -1.0
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(1,x))",
+          "depth": 2,
+          "size": 5,
+          "train_mse_noisy": 1.0125655190143996,
+          "train_mse_clean": 1.001257860836936,
+          "holdout_mse_clean": 1.0352284245866608,
+          "train_residual_noisy": [
+            -1.2471312677409783,
+            -0.9849999999999999,
+            -0.7156361911376337
+          ],
+          "train_residual_clean": [
+            -1.2271312677409782,
+            -1.0,
+            -0.7056361911376339
+          ],
+          "holdout_residual_clean": [
+            -1.4121024950846128,
+            -1.1005982822469726,
+            -0.8384661411779901,
+            -0.4822221406525813
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(eml(1,eml(1,x)),eml(eml(1,x),eml(x,1)))",
+          "depth": 3,
+          "size": 13,
+          "train_mse_noisy": 1.0357362697511592,
+          "train_mse_clean": 1.0145797238515681,
+          "holdout_mse_clean": 33.48054979844889,
+          "train_residual_noisy": [
+            -0.6213120749521681,
+            0.22164389909066662,
+            -1.634641886398362
+          ],
+          "train_residual_clean": [
+            -0.6013120749521681,
+            0.2066438990906665,
+            -1.6246418863983623
+          ],
+          "holdout_residual_clean": [
+            -1.6924281518364066,
+            -0.04374061527275641,
+            -0.0814845461419198,
+            -11.447678069022677
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(eml(1,eml(1,x)),eml(eml(1,x),eml(x,x)))",
+          "depth": 3,
+          "size": 13,
+          "train_mse_noisy": 1.0500589687511888,
+          "train_mse_clean": 1.0289436146561342,
+          "holdout_mse_clean": 33.62562020798503,
+          "train_residual_noisy": [
+            -0.6094687717124452,
+            0.22164389909066662,
+            -1.6521497221973487
+          ],
+          "train_residual_clean": [
+            -0.5894687717124452,
+            0.2066438990906665,
+            -1.642149722197349
+          ],
+          "holdout_residual_clean": [
+            -1.6802248897117882,
+            -0.03716995027198777,
+            -0.09244721472428896,
+            -11.474728626822493
+          ],
+          "domain_reason": null
+        }
+      ],
+      "residual_certificate": {
+        "ordering": "train_mse_noisy, holdout_mse_clean, size, depth, expression",
+        "winner_rank": 0,
+        "exhaustive_bounded_candidate_count": 912,
+        "winner_train_residual_noisy": [
+          -0.020000000000000018,
+          0.015000000000000124,
+          -0.009999999999999787
+        ],
+        "winner_holdout_residual_clean": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "winner_train_mse_noisy": 0.00024166666666666672,
+        "winner_holdout_mse_clean": 0.0
+      },
+      "proof_receipt": {
+        "accepted": true,
+        "certificate": "expTree",
+        "checker": "NeuroSymbolicMathV001.EML.Cert.check",
+        "soundness_theorem": "NeuroSymbolicMathV001.EML.Cert.sound",
+        "normal_form": "expX",
+        "normal_form_checker": "NeuroSymbolicMathV001.EML.checkByNorm",
+        "normal_form_soundness_theorem": "NeuroSymbolicMathV001.EML.checkByNorm_sound",
+        "strategy_normalizer": {
+          "accepted": true,
+          "normalized_expr": "exp(x)",
+          "normal_form": "expX",
+          "fuel_policy": "source compileExpr.size",
+          "stable": true,
+          "idempotent": true,
+          "reaches_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.exp_emitChainFuel_size_reaches",
+          "api": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize",
+          "stable_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_stable",
+          "soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_sound",
+          "idempotence_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_idempotent",
+          "cert_norm_bridge_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_certNorm_reaches",
+          "canon_zero_receipt_soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalizeReceiptCanonZero_sound",
+          "boundary": "strategy-normalizer receipt, not a canonical semantic normal-form proof"
+        },
+        "rewrite_chain": {
+          "accepted": false
+        }
+      },
+      "symbolic_identity": {
+        "available": true,
+        "proved_by_simplify": true,
+        "symbolic_expression": "exp(x)",
+        "simplified_difference": "0"
+      }
+    },
+    {
+      "name": "noisy_log",
+      "clean_target": "ln(x)",
+      "train_xs": [
+        0.5,
+        1.0,
+        2.0
+      ],
+      "holdout_xs": [
+        0.25,
+        0.75,
+        1.5,
+        3.0
+      ],
+      "noise": [
+        -0.01,
+        0.02,
+        -0.015
+      ],
+      "train_y_clean": [
+        -0.6931471805599453,
+        0.0,
+        0.6931471805599453
+      ],
+      "train_y_noisy": [
+        -0.7031471805599453,
+        0.02,
+        0.6781471805599453
+      ],
+      "holdout_y_clean": [
+        -1.3862943611198906,
+        -0.2876820724517809,
+        0.4054651081081644,
+        1.0986122886681098
+      ],
+      "domain_valid_count": 912,
+      "winner": {
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "depth": 3,
+        "size": 7,
+        "train_mse_noisy": 0.00024166666666666724,
+        "train_mse_clean": 8.217301096052206e-33,
+        "holdout_mse_clean": 2.7733391199176196e-32,
+        "train_residual_noisy": [
+          0.009999999999999898,
+          -0.02,
+          0.015000000000000124
+        ],
+        "train_residual_clean": [
+          -1.1102230246251565e-16,
+          0.0,
+          1.1102230246251565e-16
+        ],
+        "holdout_residual_clean": [
+          2.220446049250313e-16,
+          1.1102230246251565e-16,
+          -2.220446049250313e-16,
+          0.0
+        ],
+        "domain_reason": null
+      },
+      "top_candidates": [
+        {
+          "expr": "eml(1,eml(eml(1,x),1))",
+          "depth": 3,
+          "size": 7,
+          "train_mse_noisy": 0.00024166666666666724,
+          "train_mse_clean": 8.217301096052206e-33,
+          "holdout_mse_clean": 2.7733391199176196e-32,
+          "train_residual_noisy": [
+            0.009999999999999898,
+            -0.02,
+            0.015000000000000124
+          ],
+          "train_residual_clean": [
+            -1.1102230246251565e-16,
+            0.0,
+            1.1102230246251565e-16
+          ],
+          "holdout_residual_clean": [
+            2.220446049250313e-16,
+            1.1102230246251565e-16,
+            -2.220446049250313e-16,
+            0.0
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(eml(x,x),1))",
+          "depth": 3,
+          "size": 7,
+          "train_mse_noisy": 0.00024166666666666724,
+          "train_mse_clean": 8.217301096052206e-33,
+          "holdout_mse_clean": 3.3588218230113393e-31,
+          "train_residual_noisy": [
+            0.009999999999999898,
+            -0.02,
+            0.015000000000000124
+          ],
+          "train_residual_clean": [
+            -1.1102230246251565e-16,
+            0.0,
+            1.1102230246251565e-16
+          ],
+          "holdout_residual_clean": [
+            2.220446049250313e-16,
+            1.1102230246251565e-16,
+            2.220446049250313e-16,
+            1.1102230246251565e-15
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(eml(x,x),x))",
+          "depth": 3,
+          "size": 7,
+          "train_mse_noisy": 0.0012078799919264822,
+          "train_mse_clean": 0.0013877614867936969,
+          "holdout_mse_clean": 0.0022759294919426124,
+          "train_residual_noisy": [
+            -0.054517826179147355,
+            -0.02,
+            0.01585706796604347
+          ],
+          "train_residual_clean": [
+            -0.06451782617914736,
+            0.0,
+            0.0008570679660434566
+          ],
+          "holdout_residual_clean": [
+            -0.09164280356659238,
+            -0.025644375712038925,
+            0.006905108005321958,
+            6.236313909724345e-09
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(eml(x,x),eml(x,1)))",
+          "depth": 3,
+          "size": 9,
+          "train_mse_noisy": 0.0020492222610415762,
+          "train_mse_clean": 0.002364567014380909,
+          "holdout_mse_clean": 0.0014717450186206595,
+          "train_residual_noisy": [
+            0.05926788521630366,
+            0.048266031247876665,
+            0.01747497618569982
+          ],
+          "train_residual_clean": [
+            0.04926788521630365,
+            0.06826603124787667,
+            0.0024749761856998065
+          ],
+          "holdout_residual_clean": [
+            0.017459046926083355,
+            0.07012277467996564,
+            0.025786783942514768,
+            1.7029610832608455e-08
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(eml(x,x),eml(x,x)))",
+          "depth": 3,
+          "size": 9,
+          "train_mse_noisy": 0.003907989754662533,
+          "train_mse_clean": 0.003983951105226,
+          "holdout_mse_clean": 0.0030886158547114785,
+          "train_residual_noisy": [
+            0.09535845585139235,
+            0.048266031247876665,
+            0.01735293603989385
+          ],
+          "train_residual_clean": [
+            0.08535845585139235,
+            0.06826603124787667,
+            0.002352936039893838
+          ],
+          "holdout_residual_clean": [
+            0.07041995963656134,
+            0.08254036172364299,
+            0.024136722854622983,
+            1.671030713801258e-08
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(1,eml(eml(1,x),x))",
+          "depth": 3,
+          "size": 7,
+          "train_mse_noisy": 0.004288702080535517,
+          "train_mse_clean": 0.003238411846757657,
+          "holdout_mse_clean": 0.015633308799023724,
+          "train_residual_noisy": [
+            -0.012612118641903147,
+            -0.02,
+            0.11093710247238797
+          ],
+          "train_residual_clean": [
+            -0.022612118641903156,
+            0.0,
+            0.09593710247238796
+          ],
+          "holdout_residual_clean": [
+            -0.022612118641902823,
+            -0.01413727728922598,
+            0.04096134707499366,
+            0.2452432113704044
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(x,eml(eml(x,x),eml(1,1)))",
+          "depth": 3,
+          "size": 9,
+          "train_mse_noisy": 0.0049780358114702725,
+          "train_mse_clean": 0.00496028598587128,
+          "holdout_mse_clean": 0.003598918933127811,
+          "train_residual_noisy": [
+            0.11108945272861848,
+            0.048266031247876665,
+            0.01623672240465579
+          ],
+          "train_residual_clean": [
+            0.10108945272861847,
+            0.06826603124787667,
+            0.0012367224046557768
+          ],
+          "holdout_residual_clean": [
+            0.07174316815041082,
+            0.09463402466460125,
+            0.01711709473107903,
+            5.676537684351501e-09
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(1,eml(eml(1,x),eml(1,x)))",
+          "depth": 3,
+          "size": 9,
+          "train_mse_noisy": 0.005892551751448213,
+          "train_mse_clean": 0.005308032888592645,
+          "holdout_mse_clean": 0.005316409638608021,
+          "train_residual_noisy": [
+            0.0513304477620512,
+            0.048266031247876665,
+            0.11275296277469149
+          ],
+          "train_residual_clean": [
+            0.04133044776205119,
+            0.06826603124787667,
+            0.09775296277469148
+          ],
+          "holdout_residual_clean": [
+            0.023571095928973884,
+            0.056009386292818264,
+            0.08664028294667081,
+            0.10033170988855855
+          ],
+          "domain_reason": null
+        }
+      ],
+      "residual_certificate": {
+        "ordering": "train_mse_noisy, holdout_mse_clean, size, depth, expression",
+        "winner_rank": 0,
+        "exhaustive_bounded_candidate_count": 912,
+        "winner_train_residual_noisy": [
+          0.009999999999999898,
+          -0.02,
+          0.015000000000000124
+        ],
+        "winner_holdout_residual_clean": [
+          2.220446049250313e-16,
+          1.1102230246251565e-16,
+          -2.220446049250313e-16,
+          0.0
+        ],
+        "winner_train_mse_noisy": 0.00024166666666666724,
+        "winner_holdout_mse_clean": 2.7733391199176196e-32
+      },
+      "proof_receipt": {
+        "accepted": true,
+        "certificate": "logStandardTree",
+        "checker": "NeuroSymbolicMathV001.EML.Cert.check",
+        "soundness_theorem": "NeuroSymbolicMathV001.EML.Cert.sound",
+        "normal_form": "logX",
+        "normal_form_checker": "NeuroSymbolicMathV001.EML.checkByNorm",
+        "normal_form_soundness_theorem": "NeuroSymbolicMathV001.EML.checkByNorm_sound",
+        "strategy_normalizer": {
+          "accepted": true,
+          "normalized_expr": "log(x)",
+          "normal_form": "logX",
+          "fuel_policy": "source compileExpr.size",
+          "stable": true,
+          "idempotent": true,
+          "reaches_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.logStandard_emitChainFuel_size_reaches",
+          "api": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize",
+          "stable_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_stable",
+          "soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_sound",
+          "idempotence_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_idempotent",
+          "cert_norm_bridge_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_certNorm_reaches",
+          "canon_zero_receipt_soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalizeReceiptCanonZero_sound",
+          "boundary": "strategy-normalizer receipt, not a canonical semantic normal-form proof"
+        },
+        "rewrite_chain": {
+          "accepted": false
+        }
+      },
+      "symbolic_identity": {
+        "available": true,
+        "proved_by_simplify": true,
+        "symbolic_expression": "E - log(exp(E)/x)",
+        "simplified_difference": "0"
+      }
+    },
+    {
+      "name": "noisy_exp_exp",
+      "clean_target": "exp(exp(x))",
+      "train_xs": [
+        0.1,
+        0.2,
+        0.3
+      ],
+      "holdout_xs": [
+        0.15,
+        0.25,
+        0.35
+      ],
+      "noise": [
+        0.01,
+        -0.008,
+        0.012
+      ],
+      "train_y_clean": [
+        3.0197405529455232,
+        3.391942472949725,
+        3.8568809298835673
+      ],
+      "train_y_noisy": [
+        3.029740552945523,
+        3.383942472949725,
+        3.8688809298835674
+      ],
+      "holdout_y_clean": [
+        3.1957897574938143,
+        3.611146878218102,
+        4.133264574460135
+      ],
+      "domain_valid_count": 1370,
+      "winner": {
+        "expr": "eml(eml(x,1),1)",
+        "depth": 2,
+        "size": 5,
+        "train_mse_noisy": 0.00010266666666666536,
+        "train_mse_clean": 0.0,
+        "holdout_mse_clean": 0.0,
+        "train_residual_noisy": [
+          -0.009999999999999787,
+          0.008000000000000007,
+          -0.01200000000000001
+        ],
+        "train_residual_clean": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "holdout_residual_clean": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "domain_reason": null
+      },
+      "top_candidates": [
+        {
+          "expr": "eml(eml(x,1),1)",
+          "depth": 2,
+          "size": 5,
+          "train_mse_noisy": 0.00010266666666666536,
+          "train_mse_clean": 0.0,
+          "holdout_mse_clean": 0.0,
+          "train_residual_noisy": [
+            -0.009999999999999787,
+            0.008000000000000007,
+            -0.01200000000000001
+          ],
+          "train_residual_clean": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "holdout_residual_clean": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(eml(x,1),eml(x,eml(x,1)))",
+          "depth": 3,
+          "size": 9,
+          "train_mse_noisy": 0.00136083219139637,
+          "train_mse_clean": 0.0009474797267892253,
+          "holdout_mse_clean": 0.0019061391353428255,
+          "train_residual_noisy": [
+            -0.015157594788123507,
+            -0.013176935599965134,
+            -0.06065568615243366
+          ],
+          "train_residual_clean": [
+            -0.0051575947881237205,
+            -0.02117693559996514,
+            -0.04865568615243365
+          ],
+          "holdout_residual_clean": [
+            -0.011764765679465494,
+            -0.0334593567200514,
+            -0.06678681862775093
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(eml(1,eml(1,x)),eml(x,eml(x,1)))",
+          "depth": 3,
+          "size": 11,
+          "train_mse_noisy": 0.004167421405149043,
+          "train_mse_clean": 0.0032131801367294116,
+          "holdout_mse_clean": 0.013268683636785274,
+          "train_residual_noisy": [
+            -0.01664204205429831,
+            0.09655425536269613,
+            -0.05387561993207468
+          ],
+          "train_residual_clean": [
+            -0.006642042054298525,
+            0.08855425536269612,
+            -0.04187561993207467
+          ],
+          "holdout_residual_clean": [
+            0.07585672775234542,
+            0.047434439067181255,
+            -0.17833054072548604
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(eml(1,eml(1,x)),1)",
+          "depth": 3,
+          "size": 7,
+          "train_mse_noisy": 0.004673257854386666,
+          "train_mse_clean": 0.004029702383907513,
+          "holdout_mse_clean": 0.008887778082501348,
+          "train_residual_noisy": [
+            -0.011484447266174591,
+            0.11773119096266127,
+            -0.005219933779641028
+          ],
+          "train_residual_clean": [
+            -0.0014844472661748043,
+            0.10973119096266126,
+            0.006780066220358982
+          ],
+          "holdout_residual_clean": [
+            0.08762149343181092,
+            0.08089379578723266,
+            -0.11154372209773467
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(eml(1,eml(1,x)),eml(x,1))",
+          "depth": 3,
+          "size": 9,
+          "train_mse_noisy": 0.03745204896637174,
+          "train_mse_clean": 0.0348084934958926,
+          "holdout_mse_clean": 0.08183686459758627,
+          "train_residual_noisy": [
+            -0.11148444726617468,
+            -0.08226880903733891,
+            -0.3052199337796413
+          ],
+          "train_residual_clean": [
+            -0.1014844472661749,
+            -0.09026880903733892,
+            -0.2932199337796413
+          ],
+          "holdout_residual_clean": [
+            -0.062378506568188996,
+            -0.16910620421276734,
+            -0.46154372209773475
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(eml(1,eml(1,x)),eml(1,eml(1,x)))",
+          "depth": 3,
+          "size": 11,
+          "train_mse_noisy": 0.03931627050464081,
+          "train_mse_clean": 0.03680252214694643,
+          "holdout_mse_clean": 0.07913298301022911,
+          "train_residual_noisy": [
+            -0.11103943796216553,
+            -0.1080018398643765,
+            -0.30652023965291164
+          ],
+          "train_residual_clean": [
+            -0.10103943796216575,
+            -0.11600183986437651,
+            -0.29452023965291163
+          ],
+          "holdout_residual_clean": [
+            -0.08539263118490803,
+            -0.18621254062824644,
+            -0.44207684544972414
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(eml(x,1),eml(x,1))",
+          "depth": 2,
+          "size": 7,
+          "train_mse_noisy": 0.04876933333333341,
+          "train_mse_clean": 0.04666666666666675,
+          "holdout_mse_clean": 0.06916666666666668,
+          "train_residual_noisy": [
+            -0.10999999999999988,
+            -0.19200000000000017,
+            -0.3120000000000003
+          ],
+          "train_residual_clean": [
+            -0.10000000000000009,
+            -0.20000000000000018,
+            -0.30000000000000027
+          ],
+          "holdout_residual_clean": [
+            -0.1499999999999999,
+            -0.25,
+            -0.3500000000000001
+          ],
+          "domain_reason": null
+        },
+        {
+          "expr": "eml(eml(x,1),eml(1,eml(1,x)))",
+          "depth": 3,
+          "size": 9,
+          "train_mse_noisy": 0.05252235011993711,
+          "train_mse_clean": 0.05054949056605521,
+          "holdout_mse_clean": 0.07017727596767005,
+          "train_residual_noisy": [
+            -0.10955499069599073,
+            -0.21773303082703777,
+            -0.3133003058732706
+          ],
+          "train_residual_clean": [
+            -0.09955499069599094,
+            -0.22573303082703777,
+            -0.3013003058732706
+          ],
+          "holdout_residual_clean": [
+            -0.17301412461671895,
+            -0.2671063364154791,
+            -0.3305331233519895
+          ],
+          "domain_reason": null
+        }
+      ],
+      "residual_certificate": {
+        "ordering": "train_mse_noisy, holdout_mse_clean, size, depth, expression",
+        "winner_rank": 0,
+        "exhaustive_bounded_candidate_count": 1370,
+        "winner_train_residual_noisy": [
+          -0.009999999999999787,
+          0.008000000000000007,
+          -0.01200000000000001
+        ],
+        "winner_holdout_residual_clean": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "winner_train_mse_noisy": 0.00010266666666666536,
+        "winner_holdout_mse_clean": 0.0
+      },
+      "proof_receipt": {
+        "accepted": true,
+        "certificate": "expExpTree",
+        "checker": "NeuroSymbolicMathV001.EML.Cert.check",
+        "soundness_theorem": "NeuroSymbolicMathV001.EML.Cert.sound",
+        "normal_form": "expExpX",
+        "normal_form_checker": "NeuroSymbolicMathV001.EML.checkByNorm",
+        "normal_form_soundness_theorem": "NeuroSymbolicMathV001.EML.checkByNorm_sound",
+        "strategy_normalizer": {
+          "accepted": true,
+          "normalized_expr": "exp(exp(x))",
+          "normal_form": "expExpX",
+          "fuel_policy": "source compileExpr.size",
+          "stable": true,
+          "idempotent": true,
+          "reaches_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.expExp_emitChainFuel_size_reaches",
+          "api": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize",
+          "stable_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_stable",
+          "soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_sound",
+          "idempotence_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_idempotent",
+          "cert_norm_bridge_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalize_certNorm_reaches",
+          "canon_zero_receipt_soundness_theorem": "NeuroSymbolicMathV001.EML.RewriteStrategy.normalizeReceiptCanonZero_sound",
+          "boundary": "strategy-normalizer receipt, not a canonical semantic normal-form proof"
+        },
+        "rewrite_chain": {
+          "accepted": false
+        }
+      },
+      "symbolic_identity": {
+        "available": true,
+        "proved_by_simplify": true,
+        "symbolic_expression": "exp(exp(x))",
+        "simplified_difference": "0"
+      }
+    }
+  ]
+}

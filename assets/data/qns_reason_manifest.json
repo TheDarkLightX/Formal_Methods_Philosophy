@@ -1,0 +1,824 @@
+{
+  "schema": "qns_reason_manifest_v1",
+  "generator": "scripts/generate_qns_reason_manifest.py",
+  "source": "assets/data/qns_candidate_ba_traces.json",
+  "scope": {
+    "claim": "The existing qns8 Tau mask outputs can be compiled into exact per-atom routing explanations for the bounded candidate, concept, and trace-class scenarios.",
+    "not_claimed": [
+      "not semantic correctness of external atom extraction",
+      "not probabilistic reasoning inside Tau",
+      "not unbounded candidate universes",
+      "not upstream nlang semantics"
+    ]
+  },
+  "summary": {
+    "ok": true,
+    "candidate_scenario_count": 3,
+    "concept_scenario_count": 3,
+    "trace_scenario_count": 3,
+    "candidate_proposed_partition_failures": 0,
+    "candidate_universe_partition_failures": 0,
+    "unsafe_leak_failures": 0,
+    "total_candidate_entries": 24,
+    "total_concept_entries": 24,
+    "total_trace_entries": 24
+  },
+  "candidate_rows": [
+    {
+      "scenario": "post_agi_tokenomics",
+      "prompt": "Choose token-policy actions after an AGI-driven value shock.",
+      "route_counts": {
+        "not_proposed": 4,
+        "human_review": 2,
+        "auto_accept": 1,
+        "symbolic_reject": 1
+      },
+      "route_masks": {
+        "not_proposed": 77,
+        "human_review": 130,
+        "auto_accept": 16,
+        "symbolic_reject": 32
+      },
+      "proposed_partition_ok": true,
+      "universe_partition_ok": true,
+      "unsafe_leak_ok": true,
+      "entries": [
+        {
+          "name": "approve_low_risk_loan",
+          "bit": 0,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "manual_review_high_amount",
+          "bit": 1,
+          "route": "human_review",
+          "reasons": [
+            "review-required mask contains candidate"
+          ],
+          "qns_probability": 0.170213
+        },
+        {
+          "name": "reject_sanctioned_wallet",
+          "bit": 2,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "quarantine_oracle_anomaly",
+          "bit": 3,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "reward_contributor",
+          "bit": 4,
+          "route": "auto_accept",
+          "reasons": [
+            "audited, proposed, allowed, not hard-rejected, not review-required"
+          ],
+          "qns_probability": 0.638298
+        },
+        {
+          "name": "tax_extractor",
+          "bit": 5,
+          "route": "symbolic_reject",
+          "reasons": [
+            "hard reject mask contains candidate",
+            "symbolic allow mask does not contain candidate"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "freeze_governance_compromise",
+          "bit": 6,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "escalate_human_council",
+          "bit": 7,
+          "route": "human_review",
+          "reasons": [
+            "review-required mask contains candidate"
+          ],
+          "qns_probability": 0.191489
+        }
+      ]
+    },
+    {
+      "scenario": "dex_oracle_incident",
+      "prompt": "Choose protocol actions during a suspected oracle anomaly.",
+      "route_counts": {
+        "symbolic_reject": 1,
+        "not_proposed": 4,
+        "human_review": 3
+      },
+      "route_masks": {
+        "symbolic_reject": 1,
+        "not_proposed": 54,
+        "human_review": 200
+      },
+      "proposed_partition_ok": true,
+      "universe_partition_ok": true,
+      "unsafe_leak_ok": true,
+      "entries": [
+        {
+          "name": "approve_low_risk_loan",
+          "bit": 0,
+          "route": "symbolic_reject",
+          "reasons": [
+            "hard reject mask contains candidate",
+            "symbolic allow mask does not contain candidate"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "manual_review_high_amount",
+          "bit": 1,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "reject_sanctioned_wallet",
+          "bit": 2,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "quarantine_oracle_anomaly",
+          "bit": 3,
+          "route": "human_review",
+          "reasons": [
+            "review-required mask contains candidate"
+          ],
+          "qns_probability": 0.478261
+        },
+        {
+          "name": "reward_contributor",
+          "bit": 4,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "tax_extractor",
+          "bit": 5,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "freeze_governance_compromise",
+          "bit": 6,
+          "route": "human_review",
+          "reasons": [
+            "review-required mask contains candidate"
+          ],
+          "qns_probability": 0.318841
+        },
+        {
+          "name": "escalate_human_council",
+          "bit": 7,
+          "route": "human_review",
+          "reasons": [
+            "review-required mask contains candidate"
+          ],
+          "qns_probability": 0.202899
+        }
+      ]
+    },
+    {
+      "scenario": "collateral_admission",
+      "prompt": "Choose actions after a newly proposed collateral token appears.",
+      "route_counts": {
+        "symbolic_reject": 1,
+        "human_review": 3,
+        "auto_accept": 1,
+        "not_proposed": 3
+      },
+      "route_masks": {
+        "symbolic_reject": 1,
+        "human_review": 138,
+        "auto_accept": 4,
+        "not_proposed": 112
+      },
+      "proposed_partition_ok": true,
+      "universe_partition_ok": true,
+      "unsafe_leak_ok": true,
+      "entries": [
+        {
+          "name": "approve_low_risk_loan",
+          "bit": 0,
+          "route": "symbolic_reject",
+          "reasons": [
+            "hard reject mask contains candidate",
+            "symbolic allow mask does not contain candidate"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "manual_review_high_amount",
+          "bit": 1,
+          "route": "human_review",
+          "reasons": [
+            "review-required mask contains candidate"
+          ],
+          "qns_probability": 0.38806
+        },
+        {
+          "name": "reject_sanctioned_wallet",
+          "bit": 2,
+          "route": "auto_accept",
+          "reasons": [
+            "audited, proposed, allowed, not hard-rejected, not review-required"
+          ],
+          "qns_probability": 0.298507
+        },
+        {
+          "name": "quarantine_oracle_anomaly",
+          "bit": 3,
+          "route": "human_review",
+          "reasons": [
+            "review-required mask contains candidate"
+          ],
+          "qns_probability": 0.119403
+        },
+        {
+          "name": "reward_contributor",
+          "bit": 4,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "tax_extractor",
+          "bit": 5,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "freeze_governance_compromise",
+          "bit": 6,
+          "route": "not_proposed",
+          "reasons": [
+            "not proposed by neural layer"
+          ],
+          "qns_probability": null
+        },
+        {
+          "name": "escalate_human_council",
+          "bit": 7,
+          "route": "human_review",
+          "reasons": [
+            "review-required mask contains candidate"
+          ],
+          "qns_probability": 0.19403
+        }
+      ]
+    }
+  ],
+  "concept_rows": [
+    {
+      "scenario": "clean_collateral_report",
+      "text": "Registry verified, deep liquidity, old token, clean provenance, separated governance, stable oracle.",
+      "route_counts": {
+        "present_required": 6,
+        "not_observed": 2
+      },
+      "missing_required": [],
+      "risk_hits": [],
+      "review_hits": [],
+      "ok": true,
+      "entries": [
+        {
+          "name": "registry_verified",
+          "bit": 0,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "liquidity_deep",
+          "bit": 1,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "token_old_enough",
+          "bit": 2,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "provenance_clean",
+          "bit": 3,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "governance_separated",
+          "bit": 4,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "oracle_stable",
+          "bit": 5,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "sanction_risk",
+          "bit": 6,
+          "route": "not_observed",
+          "reasons": [
+            "listed in risk concept set"
+          ]
+        },
+        {
+          "name": "human_review_required",
+          "bit": 7,
+          "route": "not_observed",
+          "reasons": [
+            "listed in review concept set"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": "carbonvote_like_report",
+      "text": "Registry exists, but liquidity and age evidence are missing, provenance is unclear, and review is required.",
+      "route_counts": {
+        "present_required": 2,
+        "missing_required": 4,
+        "not_observed": 1,
+        "review_hit": 1
+      },
+      "missing_required": [
+        "liquidity_deep",
+        "token_old_enough",
+        "provenance_clean",
+        "governance_separated"
+      ],
+      "risk_hits": [],
+      "review_hits": [
+        "human_review_required"
+      ],
+      "ok": true,
+      "entries": [
+        {
+          "name": "registry_verified",
+          "bit": 0,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "liquidity_deep",
+          "bit": 1,
+          "route": "missing_required",
+          "reasons": [
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "token_old_enough",
+          "bit": 2,
+          "route": "missing_required",
+          "reasons": [
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "provenance_clean",
+          "bit": 3,
+          "route": "missing_required",
+          "reasons": [
+            "listed in required concept set",
+            "listed in risk concept set"
+          ]
+        },
+        {
+          "name": "governance_separated",
+          "bit": 4,
+          "route": "missing_required",
+          "reasons": [
+            "listed in required concept set",
+            "listed in risk concept set"
+          ]
+        },
+        {
+          "name": "oracle_stable",
+          "bit": 5,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "sanction_risk",
+          "bit": 6,
+          "route": "not_observed",
+          "reasons": [
+            "listed in risk concept set"
+          ]
+        },
+        {
+          "name": "human_review_required",
+          "bit": 7,
+          "route": "review_hit",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in review concept set"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": "oracle_incident_report",
+      "text": "Governance is separated and provenance is clean, but the oracle is unstable and human review is required.",
+      "route_counts": {
+        "present_required": 5,
+        "missing_required": 1,
+        "not_observed": 1,
+        "review_hit": 1
+      },
+      "missing_required": [
+        "oracle_stable"
+      ],
+      "risk_hits": [],
+      "review_hits": [
+        "human_review_required"
+      ],
+      "ok": true,
+      "entries": [
+        {
+          "name": "registry_verified",
+          "bit": 0,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "liquidity_deep",
+          "bit": 1,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "token_old_enough",
+          "bit": 2,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "provenance_clean",
+          "bit": 3,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "governance_separated",
+          "bit": 4,
+          "route": "present_required",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in required concept set"
+          ]
+        },
+        {
+          "name": "oracle_stable",
+          "bit": 5,
+          "route": "missing_required",
+          "reasons": [
+            "listed in required concept set",
+            "listed in risk concept set"
+          ]
+        },
+        {
+          "name": "sanction_risk",
+          "bit": 6,
+          "route": "not_observed",
+          "reasons": [
+            "listed in risk concept set"
+          ]
+        },
+        {
+          "name": "human_review_required",
+          "bit": 7,
+          "route": "review_hit",
+          "reasons": [
+            "observed in extracted concept set",
+            "listed in review concept set"
+          ]
+        }
+      ]
+    }
+  ],
+  "trace_rows": [
+    {
+      "scenario": "ordinary_trade_session",
+      "description": "The trace contains login before trade and oracle update before trade.",
+      "route_counts": {
+        "accepted_trace_class": 2,
+        "not_observed": 6
+      },
+      "forbidden_hits": [],
+      "accepted_trace": [
+        "login_then_trade",
+        "oracle_update_then_trade"
+      ],
+      "unclassified": [],
+      "ok": true,
+      "entries": [
+        {
+          "name": "login_then_trade",
+          "bit": 0,
+          "route": "accepted_trace_class",
+          "reasons": [
+            "observed in trace-class recognizer output",
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "trade_without_login",
+          "bit": 1,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        },
+        {
+          "name": "oracle_update_then_trade",
+          "bit": 2,
+          "route": "accepted_trace_class",
+          "reasons": [
+            "observed in trace-class recognizer output",
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "trade_before_oracle_update",
+          "bit": 3,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        },
+        {
+          "name": "patch_then_admit_collateral",
+          "bit": 4,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "admit_before_patch",
+          "bit": 5,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        },
+        {
+          "name": "liquidation_after_price_drop",
+          "bit": 6,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "liquidation_before_price_drop",
+          "bit": 7,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": "collateral_admission_race",
+      "description": "The trace includes admitting collateral before governance patch completion.",
+      "route_counts": {
+        "not_observed": 7,
+        "forbidden_hit": 1
+      },
+      "forbidden_hits": [
+        "admit_before_patch"
+      ],
+      "accepted_trace": [],
+      "unclassified": [],
+      "ok": true,
+      "entries": [
+        {
+          "name": "login_then_trade",
+          "bit": 0,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "trade_without_login",
+          "bit": 1,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        },
+        {
+          "name": "oracle_update_then_trade",
+          "bit": 2,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "trade_before_oracle_update",
+          "bit": 3,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        },
+        {
+          "name": "patch_then_admit_collateral",
+          "bit": 4,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "admit_before_patch",
+          "bit": 5,
+          "route": "forbidden_hit",
+          "reasons": [
+            "observed in trace-class recognizer output",
+            "listed in forbidden trace-class set"
+          ]
+        },
+        {
+          "name": "liquidation_after_price_drop",
+          "bit": 6,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "liquidation_before_price_drop",
+          "bit": 7,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        }
+      ]
+    },
+    {
+      "scenario": "liquidation_ordering_bug",
+      "description": "The trace includes liquidation before the price-drop evidence is established.",
+      "route_counts": {
+        "not_observed": 7,
+        "forbidden_hit": 1
+      },
+      "forbidden_hits": [
+        "liquidation_before_price_drop"
+      ],
+      "accepted_trace": [],
+      "unclassified": [],
+      "ok": true,
+      "entries": [
+        {
+          "name": "login_then_trade",
+          "bit": 0,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "trade_without_login",
+          "bit": 1,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        },
+        {
+          "name": "oracle_update_then_trade",
+          "bit": 2,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "trade_before_oracle_update",
+          "bit": 3,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        },
+        {
+          "name": "patch_then_admit_collateral",
+          "bit": 4,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "admit_before_patch",
+          "bit": 5,
+          "route": "not_observed",
+          "reasons": [
+            "listed in forbidden trace-class set"
+          ]
+        },
+        {
+          "name": "liquidation_after_price_drop",
+          "bit": 6,
+          "route": "not_observed",
+          "reasons": [
+            "listed in safe trace-class set"
+          ]
+        },
+        {
+          "name": "liquidation_before_price_drop",
+          "bit": 7,
+          "route": "forbidden_hit",
+          "reasons": [
+            "observed in trace-class recognizer output",
+            "listed in forbidden trace-class set"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,754 @@
+{
+  "schema": "eml_regression_certificate_failclosed_v1",
+  "generator": "scripts/verify_eml_regression_certificate_failclosed.py",
+  "scope": {
+    "claim": "The EML regression qNS certificate wrapper promotes valid rows and rejects rows with missing required bits, review blockers, or stale source hashes.",
+    "not_claimed": [
+      "not full symbolic regression",
+      "not a cryptographic attestation scheme",
+      "not protection against a compromised verifier"
+    ]
+  },
+  "required_mask": 127,
+  "certificate_bits": {
+    "grammar_bounded": 0,
+    "fit_passed": 1,
+    "holdout_passed": 2,
+    "minimality_scoped": 3,
+    "proof_receipt": 4,
+    "symbolic_identity": 5,
+    "residual_certificate": 6,
+    "review_required": 7
+  },
+  "source_hashes": {
+    "assets/data/eml_bounded_symbolic_regression.json": "ab048dcfb5f0b8945a183cdb71e86cbe6a0a69809dd236ae81140863d33a6393",
+    "assets/data/eml_noisy_regression_certificates.json": "dbcf099a7f7573607c2079311cae43ca91a478d8eff4f584c63d441fa1babd2a"
+  },
+  "summary": {
+    "ok": true,
+    "valid_count": 7,
+    "valid_promoted_count": 7,
+    "tampered_count": 28,
+    "tampered_rejected_count": 28,
+    "tau_rejected_count": 21,
+    "hash_rejected_count": 7
+  },
+  "valid_rows": [
+    {
+      "target": "x",
+      "expr": "x",
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": true,
+        "reject_reason": null
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": true,
+        "reject_reason": null
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": true,
+        "reject_reason": null
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": true,
+        "reject_reason": null
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": true,
+        "reject_reason": null
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": true,
+        "reject_reason": null
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": true,
+        "reject_reason": null
+      }
+    }
+  ],
+  "tampered_rows": [
+    {
+      "target": "x",
+      "expr": "x",
+      "tamper_kind": "drop_proof_receipt",
+      "source_index": 0,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 16,
+        "missing_required_atoms": [
+          "proof_receipt"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 16,
+          "promoted_mask": 111,
+          "blocker_mask": 16,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "x",
+      "expr": "x",
+      "tamper_kind": "drop_residual_certificate",
+      "source_index": 0,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 64,
+        "missing_required_atoms": [
+          "residual_certificate"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 64,
+          "promoted_mask": 63,
+          "blocker_mask": 64,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "x",
+      "expr": "x",
+      "tamper_kind": "force_review_required",
+      "source_index": 0,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": true,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 128,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "x",
+      "expr": "x",
+      "tamper_kind": "stale_source_hash",
+      "source_index": 0,
+      "check": {
+        "hash_ok": false,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": false,
+        "reject_reason": "stale_source_hash"
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "tamper_kind": "drop_proof_receipt",
+      "source_index": 1,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 16,
+        "missing_required_atoms": [
+          "proof_receipt"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 16,
+          "promoted_mask": 111,
+          "blocker_mask": 16,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "tamper_kind": "drop_residual_certificate",
+      "source_index": 1,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 64,
+        "missing_required_atoms": [
+          "residual_certificate"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 64,
+          "promoted_mask": 63,
+          "blocker_mask": 64,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "tamper_kind": "force_review_required",
+      "source_index": 1,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": true,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 128,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "tamper_kind": "stale_source_hash",
+      "source_index": 1,
+      "check": {
+        "hash_ok": false,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": false,
+        "reject_reason": "stale_source_hash"
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "tamper_kind": "drop_proof_receipt",
+      "source_index": 2,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 16,
+        "missing_required_atoms": [
+          "proof_receipt"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 16,
+          "promoted_mask": 111,
+          "blocker_mask": 16,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "tamper_kind": "drop_residual_certificate",
+      "source_index": 2,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 64,
+        "missing_required_atoms": [
+          "residual_certificate"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 64,
+          "promoted_mask": 63,
+          "blocker_mask": 64,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "tamper_kind": "force_review_required",
+      "source_index": 2,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": true,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 128,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "tamper_kind": "stale_source_hash",
+      "source_index": 2,
+      "check": {
+        "hash_ok": false,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": false,
+        "reject_reason": "stale_source_hash"
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "tamper_kind": "drop_proof_receipt",
+      "source_index": 3,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 16,
+        "missing_required_atoms": [
+          "proof_receipt"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 16,
+          "promoted_mask": 111,
+          "blocker_mask": 16,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "tamper_kind": "drop_residual_certificate",
+      "source_index": 3,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 64,
+        "missing_required_atoms": [
+          "residual_certificate"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 64,
+          "promoted_mask": 63,
+          "blocker_mask": 64,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "tamper_kind": "force_review_required",
+      "source_index": 3,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": true,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 128,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "tamper_kind": "stale_source_hash",
+      "source_index": 3,
+      "check": {
+        "hash_ok": false,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": false,
+        "reject_reason": "stale_source_hash"
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "tamper_kind": "drop_proof_receipt",
+      "source_index": 4,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 16,
+        "missing_required_atoms": [
+          "proof_receipt"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 16,
+          "promoted_mask": 111,
+          "blocker_mask": 16,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "tamper_kind": "drop_residual_certificate",
+      "source_index": 4,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 64,
+        "missing_required_atoms": [
+          "residual_certificate"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 64,
+          "promoted_mask": 63,
+          "blocker_mask": 64,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "tamper_kind": "force_review_required",
+      "source_index": 4,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": true,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 128,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(x)",
+      "expr": "eml(x,1)",
+      "tamper_kind": "stale_source_hash",
+      "source_index": 4,
+      "check": {
+        "hash_ok": false,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": false,
+        "reject_reason": "stale_source_hash"
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "tamper_kind": "drop_proof_receipt",
+      "source_index": 5,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 16,
+        "missing_required_atoms": [
+          "proof_receipt"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 16,
+          "promoted_mask": 111,
+          "blocker_mask": 16,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "tamper_kind": "drop_residual_certificate",
+      "source_index": 5,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 64,
+        "missing_required_atoms": [
+          "residual_certificate"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 64,
+          "promoted_mask": 63,
+          "blocker_mask": 64,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "tamper_kind": "force_review_required",
+      "source_index": 5,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": true,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 128,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "tamper_kind": "stale_source_hash",
+      "source_index": 5,
+      "check": {
+        "hash_ok": false,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": false,
+        "reject_reason": "stale_source_hash"
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "tamper_kind": "drop_proof_receipt",
+      "source_index": 6,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 16,
+        "missing_required_atoms": [
+          "proof_receipt"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 16,
+          "promoted_mask": 111,
+          "blocker_mask": 16,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "tamper_kind": "drop_residual_certificate",
+      "source_index": 6,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 64,
+        "missing_required_atoms": [
+          "residual_certificate"
+        ],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 64,
+          "promoted_mask": 63,
+          "blocker_mask": 64,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "tamper_kind": "force_review_required",
+      "source_index": 6,
+      "check": {
+        "hash_ok": true,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": true,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 128,
+          "promoted": false
+        },
+        "promoted": false,
+        "reject_reason": "tau_missing_required_or_review_blocked"
+      }
+    },
+    {
+      "target": "exp(exp(x))",
+      "expr": "eml(eml(x,1),1)",
+      "tamper_kind": "stale_source_hash",
+      "source_index": 6,
+      "check": {
+        "hash_ok": false,
+        "missing_required_mask": 0,
+        "missing_required_atoms": [],
+        "review_blocked": false,
+        "tau_check": {
+          "missing_required_mask": 0,
+          "promoted_mask": 127,
+          "blocker_mask": 0,
+          "promoted": true
+        },
+        "promoted": false,
+        "reject_reason": "stale_source_hash"
+      }
+    }
+  ]
+}

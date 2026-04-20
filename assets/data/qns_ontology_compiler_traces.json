@@ -1,0 +1,249 @@
+{
+  "schema": "qns_ontology_compiler_traces_v1",
+  "generator": "scripts/compile_qns_ontology_masks.py",
+  "scope": {
+    "claim": "A deterministic audited ontology compiler can map bounded text phrases into qns8 masks while quarantining ambiguity and unknown terms before Tau reasoning.",
+    "not_claimed": [
+      "not general natural-language understanding",
+      "not upstream nlang semantics",
+      "not semantic correctness outside the audited phrase table",
+      "not a replacement for human ontology governance"
+    ]
+  },
+  "atom_universe": [
+    {
+      "bit": 0,
+      "name": "registry_verified",
+      "phrases": [
+        "registry verified",
+        "registered",
+        "registry exists"
+      ]
+    },
+    {
+      "bit": 1,
+      "name": "liquidity_deep",
+      "phrases": [
+        "deep liquidity",
+        "liquidity deep",
+        "liquid market"
+      ]
+    },
+    {
+      "bit": 2,
+      "name": "token_old_enough",
+      "phrases": [
+        "old token",
+        "aged token",
+        "token old enough"
+      ]
+    },
+    {
+      "bit": 3,
+      "name": "provenance_clean",
+      "phrases": [
+        "clean provenance",
+        "provenance clean",
+        "clean history"
+      ]
+    },
+    {
+      "bit": 4,
+      "name": "governance_separated",
+      "phrases": [
+        "separated governance",
+        "governance separated"
+      ]
+    },
+    {
+      "bit": 5,
+      "name": "oracle_stable",
+      "phrases": [
+        "stable oracle",
+        "oracle stable"
+      ]
+    },
+    {
+      "bit": 6,
+      "name": "sanction_risk",
+      "phrases": [
+        "sanction risk",
+        "sanctioned",
+        "blacklisted"
+      ]
+    },
+    {
+      "bit": 7,
+      "name": "human_review_required",
+      "phrases": [
+        "human review",
+        "manual review",
+        "review required"
+      ]
+    }
+  ],
+  "ambiguous_phrases": {
+    "review": [
+      "human_review_required",
+      "sanction_risk"
+    ],
+    "risk": [
+      "sanction_risk",
+      "human_review_required"
+    ],
+    "oracle": [
+      "oracle_stable"
+    ],
+    "governance": [
+      "governance_separated"
+    ]
+  },
+  "summary": {
+    "ok": true,
+    "case_count": 3,
+    "ambiguous_case_count": 1,
+    "unknown_quarantine_count": 1,
+    "total_unknown_terms": 4,
+    "exact_mask_nonzero_count": 3
+  },
+  "rows": [
+    {
+      "name": "clean_collateral_report",
+      "text": "Registry verified, deep liquidity, old token, clean provenance, separated governance, stable oracle.",
+      "normalized": "registry verified deep liquidity old token clean provenance separated governance stable oracle",
+      "observed_mask": 63,
+      "ambiguous_mask": 0,
+      "exact_mask": 63,
+      "review_mask": 0,
+      "unknown_quarantine": false,
+      "unknown_terms": [],
+      "matched_phrases": [
+        {
+          "phrase": "registry verified",
+          "atom": "registry_verified"
+        },
+        {
+          "phrase": "deep liquidity",
+          "atom": "liquidity_deep"
+        },
+        {
+          "phrase": "old token",
+          "atom": "token_old_enough"
+        },
+        {
+          "phrase": "clean provenance",
+          "atom": "provenance_clean"
+        },
+        {
+          "phrase": "separated governance",
+          "atom": "governance_separated"
+        },
+        {
+          "phrase": "stable oracle",
+          "atom": "oracle_stable"
+        }
+      ],
+      "ambiguous_phrases": [],
+      "observed_atoms": [
+        "registry_verified",
+        "liquidity_deep",
+        "token_old_enough",
+        "provenance_clean",
+        "governance_separated",
+        "oracle_stable"
+      ],
+      "exact_atoms": [
+        "registry_verified",
+        "liquidity_deep",
+        "token_old_enough",
+        "provenance_clean",
+        "governance_separated",
+        "oracle_stable"
+      ],
+      "review_atoms": []
+    },
+    {
+      "name": "ambiguous_risk_report",
+      "text": "Registry exists, liquidity is deep, review is requested, and risk language appears without a precise audited phrase.",
+      "normalized": "registry exists liquidity is deep review is requested and risk language appears without a precise audited phrase",
+      "observed_mask": 1,
+      "ambiguous_mask": 192,
+      "exact_mask": 1,
+      "review_mask": 192,
+      "unknown_quarantine": false,
+      "unknown_terms": [],
+      "matched_phrases": [
+        {
+          "phrase": "registry exists",
+          "atom": "registry_verified"
+        }
+      ],
+      "ambiguous_phrases": [
+        {
+          "phrase": "review",
+          "candidate_atoms": [
+            "human_review_required",
+            "sanction_risk"
+          ],
+          "mask": 192
+        },
+        {
+          "phrase": "risk",
+          "candidate_atoms": [
+            "sanction_risk",
+            "human_review_required"
+          ],
+          "mask": 192
+        }
+      ],
+      "observed_atoms": [
+        "registry_verified"
+      ],
+      "exact_atoms": [
+        "registry_verified"
+      ],
+      "review_atoms": [
+        "sanction_risk",
+        "human_review_required"
+      ]
+    },
+    {
+      "name": "unknown_term_report",
+      "text": "Registry verified and stable oracle, but quantum sentiment and vibe momentum are claimed as evidence.",
+      "normalized": "registry verified and stable oracle but quantum sentiment and vibe momentum are claimed as evidence",
+      "observed_mask": 33,
+      "ambiguous_mask": 0,
+      "exact_mask": 33,
+      "review_mask": 128,
+      "unknown_quarantine": true,
+      "unknown_terms": [
+        "momentum",
+        "quantum",
+        "sentiment",
+        "vibe"
+      ],
+      "matched_phrases": [
+        {
+          "phrase": "registry verified",
+          "atom": "registry_verified"
+        },
+        {
+          "phrase": "stable oracle",
+          "atom": "oracle_stable"
+        }
+      ],
+      "ambiguous_phrases": [],
+      "observed_atoms": [
+        "registry_verified",
+        "oracle_stable"
+      ],
+      "exact_atoms": [
+        "registry_verified",
+        "oracle_stable"
+      ],
+      "review_atoms": [
+        "human_review_required"
+      ]
+    }
+  ]
+}

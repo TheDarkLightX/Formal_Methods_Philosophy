@@ -1,0 +1,509 @@
+{
+  "schema": "eml_law_surface_demo_v1",
+  "generator": "scripts/generate_eml_law_surface_demo_artifacts.py",
+  "source_cycle": "math_object_innovation_v724",
+  "scope": {
+    "claim": "On the bounded four-target EML constructor corpus, explicit BiLaws discharge raises promotion from 13 to 20 of 22 target-consistent normalized rows; the remaining 2 rows are blocked by positivity interval obligations.",
+    "not_claimed": [
+      "not complete for all constructor words",
+      "not a proof that real-number EML semantics satisfy BiLaws",
+      "not a native Tau analytic backend"
+    ],
+    "law_surface_boundary": "BiLaws is an explicitly selected abstract law surface. This artifact does not prove real-number EML semantics."
+  },
+  "summary": {
+    "ok": true,
+    "raw_row_count": 96,
+    "normalized_changed_count": 72,
+    "target_consistent_count": 22,
+    "base_promoted_count": 13,
+    "base_review_count": 9,
+    "bilaws_promoted_count": 20,
+    "bilaws_review_count": 2,
+    "promotion_delta": 7,
+    "remaining_positivity_review_count": 2
+  },
+  "pipeline": [
+    {
+      "stage": "bounded constructor corpus",
+      "count": 96
+    },
+    {
+      "stage": "obligation-carrying normalization",
+      "changed": 72,
+      "rule_set": [
+        "log_after_exp_cancel",
+        "exp_after_log_cancel_guarded"
+      ]
+    },
+    {
+      "stage": "target-consistency filter",
+      "selected": 22,
+      "rejected": 74
+    },
+    {
+      "stage": "base law promotion",
+      "promoted": 13,
+      "review": 9
+    },
+    {
+      "stage": "BiLaws semantic discharge",
+      "semantic_discharges": 11
+    },
+    {
+      "stage": "BiLaws promotion",
+      "promoted": 20,
+      "review": 2
+    }
+  ],
+  "base_law_surface": {
+    "name": "base",
+    "promoted_count": 13,
+    "review_count": 9,
+    "rows": [
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 0
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 4
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 4
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 0
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 0
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 0
+      },
+      {
+        "target": "exp(x)",
+        "expr": "eml(x,1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      },
+      {
+        "target": "exp(x)",
+        "expr": "eml(x,1)",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 3
+      },
+      {
+        "target": "exp(x)",
+        "expr": "eml(x,1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      },
+      {
+        "target": "exp(x)",
+        "expr": "eml(x,1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 4
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "ln(x)",
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 3
+      },
+      {
+        "target": "ln(x)",
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      },
+      {
+        "target": "ln(x)",
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 3
+      },
+      {
+        "target": "ln(x)",
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      }
+    ]
+  },
+  "bilaws_surface": {
+    "name": "bilaws",
+    "promoted_count": 20,
+    "review_count": 2,
+    "semantic_discharge_count": 11,
+    "rows": [
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 0
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 4
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 4
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 0
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 0
+      },
+      {
+        "target": "x",
+        "expr": "x",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 0
+      },
+      {
+        "target": "exp(x)",
+        "expr": "eml(x,1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      },
+      {
+        "target": "exp(x)",
+        "expr": "eml(x,1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 3
+      },
+      {
+        "target": "exp(x)",
+        "expr": "eml(x,1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      },
+      {
+        "target": "exp(x)",
+        "expr": "eml(x,1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 4
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "exp(exp(x))",
+        "expr": "eml(eml(x,1),1)",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 2
+      },
+      {
+        "target": "ln(x)",
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 3
+      },
+      {
+        "target": "ln(x)",
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      },
+      {
+        "target": "ln(x)",
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "status": "review",
+        "reasons": [
+          "constructor obligations are not fully discharged"
+        ],
+        "obligation_count": 3
+      },
+      {
+        "target": "ln(x)",
+        "expr": "eml(1,eml(eml(1,x),1))",
+        "status": "promote",
+        "reasons": [
+          "qNS accepted, proof accepted, obligations discharged"
+        ],
+        "obligation_count": 1
+      }
+    ]
+  },
+  "remaining_blockers": [
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "failed_obligations": [
+        {
+          "ok": false,
+          "kind": "positive_value_interval",
+          "expr": "WrapLog(Var)",
+          "interval": [
+            -1.3862943611198904,
+            1.0986122886681098
+          ],
+          "reason": "value interval lower bound is not positive"
+        }
+      ]
+    },
+    {
+      "target": "ln(x)",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "failed_obligations": [
+        {
+          "ok": false,
+          "kind": "positive_value_interval",
+          "expr": "Var",
+          "interval": [
+            -1.3862943611198904,
+            1.0986122886681098
+          ],
+          "reason": "value interval lower bound is not positive"
+        }
+      ]
+    }
+  ],
+  "filter_summary": {
+    "input_row_count": 96,
+    "selected_row_count": 22,
+    "rejected_row_count": 74
+  }
+}

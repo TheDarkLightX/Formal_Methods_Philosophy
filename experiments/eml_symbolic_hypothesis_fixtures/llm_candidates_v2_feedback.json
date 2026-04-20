@@ -1,0 +1,36 @@
+{
+  "schema": "eml_candidate_proposals_v1",
+  "purpose": "Second-round fixture that models a proposer reading the feedback packet and removing malformed candidates.",
+  "candidates": [
+    {
+      "target": "exp(x)",
+      "origin": "feedback_fixture",
+      "expr": "eml(x,1)",
+      "note": "Keep the accepted compact expression for exp(x)."
+    },
+    {
+      "target": "ln(x)",
+      "origin": "feedback_fixture",
+      "expr": "eml(x,eml(eml(x,x),1))",
+      "note": "Keep the discovered log expression that has proof-backed normalization metadata."
+    },
+    {
+      "target": "ln(x)",
+      "origin": "feedback_fixture",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "note": "Keep the standard log expression that is already covered by the finite certificate layer."
+    },
+    {
+      "target": "exp(x)",
+      "origin": "feedback_fixture",
+      "expr": "eml(eml(x,1),1)",
+      "note": "Well-formed exploratory expression, retained to test value rejection without parse failure."
+    },
+    {
+      "target": "ln(x)",
+      "origin": "feedback_fixture",
+      "expr": "eml(x,eml(eml(x,x),eml(1,1)))",
+      "note": "Well-formed exploratory expression suggested by nearby rejected formulas, expected to need review or rejection."
+    }
+  ]
+}

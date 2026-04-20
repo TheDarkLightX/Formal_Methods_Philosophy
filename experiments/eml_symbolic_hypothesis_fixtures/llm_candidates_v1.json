@@ -1,0 +1,36 @@
+{
+  "schema": "eml_candidate_proposals_v1",
+  "purpose": "Small fixture that models untrusted LLM-proposed EML formulas for the qNS filter demo.",
+  "candidates": [
+    {
+      "target": "exp(x)",
+      "origin": "llm_fixture",
+      "expr": "eml(x,1)",
+      "note": "Correct compact expression for exp(x) in the real-domain demo."
+    },
+    {
+      "target": "ln(x)",
+      "origin": "llm_fixture",
+      "expr": "eml(x,eml(eml(x,x),1))",
+      "note": "Discovered log expression that normalizes to ln(x) under the checked current strategy."
+    },
+    {
+      "target": "ln(x)",
+      "origin": "llm_fixture",
+      "expr": "eml(1,eml(eml(1,x),1))",
+      "note": "Standard log expression already covered by the finite Lean certificate layer."
+    },
+    {
+      "target": "exp(x)",
+      "origin": "llm_fixture",
+      "expr": "eml(1,1)",
+      "note": "Well-formed but wrong candidate, retained to demonstrate symbolic rejection."
+    },
+    {
+      "target": "ln(x)",
+      "origin": "llm_fixture",
+      "expr": "eml(x,0)",
+      "note": "Malformed for this tiny grammar because only x, 1, and eml(T,T) are admitted."
+    }
+  ]
+}
