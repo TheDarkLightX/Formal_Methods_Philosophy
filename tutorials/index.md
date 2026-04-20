@@ -448,6 +448,17 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/bounded-game-tables-in-tau-language/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 46: Bounded game tables in Tau Language</h2>
+    <p class="fp-card-text">
+      Use feature-gated table syntax to classify a finite strategic profile
+      surface, prune profiles with profitable-deviation evidence, and check a
+      bounded post-AGI tokenomics example.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/neuro-symbolic-boolean-algebras-in-tau-language/' | relative_url }}"
   >
     <h2 class="fp-card-title">Tutorial 49: Neuro-symbolic Boolean algebras in Tau Language</h2>
