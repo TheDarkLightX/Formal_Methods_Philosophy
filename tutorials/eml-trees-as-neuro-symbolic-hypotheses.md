@@ -31,6 +31,10 @@ basis.
   <p>This tutorial is a finite teaching experiment. It does not reproduce the paper's gradient-training pipeline. It also does not claim a complete analytic proof stack for EML. The demo uses EML trees as the symbolic hypothesis language inside a propose, filter, and renormalize loop. For the current depth-3 survivors, it adds two stronger checks: a Lean-checked finite certificate layer and a SymPy simplification check with <code>x</code> declared positive.</p>
 </div>
 
+The Tau-facing experiment repo is:
+
+- [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
+
 The local demo is:
 
 ```bash

@@ -60,6 +60,10 @@ results/local/eml-llm-proposal-validation.json
 ## Part 0: the adaptive memory demo
 
 The TauLang-Experiments repo now has a runnable memory demo for this loop.
+The public repo is:
+
+- [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
+
 The default path is model-free, so it can be reproduced without a local LLM:
 
 ```bash
@@ -998,6 +1002,8 @@ table-memory update demo. Native Tau does not yet evaluate analytic EML
 expressions as mathematical functions.
 
 The Tau-facing public consumer lives in the experiment repo:
+
+- [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
 
 ```bash
 cd TauLang-Experiments
