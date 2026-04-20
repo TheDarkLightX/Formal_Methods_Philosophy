@@ -86,8 +86,8 @@ B_x = \mathcal{P}(U).
 $$
 
 <strong>Standard reading.</strong>
-$B_x$ is defined to be the power set of $U$, meaning the set whose elements are
-all subsets of the audited universe $U$.
+The carrier symbol $B_x$ is defined to be the power set of $U$, meaning the
+set whose elements are all subsets of the audited universe $U$.
 
 <strong>Plain English.</strong>
 Each Boolean-algebra value is a set of candidates.
@@ -144,8 +144,9 @@ P := U\wedge N.
 $$
 
 <strong>Standard reading.</strong>
-$P$ is defined as the meet of $U$ and $N$, so $P$ contains exactly the elements
-that are both in the audited universe and in the neural-proposal set.
+The proposed-region symbol $P$ is defined as the meet of $U$ and $N$, so an
+element belongs to $P$ exactly when it belongs both to the audited universe and
+to the neural-proposal set.
 
 <strong>Plain English.</strong>
 Only candidates inside the audited universe can be treated as proposed.
@@ -157,9 +158,9 @@ E := U\wedge N\wedge A\wedge H'.
 $$
 
 <strong>Standard reading.</strong>
-$E$ is defined as the meet of $U$, $N$, $A$, and $H'$; therefore an element is
-in $E$ exactly when it is audited, proposed, allowed, and outside the
-hard-reject set.
+The eligible-region symbol $E$ is defined as the meet of $U$, $N$, $A$, and
+$H'$. Therefore an element belongs to $E$ exactly when it is audited, proposed,
+allowed, and outside the hard-reject set.
 
 <strong>Plain English.</strong>
 A candidate is eligible exactly when it is audited, proposed, allowed, and not
@@ -176,10 +177,10 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\mathrm{Auto}$ is the part of $E$ outside the review set. $\mathrm{Review}$
-is the part of $E$ inside the review set. $\mathrm{Reject}$ is the part of the
-proposed region $P$ whose candidates are either outside the allowed set or
-inside the hard-reject set.
+The auto-accept region is the part of $E$ outside the review set. The review
+region is the part of $E$ inside the review set. The reject region is the part
+of the proposed region $P$ whose candidates are either outside the allowed set
+or inside the hard-reject set.
 
 <strong>Plain English.</strong>
 Eligible candidates either auto-accept or go to review. Proposed candidates
@@ -351,7 +352,7 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\mathrm{Survivors}$ is defined as the meet of the proposed region, the allowed
+The survivors region is defined as the meet of the proposed region, the allowed
 region, and the prime of the hard-reject region.
 
 <strong>Plain English.</strong>
@@ -493,9 +494,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\operatorname{Rev}(O,G,A)$ denotes the value obtained by taking $A$ on the
-part selected by guard $G$, taking the old value $O$ on the part outside
-$G$, and joining those two disjoint contributions.
+The revision expression denotes the value obtained by taking $A$ on the part
+selected by guard $G$, taking the old value $O$ on the part outside $G$, and
+joining those two disjoint contributions.
 
 <strong>Plain English.</strong>
 Inside the guard, use the replacement value. Outside the guard, preserve the
@@ -578,9 +579,9 @@ Q_{\mathrm{unknown}}(t)
 $$
 
 <strong>Standard reading.</strong>
-$C(t)$ is the ordered tuple whose entries are the observed mask of $t$, the
-ambiguous mask of $t$, the exact mask of $t$, the review mask of $t$, and the
-unknown-term set of $t$.
+The compiler output for text $t$ is the ordered tuple whose entries are the
+observed mask of $t$, the ambiguous mask of $t$, the exact mask of $t$, the
+review mask of $t$, and the unknown-term set of $t$.
 
 <strong>Plain English.</strong>
 The compiler turns audited phrases into exact qNS bits, and it keeps ambiguity
@@ -680,9 +681,9 @@ M_{\mathrm{review}}(t).
 $$
 
 <strong>Standard reading.</strong>
-$B(t)$ denotes the join of three masks computed from text $t$: the mask of
-required atoms that are missing, the mask of risk atoms that are present, and
-the mask of atoms that require review.
+The blocker mask for text $t$ denotes the join of three masks: the required
+atoms that are missing, the risk atoms that are present, and the atoms that
+require review.
 
 <strong>Plain English.</strong>
 Anything missing, risky, ambiguous, or unknown becomes a blocker mask before
@@ -695,9 +696,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\operatorname{Rev}(O,B,B)$ denotes revision of old memory $O$ by guard $B$
-using replacement value $B$ itself: inside $B$ the result records $B$, and
-outside $B$ the result preserves $O$.
+The memory-revision expression revises old memory $O$ by guard $B$ using
+replacement value $B$ itself: inside $B$ the result records $B$, and outside
+$B$ the result preserves $O$.
 
 <strong>Plain English.</strong>
 Record the blocker region, and preserve the old memory outside that region.
@@ -759,9 +760,9 @@ a\in A
 $$
 
 <strong>Standard reading.</strong>
-$\operatorname{Accept}(s,a)$ holds exactly when $a$ is an atom in the audited
-atom set $A$ and the normalized span $s$ is a member of the audited phrase set
-$P_a$ for atom $a$.
+The acceptance predicate holds of span $s$ and atom $a$ exactly when $a$ is an
+atom in the audited atom set $A$ and the normalized span $s$ is a member of the
+audited phrase set $P_a$ for atom $a$.
 
 <strong>Plain English.</strong>
 A proposed claim is accepted only when it names a known atom and its evidence
@@ -777,8 +778,9 @@ m(a).
 $$
 
 <strong>Standard reading.</strong>
-$M_{\mathrm{accepted}}(C)$ is the join of $m(a)$ over all claims in certificate
-$C$ whose span and atom satisfy $\operatorname{Accept}(s,a)$.
+The accepted-mask expression for certificate $C$ is the join of the atom mask
+$m(a)$ over all claims in $C$ whose span and atom satisfy the acceptance
+predicate.
 
 <strong>Plain English.</strong>
 Only accepted certificate claims contribute bits to the qNS mask.
