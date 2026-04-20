@@ -50,9 +50,10 @@ q_{\mathrm{N}}(c \mid x)\,\chi_{\mathrm{S}}(c,x)
 $$
 
 <strong>Standard reading.</strong>
-$q_{\mathrm{NS}}(c \mid x)$ is
-$q_{\mathrm{N}}(c \mid x)\chi_{\mathrm{S}}(c,x)$ divided by
-$\sum_{d\in C_x} q_{\mathrm{N}}(d \mid x)\chi_{\mathrm{S}}(d,x)$.
+For candidate $c$ and input $x$, the neuro-symbolic probability of $c$ given
+$x$ is the neural probability of $c$ given $x$, multiplied by the symbolic
+indicator for $c$ at $x$, divided by the total neural mass of all candidates in
+$C_x$ whose symbolic indicator is true.
 
 <strong>Plain English.</strong>
 The model ranks candidates. The symbolic layer deletes candidates that fail the
@@ -85,7 +86,8 @@ B_x = \mathcal{P}(U).
 $$
 
 <strong>Standard reading.</strong>
-$B_x=\mathcal{P}(U)$.
+$B_x$ is defined to be the power set of $U$, meaning the set whose elements are
+all subsets of the audited universe $U$.
 
 <strong>Plain English.</strong>
 Each Boolean-algebra value is a set of candidates.
@@ -101,8 +103,10 @@ A'=U\setminus A.
 $$
 
 <strong>Standard reading.</strong>
-$0=\varnothing$, $1=U$, $A\wedge B=A\cap B$, $A\vee B=A\cup B$, and
-$A'=U\setminus A$.
+The bottom element is the empty subset of $U$. The top element is $U$ itself.
+The meet of $A$ and $B$ is their intersection. The join of $A$ and $B$ is
+their union. The prime of $A$ is the subset of $U$ containing exactly the
+elements of $U$ that are not in $A$.
 
 <strong>Plain English.</strong>
 Meet keeps candidates in both sets. Join keeps candidates in either set. Prime
@@ -140,7 +144,8 @@ P := U\wedge N.
 $$
 
 <strong>Standard reading.</strong>
-$P := U\wedge N$.
+$P$ is defined as the meet of $U$ and $N$, so $P$ contains exactly the elements
+that are both in the audited universe and in the neural-proposal set.
 
 <strong>Plain English.</strong>
 Only candidates inside the audited universe can be treated as proposed.
@@ -152,7 +157,9 @@ E := U\wedge N\wedge A\wedge H'.
 $$
 
 <strong>Standard reading.</strong>
-$E := U\wedge N\wedge A\wedge H'$.
+$E$ is defined as the meet of $U$, $N$, $A$, and $H'$; therefore an element is
+in $E$ exactly when it is audited, proposed, allowed, and outside the
+hard-reject set.
 
 <strong>Plain English.</strong>
 A candidate is eligible exactly when it is audited, proposed, allowed, and not
@@ -169,8 +176,10 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\mathrm{Auto} := E\wedge R'$, $\mathrm{Review} := E\wedge R$, and
-$\mathrm{Reject} := P\wedge(A'\vee H)$.
+$\mathrm{Auto}$ is the part of $E$ outside the review set. $\mathrm{Review}$
+is the part of $E$ inside the review set. $\mathrm{Reject}$ is the part of the
+proposed region $P$ whose candidates are either outside the allowed set or
+inside the hard-reject set.
 
 <strong>Plain English.</strong>
 Eligible candidates either auto-accept or go to review. Proposed candidates
@@ -189,7 +198,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\mathrm{Auto}\wedge H = 0$.
+The meet of the auto-accept region and the hard-reject region is the bottom
+element, so no candidate belongs to both regions.
 
 <strong>Plain English.</strong>
 Nothing that is hard-rejected can also be auto-accepted.
@@ -201,7 +211,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\mathrm{Auto}\vee\mathrm{Review}\vee\mathrm{Reject}=P$.
+The join of the auto-accept region, the review region, and the reject region is
+equal to the proposed region $P$.
 
 <strong>Plain English.</strong>
 Every proposed candidate lands in exactly the supported decision surface:
@@ -216,8 +227,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\mathrm{Auto}\wedge\mathrm{Review}=0$, $\mathrm{Auto}\wedge\mathrm{Reject}=0$,
-and $\mathrm{Review}\wedge\mathrm{Reject}=0$.
+Each pair among the auto-accept, review, and reject regions has bottom meet,
+so the three regions are pairwise disjoint.
 
 <strong>Plain English.</strong>
 No candidate is classified into two decision regions at the same time.
@@ -340,7 +351,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\mathrm{Survivors}=\mathrm{Proposed}\wedge\mathrm{Allowed}\wedge\mathrm{HardReject}'$.
+$\mathrm{Survivors}$ is defined as the meet of the proposed region, the allowed
+region, and the prime of the hard-reject region.
 
 <strong>Plain English.</strong>
 Keep only candidates that were proposed, allowed, and not hard-rejected.
@@ -481,7 +493,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\operatorname{Rev}(O,G,A)$ is the join of $G\wedge A$ and $G'\wedge O$.
+$\operatorname{Rev}(O,G,A)$ denotes the value obtained by taking $A$ on the
+part selected by guard $G$, taking the old value $O$ on the part outside
+$G$, and joining those two disjoint contributions.
 
 <strong>Plain English.</strong>
 Inside the guard, use the replacement value. Outside the guard, preserve the
@@ -666,8 +680,9 @@ M_{\mathrm{review}}(t).
 $$
 
 <strong>Standard reading.</strong>
-$B(t)$ is the join of the missing-required-atom mask of $t$, the risk-hit mask
-of $t$, and the review mask of $t$.
+$B(t)$ denotes the join of three masks computed from text $t$: the mask of
+required atoms that are missing, the mask of risk atoms that are present, and
+the mask of atoms that require review.
 
 <strong>Plain English.</strong>
 Anything missing, risky, ambiguous, or unknown becomes a blocker mask before
@@ -680,7 +695,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\operatorname{Rev}(O,B,B)$ is the join of $B\wedge B$ and $B'\wedge O$.
+$\operatorname{Rev}(O,B,B)$ denotes revision of old memory $O$ by guard $B$
+using replacement value $B$ itself: inside $B$ the result records $B$, and
+outside $B$ the result preserves $O$.
 
 <strong>Plain English.</strong>
 Record the blocker region, and preserve the old memory outside that region.

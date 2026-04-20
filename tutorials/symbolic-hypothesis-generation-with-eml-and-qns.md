@@ -190,7 +190,9 @@ $$
 
 <strong>Standard reading.</strong>
 $q_{\mathrm{NS}}(T\mid D)$ is proportional to
-$q_{\mathrm{N}}(T\mid D)\chi_{\mathrm{parse}}(T)\chi_{\mathrm{domain}}(T,D)\chi_{\mathrm{spec}}(T,D)$.
+the neural probability of tree $T$ given data $D$, multiplied by three
+indicator functions: the parse indicator of $T$, the domain indicator of $T$
+on $D$, and the specification indicator of $T$ on $D$.
 
 <strong>Plain English.</strong>
 A model may propose a formula, but the filter deletes it if it is outside the
@@ -269,7 +271,9 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\operatorname{MSE}(T,f)=\frac{1}{|G|}\sum_{x\in G}(T(x)-f(x))^2$.
+$\operatorname{MSE}(T,f)$ is the average, over sample points $x$ in $G$, of
+the squared difference between the value of tree $T$ at $x$ and the value of
+target function $f$ at $x$.
 
 <strong>Plain English.</strong>
 The checker measures how badly the formula misses the target on the sample
@@ -822,7 +826,8 @@ I=[0.25,3].
 $$
 
 <strong>Standard reading.</strong>
-$I$ is the closed real interval from $0.25$ to $3$.
+$I$ denotes the closed real interval whose lower endpoint is $0.25$ and whose
+upper endpoint is $3$.
 
 <strong>Plain English.</strong>
 The interval-domain receipt checks whether each real-logarithm argument stays
@@ -873,7 +878,8 @@ $$
 
 <strong>Standard reading.</strong>
 $\mathcal{L}_{\mathrm{bi}}$ is the union of the base EML law surface and the
-single additional law saying that, for every $a$, $\exp(\log(a))=a$.
+single additional law saying that, for every admissible value $a$ in the active
+semantic model, applying $\log$ to $a$ and then applying $\exp$ returns $a$.
 
 <strong>Plain English.</strong>
 The stronger law surface unlocks seven additional promotions in this bounded
@@ -946,13 +952,14 @@ normalizeReceiptCanonZero_sound
 ```
 
 <strong>Standard reading.</strong>
-`normalize_sound` states `eval(expr) = eval(normalize(expr))`.
-`normalize_stable` states `emitStep? (normalize expr) = none`.
-`normalize_idempotent` states `normalize(normalize(expr)) = normalize(expr)`.
-`normalize_certNorm_reaches` states that if `tree.certNorm = some norm` then
-`normalize(tree.compileExpr) = norm.compileExpr`.
-`normalizeReceiptCanonZero_sound` states
-`eval(expr) = eval((normalizeReceiptCanonZero expr).2)`.
+The soundness theorem says that an expression and its normalized expression
+have the same evaluation. The stability theorem says that a normalized
+expression has no further accepted rewrite step. The idempotence theorem says
+that normalizing twice gives the same result as normalizing once. The
+certificate-reachability theorem says that when the finite certificate checker
+returns a normal form, the normalizer reaches the compiled expression of that
+normal form. The canonical-zero receipt theorem says that the receipt-producing
+normalizer preserves evaluation.
 
 <strong>Plain English.</strong>
 Accepted formulas are not just strings that looked good in a sample. They are
@@ -1034,8 +1041,8 @@ $$
 $$
 
 <strong>Standard reading.</strong>
-$\mathcal{T}_{\le d}$ is the set of trees $T$ such that the depth of $T$ is at
-most $d$.
+$\mathcal{T}_{\le d}$ denotes the set of all EML trees whose depth is less than
+or equal to $d$.
 
 <strong>Plain English.</strong>
 The search only ranges over EML trees up to the chosen depth bound.
@@ -1057,7 +1064,8 @@ $$
 <strong>Standard reading.</strong>
 $T^\star$ is the $\prec$-least tree among the trees $T$ in
 $\mathcal{T}_{\le d}$ whose training error on $D$ is at most $\varepsilon$ and
-whose holdout error on $D$ is at most $\varepsilon$.
+whose holdout error on $D$ is at most $\varepsilon$. Here $\prec$ is the
+declared bounded-corpus ordering used to break ties.
 
 <strong>Plain English.</strong>
 Among the bounded trees that fit both the training points and the holdout
@@ -1146,7 +1154,8 @@ r_i(T)=T(x_i)-y_i.
 $$
 
 <strong>Standard reading.</strong>
-$r_i(T)$ is the value of $T$ at $x_i$ minus the observed value $y_i$.
+$r_i(T)$ denotes the signed residual of tree $T$ at sample index $i$: the value
+computed by $T$ at input $x_i$ minus the observed value $y_i$.
 
 <strong>Plain English.</strong>
 The report does not only name a winner. It records the signed error at each
@@ -1230,7 +1239,8 @@ $$
 
 <strong>Standard reading.</strong>
 The meet of the accepted mask and the required mask is equal to the required
-mask, and the review mask is zero.
+mask, and the review mask is zero. Equivalently, every required evidence bit is
+present in the accepted mask, and no review blocker bit is present.
 
 <strong>Plain English.</strong>
 Every required evidence bit must be present, and no review blocker may remain.
