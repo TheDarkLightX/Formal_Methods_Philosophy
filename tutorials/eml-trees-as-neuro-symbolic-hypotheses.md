@@ -35,7 +35,19 @@ The Tau-facing experiment repo is:
 
 - [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
 
-The local demo is:
+The public Tau-facing reproduction path is:
+
+```bash
+git clone https://github.com/TheDarkLightX/TauLang-Experiments.git
+cd TauLang-Experiments
+./scripts/run_public_demos.sh --accept-tau-license
+```
+
+That script downloads Tau Language from the official IDNI repository, applies
+the community research patches locally, builds Tau, and runs the safe-table,
+qelim, qNS, EML/qNS certificate, and EML/qNS table-memory demos.
+
+The local site-repo artifact demo is:
 
 ```bash
 python3 scripts/run_eml_neurosymbolic_loop_demo.py

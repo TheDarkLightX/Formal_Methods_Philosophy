@@ -29,7 +29,19 @@ Reference notes for the experiment live in:
 - [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
 - [Neuro-symbolic Boolean algebras note](https://github.com/TheDarkLightX/TauLang-Experiments/blob/main/docs/neuro-symbolic-boolean-algebras.md)
 
-This repo includes a local reproduction script:
+The public Tau-facing reproduction path is:
+
+```bash
+git clone https://github.com/TheDarkLightX/TauLang-Experiments.git
+cd TauLang-Experiments
+./scripts/run_public_demos.sh --accept-tau-license
+```
+
+That script downloads Tau Language from the official IDNI repository, applies
+the community research patches locally, builds Tau, and runs the safe-table,
+qelim, qNS, and EML/qNS demos.
+
+This site repo also includes a local artifact-generation script:
 
 ```text
 scripts/run_qns_semantic_ba_demos.sh

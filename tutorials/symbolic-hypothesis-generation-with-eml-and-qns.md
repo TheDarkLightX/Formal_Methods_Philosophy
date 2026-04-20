@@ -64,17 +64,30 @@ The public repo is:
 
 - [TheDarkLightX/TauLang-Experiments](https://github.com/TheDarkLightX/TauLang-Experiments)
 
-The default path is model-free, so it can be reproduced without a local LLM:
+The full public reproduction path is:
 
 ```bash
-./scripts/run_eml_qns_llm_memory_demo.sh --skip-setup-patch
+git clone https://github.com/TheDarkLightX/TauLang-Experiments.git
+cd TauLang-Experiments
+./scripts/run_public_demos.sh --accept-tau-license
+```
+
+That script downloads Tau Language from the official IDNI repository, applies
+the community research patches locally, builds Tau, and runs the safe-table,
+qelim, qNS, EML/qNS certificate, and EML/qNS table-memory demos.
+
+The memory-demo-only path is model-free by default, so it can be reproduced
+without a local LLM:
+
+```bash
+./scripts/run_eml_qns_llm_memory_demo.sh --accept-tau-license
 ```
 
 The local-model path uses an installed Ollama model as the untrusted proposer:
 
 ```bash
 ./scripts/run_eml_qns_llm_memory_demo.sh \
-  --skip-setup-patch \
+  --accept-tau-license \
   --live-ollama \
   --model llama3.2:3b
 ```
