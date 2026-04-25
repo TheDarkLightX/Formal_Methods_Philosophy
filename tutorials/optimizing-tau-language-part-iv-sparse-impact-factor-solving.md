@@ -276,12 +276,14 @@ demo spec, rebuilds Tau, and runs the sparse impacted-factor measurement:
 python3 scripts/run_tau_sparse_impact_demo.py --tau-checkout /path/to/tau-lang-latest
 ```
 
-The script uses:
+Demo artifacts:
 
-```text
-patches/tau/indexed-factor-sparse-impact-demo.patch
-examples/tau/sparse_impact_factor_speedup_demo.tau
-```
+- [Demo runner]({{ '/scripts/run_tau_sparse_impact_demo.py' | relative_url }}):
+  `scripts/run_tau_sparse_impact_demo.py`
+- [Tau source patch]({{ '/patches/tau/indexed-factor-sparse-impact-demo.patch' | relative_url }}):
+  `patches/tau/indexed-factor-sparse-impact-demo.patch`
+- [Generated Tau spec]({{ '/examples/tau/sparse_impact_factor_speedup_demo.tau' | relative_url }}):
+  `examples/tau/sparse_impact_factor_speedup_demo.tau`
 
 The generated spec has $24$ top-level factors. Only $3$ factors mention
 `d0`, so the measured route can compare all-factor work with impacted-factor

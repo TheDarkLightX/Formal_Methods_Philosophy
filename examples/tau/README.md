@@ -249,3 +249,12 @@ python3 scripts/run_tau_sparse_impact_demo.py --tau-checkout /path/to/tau-lang-l
 
 This is a local performance demo, not a claim that arbitrary Tau formulas speed
 up. The route is feature-gated and scoped to sparse top-level conjunctions.
+
+Demo artifacts:
+
+- [Demo runner](../../scripts/run_tau_sparse_impact_demo.py):
+  `scripts/run_tau_sparse_impact_demo.py`
+- [Tau source patch](../../patches/tau/indexed-factor-sparse-impact-demo.patch):
+  `patches/tau/indexed-factor-sparse-impact-demo.patch`
+- [Generated Tau spec](sparse_impact_factor_speedup_demo.tau):
+  `examples/tau/sparse_impact_factor_speedup_demo.tau`

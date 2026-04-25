@@ -126,13 +126,15 @@ Interpretation:
 
 ## Reproduction
 
-The repository includes a patch artifact and a demo runner:
+The repository includes a patch artifact, a demo runner, and the generated
+Tau spec:
 
-```text
-patches/tau/indexed-factor-sparse-impact-demo.patch
-scripts/run_tau_sparse_impact_demo.py
-examples/tau/sparse_impact_factor_speedup_demo.tau
-```
+- [Tau source patch]({{ '/patches/tau/indexed-factor-sparse-impact-demo.patch' | relative_url }}):
+  `patches/tau/indexed-factor-sparse-impact-demo.patch`
+- [Demo runner]({{ '/scripts/run_tau_sparse_impact_demo.py' | relative_url }}):
+  `scripts/run_tau_sparse_impact_demo.py`
+- [Generated Tau spec]({{ '/examples/tau/sparse_impact_factor_speedup_demo.tau' | relative_url }}):
+  `examples/tau/sparse_impact_factor_speedup_demo.tau`
 
 Run the demo against a Tau checkout:
 

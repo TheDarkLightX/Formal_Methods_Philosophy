@@ -56,17 +56,23 @@ description: "Patch a Tau checkout and run the sparse impacted-factor speed demo
     <div class="fp-card fp-card-span-4">
       <p class="fp-card-kicker">Patch</p>
       <h3 class="fp-card-title">Tau source patch</h3>
-      <p class="fp-card-text"><code>patches/tau/indexed-factor-sparse-impact-demo.patch</code></p>
+      <p class="fp-card-text">
+        <a href="{{ '/patches/tau/indexed-factor-sparse-impact-demo.patch' | relative_url }}"><code>patches/tau/indexed-factor-sparse-impact-demo.patch</code></a>
+      </p>
     </div>
     <div class="fp-card fp-card-span-4">
       <p class="fp-card-kicker">Runner</p>
       <h3 class="fp-card-title">Demo script</h3>
-      <p class="fp-card-text"><code>scripts/run_tau_sparse_impact_demo.py</code></p>
+      <p class="fp-card-text">
+        <a href="{{ '/scripts/run_tau_sparse_impact_demo.py' | relative_url }}"><code>scripts/run_tau_sparse_impact_demo.py</code></a>
+      </p>
     </div>
     <div class="fp-card fp-card-span-4">
       <p class="fp-card-kicker">Spec</p>
       <h3 class="fp-card-title">Generated Tau command</h3>
-      <p class="fp-card-text"><code>examples/tau/sparse_impact_factor_speedup_demo.tau</code></p>
+      <p class="fp-card-text">
+        <a href="{{ '/examples/tau/sparse_impact_factor_speedup_demo.tau' | relative_url }}"><code>examples/tau/sparse_impact_factor_speedup_demo.tau</code></a>
+      </p>
     </div>
   </div>
 </section>
