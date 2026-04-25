@@ -1,0 +1,1025 @@
+diff --git a/src/repl_evaluator.tmpl.h b/src/repl_evaluator.tmpl.h
+index 8ae714a1..68a02233 100644
+--- a/src/repl_evaluator.tmpl.h
++++ b/src/repl_evaluator.tmpl.h
+@@ -2,0 +3,9 @@
++#include <algorithm>
++#include <chrono>
++#include <cstdlib>
++#include <set>
++#include <string>
++#include <unordered_map>
++#include <utility>
++#include <vector>
++
+@@ -18,0 +28,996 @@ using namespace cvc5;
++namespace indexed_factor_solve_experiment {
++
++inline bool enabled() {
++	const char* env = std::getenv("TAU_INDEXED_FACTOR_SOLVE_STATS");
++	return env && std::string(env) == "1";
++}
++
++inline bool factor_cache_stats_enabled() {
++	const char* env = std::getenv("TAU_INDEXED_FACTOR_CACHE_STATS");
++	return env && std::string(env) == "1";
++}
++
++inline bool factor_cache_validate_enabled() {
++	const char* env = std::getenv("TAU_INDEXED_FACTOR_CACHE_VALIDATE");
++	return env && std::string(env) == "1";
++}
++
++inline bool factor_profit_stats_enabled() {
++	const char* env = std::getenv("TAU_INDEXED_FACTOR_PROFIT_STATS");
++	return env && std::string(env) == "1";
++}
++
++inline bool factor_stats_only_enabled() {
++	const char* env = std::getenv("TAU_INDEXED_FACTOR_STATS_ONLY");
++	return env && std::string(env) == "1";
++}
++
++inline bool factor_solve_full_first_enabled() {
++	const char* env = std::getenv("TAU_INDEXED_FACTOR_SOLVE_ORDER");
++	return env && std::string(env) == "full_first";
++}
++
++inline size_t read_size_env(const char* name, size_t fallback) {
++	const char* env = std::getenv(name);
++	if (!env || !*env) return fallback;
++	try {
++		return static_cast<size_t>(std::stoull(env));
++	} catch (...) {
++		return fallback;
++	}
++}
++
++inline std::string trim_token(const std::string& token) {
++	const auto first = token.find_first_not_of(" \t\r\n");
++	if (first == std::string::npos) return "";
++	const auto last = token.find_last_not_of(" \t\r\n");
++	return token.substr(first, last - first + 1);
++}
++
++inline std::set<std::string> read_delta_env() {
++	std::set<std::string> delta;
++	const char* raw = std::getenv("TAU_INDEXED_IMPACT_DELTA");
++	if (!raw || !*raw) return delta;
++	std::string rest(raw);
++	size_t start = 0;
++	while (start <= rest.size()) {
++		const size_t end = rest.find(',', start);
++		const std::string token = trim_token(rest.substr(
++			start,
++			end == std::string::npos ? std::string::npos : end - start));
++		if (!token.empty()) delta.insert(token);
++		if (end == std::string::npos) break;
++		start = end + 1;
++	}
++	return delta;
++}
++
++template <NodeType node>
++void collect_conjunct_factors(tref fm, std::vector<tref>& factors) {
++	using tau = tree<node>;
++	const auto& t = tau::get(fm);
++	if (t.child_is(tau::wff_and)) {
++		collect_conjunct_factors<node>(t[0].first(), factors);
++		collect_conjunct_factors<node>(t[0].second(), factors);
++		return;
++	}
++	if (t.is(tau::wff_and)) {
++		collect_conjunct_factors<node>(t.first(), factors);
++		collect_conjunct_factors<node>(t.second(), factors);
++		return;
++	}
++	factors.push_back(tau::trim_right_sibling(fm));
++}
++
++template <NodeType node>
++std::set<std::string> support_names(tref fm) {
++	using tau = tree<node>;
++	std::set<std::string> names;
++	for (tref var : get_free_vars<node>(fm))
++		names.insert(TAU_TO_STR(tau::trim_right_sibling(var)));
++	return names;
++}
++
++template <NodeType node>
++size_t variable_occurrence_count(tref fm) {
++	using tau = tree<node>;
++	size_t count = 0;
++	std::vector<tref> stack{fm};
++	while (!stack.empty()) {
++		const tref cur = stack.back();
++		stack.pop_back();
++		const auto& t = tau::get(cur);
++		if (t.is(tau::variable)) ++count;
++		for (tref child : t.children()) stack.push_back(child);
++	}
++	return count;
++}
++
++struct factor_shape_stats {
++	size_t variable_occurrences = 0;
++	size_t changed_variable_occurrences = 0;
++	size_t and_count = 0;
++	size_t or_count = 0;
++	size_t max_depth = 0;
++	std::set<std::string> unique_variables;
++};
++
++template <NodeType node>
++factor_shape_stats collect_shape_stats(
++	tref fm,
++	const std::set<std::string>& delta)
++{
++	using tau = tree<node>;
++	factor_shape_stats stats;
++	std::vector<std::pair<tref, size_t>> stack{{fm, 0}};
++	while (!stack.empty()) {
++		const auto [cur, depth] = stack.back();
++		stack.pop_back();
++		const auto& t = tau::get(cur);
++		stats.max_depth = std::max(stats.max_depth, depth);
++		if (t.is(tau::variable)) {
++			const std::string name =
++				TAU_TO_STR(tau::trim_right_sibling(cur));
++			++stats.variable_occurrences;
++			stats.unique_variables.insert(name);
++			if (delta.contains(name))
++				++stats.changed_variable_occurrences;
++		}
++		if (t.is(tau::bf_and) || t.is(tau::wff_and))
++			++stats.and_count;
++		else if (t.is(tau::bf_or) || t.is(tau::wff_or))
++			++stats.or_count;
++		for (tref child : t.children())
++			stack.push_back({child, depth + 1});
++	}
++	return stats;
++}
++
++inline bool intersects(const std::set<std::string>& a,
++	const std::set<std::string>& b)
++{
++	for (const auto& x : a)
++		if (b.contains(x)) return true;
++	return false;
++}
++
++template <NodeType node>
++struct factor_analysis {
++	std::vector<tref> factors;
++	std::vector<std::set<std::string>> supports;
++	std::vector<size_t> term_masses;
++	std::vector<factor_shape_stats> shape_stats;
++	std::set<size_t> scan_selected;
++	std::set<size_t> indexed_selected;
++};
++
++template <NodeType node>
++factor_analysis<node> analyze(tref fm, const std::set<std::string>& delta) {
++	factor_analysis<node> out;
++	collect_conjunct_factors<node>(fm, out.factors);
++	if (out.factors.empty()) out.factors.push_back(fm);
++
++	std::unordered_map<std::string, std::vector<size_t>> index;
++	out.supports.reserve(out.factors.size());
++	out.term_masses.reserve(out.factors.size());
++	out.shape_stats.reserve(out.factors.size());
++	for (size_t i = 0; i < out.factors.size(); ++i) {
++		out.supports.push_back(support_names<node>(out.factors[i]));
++		out.shape_stats.push_back(
++			collect_shape_stats<node>(out.factors[i], delta));
++		out.term_masses.push_back(
++			out.shape_stats.back().variable_occurrences);
++		for (const auto& var : out.supports.back()) index[var].push_back(i);
++	}
++
++	for (size_t i = 0; i < out.supports.size(); ++i)
++		if (intersects(delta, out.supports[i])) out.scan_selected.insert(i);
++
++	for (const auto& var : delta) {
++		auto it = index.find(var);
++		if (it == index.end()) continue;
++		for (size_t id : it->second) out.indexed_selected.insert(id);
++	}
++	return out;
++}
++
++template <NodeType node>
++void emit(tref fm, solver_options options) {
++	if (!enabled()) return;
++
++	using clock = std::chrono::steady_clock;
++	const std::set<std::string> delta = read_delta_env();
++	auto analysis = analyze<node>(fm, delta);
++	if (analysis.factors.empty()) return;
++
++	auto ms = [](const clock::duration& d) {
++		return std::chrono::duration<double, std::milli>(d).count();
++	};
++
++	struct result {
++		double elapsed_ms = 0.0;
++		size_t errors = 0;
++		size_t solutions = 0;
++		size_t no_solutions = 0;
++		std::unordered_map<size_t, double> elapsed_by_id;
++	};
++	auto solve_factor_ids = [&](const std::vector<size_t>& ids) {
++		size_t errors = 0;
++		size_t solutions = 0;
++		size_t no_solutions = 0;
++		std::unordered_map<size_t, double> elapsed_by_id;
++		auto start = clock::now();
++		for (size_t id : ids) {
++			bool error = false;
++			auto factor_start = clock::now();
++			auto solution = solve<node>(analysis.factors[id], options, error);
++			auto factor_end = clock::now();
++			elapsed_by_id[id] = ms(factor_end - factor_start);
++			if (error) ++errors;
++			else if (solution) ++solutions;
++			else ++no_solutions;
++		}
++		auto end = clock::now();
++		return result{
++			ms(end - start),
++			errors,
++			solutions,
++			no_solutions,
++			std::move(elapsed_by_id)
++		};
++	};
++
++	std::vector<size_t> full_ids;
++	full_ids.reserve(analysis.factors.size());
++	for (size_t i = 0; i < analysis.factors.size(); ++i) full_ids.push_back(i);
++	std::vector<size_t> indexed_ids(
++		analysis.indexed_selected.begin(),
++		analysis.indexed_selected.end());
++
++	const bool full_first = factor_solve_full_first_enabled();
++	result indexed;
++	result full;
++	if (full_first) {
++		full = solve_factor_ids(full_ids);
++		indexed = solve_factor_ids(indexed_ids);
++	} else {
++		indexed = solve_factor_ids(indexed_ids);
++		full = solve_factor_ids(full_ids);
++	}
++	const size_t speedup_x1000 = indexed.elapsed_ms <= 0.0
++		? 0
++		: static_cast<size_t>((full.elapsed_ms / indexed.elapsed_ms) * 1000.0);
++	double full_impacted_ms = 0.0;
++	double full_unimpacted_ms = 0.0;
++	for (size_t id : full_ids) {
++		const auto it = full.elapsed_by_id.find(id);
++		const double elapsed = it == full.elapsed_by_id.end() ? 0.0 : it->second;
++		if (analysis.indexed_selected.contains(id))
++			full_impacted_ms += elapsed;
++		else
++			full_unimpacted_ms += elapsed;
++	}
++	const double full_factor_accounted_ms = full_impacted_ms + full_unimpacted_ms;
++	const size_t full_impacted_cost_ratio_x1000 = full_factor_accounted_ms <= 0.0
++		? 0
++		: static_cast<size_t>(
++			(full_impacted_ms / full_factor_accounted_ms) * 1000.0);
++
++	std::cerr << "[indexed_factor_solve]"
++		<< " factor_model=top_level_conjuncts"
++		<< " order=" << (full_first ? "full_first" : "indexed_first")
++		<< " factors=" << analysis.factors.size()
++		<< " delta_vars=" << delta.size()
++		<< " impacted_indexed=" << analysis.indexed_selected.size()
++		<< " scan_equals_indexed=" << (
++			analysis.scan_selected == analysis.indexed_selected ? 1 : 0)
++		<< " full_solve_count=" << full_ids.size()
++		<< " indexed_solve_count=" << indexed_ids.size()
++		<< " full_solve_ms=" << full.elapsed_ms
++		<< " indexed_solve_ms=" << indexed.elapsed_ms
++		<< " speedup_x1000=" << speedup_x1000
++		<< " full_impacted_factor_ms=" << full_impacted_ms
++		<< " full_unimpacted_factor_ms=" << full_unimpacted_ms
++		<< " full_factor_accounted_ms=" << full_factor_accounted_ms
++		<< " full_impacted_cost_ratio_x1000="
++		<< full_impacted_cost_ratio_x1000
++		<< " full_errors=" << full.errors
++		<< " indexed_errors=" << indexed.errors
++		<< " full_solutions=" << full.solutions
++		<< " indexed_solutions=" << indexed.solutions
++		<< " full_no_solutions=" << full.no_solutions
++		<< " indexed_no_solutions=" << indexed.no_solutions
++		<< "\n";
++}
++
++struct cached_factor_result {
++	bool error = false;
++	bool has_solution = false;
++	size_t solution_size = 0;
++};
++
++inline std::string result_signature(const cached_factor_result& result) {
++	if (result.error) return "error";
++	if (!result.has_solution) return "no_solution";
++	return "solution:" + std::to_string(result.solution_size);
++}
++
++inline std::string result_status(const cached_factor_result& result) {
++	if (result.error) return "error";
++	if (!result.has_solution) return "no_solution";
++	return "solution";
++}
++
++template <NodeType node>
++cached_factor_result solve_factor_for_cache(tref fm, solver_options options) {
++	bool error = false;
++	auto solution = solve<node>(fm, options, error);
++	return cached_factor_result{
++		.error = error,
++		.has_solution = static_cast<bool>(solution),
++		.solution_size = solution ? solution.value().size() : 0,
++	};
++}
++
++inline bool pairwise_disjoint_supports(
++	const std::vector<std::set<std::string>>& supports)
++{
++	std::set<std::string> seen;
++	for (const auto& support : supports) {
++		for (const auto& var : support) {
++			if (seen.contains(var)) return false;
++			seen.insert(var);
++		}
++	}
++	return true;
++}
++
++template <NodeType node>
++void emit_factor_cache_stats(tref fm, solver_options options) {
++	if (!factor_cache_stats_enabled()) return;
++
++	using clock = std::chrono::steady_clock;
++	static std::unordered_map<std::string, cached_factor_result> cache;
++
++	const std::set<std::string> delta = read_delta_env();
++	auto analysis = analyze<node>(fm, delta);
++	if (analysis.factors.empty()) return;
++
++	auto ms = [](const clock::duration& d) {
++		return std::chrono::duration<double, std::milli>(d).count();
++	};
++
++	size_t hits = 0;
++	size_t misses = 0;
++	size_t reused = 0;
++	size_t recomputed = 0;
++	size_t errors = 0;
++	size_t solutions = 0;
++	size_t no_solutions = 0;
++
++	auto start = clock::now();
++	for (size_t i = 0; i < analysis.factors.size(); ++i) {
++		const std::string key =
++			TAU_TO_STR(analysis.factors[i]) + "|mode=" + std::to_string(options.mode);
++		const bool impacted = analysis.indexed_selected.contains(i);
++		auto it = cache.find(key);
++		if (it != cache.end() && !impacted) {
++			++hits;
++			++reused;
++		} else {
++			if (it == cache.end()) ++misses;
++			++recomputed;
++			it = cache.insert_or_assign(
++				key, solve_factor_for_cache<node>(analysis.factors[i], options)).first;
++		}
++		if (it->second.error) ++errors;
++		else if (it->second.has_solution) ++solutions;
++		else ++no_solutions;
++	}
++	auto end = clock::now();
++
++	size_t validation_solve_count = 0;
++	size_t validation_mismatches = 0;
++	const bool composable_disjoint = pairwise_disjoint_supports(analysis.supports);
++	std::string predicted_status = "solution";
++	if (errors > 0) predicted_status = "error";
++	else if (no_solutions > 0) predicted_status = "no_solution";
++	std::string full_validation_status = "skipped";
++	size_t full_validation_mismatch = 0;
++	double full_validation_ms = 0.0;
++	if (factor_cache_validate_enabled()) {
++		for (size_t i = 0; i < analysis.factors.size(); ++i) {
++			const std::string key =
++				TAU_TO_STR(analysis.factors[i]) + "|mode=" + std::to_string(options.mode);
++			const auto fresh = solve_factor_for_cache<node>(analysis.factors[i], options);
++			++validation_solve_count;
++			auto it = cache.find(key);
++			if (it == cache.end()
++				|| result_signature(it->second) != result_signature(fresh))
++				++validation_mismatches;
++		}
++		if (composable_disjoint) {
++			auto validation_start = clock::now();
++			const auto full = solve_factor_for_cache<node>(fm, options);
++			auto validation_end = clock::now();
++			full_validation_status = result_status(full);
++			full_validation_ms = ms(validation_end - validation_start);
++			if (full_validation_status != predicted_status)
++				++full_validation_mismatch;
++		}
++	}
++
++	std::cerr << "[indexed_factor_cache]"
++		<< " factor_model=top_level_conjuncts"
++		<< " factors=" << analysis.factors.size()
++		<< " delta_vars=" << delta.size()
++		<< " impacted_indexed=" << analysis.indexed_selected.size()
++		<< " scan_equals_indexed=" << (
++			analysis.scan_selected == analysis.indexed_selected ? 1 : 0)
++		<< " cache_size=" << cache.size()
++		<< " cache_hits=" << hits
++		<< " cache_misses=" << misses
++		<< " reused=" << reused
++		<< " recomputed=" << recomputed
++		<< " cache_elapsed_ms=" << ms(end - start)
++		<< " errors=" << errors
++		<< " solutions=" << solutions
++		<< " no_solutions=" << no_solutions
++		<< " composable_disjoint=" << (composable_disjoint ? 1 : 0)
++		<< " predicted_status=" << predicted_status
++		<< " validation_solve_count=" << validation_solve_count
++		<< " validation_mismatches=" << validation_mismatches
++		<< " full_validation_status=" << full_validation_status
++		<< " full_validation_ms=" << full_validation_ms
++		<< " full_validation_mismatch=" << full_validation_mismatch
++		<< "\n";
++}
++
++template <NodeType node>
++void emit_factor_profit_stats(tref fm) {
++	if (!factor_profit_stats_enabled()) return;
++
++	const std::set<std::string> delta = read_delta_env();
++	auto analysis = analyze<node>(fm, delta);
++	if (analysis.factors.empty()) return;
++
++	const size_t min_factors = read_size_env(
++		"TAU_INDEXED_FACTOR_PROFIT_MIN_FACTORS", 8);
++	const size_t min_saved = read_size_env(
++		"TAU_INDEXED_FACTOR_PROFIT_MIN_SAVED", 4);
++	const size_t max_impact_x1000 = read_size_env(
++		"TAU_INDEXED_FACTOR_PROFIT_MAX_IMPACT_X1000", 500);
++	const size_t max_primary_ratio_x1000 = read_size_env(
++		"TAU_INDEXED_FACTOR_PROFIT_MAX_PRIMARY_RATIO_X1000", 1000);
++	const size_t max_secondary_ratio_x1000 = read_size_env(
++		"TAU_INDEXED_FACTOR_PROFIT_MAX_SECONDARY_RATIO_X1000", 1000);
++	const size_t max_term_impact_x1000 = read_size_env(
++		"TAU_INDEXED_FACTOR_PROFIT_MAX_TERM_IMPACT_X1000", 1000);
++
++	const size_t factors = analysis.factors.size();
++	const size_t impacted = analysis.indexed_selected.size();
++	const size_t saved = factors >= impacted ? factors - impacted : 0;
++	const bool selection_matches =
++		analysis.scan_selected == analysis.indexed_selected;
++	const size_t impact_ratio_x1000 = factors == 0
++		? 1000
++		: impacted * 1000 / factors;
++	size_t support_mass = 0;
++	size_t impacted_support_mass = 0;
++	size_t term_mass = 0;
++	size_t impacted_term_mass = 0;
++	size_t impacted_changed_variable_occurrences = 0;
++	size_t impacted_unique_variable_sum = 0;
++	size_t impacted_and_count = 0;
++	size_t impacted_or_count = 0;
++	size_t impacted_max_depth = 0;
++	size_t impacted_factor_support_min = 0;
++	size_t impacted_factor_support_max = 0;
++	size_t impacted_factor_term_mass_min = 0;
++	size_t impacted_factor_term_mass_max = 0;
++	size_t impacted_factor_changed_occ_min = 0;
++	size_t impacted_factor_changed_occ_max = 0;
++	size_t impacted_factor_changed_ratio_min_x1000 = 0;
++	size_t impacted_factor_changed_ratio_max_x1000 = 0;
++	size_t impacted_factor_or_ratio_min_x1000 = 0;
++	size_t impacted_factor_or_ratio_max_x1000 = 0;
++	size_t impacted_factor_repeat_ratio_min_x1000 = 0;
++	size_t impacted_factor_repeat_ratio_max_x1000 = 0;
++	size_t impacted_factor_depth_min = 0;
++	size_t impacted_factor_depth_max = 0;
++	std::set<std::string> impacted_union_support;
++	std::vector<std::set<std::string>> impacted_factor_supports;
++	std::vector<std::set<std::string>> impacted_factor_residual_supports;
++	bool saw_impacted_factor = false;
++	for (size_t i = 0; i < factors; ++i) {
++		const size_t factor_support = analysis.supports[i].size();
++		const size_t factor_term_mass = analysis.term_masses[i];
++		support_mass += factor_support;
++		term_mass += factor_term_mass;
++		if (analysis.indexed_selected.contains(i)) {
++			saw_impacted_factor = true;
++			impacted_support_mass += factor_support;
++			impacted_term_mass += factor_term_mass;
++			const auto& stats = analysis.shape_stats[i];
++			std::set<std::string> residual_support;
++			for (const auto& var : analysis.supports[i])
++			{
++				impacted_union_support.insert(var);
++				if (!delta.contains(var))
++					residual_support.insert(var);
++			}
++			impacted_factor_supports.push_back(analysis.supports[i]);
++			impacted_factor_residual_supports.push_back(
++				std::move(residual_support));
++			impacted_changed_variable_occurrences +=
++				stats.changed_variable_occurrences;
++			impacted_unique_variable_sum += stats.unique_variables.size();
++			impacted_and_count += stats.and_count;
++			impacted_or_count += stats.or_count;
++			impacted_max_depth = std::max(
++				impacted_max_depth,
++				stats.max_depth);
++			const size_t factor_operator_count =
++				stats.and_count + stats.or_count;
++			const size_t factor_changed_ratio_x1000 =
++				factor_term_mass == 0
++					? 0
++					: stats.changed_variable_occurrences * 1000
++						/ factor_term_mass;
++			const size_t factor_or_ratio_x1000 =
++				factor_operator_count == 0
++					? 0
++					: stats.or_count * 1000 / factor_operator_count;
++			const size_t factor_repeat_count =
++				stats.variable_occurrences > stats.unique_variables.size()
++					? stats.variable_occurrences
++						- stats.unique_variables.size()
++					: 0;
++			const size_t factor_repeat_ratio_x1000 =
++				stats.variable_occurrences == 0
++					? 0
++					: factor_repeat_count * 1000
++						/ stats.variable_occurrences;
++			if (impacted == 1 || impacted_factor_support_min == 0) {
++				impacted_factor_support_min = factor_support;
++				impacted_factor_support_max = factor_support;
++				impacted_factor_term_mass_min = factor_term_mass;
++				impacted_factor_term_mass_max = factor_term_mass;
++				impacted_factor_changed_occ_min =
++					stats.changed_variable_occurrences;
++				impacted_factor_changed_occ_max =
++					stats.changed_variable_occurrences;
++				impacted_factor_changed_ratio_min_x1000 =
++					factor_changed_ratio_x1000;
++				impacted_factor_changed_ratio_max_x1000 =
++					factor_changed_ratio_x1000;
++				impacted_factor_or_ratio_min_x1000 =
++					factor_or_ratio_x1000;
++				impacted_factor_or_ratio_max_x1000 =
++					factor_or_ratio_x1000;
++				impacted_factor_repeat_ratio_min_x1000 =
++					factor_repeat_ratio_x1000;
++				impacted_factor_repeat_ratio_max_x1000 =
++					factor_repeat_ratio_x1000;
++				impacted_factor_depth_min = stats.max_depth;
++				impacted_factor_depth_max = stats.max_depth;
++			} else {
++				impacted_factor_support_min = std::min(
++					impacted_factor_support_min,
++					factor_support);
++				impacted_factor_support_max = std::max(
++					impacted_factor_support_max,
++					factor_support);
++				impacted_factor_term_mass_min = std::min(
++					impacted_factor_term_mass_min,
++					factor_term_mass);
++				impacted_factor_term_mass_max = std::max(
++					impacted_factor_term_mass_max,
++					factor_term_mass);
++				impacted_factor_changed_occ_min = std::min(
++					impacted_factor_changed_occ_min,
++					stats.changed_variable_occurrences);
++				impacted_factor_changed_occ_max = std::max(
++					impacted_factor_changed_occ_max,
++					stats.changed_variable_occurrences);
++				impacted_factor_changed_ratio_min_x1000 = std::min(
++					impacted_factor_changed_ratio_min_x1000,
++					factor_changed_ratio_x1000);
++				impacted_factor_changed_ratio_max_x1000 = std::max(
++					impacted_factor_changed_ratio_max_x1000,
++					factor_changed_ratio_x1000);
++				impacted_factor_or_ratio_min_x1000 = std::min(
++					impacted_factor_or_ratio_min_x1000,
++					factor_or_ratio_x1000);
++				impacted_factor_or_ratio_max_x1000 = std::max(
++					impacted_factor_or_ratio_max_x1000,
++					factor_or_ratio_x1000);
++				impacted_factor_repeat_ratio_min_x1000 = std::min(
++					impacted_factor_repeat_ratio_min_x1000,
++					factor_repeat_ratio_x1000);
++				impacted_factor_repeat_ratio_max_x1000 = std::max(
++					impacted_factor_repeat_ratio_max_x1000,
++					factor_repeat_ratio_x1000);
++				impacted_factor_depth_min = std::min(
++					impacted_factor_depth_min,
++					stats.max_depth);
++				impacted_factor_depth_max = std::max(
++					impacted_factor_depth_max,
++					stats.max_depth);
++			}
++		}
++	}
++	if (!saw_impacted_factor) {
++		impacted_factor_support_min = 0;
++		impacted_factor_support_max = 0;
++		impacted_factor_term_mass_min = 0;
++		impacted_factor_term_mass_max = 0;
++		impacted_factor_changed_occ_min = 0;
++		impacted_factor_changed_occ_max = 0;
++		impacted_factor_changed_ratio_min_x1000 = 0;
++		impacted_factor_changed_ratio_max_x1000 = 0;
++		impacted_factor_or_ratio_min_x1000 = 0;
++		impacted_factor_or_ratio_max_x1000 = 0;
++		impacted_factor_repeat_ratio_min_x1000 = 0;
++		impacted_factor_repeat_ratio_max_x1000 = 0;
++		impacted_factor_depth_min = 0;
++		impacted_factor_depth_max = 0;
++	}
++	const size_t support_impact_ratio_x1000 = support_mass == 0
++		? 0
++		: impacted_support_mass * 1000 / support_mass;
++	const size_t term_impact_ratio_x1000 = term_mass == 0
++		? 0
++		: impacted_term_mass * 1000 / term_mass;
++	const size_t impacted_changed_occ_ratio_x1000 =
++		impacted_term_mass == 0
++			? 0
++			: impacted_changed_variable_occurrences * 1000
++				/ impacted_term_mass;
++	const size_t impacted_operator_count =
++		impacted_and_count + impacted_or_count;
++	const size_t impacted_or_ratio_x1000 =
++		impacted_operator_count == 0
++			? 0
++			: impacted_or_count * 1000 / impacted_operator_count;
++	const size_t impacted_operator_balance_x1000 =
++		impacted_operator_count == 0
++			? 0
++			: (std::max(impacted_and_count, impacted_or_count)
++				- std::min(impacted_and_count, impacted_or_count))
++				* 1000 / impacted_operator_count;
++	const size_t impacted_repeat_count =
++		impacted_term_mass > impacted_unique_variable_sum
++			? impacted_term_mass - impacted_unique_variable_sum
++			: 0;
++	const size_t impacted_repeat_ratio_x1000 =
++		impacted_term_mass == 0
++			? 0
++			: impacted_repeat_count * 1000 / impacted_term_mass;
++	const size_t impacted_support_overlap_excess =
++		impacted_support_mass > impacted_union_support.size()
++			? impacted_support_mass - impacted_union_support.size()
++			: 0;
++	const size_t impacted_support_overlap_ratio_x1000 =
++		impacted_support_mass == 0
++			? 0
++			: impacted_support_overlap_excess * 1000
++				/ impacted_support_mass;
++	std::vector<size_t> support_component_parent(impacted_factor_supports.size());
++	for (size_t i = 0; i < support_component_parent.size(); ++i)
++		support_component_parent[i] = i;
++	auto support_component_find = [&](size_t index) {
++		size_t root = index;
++		while (support_component_parent[root] != root)
++			root = support_component_parent[root];
++		while (support_component_parent[index] != index) {
++			const size_t next = support_component_parent[index];
++			support_component_parent[index] = root;
++			index = next;
++		}
++		return root;
++	};
++	auto support_component_union = [&](size_t lhs, size_t rhs) {
++		const size_t lhs_root = support_component_find(lhs);
++		const size_t rhs_root = support_component_find(rhs);
++		if (lhs_root != rhs_root)
++			support_component_parent[rhs_root] = lhs_root;
++	};
++	auto supports_overlap = [](
++		const std::set<std::string>& lhs,
++		const std::set<std::string>& rhs) {
++		auto lit = lhs.begin();
++		auto rit = rhs.begin();
++		while (lit != lhs.end() && rit != rhs.end()) {
++			if (*lit == *rit) return true;
++			if (*lit < *rit) ++lit;
++			else ++rit;
++		}
++		return false;
++	};
++	size_t impacted_support_overlap_edges = 0;
++	for (size_t i = 0; i < impacted_factor_supports.size(); ++i) {
++		for (size_t j = i + 1; j < impacted_factor_supports.size(); ++j) {
++			if (supports_overlap(
++				impacted_factor_supports[i],
++				impacted_factor_supports[j]))
++			{
++				++impacted_support_overlap_edges;
++				support_component_union(i, j);
++			}
++		}
++	}
++	std::unordered_map<size_t, size_t> support_component_sizes;
++	for (size_t i = 0; i < impacted_factor_supports.size(); ++i)
++		++support_component_sizes[support_component_find(i)];
++	size_t impacted_support_component_count = support_component_sizes.size();
++	size_t impacted_support_singleton_components = 0;
++	size_t impacted_support_max_component_size = 0;
++	for (const auto& [_, size] : support_component_sizes) {
++		if (size == 1) ++impacted_support_singleton_components;
++		impacted_support_max_component_size =
++			std::max(impacted_support_max_component_size, size);
++	}
++	const size_t impacted_support_component_ratio_x1000 =
++		impacted == 0 ? 0 : impacted_support_component_count * 1000 / impacted;
++	const size_t impacted_support_max_component_ratio_x1000 =
++		impacted == 0 ? 0 : impacted_support_max_component_size * 1000 / impacted;
++	const size_t impacted_support_overlap_edge_density_x1000 =
++		impacted <= 1
++			? 0
++			: impacted_support_overlap_edges * 2000
++				/ (impacted * (impacted - 1));
++	std::set<std::string> impacted_residual_union_support;
++	size_t impacted_residual_support_mass = 0;
++	for (const auto& support : impacted_factor_residual_supports) {
++		impacted_residual_support_mass += support.size();
++		for (const auto& var : support)
++			impacted_residual_union_support.insert(var);
++	}
++	std::vector<size_t> residual_component_parent(
++		impacted_factor_residual_supports.size());
++	for (size_t i = 0; i < residual_component_parent.size(); ++i)
++		residual_component_parent[i] = i;
++	auto residual_component_find = [&](size_t index) {
++		size_t root = index;
++		while (residual_component_parent[root] != root)
++			root = residual_component_parent[root];
++		while (residual_component_parent[index] != index) {
++			const size_t next = residual_component_parent[index];
++			residual_component_parent[index] = root;
++			index = next;
++		}
++		return root;
++	};
++	auto residual_component_union = [&](size_t lhs, size_t rhs) {
++		const size_t lhs_root = residual_component_find(lhs);
++		const size_t rhs_root = residual_component_find(rhs);
++		if (lhs_root != rhs_root)
++			residual_component_parent[rhs_root] = lhs_root;
++	};
++	size_t impacted_residual_support_overlap_edges = 0;
++	for (size_t i = 0; i < impacted_factor_residual_supports.size(); ++i) {
++		for (size_t j = i + 1; j < impacted_factor_residual_supports.size(); ++j) {
++			if (supports_overlap(
++				impacted_factor_residual_supports[i],
++				impacted_factor_residual_supports[j]))
++			{
++				++impacted_residual_support_overlap_edges;
++				residual_component_union(i, j);
++			}
++		}
++	}
++	std::unordered_map<size_t, size_t> residual_component_sizes;
++	for (size_t i = 0; i < impacted_factor_residual_supports.size(); ++i)
++		++residual_component_sizes[residual_component_find(i)];
++	size_t impacted_residual_support_component_count =
++		residual_component_sizes.size();
++	size_t impacted_residual_support_singleton_components = 0;
++	size_t impacted_residual_support_max_component_size = 0;
++	for (const auto& [_, size] : residual_component_sizes) {
++		if (size == 1) ++impacted_residual_support_singleton_components;
++		impacted_residual_support_max_component_size =
++			std::max(impacted_residual_support_max_component_size, size);
++	}
++	const size_t impacted_residual_support_overlap_excess =
++		impacted_residual_support_mass > impacted_residual_union_support.size()
++			? impacted_residual_support_mass
++				- impacted_residual_union_support.size()
++			: 0;
++	const size_t impacted_residual_support_overlap_ratio_x1000 =
++		impacted_residual_support_mass == 0
++			? 0
++			: impacted_residual_support_overlap_excess * 1000
++				/ impacted_residual_support_mass;
++	const size_t impacted_residual_support_component_ratio_x1000 =
++		impacted == 0
++			? 0
++			: impacted_residual_support_component_count * 1000
++				/ impacted;
++	const size_t impacted_residual_support_max_component_ratio_x1000 =
++		impacted == 0
++			? 0
++			: impacted_residual_support_max_component_size * 1000
++				/ impacted;
++	const size_t impacted_residual_support_overlap_edge_density_x1000 =
++		impacted <= 1
++			? 0
++			: impacted_residual_support_overlap_edges * 2000
++				/ (impacted * (impacted - 1));
++	const size_t impacted_factor_term_mass_spread =
++		impacted_factor_term_mass_max >= impacted_factor_term_mass_min
++			? impacted_factor_term_mass_max
++				- impacted_factor_term_mass_min
++			: 0;
++	const size_t impacted_factor_changed_ratio_spread_x1000 =
++		impacted_factor_changed_ratio_max_x1000
++			>= impacted_factor_changed_ratio_min_x1000
++			? impacted_factor_changed_ratio_max_x1000
++				- impacted_factor_changed_ratio_min_x1000
++			: 0;
++	const size_t impacted_factor_or_ratio_spread_x1000 =
++		impacted_factor_or_ratio_max_x1000
++			>= impacted_factor_or_ratio_min_x1000
++			? impacted_factor_or_ratio_max_x1000
++				- impacted_factor_or_ratio_min_x1000
++			: 0;
++	const size_t impacted_factor_repeat_ratio_spread_x1000 =
++		impacted_factor_repeat_ratio_max_x1000
++			>= impacted_factor_repeat_ratio_min_x1000
++			? impacted_factor_repeat_ratio_max_x1000
++				- impacted_factor_repeat_ratio_min_x1000
++			: 0;
++	const size_t primary_ratio_x1000 = std::min(
++		impact_ratio_x1000,
++		support_impact_ratio_x1000);
++	const size_t secondary_ratio_x1000 = std::max(
++		impact_ratio_x1000,
++		support_impact_ratio_x1000);
++
++	const char* reason = "sparse_impact";
++	bool recommended = true;
++	if (!selection_matches) {
++		recommended = false;
++		reason = "index_mismatch";
++	} else if (factors < min_factors) {
++		recommended = false;
++		reason = "too_few_factors";
++	} else if (saved < min_saved) {
++		recommended = false;
++		reason = "too_few_saved_factors";
++	} else if (impact_ratio_x1000 > max_impact_x1000) {
++		recommended = false;
++		reason = "impact_ratio_too_high";
++	} else if (primary_ratio_x1000 > max_primary_ratio_x1000) {
++		recommended = false;
++		reason = "primary_ratio_too_high";
++	} else if (secondary_ratio_x1000 > max_secondary_ratio_x1000) {
++		recommended = false;
++		reason = "secondary_ratio_too_high";
++	} else if (term_impact_ratio_x1000 > max_term_impact_x1000) {
++		recommended = false;
++		reason = "term_impact_ratio_too_high";
++	}
++
++	std::cerr << "[indexed_factor_profit]"
++		<< " factor_model=top_level_conjuncts"
++		<< " factors=" << factors
++		<< " delta_vars=" << delta.size()
++		<< " impacted_indexed=" << impacted
++		<< " saved_factors=" << saved
++		<< " impact_ratio_x1000=" << impact_ratio_x1000
++		<< " support_mass=" << support_mass
++		<< " impacted_support_mass=" << impacted_support_mass
++		<< " support_impact_ratio_x1000=" << support_impact_ratio_x1000
++		<< " term_mass=" << term_mass
++		<< " impacted_term_mass=" << impacted_term_mass
++		<< " term_impact_ratio_x1000=" << term_impact_ratio_x1000
++		<< " impacted_changed_occ="
++		<< impacted_changed_variable_occurrences
++		<< " impacted_changed_occ_ratio_x1000="
++		<< impacted_changed_occ_ratio_x1000
++		<< " impacted_unique_variable_sum="
++		<< impacted_unique_variable_sum
++		<< " impacted_and_count=" << impacted_and_count
++		<< " impacted_or_count=" << impacted_or_count
++		<< " impacted_or_ratio_x1000=" << impacted_or_ratio_x1000
++		<< " impacted_operator_balance_x1000="
++		<< impacted_operator_balance_x1000
++		<< " impacted_repeat_ratio_x1000="
++		<< impacted_repeat_ratio_x1000
++		<< " impacted_max_depth=" << impacted_max_depth
++		<< " impacted_union_support="
++		<< impacted_union_support.size()
++		<< " impacted_support_overlap_excess="
++		<< impacted_support_overlap_excess
++		<< " impacted_support_overlap_ratio_x1000="
++		<< impacted_support_overlap_ratio_x1000
++		<< " impacted_support_overlap_edges="
++		<< impacted_support_overlap_edges
++		<< " impacted_support_overlap_edge_density_x1000="
++		<< impacted_support_overlap_edge_density_x1000
++		<< " impacted_support_component_count="
++		<< impacted_support_component_count
++		<< " impacted_support_component_ratio_x1000="
++		<< impacted_support_component_ratio_x1000
++		<< " impacted_support_singleton_components="
++		<< impacted_support_singleton_components
++		<< " impacted_support_max_component_size="
++		<< impacted_support_max_component_size
++		<< " impacted_support_max_component_ratio_x1000="
++		<< impacted_support_max_component_ratio_x1000
++		<< " impacted_residual_support_mass="
++		<< impacted_residual_support_mass
++		<< " impacted_residual_union_support="
++		<< impacted_residual_union_support.size()
++		<< " impacted_residual_support_overlap_excess="
++		<< impacted_residual_support_overlap_excess
++		<< " impacted_residual_support_overlap_ratio_x1000="
++		<< impacted_residual_support_overlap_ratio_x1000
++		<< " impacted_residual_support_overlap_edges="
++		<< impacted_residual_support_overlap_edges
++		<< " impacted_residual_support_overlap_edge_density_x1000="
++		<< impacted_residual_support_overlap_edge_density_x1000
++		<< " impacted_residual_support_component_count="
++		<< impacted_residual_support_component_count
++		<< " impacted_residual_support_component_ratio_x1000="
++		<< impacted_residual_support_component_ratio_x1000
++		<< " impacted_residual_support_singleton_components="
++		<< impacted_residual_support_singleton_components
++		<< " impacted_residual_support_max_component_size="
++		<< impacted_residual_support_max_component_size
++		<< " impacted_residual_support_max_component_ratio_x1000="
++		<< impacted_residual_support_max_component_ratio_x1000
++		<< " impacted_factor_support_min="
++		<< impacted_factor_support_min
++		<< " impacted_factor_support_max="
++		<< impacted_factor_support_max
++		<< " impacted_factor_term_mass_min="
++		<< impacted_factor_term_mass_min
++		<< " impacted_factor_term_mass_max="
++		<< impacted_factor_term_mass_max
++		<< " impacted_factor_term_mass_spread="
++		<< impacted_factor_term_mass_spread
++		<< " impacted_factor_changed_occ_min="
++		<< impacted_factor_changed_occ_min
++		<< " impacted_factor_changed_occ_max="
++		<< impacted_factor_changed_occ_max
++		<< " impacted_factor_changed_ratio_min_x1000="
++		<< impacted_factor_changed_ratio_min_x1000
++		<< " impacted_factor_changed_ratio_max_x1000="
++		<< impacted_factor_changed_ratio_max_x1000
++		<< " impacted_factor_changed_ratio_spread_x1000="
++		<< impacted_factor_changed_ratio_spread_x1000
++		<< " impacted_factor_or_ratio_min_x1000="
++		<< impacted_factor_or_ratio_min_x1000
++		<< " impacted_factor_or_ratio_max_x1000="
++		<< impacted_factor_or_ratio_max_x1000
++		<< " impacted_factor_or_ratio_spread_x1000="
++		<< impacted_factor_or_ratio_spread_x1000
++		<< " impacted_factor_repeat_ratio_min_x1000="
++		<< impacted_factor_repeat_ratio_min_x1000
++		<< " impacted_factor_repeat_ratio_max_x1000="
++		<< impacted_factor_repeat_ratio_max_x1000
++		<< " impacted_factor_repeat_ratio_spread_x1000="
++		<< impacted_factor_repeat_ratio_spread_x1000
++		<< " impacted_factor_depth_min="
++		<< impacted_factor_depth_min
++		<< " impacted_factor_depth_max="
++		<< impacted_factor_depth_max
++		<< " primary_ratio_x1000=" << primary_ratio_x1000
++		<< " secondary_ratio_x1000=" << secondary_ratio_x1000
++		<< " scan_equals_indexed=" << (selection_matches ? 1 : 0)
++		<< " min_factors=" << min_factors
++		<< " min_saved=" << min_saved
++		<< " max_impact_x1000=" << max_impact_x1000
++		<< " max_primary_ratio_x1000=" << max_primary_ratio_x1000
++		<< " max_secondary_ratio_x1000=" << max_secondary_ratio_x1000
++		<< " max_term_impact_x1000=" << max_term_impact_x1000
++		<< " recommended=" << (recommended ? 1 : 0)
++		<< " route=" << (recommended ? "indexed_factor_solve" : "full_solve")
++		<< " reason=" << reason
++		<< "\n";
++}
++
++} // namespace indexed_factor_solve_experiment
++
+@@ -500,0 +1506,13 @@ void repl_evaluator<BAs...>::solve_cmd(const tt& n) {
++	solver_options options = {
++		.splitter_one = node::ba::
++			splitter_one(tau_type<node>()),
++		.mode = get_solver_cmd_mode<node>(n.value())
++	};
++	indexed_factor_solve_experiment::emit<node>(value, options);
++	indexed_factor_solve_experiment::emit_factor_cache_stats<node>(value, options);
++	indexed_factor_solve_experiment::emit_factor_profit_stats<node>(value);
++	if (indexed_factor_solve_experiment::factor_stats_only_enabled()
++		&& (indexed_factor_solve_experiment::enabled()
++			|| indexed_factor_solve_experiment::factor_cache_stats_enabled()
++			|| indexed_factor_solve_experiment::factor_profit_stats_enabled()))
++		return;

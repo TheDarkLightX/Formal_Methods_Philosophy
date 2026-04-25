@@ -491,4 +491,14 @@ show_title: false
     </p>
   </a>
 
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/optimizing-tau-language-part-iv-sparse-impact-factor-solving/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 52: Optimizing Tau Language, Part IV</h2>
+    <p class="fp-card-text">
+      Learn the support-locality math behind sparse impacted-factor solving,
+      inspect the 8.446x checked speedup, and run the local Tau patch demo.
+    </p>
+  </a>
 </div>

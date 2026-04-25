@@ -228,3 +228,24 @@ Together they show:
 - a simple calculator as an exact total function,
 - a medical-style decision tree as a finite action gate,
 - and the boundary where Tau should validate policy even when the richer numeric equation is computed outside Tau.
+
+
+### Sparse Impacted-Factor Speed Demo
+
+**File:** `sparse_impact_factor_speedup_demo.tau`
+
+A generated Tau solve command used by Tutorial 52:
+- `24` top-level conjunct factors,
+- `3` factors mention the changed variable `d0`,
+- `21` factors are reusable by the sparse-impact model,
+- the patched Tau runtime emits indexed-factor solve and profit telemetry.
+
+Patch a Tau checkout, rebuild it, write the demo spec, and run the measured
+demo:
+
+```bash
+python3 scripts/run_tau_sparse_impact_demo.py --tau-checkout /path/to/tau-lang-latest
+```
+
+This is a local performance demo, not a claim that arbitrary Tau formulas speed
+up. The route is feature-gated and scoped to sparse top-level conjunctions.
