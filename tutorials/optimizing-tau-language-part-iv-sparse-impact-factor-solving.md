@@ -15,16 +15,6 @@ On checked sparse impacted-factor benchmark cases, a patched latest-Tau
 indexed factor-solve hook measured an 8.446x median in-process speedup.
 ```
 
-The confirmed claim is not:
-
-```text
-Tau is now 8x faster on every formula.
-```
-
-That distinction matters. The useful lesson is not that one backend is always
-better. The useful lesson is that some formulas expose a support structure that
-lets Tau avoid unrelated work.
-
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Scope</p>
   <p>This is a community research experiment against a patched latest-Tau checkout. It is not an official upstream Tau feature, not a global speed theorem, and not a production route selector.</p>
