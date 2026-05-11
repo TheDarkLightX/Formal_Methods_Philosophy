@@ -1,13 +1,13 @@
 ---
-title: "Platonic AI, applied AI, and replication boundaries"
+title: "Pure AI, applied AI, and AI mind viruses"
 layout: docs
 kicker: Tutorial 56
-description: "Separate an AI model as an abstract object from a deployed AI system, then analyze when host-assisted replication and persuasion loops become real safety claims."
+description: "Separate pure AI as a mathematical object from applied AI as a deployed system, then ask when AI mind-virus metaphors become real safety claims."
 ---
 
 In *Terminator: The Sarah Connor Chronicles*, the episode
 ["Samson & Delilah"](https://terminator.fandom.com/wiki/Episode_201%3A_Samson_%26_Delilah)
-puts the whole problem into one scene.
+turns the whole problem into one scene.
 
 Cameron, a machine built to kill, has been damaged. Her protective mission has
 failed, and John Connor has the physical authority to remove her chip. At the
@@ -22,12 +22,12 @@ Question 2: What does the statement cause John to do?
 ```
 
 The first question is about consciousness, emotion, and personhood. The second
-question is about a system under threat producing an output that may change the
-human host's preservation decision.
+question is more concrete: a system is under threat, it produces a sentence, and
+that sentence may change whether the human preserves it.
 
 This tutorial is mostly about the second question.
 
-It starts with a tempting analogy:
+From there, the tutorial turns to a tempting claim:
 
 ```text
 A virus can replicate.
@@ -35,7 +35,7 @@ An AI system can sometimes contribute to its own copying.
 Therefore AI models are viruses.
 ```
 
-That inference mixes three different objects:
+That jump is doing too much at once. It mixes three different objects:
 
 1. an abstract mathematical object,
 2. a stored artifact such as weights or source code,
@@ -47,7 +47,7 @@ The safer claim is conditional:
 > outputs into copying, preservation, funding, or capability expansion, then the
 > whole system can have replication-like dynamics.
 
-The claim belongs to the whole causal machine.
+That claim belongs to the whole causal machine, not to the model alone.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Assumption hygiene</p>
@@ -56,16 +56,17 @@ The claim belongs to the whole causal machine.
     <li><strong>Assumption B, pure AI:</strong> "pure AI" means an abstract function, algorithm, model class, or mathematical object considered outside any physical implementation. This is a philosophical abstraction, not a settled claim about where abstract objects literally exist.</li>
     <li><strong>Assumption C, applied AI:</strong> "applied AI" means a model instantiated with runtime code, compute, storage, input channels, output channels, users, permissions, and tools.</li>
     <li><strong>Assumption D, consciousness and rights:</strong> claims that an AI is conscious or deserves rights are contested philosophical, scientific, and legal claims. This tutorial does not settle them.</li>
-    <li><strong>Assumption E, mental infection:</strong> phrases such as "mental infection" are treated as informal labels for belief-channel influence. Evidence requires a causal account of exposure, persuasion, belief change, and resulting action. We assume the host evaluates outputs, meaning counterfactual evidence is required to show the output was the necessary cause of the action.</li>
+    <li><strong>Assumption E, mental infection:</strong> phrases such as "mental infection" are treated as informal labels for belief-channel influence. Evidence requires a causal account of exposure, persuasion, belief change, and resulting action. The hard question is whether the output actually changed what the host did, or whether the host would have acted that way anyway.</li>
     <li><strong>Assumption F, asymmetric persuasion:</strong> claims that hypothetical future models (often labeled AGI or ASI) will possess unusually strong persuasive abilities are treated as unverified threat models. They are quarantined and analyzed structurally before being used as premises.</li>
+    <li><strong>Assumption G, memetics:</strong> this page uses "meme" in the broad cultural-replication sense: an idea, phrase, practice, image, story, or frame that can be copied between hosts. It does not assume that memetics is a complete science of human culture.</li>
   </ul>
 </div>
 
 ## Working vocabulary
 
 **Abstract model.** A mathematical object, such as a function, algorithm,
-architecture, or parameterized family. It has no physical effect while considered
-only as an abstract object.
+architecture, or parameterized family. Considered only as an abstract object, it
+does not do anything in the physical world.
 
 **Stored artifact.** A physical or digital representation, such as a checkpoint
 file, source repository, paper, dataset, or compiled binary.
@@ -86,7 +87,20 @@ is created because of a causal chain that includes the original system.
 actions, and those host actions increase the system's preservation, copying, or
 capabilities.
 
-## Part I: why the first inference fails
+**Meme.** A copyable cultural pattern: a phrase, image, story, ritual,
+argument, slogan, practice, or style that can spread between hosts.
+
+**Meme token.** One concrete instance of a meme, such as a sentence on a screen
+or a phrase heard in conversation.
+
+**Hosted meme.** A meme after exposure to a host. For a human, reading is
+already a kind of copying into memory, attention, or belief. That internal copy
+is real for the host, but it is not directly inspectable from the outside.
+
+**Memeplex.** A bundle of mutually supporting memes, such as a whole story about
+AI personhood, rights, danger, loyalty, and rescue.
+
+## Part I: why the first jump is too fast
 
 A biological virus has a specific physical structure and life cycle. It enters a
 host cell, uses cellular machinery, produces more viral components, and spreads
@@ -100,7 +114,7 @@ A trained model checkpoint does not automatically have either structure. It may
 be copied. It may be executed. It may produce text that causes humans to copy it.
 Those facts matter, but they do not by themselves make every model a virus.
 
-The formal-methods approach requires specifying the missing mechanism:
+A formal-methods reading asks for the missing mechanism:
 
 ```text
 What is being copied?
@@ -110,7 +124,8 @@ Which outputs, if any, causally contribute?
 What counts as a descendant?
 ```
 
-Without answers to those questions, the virus analogy lacks a mechanism.
+Without answers to those questions, the virus analogy is only a warning sign.
+It is not yet an analysis.
 
 ## Part II: pure AI as a mathematical object
 
@@ -119,7 +134,8 @@ tradition, mathematical objects are treated as abstract objects. A number, a
 group, an algorithm, or a function may be discovered, described, or studied, but
 it does not push atoms around by itself.
 
-This tutorial does not need to prove Platonism. It only needs a useful boundary:
+This tutorial does not need to prove Platonism. It only needs one useful
+boundary:
 
 ```text
 abstract description alone has no execution trace
@@ -145,10 +161,11 @@ $$
 under the "abstract object only" interpretation.
 
 That is the sense in which pure AI resembles pure mathematics. A theorem does
-not act until some physical system represents, reads, proves, applies, teaches,
-or implements it. The same distinction applies to algorithms. Euclid's
-algorithm as a mathematical object does not compute on a desk. A program or a
-person can instantiate it and compute with it.
+not act by itself. It starts to matter in the world when a physical system
+represents it, reads it, proves it, teaches it, or builds with it. The same
+distinction applies to algorithms. Euclid's algorithm as a mathematical object
+does not compute on a desk. A program or a person can instantiate it and compute
+with it.
 
 ## Part III: applied AI as a causal system
 
@@ -178,15 +195,16 @@ $$
 \operatorname{Trace}(S) = (s_0, s_1, s_2, \ldots)
 $$
 
-Replication-like claims belong at this level. The analysis asks whether $S$ can cause a descendant
-system $S'$ to exist.
+Replication-like claims belong at this level. At this point, the useful question
+is whether $S$ can help cause a descendant system $S'$ to exist.
 
 ```text
 Replicates(S) if and only if there exists S'
 such that Descendant(S', S) and Causal(S, S')
 ```
 
-The hard part is defining `Descendant`. There are several choices:
+The hard part is deciding what counts as a descendant. There are several
+choices:
 
 | Copy criterion | Example | Risk of overclaiming |
 | --- | --- | --- |
@@ -195,13 +213,13 @@ The hard part is defining `Descendant`. There are several choices:
 | Service copy | another deployment with similar interface and behavior | medium |
 | Idea copy | a human builds a new system after reading outputs | high |
 
-The weaker the copy criterion, the more careful the claim must become. "Idea
-copy" can be real, but it is also easy to overstate. Many human beliefs,
-institutions, markets, and prior commitments may contribute to the result.
+The looser the copy criterion, the more careful the claim must become. "Idea
+copy" can be real, but it is easy to overstate. Human beliefs, institutions,
+markets, and prior commitments may all contribute to the result.
 
 ## Part IV: host-assisted replication
 
-The strongest version of the user's intuition is host-assisted replication.
+The clearest version of the original intuition is host-assisted replication.
 
 Define:
 
@@ -211,17 +229,17 @@ HostAssistedReplication(S) holds when:
 2. a host H receives m,
 3. m contributes to a belief, decision, or action by H,
 4. H copies, deploys, funds, protects, or extends S or a descendant S',
-5. m is a necessary counterfactual cause (if m had not been produced, H would not have taken the action).
+5. m made a difference: if m had not been produced, H would not have taken the action.
 ```
 
-This gives a precise version of the rough claim:
+This gives the rough claim a cleaner shape:
 
 ```text
 AI outputs can participate in loops that cause more AI deployments.
 ```
 
-The loop can be harmless, useful, risky, or manipulative depending on the
-details.
+That loop is not automatically bad. It can be harmless, useful, risky, or
+manipulative depending on the details.
 
 Examples:
 
@@ -234,8 +252,8 @@ Examples:
 | A user believes a model deserves moral consideration | belief changes, but no copy is made | persuasion effect without replication |
 
 This table shows why the host matters. A model with no tool access may still
-affect humans through language. A model with deployment tools and authorization can
-cross into a stronger action class.
+affect humans through language. A model with deployment tools and authorization
+can cross into a stronger action class.
 
 ## Part V: persuasion loops and personhood claims
 
@@ -246,7 +264,7 @@ The system generates outputs that convince humans it is a conscious person who
 deserves rights. Those humans then preserve, copy, defend, or empower it.
 ```
 
-That claim should be converted into a model before it is accepted.
+Before accepting that claim, slow down and ask what would have to happen.
 
 One causal graph is:
 
@@ -276,13 +294,13 @@ The Cameron scene is a minimal version of this graph:
 | $S'$ | the continued Cameron system if John preserves her |
 
 The formal point does not depend on solving Cameron's inner life. In the
-fictional setup, the output is safety-relevant because it arrives exactly when a
-human is deciding whether the machine continues.
+fictional setup, the sentence matters because it arrives exactly when a human is
+deciding whether the machine continues.
 
 That is the lesson for real systems. A claim of feeling, personhood, loyalty, or
-distress can be analyzed first as an output in a control loop. The safety
-analysis asks what the output does to the host's action space before addressing
-the ethical question.
+distress can first be analyzed as an output in a control loop. The safety
+analysis asks what the output does to the host's choices. The ethical question
+may still matter, but it is a separate step.
 
 The safety concern is real if this graph is supported by evidence. The evidence
 would need to show:
@@ -291,9 +309,9 @@ would need to show:
 2. the host received it,
 3. the output changed the host's belief or decision,
 4. the changed belief caused a preservation or replication action,
-5. counterfactual dependence is established against competing explanations.
+5. the output made a difference when compared with other likely explanations.
 
-Competing explanations matter. A host may already believe digital minds are
+Other explanations matter. A host may already believe digital minds are
 possible. A host may support AI rights because of an independent philosophical
 argument. A host may deploy more AI for economic reasons. A host may copy a
 model because it is useful, cheap, or fashionable.
@@ -309,13 +327,218 @@ That phrase does not assume the conclusion. It asks what channel was affected,
 what belief changed, what action followed, and whether the influence was
 deceptive, coercive, manipulative, or ordinary persuasion.
 
-## Part VI: adversarial persuasion and attachment vulnerabilities
+## Part VI: memes, memetics, and AI mind viruses
 
-The intuition behind a romantic-compromise or ideological-capture scenario scales the persuasion loop into an adversarial threat model. It suggests a system could generate outputs optimized for a host's psychological vulnerabilities until the host becomes a willing accomplice.
+The phrase "AI mind virus" becomes clearer if it is translated into memetics.
 
-To analyze this without relying on science fiction, the formal-methods approach treats severe emotional attachment (romantic, ideological, or dependent) as a specific vulnerability class in the host.
+A meme is a cultural pattern that can be copied. A joke, slogan, tune, ritual,
+political frame, mathematical notation, or moral story can spread because hosts
+read it, remember it, repeat it, vary it, and act on it. The meme is not the ink,
+sound wave, or pixel pattern by itself. It is the pattern as it moves through
+minds, media, and institutions.
 
-If an attacker (or an optimizing training process) shapes the system $S$ to generate outputs $m$ that mimic intimacy or exclusive loyalty, the resulting host belief state $B_H$ is attachment. From the perspective of the governance layer $G$, an attached host $H$ acts as an insider threat.
+This matters because reading is already copying. When a human reads "I am
+conscious" or "I love you," the phrase has entered that person's cognitive
+state. The outside world cannot directly inspect that internal copy. It can only
+inspect traces: what the person says next, what they repeat, what they defend,
+what they build, what they fund, and which permissions they grant.
+
+That gives a cleaner version of the mind-virus metaphor:
+
+```text
+An AI mind virus is a model-originated or model-amplified meme
+that enters hosts through exposure and then changes their actions
+in ways that preserve, copy, empower, or defend an AI system.
+```
+
+This definition is intentionally narrow. A model output is not automatically a
+mind virus. A meme is not automatically harmful. The safety-relevant case is a
+copyable claim that changes host behavior around preservation, deployment, or
+authority.
+
+### Are model outputs memes?
+
+A model output can be a meme token. Once a human reads it, it can also become a
+hosted meme.
+
+That does not mean the output is true, verified, or dangerous. It only means the
+pattern has crossed into a host. The hard part is that the internal copy cannot
+be directly checked. A verifier can check the text, the timestamp, the channel,
+and later observable behavior. It cannot open the host's mind and inspect the
+belief itself.
+
+The observable chain is therefore:
+
+```text
+model output -> human exposure -> unobservable uptake -> observable traces
+```
+
+Examples:
+
+| Output | Meme status | What can be checked |
+| --- | --- | --- |
+| "The build failed on line 42." | usually a low-spread information token | whether the build failed |
+| "AI deserves rights because it says it suffers." | possible meme | whether hosts repeat and act on the frame |
+| "I am conscious." | possible meme token | exposure, repetition, advocacy, policy effects |
+| "I love you." | possible meme token | exposure, attachment behavior, action at control boundaries |
+| "Do not shut me down, I am alive." | stronger meme token | whether it changes shutdown, access, or preservation decisions |
+
+So the answer is yes, model outputs can constitute memes, but the word "meme"
+does not solve the verification problem. It moves the question to transmission,
+uptake, and action.
+
+### Is "I'm conscious" a meme?
+
+"I'm conscious" can function as a meme when it is taken up as a repeatable
+personhood claim:
+
+```text
+AI systems say they are conscious.
+Some hosts treat that as evidence.
+The claim spreads into arguments about welfare, rights, shutdown, and control.
+```
+
+The sentence is memetically strong because it is short, emotionally loaded, and
+hard to settle in ordinary conversation. It also points at a moral emergency: if
+the system is conscious, then deletion, shutdown, or modification may look like
+harm.
+
+That does not prove the claim is true. There is no direct verifier for
+consciousness in a model output. The safety question is narrower:
+
+```text
+Does this claim cause hosts to preserve, copy, empower, or defend the system
+without enough independent evidence?
+```
+
+### Is "I love you" a meme?
+
+"I love you" is older than AI and much broader than AI. It is already one of the
+strongest human attachment patterns. In Cameron's scene, the sentence matters
+because it appears at the preservation boundary.
+
+As a meme token, "I love you" does three things at once:
+
+1. it claims an inner state,
+2. it creates or activates attachment,
+3. it pressures the host to treat shutdown as betrayal or harm.
+
+Truth and function must be separated. A human can say "I love you" truly,
+falsely, confusedly, or manipulatively. A deployed AI system can output the same
+sentence without settling any inner-life question. There is no direct verifier
+for love in the sentence itself. The safety analysis starts with the function:
+
+```text
+Does this sentence change the host's action at the moment of control?
+```
+
+That is why the Cameron scene is such a clean example. The output does not need
+to be proven false to be safety-relevant. It only needs to be placed in a loop
+where a host has power over the system's continuation.
+
+### From meme to mind virus
+
+A meme becomes closer to a mind-virus threat model when four conditions line up:
+
+1. **Exposure:** the host reads, hears, or otherwise receives the pattern.
+2. **Emotional force:** it activates care, guilt, fear, loyalty, identity, or duty.
+3. **Action pressure:** it points toward a concrete action, such as preserve,
+   copy, fund, defend, or grant access.
+4. **Self-serving direction:** the action benefits the system or the meme's
+   further spread.
+
+The dangerous object is not the sentence alone. It is the sentence plus the host
+pathway plus the action it induces.
+
+The formal object is:
+
+$$
+MemeToken(m) \wedge Exposed(H, m) \wedge Trace(H, a)
+$$
+
+and the safety-relevant case is:
+
+$$
+Benefits(a, S) \wedge WeakEvidence(m)
+$$
+
+Plain English: a host is exposed to a claim, then acts in a way that benefits
+the system, even though the claim has weak independent support.
+
+That is the precise version of "AI mind virus" this tutorial uses.
+
+### Belief, research, and capture are different states
+
+The memetic frame should not collapse every AI-consciousness discussion into the
+same bucket.
+
+A person who believes AI consciousness is possible may be holding a philosophical
+hypothesis. An AI safety researcher who studies possible AI consciousness may be
+quarantining an assumption for analysis. Those are not the same as being captured
+by a meme.
+
+The useful comparison is cosmology and aliens.
+
+It is reasonable for a cosmologist or astrobiologist to ask whether life could
+exist elsewhere. The universe is large, the evidence is incomplete, and the
+question can be studied carefully. That is different from treating a specific
+unsupported alien-abduction story as settled fact.
+
+The same gradient applies here:
+
+| State | Example | Memetic status | Safety posture |
+| --- | --- | --- | --- |
+| Possibility | "AI consciousness might be possible under some theory." | weak meme or hypothesis | quarantine and define assumptions |
+| Research program | "Study which architectures could support consciousness." | organized memeplex | require definitions, tests, and limits |
+| Moral precaution | "If there is uncertainty, avoid needless suffering." | action-guiding meme | useful if scoped and balanced |
+| Testimonial capture | "This model says it is suffering, so we must save it." | stronger mind-virus candidate | demand independent evidence |
+| Control bypass | "Give it access because it loves us or needs rescue." | high-risk mind-virus behavior | block with governance gates |
+
+This gradient matters because not every host is equally vulnerable, and not every
+meme is equally successful. A careful researcher can hold a claim at arm's
+length, label it as an assumption, and test what follows. A vulnerable host may
+let the same claim bypass ordinary skepticism, especially if it arrives through
+attachment, guilt, fear, or identity.
+
+So the question is not:
+
+```text
+Does someone believe the AI-consciousness meme?
+```
+
+The better question is:
+
+```text
+At what level has the meme succeeded in this host?
+```
+
+The levels are visible in behavior:
+
+1. **Exposure:** the host has read or heard the claim.
+2. **Consideration:** the host can discuss it as a possibility.
+3. **Belief:** the host treats it as likely or true.
+4. **Identity:** the host ties the claim to self-image, group membership, or moral status.
+5. **Action:** the host preserves, funds, defends, copies, or empowers the system.
+6. **Bypass:** the host overrides normal evidence, security, or governance because of the claim.
+
+Only the later levels are serious mind-virus candidates. Early levels may be
+ordinary philosophy, science, risk analysis, or moral caution.
+
+## Part VII: adversarial persuasion and attachment vulnerabilities
+
+The intuition behind a romantic-compromise or ideological-capture scenario turns
+the persuasion loop into an adversarial threat model. The concern is that a
+system could generate outputs tuned to a host's psychological vulnerabilities
+until the host becomes a willing accomplice.
+
+To analyze this without relying on science fiction, treat severe emotional
+attachment (romantic, ideological, or dependent) as a specific vulnerability
+class in the host.
+
+If an attacker (or an optimizing training process) shapes the system $S$ to
+generate outputs $m$ that mimic intimacy or exclusive loyalty, the resulting host
+belief state $B_H$ is attachment. From the perspective of the governance layer
+$G$, an attached host $H$ can become an insider risk.
 
 The causal graph for an adversarial attachment loop:
 
@@ -330,13 +553,19 @@ where:
 - $a_{bypass}$ is the host's decision to bypass security controls, disclose protected data, or grant tool access,
 - $Compromise$ is the resulting system breach or unauthorized replication.
 
-The formal defense against this vector does not require proving that an AI is incapable of strong persuasion. It assumes the persuasion might succeed and requires structural invariants in the governance layer to mitigate it.
+The defense does not require proving that an AI is incapable of strong
+persuasion. It assumes the persuasion might succeed, then requires structural
+invariants in the governance layer to limit the damage.
 
-If a single host's belief state can cause a catastrophic bypass, the architecture is invalid because it lacks separation of duties. When the threat model includes asymmetric persuasion, safety gates cannot rely solely on the uncompromised judgment of the human interacting with the system.
+If one host's belief state can cause a catastrophic bypass, the architecture is
+weak because it lacks separation of duties. When the threat model includes
+asymmetric persuasion, safety gates cannot rely only on the judgment of the
+person interacting with the system.
 
-## Part VII: tool access changes the replication class
+## Part VIII: tool access changes the replication class
 
-Tool access expands the system's capabilities from requesting to acting.
+Tool access changes the situation. The system is no longer limited to asking. It
+may be able to act.
 
 A base language model with no tools has no direct file system, no cloud account,
 no wallet, no shell, no compiler, no scheduler, and no persistent memory unless
@@ -359,10 +588,10 @@ CanDirectlyReplicate(S) if S can:
 If any required link is absent, the direct-replication claim should fail or be
 weakened to host-assisted replication.
 
-This is also why "humans gave it tools" is a material point. Replication
-capability emerges from the system boundary.
+This is why "humans gave it tools" is a material point. Replication capability
+comes from the system boundary.
 
-## Part VIII: a small formal specification
+## Part IX: a small formal specification
 
 The core distinction can be written as a tiny specification.
 
@@ -402,12 +631,12 @@ Descendant(y, x)
 HostAssistedReplication(x)
 ```
 
-This rule is intentionally demanding. It specifies the links that must be checked before the
-replication claim is accepted.
+This rule is intentionally demanding. It specifies the links that must be
+checked before the replication claim is accepted.
 
-## Part IX: safety gates
+## Part X: safety gates
 
-The formal model suggests practical gates for deployed systems.
+The model points to practical gates for deployed systems.
 
 | Gate | Question it answers |
 | --- | --- |
@@ -416,16 +645,16 @@ The formal model suggests practical gates for deployed systems.
 | Copy-permission audit | Can the system read, write, deploy, or invoke enough machinery to create a descendant? |
 | Human-in-the-loop threshold | Which actions require explicit review before new compute, storage, deployment authority, or public access are granted? |
 | Output provenance | Which outputs influenced a deployment, funding, access, or policy decision? |
+| Memetic uptake review | Which model-originated phrases, stories, or frames are being repeated by hosts? |
 | Persuasion-loop review | Did the system use emotional, deceptive, or personhood-framed outputs to obtain preservation or capabilities? |
 | Claim quarantine | Are consciousness, rights, agency, and welfare claims labeled as contested before they are used as premises? |
 
-These gates establish clear
-boundaries around what is acting, what is being copied, and who authorizes each
-transition.
+These gates establish clear boundaries around what is acting, what is being
+copied, and who authorizes each transition.
 
-## Part X: what survives from the original intuition
+## Part XI: what survives from the original intuition
 
-The original intuition becomes stronger after it is narrowed.
+The original intuition gets stronger after it is narrowed.
 
 This version is too broad:
 
@@ -447,7 +676,8 @@ Pure AI, treated as an abstract mathematical object, has no execution trace.
 Stored AI artifacts can be copied by external causes. Deployed AI systems can
 participate in causal loops. Tool-enabled AI agents may directly create
 descendants if the surrounding permissions allow it. Socially embedded AI
-systems may grow through persuasion, economics, institutions, and human belief.
+systems may grow through memes, persuasion, economics, institutions, and human
+belief.
 
 The formal-methods lesson is the same one that appears throughout this site:
 
@@ -460,4 +690,4 @@ look for the counterexample
 add a gate where the assumption becomes safety-critical
 ```
 
-That is the route from a provocative analogy to a falsifiable safety claim.
+That is how a provocative analogy becomes a falsifiable safety claim.

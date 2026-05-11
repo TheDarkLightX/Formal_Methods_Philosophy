@@ -505,11 +505,11 @@ show_title: false
     class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/platonic-ai-applied-ai-and-replication-boundaries/' | relative_url }}"
   >
-    <h2 class="fp-card-title">Tutorial 56: Platonic AI, applied AI, and replication boundaries</h2>
+    <h2 class="fp-card-title">Tutorial 56: Pure AI, applied AI, and AI mind viruses</h2>
     <p class="fp-card-text">
-      Separate abstract models from deployed systems, then analyze when
-      tool access, human hosts, and persuasion loops make replication-like AI
-      safety claims precise.
+      Separate pure AI from deployed systems, then ask when AI mind-virus
+      metaphors become checkable claims about hosts, tools, and persuasion
+      loops.
     </p>
   </a>
 </div>
