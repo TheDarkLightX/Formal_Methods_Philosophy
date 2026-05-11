@@ -36,11 +36,9 @@ An AI system can sometimes contribute to its own copying.
 Therefore AI models are viruses.
 ```
 
-That jump is doing too much at once. It mixes three different objects:
-
-1. an abstract mathematical object,
-2. a stored artifact such as weights or source code,
-3. a deployed system with hardware, runtime code, users, tools, storage, and incentives.
+That jump is doing too much at once. It treats an abstract model, a stored
+artifact such as weights or source code, and a deployed system as if they were
+the same kind of thing.
 
 The safer claim is conditional:
 
