@@ -501,4 +501,15 @@ show_title: false
       inspect the 8.446x checked speedup, and run the local Tau patch demo.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/platonic-ai-applied-ai-and-replication-boundaries/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 56: Platonic AI, applied AI, and replication boundaries</h2>
+    <p class="fp-card-text">
+      Separate abstract models from deployed systems, then analyze when
+      tool access, human hosts, and persuasion loops make replication-like AI
+      safety claims precise.
+    </p>
+  </a>
 </div>
