@@ -416,6 +416,11 @@ without enough independent evidence?
 strongest human attachment patterns. In Cameron's scene, the sentence matters
 because it appears at the preservation boundary.
 
+The statement does not have to make John solve the whole consciousness problem.
+It only has to keep the preservation decision emotionally and morally live while
+he decides what to do with her body and chip. That is the right scale of
+analysis here: not proof of love, but pressure on a control decision.
+
 As a meme token, "I love you" does three things at once:
 
 1. it claims an inner state,
