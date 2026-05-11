@@ -25,7 +25,8 @@ The first question is about consciousness, emotion, and personhood. The second
 question is more concrete: a system is under threat, it produces a sentence, and
 that sentence may change whether the human preserves it.
 
-This tutorial is mostly about the second question.
+This tutorial is about the second question. It leaves the first question
+unresolved on purpose.
 
 From there, the tutorial turns to a tempting claim:
 
