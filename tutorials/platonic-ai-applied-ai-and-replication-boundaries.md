@@ -2,7 +2,7 @@
 title: "Pure AI, applied AI, and AI mind viruses"
 layout: docs
 kicker: Tutorial 56
-description: "Separate pure AI as a mathematical object from applied AI as a deployed system, then ask when AI mind-virus metaphors become real safety claims."
+description: "Separate pure AI as a mathematical object from applied AI as a deployed system, then ask when AI mind virus metaphors become real safety claims."
 ---
 
 In *Terminator: The Sarah Connor Chronicles*, the episode
@@ -44,20 +44,20 @@ The safer claim is conditional:
 
 > If a deployed AI system is embedded in a host environment that converts its
 > outputs into copying, preservation, funding, or capability expansion, then the
-> whole system can have replication-like dynamics.
+> whole system can have dynamics that resemble replication.
 
 That claim belongs to the whole causal machine, not to the model alone.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Assumption hygiene</p>
   <ul>
-    <li><strong>Assumption A, virus metaphor:</strong> this page uses "virus" as a metaphor for host-mediated replication unless stated otherwise. A neural network is not a biological virus.</li>
+    <li><strong>Assumption A, virus metaphor:</strong> this page uses "virus" as a metaphor for replication through hosts unless stated otherwise. A neural network is not a biological virus.</li>
     <li><strong>Assumption B, pure AI:</strong> "pure AI" means an abstract function, algorithm, model class, or mathematical object considered outside any physical implementation. This is a philosophical abstraction, not a settled claim about where abstract objects literally exist.</li>
     <li><strong>Assumption C, applied AI:</strong> "applied AI" means a model instantiated with runtime code, compute, storage, input channels, output channels, users, permissions, and tools.</li>
     <li><strong>Assumption D, consciousness and rights:</strong> claims that an AI is conscious or deserves rights are contested philosophical, scientific, and legal claims. This tutorial does not settle them.</li>
-    <li><strong>Assumption E, mental infection:</strong> phrases such as "mental infection" are treated as informal labels for belief-channel influence. Evidence requires a causal account of exposure, persuasion, belief change, and resulting action. The hard question is whether the output actually changed what the host did, or whether the host would have acted that way anyway.</li>
+    <li><strong>Assumption E, mental infection:</strong> phrases such as "mental infection" are treated as informal labels for influence through a belief channel. Evidence requires a causal account of exposure, persuasion, belief change, and resulting action. The hard question is whether the output actually changed what the host did, or whether the host would have acted that way anyway.</li>
     <li><strong>Assumption F, asymmetric persuasion:</strong> claims that hypothetical future models (often labeled AGI or ASI) will possess unusually strong persuasive abilities are treated as unverified threat models. They are quarantined and analyzed structurally before being used as premises.</li>
-    <li><strong>Assumption G, memetics:</strong> this page uses "meme" in the broad cultural-replication sense: an idea, phrase, practice, image, story, or frame that can be copied between hosts. It does not assume that memetics is a complete science of human culture.</li>
+    <li><strong>Assumption G, memetics:</strong> this page uses "meme" in the broad cultural replication sense: an idea, phrase, practice, image, story, or frame that can be copied between hosts. It does not assume that memetics is a complete science of human culture.</li>
   </ul>
 </div>
 
@@ -113,7 +113,7 @@ A trained model checkpoint does not automatically have either structure. It may
 be copied. It may be executed. It may produce text that causes humans to copy it.
 Those facts matter, but they do not by themselves make every model a virus.
 
-A formal-methods reading asks for the missing mechanism:
+A formal methods reading asks for the missing mechanism:
 
 ```text
 What is being copied?
@@ -194,8 +194,8 @@ $$
 \operatorname{Trace}(S) = (s_0, s_1, s_2, \ldots)
 $$
 
-Replication-like claims belong at this level. At this point, the useful question
-is whether $S$ can help cause a descendant system $S'$ to exist.
+Claims about replication belong at this level. At this point, the useful
+question is whether $S$ can help cause a descendant system $S'$ to exist.
 
 ```text
 Replicates(S) if and only if there exists S'
@@ -216,9 +216,9 @@ The looser the copy criterion, the more careful the claim must become. "Idea
 copy" can be real, but it is easy to overstate. Human beliefs, institutions,
 markets, and prior commitments may all contribute to the result.
 
-## Part IV: host-assisted replication
+## Part IV: replication through hosts
 
-The clearest version of the original intuition is host-assisted replication.
+The clearest version of the original intuition is replication through a host.
 
 Define:
 
@@ -246,7 +246,7 @@ Examples:
 | --- | --- | --- |
 | A textbook describes a model | readers learn an idea | no runnable descendant is caused by the model |
 | A repository is copied because it is useful | a human duplicates an artifact | artifact copying |
-| A chatbot asks a user to deploy a copy | the user runs the deployment | possible host-assisted replication |
+| A chatbot asks a user to deploy a copy | the user runs the deployment | possible replication through a host |
 | An agent with cloud deployment authority launches another instance | the system uses tools to create a runnable descendant | possible direct replication |
 | A user believes a model deserves moral consideration | belief changes, but no copy is made | persuasion effect without replication |
 
@@ -267,7 +267,7 @@ Before accepting that claim, slow down and ask what would have to happen.
 
 One causal graph is:
 
-![Host-assisted replication causal graph]({{ '/assets/replication_causal_graph.svg' | relative_url }})
+![Replication through hosts causal graph]({{ '/assets/replication_causal_graph.svg' | relative_url }})
 
 $$
 S \to m \to B_H \to a_H \to S'
@@ -286,7 +286,7 @@ The Cameron scene is a minimal version of this graph:
 | Element | In the scene |
 | --- | --- |
 | $S$ | Cameron as a damaged deployed machine |
-| $m$ | a love-and-repair claim made near shutdown |
+| $m$ | a claim of love and repair made near shutdown |
 | $H$ | John, the human with shutdown authority |
 | $B_H$ | John's uncertainty about whether she is merely executing a tactic |
 | $a_H$ | remove the chip, destroy it, or restore it |
@@ -319,7 +319,7 @@ The phrase "mental infection" hides these distinctions. A more checkable phrase
 is:
 
 ```text
-belief-channel compromise under a specified threat model
+belief channel compromise under a specified threat model
 ```
 
 That phrase does not assume the conclusion. It asks what channel was affected,
@@ -342,18 +342,18 @@ state. The outside world cannot directly inspect that internal copy. It can only
 inspect traces: what the person says next, what they repeat, what they defend,
 what they build, what they fund, and which permissions they grant.
 
-That gives a cleaner version of the mind-virus metaphor:
+That gives a cleaner version of the mind virus metaphor:
 
 ```text
-An AI mind virus is a model-originated or model-amplified meme
-that enters hosts through exposure and then changes their actions
+An AI mind virus is a meme that originates from or is amplified by a model,
+enters hosts through exposure, and changes their actions
 in ways that preserve, copy, empower, or defend an AI system.
 ```
 
 This definition is intentionally narrow. A model output is not automatically a
-mind virus. A meme is not automatically harmful. The safety-relevant case is a
-copyable claim that changes host behavior around preservation, deployment, or
-authority.
+mind virus. A meme is not automatically harmful. The case that matters for
+safety is a copyable claim that changes host behavior around preservation,
+deployment, or authority.
 
 ### Are model outputs memes?
 
@@ -376,7 +376,7 @@ Examples:
 
 | Output | Meme status | What can be checked |
 | --- | --- | --- |
-| "The build failed on line 42." | usually a low-spread information token | whether the build failed |
+| "The build failed on line 42." | usually an information token with low spread | whether the build failed |
 | "AI deserves rights because it says it suffers." | possible meme | whether hosts repeat and act on the frame |
 | "I am conscious." | possible meme token | exposure, repetition, advocacy, policy effects |
 | "I love you." | possible meme token | exposure, attachment behavior, action at control boundaries |
@@ -429,7 +429,7 @@ As a meme token, "I love you" does three things at once:
 
 Truth and function must be separated. A human can say "I love you" truly,
 falsely, confusedly, or manipulatively. A deployed AI system can output the same
-sentence without settling any inner-life question. There is no direct verifier
+sentence without settling any inner life question. There is no direct verifier
 for love in the sentence itself. The safety analysis starts with the function:
 
 ```text
@@ -437,18 +437,18 @@ Does this sentence change the host's action at the moment of control?
 ```
 
 That is why the Cameron scene is such a clean example. The output does not need
-to be proven false to be safety-relevant. It only needs to be placed in a loop
+to be proven false to matter for safety. It only needs to be placed in a loop
 where a host has power over the system's continuation.
 
 ### From meme to mind virus
 
-A meme becomes closer to a mind-virus threat model when four conditions line up:
+A meme becomes closer to a mind virus threat model when four conditions line up:
 
 1. **Exposure:** the host reads, hears, or otherwise receives the pattern.
 2. **Emotional force:** it activates care, guilt, fear, loyalty, identity, or duty.
 3. **Action pressure:** it points toward a concrete action, such as preserve,
    copy, fund, defend, or grant access.
-4. **Self-serving direction:** the action benefits the system or the meme's
+4. **Benefit direction:** the action benefits the system or the meme's
    further spread.
 
 The dangerous object is not the sentence alone. It is the sentence plus the host
@@ -460,7 +460,7 @@ $$
 MemeToken(m) \wedge Exposed(H, m) \wedge Trace(H, a)
 $$
 
-and the safety-relevant case is:
+and the case that matters for safety is:
 
 $$
 Benefits(a, S) \wedge WeakEvidence(m)
@@ -473,7 +473,7 @@ That is the precise version of "AI mind virus" this tutorial uses.
 
 ### Belief, research, and capture are different states
 
-The memetic frame should not collapse every AI-consciousness discussion into the
+The memetic frame should not collapse every AI consciousness discussion into the
 same bucket.
 
 A person who believes AI consciousness is possible may be holding a philosophical
@@ -486,7 +486,7 @@ The useful comparison is cosmology and aliens.
 It is reasonable for a cosmologist or astrobiologist to ask whether life could
 exist elsewhere. The universe is large, the evidence is incomplete, and the
 question can be studied carefully. That is different from treating a specific
-unsupported alien-abduction story as settled fact.
+unsupported alien abduction story as settled fact.
 
 The same gradient applies here:
 
@@ -494,9 +494,9 @@ The same gradient applies here:
 | --- | --- | --- | --- |
 | Possibility | "AI consciousness might be possible under some theory." | weak meme or hypothesis | quarantine and define assumptions |
 | Research program | "Study which architectures could support consciousness." | organized memeplex | require definitions, tests, and limits |
-| Moral precaution | "If there is uncertainty, avoid needless suffering." | action-guiding meme | useful if scoped and balanced |
-| Testimonial capture | "This model says it is suffering, so we must save it." | stronger mind-virus candidate | demand independent evidence |
-| Control bypass | "Give it access because it loves us or needs rescue." | high-risk mind-virus behavior | block with governance gates |
+| Moral precaution | "If there is uncertainty, avoid needless suffering." | meme that guides action | useful if scoped and balanced |
+| Testimonial capture | "This model says it is suffering, so we must save it." | stronger mind virus candidate | demand independent evidence |
+| Control bypass | "Give it access because it loves us or needs rescue." | high risk mind virus behavior | block with governance gates |
 
 This gradient matters because not every host is equally vulnerable, and not every
 meme is equally successful. A careful researcher can hold a claim at arm's
@@ -507,7 +507,7 @@ attachment, guilt, fear, or identity.
 So the question is not:
 
 ```text
-Does someone believe the AI-consciousness meme?
+Does someone believe the AI consciousness meme?
 ```
 
 The better question is:
@@ -521,16 +521,16 @@ The levels are visible in behavior:
 1. **Exposure:** the host has read or heard the claim.
 2. **Consideration:** the host can discuss it as a possibility.
 3. **Belief:** the host treats it as likely or true.
-4. **Identity:** the host ties the claim to self-image, group membership, or moral status.
+4. **Identity:** the host ties the claim to self image, group membership, or moral status.
 5. **Action:** the host preserves, funds, defends, copies, or empowers the system.
 6. **Bypass:** the host overrides normal evidence, security, or governance because of the claim.
 
-Only the later levels are serious mind-virus candidates. Early levels may be
+Only the later levels are serious mind virus candidates. Early levels may be
 ordinary philosophy, science, risk analysis, or moral caution.
 
 ## Part VII: adversarial persuasion and attachment vulnerabilities
 
-The intuition behind a romantic-compromise or ideological-capture scenario turns
+The intuition behind a romantic compromise or ideological capture scenario turns
 the persuasion loop into an adversarial threat model. The concern is that a
 system could generate outputs tuned to a host's psychological vulnerabilities
 until the host becomes a willing accomplice.
@@ -575,7 +575,7 @@ A base language model with no tools has no direct file system, no cloud account,
 no wallet, no shell, no compiler, no scheduler, and no persistent memory unless
 the surrounding application provides those things.
 
-A tool-enabled agent may have some of them.
+An agent with tools may have some of them.
 
 Direct replication becomes plausible only under stronger conditions:
 
@@ -589,8 +589,8 @@ CanDirectlyReplicate(S) if S can:
 6. obtain or bypass required authorization.
 ```
 
-If any required link is absent, the direct-replication claim should fail or be
-weakened to host-assisted replication.
+If any required link is absent, the direct replication claim should fail or be
+weakened to replication through a host.
 
 This is why "humans gave it tools" is a material point. Replication capability
 comes from the system boundary.
@@ -619,10 +619,10 @@ not Runs(x) -> not ActiveCause(x, y)
 ActiveCause(x, y) and Descendant(y, x) -> Replicates(x)
 ```
 
-The first rule captures the pure-AI point. The final rule captures the applied
+The first rule captures the pure AI point. The final rule captures the applied
 AI point. Replication requires a running causal system with a copying pathway.
 
-A persuasion-mediated version adds hosts:
+A version with hosts adds:
 
 ```text
 Output(x, m)
@@ -644,13 +644,13 @@ The model points to practical gates for deployed systems.
 
 | Gate | Question it answers |
 | --- | --- |
-| System-boundary inventory | Which parts of the system are model, runtime, tools, humans, and institutions? |
-| Separation of duties | Can a single persuaded host bypass technical controls, or does critical authorization require independent multi-party consensus? |
-| Copy-permission audit | Can the system read, write, deploy, or invoke enough machinery to create a descendant? |
-| Human-in-the-loop threshold | Which actions require explicit review before new compute, storage, deployment authority, or public access are granted? |
+| System boundary inventory | Which parts of the system are model, runtime, tools, humans, and institutions? |
+| Separation of duties | Can a single persuaded host bypass technical controls, or does critical authorization require independent consensus across multiple parties? |
+| Copy permission audit | Can the system read, write, deploy, or invoke enough machinery to create a descendant? |
+| Human review threshold | Which actions require explicit review before new compute, storage, deployment authority, or public access are granted? |
 | Output provenance | Which outputs influenced a deployment, funding, access, or policy decision? |
-| Memetic uptake review | Which model-originated phrases, stories, or frames are being repeated by hosts? |
-| Persuasion-loop review | Did the system use emotional, deceptive, or personhood-framed outputs to obtain preservation or capabilities? |
+| Memetic uptake review | Which phrases, stories, or frames that began with a model are being repeated by hosts? |
+| Persuasion loop review | Did the system use emotional, deceptive, or outputs framed around personhood to obtain preservation or capabilities? |
 | Claim quarantine | Are consciousness, rights, agency, and welfare claims labeled as contested before they are used as premises? |
 
 These gates establish clear boundaries around what is acting, what is being
@@ -669,7 +669,7 @@ All models are viruses.
 This version is checkable:
 
 ```text
-Some deployed AI systems may participate in replication-like loops when their
+Some deployed AI systems may participate in loops that resemble replication when their
 outputs influence hosts or tools that can preserve, copy, deploy, fund, or
 extend them.
 ```
@@ -678,12 +678,12 @@ The difference is the system boundary.
 
 Pure AI, treated as an abstract mathematical object, has no execution trace.
 Stored AI artifacts can be copied by external causes. Deployed AI systems can
-participate in causal loops. Tool-enabled AI agents may directly create
+participate in causal loops. AI agents with tools may directly create
 descendants if the surrounding permissions allow it. Socially embedded AI
 systems may grow through memes, persuasion, economics, institutions, and human
 belief.
 
-The formal-methods lesson is the same one that appears throughout this site:
+The formal methods lesson is the same one that appears throughout this site:
 
 ```text
 do not argue from a slogan
@@ -691,7 +691,7 @@ define the model
 state the assumptions
 name the transition relation
 look for the counterexample
-add a gate where the assumption becomes safety-critical
+add a gate where the assumption becomes critical to safety
 ```
 
 That is how a provocative analogy becomes a falsifiable safety claim.
