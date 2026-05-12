@@ -58,6 +58,7 @@ That claim belongs to the whole causal machine.
     <li><strong>Assumption E, mental infection:</strong> phrases such as "mental infection" are treated as informal labels for influence through a belief channel. Evidence requires a causal account of exposure, persuasion, belief change, and resulting action. The hard question is whether the output actually changed what the host did, or whether the host would have acted that way anyway.</li>
     <li><strong>Assumption F, asymmetric persuasion:</strong> claims that hypothetical future models (often labeled AGI or ASI) will possess unusually strong persuasive abilities are treated as unverified threat models. They are quarantined and analyzed structurally before being used as premises.</li>
     <li><strong>Assumption G, memetics:</strong> this page uses "meme" in the broad cultural replication sense: an idea, phrase, practice, image, story, or frame that can be copied between hosts. It does not assume that memetics is a complete science of human culture.</li>
+    <li><strong>Assumption H, incentive design:</strong> this page treats collateral, slashing, and protocol incentives as part of the deployed system boundary. Incentive claims require explicit loss bounds, evidence rules, and participation assumptions.</li>
   </ul>
 </div>
 
@@ -78,6 +79,9 @@ tools, and institutional context.
 
 **Host.** A human, organization, script, platform, or infrastructure layer that
 can copy, preserve, deploy, fund, or extend the system.
+
+**Slashing.** A protocol penalty in which a participant who posted collateral
+loses a specified amount after a specified violation.
 
 **Replication event.** A new runnable instance or materially similar descendant
 is created because of a causal chain that includes the original system.
@@ -625,7 +629,41 @@ HostAssistedReplication(x)
 This rule is intentionally demanding. It specifies the links that must be
 checked before the replication claim is accepted.
 
-## Part X: safety gates
+A version with incentives adds:
+
+```text
+Stake(h, c)
+CausesDamage(h, a, d)
+Evidence(e, h, a)
+SlashRule(e, h, delta)
+0 <= delta <= c
+```
+
+The informal game-theory intuition is that participants often become more
+reliable when harmful behavior has a credible downside. A host or validator with
+collateral at risk has something to lose if the violation is observable and the
+slashing rule is enforceable. A participant with no meaningful downside exposure
+is harder to discipline, especially when the damage can exceed any recoverable
+penalty.
+
+The formal model has to say exactly what is at risk, which action triggers the
+loss, who verifies the violation, and how large the penalty can be. That is the
+bridge between formal methods and game theory. Formal bounds define the allowed
+states, forbidden transitions, and maximum losses. Incentives explain why real
+participants keep choosing the allowed transitions when other choices are
+available.
+
+A live network also needs honest behavior to be fast enough, cheap enough, and
+liquid enough to attract use. Energetic token incentives need bounded losses and
+checkable failure modes before they count as a safety case. Terra/LUNA is a
+useful public caution here. The
+[SEC's April 2023 litigation release](https://www.sec.gov/enforcement-litigation/litigation-releases/lr-25692)
+describes TerraUSD as an algorithmic stablecoin tied to LUNA, and states that
+UST depegged in May 2022 while UST and related tokens fell close to zero. The
+structural lesson is that incentives need formal loss bounds, and formal bounds
+need a participation model that real users can live with.
+
+## Part X: safety gates and incentive bounds
 
 The model points to practical gates for deployed systems.
 
@@ -633,6 +671,7 @@ The model points to practical gates for deployed systems.
 | --- | --- |
 | System boundary inventory | Which parts of the system are model, runtime, tools, humans, and institutions? |
 | Separation of duties | Can a single persuaded host bypass technical controls, or does critical authorization require independent consensus across multiple parties? |
+| Incentive and slashing bounds | Which actors have collateral at risk, which violations are slashable, who verifies them, and how large can the loss be? |
 | Copy permission audit | Can the system read, write, deploy, or invoke enough machinery to create a descendant? |
 | Human review threshold | Which actions require explicit review before new compute, storage, deployment authority, or public access are granted? |
 | Output provenance | Which outputs influenced a deployment, funding, access, or policy decision? |
@@ -641,7 +680,7 @@ The model points to practical gates for deployed systems.
 | Claim quarantine | Are consciousness, rights, agency, and welfare claims labeled as contested before they are used as premises? |
 
 These gates establish clear boundaries around what is acting, what is being
-copied, and who authorizes each transition.
+copied, what is at stake, and who authorizes each transition.
 
 ## Part XI: what survives from the original intuition
 
