@@ -43,6 +43,28 @@ description: "Indexed research logs behind the tutorials, with neuro-symbolic me
 <div class="fp-grid" style="margin-top: var(--space-xl)">
   <a
     class="fp-card fp-card-link fp-card-span-12"
+    href="{{ '/research/energy-based-optimizers-and-telemetry/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Energy-based optimizers and telemetry</h2>
+    <p class="fp-card-text">
+      Evidence behind Tutorial 59: ZenoEnergy verifier-call reduction,
+      Tau route-telemetry results, ZenoDEX fast-router timings, and the
+      advisory-ranking boundary that keeps verifiers authoritative.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-12"
+    href="{{ '/research/tau-energy-based-route-telemetry/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Energy-based route telemetry for Tau</h2>
+    <p class="fp-card-text">
+      The research trail behind Tutorial 58: synthetic EBM feasibility,
+      small-real-data negative evidence, expanded telemetry improvement, and
+      the guard, abstention, validation, and fallback boundary.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-12"
     href="{{ '/research/taba-tables-and-tau-qelim/' | relative_url }}"
   >
     <h2 class="fp-card-title">Tau qelim and TABA table semantics</h2>

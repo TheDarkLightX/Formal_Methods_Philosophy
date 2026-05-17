@@ -503,6 +503,28 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/optimizing-tau-language-part-v-energy-based-route-telemetry/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 58: Optimizing Tau Language, Part V</h2>
+    <p class="fp-card-text">
+      Learn how an energy-based model can rank profitable Tau optimization routes,
+      why the model needs measured telemetry, and why semantic guards still decide
+      which routes are allowed.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/energy-based-models-as-fast-optimizers/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 59: Energy-based models as fast optimizers</h2>
+    <p class="fp-card-text">
+      See how a tiny energy scorer can rank bounded candidate sets for Tau and
+      ZenoDEX, why verifier authority stays separate, and why this inner loop is
+      a better fit than token generation for structured numeric ranking.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/platonic-ai-applied-ai-and-replication-boundaries/' | relative_url }}"
   >
     <h2 class="fp-card-title">Tutorial 56: Pure AI, applied AI, and AI mind viruses</h2>
