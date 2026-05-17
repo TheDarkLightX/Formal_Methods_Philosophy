@@ -34,17 +34,17 @@ energy model can do the job with a few arithmetic operations per candidate.
 
 An energy-based model assigns one number to a candidate:
 
-$$
-E_\theta(x,c) \in \mathbb{R}.
-$$
+```text
+E_theta(x, c) is a real-valued score.
+```
 
 Here:
 
-- $x$ is the current problem context,
-- $c$ is a candidate action, route, proof step, or settlement certificate,
+- `x` is the current problem context,
+- `c` is a candidate action, route, proof step, or settlement certificate,
 - lower energy means the candidate should be checked earlier.
 
-For a bounded candidate set $C(x)$, inference is simple:
+For a bounded candidate set `C(x)`, inference is simple:
 
 ```text
 score every candidate
@@ -78,9 +78,9 @@ The ZenoEnergy v0 settlement-search model uses:
 
 Its score is:
 
-$$
-E_\theta(x,c)=w\cdot \phi(x,c)+b.
-$$
+```text
+E_theta(x, c) = w dot phi(x, c) + b
+```
 
 That is a dot product.
 For 20 candidates, the model does roughly 20 small dot products and a sort.
@@ -114,12 +114,12 @@ The exhaustive winner is:
 c*(x) = best verified candidate in C(x)
 ```
 
-The learned energy model tries to place $c*(x)$ early in the verifier order.
+The learned energy model tries to place `c_star(x)` early in the verifier order.
 It is trained by pairwise hinge updates:
 
-$$
-\max(0, m + E_\theta(x,c_{good}) - E_\theta(x,c_{bad})).
-$$
+```text
+loss = max(0, margin + E_theta(x, good) - E_theta(x, bad))
+```
 
 The reported gap-weighted checkpoint uses a 97-parameter linear ranker.
 On the 2,000-batch synthetic holdout reported by the ZenoEnergy v0 paper:
@@ -189,9 +189,9 @@ High-volume, high-surplus candidates that pass hard screens move earlier.
 The ZenoDEX full-system paper frames the public execution core around bounded
 candidate families and total keys:
 
-$$
-\Winner(C) := \argmin_{c \in C} \Key(c).
-$$
+```text
+Winner(C) = argmin over candidates c in C of Key(c)
+```
 
 The appendix gives the operational skeleton:
 
