@@ -13,12 +13,11 @@ The goal is narrow:
 learn a better order for checking Tau optimizer routes
 ```
 
-The learned model does not decide whether a route is valid.
-Tau, deterministic route certificates, or fallback checks decide that.
+Tau, deterministic route certificates, or fallback checks determine route validity, rather than the learned model.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Scope</p>
-  <p>This tutorial explains an independent research demo in the TauLang-Experiments repository. It is not an official Tau feature, not a production optimizer, and not a license grant for Tau Language. The public demo publishes metrics only. Readers obtain Tau from the official source before replaying the experiment.</p>
+  <p>This tutorial explains an independent research demo in the TauLang-Experiments repository. It does not represent an official Tau feature, a production optimizer, or a license grant for Tau Language. The public demo publishes metrics only. Readers must obtain Tau from the official source before replaying the experiment.</p>
 </div>
 
 ## 1. The simple picture
@@ -52,8 +51,7 @@ low energy + checker rejects -> reject
 low energy + checker accepts -> candidate route may be used
 ```
 
-The score changes search order.
-It does not change truth.
+The score determines search order without affecting validity.
 
 ## 2. The roles
 
@@ -103,8 +101,7 @@ generate or load Tau-shaped formula
 -> evaluate on held-out formulas
 ```
 
-The label is not a hand-written route guess.
-It is measured from checked routes.
+The label is measured from checked routes rather than manual estimation.
 
 The important fields in a report are:
 
@@ -157,9 +154,7 @@ The public website reads a smaller JSON summary:
 docs/assets/tau-energy-demo-summary.json
 ```
 
-That summary is designed for publication.
-It does not include Tau source, Tau binaries, full formulas, local paths, or
-full receipts.
+That summary is designed for publication and excludes Tau source, Tau binaries, full formulas, local paths, or full receipts.
 
 ## 5. The current result
 
@@ -173,9 +168,7 @@ ordered-BDD best top-1: 0.9375
 invalid accepts: 0
 ```
 
-Read this as a bounded workbench result.
-It says the route ranker learned useful ordering on the checked corpus.
-It does not say the route should be enabled by default in upstream Tau.
+This bounded workbench result indicates that the route ranker learned useful ordering on the checked corpus, without recommending that upstream Tau enable the route by default.
 
 ## 6. Why ordered-BDD needed its own curriculum
 
@@ -185,8 +178,8 @@ The stress report exposed a weak family:
 ordered-BDD holdout
 ```
 
-That means a model trained on other families did not reliably rank the
-ordered-BDD route first when the whole ordered-BDD family was held out.
+This indicates that a model trained on other families did not reliably rank the
+ordered-BDD route first when the entire ordered-BDD family was held out.
 
 The targeted curriculum then asked:
 
@@ -229,7 +222,7 @@ This is useful for:
 - comparing fallback, hand rules, and learned routing,
 - turning failed route predictions into new training curricula.
 
-The workbench is also useful when it says "do not promote."
+The workbench is also useful when it recommends against promotion.
 Negative route telemetry can block a tempting optimization before it becomes a
 default behavior.
 
@@ -285,8 +278,7 @@ verify always
 fallback on failure
 ```
 
-The model can make the search cheaper.
-It cannot make an invalid route valid.
+The model reduces search cost without validating routes.
 
 Related tutorials:
 

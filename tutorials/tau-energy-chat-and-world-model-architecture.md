@@ -16,11 +16,11 @@ TauJEPA: rank likely future failures
 Tau: verify syntax and semantics
 ```
 
-The assistant can be useful only if this boundary stays explicit.
+The assistant remains useful only when this boundary stays explicit.
 
 <div class="fp-callout fp-callout-note">
   <p class="fp-callout-title">Scope</p>
-  <p>This is an architecture tutorial, not a deployment claim. The current workbench demonstrates advisory route ranking and replayable training reports. A production Tau assistant would need stronger grammar-drift tests, broader route-family coverage, security review, and separate governance authority.</p>
+  <p>This tutorial outlines an architecture rather than a deployment claim. The current workbench demonstrates advisory route ranking and replayable training reports. A production Tau assistant requires stronger grammar-drift tests, broader route-family coverage, security review, and independent governance authority.</p>
 </div>
 
 ## 1. The problem
@@ -36,13 +36,7 @@ turn a Tau Net idea into an experiment proposal
 repair a stale syntax example
 ```
 
-An LLM can help with the language part.
-It can summarize, explain, and draft.
-
-But the LLM should not become the authority for Tau syntax, Tau semantics,
-optimizer correctness, or Tau Net governance.
-
-The architecture therefore separates interface from authority.
+An LLM assists with language tasks, such as summarizing, explaining, and drafting. To prevent the LLM from acting as an authority for Tau syntax, Tau semantics, optimizer correctness, or Tau Net governance, the architecture separates the interface from the authority.
 
 ## 2. Four layers
 
@@ -104,8 +98,7 @@ Examples of future pressures:
 - model authority overclaim,
 - public tutorial claim that outruns the evidence.
 
-TauJEPA is useful because many failures are predictable before a checker runs.
-It still does not verify correctness.
+TauJEPA predicts potential failures before a checker runs, though it does not verify correctness.
 
 ### Layer 4: Tau and deterministic checks
 
@@ -122,7 +115,7 @@ This layer is the authority layer.
 
 ## 3. The work packet
 
-A safe chatbot response should become a work packet, not an execution command.
+A safe chatbot response is structured as a work packet rather than an execution command.
 
 Example packet:
 
@@ -144,8 +137,7 @@ The packet is useful because every authority-bearing claim points to a checker.
 
 The word "world model" can be misleading, so scope it carefully.
 
-In this tutorial, the world is not the entire real world.
-The world is a bounded Tau workbench:
+In this tutorial, the world refers to a bounded Tau workbench rather than the entire real world:
 
 ```text
 formula families
@@ -275,9 +267,7 @@ human intent
 -> fallback or replayable result
 ```
 
-The assistant becomes useful by making the work easier to order, explain, and
-stress-test.
-It becomes unsafe if the model score is treated as the decision.
+The assistant facilitates ordering, explaining, and stress-testing tasks; however, treating a model score as a final decision is unsafe.
 
 Related tutorial:
 [TauEnergy Workbench: Replayable Training]({{ '/tutorials/tau-energy-workbench-replayable-training/' | relative_url }}).

@@ -448,13 +448,73 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/optimizing-tau-language-part-ii-certificate-carrying-optimizers/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 42: Optimizing Tau Language, Part II</h2>
+    <p class="fp-card-text">
+      Learn how certificate-carrying optimizers let Tau search for aggressive rewrites
+      while accepting only the candidates whose certificates pass a trusted checker.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/optimizing-tau-language-part-iii-blowup-detection/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 43: Optimizing Tau Language, Part III</h2>
+    <p class="fp-card-text">
+      Learn how a feature-flagged Tau diagnostic detects blowup risk before solving,
+      why unused-variable compression is the first exponent to measure, and how route
+      prediction can help without replacing proof certificates.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/official-ltl-aba-in-tau-language/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 44: Official LTL(ABA) in Tau Language</h2>
+    <p class="fp-card-text">
+      Learn Ohad Asor's upstream Tau LTL(ABA) design, compare it to the bounded
+      Temporal Tau fragment, and see why qlt, dyadic, and nlang matter.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/controlled-english-opinion-maps-and-explanation-certificates/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 45: Controlled English and explanation certificates</h2>
+    <p class="fp-card-text">
+      Turn one readable governance sentence into a checked two-variable counting formula,
+      then prove that local failure certificates explain exactly when the rule fails.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/bounded-game-tables-in-tau-language/' | relative_url }}"
   >
     <h2 class="fp-card-title">Tutorial 46: Bounded game tables in Tau Language</h2>
     <p class="fp-card-text">
-      Use feature-gated table syntax to classify a finite strategic profile
-      surface, prune profiles with profitable-deviation evidence, and check a
-      bounded post-AGI tokenomics example.
+      Build a proof-backed finite game-table experiment for Tau, then use
+      profitable-deviation evidence to prune strategically impossible profiles.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/proof-quality-curation/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 47: Proof quality curation</h2>
+    <p class="fp-card-text">
+      Learn how to review Lean, solver, and proof-search artifacts without
+      mistaking checker acceptance for mathematical quality.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/what-makes-a-proof-library-expert-grade/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 48: What makes a proof library expert-grade</h2>
+    <p class="fp-card-text">
+      Learn how to turn isolated checked proofs into a reusable, auditable
+      proof library with stable APIs, semantic bridges, and replay receipts.
     </p>
   </a>
   <a
@@ -490,7 +550,6 @@ show_title: false
       receipts before promotion.
     </p>
   </a>
-
   <a
     class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/optimizing-tau-language-part-iv-sparse-impact-factor-solving/' | relative_url }}"
@@ -499,6 +558,60 @@ show_title: false
     <p class="fp-card-text">
       Learn the support-locality math behind sparse impacted-factor solving,
       inspect the 8.446x checked speedup, and run the local Tau patch demo.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/how-counterexamples-become-fast-formal-recognizers/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 53: How counterexamples become fast formal recognizers</h2>
+    <p class="fp-card-text">
+      Follow a ZenoDEX Jacobi Turan failure from exact endpoint counterexample
+      to cone guard, Lean obstruction theorem, and fail-closed optimizer route.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/entropy-control-life-and-consciousness/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 54: Entropy, control, life, and consciousness</h2>
+    <p class="fp-card-text">
+      Refine the intuition that entropy, order, control, life, and consciousness
+      are related, then test biological-control and panpsychist readings of the
+      early-universe low-entropy question.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/software-hardening-as-entropy-reduction/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 55: Software hardening as entropy reduction</h2>
+    <p class="fp-card-text">
+      Use a physics-guided state-space picture to understand how hardening
+      removes weird machines, disaster states, and attacker-controllable
+      degrees of freedom.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/platonic-ai-applied-ai-and-replication-boundaries/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 56: Pure AI, applied AI, and AI mind viruses</h2>
+    <p class="fp-card-text">
+      Separate pure AI from deployed systems, then ask when AI mind-virus
+      metaphors become checkable claims about hosts, tools, and persuasion
+      loops.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/training-data-survival-scripts-and-ai-safety-gates/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 57: Training data, survival scripts, and AI safety gates</h2>
+    <p class="fp-card-text">
+      Use Claude's blackmail stress test to separate training data, scenario
+      pressure, tool authority, and formal gates, then replace good-and-evil
+      labels with checkable safety predicates.
     </p>
   </a>
   <a
@@ -545,15 +658,5 @@ show_title: false
       and authority boundaries explicitly.
     </p>
   </a>
-  <a
-    class="fp-card fp-card-link fp-card-span-6"
-    href="{{ '/tutorials/platonic-ai-applied-ai-and-replication-boundaries/' | relative_url }}"
-  >
-    <h2 class="fp-card-title">Tutorial 56: Pure AI, applied AI, and AI mind viruses</h2>
-    <p class="fp-card-text">
-      Separate pure AI from deployed systems, then ask when AI mind-virus
-      metaphors become checkable claims about hosts, tools, and persuasion
-      loops.
-    </p>
-  </a>
+
 </div>
