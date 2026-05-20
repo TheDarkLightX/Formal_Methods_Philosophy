@@ -50,6 +50,23 @@ description: "Interactive labs paired with the tutorial series: bounded witness 
 </div>
 
 <section style="margin-top: var(--space-2xl)">
+  <h2 class="fp-page-title" style="font-size: 2rem; margin-bottom: var(--space-md)">Optimization and Training Track</h2>
+  <div class="fp-grid">
+    <div class="fp-card fp-card-span-4">
+      <h3 class="fp-card-title">TauEnergy Workbench</h3>
+      <p class="fp-card-text">
+        Inspect the replayable TauEnergy experiment: measured route ranking,
+        verifier authority, license-aware JSON metrics, and local replay commands.
+      </p>
+      <div class="fp-hero-actions">
+        <a class="fp-btn fp-btn-primary" href="{{ '/tau_energy_workbench_lab.html' | relative_url }}">Open lab</a>
+        <a class="fp-btn fp-btn-secondary" href="{{ '/tutorials/tau-energy-workbench-replayable-training/' | relative_url }}">Read Tutorial 60</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="margin-top: var(--space-2xl)">
   <h2 class="fp-page-title" style="font-size: 2rem; margin-bottom: var(--space-md)">Witness Search Track</h2>
   <div class="fp-grid">
     <div class="fp-card fp-card-span-4">
