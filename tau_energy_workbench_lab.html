@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TauEnergy Workbench Experiment</title>
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,650;9..144,800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap");
+  :root {
+    --paper: #f5f1e7;
+    --ink: #1c201d;
+    --muted: #68716b;
+    --panel: rgba(255, 252, 244, 0.88);
+    --panel-solid: #fffaf0;
+    --line: rgba(28, 32, 29, 0.14);
+    --line-strong: rgba(28, 32, 29, 0.28);
+    --green: #116149;
+    --green-soft: rgba(17, 97, 73, 0.13);
+    --blue: #285f82;
+    --blue-soft: rgba(40, 95, 130, 0.13);
+    --red: #a3382a;
+    --red-soft: rgba(163, 56, 42, 0.12);
+    --amber: #9a650f;
+    --amber-soft: rgba(154, 101, 15, 0.14);
+    --shadow: 0 28px 80px rgba(34, 31, 25, 0.14);
+    --display: "Fraunces", ui-serif, Georgia, serif;
+    --body: "Source Serif 4", ui-serif, Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    color: var(--ink);
+    font-family: var(--body);
+    background:
+      linear-gradient(120deg, rgba(255,255,255,0.72), rgba(255,255,255,0.08)),
+      radial-gradient(circle at 12% 8%, var(--green-soft), transparent 32%),
+      radial-gradient(circle at 86% 12%, var(--blue-soft), transparent 30%),
+      radial-gradient(circle at 74% 78%, var(--amber-soft), transparent 34%),
+      var(--paper);
+  }
+  a { color: inherit; }
+  .shell {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 24px 0 44px;
+  }
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 18px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .topbar nav {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .topbar a {
+    text-decoration: none;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .hero {
+    display: grid;
+    grid-template-columns: 1.04fr 0.96fr;
+    gap: 20px;
+    margin-top: 24px;
+    align-items: stretch;
+  }
+  .panel, .hero-main, .metric, .route-step {
+    border: 1px solid var(--line);
+    background: var(--panel);
+    box-shadow: var(--shadow);
+  }
+  .hero-main {
+    min-height: 540px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 30px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-main::before {
+    content: "";
+    position: absolute;
+    inset: 22px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    pointer-events: none;
+  }
+  .hero-main::after {
+    content: "";
+    position: absolute;
+    width: 520px;
+    height: 520px;
+    right: -210px;
+    bottom: -240px;
+    border-radius: 50%;
+    border: 1px solid rgba(17, 97, 73, 0.22);
+    background:
+      radial-gradient(circle, rgba(17, 97, 73, 0.18) 0 24%, transparent 25% 38%, rgba(40, 95, 130, 0.13) 39% 47%, transparent 48%);
+  }
+  .kicker {
+    margin: 0 0 14px;
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    max-width: 820px;
+    font-family: var(--display);
+    font-size: clamp(2.4rem, 7vw, 6.25rem);
+    line-height: 0.9;
+    letter-spacing: 0;
+  }
+  .lede {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+    margin: 22px 0 0;
+    color: var(--muted);
+    font-size: 1.18rem;
+    line-height: 1.55;
+  }
+  .badges {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 34px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 7px 12px;
+    background: rgba(255,255,255,0.48);
+    font-family: var(--mono);
+    font-size: 0.74rem;
+  }
+  .command {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  pre {
+    margin: 0;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px 16px;
+    background: #18231f;
+    color: #e9f5ed;
+    font-family: var(--mono);
+    font-size: 0.86rem;
+    line-height: 1.5;
+  }
+  .hero-side {
+    display: grid;
+    gap: 14px;
+  }
+  .metric {
+    border-radius: 22px;
+    padding: 20px;
+  }
+  .metric-label {
+    margin: 0 0 8px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .metric-value {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1;
+  }
+  .metric-note {
+    margin: 10px 0 0;
+    color: var(--muted);
+    line-height: 1.35;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 18px;
+    margin-top: 18px;
+  }
+  .span-4 { grid-column: span 4; }
+  .span-5 { grid-column: span 5; }
+  .span-7 { grid-column: span 7; }
+  .span-12 { grid-column: span 12; }
+  .panel {
+    border-radius: 24px;
+    padding: 22px;
+  }
+  h2 {
+    margin: 0 0 12px;
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    letter-spacing: 0;
+  }
+  .copy {
+    margin: 0;
+    color: var(--muted);
+    font-size: 1.03rem;
+    line-height: 1.6;
+  }
+  .route {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .route-step {
+    border-radius: 18px;
+    padding: 16px;
+    min-height: 126px;
+  }
+  .route-step strong {
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--green);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .route-step p {
+    margin: 12px 0 0;
+    color: var(--muted);
+    line-height: 1.42;
+  }
+  .bars {
+    display: grid;
+    gap: 11px;
+    margin-top: 16px;
+  }
+  .bar-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 74px;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+  }
+  .track {
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(28, 32, 29, 0.08);
+    overflow: hidden;
+  }
+  .fill {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--green), var(--blue));
+  }
+  .checklist {
+    display: grid;
+    gap: 10px;
+    padding: 0;
+    margin: 16px 0 0;
+    list-style: none;
+  }
+  .checklist li {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    gap: 10px;
+    align-items: start;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .checklist span {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--green-soft);
+    color: var(--green);
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    font-weight: 600;
+  }
+  .warning {
+    border-left: 5px solid var(--amber);
+    background: linear-gradient(90deg, var(--amber-soft), rgba(255,255,255,0.36));
+  }
+  .danger {
+    border-left: 5px solid var(--red);
+    background: linear-gradient(90deg, var(--red-soft), rgba(255,255,255,0.36));
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 18px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    border-radius: 999px;
+    padding: 10px 15px;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    text-decoration: none;
+    border: 1px solid var(--line-strong);
+    background: rgba(255,255,255,0.58);
+  }
+  .btn.primary {
+    background: var(--ink);
+    color: var(--panel-solid);
+    border-color: var(--ink);
+  }
+  .json-status {
+    margin-top: 14px;
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+  }
+  @media (max-width: 920px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-main { min-height: 0; }
+    .span-4, .span-5, .span-7 { grid-column: span 12; }
+    .route { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 560px) {
+    .shell { width: min(100% - 20px, 1180px); }
+    .hero-main, .panel, .metric { border-radius: 18px; padding: 18px; }
+    .route { grid-template-columns: 1fr; }
+    .bar-row { grid-template-columns: 1fr; }
+    .topbar { align-items: flex-start; flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar" aria-label="TauEnergy experiment navigation">
+      <strong>Formal Philosophy Experiment</strong>
+      <nav>
+        <a href="tutorials/tau-energy-workbench-replayable-training/">Tutorial 60</a>
+        <a href="tutorials/tau-energy-chat-and-world-model-architecture/">Tutorial 61</a>
+        <a href="research/tau-energy-based-route-telemetry/">Research log</a>
+        <a href="labs/">Labs</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-main">
+        <div>
+          <p class="kicker">TauEnergy replayable training experiment</p>
+          <h1>Route learning with Tau kept in charge</h1>
+          <p class="lede">
+            This page shows the public snapshot for the TauEnergy workbench. The model ranks
+            candidate routes, while Tau or certificate checks decide whether a result is valid.
+            The page ships metrics and replay instructions, not Tau source, Tau binaries, or a
+            private formula corpus.
+          </p>
+          <div class="badges" aria-label="Experiment boundary">
+            <span class="badge">advisory energy ranker</span>
+            <span class="badge">verifier decides</span>
+            <span class="badge">license-aware replay</span>
+            <span class="badge">invalid accepts: <b data-invalid-accepts>0</b></span>
+          </div>
+        </div>
+        <div class="command">
+          <p class="metric-label">Replay command inside TauLang-Experiments</p>
+          <pre><code>./scripts/run_tau_energy_training_demo.sh --accept-tau-license --quick</code></pre>
+        </div>
+      </div>
+
+      <div class="hero-side" aria-label="Key metrics">
+        <article class="metric">
+          <p class="metric-label">Genuine optimization</p>
+          <p class="metric-value"><span data-solver-call-reduction>8.0</span>x</p>
+          <p class="metric-note">Solver-call reduction reported by the indexed impacted-factor route.</p>
+        </article>
+        <article class="metric">
+          <p class="metric-label">Measured learned top-1</p>
+          <p class="metric-value"><span data-learned-top1>92.16</span>%</p>
+          <p class="metric-note">Held-out route-choice accuracy from Tau-checked measured training cases.</p>
+        </article>
+        <article class="metric">
+          <p class="metric-label">Ordered-BDD curriculum best</p>
+          <p class="metric-value"><span data-bdd-best>93.75</span>%</p>
+          <p class="metric-note">Best top-1 result after adding fragment-specific BDD training examples.</p>
+        </article>
+        <article class="metric">
+          <p class="metric-label">Weakest holdout family</p>
+          <p class="metric-value"><span data-weakest-family>ordered_bdd</span></p>
+          <p class="metric-note"><span data-weakest-score>4.17</span>% top-1 on the hardest family holdout.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Experiment details">
+      <article class="panel span-12">
+        <h2>Reasoning split</h2>
+        <p class="copy">
+          The experiment treats route choice as a learned proposal problem. Syntax checks, Tau runs,
+          route certificates, and replay verification remain deterministic gates. That split is the
+          core claim readers can inspect.
+        </p>
+        <div class="route">
+          <div class="route-step">
+            <strong>LLM</strong>
+            <p>Explains the workbench and can help translate user intent into structured work packets.</p>
+          </div>
+          <div class="route-step">
+            <strong>TauEnergy</strong>
+            <p>Ranks route candidates using measured formula-shape evidence.</p>
+          </div>
+          <div class="route-step">
+            <strong>WES</strong>
+            <p>Explores nearby candidates and records replayable traces for accepted checks.</p>
+          </div>
+          <div class="route-step">
+            <strong>Tau</strong>
+            <p>Checks syntax, formulas, or certificates before any result is treated as valid.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel span-7">
+        <h2>Ordered-BDD curriculum</h2>
+        <p class="copy">
+          The curriculum starts from a broad base, then adds BDD-specific examples. The rise is small
+          but useful: it shows fragment-specific examples can steer route ranking.
+        </p>
+        <div class="bars" data-bdd-bars aria-label="Ordered-BDD curriculum bars"></div>
+      </article>
+
+      <article class="panel span-5">
+        <h2>What the page can claim</h2>
+        <ul class="checklist">
+          <li><span>1</span><p>A public metric snapshot exists and loads from a static JSON artifact.</p></li>
+          <li><span>2</span><p>The recorded result has zero invalid accepts in the included reports.</p></li>
+          <li><span>3</span><p>The replay path asks readers to obtain Tau through the official source after license review.</p></li>
+          <li><span>4</span><p>The ranker improves search order in the measured workbench, while verification stays outside the model.</p></li>
+        </ul>
+      </article>
+
+      <article class="panel warning span-6">
+        <h2>Assumptions</h2>
+        <p class="copy">
+          Assumption A: the public JSON snapshot accurately summarizes the local replay artifacts that
+          generated it. Assumption B: Tau syntax and route behavior can drift, so current claims require
+          fresh local replay before they are reused as current performance evidence.
+        </p>
+      </article>
+
+      <article class="panel danger span-6">
+        <h2>Non-claims</h2>
+        <p class="copy">
+          This experiment does not claim that TauEnergy proves correctness, that TauJEPA proves future
+          safety, or that a learned route selector should replace Tau's authoritative checks. The trained
+          model is an ordering aid.
+        </p>
+      </article>
+
+      <article class="panel span-12">
+        <h2>Reader replay</h2>
+        <p class="copy">
+          Reproduce the workbench from the TauLang-Experiments repository after reviewing Tau's license.
+          The quick path regenerates the public snapshot; the full path reruns the broader training bundle.
+        </p>
+        <div class="grid" style="margin-top: 16px">
+          <div class="span-6">
+            <p class="metric-label">Quick replay</p>
+            <pre><code>./scripts/run_tau_energy_training_demo.sh --accept-tau-license --quick</code></pre>
+          </div>
+          <div class="span-6">
+            <p class="metric-label">Full replay</p>
+            <pre><code>./scripts/run_tau_energy_training_demo.sh --accept-tau-license --full</code></pre>
+          </div>
+        </div>
+        <p class="json-status" data-json-status>Loading public metric snapshot...</p>
+        <div class="actions">
+          <a class="btn primary" href="assets/data/tau-energy-demo-summary.json">Open JSON snapshot</a>
+          <a class="btn" href="tutorials/tau-energy-workbench-replayable-training/">Read replay tutorial</a>
+          <a class="btn" href="tutorials/tau-energy-chat-and-world-model-architecture/">Read architecture tutorial</a>
+        </div>
+      </article>
+    </section>
+  </main>
+
+<script>
+  const pct = (value) => `${(value * 100).toFixed(2)}%`;
+  const setText = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el) el.textContent = value;
+  };
+
+  async function loadSnapshot() {
+    const status = document.querySelector("[data-json-status]");
+    try {
+      const response = await fetch("assets/data/tau-energy-demo-summary.json", { cache: "no-store" });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const snapshot = await response.json();
+      const metrics = snapshot.metrics;
+
+      setText("[data-solver-call-reduction]", metrics.genuine_optimization.solver_call_reduction.toFixed(1));
+      setText("[data-learned-top1]", (metrics.measured_training.learned_top1 * 100).toFixed(2));
+      setText("[data-bdd-best]", (metrics.ordered_bdd_curriculum.best_top1 * 100).toFixed(2));
+      setText("[data-weakest-family]", metrics.stress.weakest_family.family);
+      setText("[data-weakest-score]", (metrics.stress.weakest_family.top1 * 100).toFixed(2));
+      setText("[data-invalid-accepts]", String(metrics.measured_training.invalid_accept_count));
+
+      const bars = document.querySelector("[data-bdd-bars]");
+      if (bars) {
+        bars.innerHTML = "";
+        metrics.ordered_bdd_curriculum.steps.forEach((step) => {
+          const row = document.createElement("div");
+          row.className = "bar-row";
+          row.innerHTML = `
+            <span>${step.bdd_train_case_count} train</span>
+            <div class="track" aria-hidden="true"><div class="fill" style="width: ${(step.fitted_top1 * 100).toFixed(2)}%"></div></div>
+            <span>${pct(step.fitted_top1)}</span>
+          `;
+          bars.appendChild(row);
+        });
+      }
+
+      if (status) {
+        status.textContent = `Loaded ${snapshot.schema}; status: ${snapshot.status}. Public snapshot contains metrics only.`;
+      }
+    } catch (error) {
+      if (status) {
+        status.textContent = `Could not load the public snapshot: ${error.message}`;
+      }
+    }
+  }
+
+  loadSnapshot();
+</script>
+</body>
+</html>

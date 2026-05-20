@@ -1,0 +1,126 @@
+{
+  "authority": {
+    "reader_replay_required_for_local_claims": true,
+    "tau_energy_can_accept": false,
+    "tau_or_certificate_decides": true,
+    "wes_can_accept_without_checker": false
+  },
+  "license_boundary": {
+    "contains_public_metrics_only": true,
+    "contains_tau_formula_corpus": false,
+    "redistributes_tau_binary": false,
+    "redistributes_tau_source": false,
+    "tau_source": "official IDNI repository, obtained by the reader after license review"
+  },
+  "limits": [
+    "The snapshot is a public metric summary, not a Tau source or binary distribution.",
+    "The learned ranker proposes route order only.",
+    "A reader must replay locally before treating any local performance number as current."
+  ],
+  "metrics": {
+    "genuine_optimization": {
+      "inprocess_solver_speedup": 6.783,
+      "invalid_accept_count": 0,
+      "live_tau_checked": true,
+      "route": "indexed_impacted_factor_solve",
+      "solver_call_reduction": 8.0
+    },
+    "measured_training": {
+      "checked_cases": 254,
+      "failed_check_count": 0,
+      "hand_top1": 0.254902,
+      "invalid_accept_count": 0,
+      "learned_top1": 0.921569,
+      "mean_calls_delta": 1.882353,
+      "top1_delta": 0.666667
+    },
+    "ordered_bdd_curriculum": {
+      "base_examples": 124,
+      "bdd_pool_examples": 96,
+      "best_bdd_train_case_count": 32,
+      "best_top1": 0.9375,
+      "failed_check_count": 0,
+      "first_top1": 0.90625,
+      "invalid_accept_count": 0,
+      "last_minus_first_top1": 0.03125,
+      "steps": [
+        {
+          "bdd_test_case_count": 96,
+          "bdd_train_case_count": 0,
+          "fitted_top1": 0.90625,
+          "invalid_accept_count": 0,
+          "mean_calls_to_best_route": 1.260417
+        },
+        {
+          "bdd_test_case_count": 94,
+          "bdd_train_case_count": 2,
+          "fitted_top1": 0.904255,
+          "invalid_accept_count": 0,
+          "mean_calls_to_best_route": 1.351064
+        },
+        {
+          "bdd_test_case_count": 92,
+          "bdd_train_case_count": 4,
+          "fitted_top1": 0.913043,
+          "invalid_accept_count": 0,
+          "mean_calls_to_best_route": 1.23913
+        },
+        {
+          "bdd_test_case_count": 88,
+          "bdd_train_case_count": 8,
+          "fitted_top1": 0.920455,
+          "invalid_accept_count": 0,
+          "mean_calls_to_best_route": 1.215909
+        },
+        {
+          "bdd_test_case_count": 80,
+          "bdd_train_case_count": 16,
+          "fitted_top1": 0.925,
+          "invalid_accept_count": 0,
+          "mean_calls_to_best_route": 1.2
+        },
+        {
+          "bdd_test_case_count": 64,
+          "bdd_train_case_count": 32,
+          "fitted_top1": 0.9375,
+          "invalid_accept_count": 0,
+          "mean_calls_to_best_route": 1.1875
+        }
+      ]
+    },
+    "stress": {
+      "cross_seed_top1": {
+        "max": 0.96,
+        "mean": 0.88,
+        "min": 0.8
+      },
+      "failed_check_count": 0,
+      "family_holdout_top1": {
+        "max": 1.0,
+        "mean": 0.777778,
+        "min": 0.041667
+      },
+      "invalid_accept_count": 0,
+      "weakest_family": {
+        "family": "ordered_bdd",
+        "top1": 0.041667
+      }
+    }
+  },
+  "replay": {
+    "default_replay": "./scripts/run_tau_energy_training_demo.sh --accept-tau-license",
+    "full_mode": "./scripts/run_tau_energy_training_demo.sh --accept-tau-license --full",
+    "quick_mode": "./scripts/run_tau_energy_training_demo.sh --accept-tau-license --quick",
+    "result_dir": "results/local/tau-energy",
+    "site_snapshot": "docs/assets/tau-energy-demo-summary.json"
+  },
+  "schema": "tau-energy-public-site-snapshot-v1",
+  "source_artifact_schemas": {
+    "bdd": "tau-energy-ordered-bdd-curriculum-report-v1",
+    "measured": "tau-energy-measured-fragment-training-report-v1",
+    "optimizer": "tau-energy-optimizer-workbench-v1",
+    "stress": "tau-energy-measured-fragment-stress-report-v1"
+  },
+  "status": "passed",
+  "title": "TauEnergy replayable training demo"
+}
