@@ -525,6 +525,28 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/tau-energy-workbench-replayable-training/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 60: TauEnergy Workbench</h2>
+    <p class="fp-card-text">
+      Learn how Tau-checked formulas become measured route labels, how a small
+      energy ranker improves checker order, and how the public demo stays
+      replayable and license-safe.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/tau-energy-chat-and-world-model-architecture/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 61: TauEnergy chat architecture</h2>
+    <p class="fp-card-text">
+      Split a Tau-facing assistant into LLM interface, TauEnergy ranking,
+      TauJEPA failure pressure, and Tau verification, then track syntax drift
+      and authority boundaries explicitly.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/platonic-ai-applied-ai-and-replication-boundaries/' | relative_url }}"
   >
     <h2 class="fp-card-title">Tutorial 56: Pure AI, applied AI, and AI mind viruses</h2>
