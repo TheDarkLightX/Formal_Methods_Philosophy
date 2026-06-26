@@ -43,6 +43,18 @@ description: "Indexed research logs behind the tutorials, with neuro-symbolic me
 <div class="fp-grid" style="margin-top: var(--space-xl)">
   <a
     class="fp-card fp-card-link fp-card-span-12"
+    href="{{ '/research/cpss-bc-routing-oracle/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">From false greedy theorem to exact cross-pool routing oracle</h2>
+    <p class="fp-card-text">
+      A ZenoDEX research arc in adversarial falsification, subset dynamic programming,
+      and scoped algorithm claims: the greedy CPSS-BC conjecture failed, an exact
+      two-pool routing oracle replaced it, and the remaining <code>2^n</code> frontier
+      became visible.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-12"
     href="{{ '/research/energy-based-optimizers-and-telemetry/' | relative_url }}"
   >
     <h2 class="fp-card-title">Energy-based optimizers and telemetry</h2>
