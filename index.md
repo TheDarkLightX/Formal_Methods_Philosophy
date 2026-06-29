@@ -186,6 +186,17 @@ show_title: false
     </a>
     <a
       class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/market-for-behaviors/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Essay: A Market for Behaviors</h2>
+      <p class="fp-card-text">
+        What learning is, from behaviorism to AI. Behavioral spectrum as ontology,
+        incentive map as dynamics, market for behaviors as economics, training as
+        compression, and alignment as market design. With interactive visualizations.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/glossary/' | relative_url }}"
     >
       <h2 class="fp-card-title">Glossary</h2>

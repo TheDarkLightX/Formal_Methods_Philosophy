@@ -1,0 +1,858 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A Market for Behaviors: Interactive Lab</title>
+<link rel="stylesheet" href="lab_theme.css">
+<style>
+  .eq-block {
+    margin: 0 auto 14px;
+    max-width: 860px;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    box-shadow: var(--shadow);
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    overflow-x: auto;
+    line-height: 1.7;
+  }
+  .eq-inline {
+    font-family: var(--font-mono);
+    font-size: 0.84rem;
+    background: var(--blue-soft);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    margin: 28px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  .fig-caption {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+    margin: 8px 0 20px;
+  }
+  .svg-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    background: var(--panel-strong);
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+  }
+  .svg-wrap svg { max-width: 100%; height: auto; }
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .slider-row label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    min-width: 120px;
+  }
+  .slider-row input[type="range"] {
+    flex: 1;
+    accent-color: var(--blue);
+  }
+  .slider-row .val {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    min-width: 50px;
+    text-align: right;
+    color: var(--muted);
+  }
+  .tab-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .tab-btn {
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
+    color: var(--ink);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-family: var(--font-body);
+    transition: all 200ms ease;
+  }
+  .tab-btn:hover { background: var(--blue-soft); }
+  .tab-btn.active {
+    background: var(--blue-soft);
+    color: var(--blue);
+    border-color: rgba(37,99,235,0.3);
+  }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .icon-h {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 10px;
+  }
+  .icon-h svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .icon-h h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+  }
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+  .legend-item { display: flex; align-items: center; gap: 5px; }
+  .legend-swatch { width: 14px; height: 14px; border-radius: 3px; }
+  .back-link {
+    text-align: center;
+    margin: 20px 0;
+  }
+  .back-link a {
+    color: var(--blue);
+    text-decoration: none;
+    font-size: 0.88rem;
+  }
+  .back-link a:hover { text-decoration: underline; }
+  .math-note {
+    margin: 12px 0;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border-left: 4px solid var(--blue);
+    background: var(--blue-soft);
+    font-size: 0.84rem;
+    line-height: 1.6;
+  }
+  .math-note code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<div class="hero">
+  <h1>A Market for Behaviors</h1>
+  <p>Explore the five layers of the framework hands-on. Adjust sliders, switch between behavior types, and watch how markets shape what we learn.</p>
+</div>
+
+<div class="lab-nav">
+  <a href="tutorials/market-for-behaviors/">Read the essay</a>
+  <a href="index.html">Site home</a>
+</div>
+
+<!-- =================== FIGURE 1: Behavioral Landscape =================== -->
+<h2 class="section-title" id="fig1">Figure 1: The Behavioral Landscape</h2>
+<p style="color:var(--muted);font-size:0.9rem;max-width:860px;margin:0 auto 14px;">
+  Every behavior gets a reward from the incentive map <span class="eq-inline">I(b)</span>.
+  The probability distribution <span class="eq-inline">P*(b)</span> then piles up where rewards are high.
+  Drag the temperature slider to feel the trade-off between exploring widely and sticking with what works.
+</p>
+
+<div class="eq-block">
+  P<sub>a</sub>(b) = e<sup>I(b)/&tau;</sup> / &Sigma;<sub>b'&isin;B</sub> e<sup>I(b')/&tau;</sup>
+</div>
+
+<div class="controls">
+  <div class="control">
+    <label for="tau-slider">Temperature &tau;</label>
+    <input type="range" id="tau-slider" min="0.1" max="3.0" step="0.05" value="0.5">
+    <span class="val" id="tau-val">0.50</span>
+  </div>
+  <div class="control">
+    <label for="peak-slider">Reward peak position</label>
+    <input type="range" id="peak-slider" min="20" max="80" step="1" value="50">
+    <span class="val" id="peak-val">50</span>
+  </div>
+  <div class="control">
+    <label for="width-slider">Reward width</label>
+    <input type="range" id="width-slider" min="5" max="30" step="1" value="15">
+    <span class="val" id="width-val">15</span>
+  </div>
+  <div class="control">
+    <label for="amp-slider">Reward amplitude</label>
+    <input type="range" id="amp-slider" min="1" max="5" step="0.1" value="3">
+    <span class="val" id="amp-val">3.0</span>
+  </div>
+</div>
+
+<div class="svg-wrap" id="fig1-svg-wrap">
+  <svg id="fig1-svg" viewBox="0 0 600 320" width="600" height="320" role="img" aria-label="Behavioral landscape showing incentive map and probability distribution">
+    <defs>
+      <linearGradient id="prob-grad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="rgba(37,99,235,0.35)"/>
+        <stop offset="100%" stop-color="rgba(37,99,235,0.05)"/>
+      </linearGradient>
+    </defs>
+    <g id="fig1-axes"></g>
+    <g id="fig1-incentive"></g>
+    <g id="fig1-prob"></g>
+    <g id="fig1-labels"></g>
+  </svg>
+</div>
+<div class="fig-caption">
+  Figure 1: The orange curve is the incentive map. The blue area is what actually happens.
+  Low &tau; means the agent locks onto the best behavior. High &tau; means it spreads out and tries everything.
+</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--amber)"></div>Incentive map I(b)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:rgba(37,99,235,0.35)"></div>Probability P*(b)</div>
+</div>
+
+<!-- =================== FIGURE 2: Supply-Demand =================== -->
+<h2 class="section-title" id="fig2">Figure 2: Supply and Demand for Behaviors</h2>
+<p style="color:var(--muted);font-size:0.9rem;max-width:860px;margin:0 auto 14px;">
+  Pick a behavior type. Supply (what it costs to produce) goes up with quantity.
+  Demand (how much someone values receiving it) goes down. Where they cross, the market settles.
+</p>
+
+<div class="eq-block">
+  r<sub>ij</sub>(b) = v<sub>j</sub>(b) &minus; c<sub>i</sub>(b) &nbsp;&nbsp;|&nbsp;&nbsp; I<sub>i</sub>(b) = &Sigma;<sub>j&ne;i</sub> v<sub>j</sub>(b) &minus; c<sub>i</sub>(b)
+</div>
+
+<div class="tab-row" id="fig2-tabs">
+  <button class="tab-btn active" data-behavior="helpful">Helpful responses</button>
+  <button class="tab-btn" data-behavior="creative">Creative content</button>
+  <button class="tab-btn" data-behavior="conformist">Conformist behavior</button>
+</div>
+
+<div class="svg-wrap">
+  <svg id="fig2-svg" viewBox="0 0 500 320" width="500" height="320" role="img" aria-label="Supply and demand curves for behaviors">
+    <g id="fig2-axes"></g>
+    <g id="fig2-supply"></g>
+    <g id="fig2-demand"></g>
+    <g id="fig2-equilibrium"></g>
+    <g id="fig2-labels"></g>
+  </svg>
+</div>
+<div class="fig-caption" id="fig2-caption">
+  Figure 2: Supply and demand for "helpful responses." Equilibrium reward and frequency at intersection.
+</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--green)"></div>Supply (cost)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--red)"></div>Demand (value)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--blue)"></div>Equilibrium</div>
+</div>
+
+<!-- =================== FIGURE 3: Multi-Agent Network =================== -->
+<h2 class="section-title" id="fig3">Figure 3: Multi-Agent Market Network</h2>
+<p style="color:var(--muted);font-size:0.9rem;max-width:860px;margin:0 auto 14px;">
+  Each circle is an agent. Arrows show who is sending behaviors to whom.
+  Thicker arrows mean bigger rewards. Everyone is both a producer and a consumer.
+</p>
+
+<div class="svg-wrap">
+  <svg id="fig3-svg" viewBox="0 0 500 360" width="500" height="360" role="img" aria-label="Multi-agent market network">
+    <g id="fig3-edges"></g>
+    <g id="fig3-nodes"></g>
+    <g id="fig3-labels"></g>
+  </svg>
+</div>
+<div class="fig-caption">
+  Figure 3: Six agents trading behaviors. Thicker arrows carry more reward. The market keeps behaviors and rewards circulating.
+</div>
+
+<!-- =================== FIGURE 4: Rate-Distortion =================== -->
+<h2 class="section-title" id="fig4">Figure 4: Rate-Distortion and Behavioral Diversity Loss</h2>
+<p style="color:var(--muted);font-size:0.9rem;max-width:860px;margin:0 auto 14px;">
+  When you squeeze a model into fewer parameters, you lose information.
+  The rare, unusual behaviors disappear first. Drag left to see diversity collapse.
+</p>
+
+<div class="eq-block">
+  &theta;* = argmin<sub>&theta;</sub> D<sub>KL</sub>(P* &Vert; q<sub>&theta;</sub>) &nbsp;|&nbsp; R(D) = min rate for distortion D
+</div>
+
+<div class="svg-wrap">
+  <svg id="fig4-svg" viewBox="0 0 500 320" width="500" height="320" role="img" aria-label="Rate-distortion curve and behavioral diversity loss">
+    <g id="fig4-axes"></g>
+    <g id="fig4-rd"></g>
+    <g id="fig4-diversity"></g>
+    <g id="fig4-labels"></g>
+    <g id="fig4-annotations"></g>
+  </svg>
+</div>
+<div class="fig-caption">
+  Figure 4: On the left, the model is too small and diversity crumbles. On the right, there is room for everything.
+  The long tail of rare behaviors vanishes first.
+</div>
+<div class="legend">
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--red)"></div>Distortion D(R)</div>
+  <div class="legend-item"><div class="legend-swatch" style="background:var(--teal)"></div>Behavioral diversity</div>
+</div>
+
+<!-- =================== FIGURE 5: Feedback Loop =================== -->
+<h2 class="section-title" id="fig5">Figure 5: The Feedback Loop</h2>
+<p style="color:var(--muted);font-size:0.9rem;max-width:860px;margin:0 auto 14px;">
+  The cycle goes: spectrum &rarr; incentives &rarr; market &rarr; data &rarr; training &rarr; synthetic data &rarr; back to spectrum.
+  Each pass through the loop squeezes the distribution a little tighter.
+</p>
+
+<div class="eq-block">
+  P<sub>t+1</sub> = Compress(Filter(P<sub>t</sub>))
+</div>
+
+<div class="svg-wrap">
+  <svg id="fig5-svg" viewBox="0 0 500 420" width="500" height="420" role="img" aria-label="Feedback loop diagram">
+    <g id="fig5-nodes"></g>
+    <g id="fig5-edges"></g>
+    <g id="fig5-labels"></g>
+    <g id="fig5-convergence"></g>
+  </svg>
+</div>
+<div class="fig-caption">
+  Figure 5: The loop feeds itself. Filtering and compression chip away at variety each time around.
+  Without actively injecting diversity, everything collapses toward a narrow norm.
+</div>
+
+<!-- =================== FIGURE 6: Golden vs Platinum Rule =================== -->
+<h2 class="section-title" id="fig6">Figure 6: Golden Rule vs. Platinum Rule</h2>
+<p style="color:var(--muted);font-size:0.9rem;max-width:860px;margin:0 auto 14px;">
+  On the left, the Golden Rule: assume everyone wants what you want. On the right, the Platinum Rule: actually find out what they want.
+</p>
+
+<div class="grid">
+  <div class="panel">
+    <div class="icon-h">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>
+      <h2>Golden Rule</h2>
+    </div>
+    <p style="font-size:0.84rem;color:var(--muted);margin:0 0 12px;">"Treat others as you want to be treated"</p>
+    <div class="svg-wrap" style="border:none;box-shadow:none;padding:0;background:transparent;">
+      <svg id="fig6-golden" viewBox="0 0 300 200" width="300" height="200" role="img" aria-label="Golden Rule diagram">
+        <g id="fig6-golden-content"></g>
+      </svg>
+    </div>
+    <div class="math-note">
+      <code>b<sub>i&rarr;j</sub><sup>Golden</sup> = argmax v<sub>i</sub>(b) &minus; c<sub>i</sub>(b)</code><br>
+      Agent <strong>i</strong> projects <code>v<sub>i</sub></code> onto agent <strong>j</strong>. Fails when <code>v<sub>j</sub> &ne; v<sub>i</sub></code>.
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="icon-h">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <h2>Platinum Rule</h2>
+    </div>
+    <p style="font-size:0.84rem;color:var(--muted);margin:0 0 12px;">"Treat others as they want to be treated"</p>
+    <div class="svg-wrap" style="border:none;box-shadow:none;padding:0;background:transparent;">
+      <svg id="fig6-platinum" viewBox="0 0 300 200" width="300" height="200" role="img" aria-label="Platinum Rule diagram">
+        <g id="fig6-platinum-content"></g>
+      </svg>
+    </div>
+    <div class="math-note" style="border-left-color:var(--green);background:var(--green-soft);">
+      <code>b<sub>i&rarr;j</sub><sup>Platinum</sup> = argmax v<sub>j</sub>(b) &minus; c<sub>i</sub>(b)</code><br>
+      Agent <strong>i</strong> learns <code>v&#770;<sub>j</sub> &rarr; v<sub>j</sub></code> from data, then produces matching behaviors.
+    </div>
+  </div>
+</div>
+<div class="fig-caption">
+  Figure 6: The Golden Rule (left) guesses. The Platinum Rule (right) asks, watches, and learns what the other person actually values.
+</div>
+
+<!-- =================== Summary =================== -->
+<h2 class="section-title" id="summary">Summary: The Five Layers</h2>
+
+<div class="intro-grid">
+  <div class="intro-card">
+    <h2>1. Behavioral Spectrum</h2>
+    <p><strong>Ontology.</strong> The space of all possible behaviors &nbsp;<span class="eq-inline">B</span>. Defines what can exist before selection.</p>
+  </div>
+  <div class="intro-card">
+    <h2>2. Incentive Map</h2>
+    <p><strong>Dynamics.</strong> &nbsp;<span class="eq-inline">I: B &rarr; R</span>&nbsp; assigns reward to each behavior. Shapes probability via the Boltzmann distribution.</p>
+  </div>
+  <div class="intro-card">
+    <h2>3. Market for Behaviors</h2>
+    <p><strong>Economics.</strong> Multi-agent system that rewards, prices, selects, suppresses, records, and amplifies. Supply = cost, demand = value.</p>
+  </div>
+  <div class="intro-card">
+    <h2>4. Training = Compression</h2>
+    <p><strong>Compression.</strong> &nbsp;<span class="eq-inline">&theta;* = argmin D<sub>KL</sub>(P* &Vert; q<sub>&theta;</sub>)</span>. Compresses market-selected traces into a generative model. Loses the long tail first.</p>
+  </div>
+  <div class="intro-card" style="grid-column: span 2;">
+    <h2>5. Alignment = Market Design</h2>
+    <p><strong>Market design.</strong> Designing the incentive map so the market equilibrium maximizes social surplus. The Platinum Rule is the ethical principle: learn <span class="eq-inline">v<sub>j</sub></span> from data, produce behaviors that maximize receiver value.</p>
+  </div>
+</div>
+
+<div class="back-link">
+  <a href="tutorials/market-for-behaviors/">&larr; Read the full essay</a>
+  &nbsp;|&nbsp;
+  <a href="index.html">Site home &rarr;</a>
+</div>
+
+</div>
+
+<script>
+(function() {
+  "use strict";
+
+  var SVG_NS = "http://www.w3.org/2000/svg";
+
+  function el(tag, attrs) {
+    var e = document.createElementNS(SVG_NS, tag);
+    if (attrs) {
+      Object.keys(attrs).forEach(function(k) {
+        if (k === "text") { e.textContent = attrs[k]; }
+        else { e.setAttribute(k, attrs[k]); }
+      });
+    }
+    return e;
+  }
+
+  function clear(g) { while (g.firstChild) g.removeChild(g.firstChild); }
+
+  function linspace(min, max, n) {
+    var arr = [];
+    for (var i = 0; i < n; i++) {
+      arr.push(min + (max - min) * i / (n - 1));
+    }
+    return arr;
+  }
+
+  function gaussian(x, mu, sigma, amp) {
+    var s = Math.max(sigma, 0.5);
+    return amp * Math.exp(-Math.pow(x - mu, 2) / (2 * s * s));
+  }
+
+  function softmax(values, tau) {
+    var t = Math.max(tau, 0.01);
+    var exps = values.map(function(v) { return Math.exp(v / t); });
+    var sum = exps.reduce(function(a, b) { return a + b; }, 0);
+    return exps.map(function(v) { return v / sum; });
+  }
+
+  // ---- Figure 1: Behavioral Landscape ----
+  var fig1State = { tau: 0.5, peak: 50, width: 15, amp: 3.0 };
+
+  function drawFig1() {
+    var W = 600, H = 320;
+    var padL = 50, padR = 20, padT = 20, padB = 40;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+
+    var axes = document.getElementById("fig1-axes");
+    var incG = document.getElementById("fig1-incentive");
+    var probG = document.getElementById("fig1-prob");
+    var labels = document.getElementById("fig1-labels");
+    clear(axes); clear(incG); clear(probG); clear(labels);
+
+    var xs = linspace(0, 100, 200);
+    var incentives = xs.map(function(x) {
+      return gaussian(x, fig1State.peak, fig1State.width, fig1State.amp);
+    });
+    var maxInc = Math.max.apply(null, incentives);
+    var probs = softmax(incentives, fig1State.tau);
+    var maxProb = Math.max.apply(null, probs);
+
+    // axes
+    axes.appendChild(el("line", { x1: padL, y1: padT + plotH, x2: padL + plotW, y2: padT + plotH, stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+    axes.appendChild(el("line", { x1: padL, y1: padT, x2: padL, y2: padT + plotH, stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+
+    // axis labels
+    labels.appendChild(el("text", { x: padL + plotW / 2, y: H - 8, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", text: "Behavior b" }));
+    labels.appendChild(el("text", { x: 14, y: padT + plotH / 2, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", transform: "rotate(-90 14 " + (padT + plotH/2) + ")", text: "Reward / Probability" }));
+
+    // incentive curve
+    var incPath = "";
+    xs.forEach(function(x, i) {
+      var px = padL + (x / 100) * plotW;
+      var py = padT + plotH - (incentives[i] / maxInc) * plotH * 0.9;
+      incPath += (i === 0 ? "M" : "L") + px + " " + py + " ";
+    });
+    incG.appendChild(el("path", { d: incPath, fill: "none", stroke: "var(--amber)", "stroke-width": 2.5 }));
+
+    // probability area
+    var probPath = "M" + padL + " " + (padT + plotH) + " ";
+    xs.forEach(function(x, i) {
+      var px = padL + (x / 100) * plotW;
+      var py = padT + plotH - (probs[i] / maxProb) * plotH * 0.9;
+      probPath += "L" + px + " " + py + " ";
+    });
+    probPath += "L" + (padL + plotW) + " " + (padT + plotH) + " Z";
+    probG.appendChild(el("path", { d: probPath, fill: "url(#prob-grad)", stroke: "var(--blue)", "stroke-width": 1.5 }));
+
+    // peak marker
+    var peakPx = padL + (fig1State.peak / 100) * plotW;
+    probG.appendChild(el("line", { x1: peakPx, y1: padT, x2: peakPx, y2: padT + plotH, stroke: "var(--blue)", "stroke-width": 1, "stroke-dasharray": "4 3", opacity: 0.4 }));
+  }
+
+  function initFig1() {
+    function bind(sliderId, valId, key, fmt) {
+      var slider = document.getElementById(sliderId);
+      var valSpan = document.getElementById(valId);
+      slider.addEventListener("input", function() {
+        fig1State[key] = parseFloat(slider.value);
+        valSpan.textContent = fmt(fig1State[key]);
+        drawFig1();
+      });
+    }
+    bind("tau-slider", "tau-val", "tau", function(v) { return v.toFixed(2); });
+    bind("peak-slider", "peak-val", "peak", function(v) { return v.toFixed(0); });
+    bind("width-slider", "width-val", "width", function(v) { return v.toFixed(0); });
+    bind("amp-slider", "amp-val", "amp", function(v) { return v.toFixed(1); });
+    drawFig1();
+  }
+
+  // ---- Figure 2: Supply-Demand ----
+  var behaviorData = {
+    helpful: {
+      label: "helpful responses",
+      supplyFn: function(q) { return 0.5 + q * 0.04; },
+      demandFn: function(q) { return 5.0 - q * 0.05; },
+      qMax: 80
+    },
+    creative: {
+      label: "creative content",
+      supplyFn: function(q) { return 1.0 + q * 0.06; },
+      demandFn: function(q) { return 6.0 - q * 0.07; },
+      qMax: 70
+    },
+    conformist: {
+      label: "conformist behavior",
+      supplyFn: function(q) { return 0.2 + q * 0.02; },
+      demandFn: function(q) { return 3.5 - q * 0.03; },
+      qMax: 90
+    }
+  };
+
+  function findEquilibrium(d) {
+    for (var q = 0; q <= d.qMax; q += 0.5) {
+      var s = d.supplyFn(q);
+      var dm = d.demandFn(q);
+      if (s >= dm) { return { q: q, p: s }; }
+    }
+    return { q: d.qMax, p: d.supplyFn(d.qMax) };
+  }
+
+  function drawFig2(behaviorKey) {
+    var d = behaviorData[behaviorKey];
+    var W = 500, H = 320;
+    var padL = 50, padR = 20, padT = 20, padB = 40;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+    var pMax = 7;
+
+    var axes = document.getElementById("fig2-axes");
+    var supG = document.getElementById("fig2-supply");
+    var demG = document.getElementById("fig2-demand");
+    var eqG = document.getElementById("fig2-equilibrium");
+    var labels = document.getElementById("fig2-labels");
+    clear(axes); clear(supG); clear(demG); clear(eqG); clear(labels);
+
+    axes.appendChild(el("line", { x1: padL, y1: padT + plotH, x2: padL + plotW, y2: padT + plotH, stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+    axes.appendChild(el("line", { x1: padL, y1: padT, x2: padL, y2: padT + plotH, stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+
+    labels.appendChild(el("text", { x: padL + plotW / 2, y: H - 8, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", text: "Frequency (quantity)" }));
+    labels.appendChild(el("text", { x: 14, y: padT + plotH / 2, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", transform: "rotate(-90 14 " + (padT + plotH/2) + ")", text: "Reward (price)" }));
+
+    // supply curve
+    var supPath = "";
+    var demPath = "";
+    for (var q = 0; q <= d.qMax; q += 1) {
+      var px = padL + (q / d.qMax) * plotW;
+      var spy = padT + plotH - (d.supplyFn(q) / pMax) * plotH;
+      var dpy = padT + plotH - (Math.max(d.demandFn(q), 0) / pMax) * plotH;
+      supPath += (q === 0 ? "M" : "L") + px + " " + spy + " ";
+      demPath += (q === 0 ? "M" : "L") + px + " " + dpy + " ";
+    }
+    supG.appendChild(el("path", { d: supPath, fill: "none", stroke: "var(--green)", "stroke-width": 2.5 }));
+    demG.appendChild(el("path", { d: demPath, fill: "none", stroke: "var(--red)", "stroke-width": 2.5 }));
+
+    // equilibrium
+    var eq = findEquilibrium(d);
+    var eqPx = padL + (eq.q / d.qMax) * plotW;
+    var eqPy = padT + plotH - (eq.p / pMax) * plotH;
+
+    eqG.appendChild(el("line", { x1: eqPx, y1: padT + plotH, x2: eqPx, y2: eqPy, stroke: "var(--blue)", "stroke-width": 1, "stroke-dasharray": "4 3" }));
+    eqG.appendChild(el("line", { x1: padL, y1: eqPy, x2: eqPx, y2: eqPy, stroke: "var(--blue)", "stroke-width": 1, "stroke-dasharray": "4 3" }));
+    eqG.appendChild(el("circle", { cx: eqPx, cy: eqPy, r: 5, fill: "var(--blue)" }));
+    eqG.appendChild(el("text", { x: eqPx + 8, y: eqPy - 8, "font-size": 10, fill: "var(--blue)", text: "Eq: q=" + eq.q.toFixed(0) + ", r=" + eq.p.toFixed(2) }));
+
+    // labels
+    supG.appendChild(el("text", { x: padL + plotW - 60, y: padT + plotH - (d.supplyFn(d.qMax - 10) / pMax) * plotH - 8, "font-size": 10, fill: "var(--green)", text: "Supply" }));
+    demG.appendChild(el("text", { x: padL + 10, y: padT + plotH - (d.demandFn(5) / pMax) * plotH - 8, "font-size": 10, fill: "var(--red)", text: "Demand" }));
+
+    document.getElementById("fig2-caption").textContent =
+      'Figure 2: Supply and demand for "' + d.label + '." Equilibrium reward and frequency at intersection.';
+  }
+
+  function initFig2() {
+    var tabs = document.querySelectorAll("#fig2-tabs .tab-btn");
+    tabs.forEach(function(tab) {
+      tab.addEventListener("click", function() {
+        tabs.forEach(function(t) { t.classList.remove("active"); });
+        tab.classList.add("active");
+        drawFig2(tab.dataset.behavior);
+      });
+    });
+    drawFig2("helpful");
+  }
+
+  // ---- Figure 3: Multi-Agent Network ----
+  function drawFig3() {
+    var W = 500, H = 360;
+    var cx = W / 2, cy = H / 2;
+    var radius = 120;
+    var nAgents = 6;
+    var nodes = [];
+    for (var i = 0; i < nAgents; i++) {
+      var angle = (i / nAgents) * 2 * Math.PI - Math.PI / 2;
+      nodes.push({ x: cx + radius * Math.cos(angle), y: cy + radius * Math.sin(angle), label: "A" + (i + 1) });
+    }
+
+    var edgesG = document.getElementById("fig3-edges");
+    var nodesG = document.getElementById("fig3-nodes");
+    var labelsG = document.getElementById("fig3-labels");
+    clear(edgesG); clear(nodesG); clear(labelsG);
+
+    // draw edges (each agent sends to 2 others)
+    var edgeMap = [
+      [0, 1, 3], [1, 2, 2.5], [2, 3, 4], [3, 4, 2], [4, 5, 3.5], [5, 0, 2.8],
+      [0, 3, 1.5], [1, 4, 2.2], [2, 5, 1.8]
+    ];
+
+    edgeMap.forEach(function(e) {
+      var from = nodes[e[0]], to = nodes[e[1]], w = e[2];
+      var dx = to.x - from.x, dy = to.y - from.y;
+      var len = Math.sqrt(dx * dx + dy * dy);
+      var ux = dx / len, uy = dy / len;
+      var sx = from.x + ux * 22, sy = from.y + uy * 22;
+      var ex = to.x - ux * 22, ey = to.y - uy * 22;
+
+      edgesG.appendChild(el("line", {
+        x1: sx, y1: sy, x2: ex, y2: ey,
+        stroke: "var(--blue)", "stroke-width": w, opacity: 0.4,
+        "marker-end": "url(#arrow3)"
+      }));
+    });
+
+    // arrow marker
+    var defs = el("defs");
+    var marker = el("marker", { id: "arrow3", viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 6, markerHeight: 6, orient: "auto" });
+    marker.appendChild(el("path", { d: "M0 0 L10 5 L0 10 Z", fill: "var(--blue)", opacity: 0.6 }));
+    defs.appendChild(marker);
+    edgesG.appendChild(defs);
+
+    // draw nodes
+    nodes.forEach(function(n) {
+      nodesG.appendChild(el("circle", { cx: n.x, cy: n.y, r: 20, fill: "var(--panel-strong)", stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+      labelsG.appendChild(el("text", { x: n.x, y: n.y + 4, "text-anchor": "middle", "font-size": 12, "font-weight": 600, fill: "var(--ink)", text: n.label }));
+    });
+  }
+
+  // ---- Figure 4: Rate-Distortion ----
+  function drawFig4() {
+    var W = 500, H = 320;
+    var padL = 50, padR = 20, padT = 20, padB = 40;
+    var plotW = W - padL - padR;
+    var plotH = H - padT - padB;
+
+    var axes = document.getElementById("fig4-axes");
+    var rdG = document.getElementById("fig4-rd");
+    var divG = document.getElementById("fig4-diversity");
+    var labels = document.getElementById("fig4-labels");
+    var annG = document.getElementById("fig4-annotations");
+    clear(axes); clear(rdG); clear(divG); clear(labels); clear(annG);
+
+    axes.appendChild(el("line", { x1: padL, y1: padT + plotH, x2: padL + plotW, y2: padT + plotH, stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+    axes.appendChild(el("line", { x1: padL, y1: padT, x2: padL, y2: padT + plotH, stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+
+    labels.appendChild(el("text", { x: padL + plotW / 2, y: H - 8, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", text: "Model capacity (rate R)" }));
+    labels.appendChild(el("text", { x: 14, y: padT + plotH / 2, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", transform: "rotate(-90 14 " + (padT + plotH/2) + ")", text: "Distortion / Diversity" }));
+
+    // R(D) curve: distortion decreases as rate increases (exponential decay)
+    var rdPath = "";
+    var divPath = "";
+    var nPoints = 100;
+    for (var i = 0; i < nPoints; i++) {
+      var frac = i / (nPoints - 1);
+      var px = padL + frac * plotW;
+      // distortion: high at low R, drops exponentially
+      var distortion = 0.9 * Math.exp(-3 * frac) + 0.05;
+      var dpy = padT + plotH - distortion * plotH;
+      rdPath += (i === 0 ? "M" : "L") + px + " " + dpy + " ";
+      // diversity: low at low R, rises sigmoidally
+      var diversity = 0.95 / (1 + Math.exp(-8 * (frac - 0.3)));
+      var divy = padT + plotH - diversity * plotH;
+      divPath += (i === 0 ? "M" : "L") + px + " " + divy + " ";
+    }
+    rdG.appendChild(el("path", { d: rdPath, fill: "none", stroke: "var(--red)", "stroke-width": 2.5 }));
+    divG.appendChild(el("path", { d: divPath, fill: "none", stroke: "var(--teal)", "stroke-width": 2.5 }));
+
+    // annotations
+    annG.appendChild(el("text", { x: padL + 15, y: padT + 20, "font-size": 10, fill: "var(--red)", text: "Long tail lost" }));
+    annG.appendChild(el("text", { x: padL + plotW - 70, y: padT + 20, "font-size": 10, fill: "var(--teal)", text: "Diversity preserved" }));
+
+    rdG.appendChild(el("text", { x: padL + plotW - 50, y: padT + plotH - 5, "font-size": 10, fill: "var(--red)", text: "D(R)" }));
+    divG.appendChild(el("text", { x: padL + plotW - 50, y: padT + 15, "font-size": 10, fill: "var(--teal)", text: "Diversity" }));
+  }
+
+  // ---- Figure 5: Feedback Loop ----
+  function drawFig5() {
+    var W = 500, H = 420;
+    var cx = W / 2, cy = H / 2;
+    var radius = 140;
+
+    var steps = [
+      { label: "Behavioral\nSpectrum", short: "Spectrum" },
+      { label: "Incentive\nMap", short: "Incentives" },
+      { label: "Market for\nBehaviors", short: "Market" },
+      { label: "Training\nData", short: "Data" },
+      { label: "AI Training\n(Compression)", short: "Training" },
+      { label: "Synthetic\nData", short: "Synthetic" }
+    ];
+
+    var nSteps = steps.length;
+    var nodes = [];
+    for (var i = 0; i < nSteps; i++) {
+      var angle = (i / nSteps) * 2 * Math.PI - Math.PI / 2;
+      nodes.push({
+        x: cx + radius * Math.cos(angle),
+        y: cy + radius * Math.sin(angle),
+        label: steps[i].short,
+        fullLabel: steps[i].label
+      });
+    }
+
+    var nodesG = document.getElementById("fig5-nodes");
+    var edgesG = document.getElementById("fig5-edges");
+    var labelsG = document.getElementById("fig5-labels");
+    var convG = document.getElementById("fig5-convergence");
+    clear(nodesG); clear(edgesG); clear(labelsG); clear(convG);
+
+    // arrow marker
+    var defs = el("defs");
+    var marker = el("marker", { id: "arrow5", viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto" });
+    marker.appendChild(el("path", { d: "M0 0 L10 5 L0 10 Z", fill: "var(--blue)" }));
+    defs.appendChild(marker);
+    edgesG.appendChild(defs);
+
+    // draw curved edges between consecutive nodes
+    for (var i = 0; i < nSteps; i++) {
+      var from = nodes[i];
+      var to = nodes[(i + 1) % nSteps];
+      var dx = to.x - from.x, dy = to.y - from.y;
+      var len = Math.sqrt(dx * dx + dy * dy);
+      var ux = dx / len, uy = dy / len;
+      var sx = from.x + ux * 32, sy = from.y + uy * 32;
+      var ex = to.x - ux * 32, ey = to.y - uy * 32;
+
+      // curve outward
+      var mx = (sx + ex) / 2 + uy * 15;
+      var my = (sy + ey) / 2 - ux * 15;
+
+      edgesG.appendChild(el("path", {
+        d: "M" + sx + " " + sy + " Q" + mx + " " + my + " " + ex + " " + ey,
+        fill: "none", stroke: "var(--blue)", "stroke-width": 2, opacity: 0.5,
+        "marker-end": "url(#arrow5)"
+      }));
+    }
+
+    // draw nodes
+    nodes.forEach(function(n, i) {
+      var color = (i === 2 || i === 4) ? "var(--amber-soft)" : "var(--panel-strong)";
+      var stroke = (i === 2 || i === 4) ? "var(--amber)" : "var(--line-strong)";
+      nodesG.appendChild(el("circle", { cx: n.x, cy: n.y, r: 30, fill: color, stroke: stroke, "stroke-width": 1.5 }));
+      var lines = n.fullLabel.split("\n");
+      lines.forEach(function(line, j) {
+        var ly = n.y - 4 + j * 12;
+        labelsG.appendChild(el("text", { x: n.x, y: ly, "text-anchor": "middle", "font-size": 9, "font-weight": 600, fill: "var(--ink)", text: line }));
+      });
+    });
+
+    // convergence annotation in center
+    convG.appendChild(el("text", { x: cx, y: cy - 10, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", "font-style": "italic", text: "P(t+1) =" }));
+    convG.appendChild(el("text", { x: cx, y: cy + 6, "text-anchor": "middle", "font-size": 11, fill: "var(--muted)", "font-style": "italic", text: "Compress(Filter(P(t)))" }));
+    convG.appendChild(el("text", { x: cx, y: cy + 28, "text-anchor": "middle", "font-size": 9, fill: "var(--red)", text: "narrows each cycle" }));
+  }
+
+  // ---- Figure 6: Golden vs Platinum Rule ----
+  function drawFig6() {
+    // Golden Rule
+    var g = document.getElementById("fig6-golden-content");
+    clear(g);
+
+    g.appendChild(el("circle", { cx: 60, cy: 100, r: 25, fill: "var(--panel-strong)", stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+    g.appendChild(el("text", { x: 60, y: 104, "text-anchor": "middle", "font-size": 11, "font-weight": 600, fill: "var(--ink)", text: "Agent i" }));
+
+    g.appendChild(el("circle", { cx: 230, cy: 100, r: 25, fill: "var(--panel-strong)", stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+    g.appendChild(el("text", { x: 230, y: 104, "text-anchor": "middle", "font-size": 11, "font-weight": 600, fill: "var(--ink)", text: "Agent j" }));
+
+    // arrow with v_i label
+    g.appendChild(el("defs", {})).appendChild(el("marker", { id: "arr-g", viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 6, markerHeight: 6, orient: "auto" })).appendChild(el("path", { d: "M0 0 L10 5 L0 10 Z", fill: "var(--amber)" }));
+
+    g.appendChild(el("line", { x1: 88, y1: 100, x2: 202, y2: 100, stroke: "var(--amber)", "stroke-width": 2, "marker-end": "url(#arr-g)" }));
+    g.appendChild(el("rect", { x: 120, y: 78, width: 50, height: 18, rx: 4, fill: "var(--amber-soft)", stroke: "var(--amber)", "stroke-width": 0.5 }));
+    g.appendChild(el("text", { x: 145, y: 91, "text-anchor": "middle", "font-size": 10, fill: "var(--amber)", "font-family": "monospace", text: "v_i(b)" }));
+
+    g.appendChild(el("text", { x: 150, y: 155, "text-anchor": "middle", "font-size": 10, fill: "var(--red)", text: "Assumes v_j = v_i" }));
+    g.appendChild(el("text", { x: 150, y: 172, "text-anchor": "middle", "font-size": 10, fill: "var(--red)", text: "Fails if preferences differ" }));
+
+    // Platinum Rule
+    var p = document.getElementById("fig6-platinum-content");
+    clear(p);
+
+    p.appendChild(el("circle", { cx: 60, cy: 100, r: 25, fill: "var(--panel-strong)", stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+    p.appendChild(el("text", { x: 60, y: 104, "text-anchor": "middle", "font-size": 11, "font-weight": 600, fill: "var(--ink)", text: "Agent i" }));
+
+    p.appendChild(el("circle", { cx: 230, cy: 100, r: 25, fill: "var(--panel-strong)", stroke: "var(--line-strong)", "stroke-width": 1.5 }));
+    p.appendChild(el("text", { x: 230, y: 104, "text-anchor": "middle", "font-size": 11, "font-weight": 600, fill: "var(--ink)", text: "Agent j" }));
+
+    // data collection arrow (j -> i)
+    p.appendChild(el("defs", {})).appendChild(el("marker", { id: "arr-p1", viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 6, markerHeight: 6, orient: "auto" })).appendChild(el("path", { d: "M0 0 L10 5 L0 10 Z", fill: "var(--teal)" }));
+    p.appendChild(el("marker", { id: "arr-p2", viewBox: "0 0 10 10", refX: 8, refY: 5, markerWidth: 6, markerHeight: 6, orient: "auto" })).appendChild(el("path", { d: "M0 0 L10 5 L0 10 Z", fill: "var(--green)" }));
+
+    p.appendChild(el("line", { x1: 202, y1: 85, x2: 88, y2: 85, stroke: "var(--teal)", "stroke-width": 1.5, "stroke-dasharray": "4 2", "marker-end": "url(#arr-p1)" }));
+    p.appendChild(el("text", { x: 145, y: 78, "text-anchor": "middle", "font-size": 9, fill: "var(--teal)", text: "observe v_j" }));
+
+    // behavior arrow (i -> j) with learned v_j
+    p.appendChild(el("line", { x1: 88, y1: 115, x2: 202, y2: 115, stroke: "var(--green)", "stroke-width": 2, "marker-end": "url(#arr-p2)" }));
+    p.appendChild(el("rect", { x: 115, y: 120, width: 60, height: 18, rx: 4, fill: "var(--green-soft)", stroke: "var(--green)", "stroke-width": 0.5 }));
+    p.appendChild(el("text", { x: 145, y: 133, "text-anchor": "middle", "font-size": 10, fill: "var(--green)", "font-family": "monospace", text: "v_j(b)" }));
+
+    p.appendChild(el("text", { x: 150, y: 165, "text-anchor": "middle", "font-size": 10, fill: "var(--green)", text: "Learns v_j from data" }));
+    p.appendChild(el("text", { x: 150, y: 182, "text-anchor": "middle", "font-size": 10, fill: "var(--green)", text: "Produces matching behaviors" }));
+  }
+
+  // ---- Init all ----
+  function init() {
+    initFig1();
+    initFig2();
+    drawFig3();
+    drawFig4();
+    drawFig5();
+    drawFig6();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

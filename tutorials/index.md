@@ -658,5 +658,17 @@ show_title: false
       and authority boundaries explicitly.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/market-for-behaviors/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Essay: A Market for Behaviors</h2>
+    <p class="fp-card-text">
+      What learning is, from behaviorism to AI. Behavioral spectrum as ontology,
+      incentive map as dynamics, market for behaviors as economics, training as
+      compression, and alignment as market design. Includes interactive
+      visualizations and the Platinum Rule as preference learning.
+    </p>
+  </a>
 
 </div>
