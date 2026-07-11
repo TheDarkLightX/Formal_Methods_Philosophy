@@ -844,6 +844,91 @@ details.fp-faq summary:focus-visible {
   font-size: 14px;
 }
 
+.fp-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: var(--space-md);
+  border-radius: 18px;
+  background: #07111f;
+  box-shadow:
+    0 28px 80px rgba(2, 8, 23, 0.24),
+    0 0 0 1px rgba(148, 163, 184, 0.2);
+}
+
+.zrpf-media-stage {
+  overflow: hidden;
+  border-color: rgba(34, 211, 238, 0.24);
+  background:
+    radial-gradient(circle at 22% 12%, rgba(59, 130, 246, 0.18), transparent 36%),
+    linear-gradient(145deg, #0b1729, #07111f 72%);
+  box-shadow:
+    0 30px 90px rgba(2, 8, 23, 0.2),
+    inset 0 1px rgba(248, 250, 252, 0.08);
+}
+
+.zrpf-media-stage .fp-figure-title,
+.zrpf-media-stage .fp-figure-caption {
+  color: rgba(248, 250, 252, 0.94);
+}
+
+.zrpf-media-stage .fp-diagram {
+  margin-top: var(--space-md);
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(2, 8, 23, 0.38);
+}
+
+.zrpf-status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin: var(--space-xl) 0;
+}
+
+.zrpf-status-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 168px;
+  padding: var(--space-lg);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: var(--radius-lg);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(248, 250, 252, 0.76));
+  box-shadow: var(--shadow-sm);
+}
+
+.zrpf-status-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 6px;
+  background: var(--zrpf-status-color);
+}
+
+.zrpf-status-card[data-status="current"] {
+  --zrpf-status-color: #22d3ee;
+}
+
+.zrpf-status-card[data-status="proposed"] {
+  --zrpf-status-color: #f59e0b;
+}
+
+.zrpf-status-card[data-status="target"] {
+  --zrpf-status-color: #a78bfa;
+}
+
+.zrpf-status-label {
+  margin: 0 0 var(--space-sm);
+  color: #0f172a;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.zrpf-status-card p:last-child {
+  margin-bottom: 0;
+  color: rgba(30, 41, 59, 0.78);
+}
+
 .fp-diagram {
   display: block;
   width: 100%;
@@ -1011,6 +1096,16 @@ details.fp-faq summary:focus-visible {
 .MathJax_Display,
 mjx-container {
   max-width: 100%;
+}
+
+@media (max-width: 720px) {
+  .zrpf-status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .zrpf-status-card {
+    min-height: 0;
+  }
 }
 
 .markdown-body mjx-container[display="true"] {

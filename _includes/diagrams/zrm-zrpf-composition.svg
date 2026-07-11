@@ -1,0 +1,97 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 1200 760"
+  role="img"
+  aria-labelledby="fp-zrm-zrpf-title fp-zrm-zrpf-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-zrm-zrpf-title">ZRM and ZRPF composition boundary</title>
+  <desc id="fp-zrm-zrpf-desc">
+    A proposed resource transition passes through ZRM semantic validation to produce a journal draft.
+    A ZRPF admission proof may authenticate that exact draft before atomic commit. The resulting accepted
+    journal may then enter a separate ZRPF postcommit aggregation profile. Semantic and proof-tree roots
+    remain distinct.
+  </desc>
+
+  <defs>
+    <filter id="fp-zrm-zrpf-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#0F172A" flood-opacity="0.12" />
+    </filter>
+    <marker id="fp-zrm-zrpf-arrow-blue" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#2563EB" />
+    </marker>
+    <marker id="fp-zrm-zrpf-arrow-violet" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#7C3AED" />
+    </marker>
+    <linearGradient id="fp-zrm-zrpf-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F8FAFC" />
+      <stop offset="1" stop-color="#EEF2FF" />
+    </linearGradient>
+  </defs>
+
+  <g filter="url(#fp-zrm-zrpf-shadow)">
+    <rect x="35" y="30" width="1130" height="700" rx="30" fill="url(#fp-zrm-zrpf-bg)" stroke="#CBD5E1" />
+
+    <text x="80" y="82" font-size="23" font-weight="900" fill="#0F172A" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      The journal is the typed seam between semantics and recursive proof
+    </text>
+    <text x="80" y="111" font-size="14" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Admission and postcommit aggregation use different profiles because they carry different authority.
+    </text>
+
+    <rect x="78" y="155" width="190" height="116" rx="20" fill="#FFF7ED" stroke="#FDBA74" />
+    <text x="173" y="190" text-anchor="middle" font-size="15" font-weight="900" fill="#9A3412" font-family="Atkinson Hyperlegible, system-ui, sans-serif">PROPOSAL</text>
+    <text x="173" y="220" text-anchor="middle" font-size="14" font-weight="800" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">ResourceTransition</text>
+    <text x="173" y="246" text-anchor="middle" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">untrusted until checked</text>
+
+    <rect x="316" y="155" width="214" height="116" rx="20" fill="#EFF6FF" stroke="#60A5FA" />
+    <text x="423" y="190" text-anchor="middle" font-size="15" font-weight="900" fill="#1D4ED8" font-family="Atkinson Hyperlegible, system-ui, sans-serif">ZRM</text>
+    <text x="423" y="220" text-anchor="middle" font-size="14" font-weight="800" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">semantic validation</text>
+    <text x="423" y="246" text-anchor="middle" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">produces JournalDraft</text>
+
+    <rect x="578" y="155" width="214" height="116" rx="20" fill="#F5F3FF" stroke="#A78BFA" />
+    <text x="685" y="190" text-anchor="middle" font-size="15" font-weight="900" fill="#6D28D9" font-family="Atkinson Hyperlegible, system-ui, sans-serif">ZRPF ADMISSION</text>
+    <text x="685" y="220" text-anchor="middle" font-size="14" font-weight="800" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">bind exact draft</text>
+    <text x="685" y="246" text-anchor="middle" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">program + policy + profile</text>
+
+    <rect x="840" y="155" width="214" height="116" rx="20" fill="#ECFDF5" stroke="#34D399" />
+    <text x="947" y="190" text-anchor="middle" font-size="15" font-weight="900" fill="#047857" font-family="Atkinson Hyperlegible, system-ui, sans-serif">ATOMIC COMMIT</text>
+    <text x="947" y="220" text-anchor="middle" font-size="14" font-weight="800" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">state + replay + effects</text>
+    <text x="947" y="246" text-anchor="middle" font-size="12" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">creates AcceptedJournal</text>
+
+    <path d="M268 213 H306" stroke="#2563EB" stroke-width="4" marker-end="url(#fp-zrm-zrpf-arrow-blue)" />
+    <path d="M530 213 H568" stroke="#7C3AED" stroke-width="4" marker-end="url(#fp-zrm-zrpf-arrow-violet)" />
+    <path d="M792 213 H830" stroke="#7C3AED" stroke-width="4" marker-end="url(#fp-zrm-zrpf-arrow-violet)" />
+
+    <rect x="78" y="322" width="452" height="218" rx="22" fill="#FFFFFF" stroke="#BFDBFE" />
+    <rect x="78" y="322" width="452" height="44" rx="22" fill="#DBEAFE" />
+    <rect x="78" y="344" width="452" height="22" fill="#DBEAFE" />
+    <text x="104" y="351" font-size="15" font-weight="900" fill="#1D4ED8" font-family="Atkinson Hyperlegible, system-ui, sans-serif">ZRM semantic obligations</text>
+    <text x="108" y="397" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• consumed resources exist</text>
+    <text x="108" y="426" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• nullifiers are fresh and outputs are unique</text>
+    <text x="108" y="455" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• authority, units, and policy are current</text>
+    <text x="108" y="484" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• conservation or transformation is authorized</text>
+    <text x="108" y="513" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• rejection leaves committed state unchanged</text>
+
+    <rect x="578" y="322" width="476" height="218" rx="22" fill="#FFFFFF" stroke="#DDD6FE" />
+    <rect x="578" y="322" width="476" height="44" rx="22" fill="#EDE9FE" />
+    <rect x="578" y="344" width="476" height="22" fill="#EDE9FE" />
+    <text x="604" y="351" font-size="15" font-weight="900" fill="#6D28D9" font-family="Atkinson Hyperlegible, system-ui, sans-serif">ZRPF cryptographic obligations</text>
+    <text x="608" y="397" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• expected proof program and release identity</text>
+    <text x="608" y="426" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• exact journal bytes and wrapper stage</text>
+    <text x="608" y="455" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• governed profile and policy bindings</text>
+    <text x="608" y="484" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• ordered child manifest and recursive topology</text>
+    <text x="608" y="513" font-size="13" fill="#1E293B" font-family="Atkinson Hyperlegible, system-ui, sans-serif">• proof acceptance carries only its stated claim</text>
+
+    <rect x="78" y="586" width="976" height="104" rx="22" fill="#0F172A" stroke="#334155" />
+    <text x="108" y="619" font-size="14" font-weight="900" fill="#F8FAFC" font-family="Atkinson Hyperlegible, system-ui, sans-serif">POSTCOMMIT ZRPF AGGREGATION</text>
+    <text x="108" y="649" font-size="13" fill="#CBD5E1" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      AcceptedJournal sequence → semantic_epoch_root (business history, independent of valid proof grouping)
+    </text>
+    <text x="108" y="676" font-size="13" fill="#CBD5E1" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+      Ordered receipt tree → proof_tree_root (programs, profiles, child positions, and recursive topology)
+    </text>
+
+    <path d="M947 271 V574" stroke="#7C3AED" stroke-width="4" marker-end="url(#fp-zrm-zrpf-arrow-violet)" />
+  </g>
+</svg>

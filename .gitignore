@@ -12,6 +12,7 @@ examples/**/outputs/
 # Local site builds and tool scratch files.
 _site/
 .preview-build/
+.zrpf-preview/
 .tmp-build/
 .write_test
 .mcp.json

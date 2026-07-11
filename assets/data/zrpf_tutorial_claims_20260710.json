@@ -1,0 +1,84 @@
+{
+  "schema": "formal_philosophy/zrpf_tutorial_claims/v1",
+  "evidence_date": "2026-07-10",
+  "source_status": "temporary_local_evidence_and_proposed_architecture",
+  "public_sources": [
+    {
+      "role": "methodological_influence",
+      "title": "Principled Design and Analysis of Zero-Knowledge Protocols for Intent-Centric Private State Machines",
+      "url": "https://medium.com/@gwrx2005/principled-design-and-analysis-of-zero-knowledge-protocols-for-intent-centric-private-state-99632c60a898"
+    },
+    {
+      "role": "implemented_profile_documentation",
+      "title": "ZRPF RISC0 Structural Proof Profile",
+      "url": "https://github.com/TheDarkLightX/ZenoDEX/blob/agent/zrpf-v3-structural-cbc/zk/zrpf_risc0/README.md"
+    }
+  ],
+  "current_evidence": {
+    "proof_system": "RISC0 3.0.5",
+    "receipt_kind": "Succinct",
+    "profile": "bounded structural ZRPF V3",
+    "observed_tree": {
+      "spot_adapter_leaves": 4,
+      "level_one_structural_nodes": 2,
+      "level_two_structural_roots": 1,
+      "total_nodes": 7,
+      "operation_count": 4,
+      "operation_count_unit": "source_transition_receipt"
+    },
+    "compiled_bounds": {
+      "max_immediate_children": 8,
+      "max_node_level": 2,
+      "max_leaf_count": 64,
+      "max_subtree_node_count": 73,
+      "max_operations_per_leaf": 128,
+      "max_operations_per_root": 8192,
+      "max_node_journal_bytes": 4096
+    },
+    "verified_controls": [
+      "persisted seven-receipt verifier replay accepted",
+      "missing child assumption rejected",
+      "swapped level-one receipts rejected",
+      "wrong-image receipt rejected"
+    ],
+    "root_journal_protocol_hash": "2089ecc187077d4b719c8539076651753c1ead1415724c9bc788758bddfa3768",
+    "persisted_root_receipt_sha256": "021af13025e7dc7c40e06d689ad30e3194e58793435cd11ae07d684c80ddfd33",
+    "evidence_caveat": "Verifier replay is source-closure attested. The recorded proving execution is temporary-path evidence and its executed source closure is not attested after a post-run harness patch."
+  },
+  "proposed_architecture": [
+    "native semantic leaves and semantic aggregate composition",
+    "conflict-aware partitioning and hot-state batching",
+    "verified data-availability certificates",
+    "durable atomic exact-once ZenoLedger admission",
+    "assigned reverse-auction proof market with redundancy",
+    "Tau and external settlement checkpoints"
+  ],
+  "architecture_envelopes_not_benchmarks": [
+    {
+      "name": "initial target",
+      "fanout": 8,
+      "depth": 2,
+      "operations_per_leaf": 128,
+      "epoch_seconds": 10,
+      "architecture_tps": 819
+    },
+    {
+      "name": "large-scale target",
+      "fanout": 16,
+      "depth": 3,
+      "operations_per_leaf": 256,
+      "epoch_seconds": 10,
+      "architecture_tps": 104858
+    }
+  ],
+  "non_claims": [
+    "no release-backed or cross-host-reproducible V3 proof claim",
+    "no full ZenoDEX semantic composition claim",
+    "no asset-conservation or complete value-flow claim",
+    "no verified data-availability or carry-continuity claim",
+    "no durable ledger-admission or settlement authority claim",
+    "no production-readiness claim",
+    "no witness-privacy or system-privacy claim",
+    "no measured throughput, latency, or proving-cost claim"
+  ]
+}

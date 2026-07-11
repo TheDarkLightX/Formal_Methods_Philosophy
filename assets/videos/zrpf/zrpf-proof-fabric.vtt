@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00.000 --> 00:07.000
+ZRPF connects application execution, proof tasks, leaf proofs, recursive roots, and governed admission.
+
+00:07.000 --> 00:15.000
+Current local evidence contains four Spot compatibility leaves, two level-one structural receipts, and one level-two structural root.
+
+00:15.000 --> 00:22.000
+Leaves and aggregates share the NodeJournalV3 interface: scope, counts, identities, commitments, and child roots.
+
+00:22.000 --> 00:29.000
+Proof integrity and data availability are separate obligations. A data root alone does not prove that data can be retrieved.
+
+00:29.000 --> 00:36.000
+The prover supplies bytes. Guests, hosts, and governed policy decide whether those bytes authorize a claim.
+
+00:36.000 --> 00:43.000
+Proposed admission commits application state, replay protection, carry state, availability evidence, and rewards atomically.
+
+00:43.000 --> 00:48.000
+Current evidence, proposed architecture, and benchmark targets must remain visibly distinct.

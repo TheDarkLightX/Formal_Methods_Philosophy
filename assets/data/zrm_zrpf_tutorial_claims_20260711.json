@@ -1,0 +1,83 @@
+{
+  "schema": "formal_philosophy/zrm_zrpf_tutorial_claims/v1",
+  "evidence_date": "2026-07-11",
+  "source_status": "pre_alpha_design_snapshot_plus_bounded_zrpf_public_profile",
+  "current_evidence": {
+    "zrm": {
+      "declared_maturity": "incubation / pre-alpha",
+      "inspected_conformance_level": "ZRM-L0",
+      "implemented_scope": [
+        "opaque nonzero identifier and digest types",
+        "schema-fixed SHA-256 reference suite",
+        "strict bounded ResourceWireV1 encoding and decoding",
+        "stable decoder reject codes and deterministic precedence",
+        "independent vector generation and replay",
+        "bounded codec-focused testing and assurance controls"
+      ],
+      "explicitly_unimplemented": [
+        "validated ResourceV1 semantic type",
+        "authenticated policy activation",
+        "semantic transition kernel",
+        "authenticated verifier facts",
+        "durable state machine and atomic commit",
+        "proof and application adapters",
+        "recursive proof integration",
+        "production release"
+      ],
+      "public_release_status": "no tagged or release-backed implementation claim"
+    },
+    "zrpf": {
+      "profile": "bounded structural RISC0 V3 profile",
+      "observed_tree": {
+        "source_transition_receipt_leaves": 4,
+        "level_one_nodes": 2,
+        "level_two_roots": 1,
+        "total_nodes": 7
+      },
+      "claim_scope": [
+        "receipt authentication",
+        "exact journal binding",
+        "bounded tree structure",
+        "deterministic structural root composition"
+      ],
+      "evidence_caveat": "The recorded proving run has temporary-path scope; the verifier replay has a stronger recorded source closure."
+    },
+    "paired_integration": {
+      "status": "specified architecture; no end-to-end implementation evidence",
+      "target_conformance_level": "ZRM-L4",
+      "typed_seam": [
+        "JournalDraftHash for admission",
+        "AcceptedJournal for postcommit aggregation"
+      ]
+    }
+  },
+  "paired_contract": {
+    "zrm_responsibility": "deterministic resource semantics, authority, exact-once state, and atomic commit",
+    "zrpf_responsibility": "authenticate exact proof statements and compress governed journal trees",
+    "admission_profile": "bind the exact JournalDraft before the matching commit plan attempts compare-and-swap",
+    "aggregation_profile": "bind AcceptedJournal bytes after successful commit for compression, audit, or anchoring",
+    "identity_separation": {
+      "semantic_epoch_root": "ordered semantic history independent of valid proof-tree grouping",
+      "proof_tree_root": "recursive topology, programs, profiles, receipts, and child positions"
+    }
+  },
+  "falsification_gates": [
+    "wrong proof program, statement, journal, profile, policy, or release identity rejects",
+    "replayed consumption, assignment, or reward rejects without committed mutation",
+    "stale policy and stale state-version plans reject",
+    "unauthorized mint, burn, or cross-kind transformation rejects",
+    "admission and postcommit aggregation profiles cannot substitute for one another",
+    "proof-tree regrouping preserves semantic_epoch_root for the same ordered accepted journals",
+    "atomic commit keeps effects and replay protection in one transaction",
+    "a data commitment does not satisfy a policy that requires verified availability"
+  ],
+  "non_claims": [
+    "no integrated ZRM and ZRPF implementation claim",
+    "no ZRM semantic-kernel or durable-runtime implementation claim",
+    "no production-readiness or external security-audit claim",
+    "no privacy or zero-knowledge system claim",
+    "no consensus, finality, or data-availability network claim",
+    "no token-value, physical-resource, legal-right, or real-world-truth claim",
+    "no measured throughput, latency, proving-cost, or storage claim"
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "formal_philosophy/zrpf_blender_render_manifest/v1",
+  "blender_version": "5.1.2",
+  "fps": 24,
+  "frame_end": 1152,
+  "duration_seconds": 48.0,
+  "video_profile": {
+    "width": 1920,
+    "height": 1080,
+    "encoded_fps": 24
+  },
+  "claim_status_palette": {
+    "cyan": "current authenticated structural information",
+    "violet": "data-availability information",
+    "green": "accepted complete gate",
+    "red": "rejection and no-op",
+    "amber": "proposal or benchmark-dependent target"
+  },
+  "artifacts": [
+    {
+      "path": "zrpf-proof-fabric.blend",
+      "size_bytes": 274087,
+      "sha256": "4267189c3092bbead6cb827470085e6a56ce84719d00dd56a0b2af5fff63c057"
+    },
+    {
+      "path": "zrpf-atomic-admission.png",
+      "size_bytes": 1816252,
+      "sha256": "72864593d3abb9ae420b38358933e417dee9e03c040c8492fc4af10ff18f3aec"
+    },
+    {
+      "path": "zrpf-claim-status.png",
+      "size_bytes": 1780836,
+      "sha256": "cb284dc4a88dddace26e96e43df509d6a4d71f3daa8b3046f6f58dd589833b96"
+    },
+    {
+      "path": "zrpf-common-journal.png",
+      "size_bytes": 1699968,
+      "sha256": "d6a116f92ca3acae2825ba8ca5e7da53e8279653eb8649499bd29c01f10eca59"
+    },
+    {
+      "path": "zrpf-evidenced-tree.png",
+      "size_bytes": 1778003,
+      "sha256": "824180ed084bd2142345eefb318a5210e565b6c51ece8998bba2496cef910ee1"
+    },
+    {
+      "path": "zrpf-fabric-overview.png",
+      "size_bytes": 1585414,
+      "sha256": "61ca02e2a396d229b6a0edac0add5c73271fd1183ac5e6ea072e1c70fa9dc890"
+    },
+    {
+      "path": "zrpf-proof-vs-data-availability.png",
+      "size_bytes": 1721162,
+      "sha256": "e2081e6da9980d89c6a409a5acf01a92fc0089aeda4b2ecf7f994f856107d993"
+    },
+    {
+      "path": "zrpf-verifier-authority.png",
+      "size_bytes": 1705002,
+      "sha256": "8967fa8f44663ff42cefee724a607733a3fefc0040e16d26882750b4e1278c39"
+    },
+    {
+      "path": "zrpf-proof-fabric.mp4",
+      "size_bytes": 54771977,
+      "sha256": "817bb5546d3876f6707b82cac1c63a520c2a987e03ce1bbe42997c351a359c21"
+    }
+  ]
+}

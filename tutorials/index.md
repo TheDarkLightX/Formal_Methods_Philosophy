@@ -660,6 +660,28 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/zeno-recursive-proof-fabric/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 62: ZRPF and recursive proof composition</h2>
+    <p class="fp-card-text">
+      Follow authenticated ZenoDEX Spot leaves through a bounded recursive tree,
+      then use a first-principles map of information flow, interfaces, evidence,
+      privacy, data availability, admission, and performance claims.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/zeno-resource-machine-and-recursive-proof-fabric/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 63: ZRM + ZRPF</h2>
+    <p class="fp-card-text">
+      Connect recursive proof roots to typed resources, exact-once nullifiers,
+      governed policy, journal stages, and atomic commit, with a clear map of
+      current evidence and the remaining integration gates.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/market-for-behaviors/' | relative_url }}"
   >
     <h2 class="fp-card-title">Essay: A Market for Behaviors</h2>

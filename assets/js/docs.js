@@ -57,12 +57,13 @@
     headings.forEach((heading) => {
       const id = ensureId(heading);
       if (!id) return;
+      const label = heading.textContent.trim();
       addAnchor(heading, id);
 
       const a = document.createElement("a");
       a.className = "fp-toc-link";
       a.href = `#${id}`;
-      a.textContent = heading.textContent.trim();
+      a.textContent = label;
       a.dataset.fpTocTarget = id;
       a.dataset.fpTocLevel = heading.tagName.toLowerCase();
       list.appendChild(a);
@@ -119,4 +120,3 @@
 
   onScroll();
 })();
-
