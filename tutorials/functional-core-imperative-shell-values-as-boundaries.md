@@ -7,31 +7,28 @@ description: "A practical and formal introduction to the philosophy and practice
 
 # Functional Core, Imperative Shell: How Immutable Values Become Boundaries
 
-Software becomes difficult to audit when one operation reads hidden state, makes a decision, mutates several objects, calls external systems, and reports success from the same block of code. The result may work in ordinary tests while remaining hard to replay, compare, or reason about.
+Software becomes difficult to audit when one block of code reads hidden state, makes a decision, mutates several objects, calls external systems, and reports success. The reader must reconstruct which inputs were observed, which rules determined the result, and which effects were committed. Ordinary tests may pass while replay, comparison, and causal explanation remain difficult.
 
 The functional-core/imperative-shell pattern, abbreviated **FCIS**, gives those responsibilities a visible shape:
 
-```text
-untrusted bytes
-      │
-      ▼
-bounded, canonical, authenticated values
-      │
-      ▼
-pure transition function
-State × Command × Policy × Evidence
-      │
-      ├── Reject(reason)
-      │
-      └── Accept(next_state, effect_plan, receipt_draft)
-                         │
-                         ▼
-imperative shell atomically commits, then delivers effects
-```
+<figure class="fp-figure">
+  <p class="fp-figure-title">The FCIS value flow</p>
+  {% include diagrams/fcis-core-shell-flow.svg %}
+  <figcaption class="fp-figure-caption">
+    Untrusted bytes enter the shell, which parses them into bounded, canonical, authenticated values.
+    Those values feed a pure transition function. The transition returns either a typed rejection or
+    an acceptance carrying the next state, an effect plan, and a receipt draft. The shell then
+    atomically commits and delivers effects.
+  </figcaption>
+</figure>
 
 The core answers a question: **given these exact facts, what is the permitted result?** The shell deals with the changing world: clocks, networks, databases, files, authentication, retries, process failures, and concurrency.
 
 Gary Bernhardt's talk [Boundaries](https://www.destroyallsoftware.com/talks/boundaries) presents the practical insight behind this organization: simple values can form boundaries between subsystems. This tutorial develops that insight into a high-assurance design discipline.
+
+## How to read this tutorial
+
+For the philosophical argument, read Sections 2, 10, and 11. For the engineering pattern, read Sections 1, 4, 5, 6, 12, and 16. For the audit methodology, read Sections 8 and 9. For the concurrency story, read Section 7. For the pattern's limits and costs, read Sections 2, 10, and 14. The sections are designed to be readable independently after reading this guide.
 
 ## 1. The separation is semantic
 
@@ -64,10 +61,15 @@ The shell may parse bytes, authenticate a caller, capture a state snapshot, invo
 
 This leads to a dependency rule:
 
-```text
-shell ─────► model, invariants, transition, codec, commitment
-core  ──X──► shell
-```
+<figure class="fp-figure">
+  <p class="fp-figure-title">The dependency direction is one-way</p>
+  {% include diagrams/fcis-dependency-rule.svg %}
+  <figcaption class="fp-figure-caption">
+    The shell may depend on core modules: model, invariants, transition, codec, and commitment.
+    The core must not depend on the shell. This keeps semantic rules free of database, network,
+    clock, and filesystem knowledge.
+  </figcaption>
+</figure>
 
 The core knows about values and rules. It does not know which database, HTTP client, spreadsheet, clock, or proof service happens to surround it.
 
@@ -79,9 +81,9 @@ FCIS rests on a thesis about what makes software hard to reason about. The thesi
 
 A mutable object keeps an identity across change. The account object at noon and the "same" account at one minute past noon hold different balances, yet share one name. This works because the system supplies a convention: an identity that survives mutation, threading before and after together.
 
-A value needs no such convention. The integer `5` has no before and after. It cannot be the same value at two times because it does not change. Immutability collapses the gap between identity and equality: a value is identical to itself at every instant, so equality and identity coincide.
+A value needs no such convention. The integer `5` has no before and after. It cannot change, so the question of whether it is the same value at two times does not arise. Two separately constructed immutable objects can still be distinct objects with equal values. The useful claim is that **stable value equality often makes object identity irrelevant**. A reviewer tracks what the value contains instead of which mutable object it is.
 
-The consequence shows up in review. With a mutable account, the sentence "the balance is 100" can become false before a reader finishes reading it. With an immutable snapshot, the same sentence is fixed by the value itself. The snapshot is the fact, not a pointer to a fact that may move.
+The consequence shows up in review. With a mutable account, the sentence "the balance is 100" can become false before a reader finishes reading it. With an immutable snapshot, the proposition remains fixed relative to that snapshot. Provenance still determines whether the snapshot is authentic, current, and relevant.
 
 ### Outputs are entailed by inputs
 
@@ -93,6 +95,8 @@ transition(S, C, P, E) = D
 
 Entailment is a strong property. The function can be lifted out of its calling context and studied alone. An impure function breaks entailment because part of what determines its result, or its effect, lives outside the argument list, in a clock, a database, a global, or a network. The result then depends on facts the reader cannot see.
 
+This claim assumes the same complete inputs and specified execution semantics. Arithmetic overflow, encoding rules, platform-defined operations, and undefined behavior can make the same source expression behave differently across implementations. Purity excludes hidden inputs; it does not make execution environments identical.
+
 ### From interface dependencies to data dependencies
 
 Gary Bernhardt's [Boundaries](https://www.destroyallsoftware.com/talks/boundaries) identifies the move that makes the rest possible. Two subsystems joined by a method call are coupled in time: one must invoke the other while both are alive, in some agreed order, holding some agreed locks. Two subsystems joined by a value are coupled only by the value. Each can run at any time, in any process, in any order; the value mediates.
@@ -102,7 +106,7 @@ interface dependency:  A calls B.method(x)        -- A depends on B's behavior, 
 data dependency:       A produces v; B consumes v -- A and B depend only on v
 ```
 
-The phrase "values as boundaries" names this replacement. A live relationship becomes a static one. A dependency on behavior becomes a dependency on data. Behavior can fail, race, retry, and lie. Data can be stored, copied, hashed, signed, replayed, and compared.
+The phrase "values as boundaries" names this replacement. A live relationship becomes a static one. A dependency on behavior becomes a dependency on data. Live behavior can fail, race, or retry while it is being observed. A value remains stable enough to store, copy, hash, sign, replay, and compare. The value can still encode a false or stale claim, so provenance and validation remain essential.
 
 ### Reification: concepts become values
 
@@ -138,13 +142,15 @@ Without such a value, the meaning lives only in the transient state of a running
 
 ### A value can be its own evidence
 
-The strongest form of this idea places the proof inside the value's type. A `VerifiedSignature` that can only be constructed by a procedure that actually checked the signature is a value whose existence is the evidence. Callers cannot fabricate it; the type system refuses to accept a `VerifiedSignature` from anywhere except the designated constructor.
+The strongest form of this idea places evidence of a checked construction inside the value's type. A `VerifiedSignature` that can only be constructed by a procedure that actually checked the signature records that construction fact. Within an adequately enforced module and type boundary, ordinary callers cannot fabricate it through supported code paths.
+
+This is a language-relative guarantee. Reflection, unsafe casts, deserialization, or module-system escape hatches may bypass a private constructor. The type documents and structures a trusted construction path; it does not establish cryptographic unforgeability. The assurance comes from the construction rules that the language and module system actually enforce.
 
 Will Crichton's [Typed Design Patterns for the Functional Era](https://arxiv.org/abs/2307.07069) develops this as the Witness pattern alongside three companions. The shared thesis is that a careful type system can move selected misuse from runtime into the compile-time construction of values. The value becomes a certificate, checked once at the moment it is built.
 
 Here the philosophy meets a longer tradition. The Curry-Howard correspondence observes that a proposition is a type and a proof is a program that inhabits it. A value whose type can only be produced by establishing a condition is a small, practical instance of that correspondence. The assurance does not come from testing the value later. It comes from the rules of its construction.
 
-The same idea applies to counterexample witnesses in testing. A witness value that carries the inputs, the expected output, the observed output, and the source hashes at the tested commit is a portable proof of a defect. Its existence establishes the bug; re-running it against a candidate fix establishes the repair. Section 8 shows this pattern operating in the ZenoDEX audit, where fix credit requires a witness that failed before repair and passes at the target.
+The same idea applies to counterexample witnesses in testing. A witness value that carries the inputs, the expected output, the observed output, and the source hashes at the tested commit is portable, reproducible evidence of divergence. Its force depends on the oracle, bindings, and replay procedure being correct. Re-running it against a candidate fix checks whether that divergence remains. Section 9 shows this pattern operating in the ZenoDEX audit, where fix credit requires a witness that failed before repair and passes at the target.
 
 ### Illegal states and honest models
 
@@ -166,13 +172,39 @@ The architectural payoff is that the core's transition function now has a smalle
 
 The boundary is the natural place to enforce this. Bytes arrive untyped. The shell parses them once into a value whose type already excludes most nonsense. Downstream core code accepts only the parsed type. "Parse, don't validate" is the mnemonic for this discipline: validation performed once at the boundary, encoded in the type, is not repeated at every use. The [Functional Software Architecture](https://functional-architecture.org/) site pairs the mantra with the smart-constructor technique, where construction itself performs normalization and validation so that a value of the given type is honest by the time it exists.
 
-Transitive immutability is a special case that deserves its own test. A frozen outer dataclass is honest only if every reachable child is also immutable. The ZenoDEX audit turns this into a falsifiable surface: each case in its `IMMUTABILITY_ALIAS` registry mutates a retained object and checks whether the committed state root changes. Six cases diverged, proving that the outer freeze was shallow. Section 8 describes the technique in detail.
+Transitive immutability is a special case that deserves its own test. A frozen outer dataclass is honest only if every reachable child is also immutable. The ZenoDEX audit turns this into a falsifiable surface: each `IMMUTABILITY_ALIAS` case mutates a retained object and checks whether the committed state root or later behavior changes. Section 9 describes the technique in detail.
+
+### The deepest benefit: local reasoning
+
+Every discipline in this tutorial, including immutability, purity, explicit inputs, typed rejections, and canonical encoding, supports **local reasoning**. A reviewer can open a transition function and identify the complete value inputs that determine its result. The supporting functions, codecs, types, and specification remain relevant, while unrelated threads and unrecorded time slices should not.
+
+The same property appears in modular arithmetic, lexical scoping, and mathematical proof. Computing `7 mod 5` does not require the history of `7`. A lexically scoped variable is determined by its binding environment rather than by unrelated callers. A proof step is checked from its stated premises and rules.
+
+Mutable shared state expands a local expression's dependency surface because a read may depend on prior writes across aliases and threads. FCIS makes the relevant history explicit as a value and passes it inward. The practical measure is: **how large is the dependency surface a reviewer must read, and how many possible histories must they imagine, to assess one decision?** FCIS aims to bound both questions by the transition's declared model.
+
+This connects to separation logic, discussed in Section 17. The frame rule supports reasoning about a program fragment using the resources it touches while framing out disjoint resources. FCIS does not establish disjoint footprints by itself. Explicit ownership, read and write sets, and separation conditions are still required.
+
+### Historical reconstruction and evidential value
+
+Mutable state often makes one present condition compatible with several prior histories. An observer seeing a balance of 100 cannot infer whether it was deposited, transferred, minted, or repaired. An immutable snapshot preserves one state. A replay record preserves the transition inputs needed to explain a claimed derivation of that state.
+
+Their evidential value depends on provenance, canonical encoding, and trustworthy capture. A snapshot with unknown provenance is an unsupported claim. A replay record whose inputs were not authenticated establishes only what the declared rules would decide for those inputs.
+
+### A snapshot as a model-relative world
+
+In a declared state-transition model, an immutable snapshot represents one modeled world. It fixes every fact that the model says is relevant to the transition, and those facts do not change while the transition runs. The transition relation states which modeled worlds are reachable under which commands, policies, and evidence.
+
+This description is model-relative. The snapshot is not a complete assignment of every fact in the deployed environment. Network latency, hardware state, operator intent, or an omitted authority may remain outside it. Requirements completeness and model adequacy are separate assurance obligations.
+
+The deployed system can continue to evolve while a snapshot remains stable. Two workers can plan against the same root because both refer to the same modeled pre-state. Their plans still require conflict checks and an atomic commit against the current root.
 
 ### Where the pattern stops being enough
 
 FCIS has an honest shortcoming, noted in the same community that codifies it. The shell handles the impure world, but using infrastructure is usually part of the domain logic: storing data, reading a file, calling a service. Pushing all of that into the shell can leave the shell holding substantial domain logic, growing complex and hard to maintain.
 
-The natural evolution is to reify effects as values too. An effect becomes a data structure describing what should happen, produced by the core and interpreted by the shell. The core stays pure; the shell becomes an interpreter of effect values rather than a second home for domain decisions. Algebraic effect systems and the Composable Effects pattern take this direction. FCIS is the first cut. Effects as values is the refinement that keeps the boundary honest when the shell would otherwise re-acquire domain logic.
+The natural evolution is to reify effects as values too. An effect becomes a data structure describing what should happen, produced by the core and interpreted by the shell. The core stays pure; the shell becomes an interpreter of effect values rather than a second home for domain decisions. Algebraic effect systems and the Composable Effects pattern take this direction. FCIS is the first cut. Effects as values is the refinement that keeps the boundary honest when the shell would otherwise re-acquire domain logic. Section 12 develops this refinement.
+
+This creates an expression-problem tradeoff at the effect boundary. Adding a new effect constructor generally requires updating existing handlers. Adding another handler is straightforward when the effect algebra is fixed. Reification makes that tradeoff explicit; it does not make both extensibility axes free.
 
 ### The stance has limits
 
@@ -369,7 +401,60 @@ This distinction is semantic. Code itself can be encoded as data, and interprete
 
 Data should remain close to its invariant definitions. A state schema, constructor, validator, canonical codec, commitment rule, and transition must share one semantic contract. Scattering them into directories without a single authoritative definition creates several incompatible meanings of “state version 2.”
 
-## 6. How immutable values become coordination
+## 6. The shell's contract
+
+The core's contract is a function signature. The shell's contract is an effect protocol. Five obligations make that protocol explicit.
+
+### 1. Exact input and evidence binding
+
+The shell passes the exact canonical command, authenticated identity facts, consensus inputs, and captured pre-state to the core. It does not add, drop, reorder, or silently default semantic fields. Each evidence value binds to the subject it supports, such as the command hash, pre-state root, policy version, verifier identity, and freshness context.
+
+The shell may authenticate transport and construct typed provenance. The core remains authoritative for semantic admission and authorization. A transport identity answers who established the session; it does not by itself answer whether the requested state transition is permitted.
+
+### 2. Atomic compare-and-swap
+
+An accepted commit atomically publishes the next state, exact effect plan, replay identity, receipt, outbox records, and any protocol nonce or nullifier. The storage operation compares the expected pre-state root or version before publication.
+
+A crash before the atomic commit point leaves the prior committed state authoritative. A crash after that point leaves the new bundle authoritative and recoverable. The shell must not expose a half-published combination of old state, new effects, or missing replay data.
+
+### 3. Typed rejection and committed failure
+
+An ordinary rejection commits no post-state and authorizes no effects. If protocol semantics intentionally consume a nonce, charge a fee, or record another authoritative change on failure, the core returns a distinct committed-failure result with an explicit state and effect plan. Calling that outcome a no-op rejection would hide a real transition.
+
+Operational logging of an uncommitted rejection may still occur in the shell. Such telemetry is not part of authoritative protocol state unless the core explicitly returns it as a committed effect.
+
+### 4. Crash recovery and idempotent delivery
+
+External effects may be attempted more than once. The outbox and destination protocol must make retries idempotent or detect duplicates. A useful canonical delivery key includes the replay identity and the effect's canonical identity or index. The effect-plan hash alone may collide across distinct commands that authorize equal plans.
+
+Idempotency is an end-to-end property of the delivery protocol. A shell cannot guarantee it merely by sending a header if the receiver ignores the key and the shell keeps no durable acknowledgement.
+
+### 5. Versioned receipts and canonical encoding
+
+A receipt binds every authority-relevant field needed by its claim: pre-state root, command hash, evidence root, policy and core versions, replay identity, next-state root, effect-plan hash, and authenticated time or finality context when relevant. The canonical encoding specifies version, tags, widths, normalization, ordering, and domain separation independently of in-memory layout.
+
+Omitting a field can permit rebinding or make the receipt incomplete for a proposed claim. The omission does not automatically make every receipt forgeable. The exact consequence depends on the signature, commitment, and verification protocol.
+
+### Shell decisions and core decisions
+
+The shell legitimately handles:
+
+- byte bounds, canonical decoding, and malformed-input rejection;
+- transport authentication and capture of provenance;
+- snapshot acquisition and version checks;
+- atomic storage, crash recovery, and effect delivery;
+- retry, backoff, and dead-letter handling.
+
+The core handles:
+
+- semantic admission and authorization;
+- amounts, fees, ordering, freshness rules, and replay policy;
+- next-state and exact effect-plan construction;
+- typed rejection precedence and committed-failure semantics.
+
+A differential oracle can test the core's transition semantics. A separate commit audit must test input binding, compare-and-swap conflicts, crash points, replay, outbox behavior, and destination idempotency. Passing one layer supplies no evidence for the other unless the corresponding objects and checks are included.
+
+## 7. How immutable values become coordination
 
 Mutable shared objects coordinate by changing under participants. Every reader must ask whether another thread can change the object, which lock protects it, which version was observed, and whether a read was torn across updates.
 
@@ -399,13 +484,13 @@ This is coordination through explicit values:
 - the next-state root says what the accepted result becomes;
 - the receipt records the relationship among them.
 
-Immutability does not remove coordination. It makes the coordination point small and visible. The atomic commit remains imperative and security-critical.
+Immutability does not remove coordination. It makes the state-publication point small and visible. The atomic commit remains imperative and security-critical. Snapshot acquisition, authentication, evidence capture, and external delivery may have coordination protocols of their own.
 
 Two plans may be merged only when their effects commute or their read/write footprints are disjoint under a proved rule. File separation, thread separation, and separate snapshots do not establish noninterference.
 
 This architecture connects naturally to **linearizability**. A linearizable concurrent operation appears to take effect at one instant between invocation and response, allowing a concurrent object to be understood through a sequential specification. The original definition is due to Herlihy and Wing in [Linearizability: A Correctness Condition for Concurrent Objects](https://www.cs.cmu.edu/~wing/publications/HerlihyWing90.pdf). In FCIS, the pure transition supplies the sequential meaning; atomic commit supplies the candidate linearization point.
 
-## 7. Why testing becomes easier
+## 8. Why testing becomes easier
 
 Testing is easy when the unit under test has a complete value contract:
 
@@ -456,6 +541,8 @@ reference transition(input) == spreadsheet oracle(input)
 
 Differential testing is most useful when the implementations do not share the same bug. Copying the production formula into a second language creates superficial diversity and common-mode failure.
 
+This narrows the **test oracle problem**, the problem of determining the expected result for a test input. Agreement between independent computations is evidence against local implementation mistakes. It is not proof of correctness because both implementations may share a requirement or specification error. Barr, Harman, McMinn, Shahbaz, and Yoo survey this problem and its automation strategies in [The Oracle Problem in Software Testing](https://discovery.ucl.ac.uk/id/eprint/1471263/).
+
 ### Metamorphic tests
 
 When an exact answer is hard to supply, a relation between executions can still be checked. Examples include unit rescaling, permutation of independent commands, or splitting a fee-carry calculation into equivalent segments. Every metamorphic relation requires its own proof or specification argument.
@@ -470,11 +557,11 @@ A small pure transition can be enumerated over a bounded domain, translated to S
 
 Immutability alone does not provide these benefits. A frozen input passed to a function that reads a global database still has a hidden test dependency. The useful combination is explicit immutable inputs, a deterministic transition, and returned decision data.
 
-## 8. A differential oracle audit
+## 9. A differential oracle audit
 
 A spreadsheet can act as an executable review surface for deterministic integer rules. It is especially useful when reviewers are more comfortable tracing cells than reading Rust, Python, or proof-assistant code. The same discipline generalizes beyond spreadsheets to any independent oracle that computes expected values from a specification and compares them against implementation actuals.
 
-The ZenoDEX audit, as it has evolved through several versions, follows this pattern. The current published snapshot is an audit console backed by JSON artifacts, generated from a pinned source commit, with a 67-case registry spanning swap math, fee splits, perp risk and oracle gates, zUSD liability and liquidation, multi-redeem ordering, and transitive immutability:
+The audit pattern follows a source-pinned workflow:
 
 ```text
 pinned clean source commit
@@ -493,14 +580,14 @@ registry + global ledger + witnesses + BDD traceability + release claims
 artifact manifest hashes every published artifact
 ```
 
-The audit separates several jobs across its artifacts:
+The audit separates several jobs across typed artifacts:
 
 - a **formula registry** records each formula's identifier, unicode surface, MathML, meaning, and source paths, binding the specification to the code it governs;
-- a **case registry** holds inputs, expected values from the oracle, observed values from the implementation, differences, and a semantic status per case;
+- a **case registry** holds inputs, oracle results, observed implementation results, differences, and a semantic status per case;
 - a **witness registry** records counterexample probes with pre-state roots, post-state roots, and per-file source hashes;
 - a **BDD traceability** table connects Given/When/Then scenarios to evidence IDs and rates economic-semantics coverage;
 - a **global ledger** tracks findings outside the scoped registry, with explicit status and remediation requirements;
-- a **release-claims** block publishes booleans for full-value-moving coverage, main-branch promotion, and production release.
+- a **release-claims** block records checker-derived status for each declared claim.
 
 ### One auditable row
 
@@ -562,9 +649,9 @@ Several techniques in the audit follow directly from the FCIS discipline. Each i
 a ≺ b  ⇔  collateral_a × debt_b  <  collateral_b × debt_a
 ```
 
-Equal ratios break ties by ascending canonical vault ID. The comparison stays in the integer domain. The audit found that the implementation used debt-scaled absolute MCR headroom instead, which selects a different vault on several witness inputs. The cross-product formula is the denotation; the implementation diverged from it.
+Equal ratios break ties by ascending canonical vault ID. The comparison stays in the integer domain. A differential case can then expose any implementation that orders by a different score while keeping the finding bound to explicit inputs.
 
-**Transitive immutability as a testable surface.** The registry includes a dedicated `IMMUTABILITY_ALIAS` surface with a formula stating that a frozen outer dataclass is insufficient when any reachable child or retained alias remains mutable. Each case in this surface mutates a retained object and checks whether the committed state root changes. Six cases diverged: mutating a retained `BalanceTable` changed a committed state root, proving that the outer freeze was shallow. Section 2 discusses transitive immutability as a philosophical claim; the audit turns it into a falsifiable, executable test.
+**Transitive immutability as a testable surface.** A dedicated `IMMUTABILITY_ALIAS` surface states that a frozen outer dataclass is insufficient when a reachable child or retained alias remains mutable. Each case mutates a retained object and checks whether the committed state root or later transition behavior changes. Section 2 states the design obligation; the audit turns it into a falsifiable test.
 
 **Conservation as explicit carry dust.** The fee-split formula requires that lane weights sum to 10,000 basis points and that all undistributed atoms remain explicit as carry dust:
 
@@ -595,7 +682,7 @@ A witness is a value whose existence establishes a condition. In the audit, a co
 - a `remediation_requirement` stating what the fix must achieve;
 - a status: `PASS` or `FAIL_REPRODUCED`.
 
-A witness with status `FAIL_REPRODUCED` is a portable artifact. Anyone with the same source commit and the same inputs can reproduce the failure. Anyone with a candidate fix can re-run the witness and check whether it now passes. The witness is the boundary between "a bug was reported" and "a bug was proven": the report is a claim, the witness is the evidence.
+A witness with status `FAIL_REPRODUCED` is a portable artifact. Anyone with the same source commit, toolchain, and inputs can attempt to reproduce the divergence. Anyone with a candidate fix can re-run it and check whether the same comparison now passes. The witness is stronger than an unaided bug report because it binds the claim to executable evidence. It does not prove that the oracle or requirement is correct.
 
 Methodology states the credit rule explicitly: fix credit requires a deterministic witness that fails before repair and passes at the target. A passing test suite alone does not earn credit; the witness must have failed first.
 
@@ -611,32 +698,9 @@ MainBranchPromotionVerified  = false
 ProductionReleaseAllowed     = false
 ```
 
-Each is a value. The release decision is reified as data, not left as a judgment call. A reviewer can ask which evidence would flip a claim from false to true, and check whether that evidence exists.
+Each is a value derived by the release checker from declared gates. A producer must not self-declare a passing claim. A reviewer can ask which evidence would change a claim from false to true and inspect whether the checker consumed that evidence.
 
-Pending PRs are tracked with explicit baseline credit rules. A PR whose base is a parent draft receives `NONE_PARENT_DRAFT` credit. A PR whose head is an ancestor of the target receives `ANCESTOR_OF_TARGET` credit. The rule is stated in advance: pending code never changes selected registry counts. This prevents a common failure mode in which a fix is "in flight" and informally credited before it lands.
-
-### Four independent passes
-
-Four passes run in sequence, each checking a different question:
-
-1. **Provenance and replay** verifies the source commit, parent, merge parents, PR states, and reachability from main.
-2. **Implementation counterexamples** runs the witness probes against the implementation at the pinned commit.
-3. **Semantic user-job review** rates BDD scenarios for economic-semantics coverage and runtime-spec parity.
-4. **Presentation and artifact QA** checks that every required artifact is published, hashed, and manifest-consistent.
-
-Each pass is an independent representation of the audit's question. Agreement across passes is stronger evidence than any single pass. Disagreement is a finding.
-
-### What the audit found
-
-After recalculation, the V6 registry contained 67 cases:
-
-- 46 matched, including cases where rejection was the expected result;
-- 15 were expected rejections that the implementation correctly rejected;
-- 6 diverged, all on the `IMMUTABILITY_ALIAS` surface, where mutating a retained object changed a committed state root.
-
-The global ledger carried 23 findings, of which 18 remained open blockers. The release-claims block remained all false. The audit's honest limitations are published as unresolved evidence: Rust and Lean replay runtimes were unavailable in the audit environment and receive no passing credit; committed-state and signed-intent alias fixes remain pending in open PRs; lifecycle, claimant, cancellation, expiry, recovery, shutdown, and terminal-drain coverage remains incomplete.
-
-The transitive-immutability divergences are the same FCIS lesson stated in Section 2. Declaring an outer object frozen did not establish that all reachable state and intent data were immutable. The audit turned that philosophical claim into six falsifiable cases, and six cases failed.
+Pending code does not change audited counts until it is part of the pinned target and its witness passes there. This prevents informal credit for fixes that have not reached the artifact under review.
 
 ### Numeric precision boundary
 
@@ -657,7 +721,11 @@ may exceed that range even when each input appears reasonable. A serious oracle 
 
 The ZenoDEX oracle uses integer-only arithmetic throughout, with ceiling and floor rounding specified per formula. The honest claim for the audit is: **it gives human-and-machine-auditable differential checks over its selected registry and records important refinement gaps.** It does not prove cryptographic authenticity, runtime composition, full-domain arithmetic correctness, or specification completeness.
 
-## 9. Does functional style reduce complexity?
+### Detailed case study
+
+The evolving registry counts, reproduced divergences, global-ledger findings, tool availability, and release status belong to the versioned [ZenoDEX Oracle Audit V6](https://zenodex-oracle-audit-v4.jazzy-harp-9002.chatgpt.site/) case study. Keeping those results outside this tutorial separates a reusable method from evidence that can change at each audited revision.
+
+## 10. Does functional style reduce complexity?
 
 There is no general theorem that functional programming produces lower cyclomatic or cognitive complexity than every imperative design.
 
@@ -682,7 +750,18 @@ Functional style can still become difficult to read. Giant pure functions, exces
 
 John Hughes' [Why Functional Programming Matters](https://doi.org/10.1093/comjnl/32.2.98) argues that higher-order functions and lazy evaluation provide powerful forms of modular composition. That is a claim about ways to build and combine programs, not a universal promise that every complexity metric will fall.
 
-## 10. Deep benefits that are easy to miss
+### When the pattern fights the domain
+
+FCIS is easiest when the semantic state and effects have bounded value representations. Several conditions make the boundary expensive or incomplete:
+
+- **Large hot working sets.** An algorithm may depend on in-place updates for its latency or memory target. The core can use mutation inside a fresh, exclusively owned local builder, provided no alias escapes and the returned state is immutable. Copying a full state on every transition is unnecessary when persistent structures, immutable regions, or bounded projections preserve the same observable semantics.
+- **Authority-bearing runtime objects.** Hardware signing keys, file descriptors, device memory, and kernel capabilities cannot honestly become ordinary serializable values. Draw the core boundary around the capability. Pass authenticated observations and typed requests as values while the shell retains and exercises the authority.
+- **External systems without atomicity or idempotency.** A remote service may offer neither transactions nor duplicate suppression. The shell then needs an explicit delivery protocol, acknowledgements, compensation, or a saga. A pure effect plan describes the authorized result; it cannot manufacture guarantees that the destination does not provide.
+- **Incomplete or expensive snapshots.** Capturing every environmental fact may be impossible or too slow. A scoped projection can work when its completeness condition, source root, freshness rule, and omitted facts are explicit. An undocumented partial snapshot creates hidden inputs again.
+
+Pure transitions do not inherently require serializing and deserializing every in-process call. Serialization is required when a value crosses a persistence, process, language, or trust boundary that needs a stable wire representation. The design question is therefore local: which semantic decisions benefit from a pure value contract, and where must controlled mutation or live authority remain?
+
+## 11. Deep benefits that are easy to miss
 
 ### Equational reasoning
 
@@ -691,6 +770,22 @@ If `d = transition(s, c, p, e)`, an auditor can reason about `d` anywhere the sa
 ### Replay and incident reconstruction
 
 A canonical input bundle can replay a historical decision exactly. This separates “what the rules decided” from “whether the shell committed or delivered it correctly.”
+
+Replay checks the core decision under the pinned implementation and semantics. It does not establish that the shell authenticated the inputs correctly, committed atomically, or delivered the authorized effects. Those are separate shell-refinement claims.
+
+### The audit trail as an executable semantic record
+
+Conventional logs describe events after they occur and may be incomplete, reordered, or inconsistent with committed state. A canonical replay bundle has a stronger role: it contains the modeled inputs needed to re-execute a core decision.
+
+For the declared core model, the sequence
+
+```text
+(State, Command, Policy, Evidence) -> Decision
+```
+
+is an executable semantic record. An auditor can replay the same bundle through the pinned transition and compare canonical outputs. A differential oracle evaluates the same inputs through an independently derived implementation.
+
+This record is not the deployed system's entire history. Input acquisition, authentication, atomic publication, crash recovery, and external delivery remain shell events. A complete audit therefore combines semantic replay with commit and delivery evidence.
 
 ### Content addressing and commitments
 
@@ -704,9 +799,17 @@ A pure transition can be cached by the hash of its complete input bundle. Reusin
 
 Persistent data structures can share unchanged structure between state versions. Workers can evaluate candidate commands, proofs, or optimizations against a stable root without copying an entire database or taking a global write lock.
 
+Path copying and structural sharing provide the implementation basis for this property. Their actual time and space bounds depend on the selected data structure and access pattern. Chris Okasaki develops the relevant techniques in [Purely Functional Data Structures](https://doi.org/10.1017/CBO9780511530104.003).
+
 ### Smaller trusted computing base
 
 The core can often avoid database drivers, HTTP clients, logging frameworks, and platform APIs. Fewer dependencies participate in the semantic decision. The shell remains trusted for authentication, exact binding, atomicity, and effects.
+
+### Architectural confinement of authority
+
+The shell possesses capabilities such as database connections, network sockets, signing keys, and filesystem handles. The core receives values describing authorized operations. With an enforced dependency boundary, the core cannot exercise capabilities it cannot reach directly.
+
+This is a confinement property, not proof that the shell follows the principle of least authority. The shell may still hold broader capability than one operation requires. Capability scoping, process isolation, and deployment policy remain separate obligations.
 
 ### Independent representations
 
@@ -720,11 +823,79 @@ Typed rejection values make failure precedence observable. A rejected decision c
 
 A model can propose a command, policy candidate, proof candidate, or effect plan as untrusted data. A deterministic core and governed verifier decide whether that value satisfies the rules. Probabilistic generation does not need authority to mutate committed state.
 
-## 11. Advanced concepts built on FCIS
+### Team cognition as a measurable hypothesis
+
+FCIS supplies a shared vocabulary: state, command, policy, evidence, transition, rejection, effect, commit, and receipt. That vocabulary may shorten review and onboarding by localizing disagreements to explicit contracts. This is a hypothesis rather than an architectural guarantee. Teams can test it by tracking review time, escaped defects, and onboarding effort before and after adoption.
+
+## 12. Effects as values
+
+The first FCIS cut can leave the shell interpreting vague instructions and re-acquiring domain logic. A stronger boundary makes effects typed values. The core constructs a canonical plan, and the shell interprets that plan using capabilities the core cannot access.
+
+```python
+from dataclasses import dataclass
+from enum import Enum
+from typing import Literal
+
+class DestinationId(Enum):
+    SETTLEMENT_WEBHOOK = "webhook:settlement"
+    TRANSFER_EVENTS = "eventbus:transfers"
+
+class LedgerNamespace(Enum):
+    ACCOUNT = "account"
+    RECEIPT = "receipt"
+
+@dataclass(frozen=True)
+class LedgerKey:
+    namespace: LedgerNamespace
+    record_id: bytes
+
+@dataclass(frozen=True)
+class LedgerWrite:
+    key: LedgerKey
+    canonical_value: bytes
+    expected_version: int
+
+@dataclass(frozen=True)
+class OutboxEffect:
+    destination: DestinationId
+    payload: bytes
+
+@dataclass(frozen=True)
+class EffectPlan:
+    ledger_writes: tuple[LedgerWrite, ...]
+    outbox_effects: tuple[OutboxEffect, ...]
+
+@dataclass(frozen=True)
+class DeliveryResult:
+    destination: DestinationId
+    status: Literal["delivered", "retryable_failure", "terminal_failure"]
+    attempt: int
+    external_id: str | None
+```
+
+The core selects an allowlisted destination identifier instead of constructing a URL, topic, or connection string. The shell owns the mapping from identifiers to infrastructure configuration. Ledger writes remain inside the atomic commit. Outbox effects are recorded with that commit and delivered afterward. The plan's canonical encoder must also define effect ordering and its duplicate policy.
+
+For an outbox effect at canonical index `i`, the shell derives a delivery key from the replay identity, `i`, destination, and canonical payload. The receiver or durable delivery ledger must honor that key for idempotency:
+
+```python
+def deliver(
+    effect: OutboxEffect,
+    infra: Infrastructure,
+    replay_identity: ReplayIdentity,
+    index: int,
+) -> DeliveryResult:
+    key = derive_delivery_key(replay_identity, index, effect)
+    endpoint = infra.destinations.resolve(effect.destination)
+    return endpoint.deliver(effect.payload, idempotency_key=key)
+```
+
+The core decides which domain effect is authorized. The shell decides how to carry it out and records a typed delivery outcome. Adding an effect constructor requires updating handlers that interpret the closed effect sum. Changing infrastructure for an existing constructor can remain a shell-only change.
+
+## 13. Advanced concepts built on FCIS
 
 ### Witness types
 
-A witness is a value whose construction establishes a condition needed by another operation. A private constructor can prevent ordinary application code from inventing `VerifiedSignature`, `FreshPrice`, or `AuthorizedMint` values.
+A witness is a value whose construction establishes a condition needed by another operation. Within an enforced module and type boundary, a private constructor can prevent ordinary application code from inventing `VerifiedSignature`, `FreshPrice`, or `AuthorizedMint` values through supported code paths.
 
 The witness must bind to the exact subject it proves: command hash, pre-state root, policy version, verifier identity, freshness interval, and evidence hash. A generic `verified=True` boolean carries almost no assurance.
 
@@ -734,15 +905,14 @@ Will Crichton's [Typed Design Patterns for the Functional Era](https://arxiv.org
 
 Distinct types represent stages such as:
 
-```text
-UntrustedBytes
-  -> BoundedBytes
-  -> CanonicalCommand
-  -> AuthenticatedCommand
-  -> ValidatedDecision
-  -> CommitPlan
-  -> CommittedReceipt
-```
+<figure class="fp-figure">
+  <p class="fp-figure-title">A typestate pipeline from bytes to receipt</p>
+  {% include diagrams/fcis-typestate-pipeline.svg %}
+  <figcaption class="fp-figure-caption">
+    Each step narrows what the value can carry. Red and orange stages live in the shell.
+    Blue stages are boundary values or core decisions. The final green stage records the shell's commit.
+  </figcaption>
+</figure>
 
 An API can make it impossible to call `commit` with raw bytes. This establishes a local construction property. It does not prove that the validator's rules are complete or correct.
 
@@ -800,7 +970,48 @@ Non-monotone decisions such as “spend this coin exactly once” or “accept o
 
 The shell can atomically commit the new state, receipt, and an outbox record. A separate worker delivers the external effect using an idempotency key. A crash before commit leaves nothing to deliver. A crash after commit allows safe retry. This closes a gap left by the simple phrase “execute effects and commit.”
 
-## 12. Common failure modes
+## 14. Costs, performance, and migration
+
+### The cost profile
+
+FCIS changes where a system spends resources.
+
+Potential costs include:
+
+- allocation for new state, effect, and receipt values;
+- canonicalization and hashing at persistence or trust boundaries;
+- memory overhead from persistent structures and retained snapshots;
+- representation conversion between optimized runtime layouts and canonical wire values;
+- conceptual overhead when a small problem receives unnecessary type machinery.
+
+Potential savings include:
+
+- less lock contention during speculative planning;
+- stable cache keys when every dependency and version is included;
+- deterministic replay instead of open-ended forensic reconstruction;
+- reduced alias defense inside a transitively immutable ownership boundary;
+- a smaller semantic dependency set for tests and review.
+
+These are conditional effects. An immutable snapshot can be stale relative to current state even though the snapshot itself remains stable. Planning may still serialize on evidence acquisition or another scarce resource. Hashing may dominate a small transition, while a persistent tree may make a large update cheaper than copying.
+
+Benchmark the actual state representation, transition mix, contention, allocation, encoding, hashing, and recovery workload. A fresh, exclusively owned local builder may use mutation internally when it never escapes, shares no aliases with committed state, is discarded on rejection, and freezes its result at the boundary.
+
+### Migration: extract one transition at a time
+
+Most systems begin with mixed mutable code. A bounded migration can proceed as follows:
+
+1. **Choose one authority-bearing transition.** Prefer an operation with clear rules, expensive defects, or repeated audit disputes.
+2. **Close its requirements.** Inventory actors, inputs, authority, time, state, effects, rejection precedence, crash behavior, and recovery paths.
+3. **Define owned values.** Capture state, command, policy, and evidence in typed, transitively immutable forms with a versioned canonical codec where persistence or comparison requires one.
+4. **Extract an executable reference.** Implement a deterministic transition that returns typed rejection, acceptance, or committed failure without ambient I/O.
+5. **Mount a narrow shell adapter.** Bind one authoritative snapshot, invoke the transition, and atomically commit the exact accepted bundle.
+6. **Compare safely.** Replay a recorded corpus and use shadow evaluation that does not execute a second set of effects. Add generated boundary states, negative vectors, and mutation tests rather than relying only on ordinary production traffic.
+7. **Gate activation.** Declare the required parity, invariant, crash, replay, and performance evidence. Specify activation, rollback, and forward recovery before moving authority.
+8. **Remove duplicate semantics.** Once the new path owns the transition, delete or disable the legacy calculation so the shell cannot drift into a second implementation.
+
+This resembles a strangler migration applied to semantic authority. Each slice should have one accountable contract owner and an explicit non-claim for behavior that remains in the legacy path.
+
+## 15. Common failure modes
 
 ### Shallow immutability
 
@@ -812,7 +1023,7 @@ The transition silently reads time, environment, configuration, global caches, f
 
 ### Authority encoded as a boolean
 
-Raw evidence arrives beside `verified=True`, and application code is trusted to set the flag honestly.
+Raw evidence arrives beside `verified=True`, and application code is trusted to set the flag honestly. A subject-bound witness can make routine fabrication harder within an enforced construction boundary. It cannot compensate for an incorrect verifier or a runtime that permits unrestricted reconstruction.
 
 ### Effect before final decision
 
@@ -834,7 +1045,11 @@ The expected formula is copied from implementation code, actuals are typed by ha
 
 The theorem is machine-checked, but the model omits authentication, freshness, overflow, canonical encoding, or atomic commit. Proof establishes the declared statement only.
 
-## 13. A practical design checklist
+### Insufficient delivery identity
+
+The effect-plan hash alone is used as an idempotency key. Distinct commands that produce equal plans can then collide, while two effects inside one plan may be indistinguishable. Derive a canonical delivery identity from the replay identity and the effect's canonical identity or index, then require the destination or delivery ledger to honor it.
+
+## 16. A practical design checklist
 
 For each operation, write down:
 
@@ -862,6 +1077,44 @@ shell          authentication, storage, I/O, atomic commit, delivery
 
 These files may be separate. Their semantic definitions must remain unified. The shell can depend inward on every core module. Core modules must not depend outward on the shell.
 
+## 17. Connections
+
+These connections illuminate FCIS from neighboring disciplines. They do not import those disciplines' guarantees automatically.
+
+### Separation logic and the frame rule
+
+John Reynolds' [Separation Logic: A Logic for Shared Mutable Data Structures](https://www.cs.cmu.edu/~jcr/seplogic.pdf) supports local reasoning about controlled portions of a heap. Its separating conjunction and frame rule depend on explicit ownership and disjointness conditions.
+
+FCIS pursues a related architectural goal by giving a transition an explicit modeled footprint. Purity alone does not prove that two transitions are independent. A sound frame-style argument still needs declared read and write sets, resource ownership, and a proof that framed state cannot affect the decision.
+
+### Capability-based security
+
+Capability security asks which authority a component can actually exercise. An FCIS core can be confined to ordinary values while the shell retains database, network, signing, and filesystem capabilities. This prevents the core from directly exercising authority outside its effect vocabulary when the dependency boundary is enforced.
+
+The result is confinement, not automatic least authority. The shell's process, credentials, destination mapping, and deployment policy must still be scoped and audited.
+
+### Datomic and point-in-time database values
+
+[Datomic](https://docs.datomic.com/datomic-overview.html) illustrates several value-oriented storage ideas. Its datoms are immutable, transactions add assertions or retractions without erasing prior datoms, and applications can query a point-in-time database value. Transactions remain serialized per database, which makes the coordination tradeoff explicit.
+
+Datomic is an example of persistent facts and database values. A system using Datomic still needs its own semantic core, authority model, effect protocol, and shell-refinement evidence.
+
+### Persistent data structures
+
+Okasaki's [Purely Functional Data Structures](https://doi.org/10.1017/CBO9780511530104.003) develops persistent structures that reuse unchanged components across versions. For common balanced tree designs, an update copies a path while a snapshot can share the existing root. Exact complexity depends on the chosen structure, operation, evaluation strategy, and workload.
+
+This implementation work explains how immutable snapshots can be practical. It does not imply that every state representation has constant-time snapshots or logarithmic updates.
+
+### The end-to-end argument
+
+Saltzer, Reed, and Clark's [End-to-End Arguments in System Design](https://www.cs.princeton.edu/~jrex/teaching/spring2005/reading/saltzer84.pdf) concerns the placement of functions whose complete implementation requires endpoint knowledge. Lower layers may still provide useful performance enhancements.
+
+FCIS offers an analogy for semantic authority. Infrastructure can authenticate transport, store bytes, and deliver plans, while the component with the complete declared rules decides the semantic transition. The analogy has limits. The core is not necessarily a network endpoint, and the shell remains a trusted protocol participant with its own correctness obligations.
+
+### The test oracle problem
+
+Testing needs a way to decide whether an observed result is correct. Differential oracles narrow this problem by comparing independently derived implementations over the same canonical inputs. Agreement remains evidence because both sides can share an incorrect requirement. Section 8 describes the practical testing method, and Section 9 shows how to package its evidence.
+
 ## Conclusion
 
 FCIS is a way to make a system's meaning inspectable.
@@ -869,6 +1122,10 @@ FCIS is a way to make a system's meaning inspectable.
 The functional core turns an immutable description of the world into immutable decision data. The imperative shell captures trusted inputs, commits the decision atomically, and manages unreliable effects. Canonical values connect the two sides. They also connect implementations, tests, spreadsheets, proof models, concurrent workers, incident replays, and human reviewers.
 
 The strongest benefit is a reduction in hidden history. A reviewer can ask what a value means, where it came from, which rule produced it, and which exact effect it authorizes. That is the beginning of assurance.
+
+### The pattern in one paragraph
+
+Capture the relevant pre-state, requested action, governing policy, and authenticated evidence as immutable values. Feed them to a deterministic core that returns typed rejection, acceptance, or committed failure. For acceptance, return the exact next state, canonical effect plan, and replay record. Atomically compare and publish the full bundle, then deliver outbox effects through an idempotent protocol. Canonically encode every authority-relevant value that must persist or cross a trust boundary. The core computes the declared denotation. The shell acquires inputs, publishes decisions, and exercises capabilities. Their contract is the typed, versioned boundary representation together with the invariants that govern it.
 
 
 ## Further reading
@@ -878,6 +1135,11 @@ The strongest benefit is a reduction in hidden history. A reviewer can ask what 
 - John Hughes, [Why Functional Programming Matters](https://doi.org/10.1093/comjnl/32.2.98).
 - Koen Claessen and John Hughes, [QuickCheck: A Lightweight Tool for Random Testing of Haskell Programs](https://research.chalmers.se/en/publication/237427).
 - Maurice Herlihy and Jeannette Wing, [Linearizability: A Correctness Condition for Concurrent Objects](https://www.cs.cmu.edu/~wing/publications/HerlihyWing90.pdf).
+- John C. Reynolds, [Separation Logic: A Logic for Shared Mutable Data Structures](https://www.cs.cmu.edu/~jcr/seplogic.pdf).
+- Jerome H. Saltzer, David P. Reed, and David D. Clark, [End-to-End Arguments in System Design](https://www.cs.princeton.edu/~jrex/teaching/spring2005/reading/saltzer84.pdf).
+- Chris Okasaki, [Purely Functional Data Structures](https://doi.org/10.1017/CBO9780511530104.003).
+- Datomic, [Architecture Overview](https://docs.datomic.com/datomic-overview.html).
+- Earl T. Barr, Mark Harman, Phil McMinn, Muzammil Shahbaz, and Shin Yoo, [The Oracle Problem in Software Testing](https://discovery.ucl.ac.uk/id/eprint/1471263/).
 - Active Group, [Functional Software Architecture](https://functional-architecture.org/). A community site codifying values, principles, and patterns for functional programming in the large, including Functional Core, Imperative Shell; Make Illegal States Unrepresentable; and Composable Effects.
 - [Journal of Functional Programming](https://www.cambridge.org/core/journals/journal-of-functional-programming). The journal devoted to the design, implementation, reasoning, and application of functional programming languages, spanning theory to industrial practice.
-- [ZenoDEX Oracle Audit V6](https://zenodex-oracle-audit-v4.jazzy-harp-9002.chatgpt.site/). A published differential oracle audit with a 67-case registry, counterexample witnesses, BDD traceability, and hashed artifacts, demonstrating the techniques described in Section 8.
+- [ZenoDEX Oracle Audit V6](https://zenodex-oracle-audit-v4.jazzy-harp-9002.chatgpt.site/). A published differential oracle audit with a 67-case registry, counterexample witnesses, BDD traceability, and hashed artifacts, demonstrating the techniques described in Section 9.
