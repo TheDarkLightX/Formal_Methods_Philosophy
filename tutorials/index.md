@@ -365,4 +365,49 @@ show_title: false
       inspect the 8.446x checked speedup, and run the local Tau patch demo.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/zeno-recursive-proof-fabric/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 62: ZRPF and recursive proof composition</h2>
+    <p class="fp-card-text">
+      Follow authenticated ZenoDEX Spot leaves through a bounded recursive tree,
+      then use a first-principles map of information flow, interfaces, evidence,
+      privacy, data availability, admission, and performance claims.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/zeno-resource-machine-and-recursive-proof-fabric/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 63: ZRM + ZRPF</h2>
+    <p class="fp-card-text">
+      Connect recursive proof roots to typed resources, exact-once nullifiers,
+      governed policy, journal stages, and atomic commit, with a clear map of
+      current evidence and the remaining integration gates.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/market-for-behaviors/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Essay: A Market for Behaviors</h2>
+    <p class="fp-card-text">
+      What learning is, from behaviorism to AI. Behavioral spectrum as ontology,
+      incentive map as dynamics, market for behaviors as economics, training as
+      compression, and alignment as market design. Includes interactive
+      visualizations and the Platinum Rule as preference learning.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/functional-core-imperative-shell-values-as-boundaries/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 64: Functional Core, Imperative Shell</h2>
+    <p class="fp-card-text">
+      How immutable values become boundaries between subsystems. Pure transitions,
+      denotational design, witnesses as content-addressed evidence, a differential
+      oracle audit of ZenoDEX, concurrency, and the philosophy of functional software.
+    </p>
+  </a>
 </div>
