@@ -692,5 +692,15 @@ show_title: false
       visualizations and the Platinum Rule as preference learning.
     </p>
   </a>
-
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/functional-core-imperative-shell-values-as-boundaries/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 64: Functional Core, Imperative Shell</h2>
+    <p class="fp-card-text">
+      How immutable values become boundaries between subsystems. Pure transitions,
+      denotational design, witnesses as content-addressed evidence, a differential
+      oracle audit of ZenoDEX, concurrency, and the philosophy of functional software.
+    </p>
+  </a>
 </div>
