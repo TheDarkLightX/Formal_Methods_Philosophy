@@ -703,4 +703,15 @@ show_title: false
       oracle audit of ZenoDEX, concurrency, and the philosophy of functional software.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/data-as-programs-graphs-as-computation/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 65: Data as Programs, Graphs as Computation</h2>
+    <p class="fp-card-text">
+      Connect equations, computation graphs, conditional uncertainty, coding-rate
+      reduction, behavior trajectories, and effective freedom in a scoped account
+      of what learning does.
+    </p>
+  </a>
 </div>
