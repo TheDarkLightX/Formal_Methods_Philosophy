@@ -1,11 +1,9 @@
 ---
 title: "Deterministic by Construction: Operating Systems, Composition, and Design Synthesis"
 layout: docs
-kicker: Tutorial 65
+kicker: Tutorial 66
 description: "From the mathematical shape of determinism, through the Determinator deterministic operating system and Kahn process networks, into composition, compositionality, and design synthesis within the functional core / imperative shell pattern."
 ---
-
-# Deterministic by Construction: Operating Systems, Composition, and Design Synthesis
 
 A transition system is deterministic when a current state and a supplied input admit at most one next result. A complete execution is fixed only after its initial state, external input history, program, and execution semantics are fixed. A system is deterministic by construction when its enforced interface rules out undeclared sources of choice within that model. This tutorial develops that distinction from its mathematical roots, through the design of a deterministic operating system, into the composition of deterministic components, and finally into the practice of design synthesis within the functional core / imperative shell pattern.
 
