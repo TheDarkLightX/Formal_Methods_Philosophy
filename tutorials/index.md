@@ -714,4 +714,15 @@ show_title: false
       of what learning does.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/deterministic-by-construction-composition-and-design-synthesis/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 66: Deterministic by Construction</h2>
+    <p class="fp-card-text">
+      From the mathematical shape of determinism, through the Determinator deterministic
+      operating system and Kahn process networks, into composition, compositionality,
+      and design synthesis within the functional core / imperative shell pattern.
+    </p>
+  </a>
 </div>

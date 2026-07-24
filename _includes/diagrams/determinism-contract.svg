@@ -1,0 +1,94 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 470"
+  role="img"
+  aria-labelledby="fp-det-contract-title fp-det-contract-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-det-contract-title">The determinism contract</title>
+  <desc id="fp-det-contract-desc">
+    Initial state, external input history, program version, and execution semantics
+    enter an enforced deterministic boundary. The boundary yields at most one result.
+    Separate callouts show that totality, resource bounds, and correctness do not
+    follow from determinism alone.
+  </desc>
+
+  <defs>
+    <linearGradient id="fp-det-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071827" />
+      <stop offset="1" stop-color="#102B3B" />
+    </linearGradient>
+    <linearGradient id="fp-det-gate" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0F766E" />
+      <stop offset="1" stop-color="#14B8A6" />
+    </linearGradient>
+    <filter id="fp-det-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#020617" flood-opacity="0.32" />
+    </filter>
+    <marker id="fp-det-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5EEAD4" />
+    </marker>
+  </defs>
+
+  <rect x="18" y="18" width="924" height="434" rx="30" fill="url(#fp-det-bg)" />
+  <path d="M42 112 H918" stroke="#2A4656" stroke-width="1" />
+
+  <text x="52" y="60" fill="#F8FAFC" font-size="24" font-weight="800"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Fix the run before claiming repeatability</text>
+  <text x="52" y="88" fill="#A8C2CF" font-size="15"
+    font-family="Atkinson Hyperlegible, system-ui, sans-serif">Determinism is conditional on four declared facts.</text>
+
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <g transform="translate(52 138)">
+      <rect width="202" height="54" rx="14" fill="#102F40" stroke="#31576A" />
+      <text x="18" y="24" fill="#7DD3FC" font-size="12" font-weight="800" letter-spacing="1.1">INITIAL</text>
+      <text x="18" y="43" fill="#F8FAFC" font-size="16" font-weight="700">state s₀</text>
+    </g>
+    <g transform="translate(52 205)">
+      <rect width="202" height="54" rx="14" fill="#102F40" stroke="#31576A" />
+      <text x="18" y="24" fill="#7DD3FC" font-size="12" font-weight="800" letter-spacing="1.1">EXTERNAL</text>
+      <text x="18" y="43" fill="#F8FAFC" font-size="16" font-weight="700">input history I</text>
+    </g>
+    <g transform="translate(52 272)">
+      <rect width="202" height="54" rx="14" fill="#102F40" stroke="#31576A" />
+      <text x="18" y="24" fill="#7DD3FC" font-size="12" font-weight="800" letter-spacing="1.1">VERSIONED</text>
+      <text x="18" y="43" fill="#F8FAFC" font-size="16" font-weight="700">program P</text>
+    </g>
+    <g transform="translate(52 339)">
+      <rect width="202" height="54" rx="14" fill="#102F40" stroke="#31576A" />
+      <text x="18" y="24" fill="#7DD3FC" font-size="12" font-weight="800" letter-spacing="1.1">SPECIFIED</text>
+      <text x="18" y="43" fill="#F8FAFC" font-size="16" font-weight="700">semantics M</text>
+    </g>
+  </g>
+
+  <path d="M278 266 H334" stroke="#5EEAD4" stroke-width="4" marker-end="url(#fp-det-arrow)" />
+
+  <g filter="url(#fp-det-shadow)">
+    <rect x="348" y="154" width="260" height="224" rx="26" fill="url(#fp-det-gate)" />
+    <rect x="365" y="171" width="226" height="190" rx="19" fill="none" stroke="#99F6E4" stroke-opacity="0.7" stroke-dasharray="7 7" />
+  </g>
+  <g text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="478" y="214" fill="#CCFBF1" font-size="12" font-weight="900" letter-spacing="1.4">ENFORCED BOUNDARY</text>
+    <text x="478" y="250" fill="#FFFFFF" font-size="23" font-weight="900">right-unique step</text>
+    <text x="478" y="281" fill="#D7FFFA" font-size="17" font-weight="700">(s, i) ↦ at most one result</text>
+    <path d="M402 307 H554" stroke="#A7F3D0" stroke-width="1" />
+    <text x="478" y="334" fill="#D7FFFA" font-size="14">no arrival-order choice</text>
+  </g>
+
+  <path d="M622 266 H676" stroke="#5EEAD4" stroke-width="4" marker-end="url(#fp-det-arrow)" />
+  <g filter="url(#fp-det-shadow)">
+    <rect x="690" y="185" width="216" height="106" rx="22" fill="#F8FAFC" />
+  </g>
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="714" y="217" fill="#0F766E" font-size="12" font-weight="900" letter-spacing="1.2">CONCLUSION</text>
+    <text x="714" y="248" fill="#0F172A" font-size="21" font-weight="900">≤ 1 result</text>
+    <text x="714" y="273" fill="#475569" font-size="14">for the fixed run</text>
+  </g>
+
+  <g transform="translate(674 315)" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="0" y="0" fill="#FBBF24" font-size="12" font-weight="900" letter-spacing="1.1">STILL SEPARATE</text>
+    <text x="0" y="28" fill="#E2E8F0" font-size="14">○ totality</text>
+    <text x="0" y="52" fill="#E2E8F0" font-size="14">○ resource bound</text>
+    <text x="0" y="76" fill="#E2E8F0" font-size="14">○ specification correctness</text>
+  </g>
+</svg>
