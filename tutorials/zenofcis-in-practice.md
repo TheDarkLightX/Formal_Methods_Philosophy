@@ -5,6 +5,41 @@ kicker: Tutorial 67
 description: "A practical guide to ZenoFCIS: its current pre-release status, Rust workspace, feature flags, decision algebra, canonical patches, candidate bundles, atomic shell, replay protection, and a small end-to-end counter example."
 ---
 
+This tutorial has two reading paths. A reader who wants the concept can follow the **notary's ledger** picture introduced below and recalled at the start of each technical section. A reader who wants the implementation can follow the Rust types, the trait signatures, and the mapping table that pins each picture element to a library object. Both paths describe the same boundary.
+
+## The picture first: a notary's ledger
+
+Imagine a notary's office that records every decision in a single bound ledger. A petitioner arrives carrying four things: the ledger page they believe is currently in force, a request, the applicable rule, and a signed authorization. The notary never touches the ledger directly. The notary retreats to a quiet desk, examines those four inputs, and writes a sealed ruling.
+
+The ruling is exactly one of three:
+
+- **Accept**: the request is permitted. The ruling carries the exact words to write into the ledger, the exact orders to hand to messengers, and a list of every rule book, request copy, policy, reason ordering, decision procedure, and resource budget used.
+- **Reject**: the request is not permitted. The ledger stays untouched. No orders are drafted.
+- **CommittedFailure**: the request failed, and the failure itself must be recorded. A defaulted loan or a timed-out withdrawal still updates the ledger, with a stated reason. The ruling amends the ledger intentionally.
+
+The notary seals the ruling into an envelope. The seal is **content-addressed**: it is derived from the ruling's exact contents, so any alteration, even a single byte, produces a different seal. The envelope also lists six **case-file numbers** identifying which rule book, which request, which policy, which reason ordering, which decision procedure, and which resource budget were used.
+
+The envelope then passes to the clerk at the ledger desk. The clerk does not re-decide. The clerk performs four checks:
+
+1. The current ledger page matches the page the ruling expected to land on.
+2. The envelope's seal is intact and its case-file numbers are consistent.
+3. The case number on the envelope has not been used for a different envelope.
+4. The orders inside name their recipients and payloads exactly.
+
+If all four checks pass, the clerk writes the new page, files the envelope, records the case number, and hands the orders to messengers in one atomic motion. A second arrival of the same envelope with the same case number returns the same filed result without writing again. A different envelope arriving with a case number already used is refused.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">From case file to atomic publication</p>
+  {% include diagrams/zenofcis-notary-ledger-flow.svg %}
+  <figcaption class="fp-figure-caption">
+    Circles represent admitted immutable inputs. They converge on the pure transition. A red
+    triangle stops without a write. The green acceptance circle and amber committed-failure
+    diamond both produce a sealed candidate. The shell publishes only the exact bound bundle.
+  </figcaption>
+</figure>
+
+## The contract second: the same boundary as a Rust library
+
 [Tutorial 64](../functional-core-imperative-shell-values-as-boundaries/) developed the functional-core/imperative-shell pattern as an architectural idea. Immutable inputs enter a pure transition. The transition returns decision data. A smaller imperative shell interprets authorized effects.
 
 [ZenoFCIS](https://github.com/TheDarkLightX/ZenoFCIS) turns that idea into a Rust library family with explicit protocol values:
@@ -33,6 +68,24 @@ canonical patch + closed plans + exact bindings
             idempotent outbox delivery
 ```
 
+The notary's desk is the pure transition. The sealed envelope is the candidate bundle. The wax seal is the `CandidateId`. The case-file numbers are the `CandidateBindings`. The ledger-page check is the pre-root precondition. The orders are the `OutboxPlan`. The clerk is the imperative shell. The case number is the replay identity.
+
+The structural mapping, step by step:
+
+| Picture | Library object | Why the mapping holds |
+| --- | --- | --- |
+| Notary's quiet desk | pure `Transition::step` | Decides from immutable inputs; touches no ledger. |
+| Four inputs (page, request, rule, authorization) | `State`, `Command`, `Policy`, `Context` | All admitted as immutable values before the transition runs. |
+| Three rulings | `Accept`, `Reject`, `CommittedFailure` | Total decision algebra; every admitted input maps to exactly one. |
+| Sealed envelope | `CandidateBundle` | One immutable object carrying patch, plans, and bindings. |
+| Wax seal | `CandidateId` | Content-addressed hash of the envelope's canonical bytes. |
+| Case-file numbers | `CandidateBindings` | Six hashes binding profile, command, context, precedence, algorithm, budget. |
+| Words to write into the ledger | `CanonicalPatch` | Preconditioned, non-overlapping path updates with expected old-value hashes. |
+| Orders to messengers | `OutboxPlan` | Closed delivery destinations and payloads as values, not closures. |
+| Ledger page check | expected pre-root | Compare-and-swap before publication. |
+| Case number | replay identity | Idempotent on exact match; conflicting on reuse with different content. |
+| Clerk | imperative shell | Validates, publishes atomically, delivers idempotently. |
+
 The practical gain is inspectability. State changes, external-delivery obligations, receipts, resource use, and version bindings become data that can be encoded, hashed, replayed, compared, and checked.
 
 ## 1. What ZenoFCIS is
@@ -52,7 +105,7 @@ ZenoFCIS is a high-assurance reference architecture and Rust implementation for 
 
 Optional packages add schema validation, typed code generation, proof-evidence envelopes, a strict mounted ZenoDEX adapter, authenticated-state planning, bounded synthesis, a SQLite shell, and persistent collection backends. The current package list is visible in the workspace [Cargo manifest](https://github.com/TheDarkLightX/ZenoFCIS/blob/main/Cargo.toml), and the umbrella crate exposes the feature map in [`crates/zeno-fcis/Cargo.toml`](https://github.com/TheDarkLightX/ZenoFCIS/blob/main/crates/zeno-fcis/Cargo.toml).
 
-The semantic packages target `no_std + alloc`, forbid unsafe Rust, and exclude ambient clocks, randomness, networking, filesystems, databases, threads, and executable effect closures. This makes the semantic boundary smaller and easier to replay. It does not prove that every downstream transition is correct.
+The semantic packages target `no_std + alloc`, forbid unsafe Rust, and exclude ambient clocks, randomness, networking, filesystems, databases, threads, and executable effect closures. A smaller semantic boundary is easier to replay. This restriction does not prove that every downstream transition is correct.
 
 ## 2. Where development stands
 
@@ -67,9 +120,19 @@ This status snapshot is pinned to commit [`fd0628f`](https://github.com/TheDarkL
 | Runtime integration | Strict adapters and reference implementations exist | An external ZenoDEX runtime, production JMT, ESSO, solver, prover, compiler, or LLM runtime is not bundled and approved |
 | Production posture | Explicitly pre-release research software | No claim of audit completion, economic correctness, side-channel resistance, value custody, or production authorization is made |
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Read development status as an assurance boundary</p>
+  {% include diagrams/zenofcis-assurance-boundary.svg %}
+  <figcaption class="fp-figure-caption">
+    The solid center records repository facts at pinned commits. The porous ring marks guarantees
+    that remain conditional on external runtimes and deployment assumptions. The broken perimeter
+    keeps release, audit, economic-correctness, and production claims outside the established set.
+  </figcaption>
+</figure>
+
 The exact release boundary appears in [Release Assurance](https://github.com/TheDarkLightX/ZenoFCIS/blob/main/docs/RELEASE_ASSURANCE.md) and the repository [security policy](https://github.com/TheDarkLightX/ZenoFCIS/blob/main/SECURITY.md).
 
-“Implemented” therefore means that the repository contains concrete reference code, tests, and fail-closed boundaries. It does not mean that every external dependency and deployment assumption has been discharged.
+"Implemented" therefore means that the repository contains concrete reference code, tests, and fail-closed boundaries. It does not mean that every external dependency and deployment assumption has been discharged.
 
 ## 3. Start from a reproducible source revision
 
@@ -135,7 +198,9 @@ Enabling `full` is convenient for workspace evaluation. A downstream application
 
 The following program models a bounded counter. Its pure decision accepts `10 + 3` under a maximum of `20`. The accepted value is translated into a preconditioned patch, sealed into one candidate bundle, committed, and replayed with the same replay identity.
 
-The example uses `expect` only for fixed demo literals and construction steps. Boundary-facing application code should return typed errors and preserve rejection data. The demo’s domain names and bindings define a local example protocol. They are not compatible with a production ZenoDEX profile.
+In the notary picture: the petitioner asks to add 3 to a counter currently at 10, under a rule that caps the counter at 20. The notary accepts, drafts the exact ledger amendment (replace the line holding 10 with a line holding 13), seals the ruling, and hands it to the clerk. The clerk writes the new page. The same ruling arrives again with the same case number; the clerk returns the same filed page without rewriting.
+
+The example uses `expect` only for fixed demo literals and construction steps. Boundary-facing application code should return typed errors and preserve rejection data. The demo's domain names and bindings define a local example protocol. They are not compatible with a production ZenoDEX profile.
 
 ```rust
 use zeno_fcis::{
@@ -275,13 +340,17 @@ This example omits external effects. An accepted transition can also produce:
 - a `CommitPlan` containing closed authoritative operations;
 - an `OutboxPlan` containing delivery destinations and payloads as values.
 
-The plans contain data, not executable closures. The shell interprets operation and channel identifiers through a reviewed registry.
+The plans contain data, not executable closures. The shell interprets operation and channel identifiers through a reviewed registry. In the notary picture, the orders name their recipients and payloads; the messengers, not the notary, carry them out.
 
 ## 6. What each line of the pipeline establishes
 
+Each subsection below opens with the notary picture, then gives the precise contract.
+
 ### The decision
 
-`Decision` has exactly three cases:
+*Picture.* The notary writes exactly one of three rulings. Reject leaves the ledger untouched. CommittedFailure amends the ledger intentionally to record that the case failed.
+
+*Contract.* `Decision` has exactly three cases:
 
 ```text
 Accept(candidate)
@@ -289,7 +358,11 @@ Reject(reason)
 CommittedFailure(candidate, reason)
 ```
 
-`Reject` means unchanged authoritative state and no candidate. A timeout or failed withdrawal may sometimes require an intentional state update, such as recording terminal failure. That case belongs under `CommittedFailure` when the profile explicitly defines it.
+**Relation to three-way decision theory.** Yiyu Yao's classical formulation divides a domain into acceptance, rejection, and noncommitment or deferment. The [Consensus topic page](https://consensus.app/questions/threeway-decision/) is a useful literature-discovery entry; Yao's [*An Outline of a Theory of Three-Way Decisions*](https://www2.cs.uregina.ca/~yyao/PAPERS/a_theory_of_three_way_decisions.pdf) gives the primary three-region formulation. This is a structural comparison, not the definition of ZenoFCIS's three outcomes.
+
+`CommittedFailure` is not noncommitment. It authorizes an intentional state update that records failure. `Reject` leaves authoritative state unchanged and produces no candidate. A timeout or failed withdrawal belongs under `CommittedFailure` only when the profile explicitly defines that failure as authoritative state. If a domain needs deferment, its profile must model deferment explicitly rather than rename `CommittedFailure`.
+
+The narrower shared lesson is conditional: for a profile in which some failures must become authoritative state, a binary `Accept`/`Reject` algebra would lose a required distinction. ZenoFCIS keeps that distinction explicit and binds the resulting failure update to a candidate.
 
 The complete library-facing form is the [`Transition`](https://github.com/TheDarkLightX/ZenoFCIS/blob/main/crates/zeno-fcis-core/src/lib.rs) trait:
 
@@ -302,23 +375,29 @@ fn step(
 ) -> Decision<Candidate, Reject, Failure>;
 ```
 
-Domain implementations should use typed `StableReason` values with fixed codes and precedence ordinals. Source branch order is too fragile to serve as protocol policy.
+Domain implementations should use typed `StableReason` values with fixed codes and precedence ordinals. Source branch order is too fragile to serve as protocol policy: two implementations that reach the same ruling through different branch orderings must agree on which reason applies when several could, so the reason ordering is bound as data, not left to the layout of `if` statements.
 
 ### The budget
 
-ZenoFCIS budgets logical work such as reads, writes, candidate evaluations, bytes, witness bytes, and depth. Wall-clock time is excluded because replaying the same input on different machines may take different durations.
+*Picture.* The notary's desk has a fixed supply of paper, ink, and sealing wax. Each ruling records how much was spent. Wall-clock time is not charged, because the same ruling drafted on a slow day and a fast day must be identical.
+
+*Contract.* ZenoFCIS budgets logical work such as reads, writes, candidate evaluations, bytes, witness bytes, and depth. Wall-clock time is excluded because replaying the same input on different machines may take different durations.
 
 The compact example records a declared demo budget binding. A production transition should charge an actual `Budget`, then bind both `BudgetLimits` and `BudgetUsed` through one canonical schema.
 
 ### The value and codec
 
-`Value` is a closed algebra of integers, booleans, bytes, ASCII text, tuples, records, sums, vectors, and canonical maps. Records use stable numeric field identifiers. ZCVE/1 gives one accepted byte representation for one admitted value.
+*Picture.* The ledger is written in a fixed alphabet. Every admitted value has exactly one way to be written into the ledger, so two clerks transcribing the same ruling produce the same bytes, and the same wax seal.
+
+*Contract.* `Value` is a closed algebra of integers, booleans, bytes, ASCII text, tuples, records, sums, vectors, and canonical maps. Records use stable numeric field identifiers. ZCVE/1 gives one accepted byte representation for one admitted value.
 
 Canonical bytes matter because a content hash is meaningful only when equivalent values cannot be serialized in several ways. Schema validation adds domain meaning on top of the generic value shape.
 
 ### The patch
 
-`CanonicalPatch` binds:
+*Picture.* The ruling's amendment names the exact ledger line to change, quotes the words that should currently be on that line, and supplies the replacement words. Two amendments cannot touch the same line. The clerk applies the whole amendment or none of it; a single mismatched quote stops the pen before any ink is committed.
+
+*Contract.* `CanonicalPatch` binds:
 
 - the state type;
 - the expected pre-state root;
@@ -328,22 +407,48 @@ Canonical bytes matter because a content hash is meaningful only when equivalent
 
 Patch application is pure and all-or-nothing. A stale root, stale old value, missing path, overlapping path, or type mismatch fails before a successor is produced.
 
+The initial patch algebra allows structural insertion and deletion only for record fields and canonical map entries. Vector positions may be updated but not inserted or deleted, because a batch of index-shifting edits needs a separate simultaneous-edit specification. This restriction prevents sequential patch application from silently changing the meaning of later vector paths. In ledger terms, the notary amends named lines, never renumbers the pages.
+
 ### The candidate bundle
 
-`CandidateBuilder::seal` applies the patch and commits the decision kind, optional committed-failure reason, profile, command, context, reason precedence, algorithm, budget, pre-root, post-root, patch, commit plan, and outbox plan.
+*Picture.* The notary seals one envelope. Inside are the ruling, the amendment, the orders, and the six case-file numbers. The wax seal is derived from the envelope's exact contents. The clerk is structurally prevented from mixing the amendment from one envelope with the orders from another, because both are bound under the same seal.
+
+*Contract.* `CandidateBuilder::seal` applies the patch and commits the decision kind, optional committed-failure reason, profile, command, context, reason precedence, algorithm, budget, pre-root, post-root, patch, commit plan, and outbox plan.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">One seal binds the whole candidate</p>
+  {% include diagrams/zenofcis-candidate-bundle.svg %}
+  <figcaption class="fp-figure-caption">
+    Distinct shapes carry the decision, canonical patch, closed plans, and six bindings into one
+    object. ZCVE/1 supplies one canonical byte string. The domain-separated hash becomes the
+    `CandidateId`, so a changed component changes the seal.
+  </figcaption>
+</figure>
 
 The result carries one `CandidateId`. The supported API prevents a receipt from candidate A from being combined with the patch or plan from candidate B.
 
 ### The shell
 
-The pure `ShellState` models the semantics expected from a concrete database shell:
+*Picture.* The clerk at the ledger desk checks the page number, verifies the seal, records the case number, and writes the new page, files the envelope, and dispatches the orders in one atomic motion. A second arrival of the same envelope with the same case number returns the same filed page. A different envelope with a case number already used is refused.
 
-1. compare the current root with the candidate’s pre-root;
+*Contract.* The pure `ShellState` models the semantics expected from a concrete database shell:
+
+1. compare the current root with the candidate's pre-root;
 2. validate the complete bundle again;
 3. bind the replay identity to the candidate;
 4. publish state, receipt, bundle, replay record, and outbox records together;
 5. return the same state for an exact replay;
 6. reject a replay identity reused for different content.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">The shell has four visibly different outcomes</p>
+  {% include diagrams/zenofcis-atomic-replay.svg %}
+  <figcaption class="fp-figure-caption">
+    A stale or malformed candidate stops before publication. A fresh replay identity publishes the
+    five authoritative records together. Exact replay returns the filed result without a second
+    write. Reusing the identity for different content is a conflict.
+  </figcaption>
+</figure>
 
 The optional SQLite shell is a concrete interpreter with crash-point tests. Its guarantees remain conditional on SQLite, operating-system, storage, and deployment assumptions listed in [SQLite Shell Refinement](https://github.com/TheDarkLightX/ZenoFCIS/blob/main/docs/SQLITE_SHELL_REFINEMENT.md).
 
@@ -378,7 +483,7 @@ These surfaces extend assurance around the same central object: an immutable, co
 
 ## 9. Failure modes to test first
 
-A small integration should begin with adversarial cases:
+A small integration should begin with adversarial cases. In the notary picture, each row below is a forgery or clerk error the office must refuse before it can claim a working boundary.
 
 | Test | Required behavior |
 | --- | --- |
@@ -407,7 +512,7 @@ ZenoFCIS supplies a disciplined language for expressing high-assurance transitio
 - exact replay and atomic publication semantics;
 - fail-closed comparison and evidence boundaries.
 
-Correct use still depends on the domain specification, admission logic, commitment profile, hash provider, database, operating system, external delivery mechanism, deployment policy, and human review. A machine-checked transition can faithfully implement an incomplete economic model. A crash-tested SQLite shell can still be deployed with unsuitable durability settings. A mounted adapter can compare two implementations that share the same mistaken rule.
+Correct use still depends on the domain specification, admission logic, commitment profile, hash provider, database, operating system, external delivery mechanism, deployment policy, and human review. A machine-checked transition can faithfully implement an incomplete economic model. A crash-tested SQLite shell can still be deployed with unsuitable durability settings. A mounted adapter can compare two implementations that share the same mistaken rule. The notary's desk can be pristine while the rule book on it is wrong.
 
 The practical purpose of ZenoFCIS is to make those assumptions visible and bind evidence to exact artifacts. It provides the structure needed to ask precise questions:
 
@@ -422,7 +527,7 @@ Which evidence applies to this exact artifact?
 Which claims remain open?
 ```
 
-That is the conceptual FCIS boundary made operational.
+That is the conceptual FCIS boundary made operational: a notary's office where every ruling is sealed, every seal is checkable, and every assumption is written down before it can carry authority.
 
 ## Further reading
 
@@ -431,3 +536,4 @@ That is the conceptual FCIS boundary made operational.
 - [Composition and ZenoDEX refinement](https://github.com/TheDarkLightX/ZenoFCIS/blob/main/docs/COMPOSITION_REFINEMENT_ZENODEX.md)
 - [Release assurance](https://github.com/TheDarkLightX/ZenoFCIS/blob/main/docs/RELEASE_ASSURANCE.md)
 - [Tutorial 64: Functional Core, Imperative Shell](../functional-core-imperative-shell-values-as-boundaries/)
+- [Three-way decisions and decision-theoretic rough sets (Yao)](https://www2.cs.uregina.ca/~yyao/research/3wd_RST.html): the trisection framework that motivates refusing a forced binary. See the note in §6 on how ZenoFCIS's third outcome differs in role from Yao's non-commitment.

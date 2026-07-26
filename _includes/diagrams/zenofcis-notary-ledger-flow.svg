@@ -1,0 +1,118 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 560"
+  role="img"
+  aria-labelledby="zenofcis-notary-title zenofcis-notary-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="zenofcis-notary-title">The notary's ledger mapped to the ZenoFCIS execution boundary</title>
+  <desc id="zenofcis-notary-desc">
+    Four immutable inputs converge on a pure transition. Reject stops without a write. Accept and
+    CommittedFailure flow into one sealed candidate bundle. The imperative shell checks the bundle
+    and atomically publishes state, receipt, replay record, and outbox.
+  </desc>
+
+  <style>
+    .znf-n-flow { stroke-dasharray: 9 10; animation: znf-n-dash 1.8s linear infinite; }
+    .znf-n-input { transform-box: fill-box; transform-origin: center; animation: znf-n-pulse 4.8s ease-in-out infinite; }
+    .znf-n-input:nth-of-type(2) { animation-delay: 0.25s; }
+    .znf-n-input:nth-of-type(3) { animation-delay: 0.5s; }
+    .znf-n-input:nth-of-type(4) { animation-delay: 0.75s; }
+    .znf-n-core { transform-box: fill-box; transform-origin: center; animation: znf-n-core-breathe 4.8s ease-in-out infinite; }
+    .znf-n-seal { transform-box: fill-box; transform-origin: center; animation: znf-n-seal-press 4.8s ease-in-out infinite; }
+    .znf-n-commit { transform-box: fill-box; transform-origin: left center; animation: znf-n-commit-fill 4.8s ease-in-out infinite; }
+    @keyframes znf-n-dash { to { stroke-dashoffset: -38; } }
+    @keyframes znf-n-pulse { 0%, 12%, 100% { opacity: .48; transform: scale(.92); } 24%, 74% { opacity: 1; transform: scale(1); } }
+    @keyframes znf-n-core-breathe { 0%, 24%, 100% { transform: scale(1); } 34%, 47% { transform: scale(1.035); } }
+    @keyframes znf-n-seal-press { 0%, 49%, 100% { transform: scale(.8); opacity: .35; } 59%, 78% { transform: scale(1); opacity: 1; } }
+    @keyframes znf-n-commit-fill { 0%, 68% { transform: scaleX(.05); opacity: .3; } 82%, 94% { transform: scaleX(1); opacity: 1; } 100% { transform: scaleX(.05); opacity: .3; } }
+    @media (prefers-reduced-motion: reduce) {
+      .znf-n-flow, .znf-n-input, .znf-n-core, .znf-n-seal, .znf-n-commit { animation: none; }
+    }
+  </style>
+
+  <defs>
+    <filter id="zenofcis-notary-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0f172a" flood-opacity="0.09" />
+    </filter>
+    <marker id="zenofcis-notary-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3b82f6" />
+    </marker>
+    <marker id="zenofcis-notary-green-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#10b981" />
+    </marker>
+    <marker id="zenofcis-notary-amber-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#f59e0b" />
+    </marker>
+  </defs>
+
+  <rect x="18" y="18" width="924" height="524" rx="28" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" />
+  <text x="42" y="49" font-size="11" font-weight="900" fill="#64748b" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="1.4">IMMUTABLE CASE FILE</text>
+
+  <g class="znf-n-input" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <circle cx="106" cy="100" r="42" fill="#dbeafe" stroke="#60a5fa" stroke-width="2" />
+    <text x="106" y="97" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a">page</text>
+    <text x="106" y="116" text-anchor="middle" font-size="10" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">State</text>
+  </g>
+  <g class="znf-n-input" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <circle cx="246" cy="100" r="42" fill="#e0f2fe" stroke="#38bdf8" stroke-width="2" />
+    <text x="246" y="97" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a">request</text>
+    <text x="246" y="116" text-anchor="middle" font-size="10" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">Command</text>
+  </g>
+  <g class="znf-n-input" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <circle cx="386" cy="100" r="42" fill="#ede9fe" stroke="#a78bfa" stroke-width="2" />
+    <text x="386" y="97" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a">rule</text>
+    <text x="386" y="116" text-anchor="middle" font-size="10" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">Policy</text>
+  </g>
+  <g class="znf-n-input" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <circle cx="526" cy="100" r="42" fill="#fef3c7" stroke="#fbbf24" stroke-width="2" />
+    <text x="526" y="97" text-anchor="middle" font-size="13" font-weight="800" fill="#0f172a">authority</text>
+    <text x="526" y="116" text-anchor="middle" font-size="10" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">Context</text>
+  </g>
+
+  <path class="znf-n-flow" d="M106 143 C106 190 262 169 302 214" fill="none" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#zenofcis-notary-arrow)" />
+  <path class="znf-n-flow" d="M246 143 C246 178 300 180 322 205" fill="none" stroke="#3b82f6" stroke-width="2.5" />
+  <path class="znf-n-flow" d="M386 143 C386 175 369 181 362 202" fill="none" stroke="#3b82f6" stroke-width="2.5" />
+  <path class="znf-n-flow" d="M526 143 C526 190 414 170 383 214" fill="none" stroke="#3b82f6" stroke-width="2.5" />
+
+  <g class="znf-n-core">
+    <circle cx="344" cy="260" r="84" fill="#eff6ff" stroke="#3b82f6" stroke-width="3" filter="url(#zenofcis-notary-shadow)" />
+    <circle cx="344" cy="260" r="66" fill="#ffffff" stroke="#bfdbfe" stroke-width="2" />
+    <text x="344" y="237" text-anchor="middle" font-size="11" font-weight="900" fill="#2563eb" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="1">QUIET DESK</text>
+    <text x="344" y="264" text-anchor="middle" font-size="15" font-weight="900" fill="#0f172a" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Transition::step</text>
+    <text x="344" y="286" text-anchor="middle" font-size="10" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">pure · total · no I/O</text>
+  </g>
+
+  <path class="znf-n-flow" d="M344 344 V378 H112" fill="none" stroke="#ef4444" stroke-width="2.5" />
+  <path class="znf-n-flow" d="M344 344 V378 H344" fill="none" stroke="#10b981" stroke-width="2.5" marker-end="url(#zenofcis-notary-green-arrow)" />
+  <path class="znf-n-flow" d="M344 344 V378 H576" fill="none" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#zenofcis-notary-amber-arrow)" />
+
+  <polygon points="112,350 146,412 78,412" fill="#fef2f2" stroke="#ef4444" stroke-width="2" />
+  <text x="112" y="397" text-anchor="middle" font-size="12" font-weight="900" fill="#b91c1c" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Reject</text>
+  <text x="112" y="433" text-anchor="middle" font-size="10" fill="#64748b" font-family="Atkinson Hyperlegible, system-ui, sans-serif">stop · no write</text>
+
+  <circle cx="344" cy="396" r="38" fill="#ecfdf5" stroke="#10b981" stroke-width="2" />
+  <text x="344" y="400" text-anchor="middle" font-size="13" font-weight="900" fill="#047857" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Accept</text>
+
+  <polygon points="576,354 618,396 576,438 534,396" fill="#fffbeb" stroke="#f59e0b" stroke-width="2" />
+  <text x="576" y="391" text-anchor="middle" font-size="11" font-weight="900" fill="#b45309" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Committed</text>
+  <text x="576" y="407" text-anchor="middle" font-size="11" font-weight="900" fill="#b45309" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Failure</text>
+
+  <path class="znf-n-flow" d="M382 396 H650" fill="none" stroke="#10b981" stroke-width="2.5" marker-end="url(#zenofcis-notary-green-arrow)" />
+  <path class="znf-n-flow" d="M618 396 H650" fill="none" stroke="#f59e0b" stroke-width="2.5" marker-end="url(#zenofcis-notary-amber-arrow)" />
+
+  <rect x="660" y="328" width="238" height="142" rx="24" fill="#ffffff" stroke="#64748b" stroke-width="2" filter="url(#zenofcis-notary-shadow)" />
+  <path d="M661 354 L779 414 L897 354" fill="#f1f5f9" stroke="#94a3b8" stroke-width="2" />
+  <text x="682" y="351" font-size="11" font-weight="900" fill="#334155" font-family="Atkinson Hyperlegible, system-ui, sans-serif">CANDIDATE BUNDLE</text>
+  <text x="779" y="452" text-anchor="middle" font-size="10" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">patch · plans · bindings</text>
+  <g class="znf-n-seal">
+    <circle cx="779" cy="414" r="30" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+    <text x="779" y="411" text-anchor="middle" font-size="9" font-weight="900" fill="#1d4ed8" font-family="Atkinson Hyperlegible, system-ui, sans-serif">SEALED</text>
+    <text x="779" y="425" text-anchor="middle" font-size="8" fill="#1d4ed8" font-family="JetBrains Mono, ui-monospace, monospace">CandidateId</text>
+  </g>
+
+  <rect x="640" y="496" width="278" height="24" rx="12" fill="#e2e8f0" />
+  <rect class="znf-n-commit" x="640" y="496" width="278" height="24" rx="12" fill="#3b82f6" />
+  <text x="629" y="513" text-anchor="end" font-size="10" font-weight="900" fill="#334155" font-family="Atkinson Hyperlegible, system-ui, sans-serif">SHELL</text>
+  <text x="779" y="513" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff" font-family="Atkinson Hyperlegible, system-ui, sans-serif">atomic publish · idempotent delivery</text>
+</svg>
