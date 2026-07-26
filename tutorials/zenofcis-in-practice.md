@@ -5,8 +5,6 @@ kicker: Tutorial 67
 description: "A practical guide to ZenoFCIS: its current pre-release status, Rust workspace, feature flags, decision algebra, canonical patches, candidate bundles, atomic shell, replay protection, and a small end-to-end counter example."
 ---
 
-# ZenoFCIS in Practice: From Pure Transitions to Atomic Commit
-
 [Tutorial 64](../functional-core-imperative-shell-values-as-boundaries/) developed the functional-core/imperative-shell pattern as an architectural idea. Immutable inputs enter a pure transition. The transition returns decision data. A smaller imperative shell interprets authorized effects.
 
 [ZenoFCIS](https://github.com/TheDarkLightX/ZenoFCIS) turns that idea into a Rust library family with explicit protocol values:
