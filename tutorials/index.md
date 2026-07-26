@@ -725,4 +725,15 @@ show_title: false
       and design synthesis within the functional core / imperative shell pattern.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/zenofcis-in-practice/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 67: ZenoFCIS in Practice</h2>
+    <p class="fp-card-text">
+      Turn the functional-core / imperative-shell idea into a concrete Rust workflow:
+      pure decisions, canonical patches, bound candidate bundles, atomic commit,
+      idempotent replay, current development status, and explicit production nonclaims.
+    </p>
+  </a>
 </div>
