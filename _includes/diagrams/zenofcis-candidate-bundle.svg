@@ -1,0 +1,119 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 520"
+  role="img"
+  aria-labelledby="zenofcis-bundle-title zenofcis-bundle-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="zenofcis-bundle-title">Anatomy and sealing of a ZenoFCIS candidate bundle</title>
+  <desc id="zenofcis-bundle-desc">
+    Decision, roots, canonical patch, closed plans, and six identity bindings converge into one
+    canonical bundle. Canonical encoding produces one byte sequence, and a domain-separated hash
+    produces the CandidateId that binds the complete object.
+  </desc>
+
+  <style>
+    .znf-b-stream { stroke-dasharray: 8 10; animation: znf-b-dash 1.6s linear infinite; }
+    .znf-b-part { transform-box: fill-box; transform-origin: center; animation: znf-b-part 5.6s ease-in-out infinite; }
+    .znf-b-part:nth-of-type(2) { animation-delay: .25s; }
+    .znf-b-part:nth-of-type(3) { animation-delay: .5s; }
+    .znf-b-ring { transform-box: fill-box; transform-origin: center; animation: znf-b-ring 5.6s ease-in-out infinite; }
+    .znf-b-seal { transform-box: fill-box; transform-origin: center; animation: znf-b-seal 5.6s ease-in-out infinite; }
+    @keyframes znf-b-dash { to { stroke-dashoffset: -36; } }
+    @keyframes znf-b-part { 0%, 9%, 100% { transform: translateX(-8px); opacity: .45; } 25%, 72% { transform: translateX(0); opacity: 1; } }
+    @keyframes znf-b-ring { 0%, 45%, 100% { transform: rotate(-18deg); opacity: .35; } 62%, 82% { transform: rotate(0deg); opacity: 1; } }
+    @keyframes znf-b-seal { 0%, 60%, 100% { transform: scale(.72); opacity: .25; } 72%, 88% { transform: scale(1); opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .znf-b-stream, .znf-b-part, .znf-b-ring, .znf-b-seal { animation: none; }
+    }
+  </style>
+
+  <defs>
+    <filter id="zenofcis-bundle-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.1" />
+    </filter>
+    <marker id="zenofcis-bundle-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3b82f6" />
+    </marker>
+  </defs>
+
+  <rect x="18" y="18" width="924" height="484" rx="28" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" />
+  <text x="42" y="52" font-size="11" font-weight="900" fill="#64748b" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="1.4">MANY CHECKED VALUES ENTER</text>
+
+  <g class="znf-b-part" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <circle cx="104" cy="116" r="43" fill="#ecfdf5" stroke="#10b981" stroke-width="2" />
+    <text x="104" y="112" text-anchor="middle" font-size="13" font-weight="900" fill="#047857">decision</text>
+    <text x="104" y="131" text-anchor="middle" font-size="10" fill="#475569">kind + reason</text>
+  </g>
+  <g class="znf-b-part" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <polygon points="104,191 151,218 151,272 104,299 57,272 57,218" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" />
+    <text x="104" y="240" text-anchor="middle" font-size="13" font-weight="900" fill="#1d4ed8">patch</text>
+    <text x="104" y="259" text-anchor="middle" font-size="10" fill="#475569">pre + post roots</text>
+  </g>
+  <g class="znf-b-part" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <rect x="57" y="346" width="94" height="76" rx="14" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2" />
+    <text x="104" y="378" text-anchor="middle" font-size="13" font-weight="900" fill="#6d28d9">plans</text>
+    <text x="104" y="398" text-anchor="middle" font-size="10" fill="#475569">commit + outbox</text>
+  </g>
+
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <circle cx="255" cy="100" r="25" fill="#fef3c7" stroke="#f59e0b" />
+    <circle cx="255" cy="158" r="25" fill="#fef3c7" stroke="#f59e0b" />
+    <circle cx="255" cy="216" r="25" fill="#fef3c7" stroke="#f59e0b" />
+    <circle cx="255" cy="274" r="25" fill="#fef3c7" stroke="#f59e0b" />
+    <circle cx="255" cy="332" r="25" fill="#fef3c7" stroke="#f59e0b" />
+    <circle cx="255" cy="390" r="25" fill="#fef3c7" stroke="#f59e0b" />
+    <text x="255" y="104" text-anchor="middle" font-size="9" font-weight="800" fill="#92400e">profile</text>
+    <text x="255" y="162" text-anchor="middle" font-size="9" font-weight="800" fill="#92400e">command</text>
+    <text x="255" y="220" text-anchor="middle" font-size="9" font-weight="800" fill="#92400e">context</text>
+    <text x="255" y="278" text-anchor="middle" font-size="9" font-weight="800" fill="#92400e">precedence</text>
+    <text x="255" y="336" text-anchor="middle" font-size="9" font-weight="800" fill="#92400e">algorithm</text>
+    <text x="255" y="394" text-anchor="middle" font-size="9" font-weight="800" fill="#92400e">budget</text>
+    <text x="255" y="438" text-anchor="middle" font-size="10" font-weight="900" fill="#92400e" letter-spacing=".8">SIX BINDINGS</text>
+  </g>
+
+  <path class="znf-b-stream" d="M152 116 C230 116 284 158 344 202" fill="none" stroke="#10b981" stroke-width="2.5" marker-end="url(#zenofcis-bundle-arrow)" />
+  <path class="znf-b-stream" d="M151 245 H340" fill="none" stroke="#3b82f6" stroke-width="2.5" marker-end="url(#zenofcis-bundle-arrow)" />
+  <path class="znf-b-stream" d="M152 384 C230 384 284 332 344 290" fill="none" stroke="#8b5cf6" stroke-width="2.5" marker-end="url(#zenofcis-bundle-arrow)" />
+  <path class="znf-b-stream" d="M280 100 C326 100 313 164 352 190" fill="none" stroke="#f59e0b" stroke-width="2" />
+  <path class="znf-b-stream" d="M280 158 C326 158 313 190 352 207" fill="none" stroke="#f59e0b" stroke-width="2" />
+  <path class="znf-b-stream" d="M280 216 H346" fill="none" stroke="#f59e0b" stroke-width="2" />
+  <path class="znf-b-stream" d="M280 274 H346" fill="none" stroke="#f59e0b" stroke-width="2" />
+  <path class="znf-b-stream" d="M280 332 C326 332 313 300 352 283" fill="none" stroke="#f59e0b" stroke-width="2" />
+  <path class="znf-b-stream" d="M280 390 C326 390 313 326 352 300" fill="none" stroke="#f59e0b" stroke-width="2" />
+
+  <rect x="354" y="88" width="330" height="326" rx="30" fill="#ffffff" stroke="#64748b" stroke-width="2.5" filter="url(#zenofcis-bundle-shadow)" />
+  <text x="382" y="122" font-size="12" font-weight="900" fill="#334155" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="1">CANDIDATE BUNDLE</text>
+  <rect x="382" y="145" width="274" height="62" rx="14" fill="#ecfdf5" stroke="#6ee7b7" />
+  <text x="402" y="171" font-size="12" font-weight="800" fill="#047857" font-family="Atkinson Hyperlegible, system-ui, sans-serif">decision</text>
+  <text x="402" y="191" font-size="10" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">Accept | CommittedFailure</text>
+  <rect x="382" y="220" width="132" height="78" rx="14" fill="#eff6ff" stroke="#93c5fd" />
+  <text x="398" y="248" font-size="12" font-weight="800" fill="#1d4ed8" font-family="Atkinson Hyperlegible, system-ui, sans-serif">roots + patch</text>
+  <text x="398" y="269" font-size="9" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">pre → post</text>
+  <text x="398" y="284" font-size="9" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">old hashes → values</text>
+  <rect x="524" y="220" width="132" height="78" rx="14" fill="#f5f3ff" stroke="#c4b5fd" />
+  <text x="540" y="248" font-size="12" font-weight="800" fill="#6d28d9" font-family="Atkinson Hyperlegible, system-ui, sans-serif">closed plans</text>
+  <text x="540" y="269" font-size="9" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">CommitPlan</text>
+  <text x="540" y="284" font-size="9" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">OutboxPlan</text>
+  <rect x="382" y="311" width="274" height="76" rx="14" fill="#fffbeb" stroke="#fcd34d" />
+  <text x="402" y="338" font-size="12" font-weight="800" fill="#92400e" font-family="Atkinson Hyperlegible, system-ui, sans-serif">CandidateBindings</text>
+  <text x="402" y="360" font-size="9" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">profile · command · context · precedence</text>
+  <text x="402" y="376" font-size="9" fill="#475569" font-family="JetBrains Mono, ui-monospace, monospace">algorithm · budget</text>
+
+  <path class="znf-b-stream" d="M684 250 H741" fill="none" stroke="#3b82f6" stroke-width="3" marker-end="url(#zenofcis-bundle-arrow)" />
+  <text x="713" y="230" text-anchor="middle" font-size="10" font-weight="900" fill="#334155" font-family="Atkinson Hyperlegible, system-ui, sans-serif">ZCVE/1</text>
+  <text x="713" y="274" text-anchor="middle" font-size="9" fill="#64748b" font-family="Atkinson Hyperlegible, system-ui, sans-serif">one byte string</text>
+
+  <g class="znf-b-ring">
+    <circle cx="830" cy="250" r="91" fill="#eff6ff" stroke="#93c5fd" stroke-width="2" stroke-dasharray="12 8" />
+    <circle cx="830" cy="250" r="70" fill="#ffffff" stroke="#3b82f6" stroke-width="3" />
+  </g>
+  <g class="znf-b-seal">
+    <polygon points="830,190 882,220 882,280 830,310 778,280 778,220" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+    <text x="830" y="235" text-anchor="middle" font-size="11" font-weight="900" fill="#1d4ed8" font-family="Atkinson Hyperlegible, system-ui, sans-serif">DOMAIN-SEPARATED</text>
+    <text x="830" y="253" text-anchor="middle" font-size="11" font-weight="900" fill="#1d4ed8" font-family="Atkinson Hyperlegible, system-ui, sans-serif">HASH</text>
+    <text x="830" y="278" text-anchor="middle" font-size="10" fill="#334155" font-family="JetBrains Mono, ui-monospace, monospace">CandidateId</text>
+  </g>
+  <text x="830" y="373" text-anchor="middle" font-size="12" font-weight="900" fill="#0f172a" font-family="Atkinson Hyperlegible, system-ui, sans-serif">one seal binds every part</text>
+  <text x="830" y="394" text-anchor="middle" font-size="10" fill="#64748b" font-family="Atkinson Hyperlegible, system-ui, sans-serif">change one byte → change the ID</text>
+</svg>

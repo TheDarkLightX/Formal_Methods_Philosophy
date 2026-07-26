@@ -1,0 +1,90 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 500"
+  role="img"
+  aria-labelledby="zenofcis-assurance-title zenofcis-assurance-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="zenofcis-assurance-title">ZenoFCIS assurance boundary at the pinned July 26, 2026 snapshot</title>
+  <desc id="zenofcis-assurance-desc">
+    A solid inner region represents reference packages and checked repository evidence present at
+    the pinned commits. A dashed middle ring represents integration claims that remain conditional
+    on external runtimes and deployment assumptions. A broken outer perimeter marks claims that the
+    snapshot explicitly does not establish, including a release, completed audit, or production authorization.
+  </desc>
+
+  <style>
+    .znf-a-middle { transform-box: fill-box; transform-origin: center; animation: znf-a-middle 14s linear infinite; }
+    .znf-a-outer { transform-box: fill-box; transform-origin: center; animation: znf-a-outer 22s linear infinite reverse; }
+    .znf-a-core { transform-box: fill-box; transform-origin: center; animation: znf-a-core 5s ease-in-out infinite; }
+    .znf-a-proof { animation: znf-a-proof 5s ease-in-out infinite; }
+    @keyframes znf-a-middle { to { transform: rotate(360deg); } }
+    @keyframes znf-a-outer { to { transform: rotate(360deg); } }
+    @keyframes znf-a-core { 0%, 100% { transform: scale(.98); } 50% { transform: scale(1.025); } }
+    @keyframes znf-a-proof { 0%, 100% { opacity: .45; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .znf-a-middle, .znf-a-outer, .znf-a-core, .znf-a-proof { animation: none; }
+    }
+  </style>
+
+  <defs>
+    <filter id="zenofcis-assurance-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <rect x="18" y="18" width="924" height="464" rx="28" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" />
+  <text x="42" y="50" font-size="11" font-weight="900" fill="#64748b" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="1.4">STATUS IS A BOUNDED CLAIM, PINNED TO EXACT COMMITS</text>
+
+  <g class="znf-a-outer">
+    <circle cx="480" cy="270" r="185" fill="none" stroke="#ef4444" stroke-width="3" stroke-dasharray="30 18 8 18" />
+    <polygon points="480,72 490,90 470,90" fill="#ef4444" />
+    <polygon points="678,270 660,280 660,260" fill="#ef4444" />
+    <polygon points="480,468 470,450 490,450" fill="#ef4444" />
+    <polygon points="282,270 300,260 300,280" fill="#ef4444" />
+  </g>
+
+  <g class="znf-a-middle">
+    <circle cx="480" cy="270" r="137" fill="#fffbeb" fill-opacity=".55" stroke="#f59e0b" stroke-width="3" stroke-dasharray="12 10" />
+    <circle cx="480" cy="133" r="8" fill="#f59e0b" />
+    <rect x="609" y="262" width="16" height="16" rx="3" fill="#f59e0b" />
+    <polygon points="480,399 489,415 471,415" fill="#f59e0b" />
+  </g>
+
+  <g class="znf-a-core" filter="url(#zenofcis-assurance-shadow)">
+    <circle cx="480" cy="270" r="92" fill="#eff6ff" stroke="#3b82f6" stroke-width="3" />
+    <circle cx="480" cy="270" r="72" fill="#ffffff" stroke="#bfdbfe" stroke-width="2" />
+    <text x="480" y="226" text-anchor="middle" font-size="10" font-weight="900" fill="#2563eb" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="1">IMPLEMENTED</text>
+    <text x="480" y="250" text-anchor="middle" font-size="13" font-weight="900" fill="#0f172a" font-family="Atkinson Hyperlegible, system-ui, sans-serif">packages A–H</text>
+    <text x="480" y="272" text-anchor="middle" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">reference APIs + tests</text>
+    <text x="480" y="293" text-anchor="middle" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">fail-closed boundaries</text>
+    <text x="480" y="316" text-anchor="middle" font-size="9" fill="#64748b" font-family="JetBrains Mono, ui-monospace, monospace">source: fd0628f</text>
+  </g>
+
+  <g class="znf-a-proof" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <circle cx="390" cy="154" r="16" fill="#dbeafe" stroke="#3b82f6" />
+    <path d="M383 154 L388 159 L398 148" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="570" cy="154" r="16" fill="#dbeafe" stroke="#3b82f6" />
+    <path d="M563 154 L568 159 L578 148" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="480" y="100" text-anchor="middle" font-size="9" font-weight="800" fill="#334155">CI evidence belongs to its exact reviewed head</text>
+    <text x="480" y="115" text-anchor="middle" font-size="9" fill="#64748b" font-family="JetBrains Mono, ui-monospace, monospace">8bc821a</text>
+  </g>
+
+  <rect x="42" y="104" width="208" height="138" rx="18" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5" />
+  <text x="62" y="134" font-size="11" font-weight="900" fill="#92400e" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing=".8">CONDITIONAL RING</text>
+  <text x="62" y="160" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">SQLite durability</text>
+  <text x="62" y="181" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">mounted runtimes</text>
+  <text x="62" y="202" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">hash + database providers</text>
+  <text x="62" y="223" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">OS + storage assumptions</text>
+  <path d="M250 190 H329" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6 6" />
+
+  <rect x="710" y="292" width="208" height="150" rx="18" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5" />
+  <text x="730" y="322" font-size="11" font-weight="900" fill="#b91c1c" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing=".8">OUTSIDE THE CLAIM</text>
+  <text x="730" y="348" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">no release or tag</text>
+  <text x="730" y="369" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">no completed audit claim</text>
+  <text x="730" y="390" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">no economic-correctness claim</text>
+  <text x="730" y="411" font-size="10" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">no production authorization</text>
+  <path d="M630 362 H710" stroke="#ef4444" stroke-width="2" stroke-dasharray="8 7" />
+
+  <text x="42" y="454" font-size="10" fill="#64748b" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Solid center = repository fact · porous ring = conditional refinement · broken perimeter = explicit nonclaim</text>
+</svg>

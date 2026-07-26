@@ -1,0 +1,127 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 560"
+  role="img"
+  aria-labelledby="zenofcis-replay-title zenofcis-replay-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="zenofcis-replay-title">Atomic commit and replay outcomes in the ZenoFCIS shell</title>
+  <desc id="zenofcis-replay-desc">
+    A candidate bundle and replay identity enter the shell gate. A stale root or invalid bundle is
+    rejected without a write. An unused replay identity commits state, receipt, bundle, replay
+    record, and outbox atomically. An exact replay returns the filed result without writing again.
+    Reusing the replay identity for different content is a conflict.
+  </desc>
+
+  <style>
+    .znf-r-path { stroke-dasharray: 9 10; animation: znf-r-dash 1.7s linear infinite; }
+    .znf-r-token { transform-box: fill-box; transform-origin: center; animation: znf-r-token 6.4s ease-in-out infinite; }
+    .znf-r-gate { transform-box: fill-box; transform-origin: center; animation: znf-r-gate 6.4s ease-in-out infinite; }
+    .znf-r-atom { transform-box: fill-box; transform-origin: center; animation: znf-r-atom 6.4s ease-in-out infinite; }
+    .znf-r-loop { transform-box: fill-box; transform-origin: center; animation: znf-r-loop 6.4s ease-in-out infinite; }
+    .znf-r-stop { transform-box: fill-box; transform-origin: center; animation: znf-r-stop 6.4s ease-in-out infinite; }
+    @keyframes znf-r-dash { to { stroke-dashoffset: -38; } }
+    @keyframes znf-r-token { 0%, 8%, 100% { transform: translateX(-20px); opacity: .4; } 24%, 78% { transform: translateX(0); opacity: 1; } }
+    @keyframes znf-r-gate { 0%, 24%, 100% { transform: scale(.94); } 36%, 52% { transform: scale(1.04); } }
+    @keyframes znf-r-atom { 0%, 48%, 100% { transform: scale(.8); opacity: .3; } 61%, 83% { transform: scale(1); opacity: 1; } }
+    @keyframes znf-r-loop { 0%, 54%, 100% { transform: rotate(-18deg); opacity: .35; } 68%, 86% { transform: rotate(0deg); opacity: 1; } }
+    @keyframes znf-r-stop { 0%, 56%, 100% { opacity: .4; } 69%, 84% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .znf-r-path, .znf-r-token, .znf-r-gate, .znf-r-atom, .znf-r-loop, .znf-r-stop { animation: none; }
+    }
+  </style>
+
+  <defs>
+    <filter id="zenofcis-replay-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.1" />
+    </filter>
+    <marker id="zenofcis-replay-blue-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#3b82f6" />
+    </marker>
+    <marker id="zenofcis-replay-green-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#10b981" />
+    </marker>
+    <marker id="zenofcis-replay-red-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#ef4444" />
+    </marker>
+  </defs>
+
+  <rect x="18" y="18" width="924" height="524" rx="28" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" />
+  <text x="42" y="50" font-size="11" font-weight="900" fill="#64748b" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="1.4">IMPERATIVE SHELL: CHECK BEFORE AUTHORITY</text>
+
+  <g class="znf-r-token" filter="url(#zenofcis-replay-shadow)">
+    <rect x="50" y="104" width="190" height="116" rx="20" fill="#ffffff" stroke="#3b82f6" stroke-width="2" />
+    <path d="M51 130 L145 180 L239 130" fill="#eff6ff" stroke="#93c5fd" stroke-width="2" />
+    <circle cx="145" cy="180" r="25" fill="#dbeafe" stroke="#2563eb" stroke-width="2" />
+    <text x="145" y="177" text-anchor="middle" font-size="8" font-weight="900" fill="#1d4ed8" font-family="Atkinson Hyperlegible, system-ui, sans-serif">CandidateId</text>
+    <text x="145" y="190" text-anchor="middle" font-size="8" fill="#1d4ed8" font-family="JetBrains Mono, ui-monospace, monospace">sealed</text>
+    <text x="145" y="128" text-anchor="middle" font-size="11" font-weight="900" fill="#334155" font-family="Atkinson Hyperlegible, system-ui, sans-serif">CandidateBundle</text>
+  </g>
+  <rect x="70" y="244" width="150" height="54" rx="27" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" />
+  <text x="145" y="266" text-anchor="middle" font-size="10" font-weight="900" fill="#92400e" font-family="Atkinson Hyperlegible, system-ui, sans-serif">replay identity</text>
+  <text x="145" y="283" text-anchor="middle" font-size="9" fill="#92400e" font-family="JetBrains Mono, ui-monospace, monospace">case number</text>
+
+  <path class="znf-r-path" d="M240 162 H335" fill="none" stroke="#3b82f6" stroke-width="3" marker-end="url(#zenofcis-replay-blue-arrow)" />
+  <path class="znf-r-path" d="M220 271 H294 Q320 271 338 240" fill="none" stroke="#f59e0b" stroke-width="2.5" />
+
+  <g class="znf-r-gate">
+    <polygon points="410,86 491,133 491,227 410,274 329,227 329,133" fill="#eff6ff" stroke="#3b82f6" stroke-width="3" filter="url(#zenofcis-replay-shadow)" />
+    <circle cx="410" cy="180" r="55" fill="#ffffff" stroke="#bfdbfe" stroke-width="2" />
+    <text x="410" y="145" text-anchor="middle" font-size="10" font-weight="900" fill="#2563eb" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing=".8">SHELL GATE</text>
+    <text x="410" y="169" text-anchor="middle" font-size="11" font-weight="800" fill="#0f172a" font-family="Atkinson Hyperlegible, system-ui, sans-serif">root matches?</text>
+    <text x="410" y="189" text-anchor="middle" font-size="11" font-weight="800" fill="#0f172a" font-family="Atkinson Hyperlegible, system-ui, sans-serif">bundle valid?</text>
+    <text x="410" y="209" text-anchor="middle" font-size="11" font-weight="800" fill="#0f172a" font-family="Atkinson Hyperlegible, system-ui, sans-serif">replay relation?</text>
+  </g>
+
+  <path class="znf-r-path" d="M410 274 V340 H258" fill="none" stroke="#ef4444" stroke-width="2.5" marker-end="url(#zenofcis-replay-red-arrow)" />
+  <path class="znf-r-path" d="M491 180 H580" fill="none" stroke="#10b981" stroke-width="3" marker-end="url(#zenofcis-replay-green-arrow)" />
+  <path class="znf-r-path" d="M410 274 V420 H588" fill="none" stroke="#8b5cf6" stroke-width="2.5" marker-end="url(#zenofcis-replay-blue-arrow)" />
+  <path class="znf-r-path" d="M491 226 H540 V330 H870 V354" fill="none" stroke="#f97316" stroke-width="2.5" marker-end="url(#zenofcis-replay-red-arrow)" />
+  <text x="514" y="408" text-anchor="middle" font-size="9" font-weight="800" fill="#6d28d9" font-family="Atkinson Hyperlegible, system-ui, sans-serif">same replay ID, same candidate</text>
+  <text x="700" y="346" text-anchor="middle" font-size="9" font-weight="800" fill="#c2410c" font-family="Atkinson Hyperlegible, system-ui, sans-serif">same replay ID, different candidate</text>
+
+  <g class="znf-r-stop">
+    <polygon points="160,302 208,330 208,386 160,414 112,386 112,330" fill="#fef2f2" stroke="#ef4444" stroke-width="2" />
+    <text x="160" y="350" text-anchor="middle" font-size="12" font-weight="900" fill="#b91c1c" font-family="Atkinson Hyperlegible, system-ui, sans-serif">REJECT</text>
+    <text x="160" y="370" text-anchor="middle" font-size="9" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">stale or invalid</text>
+    <text x="160" y="434" text-anchor="middle" font-size="10" font-weight="900" fill="#b91c1c" font-family="Atkinson Hyperlegible, system-ui, sans-serif">NO WRITE</text>
+  </g>
+
+  <rect x="596" y="84" width="316" height="234" rx="26" fill="#ecfdf5" stroke="#10b981" stroke-width="2" filter="url(#zenofcis-replay-shadow)" />
+  <text x="622" y="116" font-size="11" font-weight="900" fill="#047857" font-family="Atkinson Hyperlegible, system-ui, sans-serif" letter-spacing="1">UNUSED REPLAY IDENTITY</text>
+  <text x="754" y="143" text-anchor="middle" font-size="15" font-weight="900" fill="#0f172a" font-family="Atkinson Hyperlegible, system-ui, sans-serif">one atomic publication</text>
+
+  <g class="znf-r-atom" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <rect x="622" y="170" width="78" height="54" rx="12" fill="#ffffff" stroke="#6ee7b7" />
+    <text x="661" y="202" text-anchor="middle" font-size="10" font-weight="800" fill="#047857">state</text>
+  </g>
+  <g class="znf-r-atom" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <rect x="714" y="170" width="78" height="54" rx="12" fill="#ffffff" stroke="#6ee7b7" />
+    <text x="753" y="202" text-anchor="middle" font-size="10" font-weight="800" fill="#047857">receipt</text>
+  </g>
+  <g class="znf-r-atom" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <rect x="806" y="170" width="78" height="54" rx="12" fill="#ffffff" stroke="#6ee7b7" />
+    <text x="845" y="202" text-anchor="middle" font-size="10" font-weight="800" fill="#047857">bundle</text>
+  </g>
+  <g class="znf-r-atom" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <rect x="668" y="238" width="78" height="54" rx="12" fill="#ffffff" stroke="#6ee7b7" />
+    <text x="707" y="270" text-anchor="middle" font-size="10" font-weight="800" fill="#047857">replay</text>
+  </g>
+  <g class="znf-r-atom" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <rect x="760" y="238" width="78" height="54" rx="12" fill="#ffffff" stroke="#6ee7b7" />
+    <text x="799" y="270" text-anchor="middle" font-size="10" font-weight="800" fill="#047857">outbox</text>
+  </g>
+
+  <g class="znf-r-loop">
+    <circle cx="704" cy="420" r="66" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2" stroke-dasharray="12 8" />
+    <path d="M672 399 A39 39 0 1 1 668 432" fill="none" stroke="#8b5cf6" stroke-width="3" marker-end="url(#zenofcis-replay-blue-arrow)" />
+  </g>
+  <text x="704" y="413" text-anchor="middle" font-size="12" font-weight="900" fill="#6d28d9" font-family="Atkinson Hyperlegible, system-ui, sans-serif">EXACT REPLAY</text>
+  <text x="704" y="433" text-anchor="middle" font-size="9" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">same filed result</text>
+  <text x="704" y="502" text-anchor="middle" font-size="10" font-weight="900" fill="#6d28d9" font-family="Atkinson Hyperlegible, system-ui, sans-serif">NO SECOND WRITE</text>
+
+  <polygon points="870,360 916,440 824,440" fill="#fff7ed" stroke="#f97316" stroke-width="2" />
+  <text x="870" y="410" text-anchor="middle" font-size="10" font-weight="900" fill="#c2410c" font-family="Atkinson Hyperlegible, system-ui, sans-serif">CONFLICT</text>
+  <text x="870" y="456" text-anchor="middle" font-size="9" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">same replay ID</text>
+  <text x="870" y="471" text-anchor="middle" font-size="9" fill="#475569" font-family="Atkinson Hyperlegible, system-ui, sans-serif">different content</text>
+</svg>
