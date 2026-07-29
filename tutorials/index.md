@@ -736,4 +736,15 @@ show_title: false
       idempotent replay, current development status, and explicit production nonclaims.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/atdd-zenofcis-research-kernel-design-synthesis/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 69: From acceptance tests to a certified design choice</h2>
+    <p class="fp-card-text">
+      Turn reviewed behaviors into seven finite design holes, replay a 648-candidate
+      ZenoFCIS search, retain 575 rejected points, and coordinate ATDD, Research
+      Kernel, ESSO, Lean, and exact runtime evidence without inflating authority.
+    </p>
+  </a>
 </div>
