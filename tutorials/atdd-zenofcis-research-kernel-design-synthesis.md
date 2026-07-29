@@ -5,8 +5,6 @@ kicker: Tutorial 69
 description: "A reproducible tutorial on turning design requirements into a finite grammar, searching it canonically with ZenoFCIS, preserving rejected candidates, and coordinating ATDD, Research Kernel, ESSO, Lean, and runtime evidence."
 ---
 
-# From Acceptance Tests to a Certified Design Choice
-
 Imagine a safe with seven dials. Each dial controls one engineering decision:
 the data representation, validation strategy, Python closure checks, Rust
 construction surface, canonical identity rule, runtime scope, and delivery
