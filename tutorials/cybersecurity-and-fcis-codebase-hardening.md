@@ -5,8 +5,6 @@ kicker: Tutorial 69
 description: "A precise guide to the security benefits and limits of functional-core/imperative-shell architecture, with typed boundaries, immutable data, atomic commit, secure randomness, and a worked Python example."
 ---
 
-# Cybersecurity and FCIS-Based Codebase Hardening
-
 **FCIS** means **functional core, imperative shell**. The pattern separates
 side-effect-free domain decisions from I/O, state acquisition, persistence,
 concurrency, and other interactions with the outside world.
