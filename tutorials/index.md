@@ -747,4 +747,15 @@ show_title: false
       Kernel, ESSO, Lean, and exact runtime evidence without inflating authority.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/layered-q-tables-proof-carrying-deterministic-thinker/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 71: GlassMind-256</h2>
+    <p class="fp-card-text">
+      Compile a pinned knowledge graph, deontic action gate, and declared utility
+      model into a 256-layer Q table, then see delayed consequences reverse a
+      myopic decision and test what counts as learned knowledge.
+    </p>
+  </a>
 </div>

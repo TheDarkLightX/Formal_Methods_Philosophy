@@ -1,0 +1,56 @@
+{
+  "schema": "glassmind-wordnet-seeds-v1",
+  "source": {
+    "name": "Open English WordNet",
+    "version": "2025",
+    "url": "https://en-word.net/static/english-wordnet-2025.xml.gz",
+    "license": "CC-BY-4.0",
+    "expected_sha256": "9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe"
+  },
+  "seed_synsets": [
+    {"id": "oewn-05736438-n", "label": "data structure", "role": "deterministic data representation"},
+    {"id": "oewn-06175882-n", "label": "deontic logic", "role": "obligation and permission logic"},
+    {"id": "oewn-06197264-n", "label": "utilitarianism", "role": "bounded normative-profile example"},
+    {"id": "oewn-05855965-n", "label": "algorithm", "role": "deterministic procedure"},
+    {"id": "oewn-01132241-n", "label": "obligation", "role": "required-action concept"},
+    {"id": "oewn-06702042-n", "label": "permission", "role": "explicit-permission concept"},
+    {"id": "oewn-05149888-n", "label": "welfare", "role": "bounded outcome-model concept"}
+  ],
+  "goal_synsets": [
+    {"id": "oewn-06175539-n", "label": "modal logic", "role": "deontic-logic hypernym"},
+    {"id": "oewn-05734541-n", "label": "arrangement", "role": "data-structure hypernym"},
+    {"id": "oewn-05952149-n", "label": "doctrine", "role": "utilitarianism hypernym"}
+  ],
+  "relations": [
+    "also",
+    "attribute",
+    "causes",
+    "domain_topic",
+    "entails",
+    "has_domain_topic",
+    "holo_member",
+    "holo_part",
+    "hypernym",
+    "hyponym",
+    "is_caused_by",
+    "is_entailed_by",
+    "mero_member",
+    "mero_part",
+    "similar"
+  ],
+  "assumptions": [
+    "The pinned release hash identifies the exact lexical source used by this demo.",
+    "A WordNet relation is a source-attributed lexical relation, not a formal proof or normative rule.",
+    "An absent path in a bounded snapshot does not establish that no path exists in the complete source."
+  ],
+  "quarantined_proposals": [
+    {
+      "proposal": "Treat lexical hypernymy as unrestricted logical implication.",
+      "reason": "The relation supports navigation and evidence discovery only in this demo."
+    },
+    {
+      "proposal": "Treat a dictionary definition as a complete ethical theory.",
+      "reason": "Lexical descriptions neither settle normative disputes nor supply an outcome model."
+    }
+  ]
+}

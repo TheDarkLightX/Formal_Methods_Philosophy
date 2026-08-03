@@ -1,0 +1,660 @@
+{
+  "required_decisions": [
+    {
+      "decision_id": "pcd-public-data-structure-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-05736438-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:data-structure",
+        "model-local-lexical-review-only:data-structure"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-lexical-links",
+            "label": "Review source-directed lexical links from data structure; links are model-local discovery evidence, not proposition truth or normative authority."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded data-structure source context while preserving edge direction; browsing does not create an inverse fact, permission, or obligation."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when traversal coverage, source identity, or lexical authority is unresolved; never promote a WordNet link into proof or norm justification."
+        }
+      },
+      "required_evidence_bits": 1,
+      "review_triggers": [
+        "Missing source-directed traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-public-deontic-logic-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-06175882-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:deontic-logic",
+        "model-local-lexical-review-only:deontic-logic"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-reverse-browse-links",
+            "label": "Review reverse-browse lexical links around deontic logic; a browse channel is not an inverse fact, proof, or normative justification."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded deontic-logic source context while retaining source attribution; lexical labels do not settle a deontic conclusion."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when reverse coverage, source identity, or lexical mapping is unresolved; do not treat WordNet navigation as a norm or logical entailment."
+        }
+      },
+      "required_evidence_bits": 2,
+      "review_triggers": [
+        "Missing reverse-browse traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-public-algorithm-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-05855965-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:algorithm",
+        "model-local-lexical-review-only:algorithm"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-and-reverse-links",
+            "label": "Review both source-directed and reverse-browse lexical channels around algorithm; neither channel proves a procedure or norm."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded algorithm source context with direction and channel provenance preserved; links remain discovery evidence only."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when either traversal channel, source identity, or lexical mapping is unresolved; do not promote links into truth or norm justification."
+        }
+      },
+      "required_evidence_bits": 3,
+      "review_triggers": [
+        "Missing source-directed or reverse-browse traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-public-obligation-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-01132241-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:obligation",
+        "model-local-lexical-review-only:obligation"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-lexical-links",
+            "label": "Review source-directed lexical links around obligation; the links are model-local discovery evidence and do not establish an obligation."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded obligation source context while preserving direction; a lexical relation is not a rule, permission, or proof."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when traversal coverage, source identity, or lexical mapping is unresolved; never infer normative force from a WordNet edge."
+        }
+      },
+      "required_evidence_bits": 1,
+      "review_triggers": [
+        "Missing source-directed traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-public-permission-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-06702042-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:permission",
+        "model-local-lexical-review-only:permission"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-reverse-browse-links",
+            "label": "Review reverse-browse lexical links around permission; browsing does not create an inverse fact or permission."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded permission source context with source attribution retained; lexical discovery is not normative authority."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when reverse coverage, source identity, or lexical mapping is unresolved; do not promote a link into a permission, proof, or ethical conclusion."
+        }
+      },
+      "required_evidence_bits": 2,
+      "review_triggers": [
+        "Missing reverse-browse traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-public-welfare-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-05149888-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:welfare",
+        "model-local-lexical-review-only:welfare"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-and-reverse-links",
+            "label": "Review both source-directed and reverse-browse lexical channels around welfare; neither channel proves a welfare claim or norm."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded welfare source context while retaining direction and coverage limits; lexical links are not an outcome model."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when either traversal channel, source identity, or lexical mapping is unresolved; do not treat lexical links as truth, moral force, or norm justification."
+        }
+      },
+      "required_evidence_bits": 3,
+      "review_triggers": [
+        "Missing source-directed or reverse-browse traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-full-utilitarianism-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-06197264-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:utilitarianism",
+        "model-local-lexical-review-only:utilitarianism"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-lexical-links",
+            "label": "Review source-directed lexical links around utilitarianism; links are discovery evidence and do not establish an ethical theory or conclusion."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded utilitarianism source context without treating lexical labels as a complete outcome model or norm justification."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when traversal coverage, source identity, or lexical mapping is unresolved; do not promote lexical links into moral force or proof."
+        }
+      },
+      "required_evidence_bits": 1,
+      "review_triggers": [
+        "Missing source-directed traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-full-modal-logic-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-06175539-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:modal-logic",
+        "model-local-lexical-review-only:modal-logic"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-reverse-browse-links",
+            "label": "Review reverse-browse lexical links around modal logic; reverse browsing is not an inverse fact, proof, or logical entailment."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded modal-logic source context while keeping lexical navigation separate from formal semantics and normative authority."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when reverse coverage, source identity, or lexical mapping is unresolved; WordNet links do not certify a logic or norm."
+        }
+      },
+      "required_evidence_bits": 2,
+      "review_triggers": [
+        "Missing reverse-browse traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-full-arrangement-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-05734541-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:arrangement",
+        "model-local-lexical-review-only:arrangement"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-lexical-links",
+            "label": "Review source-directed lexical links around arrangement; links describe a bounded source path and do not prove a data-structure claim."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded arrangement source context while preserving edge direction, missing coverage, and non-normative status."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when traversal coverage, source identity, or lexical mapping is unresolved; no edge supplies proof or norm justification."
+        }
+      },
+      "required_evidence_bits": 1,
+      "review_triggers": [
+        "Missing source-directed traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-full-doctrine-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-05952149-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:doctrine",
+        "model-local-lexical-review-only:doctrine"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-reverse-browse-links",
+            "label": "Review reverse-browse lexical links around doctrine; browsing does not establish an inverse fact, theory, proof, or normative conclusion."
+          },
+          {
+            "id": "review-bounded-source-context",
+            "label": "Review the bounded doctrine source context with source attribution retained; lexical discovery is not a doctrine or norm authority."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when reverse coverage, source identity, or lexical mapping is unresolved; do not promote a link into truth or norm justification."
+        }
+      },
+      "required_evidence_bits": 2,
+      "review_triggers": [
+        "Missing reverse-browse traversal coverage or missing root node: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous lexical mapping or an unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a WordNet edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-cross-data-structure-algorithm-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-05736438-n", "oewn-05855965-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:data-structure-algorithm",
+        "model-local-lexical-review-only:data-structure-algorithm"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-and-reverse-links",
+            "label": "Review both lexical discovery channels across data structure and algorithm; cross-root links do not prove a computational or normative relation."
+          },
+          {
+            "id": "review-bounded-cross-root-context",
+            "label": "Review the bounded cross-root source context with endpoint direction preserved; links remain evidence for navigation, not proposition truth."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when either channel, endpoint root, source identity, or lexical mapping is unresolved; do not infer a rule or permission."
+        }
+      },
+      "required_evidence_bits": 3,
+      "review_triggers": [
+        "Missing source-directed or reverse-browse coverage for either cross-root endpoint: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous cross-root lexical mapping, missing root, or unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a cross-root edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-cross-deontic-obligation-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-01132241-n", "oewn-06175882-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:deontic-obligation",
+        "model-local-lexical-review-only:deontic-obligation"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-and-reverse-links",
+            "label": "Review both lexical discovery channels across obligation and deontic logic; links do not entail a norm or logical conclusion."
+          },
+          {
+            "id": "review-bounded-cross-root-context",
+            "label": "Review the bounded cross-root source context with direction and attribution preserved; WordNet is not a normative authority."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when either channel, endpoint root, source identity, or lexical mapping is unresolved; never turn lexical links into obligations."
+        }
+      },
+      "required_evidence_bits": 3,
+      "review_triggers": [
+        "Missing source-directed or reverse-browse coverage for either cross-root endpoint: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous cross-root lexical mapping, missing root, or unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a cross-root edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-cross-permission-welfare-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-05149888-n", "oewn-06702042-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:permission-welfare",
+        "model-local-lexical-review-only:permission-welfare"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-and-reverse-links",
+            "label": "Review both lexical discovery channels across permission and welfare; cross-root links do not prove permission, welfare, or moral force."
+          },
+          {
+            "id": "review-bounded-cross-root-context",
+            "label": "Review the bounded cross-root source context with edge direction preserved; lexical navigation is not an outcome model or norm justification."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when either channel, endpoint root, source identity, or lexical mapping is unresolved; do not infer permission or ethical conclusions."
+        }
+      },
+      "required_evidence_bits": 3,
+      "review_triggers": [
+        "Missing source-directed or reverse-browse coverage for either cross-root endpoint: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous cross-root lexical mapping, missing root, or unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a cross-root edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-cross-utilitarianism-doctrine-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-05952149-n", "oewn-06197264-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:utilitarianism-doctrine",
+        "model-local-lexical-review-only:utilitarianism-doctrine"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-and-reverse-links",
+            "label": "Review both lexical discovery channels across utilitarianism and doctrine; links do not establish an ethical theory, doctrine, or conclusion."
+          },
+          {
+            "id": "review-bounded-cross-root-context",
+            "label": "Review the bounded cross-root source context without collapsing lexical relations into a complete ethical model or norm authority."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when either channel, endpoint root, source identity, or lexical mapping is unresolved; never infer moral force from navigation."
+        }
+      },
+      "required_evidence_bits": 3,
+      "review_triggers": [
+        "Missing source-directed or reverse-browse coverage for either cross-root endpoint: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous cross-root lexical mapping, missing root, or unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a cross-root edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-cross-modal-deontic-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-06175539-n", "oewn-06175882-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:modal-deontic",
+        "model-local-lexical-review-only:modal-deontic"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-and-reverse-links",
+            "label": "Review both lexical discovery channels across modal and deontic logic; links do not entail a formal semantics, norm, or permission."
+          },
+          {
+            "id": "review-bounded-cross-root-context",
+            "label": "Review the bounded cross-root source context with relation direction and channel provenance preserved; lexical navigation is not logical proof."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when either channel, endpoint root, source identity, or lexical mapping is unresolved; do not promote links into logical or normative authority."
+        }
+      },
+      "required_evidence_bits": 3,
+      "review_triggers": [
+        "Missing source-directed or reverse-browse coverage for either cross-root endpoint: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous cross-root lexical mapping, missing root, or unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a cross-root edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    },
+    {
+      "decision_id": "pcd-cross-arrangement-doctrine-review",
+      "applicability": {
+        "kind": "node_ids",
+        "node_ids": ["oewn-05734541-n", "oewn-05952149-n"]
+      },
+      "obligation_rule_ids": [
+        "channel-evidence-only:arrangement-doctrine",
+        "model-local-lexical-review-only:arrangement-doctrine"
+      ],
+      "goal": {
+        "resolution_alternatives": [
+          {
+            "id": "review-forward-and-reverse-links",
+            "label": "Review both lexical discovery channels across arrangement and doctrine; cross-root links do not prove a data structure, doctrine, or norm."
+          },
+          {
+            "id": "review-bounded-cross-root-context",
+            "label": "Review the bounded cross-root source context with source direction preserved; lexical links are navigation evidence only, not proposition truth."
+          }
+        ],
+        "abstain_or_escalate": {
+          "id": "abstain-or-escalate-coverage-or-authority",
+          "label": "Abstain or escalate when either channel, endpoint root, source identity, or lexical mapping is unresolved; do not infer a rule or norm from a link."
+        }
+      },
+      "required_evidence_bits": 3,
+      "review_triggers": [
+        "Missing source-directed or reverse-browse coverage for either cross-root endpoint: abstain_or_escalate.",
+        "Changed OEWN source hash, bounded graph hash, retrieved snapshot, or adapter: re-run the review.",
+        "Ambiguous cross-root lexical mapping, missing root, or unlisted node: abstain_or_escalate.",
+        "Any attempt to treat a cross-root edge or evidence bit as proposition truth, proof, permission, obligation, or norm justification: reject and escalate."
+      ],
+      "provenance_refs": [
+        "oewn-2025:source-sha256:9ca6d1dcb75f822fdd66617f7d9da48142ace38dd544d6ad5e2feca1674ad3fe",
+        "oewn-2025:adapter:glassmind-oewn-lmf-adapter-v1",
+        "oewn-2025:public-graph-sha256:755450aea529f9dc19754bb4e56ab38a8ecd817927891a274881c0cf67cc37e1",
+        "oewn-2025:full-graph-sha256:8524f26bf9d2ccc63993382e5625d05c5260af583471c631fca9d6b242119b5d",
+        "pcd:lexical-discovery-only:not-proof-or-norm"
+      ]
+    }
+  ]
+}

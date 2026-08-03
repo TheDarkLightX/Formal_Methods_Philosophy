@@ -19,6 +19,9 @@ _site/
 **/__pycache__/
 *.pyc
 
+# Large reproducible tutorial artifacts. Public-sized fixtures live in assets/data/.
+artifacts/local/
+
 # Local Lean build artifacts and agent scratch proof work.
 **/.lake/
 **/.lake

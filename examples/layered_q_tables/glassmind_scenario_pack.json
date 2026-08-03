@@ -1,0 +1,171 @@
+{
+  "accepted_motifs": [
+    {
+      "falsifier": "Remove the band and check whether the chosen route and cumulative risk remain unchanged for every sampled start.",
+      "hypothesis": "A narrow diagonal plume should make a risk-aware planner detour even when the geometric route is shorter.",
+      "id": "chemical_plume_diagonal",
+      "parameters": {
+        "modulus": 37,
+        "phase": 0,
+        "width": 3,
+        "x_weight": 3,
+        "y_weight": 5
+      },
+      "risk_delta": 8,
+      "type": "linear_band"
+    },
+    {
+      "falsifier": "Find a state where the added front cannot affect any path to a goal within 256 moves, yet its removal changes the selected action.",
+      "hypothesis": "A second crossing front creates cases where longer-horizon planning must compare interacting detours.",
+      "id": "smoke_front_crossing",
+      "parameters": {
+        "modulus": 53,
+        "phase": 17,
+        "width": 2,
+        "x_weight": 7,
+        "y_weight": 11
+      },
+      "risk_delta": 5,
+      "type": "linear_band"
+    },
+    {
+      "falsifier": "Check whether all cells marked as debris have the same cost as their non-debris neighbors after canonical expansion.",
+      "hypothesis": "Sparse debris zones add local choices that distinguish one-step greed from longer planning.",
+      "id": "debris_work_zones",
+      "parameters": {
+        "cell_height": 12,
+        "cell_width": 16,
+        "period": 7,
+        "phase": 0
+      },
+      "risk_delta": 3,
+      "type": "checker_patch"
+    },
+    {
+      "falsifier": "Verify that cells outside the declared one-cell corridor receive no relief from this motif.",
+      "hypothesis": "Regular north-south evacuation lanes should provide transparent low-risk alternatives through hazard bands.",
+      "id": "north_south_relief_lanes",
+      "parameters": {
+        "axis": "x",
+        "offset": 0,
+        "spacing": 32,
+        "width": 1
+      },
+      "risk_delta": -5,
+      "type": "axis_corridor"
+    },
+    {
+      "falsifier": "Verify that cells outside the declared one-cell corridor receive no relief from this motif.",
+      "hypothesis": "Regular east-west evacuation lanes create composable crossings with the north-south lanes.",
+      "id": "east_west_relief_lanes",
+      "parameters": {
+        "axis": "y",
+        "offset": 0,
+        "spacing": 24,
+        "width": 1
+      },
+      "risk_delta": -5,
+      "type": "axis_corridor"
+    }
+  ],
+  "authorship": {
+    "generator": "OpenAI Codex language-model assistant",
+    "role": "Proposed abstractions, scenario motifs, edge cases, and falsifiers. It did not assign Q-values or certify outcomes."
+  },
+  "challenge_grammar": [
+    {"id": "boundary-frontier", "stratum": "boundary", "count": 96},
+    {"id": "rare-risk-frontier", "stratum": "rare_risk", "count": 96},
+    {"id": "near-far-goal-bands", "stratum": "goal_distance", "count": 96},
+    {"id": "motif-crossings", "stratum": "motif_intersection", "count": 96},
+    {"id": "horizon-reversal", "stratum": "horizon_sensitive", "count": 96}
+  ],
+  "edge_cases": [
+    "A start state may already be a terminal safe haven.",
+    "A move at a boundary remains in place and receives an explicit penalty.",
+    "Equal Q-values use the frozen north, east, south, west tie-break order.",
+    "A short horizon may rationally reduce immediate risk without reaching a safe haven.",
+    "A longer horizon may reverse the short-horizon action when the terminal reward becomes reachable."
+  ],
+  "quarantined_proposals": [
+    {
+      "id": "random_impassable_walls",
+      "proposal": "Scatter hash-selected impassable walls through the map.",
+      "reason": "The proposal can create disconnected or trapped states, so a failed rollout would mix planner quality with generator reachability.",
+      "reconsider_if": "A connectivity certificate or constructive maze generator is added."
+    },
+    {
+      "id": "llm_assigns_q_labels",
+      "proposal": "Ask the language model to write the target Q-value for every generated scenario.",
+      "reason": "The same fallible proposer would become its own outcome oracle, making the evidence circular.",
+      "reconsider_if": "Labels are independently checked against a simulator, formal model, measured outcome, or human preference protocol."
+    },
+    {
+      "id": "free_form_reward_code",
+      "proposal": "Allow generated Python expressions to define arbitrary rewards.",
+      "reason": "Unrestricted code would weaken determinism, reviewability, and the input safety boundary.",
+      "reconsider_if": "Expressions are compiled from a finite typed DSL with resource bounds and differential tests."
+    },
+    {
+      "id": "drop_safety_features_for_compression",
+      "proposal": "Merge states that share distance-to-goal even when their hazard levels differ.",
+      "reason": "The abstraction can alias a safe route with a hazardous route and silently change the greedy action.",
+      "reconsider_if": "A checked action-equivalence or bounded-regret certificate covers every merged state."
+    }
+  ],
+  "proposed_actions": [
+    "north",
+    "east",
+    "south",
+    "west",
+    "teleport"
+  ],
+  "proposed_states": [
+    {
+      "x": 0,
+      "y": 0,
+      "note": "boundary start"
+    },
+    {
+      "x": 0,
+      "y": 0,
+      "note": "duplicate boundary description"
+    },
+    {
+      "x": 1,
+      "y": 1,
+      "note": "interior crossing"
+    },
+    {
+      "x": -1,
+      "y": 0,
+      "note": "invalid proposal retained for quarantine"
+    }
+  ],
+  "proposed_trajectories": [
+    [0, 1, 2],
+    [0, 1, 999999]
+  ],
+  "schema": "glassmind-llm-scenario-pack-v1",
+  "state_abstractions": [
+    {
+      "failure_mode": "Coordinates alone do not transfer to a changed map.",
+      "id": "position",
+      "meaning": "A canonical row-major grid coordinate identifies each finite state."
+    },
+    {
+      "failure_mode": "A local risk score does not reveal hazards beyond the next move.",
+      "id": "destination_risk",
+      "meaning": "Each action exposes the deterministic risk of its destination cell."
+    },
+    {
+      "failure_mode": "Distance alone misses the cost of crossing risk bands.",
+      "id": "safe_haven_geometry",
+      "meaning": "Regular safe-haven locations create a bounded but nontrivial routing objective."
+    },
+    {
+      "failure_mode": "Using the wrong layer changes the objective being optimized.",
+      "id": "remaining_horizon",
+      "meaning": "The layer index records how many decisions remain."
+    }
+  ]
+}

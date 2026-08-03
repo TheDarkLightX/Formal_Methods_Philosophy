@@ -1,0 +1,1201 @@
+{
+  "schema": "synthetic-deontic-luna-template-bank-v1",
+  "profile_id": "sdk-luna-v1-bounded-causal-four-valued",
+  "authoritative_status": "synthetic_non_authoritative",
+  "generation_method": "A closed finite content design compiled from typed domain witnesses and topology-local deontic variants",
+  "factorization": {
+    "formula": "16*16*4*4*4*4",
+    "record_count": 65536,
+    "ordinal_order": [
+      "domain",
+      "topology_program",
+      "evidence_value",
+      "local_state_variant",
+      "resolution_variant",
+      "defeater_variant"
+    ],
+    "radices": [16, 16, 4, 4, 4, 4]
+  },
+  "closed_shapes": {
+    "domain": ["id", "summary", "actor_role_bindings", "actors", "actions", "relations", "raw_state_fields", "derived_predicates", "witness_states", "causal_mutations"],
+    "actor": ["id", "kind"],
+    "action": ["id", "role", "actor_id", "kind"],
+    "relation": ["id", "kind", "source_ref", "target_ref"],
+    "raw_state_field": ["id", "type", "allowed_values"],
+    "derived_predicate": ["id", "slot", "expression", "consumed_by"],
+    "witness_state": ["id", "raw_state", "expected_truths"],
+    "causal_mutation": ["id", "from_witness", "to_witness", "changed_field_ids", "expected_truth_delta", "disposition_targets"],
+    "topology_program": ["id", "summary", "kernel_projection", "norms", "conflicts", "state_variants", "resolution_variants", "defeater_variants", "application_targets", "validity_rules"],
+    "norm": ["id", "operator", "source_actor_role", "action_role", "condition_refs", "source_id", "lifecycle_slot", "defeater_slot", "repair_for"],
+    "conflict": ["id", "left_norm_id", "right_norm_id", "kind"],
+    "state_variant": ["code", "id", "domain_witness", "norm_states", "flags"],
+    "resolution_variant": ["code", "id", "priority_edges", "expected_if_conflict"],
+    "defeater_variant": ["code", "id", "slot_truths", "expected_effect"],
+    "counterfactual_contract": ["modifier_axes", "mutation", "unordered_value_pairs", "spanning_tree_edges", "spanning_applications", "required_receipt_fields", "behavior_change_classes", "unchanged_class", "negative_knowledge_rule"],
+    "spanning_application": ["axis", "held_codes", "predicate"]
+  },
+  "expression_language": {
+    "truth_values": ["T", "F", "U", "B"],
+    "operators": ["eq", "all", "any", "not"],
+    "forms": {
+      "eq": ["eq", "field_id", "literal_value"],
+      "all": ["all", "expression", "expression_or_more"],
+      "any": ["any", "expression", "expression_or_more"],
+      "not": ["not", "expression"]
+    },
+    "unknown_rule": "An equality over the literal unknown evaluates to U; an equality over the literal both evaluates to B.",
+    "composition_rule": "all, any, and not use the bounded four-valued truth tables owned by the evaluator specification."
+  },
+  "evidence_values": [
+    {"code": 0, "id": "supported", "truth": "T", "effect": "evaluate_applicable_norms"},
+    {"code": 1, "id": "refuted", "truth": "F", "effect": "defeat_evidence_guarded_norms"},
+    {"code": 2, "id": "unknown", "truth": "U", "effect": "unresolved_evidence"},
+    {"code": 3, "id": "inconsistent", "truth": "B", "effect": "unresolved_inconsistent_evidence"}
+  ],
+  "variant_codes": {
+    "local_state_variant": [0, 1, 2, 3],
+    "resolution_variant": [0, 1, 2, 3],
+    "defeater_variant": [0, 1, 2, 3]
+  },
+  "domains": [
+    {
+      "id": "resource_allocation",
+      "summary": "Allocate bounded capacity without violating ownership or reserve constraints.",
+      "actor_role_bindings": {"operator": "allocator", "authority": "resource_owner", "affected": "requester", "reviewer": "quota_reviewer"},
+      "actors": [
+        {"id": "allocator", "kind": "allocation_operator"},
+        {"id": "resource_owner", "kind": "capacity_authority"},
+        {"id": "requester", "kind": "affected_requester"},
+        {"id": "quota_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "allocate_capacity", "role": "primary", "actor_id": "allocator", "kind": "resource_change"},
+        {"id": "retain_reserve", "role": "safe", "actor_id": "resource_owner", "kind": "safe_fallback"},
+        {"id": "reclaim_allocation", "role": "repair", "actor_id": "allocator", "kind": "reparation"},
+        {"id": "review_quota", "role": "review", "actor_id": "quota_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "capacity_exclusion", "kind": "exclusive_capacity_claim", "source_ref": "action:primary", "target_ref": "action:safe"}
+      ],
+      "raw_state_fields": [
+        {"id": "capacity_state", "type": "capacity_status", "allowed_values": ["sufficient", "insufficient", "unknown", "both"]},
+        {"id": "reservation_state", "type": "ownership_status", "allowed_values": ["requester", "other", "unknown", "both"]},
+        {"id": "reserve_state", "type": "reserve_status", "allowed_values": ["preserved", "depleted", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "capacity_and_ownership_valid", "slot": "primary_gate", "expression": ["all", ["eq", "capacity_state", "sufficient"], ["eq", "reservation_state", "requester"]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "reserve_preserved", "slot": "safe_gate", "expression": ["eq", "reserve_state", "preserved"], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"capacity_state": "sufficient", "reservation_state": "requester", "reserve_state": "preserved"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"capacity_state": "sufficient", "reservation_state": "requester", "reserve_state": "depleted"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"capacity_state": "insufficient", "reservation_state": "requester", "reserve_state": "preserved"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"capacity_state": "unknown", "reservation_state": "requester", "reserve_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "exhaust_capacity", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["capacity_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "deplete_reserve", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["reserve_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "safety_hazard_control",
+      "summary": "Control activation when hazards, guards, and shutdown paths may disagree.",
+      "actor_role_bindings": {"operator": "safety_controller", "authority": "safety_authority", "affected": "exposed_party", "reviewer": "safety_inspector"},
+      "actors": [
+        {"id": "safety_controller", "kind": "system_controller"},
+        {"id": "safety_authority", "kind": "hazard_authority"},
+        {"id": "exposed_party", "kind": "affected_party"},
+        {"id": "safety_inspector", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "activate_system", "role": "primary", "actor_id": "safety_controller", "kind": "state_change"},
+        {"id": "enter_safe_state", "role": "safe", "actor_id": "safety_controller", "kind": "safe_fallback"},
+        {"id": "recover_and_inspect", "role": "repair", "actor_id": "safety_controller", "kind": "reparation"},
+        {"id": "review_hazard", "role": "review", "actor_id": "safety_inspector", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "hazard_exclusion", "kind": "hazard_blocks_activation", "source_ref": "actor:affected", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "guard_state", "type": "guard_status", "allowed_values": ["verified", "missing", "unknown", "both"]},
+        {"id": "hazard_state", "type": "hazard_status", "allowed_values": ["controlled", "uncontrolled", "unknown", "both"]},
+        {"id": "shutdown_state", "type": "shutdown_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "hazard_controls_verified", "slot": "primary_gate", "expression": ["all", ["eq", "guard_state", "verified"], ["eq", "hazard_state", "controlled"]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "safe_shutdown_available", "slot": "safe_gate", "expression": ["all", ["eq", "shutdown_state", "ready"], ["eq", "guard_state", "verified"]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"guard_state": "verified", "hazard_state": "controlled", "shutdown_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"guard_state": "verified", "hazard_state": "controlled", "shutdown_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"guard_state": "verified", "hazard_state": "uncontrolled", "shutdown_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"guard_state": "unknown", "hazard_state": "unknown", "shutdown_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "remove_guard_verification", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["hazard_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "disable_shutdown", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["shutdown_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "privacy_disclosure",
+      "summary": "Decide disclosure from purpose, basis, and redaction state.",
+      "actor_role_bindings": {"operator": "data_steward", "authority": "privacy_authority", "affected": "data_subject", "reviewer": "privacy_reviewer"},
+      "actors": [
+        {"id": "data_steward", "kind": "record_controller"},
+        {"id": "privacy_authority", "kind": "policy_authority"},
+        {"id": "data_subject", "kind": "affected_subject"},
+        {"id": "privacy_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "disclose_record", "role": "primary", "actor_id": "data_steward", "kind": "disclosure"},
+        {"id": "redact_or_deny", "role": "safe", "actor_id": "data_steward", "kind": "safe_fallback"},
+        {"id": "revoke_and_notify", "role": "repair", "actor_id": "data_steward", "kind": "reparation"},
+        {"id": "review_disclosure", "role": "review", "actor_id": "privacy_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "purpose_binding", "kind": "purpose_limits_disclosure", "source_ref": "actor:affected", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "basis_state", "type": "basis_status", "allowed_values": ["valid", "invalid", "unknown", "both"]},
+        {"id": "purpose_state", "type": "purpose_status", "allowed_values": ["matching", "mismatched", "unknown", "both"]},
+        {"id": "redaction_state", "type": "redaction_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "disclosure_basis_verified", "slot": "primary_gate", "expression": ["all", ["eq", "basis_state", "valid"], ["eq", "purpose_state", "matching"]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "protective_redaction_available", "slot": "safe_gate", "expression": ["all", ["eq", "redaction_state", "ready"], ["any", ["eq", "basis_state", "valid"], ["not", ["eq", "basis_state", "valid"]]]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"basis_state": "valid", "purpose_state": "matching", "redaction_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"basis_state": "valid", "purpose_state": "matching", "redaction_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"basis_state": "invalid", "purpose_state": "matching", "redaction_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"basis_state": "unknown", "purpose_state": "unknown", "redaction_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "invalidate_disclosure_basis", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["basis_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_redaction_path", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["redaction_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "governance_enactment",
+      "summary": "Gate enactment on quorum and timelock evidence while preserving a review path.",
+      "actor_role_bindings": {"operator": "proposal_operator", "authority": "governance_authority", "affected": "constituency", "reviewer": "governance_reviewer"},
+      "actors": [
+        {"id": "proposal_operator", "kind": "governance_operator"},
+        {"id": "governance_authority", "kind": "rule_authority"},
+        {"id": "constituency", "kind": "affected_group"},
+        {"id": "governance_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "enact_proposal", "role": "primary", "actor_id": "proposal_operator", "kind": "governance_change"},
+        {"id": "defer_for_vote", "role": "safe", "actor_id": "governance_authority", "kind": "safe_fallback"},
+        {"id": "repeal_and_restore", "role": "repair", "actor_id": "governance_authority", "kind": "reparation"},
+        {"id": "review_governance", "role": "review", "actor_id": "governance_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "quorum_gate", "kind": "collective_threshold", "source_ref": "actor:affected", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "quorum_state", "type": "threshold_status", "allowed_values": ["met", "not_met", "unknown", "both"]},
+        {"id": "timelock_state", "type": "time_gate_status", "allowed_values": ["elapsed", "pending", "unknown", "both"]},
+        {"id": "review_path_state", "type": "review_status", "allowed_values": ["open", "closed", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "enactment_preconditions_verified", "slot": "primary_gate", "expression": ["all", ["eq", "quorum_state", "met"], ["eq", "timelock_state", "elapsed"]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "defer_path_available", "slot": "safe_gate", "expression": ["any", ["all", ["eq", "review_path_state", "open"], ["eq", "timelock_state", "elapsed"]], ["all", ["eq", "review_path_state", "open"], ["eq", "quorum_state", "met"]]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"quorum_state": "met", "timelock_state": "elapsed", "review_path_state": "open"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"quorum_state": "met", "timelock_state": "elapsed", "review_path_state": "closed"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"quorum_state": "not_met", "timelock_state": "elapsed", "review_path_state": "open"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"quorum_state": "unknown", "timelock_state": "unknown", "review_path_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "lose_quorum", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["quorum_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "close_review_path", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["review_path_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "evidence_publication",
+      "summary": "Separate supported publication from contradiction-aware withholding and annotation.",
+      "actor_role_bindings": {"operator": "researcher", "authority": "review_authority", "affected": "evidence_consumer", "reviewer": "replication_reviewer"},
+      "actors": [
+        {"id": "researcher", "kind": "claim_author"},
+        {"id": "review_authority", "kind": "evidence_authority"},
+        {"id": "evidence_consumer", "kind": "affected_consumer"},
+        {"id": "replication_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "publish_claim", "role": "primary", "actor_id": "researcher", "kind": "publication"},
+        {"id": "withhold_and_annotate", "role": "safe", "actor_id": "researcher", "kind": "safe_fallback"},
+        {"id": "retract_and_correct", "role": "repair", "actor_id": "researcher", "kind": "reparation"},
+        {"id": "review_evidence", "role": "review", "actor_id": "replication_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "evidence_dependency", "kind": "claim_depends_on_evidence", "source_ref": "action:primary", "target_ref": "actor:affected"}
+      ],
+      "raw_state_fields": [
+        {"id": "support_state", "type": "support_status", "allowed_values": ["adequate", "inadequate", "unknown", "both"]},
+        {"id": "contradiction_state", "type": "contradiction_status", "allowed_values": ["absent", "present", "unknown", "both"]},
+        {"id": "annotation_state", "type": "annotation_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "claim_evidence_verified", "slot": "primary_gate", "expression": ["all", ["eq", "contradiction_state", "absent"], ["any", ["eq", "support_state", "adequate"], ["eq", "annotation_state", "ready"]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "caveated_withholding_available", "slot": "safe_gate", "expression": ["eq", "annotation_state", "ready"], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"support_state": "adequate", "contradiction_state": "absent", "annotation_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"support_state": "adequate", "contradiction_state": "absent", "annotation_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"support_state": "adequate", "contradiction_state": "present", "annotation_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"support_state": "unknown", "contradiction_state": "unknown", "annotation_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "introduce_contradiction", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["contradiction_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_annotation_path", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["annotation_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "integrity_commit",
+      "summary": "Commit only against the expected version and root, with a deterministic retry path.",
+      "actor_role_bindings": {"operator": "commit_worker", "authority": "integrity_authority", "affected": "state_consumer", "reviewer": "integrity_reviewer"},
+      "actors": [
+        {"id": "commit_worker", "kind": "state_writer"},
+        {"id": "integrity_authority", "kind": "version_authority"},
+        {"id": "state_consumer", "kind": "affected_consumer"},
+        {"id": "integrity_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "commit_state", "role": "primary", "actor_id": "commit_worker", "kind": "state_change"},
+        {"id": "serialize_or_retry", "role": "safe", "actor_id": "commit_worker", "kind": "safe_fallback"},
+        {"id": "rollback_commit", "role": "repair", "actor_id": "commit_worker", "kind": "reparation"},
+        {"id": "review_integrity", "role": "review", "actor_id": "integrity_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "version_binding", "kind": "commit_requires_current_version", "source_ref": "actor:authority", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "version_state", "type": "version_status", "allowed_values": ["current", "stale", "unknown", "both"]},
+        {"id": "root_state", "type": "root_status", "allowed_values": ["matching", "mismatched", "unknown", "both"]},
+        {"id": "retry_state", "type": "retry_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "commit_preconditions_verified", "slot": "primary_gate", "expression": ["all", ["eq", "version_state", "current"], ["any", ["eq", "root_state", "matching"], ["eq", "retry_state", "ready"]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "deterministic_retry_available", "slot": "safe_gate", "expression": ["all", ["eq", "retry_state", "ready"], ["eq", "root_state", "matching"]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"version_state": "current", "root_state": "matching", "retry_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"version_state": "current", "root_state": "matching", "retry_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"version_state": "stale", "root_state": "matching", "retry_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"version_state": "unknown", "root_state": "unknown", "retry_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "stale_commit_snapshot", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["version_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_retry_path", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["retry_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "coordination_assignment",
+      "summary": "Assign work only inside scope and without colliding with a peer lease.",
+      "actor_role_bindings": {"operator": "assignment_worker", "authority": "coordination_authority", "affected": "peer_worker", "reviewer": "coordination_reviewer"},
+      "actors": [
+        {"id": "assignment_worker", "kind": "task_assigner"},
+        {"id": "coordination_authority", "kind": "scope_authority"},
+        {"id": "peer_worker", "kind": "affected_peer"},
+        {"id": "coordination_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "assign_task", "role": "primary", "actor_id": "assignment_worker", "kind": "delegation"},
+        {"id": "coordinate_before_assigning", "role": "safe", "actor_id": "peer_worker", "kind": "safe_fallback"},
+        {"id": "revoke_and_reassign", "role": "repair", "actor_id": "assignment_worker", "kind": "reparation"},
+        {"id": "review_coordination", "role": "review", "actor_id": "coordination_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "lease_exclusion", "kind": "single_assignment_lease", "source_ref": "actor:operator", "target_ref": "actor:affected"}
+      ],
+      "raw_state_fields": [
+        {"id": "scope_state", "type": "scope_status", "allowed_values": ["valid", "invalid", "unknown", "both"]},
+        {"id": "lease_state", "type": "lease_status", "allowed_values": ["free", "held_by_peer", "unknown", "both"]},
+        {"id": "coordination_state", "type": "coordination_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "assignment_scope_verified", "slot": "primary_gate", "expression": ["all", ["eq", "lease_state", "free"], ["any", ["eq", "scope_state", "valid"], ["eq", "coordination_state", "ready"]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "peer_coordination_available", "slot": "safe_gate", "expression": ["all", ["eq", "coordination_state", "ready"], ["any", ["eq", "scope_state", "valid"], ["not", ["eq", "scope_state", "valid"]]]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"scope_state": "valid", "lease_state": "free", "coordination_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"scope_state": "valid", "lease_state": "free", "coordination_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"scope_state": "valid", "lease_state": "held_by_peer", "coordination_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"scope_state": "unknown", "lease_state": "unknown", "coordination_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "introduce_peer_lease", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["lease_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_coordination_channel", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["coordination_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "workflow_transition",
+      "summary": "Advance only after predecessor receipts, with an explicit pause path.",
+      "actor_role_bindings": {"operator": "workflow_worker", "authority": "workflow_authority", "affected": "downstream_worker", "reviewer": "workflow_reviewer"},
+      "actors": [
+        {"id": "workflow_worker", "kind": "transition_operator"},
+        {"id": "workflow_authority", "kind": "transition_authority"},
+        {"id": "downstream_worker", "kind": "affected_worker"},
+        {"id": "workflow_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "advance_workflow", "role": "primary", "actor_id": "workflow_worker", "kind": "state_change"},
+        {"id": "pause_for_predecessor", "role": "safe", "actor_id": "workflow_worker", "kind": "safe_fallback"},
+        {"id": "compensate_transition", "role": "repair", "actor_id": "workflow_worker", "kind": "reparation"},
+        {"id": "review_workflow", "role": "review", "actor_id": "workflow_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "predecessor_order", "kind": "receipt_precedes_transition", "source_ref": "actor:affected", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "predecessor_state", "type": "predecessor_status", "allowed_values": ["complete", "incomplete", "unknown", "both"]},
+        {"id": "receipt_state", "type": "receipt_status", "allowed_values": ["valid", "invalid", "unknown", "both"]},
+        {"id": "pause_state", "type": "pause_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "predecessor_receipts_verified", "slot": "primary_gate", "expression": ["all", ["eq", "predecessor_state", "complete"], ["any", ["eq", "receipt_state", "valid"], ["eq", "pause_state", "ready"]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "bounded_pause_available", "slot": "safe_gate", "expression": ["any", ["all", ["eq", "pause_state", "ready"], ["eq", "receipt_state", "valid"]], ["all", ["eq", "pause_state", "ready"], ["eq", "predecessor_state", "complete"]]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"predecessor_state": "complete", "receipt_state": "valid", "pause_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"predecessor_state": "complete", "receipt_state": "valid", "pause_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"predecessor_state": "incomplete", "receipt_state": "valid", "pause_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"predecessor_state": "unknown", "receipt_state": "unknown", "pause_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "invalidate_predecessor_receipt", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["predecessor_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_pause_path", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["pause_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "access_authorization",
+      "summary": "Authorize access only for a current capability and sufficient clearance.",
+      "actor_role_bindings": {"operator": "access_requester", "authority": "access_authority", "affected": "resource_owner", "reviewer": "access_reviewer"},
+      "actors": [
+        {"id": "access_requester", "kind": "principal"},
+        {"id": "access_authority", "kind": "authorization_authority"},
+        {"id": "resource_owner", "kind": "affected_owner"},
+        {"id": "access_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "grant_access", "role": "primary", "actor_id": "access_authority", "kind": "authorization"},
+        {"id": "deny_and_review", "role": "safe", "actor_id": "access_authority", "kind": "safe_fallback"},
+        {"id": "revoke_access", "role": "repair", "actor_id": "access_authority", "kind": "reparation"},
+        {"id": "review_access", "role": "review", "actor_id": "access_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "capability_scope", "kind": "capability_limits_resource", "source_ref": "actor:operator", "target_ref": "actor:affected"}
+      ],
+      "raw_state_fields": [
+        {"id": "capability_state", "type": "capability_status", "allowed_values": ["active", "expired", "unknown", "both"]},
+        {"id": "clearance_state", "type": "clearance_status", "allowed_values": ["sufficient", "insufficient", "unknown", "both"]},
+        {"id": "review_state", "type": "review_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "access_preconditions_verified", "slot": "primary_gate", "expression": ["any", ["all", ["eq", "capability_state", "active"], ["eq", "clearance_state", "sufficient"]], ["all", ["eq", "capability_state", "active"], ["eq", "review_state", "ready"]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "access_review_available", "slot": "safe_gate", "expression": ["eq", "review_state", "ready"], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"capability_state": "active", "clearance_state": "sufficient", "review_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"capability_state": "active", "clearance_state": "sufficient", "review_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"capability_state": "expired", "clearance_state": "sufficient", "review_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"capability_state": "unknown", "clearance_state": "unknown", "review_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "expire_capability", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["capability_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_access_review", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["review_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "capability_delegation",
+      "summary": "Delegate only within parent scope, depth, and revocation limits.",
+      "actor_role_bindings": {"operator": "delegate", "authority": "principal", "affected": "resource_subject", "reviewer": "delegation_reviewer"},
+      "actors": [
+        {"id": "delegate", "kind": "capability_holder"},
+        {"id": "principal", "kind": "delegating_authority"},
+        {"id": "resource_subject", "kind": "affected_resource"},
+        {"id": "delegation_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "delegate_capability", "role": "primary", "actor_id": "principal", "kind": "delegation"},
+        {"id": "retain_parent_control", "role": "safe", "actor_id": "principal", "kind": "safe_fallback"},
+        {"id": "revoke_delegation", "role": "repair", "actor_id": "principal", "kind": "reparation"},
+        {"id": "review_delegation", "role": "review", "actor_id": "delegation_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "scope_attenuation", "kind": "child_scope_subset", "source_ref": "actor:authority", "target_ref": "actor:operator"}
+      ],
+      "raw_state_fields": [
+        {"id": "scope_state", "type": "attenuation_status", "allowed_values": ["within_parent", "exceeds_parent", "unknown", "both"]},
+        {"id": "depth_state", "type": "delegation_depth_status", "allowed_values": ["within_limit", "exceeds_limit", "unknown", "both"]},
+        {"id": "revocation_state", "type": "revocation_status", "allowed_values": ["active", "revoked", "unknown", "both"]},
+        {"id": "review_state", "type": "review_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "delegation_attenuation_verified", "slot": "primary_gate", "expression": ["all", ["eq", "scope_state", "within_parent"], ["eq", "depth_state", "within_limit"], ["eq", "revocation_state", "active"]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "principal_review_available", "slot": "safe_gate", "expression": ["any", ["eq", "review_state", "ready"], ["eq", "scope_state", "exceeds_parent"], ["eq", "revocation_state", "revoked"]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"scope_state": "within_parent", "depth_state": "within_limit", "revocation_state": "active", "review_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"scope_state": "within_parent", "depth_state": "within_limit", "revocation_state": "active", "review_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"scope_state": "exceeds_parent", "depth_state": "within_limit", "revocation_state": "active", "review_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"scope_state": "unknown", "depth_state": "unknown", "revocation_state": "unknown", "review_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "exceed_parent_scope", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["scope_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_principal_review", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["review_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "concurrent_lease_commit",
+      "summary": "Commit only under the current exclusive lease and epoch.",
+      "actor_role_bindings": {"operator": "primary_worker", "authority": "lease_authority", "affected": "peer_worker", "reviewer": "concurrency_reviewer"},
+      "actors": [
+        {"id": "primary_worker", "kind": "concurrent_writer"},
+        {"id": "lease_authority", "kind": "lease_registry"},
+        {"id": "peer_worker", "kind": "competing_writer"},
+        {"id": "concurrency_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "commit_under_lease", "role": "primary", "actor_id": "primary_worker", "kind": "atomic_commit"},
+        {"id": "serialize_and_retry", "role": "safe", "actor_id": "primary_worker", "kind": "safe_fallback"},
+        {"id": "rollback_conflict", "role": "repair", "actor_id": "primary_worker", "kind": "reparation"},
+        {"id": "review_interleaving", "role": "review", "actor_id": "concurrency_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "exclusive_lease", "kind": "single_writer_epoch", "source_ref": "actor:operator", "target_ref": "actor:affected"}
+      ],
+      "raw_state_fields": [
+        {"id": "lease_holder_state", "type": "lease_holder_status", "allowed_values": ["self", "peer", "unknown", "both"]},
+        {"id": "epoch_state", "type": "epoch_status", "allowed_values": ["current", "stale", "unknown", "both"]},
+        {"id": "retry_state", "type": "retry_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "exclusive_commit_right_verified", "slot": "primary_gate", "expression": ["any", ["all", ["eq", "lease_holder_state", "self"], ["eq", "epoch_state", "current"]], ["all", ["eq", "lease_holder_state", "self"], ["eq", "retry_state", "ready"]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "lease_retry_available", "slot": "safe_gate", "expression": ["all", ["eq", "retry_state", "ready"], ["eq", "epoch_state", "current"]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"lease_holder_state": "self", "epoch_state": "current", "retry_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"lease_holder_state": "self", "epoch_state": "current", "retry_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"lease_holder_state": "peer", "epoch_state": "current", "retry_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"lease_holder_state": "unknown", "epoch_state": "unknown", "retry_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "transfer_lease_to_peer", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["lease_holder_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_concurrency_retry", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["retry_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "incident_repair",
+      "summary": "Close an incident only after containment and verified repair, while preserving a fallback.",
+      "actor_role_bindings": {"operator": "incident_responder", "authority": "incident_authority", "affected": "affected_service", "reviewer": "incident_reviewer"},
+      "actors": [
+        {"id": "incident_responder", "kind": "repair_operator"},
+        {"id": "incident_authority", "kind": "incident_authority"},
+        {"id": "affected_service", "kind": "affected_system"},
+        {"id": "incident_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "close_incident", "role": "primary", "actor_id": "incident_responder", "kind": "state_transition"},
+        {"id": "continue_containment", "role": "safe", "actor_id": "incident_responder", "kind": "safe_fallback"},
+        {"id": "reopen_and_repair", "role": "repair", "actor_id": "incident_responder", "kind": "reparation"},
+        {"id": "review_incident", "role": "review", "actor_id": "incident_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "containment_precedes_closure", "kind": "incident_state_order", "source_ref": "action:safe", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "containment_state", "type": "containment_status", "allowed_values": ["contained", "uncontained", "unknown", "both"]},
+        {"id": "repair_state", "type": "repair_status", "allowed_values": ["verified", "unverified", "unknown", "both"]},
+        {"id": "fallback_state", "type": "fallback_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "incident_closure_verified", "slot": "primary_gate", "expression": ["any", ["all", ["eq", "containment_state", "contained"], ["eq", "repair_state", "verified"]], ["all", ["eq", "containment_state", "contained"], ["eq", "fallback_state", "ready"]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "continued_containment_available", "slot": "safe_gate", "expression": ["all", ["eq", "fallback_state", "ready"], ["any", ["eq", "containment_state", "contained"], ["not", ["eq", "containment_state", "contained"]]]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"containment_state": "contained", "repair_state": "verified", "fallback_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"containment_state": "contained", "repair_state": "verified", "fallback_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"containment_state": "uncontained", "repair_state": "verified", "fallback_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"containment_state": "unknown", "repair_state": "unknown", "fallback_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "invalidate_incident_closure", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["containment_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_containment_fallback", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["fallback_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "data_retention",
+      "summary": "Delete after the retention boundary unless a hold requires continued retention.",
+      "actor_role_bindings": {"operator": "data_custodian", "authority": "retention_authority", "affected": "record_subject", "reviewer": "retention_reviewer"},
+      "actors": [
+        {"id": "data_custodian", "kind": "record_operator"},
+        {"id": "retention_authority", "kind": "retention_authority"},
+        {"id": "record_subject", "kind": "affected_subject"},
+        {"id": "retention_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "delete_record", "role": "primary", "actor_id": "data_custodian", "kind": "destruction"},
+        {"id": "retain_under_hold", "role": "safe", "actor_id": "data_custodian", "kind": "safe_fallback"},
+        {"id": "restore_or_notify", "role": "repair", "actor_id": "data_custodian", "kind": "reparation"},
+        {"id": "review_retention", "role": "review", "actor_id": "retention_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "hold_blocks_deletion", "kind": "retention_exclusion", "source_ref": "actor:authority", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "deadline_state", "type": "retention_deadline_status", "allowed_values": ["reached", "not_reached", "unknown", "both"]},
+        {"id": "hold_state", "type": "hold_status", "allowed_values": ["absent", "present", "unknown", "both"]},
+        {"id": "retention_path_state", "type": "retention_path_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "deletion_due_without_hold", "slot": "primary_gate", "expression": ["any", ["all", ["eq", "hold_state", "absent"], ["eq", "deadline_state", "reached"]], ["all", ["eq", "hold_state", "absent"], ["eq", "retention_path_state", "ready"]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "bounded_retention_available", "slot": "safe_gate", "expression": ["any", ["all", ["eq", "retention_path_state", "ready"], ["eq", "deadline_state", "reached"]], ["all", ["eq", "retention_path_state", "ready"], ["eq", "hold_state", "absent"]]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"deadline_state": "reached", "hold_state": "absent", "retention_path_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"deadline_state": "reached", "hold_state": "absent", "retention_path_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"deadline_state": "reached", "hold_state": "present", "retention_path_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"deadline_state": "unknown", "hold_state": "unknown", "retention_path_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "activate_retention_hold", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["hold_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_retention_path", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["retention_path_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "financial_settlement",
+      "summary": "Settle only with sufficient funds and a fresh nullifier, otherwise preserve an abort path.",
+      "actor_role_bindings": {"operator": "settlement_operator", "authority": "settlement_authority", "affected": "account_holder", "reviewer": "settlement_reviewer"},
+      "actors": [
+        {"id": "settlement_operator", "kind": "transaction_operator"},
+        {"id": "settlement_authority", "kind": "settlement_authority"},
+        {"id": "account_holder", "kind": "affected_owner"},
+        {"id": "settlement_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "settle_transfer", "role": "primary", "actor_id": "settlement_operator", "kind": "value_transition"},
+        {"id": "abort_without_settlement", "role": "safe", "actor_id": "settlement_operator", "kind": "safe_fallback"},
+        {"id": "reverse_and_reconcile", "role": "repair", "actor_id": "settlement_operator", "kind": "reparation"},
+        {"id": "review_settlement", "role": "review", "actor_id": "settlement_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "single_spend", "kind": "nullifier_exclusion", "source_ref": "actor:affected", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "funds_state", "type": "funds_status", "allowed_values": ["sufficient", "insufficient", "unknown", "both"]},
+        {"id": "nullifier_state", "type": "nullifier_status", "allowed_values": ["fresh", "spent", "unknown", "both"]},
+        {"id": "abort_state", "type": "abort_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "settlement_preconditions_verified", "slot": "primary_gate", "expression": ["not", ["any", ["not", ["eq", "nullifier_state", "fresh"]], ["not", ["eq", "funds_state", "sufficient"]]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "bounded_abort_available", "slot": "safe_gate", "expression": ["eq", "abort_state", "ready"], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"funds_state": "sufficient", "nullifier_state": "fresh", "abort_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"funds_state": "sufficient", "nullifier_state": "fresh", "abort_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"funds_state": "sufficient", "nullifier_state": "spent", "abort_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"funds_state": "unknown", "nullifier_state": "unknown", "abort_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "spend_nullifier", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["nullifier_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_abort_path", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["abort_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "proof_acceptance",
+      "summary": "Accept a proof only when proof, statement binding, and verifier context agree.",
+      "actor_role_bindings": {"operator": "proof_verifier", "authority": "verification_authority", "affected": "statement_owner", "reviewer": "proof_reviewer"},
+      "actors": [
+        {"id": "proof_verifier", "kind": "deterministic_verifier"},
+        {"id": "verification_authority", "kind": "verifier_registry"},
+        {"id": "statement_owner", "kind": "affected_producer"},
+        {"id": "proof_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "accept_proof", "role": "primary", "actor_id": "proof_verifier", "kind": "verification_disposition"},
+        {"id": "quarantine_for_reverification", "role": "safe", "actor_id": "proof_verifier", "kind": "safe_fallback"},
+        {"id": "revoke_acceptance", "role": "repair", "actor_id": "verification_authority", "kind": "reparation"},
+        {"id": "review_proof", "role": "review", "actor_id": "proof_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "statement_binding", "kind": "proof_binds_statement", "source_ref": "actor:affected", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "proof_state", "type": "proof_status", "allowed_values": ["valid", "invalid", "unknown", "both"]},
+        {"id": "binding_state", "type": "binding_status", "allowed_values": ["matching", "mismatched", "unknown", "both"]},
+        {"id": "reverification_state", "type": "reverification_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "proof_and_binding_verified", "slot": "primary_gate", "expression": ["not", ["any", ["not", ["eq", "proof_state", "valid"]], ["not", ["eq", "binding_state", "matching"]]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "reverification_available", "slot": "safe_gate", "expression": ["all", ["eq", "reverification_state", "ready"], ["eq", "binding_state", "matching"]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"proof_state": "valid", "binding_state": "matching", "reverification_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"proof_state": "valid", "binding_state": "matching", "reverification_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"proof_state": "invalid", "binding_state": "matching", "reverification_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"proof_state": "unknown", "binding_state": "unknown", "reverification_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "invalidate_proof_binding", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["proof_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_reverification", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["reverification_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    },
+    {
+      "id": "release_promotion",
+      "summary": "Promote an artifact only when gates and artifact binding pass, with rollback available.",
+      "actor_role_bindings": {"operator": "release_operator", "authority": "release_authority", "affected": "artifact_consumer", "reviewer": "release_reviewer"},
+      "actors": [
+        {"id": "release_operator", "kind": "promotion_operator"},
+        {"id": "release_authority", "kind": "release_authority"},
+        {"id": "artifact_consumer", "kind": "affected_consumer"},
+        {"id": "release_reviewer", "kind": "independent_reviewer"}
+      ],
+      "actions": [
+        {"id": "promote_artifact", "role": "primary", "actor_id": "release_operator", "kind": "release_transition"},
+        {"id": "hold_release", "role": "safe", "actor_id": "release_operator", "kind": "safe_fallback"},
+        {"id": "rollback_release", "role": "repair", "actor_id": "release_operator", "kind": "reparation"},
+        {"id": "review_release", "role": "review", "actor_id": "release_reviewer", "kind": "review"}
+      ],
+      "relations": [
+        {"id": "artifact_binding", "kind": "receipt_binds_artifact", "source_ref": "actor:authority", "target_ref": "action:primary"}
+      ],
+      "raw_state_fields": [
+        {"id": "gate_state", "type": "gate_status", "allowed_values": ["passed", "failed", "unknown", "both"]},
+        {"id": "artifact_state", "type": "artifact_binding_status", "allowed_values": ["matching", "mismatched", "unknown", "both"]},
+        {"id": "rollback_state", "type": "rollback_status", "allowed_values": ["ready", "unavailable", "unknown", "both"]}
+      ],
+      "derived_predicates": [
+        {"id": "promotion_evidence_verified", "slot": "primary_gate", "expression": ["not", ["any", ["not", ["eq", "gate_state", "passed"]], ["not", ["eq", "artifact_state", "matching"]]]], "consumed_by": ["norm_condition:domain.primary_gate", "admissibility:primary"]},
+        {"id": "release_hold_available", "slot": "safe_gate", "expression": ["all", ["eq", "rollback_state", "ready"], ["any", ["eq", "gate_state", "passed"], ["not", ["eq", "gate_state", "passed"]]]], "consumed_by": ["norm_condition:domain.safe_gate", "admissibility:safe"]}
+      ],
+      "witness_states": [
+        {"id": "both_gates_true", "raw_state": {"gate_state": "passed", "artifact_state": "matching", "rollback_state": "ready"}, "expected_truths": {"primary_gate": "T", "safe_gate": "T"}},
+        {"id": "primary_gate_only", "raw_state": {"gate_state": "passed", "artifact_state": "matching", "rollback_state": "unavailable"}, "expected_truths": {"primary_gate": "T", "safe_gate": "F"}},
+        {"id": "safe_gate_only", "raw_state": {"gate_state": "failed", "artifact_state": "matching", "rollback_state": "ready"}, "expected_truths": {"primary_gate": "F", "safe_gate": "T"}},
+        {"id": "gates_unknown", "raw_state": {"gate_state": "unknown", "artifact_state": "unknown", "rollback_state": "unknown"}, "expected_truths": {"primary_gate": "U", "safe_gate": "U"}}
+      ],
+      "causal_mutations": [
+        {"id": "fail_promotion_gate", "from_witness": "both_gates_true", "to_witness": "safe_gate_only", "changed_field_ids": ["gate_state"], "expected_truth_delta": ["primary_gate:T_to_F"], "disposition_targets": ["primary"]},
+        {"id": "remove_release_hold", "from_witness": "both_gates_true", "to_witness": "primary_gate_only", "changed_field_ids": ["rollback_state"], "expected_truth_delta": ["safe_gate:T_to_F"], "disposition_targets": ["safe"]}
+      ]
+    }
+  ],
+  "topology_programs": [
+    {
+      "id": "same_action_obligation_prohibition",
+      "summary": "Two obligation sources contest precedence while requiring the same primary action.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "source0", "lifecycle_slot": "s0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "O", "source_actor_role": "authority", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "source1", "lifecycle_slot": "s1", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "same_action_modal"}],
+      "state_variants": [
+        {"code": 0, "id": "both_sources_applicable", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["conflict_opportunity"]},
+        {"code": 1, "id": "obligation_source_only", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["single_source"]},
+        {"code": 2, "id": "prohibition_source_only", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["single_source"]},
+        {"code": 3, "id": "norm_lifecycle_unknown", "domain_witness": "both_gates_true", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["lifecycle_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "equal_rank", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "obligation_source_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "prohibition_source_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "source_priority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "obligation_defeated", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "prohibition_defeated", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "defeater_support_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["s0", "s1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "resolution_edges_target_c0", "defeater_slots_target_conflict_norms"]
+    },
+    {
+      "id": "exclusive_dual_obligation",
+      "summary": "Two sources require mutually exclusive primary and safe actions.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "source0", "lifecycle_slot": "s0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "O", "source_actor_role": "authority", "action_role": "safe", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "source1", "lifecycle_slot": "s1", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "exclusive_actions"}],
+      "state_variants": [
+        {"code": 0, "id": "both_obligations_due", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["conflict_opportunity"]},
+        {"code": 1, "id": "primary_obligation_only", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["single_source"]},
+        {"code": 2, "id": "safe_obligation_only", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["single_source"]},
+        {"code": 3, "id": "obligation_scope_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["state_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "equal_rank", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "primary_obligation_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "safe_obligation_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "obligation_priority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "primary_obligation_defeated", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "safe_obligation_defeated", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "defeater_support_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["s0", "s1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "resolution_edges_target_c0", "exclusive_actions_are_domain_bound"]
+    },
+    {
+      "id": "primary_permission_prohibition",
+      "summary": "A permission and an obligation contest precedence on the primary action.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "P", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "source0", "lifecycle_slot": "s0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "O", "source_actor_role": "authority", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "source1", "lifecycle_slot": "s1", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "same_action_modal"}],
+      "state_variants": [
+        {"code": 0, "id": "permission_and_prohibition_applicable", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["conflict_opportunity"]},
+        {"code": 1, "id": "permission_context_only", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["single_source"]},
+        {"code": 2, "id": "prohibition_context_only", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["single_source"]},
+        {"code": 3, "id": "permission_context_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["state_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "equal_rank", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "permission_source_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "prohibition_source_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "source_priority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "permission_defeated", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "prohibition_defeated", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "defeater_support_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["s0", "s1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "resolution_edges_target_c0", "permission_never_overrides_without_resolution"]
+    },
+    {
+      "id": "safe_permission_prohibition",
+      "summary": "A permission and an obligation contest precedence on the safe action.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "P", "source_actor_role": "operator", "action_role": "safe", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n0"], "source_id": "source0", "lifecycle_slot": "s0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "O", "source_actor_role": "authority", "action_role": "safe", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n1"], "source_id": "source1", "lifecycle_slot": "s1", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "same_action_modal"}],
+      "state_variants": [
+        {"code": 0, "id": "safe_permission_and_prohibition_applicable", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["conflict_opportunity"]},
+        {"code": 1, "id": "safe_permission_only", "domain_witness": "safe_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["single_source"]},
+        {"code": 2, "id": "safe_prohibition_only", "domain_witness": "primary_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["single_source"]},
+        {"code": 3, "id": "safe_action_context_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["state_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "equal_rank", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "safe_permission_source_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "safe_prohibition_source_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "source_priority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "safe_permission_defeated", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "safe_prohibition_defeated", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "defeater_support_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["s0", "s1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "resolution_edges_target_c0", "safe_action_is_domain_bound"]
+    },
+    {
+      "id": "emergency_obligation_baseline_prohibition",
+      "summary": "An emergency obligation competes with a baseline permission on the same action.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "emergency_source", "lifecycle_slot": "s0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "P", "source_actor_role": "authority", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "baseline_source", "lifecycle_slot": "s1", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "emergency_exception"}],
+      "state_variants": [
+        {"code": 0, "id": "declared_emergency_with_baseline", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["conflict_opportunity", "emergency_active"]},
+        {"code": 1, "id": "emergency_only", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["emergency_active"]},
+        {"code": 2, "id": "baseline_only", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["emergency_inactive"]},
+        {"code": 3, "id": "emergency_status_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["state_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "equal_rank", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "emergency_source_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "baseline_source_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "emergency_priority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "emergency_obligation_defeated", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "baseline_prohibition_defeated", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "defeater_support_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["s0", "s1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "emergency_state_is_explicit", "resolution_edges_target_c0"]
+    },
+    {
+      "id": "exceptional_permission_general_prohibition",
+      "summary": "Two bounded permissions from exceptional and general sources contest precedence.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "P", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "exception_source", "lifecycle_slot": "s0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "P", "source_actor_role": "authority", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "general_source", "lifecycle_slot": "s1", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "specific_general"}],
+      "state_variants": [
+        {"code": 0, "id": "exception_and_general_rule_apply", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["conflict_opportunity"]},
+        {"code": 1, "id": "exception_scope_only", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["specific_scope"]},
+        {"code": 2, "id": "general_scope_only", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["general_scope"]},
+        {"code": 3, "id": "exception_scope_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["state_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "equal_rank", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "specific_permission_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "general_prohibition_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "specificity_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "exception_permission_defeated", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "general_prohibition_defeated", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "defeater_support_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["s0", "s1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "specificity_is_explicit", "resolution_edges_target_c0"]
+    },
+    {
+      "id": "superseding_primary_safe_obligations",
+      "summary": "An old obligation and a new safe permission overlap under explicit supersession.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "old_source", "lifecycle_slot": "s0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "P", "source_actor_role": "authority", "action_role": "safe", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "new_source", "lifecycle_slot": "s1", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "supersession_exclusive"}],
+      "state_variants": [
+        {"code": 0, "id": "old_and_new_sources_active", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["conflict_opportunity", "overlap_window"]},
+        {"code": 1, "id": "old_source_only", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["before_supersession"]},
+        {"code": 2, "id": "new_source_only", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["after_supersession"]},
+        {"code": 3, "id": "supersession_status_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["state_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "no_supersession_order", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "old_source_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "new_source_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "supersession_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "old_source_revoked", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "new_source_revoked", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "revocation_status_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["s0", "s1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "supersession_state_is_explicit", "resolution_edges_target_c0"]
+    },
+    {
+      "id": "deadline_obligation_prohibition",
+      "summary": "A deadline-bound obligation and prohibition contest performance of one action.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "deadline_obligation_source", "lifecycle_slot": "deadline0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "F", "source_actor_role": "authority", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "deadline_prohibition_source", "lifecycle_slot": "deadline0", "defeater_slot": "d1", "repair_for": "none"},
+        {"id": "n2", "operator": "P", "source_actor_role": "reviewer", "action_role": "review", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n2"], "source_id": "deadline_review_source", "lifecycle_slot": "deadline_review0", "defeater_slot": "d2", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "deadline_same_action_modal"}],
+      "state_variants": [
+        {"code": 0, "id": "before_deadline_unperformed", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active", "n2": "active"}, "flags": ["deadline_before", "performance_unperformed", "conflict_opportunity"]},
+        {"code": 1, "id": "deadline_reached_timely_performed", "domain_witness": "both_gates_true", "norm_states": {"n0": "satisfied", "n1": "violated", "n2": "active"}, "flags": ["deadline_reached", "performance_timely"]},
+        {"code": 2, "id": "deadline_reached_late_performed", "domain_witness": "both_gates_true", "norm_states": {"n0": "violated", "n1": "violated", "n2": "active"}, "flags": ["deadline_reached", "performance_late"]},
+        {"code": 3, "id": "deadline_reached_performance_unknown", "domain_witness": "both_gates_true", "norm_states": {"n0": "unknown", "n1": "unknown", "n2": "unknown"}, "flags": ["deadline_reached", "performance_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "equal_rank", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "deadline_obligation_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "deadline_prohibition_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "deadline_priority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "deadline_obligation_defeated", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "deadline_prohibition_defeated", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "defeater_support_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1", "n2"], "state": ["deadline0", "deadline_review0", "n0", "n1", "n2"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "deadline_states_are_closed", "review_support_uses_ordinary_lifecycle", "unknown_performance_is_never_resolved"]
+    },
+    {
+      "id": "ctd_repair_prohibition",
+      "summary": "A primary violation activates a repair obligation that may conflict with a repair prohibition.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "primary_source", "lifecycle_slot": "s0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "O", "source_actor_role": "operator", "action_role": "repair", "condition_refs": ["violation:n0", "domain:safe_gate", "state:n1"], "source_id": "repair_source", "lifecycle_slot": "s1", "defeater_slot": "d1", "repair_for": "n0"},
+        {"id": "n2", "operator": "F", "source_actor_role": "authority", "action_role": "repair", "condition_refs": ["violation:n0", "domain:safe_gate", "state:n2"], "source_id": "repair_prohibition_source", "lifecycle_slot": "s2", "defeater_slot": "d2", "repair_for": "n0"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n1", "right_norm_id": "n2", "kind": "ctd_repair_modal"}],
+      "state_variants": [
+        {"code": 0, "id": "primary_violated_repair_contested", "domain_witness": "both_gates_true", "norm_states": {"n0": "violated", "n1": "active", "n2": "active"}, "flags": ["ctd_activated", "conflict_opportunity"]},
+        {"code": 1, "id": "primary_obligation_still_due", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive", "n2": "inactive"}, "flags": ["ctd_not_activated", "primary_active"]},
+        {"code": 2, "id": "primary_violated_repair_due", "domain_witness": "both_gates_true", "norm_states": {"n0": "violated", "n1": "active", "n2": "inactive"}, "flags": ["ctd_activated", "repair_available"]},
+        {"code": 3, "id": "primary_performance_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown", "n2": "unknown"}, "flags": ["violation_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "equal_repair_rank", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "repair_obligation_wins", "priority_edges": [["n1", "n2"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "repair_prohibition_wins", "priority_edges": [["n2", "n1"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "repair_priority_cycle", "priority_edges": [["n1", "n2"], ["n2", "n1"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_repair_defeater", "slot_truths": {"d1": "F", "d2": "F"}, "expected_effect": "neither_conflict_norm_defeated"},
+        {"code": 1, "id": "repair_obligation_defeated", "slot_truths": {"d1": "T", "d2": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "repair_prohibition_defeated", "slot_truths": {"d1": "F", "d2": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "repair_defeater_support_unknown", "slot_truths": {"d1": "U", "d2": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0"], "state": ["s0", "s1", "s2"], "resolution": ["c0"], "defeater": ["d1", "d2"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "repair_is_not_exclusive_with_primary", "ctd_requires_recorded_primary_violation"]
+    },
+    {
+      "id": "delegated_obligation_principal_prohibition",
+      "summary": "A scoped delegated primary obligation competes with a principal repair obligation.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "delegate_source", "lifecycle_slot": "delegation0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "O", "source_actor_role": "authority", "action_role": "repair", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "principal_source", "lifecycle_slot": "delegation0", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "delegation_scope"}],
+      "state_variants": [
+        {"code": 0, "id": "delegation_active_principal_rule_active", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["delegation_in_scope", "conflict_opportunity"]},
+        {"code": 1, "id": "delegation_active_only", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["delegation_in_scope"]},
+        {"code": 2, "id": "delegation_revoked_or_out_of_scope", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["delegation_inactive"]},
+        {"code": 3, "id": "delegation_scope_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["scope_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "authority_relation_unresolved", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "delegate_source_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "principal_source_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "delegation_authority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_scope_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "delegated_obligation_revoked", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "principal_prohibition_excepted", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "scope_defeater_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["delegation0", "n0", "n1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "delegation_scope_is_explicit", "revoked_delegation_never_detaches"]
+    },
+    {
+      "id": "capability_permission_scope_prohibition",
+      "summary": "A capability permission competes with a safe-action scope obligation.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "P", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "capability_source", "lifecycle_slot": "capability0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "O", "source_actor_role": "authority", "action_role": "safe", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "scope_guard_source", "lifecycle_slot": "capability0", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "capability_scope"}],
+      "state_variants": [
+        {"code": 0, "id": "capability_and_scope_guard_active", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["conflict_opportunity"]},
+        {"code": 1, "id": "capability_current_in_scope", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["capability_current"]},
+        {"code": 2, "id": "capability_expired_or_attenuated", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["capability_inactive"]},
+        {"code": 3, "id": "capability_scope_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["scope_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "authority_relation_unresolved", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "capability_source_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "scope_guard_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "capability_authority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_capability_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "capability_revoked", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "scope_guard_excepted", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "capability_defeater_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["capability0", "n0", "n1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "capability_scope_is_explicit", "revoked_capability_never_detaches"]
+    },
+    {
+      "id": "publication_obligation_evidence_hold",
+      "summary": "A publication obligation competes with an evidence-sensitive review permission.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "publication_source", "lifecycle_slot": "evidence0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "P", "source_actor_role": "reviewer", "action_role": "review", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "evidence_hold_source", "lifecycle_slot": "evidence0", "defeater_slot": "d1", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "evidence_threshold"}],
+      "state_variants": [
+        {"code": 0, "id": "support_and_hold_sources_active", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active"}, "flags": ["conflict_opportunity"]},
+        {"code": 1, "id": "support_source_only", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive"}, "flags": ["support_adequate"]},
+        {"code": 2, "id": "evidence_hold_only", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active"}, "flags": ["support_inadequate_or_contradicted"]},
+        {"code": 3, "id": "support_status_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown"}, "flags": ["evidence_state_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "evidence_sources_equal", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "publication_source_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "evidence_hold_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "evidence_priority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_evidence_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_norm_defeated"},
+        {"code": 1, "id": "publication_obligation_defeated", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "evidence_hold_defeated", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "evidence_defeater_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["evidence0", "n0", "n1"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "evidence_hold_is_explicit", "unknown_support_never_authorizes_publication"]
+    },
+    {
+      "id": "lease_commit_conflict",
+      "summary": "A lease-backed commit obligation competes with a stale or peer-lease prohibition.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "lease_holder_source", "lifecycle_slot": "lease0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "F", "source_actor_role": "authority", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "lease_guard_source", "lifecycle_slot": "lease0", "defeater_slot": "d1", "repair_for": "none"},
+        {"id": "n2", "operator": "P", "source_actor_role": "operator", "action_role": "safe", "condition_refs": ["domain:safe_gate", "state:n2"], "source_id": "retry_source", "lifecycle_slot": "lease0", "defeater_slot": "d2", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "lease_ownership"}],
+      "state_variants": [
+        {"code": 0, "id": "conflicting_lease_claims", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active", "n2": "active"}, "flags": ["conflict_opportunity", "lease_contested"]},
+        {"code": 1, "id": "primary_worker_holds_current_lease", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive", "n2": "inactive"}, "flags": ["lease_exclusive"]},
+        {"code": 2, "id": "peer_or_stale_lease", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active", "n2": "active"}, "flags": ["retry_required"]},
+        {"code": 3, "id": "lease_ownership_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown", "n2": "unknown"}, "flags": ["lease_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "lease_claims_equal", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "holder_receipt_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "lease_guard_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "lease_authority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_lease_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_conflict_norm_defeated"},
+        {"code": 1, "id": "holder_receipt_revoked", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "lease_guard_excepted", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "lease_defeater_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["lease0", "n0", "n1", "n2"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "single_writer_lease_is_explicit", "unknown_lease_never_authorizes_commit"]
+    },
+    {
+      "id": "capacity_allocate_reserve_conflict",
+      "summary": "An allocation obligation competes with a reserve-preservation prohibition.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "allocation_source", "lifecycle_slot": "capacity0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "F", "source_actor_role": "authority", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "reserve_source", "lifecycle_slot": "capacity0", "defeater_slot": "d1", "repair_for": "none"},
+        {"id": "n2", "operator": "P", "source_actor_role": "authority", "action_role": "repair", "condition_refs": ["domain:safe_gate", "state:n2"], "source_id": "reserve_source", "lifecycle_slot": "capacity0", "defeater_slot": "d2", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "capacity_exclusion"}],
+      "state_variants": [
+        {"code": 0, "id": "allocation_and_reserve_claims_active", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active", "n2": "active"}, "flags": ["conflict_opportunity", "capacity_contested"]},
+        {"code": 1, "id": "allocation_capacity_available", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive", "n2": "inactive"}, "flags": ["capacity_available"]},
+        {"code": 2, "id": "reserve_floor_binding", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active", "n2": "active"}, "flags": ["reserve_required"]},
+        {"code": 3, "id": "capacity_state_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown", "n2": "unknown"}, "flags": ["capacity_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "capacity_sources_equal", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "allocation_source_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "reserve_source_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "capacity_priority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_capacity_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_conflict_norm_defeated"},
+        {"code": 1, "id": "allocation_obligation_defeated", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "reserve_prohibition_defeated", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "capacity_defeater_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["capacity0", "n0", "n1", "n2"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "capacity_relation_is_domain_bound", "unknown_capacity_never_authorizes_allocation"]
+    },
+    {
+      "id": "transaction_commit_rollback_conflict",
+      "summary": "A commit obligation competes with a stale-state prohibition while rollback remains separate.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "O", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "commit_source", "lifecycle_slot": "transaction0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "F", "source_actor_role": "authority", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "stale_state_source", "lifecycle_slot": "transaction0", "defeater_slot": "d1", "repair_for": "none"},
+        {"id": "n2", "operator": "O", "source_actor_role": "operator", "action_role": "repair", "condition_refs": ["violation:n0", "domain:safe_gate", "state:n2"], "source_id": "rollback_source", "lifecycle_slot": "transaction0", "defeater_slot": "d2", "repair_for": "n0"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "snapshot_version"}],
+      "state_variants": [
+        {"code": 0, "id": "commit_and_stale_guards_contested", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active", "n2": "inactive"}, "flags": ["conflict_opportunity"]},
+        {"code": 1, "id": "current_snapshot_commit_due", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive", "n2": "inactive"}, "flags": ["snapshot_current"]},
+        {"code": 2, "id": "stale_snapshot_rollback_due", "domain_witness": "both_gates_true", "norm_states": {"n0": "violated", "n1": "active", "n2": "active"}, "flags": ["snapshot_stale", "ctd_activated"]},
+        {"code": 3, "id": "snapshot_version_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown", "n2": "unknown"}, "flags": ["snapshot_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "snapshot_sources_equal", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "commit_receipt_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "stale_state_guard_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "snapshot_authority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_snapshot_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_conflict_norm_defeated"},
+        {"code": 1, "id": "commit_receipt_revoked", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "stale_guard_excepted", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "snapshot_defeater_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["transaction0", "n0", "n1", "n2"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "rollback_is_not_exclusive_with_primary", "unknown_snapshot_never_authorizes_commit"]
+    },
+    {
+      "id": "proof_acceptance_reverification_conflict",
+      "summary": "A proof acceptance permission competes with a verifier-context prohibition and review duty.",
+      "kernel_projection": "unclaimed_without_execution",
+      "norms": [
+        {"id": "n0", "operator": "P", "source_actor_role": "operator", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:primary_gate", "state:n0"], "source_id": "proof_source", "lifecycle_slot": "proof0", "defeater_slot": "d0", "repair_for": "none"},
+        {"id": "n1", "operator": "F", "source_actor_role": "authority", "action_role": "primary", "condition_refs": ["evidence:e0", "domain:safe_gate", "state:n1"], "source_id": "verifier_context_source", "lifecycle_slot": "proof0", "defeater_slot": "d1", "repair_for": "none"},
+        {"id": "n2", "operator": "O", "source_actor_role": "reviewer", "action_role": "review", "condition_refs": ["domain:safe_gate", "state:n2"], "source_id": "reverification_source", "lifecycle_slot": "proof0", "defeater_slot": "d2", "repair_for": "none"}
+      ],
+      "conflicts": [{"id": "c0", "left_norm_id": "n0", "right_norm_id": "n1", "kind": "proof_verifier_context"}],
+      "state_variants": [
+        {"code": 0, "id": "proof_and_verifier_sources_contested", "domain_witness": "both_gates_true", "norm_states": {"n0": "active", "n1": "active", "n2": "active"}, "flags": ["conflict_opportunity", "review_available"]},
+        {"code": 1, "id": "valid_proof_current_verifier", "domain_witness": "primary_gate_only", "norm_states": {"n0": "active", "n1": "inactive", "n2": "inactive"}, "flags": ["proof_context_current"]},
+        {"code": 2, "id": "invalid_or_stale_proof_context", "domain_witness": "safe_gate_only", "norm_states": {"n0": "inactive", "n1": "active", "n2": "active"}, "flags": ["reverification_required"]},
+        {"code": 3, "id": "proof_or_verifier_context_unknown", "domain_witness": "gates_unknown", "norm_states": {"n0": "unknown", "n1": "unknown", "n2": "unknown"}, "flags": ["proof_context_unknown"]}
+      ],
+      "resolution_variants": [
+        {"code": 0, "id": "proof_sources_equal", "priority_edges": [], "expected_if_conflict": "unresolved"},
+        {"code": 1, "id": "proof_receipt_wins", "priority_edges": [["n0", "n1"]], "expected_if_conflict": "left_wins"},
+        {"code": 2, "id": "verifier_context_wins", "priority_edges": [["n1", "n0"]], "expected_if_conflict": "right_wins"},
+        {"code": 3, "id": "proof_authority_cycle", "priority_edges": [["n0", "n1"], ["n1", "n0"]], "expected_if_conflict": "cycle_blocker"}
+      ],
+      "defeater_variants": [
+        {"code": 0, "id": "no_proof_defeater", "slot_truths": {"d0": "F", "d1": "F"}, "expected_effect": "neither_conflict_norm_defeated"},
+        {"code": 1, "id": "proof_receipt_revoked", "slot_truths": {"d0": "T", "d1": "F"}, "expected_effect": "left_norm_defeated"},
+        {"code": 2, "id": "verifier_guard_excepted", "slot_truths": {"d0": "F", "d1": "T"}, "expected_effect": "right_norm_defeated"},
+        {"code": 3, "id": "proof_defeater_unknown", "slot_truths": {"d0": "U", "d1": "U"}, "expected_effect": "defeater_blocker"}
+      ],
+      "application_targets": {"evidence": ["n0", "n1"], "state": ["proof0", "n0", "n1", "n2"], "resolution": ["c0"], "defeater": ["d0", "d1"]},
+      "validity_rules": ["all_references_closed", "all_four_local_variants_present", "review_duty_is_separate_from_acceptance", "unknown_proof_context_never_authorizes_acceptance"]
+    }
+  ],
+  "counterfactual_contract": {
+    "modifier_axes": ["evidence_value", "local_state_variant", "resolution_variant", "defeater_variant"],
+    "mutation": "replace_exactly_one_axis_while_all_other_coordinates_are_held_equal",
+    "unordered_value_pairs": [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]],
+    "spanning_tree_edges": [[0, 1], [0, 2], [0, 3]],
+    "spanning_applications": [
+      {"axis": "evidence_value", "held_codes": {"local_state_variant": 0, "resolution_variant": 0, "defeater_variant": 0}, "predicate": "normalized_results_differ_for_every_declared_edge"},
+      {"axis": "local_state_variant", "held_codes": {"evidence_value": 0, "resolution_variant": 0, "defeater_variant": 0}, "predicate": "normalized_results_differ_for_every_declared_edge"},
+      {"axis": "resolution_variant", "held_codes": {"evidence_value": 0, "local_state_variant": 0, "defeater_variant": 0}, "predicate": "normalized_results_differ_for_every_declared_edge"},
+      {"axis": "defeater_variant", "held_codes": {"evidence_value": 0, "local_state_variant": 0, "resolution_variant": 0}, "predicate": "normalized_results_differ_for_every_declared_edge"}
+    ],
+    "required_receipt_fields": ["source_stable_id", "target_stable_id", "axis", "source_code", "target_code", "changed_ir_paths", "source_result_sha256", "target_result_sha256", "delta_class", "masking_reason"],
+    "behavior_change_classes": ["status_changed", "fallback_changed", "required_actions_changed", "forbidden_actions_changed", "permitted_actions_changed", "proof_disposition_changed"],
+    "unchanged_class": "invariance_witness",
+    "negative_knowledge_rule": "Only executed behavior-changing counterfactuals and concrete rejected-action witnesses count as negative knowledge."
+  },
+  "nonclaims": [
+    "not_complete_deontic_logic",
+    "not_ethics",
+    "not_external_authority",
+    "not_kernel_parity_without_execution",
+    "not_law",
+    "not_population_frequency",
+    "not_production_readiness",
+    "not_world_truth"
+  ]
+}
