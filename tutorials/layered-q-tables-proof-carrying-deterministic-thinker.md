@@ -24,6 +24,7 @@ reasoning, moral truth, or general intelligence.
   <p class="fp-callout-title">Scope before scale</p>
   <ul>
     <li><strong>Knowledge:</strong> the demonstration uses a hash-pinned 2025 Open English WordNet release. Its lexical links are attributed source records, not formal proofs.</li>
+    <li><strong>Generalization:</strong> GlassMind does not learn how to handle states outside its canonical key space. A fitted model or language model can compute an output for a new input, but correctness on new inputs is a task-scoped empirical or conditional statistical claim, not proof of general intelligence.</li>
     <li><strong>Norms:</strong> a finite deontic profile controls which actions are admissible. It is not a universal ethics theory.</li>
     <li><strong>Utility:</strong> a separate outcome model ranks only admissible actions. Alignment is relative to the declared facts, norms, utility, state abstraction, and bounds.</li>
     <li><strong>Time:</strong> layer 255 means 255 remaining decision steps. It does not mean a date, a clock tick, or the 255th neural-network layer.</li>
@@ -124,8 +125,9 @@ $$
 $$
 
 One feature can now affect many state-action pairs. This can compress the model
-and estimate unseen combinations, but it can also create interference when the
-feature map merges situations that require different actions.
+and compute estimates for unseen combinations. The architecture does not prove
+that those estimates are correct. Shared features can also create interference
+when the feature map merges situations that require different actions.
 
 This tutorial calls that separately scoped fitted-Q direction **BasisQ-256**.
 GlassMind-256 remains the literal table. BasisQ-256 is a design comparison, not
@@ -135,7 +137,7 @@ a published benchmark result in this tutorial.
 | --- | --- | --- | --- |
 | GlassMind-256 | Dense $Q[h,s,a]$ cells | Array lookup | Exact inside the enumerated model, but storage grows with the state space |
 | Sparse layered table | Keyed Q cells and residual cells | Key lookup and addition | Exact for stored keys, but unseen keys require a declared fallback |
-| BasisQ-256 | Shared features and coefficients | Dot product, then admissibility filtering | Compact transfer across states, but approximate and feature-dependent |
+| BasisQ-256 | Shared features and coefficients | Dot product, then admissibility filtering | Compact shared prediction across states; held-out accuracy is empirical and feature-dependent |
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Literal address lookup versus shared-feature estimation</p>
@@ -148,15 +150,16 @@ a published benchmark result in this tutorial.
     loading="lazy"
     decoding="async">
   <figcaption class="fp-figure-caption">
-    Left: a literal table stores an independently addressable value at every declared coordinate. Right: a fitted shared-feature model reuses a smaller set of coefficients across many states. Reuse enables compression and transfer, but it also couples errors between states.
+    Left: a literal table stores an independently addressable value at every declared coordinate. Right: a fitted shared-feature model reuses a smaller set of coefficients across many states. Reuse enables compression and predictions for new combinations, but held-out tests must establish whether those predictions are useful. Reuse also couples errors between states.
   </figcaption>
 </figure>
 
 The fitted direction arose because almost every natural-language episode can
 have a distinct raw key. A literal table cannot transfer to an unseen key
 unless a declared canonicalizer or backoff map relates it to a stored state.
-Shared features can transfer, but that is a different architecture and must not
-be silently presented as a giant lookup table.
+Shared features can produce a prediction for a new key, but useful transfer
+must be demonstrated on untouched data. That is a different architecture and
+must not be silently presented as a giant lookup table.
 
 This definition is associated with [Watkins and Dayan's Q-learning
 paper](https://doi.org/10.1007/BF00992698), but a Q table does not have to be
@@ -1202,7 +1205,7 @@ different objects.
 | Input surface | Closed, canonical state keys | Open-ended token, tool, and supported multimodal workflows | Text, image, long-context, and agentic workflows |
 | Computation | Array lookup after offline DP | Learned inference plus optional tools | Learned MoE inference plus optional tools |
 | Exact repeatability | Yes for fixed bytes, key, and tie rule | Not generally guaranteed across sampling, service revisions, or tool state | Not generally guaranteed across sampling, runtime, or tool state |
-| Generalization | None outside encoded state abstraction unless another system supplies it | Broad learned generalization | Broad learned generalization |
+| Generalization | No learned transfer outside its keys; an authored canonicalizer may map several observations to one key | Can compute outputs for new prompts; correctness and transfer require task-specific evaluation | Can compute outputs for new prompts; correctness and transfer require task-specific evaluation |
 | Update | Change model inputs and recompute affected values | Train, fine-tune, provide context, or use tools | Train, fine-tune, provide context, or use tools |
 | Audit surface | Every cell can be replayed in a bounded domain | Claims need external evaluation or checkers | Open weights help inspection, but behavior still needs evaluation or checkers |
 
@@ -1216,6 +1219,67 @@ reports 2.8 trillion total parameters, 104 billion activated parameters, 93
 layers, 16 selected experts out of 896, and a 1,048,576-token context. These
 figures describe Kimi K3. They are not a conversion into Q-table states.
 
+### What is actually proven about learned generalization?
+
+Generalization is not a model-wide yes-or-no property. It is relative to a
+target distribution, a task, a loss function, and a training procedure. If
+$f$ is a trained model, $\mathcal D$ is a declared target distribution, and
+$\ell$ is a loss, its population risk is
+
+$$
+R_{\mathcal D}(f)
+=
+\mathbb E_{(x,y)\sim\mathcal D}
+\left[\ell(f(x),y)\right].
+$$
+
+An untouched test set $T$ estimates this quantity with
+
+$$
+\widehat R_T(f)
+=
+\frac{1}{|T|}
+\sum_{(x,y)\in T}
+\ell(f(x),y).
+$$
+
+A generalization theorem can bound the gap between population and measured
+risk with stated probability, but only under its assumptions. Typical
+assumptions restrict how examples are sampled, the loss, the model or learning
+algorithm, and the relationship between training and target distributions.
+
+There are genuine mathematical results for restricted transformer settings.
+For example, [Li et al.](https://arxiv.org/abs/2301.07067) derive
+in-context-learning bounds under explicit stability, bounded-loss, and task
+sampling assumptions. [Lotfi et
+al.](https://arxiv.org/abs/2312.17173) derive non-vacuous compression-based
+bounds for particular pretrained language-model settings using a compressed
+parameterization. These are real theorems. They do not prove that every answer
+from GPT-5.6, Kimi K3, or another deployed language model is correct, that the
+model will succeed after arbitrary distribution shift, or that it has general
+intelligence.
+
+<div class="fp-callout fp-callout-warning">
+  <p class="fp-callout-title">A new input is not automatically a generalization result</p>
+  <p>A fitted model normally produces some output for an unseen input. That demonstrates a defined computation, not correct extrapolation. Evidence of generalization requires a predeclared untouched evaluation, contamination controls, an appropriate baseline, and uncertainty or confidence reporting.</p>
+</div>
+
+The claims form a ladder. Success on one rung does not establish the next.
+
+| Claim level | Required evidence | Status in this tutorial |
+| --- | --- | --- |
+| Authored key reuse | Several raw observations are deliberately canonicalized to one encoded state | GlassMind supports this, but the invariance comes from its authored canonicalizer rather than learning |
+| Same-distribution predictive transfer | Performance on untouched samples drawn by the same declared process as training | Not measured for GlassMind, which is compiled, or for the BasisQ design comparison in this tutorial |
+| Held-out-family or compositional transfer | Entire concept families, relation types, or combinations are excluded before model and threshold selection | Not established |
+| Distribution-shift robustness | Evaluation sources or mechanisms differ materially from training, with the shift declared in advance | Not established |
+| General intelligence | Broad, adaptive competence across unfamiliar domains, goals, representations, and environments | Not established by a Q table, a fitted-Q result, or a language-model benchmark |
+
+For GlassMind, exhaustive replay proves that the table implements its declared
+finite recurrence. It does not prove learned generalization because the values
+were compiled from an authored model. A future BasisQ experiment could support
+a bounded predictive-transfer claim with a fresh source-held-out and
+family-held-out evaluation. It still would not imply general intelligence.
+
 An LLM is an excellent proposal engine for the Q-table pipeline. It can search
 for missing states, adversarial cases, alternative actions, and useful
 abstractions. The deterministic compiler and checkers remain responsible for
@@ -1223,26 +1287,32 @@ accepted labels, masks, table bytes, and receipts.
 
 ## 12. Could a Q table support general intelligence?
 
-There are two defensible answers, depending on the claim.
+There are two different questions: representational capacity and demonstrated
+intelligence.
 
 In principle, a finite table can encode any finite policy if its state key
 contains every decision-relevant history. A table can also be one component of
 a computationally universal system when paired with unbounded external memory
 and suitable state transitions. This is a real form of computational
-capability.
+capability. Computational universality is not general intelligence. It means
+that a system can represent arbitrary computations under suitable conditions,
+not that it can learn the representation, understand a new domain, select good
+goals, or adapt reliably.
 
 In practice, a standalone finite Q table has no built-in way to invent the
 right state representation, interpret unseen language, or generalize to
 unlisted states. If $k$ independent Boolean facts matter, a direct state space
 can require $2^k$ entries before actions and horizons are counted. Language
-models trade explicit enumerability for learned, distributed compression and
-generalization.
+models trade explicit enumerability for learned, distributed compression that
+can support useful transfer on evaluated tasks. The correctness and reach of
+that transfer remain empirical and distribution-dependent.
 
-So both architectures can contribute to general intelligent behavior, but in
-different ways:
+Both architectures could be components of a broader agent, but neither claim
+above demonstrates general intelligence:
 
 - a Q table provides explicit, bounded, auditable decisions;
-- an LLM provides flexible representation, proposal, and generalization;
+- an LLM provides flexible representation, proposal, and empirically evaluated
+  transfer to new inputs;
 - a hybrid uses the LLM to expand the frontier and a deterministic table or
   checker to own a narrow accepted decision surface.
 
