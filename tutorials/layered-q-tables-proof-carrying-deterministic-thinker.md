@@ -49,13 +49,13 @@ It is the expected discounted return after starting in state $s$, taking action
 $a$, and then following policy $\pi$. The optimal action-value function is
 
 $$
-Q^*(s,a)=\max_{\pi}Q^{\pi}(s,a)=Q^{\pi^*}(s,a).
+Q^{\ast}(s,a)=\max_{\pi}Q^{\pi}(s,a)=Q^{\pi^{\ast}}(s,a).
 $$
 
 The greedy optimal action is any action in
 
 $$
-\operatorname*{arg\,max}_{a} Q^*(s,a).
+\operatorname*{arg\,max}_{a} Q^{\ast}(s,a).
 $$
 
 ### A table is also a one-hot weighted model
@@ -203,10 +203,11 @@ small-data control. Dataset size is supporting telemetry, not the conclusion.
 
 Often, yes, but the precise answer has three parts.
 
-First, $Q^*$ compresses a task model. A Markov decision process may contain a
-transition distribution, reward distribution, and many possible trajectories.
+First, $Q^{\ast}$ compresses a task model. A Markov decision process may
+contain a transition distribution, reward distribution, and many possible
+trajectories.
 The Q function retains the expected return of each state-action pair. Different
-world models can therefore induce the same $Q^*$.
+world models can therefore induce the same $Q^{\ast}$.
 
 Second, a state abstraction $\phi(x)=s$ compresses observations $x$ into table
 keys. If two observations that need different actions map to the same state,
@@ -220,7 +221,7 @@ A useful error measure is **decision distortion**:
 $$
 d(x)
 =
-V^*(x)-Q^*\!\left(x,\hat\pi(x)\right),
+V^{\ast}(x)-Q^{\ast}\!\left(x,\hat\pi(x)\right),
 \qquad
 \hat\pi(x)=\operatorname*{arg\,max}_a
 \widehat Q(\phi(x),a).
@@ -236,7 +237,7 @@ For a standard finite discounted setting, a common worst-case greedy-policy
 bound is
 
 $$
-\lVert V^*-V^{\hat\pi}\rVert_{\infty}
+\lVert V^{\ast}-V^{\hat\pi}\rVert_{\infty}
 \leq
 \frac{2\varepsilon}{1-\gamma}.
 $$
