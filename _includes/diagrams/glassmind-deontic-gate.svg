@@ -1,0 +1,84 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 1200 560"
+  role="img"
+  aria-labelledby="glassmind-deontic-title glassmind-deontic-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="glassmind-deontic-title">Deontic admissibility before utility ranking</title>
+  <desc id="glassmind-deontic-desc">
+    A policy at state s is checked for a coherent active obligation. If one is
+    active, the admissible set is the obligation set A O. Otherwise it is the
+    permitted and not forbidden set A P. Only actions in the resulting set A D
+    enter the Q-value maximization. An action outside A D stops before ranking.
+  </desc>
+  <defs>
+    <filter id="deontic-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0F172A" flood-opacity="0.12" />
+    </filter>
+    <marker id="deontic-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2563EB" />
+    </marker>
+    <marker id="deontic-green-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#059669" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="560" rx="28" fill="#F8FAFC" />
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="48" y="52" font-size="22" font-weight="800" fill="#0F172A">Hard admissibility gate, then numerical ranking</text>
+    <text x="48" y="82" font-size="14" fill="#475569">The Boolean mask owns entry to the optimization problem.</text>
+
+    <g filter="url(#deontic-shadow)">
+      <rect x="48" y="185" width="190" height="174" rx="20" fill="#FFFFFF" stroke="#CBD5E1" />
+      <text x="143" y="222" text-anchor="middle" font-size="17" font-weight="800" fill="#0F172A">policy at state s</text>
+      <text x="143" y="260" text-anchor="middle" font-size="17" fill="#1D4ED8">O(a) obligatory</text>
+      <text x="143" y="292" text-anchor="middle" font-size="17" fill="#B91C1C">F(a) forbidden</text>
+      <text x="143" y="324" text-anchor="middle" font-size="17" fill="#0369A1">P(a) permitted</text>
+
+      <path d="M360 186 L486 272 L360 358 L234 272 Z" fill="#EFF6FF" stroke="#60A5FA" stroke-width="2" />
+      <text x="360" y="248" text-anchor="middle" font-size="15" font-weight="800" fill="#1E3A8A">coherent active</text>
+      <text x="360" y="272" text-anchor="middle" font-size="15" font-weight="800" fill="#1E3A8A">obligation set?</text>
+      <text x="360" y="304" text-anchor="middle" font-size="13" fill="#475569">checked, not guessed</text>
+
+      <rect x="532" y="124" width="218" height="112" rx="20" fill="#ECFDF5" stroke="#6EE7B7" />
+      <text x="641" y="162" text-anchor="middle" font-size="15" font-weight="800" fill="#064E3B">YES</text>
+      <text x="641" y="197" text-anchor="middle" font-size="20" font-weight="900" fill="#047857">A_D(s) = A_O(s)</text>
+
+      <rect x="532" y="308" width="218" height="112" rx="20" fill="#EFF6FF" stroke="#93C5FD" />
+      <text x="641" y="346" text-anchor="middle" font-size="15" font-weight="800" fill="#1E3A8A">NO</text>
+      <text x="641" y="381" text-anchor="middle" font-size="20" font-weight="900" fill="#1D4ED8">A_D(s) = A_P(s)</text>
+
+      <rect x="802" y="203" width="178" height="138" rx="20" fill="#FFFFFF" stroke="#CBD5E1" />
+      <text x="891" y="239" text-anchor="middle" font-size="15" font-weight="800" fill="#0F172A">admitted set</text>
+      <text x="891" y="275" text-anchor="middle" font-size="24" font-weight="900" fill="#047857">A_D(s)</text>
+      <text x="891" y="307" text-anchor="middle" font-size="13" fill="#475569">nonempty or fail closed</text>
+
+      <rect x="1026" y="203" width="130" height="138" rx="20" fill="#FFF7ED" stroke="#FDBA74" />
+      <text x="1091" y="239" text-anchor="middle" font-size="15" font-weight="800" fill="#9A3412">rank only</text>
+      <text x="1091" y="274" text-anchor="middle" font-size="16" font-weight="900" fill="#9A3412">a in A_D(s)</text>
+      <rect x="1051" y="293" width="80" height="24" rx="6" fill="#F59E0B" fill-opacity="0.25" stroke="#F59E0B" />
+      <text x="1091" y="310" text-anchor="middle" font-size="12" font-weight="800" fill="#92400E">Q cell</text>
+    </g>
+
+    <g fill="none" stroke="#2563EB" stroke-width="4" stroke-linecap="round" marker-end="url(#deontic-arrow)">
+      <path d="M238 272 H224" opacity="0" />
+      <path d="M486 246 C505 224, 508 180, 522 180" />
+      <path d="M486 298 C505 320, 508 364, 522 364" />
+      <path d="M750 180 C780 180, 770 246, 792 246" />
+      <path d="M750 364 C780 364, 770 298, 792 298" />
+    </g>
+    <path d="M980 272 H1016" fill="none" stroke="#059669" stroke-width="4" stroke-linecap="round" marker-end="url(#deontic-green-arrow)" />
+
+    <g transform="translate(262 449)">
+      <circle cx="0" cy="0" r="13" fill="#EF4444" />
+      <path d="M20 0 H146" stroke="#EF4444" stroke-width="4" stroke-dasharray="9 7" />
+      <path d="M154 -12 L178 12 M178 -12 L154 12" stroke="#B91C1C" stroke-width="6" stroke-linecap="round" />
+      <text x="194" y="6" font-size="15" font-weight="800" fill="#991B1B">a not in A_D(s): stop before utility ranking</text>
+    </g>
+
+    <text x="48" y="522" font-size="14" fill="#475569">
+      A negative sentinel can occupy unavailable table cells, but it does not replace this independent mask.
+    </text>
+  </g>
+</svg>

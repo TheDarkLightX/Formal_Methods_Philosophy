@@ -1,0 +1,87 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 1200 560"
+  role="img"
+  aria-labelledby="glassmind-delay-title glassmind-delay-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="glassmind-delay-title">Immediate reward versus delayed return</title>
+  <desc id="glassmind-delay-desc">
+    The execute path gains 4 immediately and then loses 12 one step later, for
+    a discounted return of negative 7.25. The mitigate path pays 1 immediately,
+    waits three steps, and gains 8 at the fourth discounted step, for a return
+    of 5.1798095703125 when gamma is 15 over 16.
+  </desc>
+  <defs>
+    <filter id="delay-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="9" flood-color="#0F172A" flood-opacity="0.12" />
+    </filter>
+    <marker id="delay-arrow-blue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2563EB" />
+    </marker>
+    <marker id="delay-arrow-green" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#059669" />
+    </marker>
+  </defs>
+
+  <rect width="1200" height="560" rx="28" fill="#F8FAFC" />
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="54" y="54" font-size="22" font-weight="800" fill="#0F172A">Same starting state, different time profiles</text>
+    <text x="54" y="84" font-size="14" fill="#475569">Discount factor γ = 15/16 = 0.9375</text>
+
+    <g filter="url(#delay-shadow)">
+      <rect x="50" y="230" width="132" height="88" rx="18" fill="#FFFFFF" stroke="#CBD5E1" />
+      <text x="116" y="267" text-anchor="middle" font-size="15" font-weight="800" fill="#0F172A">initial</text>
+      <text x="116" y="291" text-anchor="middle" font-size="14" fill="#475569">state</text>
+    </g>
+
+    <text x="222" y="132" font-size="17" font-weight="800" fill="#1D4ED8">Immediate-reward choice</text>
+    <text x="222" y="366" font-size="17" font-weight="800" fill="#047857">Horizon-eight choice</text>
+
+    <g filter="url(#delay-shadow)">
+      <rect x="270" y="160" width="170" height="94" rx="18" fill="#EFF6FF" stroke="#93C5FD" />
+      <text x="355" y="194" text-anchor="middle" font-size="16" font-weight="800" fill="#1E3A8A">execute</text>
+      <text x="355" y="222" text-anchor="middle" font-size="18" font-weight="900" fill="#15803D">+4 now</text>
+
+      <rect x="540" y="160" width="184" height="94" rx="18" fill="#FEF2F2" stroke="#FCA5A5" />
+      <text x="632" y="194" text-anchor="middle" font-size="16" font-weight="800" fill="#7F1D1D">forced repair</text>
+      <text x="632" y="222" text-anchor="middle" font-size="18" font-weight="900" fill="#B91C1C">−12 at t = 1</text>
+
+      <rect x="846" y="160" width="276" height="94" rx="18" fill="#FFF7ED" stroke="#FDBA74" />
+      <text x="984" y="194" text-anchor="middle" font-size="15" font-weight="800" fill="#9A3412">discounted return</text>
+      <text x="984" y="224" text-anchor="middle" font-size="20" font-weight="900" fill="#9A3412">4 + γ(−12) = −7.25</text>
+    </g>
+
+    <path d="M182 260 C218 260, 220 207, 260 207" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#delay-arrow-blue)" />
+    <path d="M450 207 H530" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#delay-arrow-blue)" />
+    <path d="M734 207 H836" fill="none" stroke="#2563EB" stroke-width="4" marker-end="url(#delay-arrow-blue)" />
+
+    <g filter="url(#delay-shadow)">
+      <rect x="270" y="394" width="156" height="94" rx="18" fill="#ECFDF5" stroke="#6EE7B7" />
+      <text x="348" y="428" text-anchor="middle" font-size="16" font-weight="800" fill="#064E3B">mitigate</text>
+      <text x="348" y="456" text-anchor="middle" font-size="18" font-weight="900" fill="#B91C1C">−1 now</text>
+
+      <rect x="480" y="394" width="170" height="94" rx="18" fill="#F8FAFC" stroke="#CBD5E1" />
+      <text x="565" y="428" text-anchor="middle" font-size="16" font-weight="800" fill="#334155">wait safely</text>
+      <text x="565" y="456" text-anchor="middle" font-size="14" fill="#475569">t = 1, 2, 3</text>
+
+      <rect x="704" y="394" width="172" height="94" rx="18" fill="#ECFDF5" stroke="#6EE7B7" />
+      <text x="790" y="428" text-anchor="middle" font-size="16" font-weight="800" fill="#064E3B">opportunity</text>
+      <text x="790" y="456" text-anchor="middle" font-size="18" font-weight="900" fill="#15803D">+8 at t = 4</text>
+
+      <rect x="930" y="394" width="218" height="94" rx="18" fill="#ECFDF5" stroke="#6EE7B7" />
+      <text x="1039" y="426" text-anchor="middle" font-size="15" font-weight="800" fill="#064E3B">discounted return</text>
+      <text x="1039" y="456" text-anchor="middle" font-size="17" font-weight="900" fill="#047857">−1 + γ^4(8)</text>
+      <text x="1039" y="478" text-anchor="middle" font-size="13" font-weight="700" fill="#047857">= 5.1798095703125</text>
+    </g>
+
+    <path d="M182 288 C218 288, 220 441, 260 441" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#delay-arrow-green)" />
+    <path d="M436 441 H470" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#delay-arrow-green)" />
+    <path d="M660 441 H694" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#delay-arrow-green)" />
+    <path d="M886 441 H920" fill="none" stroke="#059669" stroke-width="4" marker-end="url(#delay-arrow-green)" />
+
+    <text x="54" y="532" font-size="14" fill="#475569">
+      Planning changes the first action because it compares complete discounted paths, not only immediate rewards.
+    </text>
+  </g>
+</svg>
