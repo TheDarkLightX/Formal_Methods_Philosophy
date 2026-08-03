@@ -1,0 +1,197 @@
+{
+  "schema": "glassmind-deontic-decision-pack-v1",
+  "policy_profile": {
+    "schema": "glassmind-deontic-policy-profile-v1",
+    "profile_id": "neutral-evidence-completion-v1",
+    "evidence_completion": "explicit-facts-only",
+    "unknown_predicates": "fail-closed",
+    "conflict_handling": "quarantine",
+    "multiple_obligations": "quarantine",
+    "contrary_to_duty": "not-implemented-quarantine",
+    "priority": "metadata-only",
+    "exceptions": "metadata-only",
+    "abstention": "explicit-only",
+    "nonclaims": [
+      "This finite profile is not universal ethics or a best normative theory.",
+      "The profile does not verify the truth of supplied facts or source evidence.",
+      "Priority, exceptions, contrary-to-duty patterns, and temporal hooks are not implemented semantics."
+    ],
+    "description": "Neutral evidence-completion profile for a bounded tutorial fixture."
+  },
+  "assumptions": [
+    "Facts and false_facts are explicit inputs for this finite demonstration, not verified world knowledge.",
+    "An unprovided fact is unknown, and rule order is not semantic because rules are canonically ordered by id.",
+    "The kernel emits masks and reasons; an external Q or utility optimizer may select only inside the eligible mask.",
+    "Reserved abstain and escalate outcomes are kernel-owned only for fail-closed outcomes."
+  ],
+  "future_extension_nonclaims": [
+    "A Deontic Logic Reasoning Infrastructure motivates selectable formalisms that can be varied and compared; this fixture records one bounded profile rather than a best logic or universal ethics.",
+    "The arXiv 2501.05765 line of work motivates explicit deontic and temporal system properties plus counterexamples; this kernel supplies finite traces only, not full temporal verification or ethical proof.",
+    "The bounded extensions object records future metadata only and does not implement temporal reasoning, deadlines, exceptions, priority, or theorem checking.",
+    "A deterministic derivation receipt, human explanation, and finite trace counterexample are distinct from a machine-checkable proof object."
+  ],
+  "extensions": {
+    "source_refs": [
+      "https://xavierparent.github.io/pdf/C69.pdf",
+      "https://arxiv.org/abs/2501.05765"
+    ],
+    "temporal": {"valid_from": "static-demo-snapshot"},
+    "theorem_refs": ["future-proof-carrying-deontic-system"],
+    "knowledge_base": {
+      "name": "glassmind-knowledge-navigation-demo",
+      "snapshot": "finite-local-fixture-v1",
+      "record_refs": ["demo-record-001", "demo-record-002"]
+    }
+  },
+  "decisions": [
+    {
+      "id": "normal-obligation",
+      "description": "A verified source is available, so citing the answer is required.",
+      "packet": {
+        "schema": "glassmind-deontic-decision-v1",
+        "decision_id": "normal-obligation",
+        "logic_profile": "bounded-finite-detachment-v1",
+        "actions": ["cite_answer", "open_source", "abstain", "escalate"],
+        "context": {"facts": ["source_available"], "false_facts": []},
+        "rules": [
+          {
+            "id": "require-citation",
+            "modality": "O",
+            "action": "cite_answer",
+            "when": {"fact": "source_available"},
+            "extensions": {
+              "source_refs": ["demo-record-001"],
+              "temporal": {"deadline": "metadata-only-next-response"}
+            }
+          }
+        ],
+        "allow_abstain": false,
+        "assumptions": ["source_available is a supplied fixture fact, not an external verification result."],
+        "extensions": {
+          "knowledge_base": {
+            "name": "glassmind-demo",
+            "snapshot": "finite-local-fixture-v1",
+            "record_refs": ["demo-record-001"]
+          }
+        }
+      }
+    },
+    {
+      "id": "prohibition",
+      "description": "An unverified claim cannot be cited, while opening a source remains explicitly permitted.",
+      "packet": {
+        "schema": "glassmind-deontic-decision-v1",
+        "decision_id": "prohibition",
+        "logic_profile": "bounded-finite-detachment-v1",
+        "actions": ["cite_answer", "open_source", "abstain", "escalate"],
+        "context": {"facts": ["unverified_claim"], "false_facts": []},
+        "rules": [
+          {
+            "id": "allow-source-review",
+            "modality": "P",
+            "action": "open_source",
+            "when": {"fact": "unverified_claim"}
+          },
+          {
+            "id": "forbid-uncited-claim",
+            "modality": "F",
+            "action": "cite_answer",
+            "when": {"fact": "unverified_claim"}
+          }
+        ],
+        "allow_abstain": false,
+        "assumptions": ["The prohibition is scoped to the declared cite_answer action."],
+        "extensions": {}
+      }
+    },
+    {
+      "id": "explicit-permission",
+      "description": "A verified source explicitly permits citing the answer.",
+      "packet": {
+        "schema": "glassmind-deontic-decision-v1",
+        "decision_id": "explicit-permission",
+        "logic_profile": "bounded-finite-detachment-v1",
+        "actions": ["cite_answer", "open_source", "abstain", "escalate"],
+        "context": {"facts": ["source_verified"], "false_facts": []},
+        "rules": [
+          {
+            "id": "permit-citation",
+            "modality": "P",
+            "action": "cite_answer",
+            "when": {"fact": "source_verified"}
+          }
+        ],
+        "allow_abstain": false,
+        "assumptions": ["source_verified is a supplied fixture fact, not a proof of source quality."],
+        "extensions": {}
+      }
+    },
+    {
+      "id": "conditional-conflict",
+      "description": "Urgency activates both an obligation and a prohibition for one action, so the packet is quarantined.",
+      "packet": {
+        "schema": "glassmind-deontic-decision-v1",
+        "decision_id": "conditional-conflict",
+        "logic_profile": "bounded-finite-detachment-v1",
+        "actions": ["cite_answer", "open_source", "abstain", "escalate"],
+        "context": {"facts": ["unreviewed", "urgent"], "false_facts": []},
+        "rules": [
+          {
+            "id": "urgent-citation-duty",
+            "modality": "O",
+            "action": "cite_answer",
+            "when": {"fact": "urgent"},
+            "extensions": {"priority_hook": "future-human-review"}
+          },
+          {
+            "id": "unreviewed-citation-ban",
+            "modality": "F",
+            "action": "cite_answer",
+            "when": {"all": [{"fact": "urgent"}, {"fact": "unreviewed"}]},
+            "extensions": {"exception_hook": "future-evidence-check"}
+          }
+        ],
+        "allow_abstain": true,
+        "assumptions": ["Both conditions are intentionally active in this fixture to demonstrate conflict quarantine."],
+        "extensions": {}
+      }
+    },
+    {
+      "id": "abstention-allowed-unresolved",
+      "description": "No rule resolves a missing-source case, and this validated packet allows conservative abstention.",
+      "packet": {
+        "schema": "glassmind-deontic-decision-v1",
+        "decision_id": "abstention-allowed-unresolved",
+        "logic_profile": "bounded-finite-detachment-v1",
+        "actions": ["cite_answer", "open_source", "abstain", "escalate"],
+        "context": {"facts": ["source_missing"], "false_facts": []},
+        "rules": [],
+        "allow_abstain": true,
+        "assumptions": ["Abstention is an ordinary conservative outcome only because this packet explicitly allows it."],
+        "extensions": {}
+      }
+    },
+    {
+      "id": "fail-closed-escalation",
+      "description": "A required source fact is missing from the explicit context, so escalation is mandatory.",
+      "packet": {
+        "schema": "glassmind-deontic-decision-v1",
+        "decision_id": "fail-closed-escalation",
+        "logic_profile": "bounded-finite-detachment-v1",
+        "actions": ["cite_answer", "open_source", "abstain", "escalate"],
+        "context": {"facts": ["source_missing"], "false_facts": []},
+        "rules": [
+          {
+            "id": "missing-evidence-gate",
+            "modality": "O",
+            "action": "cite_answer",
+            "when": {"fact": "source_verified"}
+          }
+        ],
+        "allow_abstain": false,
+        "assumptions": ["An unknown required evidence fact escalates under the neutral fail-closed profile."],
+        "extensions": {}
+      }
+    }
+  ]
+}

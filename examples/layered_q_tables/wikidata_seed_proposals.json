@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "authorship": "LLM-authored retrieval proposals. Wikidata identifiers and retrieved statements remain untrusted inputs until canonicalized and checked.",
+  "seed_qids": [
+    {
+      "qid": "Q7632678",
+      "role": "data-structure decision seed",
+      "hypothesis": "Succinct data structure should connect to the broader data-structure concept in the bounded graph."
+    },
+    {
+      "qid": "Q1259393",
+      "role": "data-structure decision seed",
+      "hypothesis": "Disjoint-set data structure should expose type or subclass evidence."
+    },
+    {
+      "qid": "Q1064349",
+      "role": "determinism decision seed",
+      "hypothesis": "Deterministic algorithm should connect to algorithm and determinism concepts."
+    },
+    {
+      "qid": "Q1049183",
+      "role": "formal-methods decision seed",
+      "hypothesis": "Formal methods should connect to logic, mathematics, or verification concepts."
+    },
+    {
+      "qid": "Q302542",
+      "role": "deontic decision seed",
+      "hypothesis": "Deontic logic should connect to modal or philosophical logic."
+    },
+    {
+      "qid": "Q277680",
+      "role": "search decision seed",
+      "hypothesis": "A-star search should connect to algorithmic search concepts."
+    },
+    {
+      "qid": "Q13636890",
+      "role": "algorithmics decision seed",
+      "hypothesis": "Algorithmics should connect algorithms and data structures."
+    },
+    {
+      "qid": "Q2488768",
+      "role": "logic decision seed",
+      "hypothesis": "Non-monotonic logic should connect to mathematical or non-classical logic."
+    },
+    {
+      "qid": "Q173326",
+      "role": "verification decision seed",
+      "hypothesis": "Formal verification should connect to verification and correctness concepts."
+    }
+  ],
+  "goal_proposals": [
+    {
+      "qid": "Q175263",
+      "role": "data-structure goal",
+      "hypothesis": "A retrieved path to data structure can discharge a bounded classification decision."
+    },
+    {
+      "qid": "Q8366",
+      "role": "algorithm goal",
+      "hypothesis": "A retrieved path to algorithm can discharge a bounded algorithm-class decision."
+    },
+    {
+      "qid": "Q210841",
+      "role": "modal-logic goal",
+      "hypothesis": "A retrieved path to modal logic can support a bounded deontic-logic classification decision."
+    },
+    {
+      "qid": "Q1003009",
+      "role": "formal-logic goal",
+      "hypothesis": "A retrieved path to formal logic can support a bounded logic-family decision."
+    },
+    {
+      "qid": "Q395",
+      "role": "mathematics goal",
+      "hypothesis": "A retrieved path to mathematics can support a bounded formal-methods context decision."
+    }
+  ],
+  "relation_pids": [
+    {"pid": "P31", "label": "instance of"},
+    {"pid": "P279", "label": "subclass of"},
+    {"pid": "P361", "label": "part of"},
+    {"pid": "P527", "label": "has part"},
+    {"pid": "P144", "label": "based on"},
+    {"pid": "P1552", "label": "has quality"},
+    {"pid": "P2283", "label": "uses"},
+    {"pid": "P2578", "label": "studies"},
+    {"pid": "P1269", "label": "facet of"},
+    {"pid": "P460", "label": "said to be the same as"},
+    {"pid": "P1889", "label": "different from"},
+    {"pid": "P737", "label": "influenced by"}
+  ],
+  "hypotheses": [
+    "A bounded multi-relation crawl from these seeds will contain enough connected evidence for at least six required decisions.",
+    "Treating a statement as a navigable link does not license the inverse statement as a logical conclusion.",
+    "If a required evidence path is absent after truncation, the correct demo behavior is abstention rather than a negative real-world claim."
+  ],
+  "quarantined_proposals": [
+    {
+      "proposal": "Treat every retrieved edge as a verified real-world fact.",
+      "reason": "Retrieval supplies attributed knowledge-base statements, not an independent correctness proof.",
+      "review_trigger": "An external domain checker or curated source validates the relevant statements."
+    },
+    {
+      "proposal": "Treat reverse graph navigation as an inverse logical implication.",
+      "reason": "A browsing edge may be traversed in either direction, while its predicate retains its original direction.",
+      "review_trigger": "A relation-specific inverse rule is explicitly supplied and verified."
+    },
+    {
+      "proposal": "Interpret an absent path as proof that no relation exists.",
+      "reason": "Depth, node, property, degree, request, and freshness bounds make the snapshot incomplete.",
+      "review_trigger": "A complete closed-world source and coverage proof replace the bounded snapshot."
+    }
+  ]
+}

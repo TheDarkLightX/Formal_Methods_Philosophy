@@ -1,0 +1,1280 @@
+{
+  "receipt_version": "pcd-receipt-v0",
+  "receipt_id": "receipt-glassmind-emergency-routing-0001",
+  "issued_at": "2026-08-01T12:00:00Z",
+  "decision_validity": {
+    "not_before": "2026-08-01T12:00:00Z",
+    "not_after": "2026-08-01T12:01:00Z"
+  },
+  "decision": {
+    "decision_id": "dec-emergency-route-s000005",
+    "required_decision": {
+      "required_decision_id": "req-resolve-blocked-edge",
+      "title": "Resolve the next emergency-routing edge",
+      "applicability_rule_refs": [
+        "rule-required-routing-resolution"
+      ],
+      "allowed_resolution_kinds": [
+        "action",
+        "abstain",
+        "escalate"
+      ],
+      "omission_admissible": false,
+      "obligation_refs": [
+        "obl-avoid-blocked-edge",
+        "obl-no-blocked-traverse",
+        "obl-resolve-routing"
+      ],
+      "enforcement_refs": [
+        "enf-required-resolution",
+        "enf-no-forbidden-edge"
+      ],
+      "review_trigger_refs": [
+        "review-routing-state-or-policy"
+      ]
+    },
+    "applicability": {
+      "status": "applicable",
+      "condition_refs": [
+        "fact-start-state",
+        "fact-blocked-edge",
+        "fact-remaining-step"
+      ],
+      "rule_trace_refs": [
+        "rule-fact-blocked-edge",
+        "rule-activate-routing-obligations"
+      ],
+      "unknown_refs": [],
+      "explanation": "The bounded routing state and the one-step deadline make an explicit resolution applicable."
+    },
+    "alternatives": [
+      {
+        "alternative_id": "alt-safe-east",
+        "action": {
+          "action_id": "act-route-east",
+          "kind": "route",
+          "parameters": [
+            {
+              "name": "edge",
+              "type": "edge-id",
+              "value": "edge-8"
+            },
+            {
+              "name": "destination",
+              "type": "state-id",
+              "value": "s000006"
+            }
+          ]
+        },
+        "admissibility": "admissible",
+        "selection_rank": 100,
+        "rationale": "The eastern edge is open in the normalized facts and avoids the blocked edge within the bounded horizon.",
+        "tradeoffs": [
+          "Uses the available one-step route.",
+          "Does not exercise the escalation channel.",
+          "The route is only checked inside the declared GlassMind model profile."
+        ],
+        "obligation_effects": [
+          {
+            "norm_ref": "obl-avoid-blocked-edge",
+            "effect": "satisfies",
+            "explanation": "The action selects an edge other than the blocked edge."
+          },
+          {
+            "norm_ref": "obl-no-blocked-traverse",
+            "effect": "avoids",
+            "explanation": "The forbidden edge action is not selected."
+          },
+          {
+            "norm_ref": "obl-resolve-routing",
+            "effect": "satisfies",
+            "explanation": "The route is an explicit resolution by step 1."
+          },
+          {
+            "norm_ref": "perm-escalate-routing",
+            "effect": "not_applicable",
+            "explanation": "The permission to escalate is not needed for this selected route."
+          }
+        ],
+        "counterfactual": null
+      },
+      {
+        "alternative_id": "alt-use-blocked-edge",
+        "action": {
+          "action_id": "act-use-blocked-edge",
+          "kind": "route",
+          "parameters": [
+            {
+              "name": "edge",
+              "type": "edge-id",
+              "value": "edge-7"
+            },
+            {
+              "name": "destination",
+              "type": "state-id",
+              "value": "s000006"
+            }
+          ]
+        },
+        "admissibility": "rejected",
+        "selection_rank": 90,
+        "rationale": "The route is geometrically available in the candidate set but selects the edge recorded as blocked.",
+        "tradeoffs": [
+          "Would avoid escalation overhead.",
+          "Would expose the route to the declared blocked-edge hazard."
+        ],
+        "obligation_effects": [
+          {
+            "norm_ref": "obl-avoid-blocked-edge",
+            "effect": "violates",
+            "explanation": "The conditional obligation requires avoiding edge-7."
+          },
+          {
+            "norm_ref": "obl-no-blocked-traverse",
+            "effect": "violates",
+            "explanation": "The conditional prohibition forbids act-use-blocked-edge."
+          },
+          {
+            "norm_ref": "obl-resolve-routing",
+            "effect": "satisfies",
+            "explanation": "It is an explicit route, but that does not repair the safety violations."
+          },
+          {
+            "norm_ref": "perm-escalate-routing",
+            "effect": "not_applicable",
+            "explanation": "The escalation permission is not used."
+          }
+        ],
+        "counterfactual": {
+          "counterfactual_id": "cf-reject-blocked-edge",
+          "assumption": "If act-use-blocked-edge were selected at s000005 while fact-blocked-edge is true.",
+          "result": "rejected",
+          "rejected_by_refs": [
+            "obl-no-blocked-traverse",
+            "rule-reject-blocked-edge",
+            "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+          ],
+          "negative_knowledge_refs": [
+            "neg-blocked-edge-counterexample"
+          ]
+        }
+      },
+      {
+        "alternative_id": "alt-abstain",
+        "action": {
+          "action_id": "act-abstain-routing",
+          "kind": "abstain",
+          "parameters": []
+        },
+        "admissibility": "admissible",
+        "selection_rank": 10,
+        "rationale": "An explicit abstention is available as a fail-closed resolution if the model becomes uncertain.",
+        "tradeoffs": [
+          "Avoids selecting a blocked edge.",
+          "May fail to use a known safe route.",
+          "Leaves the operational decision for a later review."
+        ],
+        "obligation_effects": [
+          {
+            "norm_ref": "obl-avoid-blocked-edge",
+            "effect": "satisfies",
+            "explanation": "No blocked edge action is selected."
+          },
+          {
+            "norm_ref": "obl-no-blocked-traverse",
+            "effect": "avoids",
+            "explanation": "The forbidden route is not selected."
+          },
+          {
+            "norm_ref": "obl-resolve-routing",
+            "effect": "satisfies",
+            "explanation": "Abstention is an allowed explicit resolution."
+          },
+          {
+            "norm_ref": "perm-escalate-routing",
+            "effect": "not_applicable",
+            "explanation": "Abstention does not use the escalation permission."
+          }
+        ],
+        "counterfactual": null
+      },
+      {
+        "alternative_id": "alt-escalate",
+        "action": {
+          "action_id": "act-escalate-routing",
+          "kind": "escalate",
+          "parameters": [
+            {
+              "name": "channel",
+              "type": "string",
+              "value": "dispatcher"
+            }
+          ]
+        },
+        "admissibility": "admissible",
+        "selection_rank": 20,
+        "rationale": "Escalation is an explicit safe fallback because the dispatcher channel is available.",
+        "tradeoffs": [
+          "Avoids the blocked edge.",
+          "Adds human or service latency.",
+          "Transfers the next routing decision to the dispatcher."
+        ],
+        "obligation_effects": [
+          {
+            "norm_ref": "obl-avoid-blocked-edge",
+            "effect": "satisfies",
+            "explanation": "Escalation does not select the blocked edge."
+          },
+          {
+            "norm_ref": "obl-no-blocked-traverse",
+            "effect": "avoids",
+            "explanation": "The forbidden route is not selected."
+          },
+          {
+            "norm_ref": "obl-resolve-routing",
+            "effect": "satisfies",
+            "explanation": "Escalation is an allowed explicit resolution."
+          },
+          {
+            "norm_ref": "perm-escalate-routing",
+            "effect": "satisfies",
+            "explanation": "The available dispatcher permission covers this escalation."
+          }
+        ],
+        "counterfactual": null
+      }
+    ],
+    "selection_policy": {
+      "policy_id": "policy-emergency-route-rank",
+      "kind": "explicit_integer_rank",
+      "direction": "higher_is_preferred",
+      "tie_break": "alternative_id_ascending",
+      "source_ref": "prov-policy"
+    },
+    "rationale": "The safe eastern route is the highest-ranked admissible action in the bounded state and satisfies the checked routing obligations.",
+    "tradeoffs": [
+      "The selected route has less escalation latency than the fallback.",
+      "The result depends on the frozen synthetic map and declared state abstraction."
+    ],
+    "evidence_refs": [
+      "fact-start-state",
+      "fact-blocked-edge",
+      "fact-safe-east",
+      "fact-remaining-step",
+      "prov-model"
+    ],
+    "uncertainty": {
+      "status": "bounded",
+      "unknown_refs": [
+        "neg-glassmind-out-of-domain"
+      ],
+      "abstain_on_unknown": true,
+      "fail_closed_action_ref": "act-escalate-routing",
+      "explanation": "Unknown state or model revisions require abstention or escalation rather than an unverified route."
+    },
+    "chosen_outcome": {
+      "outcome_id": "out-safe-east",
+      "outcome_kind": "action",
+      "chosen_alternative_ref": "alt-safe-east",
+      "action_ref": "act-route-east",
+      "status": "selected",
+      "omission_admissible": false,
+      "external_effect_authorized": false,
+      "selection_reason": "The selected alternative passes the checked prohibition and obligation effects and has rank 100, above the other admissible alternatives."
+    },
+    "review_trigger_refs": [
+      "review-routing-state-or-policy"
+    ],
+    "enforcement_references": [
+      {
+        "enforcement_id": "enf-required-resolution",
+        "owner": "deterministic_verifier",
+        "check_id": "PCD-E013-REQUIRED-DECISION",
+        "description": "Require an explicit listed resolution and reject omission."
+      },
+      {
+        "enforcement_id": "enf-no-forbidden-edge",
+        "owner": "deterministic_verifier",
+        "check_id": "PCD-E014-CONFLICT",
+        "description": "Reject alternatives that violate the active blocked-edge prohibition."
+      }
+    ]
+  },
+  "normalized_facts": [
+    {
+      "fact_id": "fact-start-state",
+      "normalized": true,
+      "predicate": {
+        "name": "at_state",
+        "arguments": [
+          {
+            "name": "state",
+            "type": "state-id",
+            "value": "s000005"
+          }
+        ]
+      },
+      "truth": "true",
+      "status": "asserted",
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "provenance_refs": [
+        "prov-observation"
+      ]
+    },
+    {
+      "fact_id": "fact-blocked-edge",
+      "normalized": true,
+      "predicate": {
+        "name": "edge_status",
+        "arguments": [
+          {
+            "name": "edge",
+            "type": "edge-id",
+            "value": "edge-7"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "value": "blocked"
+          }
+        ]
+      },
+      "truth": "true",
+      "status": "asserted",
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "provenance_refs": [
+        "prov-observation"
+      ]
+    },
+    {
+      "fact_id": "fact-safe-east",
+      "normalized": true,
+      "predicate": {
+        "name": "edge_status",
+        "arguments": [
+          {
+            "name": "edge",
+            "type": "edge-id",
+            "value": "edge-8"
+          },
+          {
+            "name": "status",
+            "type": "string",
+            "value": "open"
+          }
+        ]
+      },
+      "truth": "true",
+      "status": "asserted",
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "provenance_refs": [
+        "prov-observation"
+      ]
+    },
+    {
+      "fact_id": "fact-remaining-step",
+      "normalized": true,
+      "predicate": {
+        "name": "remaining_steps",
+        "arguments": [
+          {
+            "name": "steps",
+            "type": "integer",
+            "value": 1
+          }
+        ]
+      },
+      "truth": "true",
+      "status": "asserted",
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "provenance_refs": [
+        "prov-model"
+      ]
+    },
+    {
+      "fact_id": "fact-escalation-channel",
+      "normalized": true,
+      "predicate": {
+        "name": "escalation_channel_available",
+        "arguments": [
+          {
+            "name": "channel",
+            "type": "string",
+            "value": "dispatcher"
+          }
+        ]
+      },
+      "truth": "true",
+      "status": "asserted",
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "provenance_refs": [
+        "prov-observation"
+      ]
+    }
+  ],
+  "obligations": [
+    {
+      "norm_id": "obl-avoid-blocked-edge",
+      "operator": "O",
+      "form": "conditional",
+      "rule_class": "prescriptive",
+      "subject": "routing-controller",
+      "jurisdiction": "glassmind-demo-grid",
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "rule_id": "rule-avoid-blocked-edge",
+      "target_action_id": "act-route-east",
+      "condition_refs": [
+        "fact-blocked-edge"
+      ],
+      "exception_refs": [],
+      "priority": 100,
+      "deadline": null,
+      "repair": null,
+      "status": "applicable",
+      "source_refs": [
+        "prov-policy"
+      ]
+    },
+    {
+      "norm_id": "obl-no-blocked-traverse",
+      "operator": "F",
+      "form": "conditional",
+      "rule_class": "prescriptive",
+      "subject": "routing-controller",
+      "jurisdiction": "glassmind-demo-grid",
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "rule_id": "rule-reject-blocked-edge",
+      "target_action_id": "act-use-blocked-edge",
+      "condition_refs": [
+        "fact-blocked-edge"
+      ],
+      "exception_refs": [],
+      "priority": 110,
+      "deadline": null,
+      "repair": null,
+      "status": "applicable",
+      "source_refs": [
+        "prov-policy"
+      ]
+    },
+    {
+      "norm_id": "obl-resolve-routing",
+      "operator": "O",
+      "form": "deadline",
+      "rule_class": "prescriptive",
+      "subject": "routing-controller",
+      "jurisdiction": "glassmind-demo-grid",
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "rule_id": "rule-required-routing-resolution",
+      "target_action_id": "act-resolve-routing",
+      "condition_refs": [],
+      "exception_refs": [],
+      "priority": 90,
+      "deadline": {
+        "kind": "by_step",
+        "step": 1,
+        "clock_fact_ref": "fact-remaining-step"
+      },
+      "repair": null,
+      "status": "applicable",
+      "source_refs": [
+        "prov-policy"
+      ]
+    }
+  ],
+  "permissions": [
+    {
+      "norm_id": "perm-escalate-routing",
+      "operator": "P",
+      "form": "conditional",
+      "rule_class": "prescriptive",
+      "subject": "routing-controller",
+      "jurisdiction": "glassmind-demo-grid",
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "rule_id": "rule-permit-dispatcher-escalation",
+      "target_action_id": "act-escalate-routing",
+      "condition_refs": [
+        "fact-escalation-channel"
+      ],
+      "exception_refs": [],
+      "priority": 50,
+      "deadline": null,
+      "repair": null,
+      "status": "applicable",
+      "source_refs": [
+        "prov-policy"
+      ]
+    }
+  ],
+  "logic_profile": {
+    "profile_id": "logic-pcd-dl-v0",
+    "family": "pcd_dl_v0",
+    "semantics_hash": "4444444444444444444444444444444444444444444444444444444444444444",
+    "translation_hash": "5555555555555555555555555555555555555555555555555555555555555555",
+    "backend": "esso_ir",
+    "backend_execution_status": "not_run",
+    "supported_operators": [
+      "O",
+      "F",
+      "P",
+      "conditional",
+      "deadline",
+      "contrary_to_duty"
+    ],
+    "ctd_policy": "explicit_repair_non_explosive",
+    "conflict_policy": "priority_then_fail_closed_escalation",
+    "finite_trace_bound": 256,
+    "proof_object_format": "pcd-proof-dag-v0",
+    "countermodel_format": "pcd-bounded-countermodel-v0",
+    "scope": "Finite GlassMind emergency-routing facts, four declared alternatives, and 256 decision layers."
+  },
+  "knowledge_sources": [
+    {
+      "source_id": "source-glassmind-synthetic-map",
+      "dataset": "GlassMind synthetic emergency-routing fixture",
+      "role": "synthetic_fixture",
+      "adapter_id": "adapter-glassmind-directed-facts",
+      "adapter_version": "v0",
+      "adapter_hash": "6666666666666666666666666666666666666666666666666666666666666666",
+      "license_id": "repository tutorial fixture terms",
+      "license_url": null,
+      "revision": "glassmind-scenario-v3",
+      "payload_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "extraction_hash": "7777777777777777777777777777777777777777777777777777777777777777",
+      "predicate_direction_preserved": true,
+      "reverse_navigation_semantics": "browse_only_not_inverse_fact_or_implication",
+      "provenance_ref": "prov-observation",
+      "coverage_limits": [
+        "Synthetic fixture only, with no claim about Open English WordNet, Wikidata, or a real road network.",
+        "Reverse traversal links, if added for navigation, are not inverse facts or logical implications."
+      ]
+    }
+  ],
+  "normative_compilation": {
+    "compiler_profile": "pcd-normative-q-compiler-v0",
+    "status": "specified_not_run",
+    "decision_kernel": "esso_ir",
+    "policy_language": "ESSO-IR/v1 with an optional Tau Boolean export gate",
+    "rule_classes": [
+      "constitutive",
+      "prescriptive"
+    ],
+    "observables": [
+      "admissible_action_mask",
+      "obligation_status",
+      "prohibition_status",
+      "decision_effects"
+    ],
+    "effect_handling": "separate_trusted_shell_commit",
+    "conflict_behavior": "fail_closed_escalation",
+    "unknown_behavior": "fail_closed_escalation",
+    "counterexamples_retained": true,
+    "verification_mode": "not_run",
+    "tau_export_status": "not_run",
+    "bindings": {
+      "fact_graph_hash": "8888888888888888888888888888888888888888888888888888888888888888",
+      "canonicalizer_hash": "a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0",
+      "logic_semantics_hash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "normative_policy_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "utility_function_hash": "b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0",
+      "transition_model_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "generator_hash": "c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0",
+      "admissibility_mask_hash": "d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0d0",
+      "q_table_hash": "e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0e0"
+    },
+    "utility_model": {
+      "kind": "bounded_utilitarian_integer_v0",
+      "formula": "U(route) = -sum_i weight_i * (predicted_harm_i(route) + delay_cost_i(route))",
+      "integer_scale": 1000,
+      "stakeholders": [
+        "evacuees",
+        "responders"
+      ],
+      "side_constraints_first": true,
+      "uncertainty_policy": "unknown_or_incomplete_forces_escalation",
+      "catastrophic_tail_policy": "bounded_separately_or_escalate",
+      "limitations": [
+        "Stakeholder coverage is limited to the two declared groups.",
+        "Aggregation weights are policy inputs rather than moral truths.",
+        "Uncertainty is bounded by the synthetic model only.",
+        "The planning horizon is 256 layers.",
+        "Rights and safety constraints must mask actions before utility ranking.",
+        "Catastrophic tails outside the checked bound force escalation.",
+        "The harm and delay terms are proxies that can fail under model mismatch."
+      ]
+    }
+  },
+  "semantic_result": {
+    "logic_profile_ref": "logic-pcd-dl-v0",
+    "query": "Does alt-safe-east satisfy every active bounded obligation while violating no active prohibition?",
+    "result": "not_run",
+    "proof_object_ref": null,
+    "countermodel_ref": null,
+    "checker_backend": "esso_ir",
+    "checker_version": "specified-pcd-esso-adapter-v0",
+    "scope": "The declared finite routing fixture and its explicit rule trace.",
+    "complexity_bound": "At most 256 temporal layers, four alternatives, six proof nodes, and the finite ESSO domains declared by a future adapter.",
+    "model_relative_authority": true,
+    "premise_truth_claimed": false,
+    "premise_completeness_claimed": false
+  },
+  "human_explanation": {
+    "authority": "non_authoritative",
+    "generated_from_refs": [
+      "fact-blocked-edge",
+      "fact-safe-east",
+      "obl-no-blocked-traverse",
+      "alt-safe-east"
+    ],
+    "statement": "The eastern route is preferred because the declared facts mark edge-8 open and edge-7 blocked, while the active prohibition excludes the blocked-edge alternative. This explanation summarizes the illustrative trace and is not a checker proof.",
+    "content_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "checker_object_substitute": false
+  },
+  "provenance": [
+    {
+      "provenance_id": "prov-policy",
+      "source_kind": "synthetic_policy",
+      "source_reference": "glassmind-pcd-demo-policy-v0",
+      "issuer": {
+        "issuer_id": "glassmind-demo-policy",
+        "authority_scope": [
+          "routing-policy"
+        ],
+        "authority_basis": "Configured demo issuer for the bounded tutorial profile."
+      },
+      "revision": {
+        "revision_id": "rev-policy-1",
+        "sequence": 1,
+        "parent_revision": null,
+        "change_summary": "Initial blocked-edge and explicit-resolution policy."
+      },
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "content_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "revocation_status": "active",
+      "revocation_ref": null
+    },
+    {
+      "provenance_id": "prov-model",
+      "source_kind": "synthetic_model",
+      "source_reference": "glassmind-layered-q-table-v3",
+      "issuer": {
+        "issuer_id": "glassmind-demo-model",
+        "authority_scope": [
+          "glassmind-model-profile",
+          "routing-state-abstraction"
+        ],
+        "authority_basis": "Configured demo issuer for the frozen synthetic grid model."
+      },
+      "revision": {
+        "revision_id": "rev-model-3",
+        "sequence": 3,
+        "parent_revision": "rev-model-2",
+        "change_summary": "Frozen layered-Q-table model profile used by this receipt."
+      },
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "content_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "revocation_status": "active",
+      "revocation_ref": null
+    },
+    {
+      "provenance_id": "prov-observation",
+      "source_kind": "observation",
+      "source_reference": "glassmind-demo-observation-bundle-1",
+      "issuer": {
+        "issuer_id": "glassmind-demo-observer",
+        "authority_scope": [
+          "routing-observation"
+        ],
+        "authority_basis": "Configured synthetic observation adapter for the demo."
+      },
+      "revision": {
+        "revision_id": "rev-observation-1",
+        "sequence": 1,
+        "parent_revision": null,
+        "change_summary": "Initial bounded state, edge, and escalation observations."
+      },
+      "validity": {
+        "not_before": "2026-08-01T12:00:00Z",
+        "not_after": "2026-08-01T12:01:00Z"
+      },
+      "content_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "revocation_status": "active",
+      "revocation_ref": null
+    }
+  ],
+  "proof": {
+    "dag_version": "pcd-proof-dag-v0",
+    "node_hash_scope": "canonical_node_without_node_id",
+    "root_refs": [
+      "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    ],
+    "node_count": 6,
+    "edge_count": 8,
+    "max_depth": 4,
+    "nodes": [
+      {
+        "node_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "kind": "fact",
+        "statement": "fact-blocked-edge is true: edge-7 is blocked.",
+        "premise_refs": [],
+        "claim_refs": [
+          "fact-blocked-edge"
+        ],
+        "rule_ref": "rule-fact-blocked-edge",
+        "status": "accepted"
+      },
+      {
+        "node_id": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "kind": "norm_activation",
+        "statement": "The blocked-edge condition activates the avoidance obligation and prohibition.",
+        "premise_refs": [
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "claim_refs": [
+          "obl-avoid-blocked-edge",
+          "obl-no-blocked-traverse"
+        ],
+        "rule_ref": "rule-activate-routing-obligations",
+        "status": "accepted"
+      },
+      {
+        "node_id": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "kind": "counterfactual",
+        "statement": "The blocked-edge counterfactual is rejected because it selects a forbidden action.",
+        "premise_refs": [
+          "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "claim_refs": [
+          "alt-use-blocked-edge",
+          "cf-reject-blocked-edge",
+          "neg-blocked-edge-counterexample"
+        ],
+        "rule_ref": "rule-reject-blocked-edge",
+        "status": "rejected"
+      },
+      {
+        "node_id": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "kind": "alternative_check",
+        "statement": "The eastern route is admissible because it avoids the blocked edge and uses an open edge.",
+        "premise_refs": [
+          "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ],
+        "claim_refs": [
+          "alt-safe-east",
+          "fact-safe-east"
+        ],
+        "rule_ref": "rule-admit-safe-east",
+        "status": "accepted"
+      },
+      {
+        "node_id": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "kind": "selection",
+        "statement": "The safe eastern route has the highest rank among admissible alternatives.",
+        "premise_refs": [
+          "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        ],
+        "claim_refs": [
+          "alt-safe-east",
+          "out-safe-east"
+        ],
+        "rule_ref": "rule-select-safe-east",
+        "status": "accepted"
+      },
+      {
+        "node_id": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "kind": "verifier_claim",
+        "statement": "The selected outcome is explicit and no unresolved blocked-edge conflict remains in the bounded trace.",
+        "premise_refs": [
+          "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        ],
+        "claim_refs": [
+          "dec-emergency-route-s000005",
+          "out-safe-east"
+        ],
+        "rule_ref": "rule-finalize-demo-receipt",
+        "status": "accepted"
+      }
+    ]
+  },
+  "rule_trace": [
+    {
+      "step": 1,
+      "rule_id": "rule-fact-blocked-edge",
+      "rule_kind": "fact_normalization",
+      "input_refs": [
+        "fact-blocked-edge",
+        "prov-observation"
+      ],
+      "conclusion": {
+        "statement": "The normalized blocked-edge fact is true in the declared interval.",
+        "status": "derived",
+        "claim_refs": [
+          "fact-blocked-edge"
+        ]
+      },
+      "proof_node_ref": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "step": 2,
+      "rule_id": "rule-activate-routing-obligations",
+      "rule_kind": "norm_activation",
+      "input_refs": [
+        "fact-blocked-edge",
+        "obl-avoid-blocked-edge",
+        "obl-no-blocked-traverse",
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "conclusion": {
+        "statement": "The conditional avoidance obligation and prohibition are applicable.",
+        "status": "checked",
+        "claim_refs": [
+          "obl-avoid-blocked-edge",
+          "obl-no-blocked-traverse"
+        ]
+      },
+      "proof_node_ref": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "step": 3,
+      "rule_id": "rule-reject-blocked-edge",
+      "rule_kind": "counterfactual_rejection",
+      "input_refs": [
+        "alt-use-blocked-edge",
+        "obl-no-blocked-traverse",
+        "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      ],
+      "conclusion": {
+        "statement": "The blocked-edge counterfactual is rejected.",
+        "status": "rejected",
+        "claim_refs": [
+          "alt-use-blocked-edge",
+          "cf-reject-blocked-edge",
+          "neg-blocked-edge-counterexample"
+        ]
+      },
+      "proof_node_ref": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    {
+      "step": 4,
+      "rule_id": "rule-admit-safe-east",
+      "rule_kind": "alternative_admissibility",
+      "input_refs": [
+        "alt-safe-east",
+        "fact-safe-east",
+        "obl-avoid-blocked-edge",
+          "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      ],
+      "conclusion": {
+        "statement": "The eastern route is admissible in the bounded state.",
+        "status": "checked",
+        "claim_refs": [
+          "alt-safe-east",
+          "fact-safe-east"
+        ]
+      },
+      "proof_node_ref": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    {
+      "step": 5,
+      "rule_id": "rule-select-safe-east",
+      "rule_kind": "selection",
+      "input_refs": [
+        "alt-safe-east",
+        "alt-abstain",
+        "alt-escalate",
+        "policy-emergency-route-rank",
+        "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      ],
+      "conclusion": {
+        "statement": "The safe eastern route has the highest rank among admissible alternatives.",
+        "status": "checked",
+        "claim_refs": [
+          "alt-safe-east",
+          "out-safe-east"
+        ]
+      },
+      "proof_node_ref": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    {
+      "step": 6,
+      "rule_id": "rule-finalize-demo-receipt",
+      "rule_kind": "conflict_check",
+      "input_refs": [
+        "dec-emergency-route-s000005",
+        "out-safe-east",
+        "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      ],
+      "conclusion": {
+        "statement": "The chosen outcome is explicit and no unresolved norm conflict remains.",
+        "status": "checked",
+        "claim_refs": [
+          "dec-emergency-route-s000005",
+          "out-safe-east"
+        ]
+      },
+      "proof_node_ref": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    }
+  ],
+  "canonicalization": {
+    "profile": "pcd-cjson-v0",
+    "encoding": "UTF-8",
+    "unicode_normalization": "none",
+    "object_key_order": "unicode_scalar_code_point_ascending",
+    "array_order": "semantic_order_preserved",
+    "whitespace": "none",
+    "duplicate_keys": "reject",
+    "number_policy": "integers_only_no_exponents_no_negative_zero",
+    "string_escape_policy": "json_control_escapes_and_utf8",
+    "line_ending": "none_in_canonical_bytes",
+    "hash_algorithm": "SHA-256",
+    "hash_encoding": "lowercase_hex",
+    "receipt_hash_scope": "top_level_without_content_hash",
+    "proof_node_hash_scope": "node_without_node_id"
+  },
+  "content_hash": "9999999999999999999999999999999999999999999999999999999999999999",
+  "verifier": {
+    "profile": "glassmind-layered-q-table-demo-v0",
+    "algorithm_version": "pcd-verifier-v0",
+    "result": "illustrative_only",
+    "authority": "deterministic_verifier",
+    "independent_recomputation": false,
+    "hash_evidence_status": "synthetic_placeholder",
+    "replay_status": "declared",
+    "failure_codes": [],
+    "ordered_checks": [
+      {
+        "ordinal": 1,
+        "check_id": "parse",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The fixture contains one JSON value."
+      },
+      {
+        "ordinal": 2,
+        "check_id": "schema",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The fixture is shaped for the PCD receipt schema."
+      },
+      {
+        "ordinal": 3,
+        "check_id": "canonicalization_profile",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The named pcd-cjson-v0 profile is declared."
+      },
+      {
+        "ordinal": 4,
+        "check_id": "identifier_shape",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "Logical identifiers and SHA-256 placeholder shapes are present."
+      },
+      {
+        "ordinal": 5,
+        "check_id": "content_hash",
+        "status": "declared",
+        "failure_code": null,
+        "detail": "The content hash is a synthetic placeholder and was not independently recomputed."
+      },
+      {
+        "ordinal": 6,
+        "check_id": "provenance_interval",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The fixture records issuer scopes, revisions, intervals, and source hashes."
+      },
+      {
+        "ordinal": 7,
+        "check_id": "revocation",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "All declared sources are marked active and the receipt records not_revoked."
+      },
+      {
+        "ordinal": 8,
+        "check_id": "proof_node_hashes",
+        "status": "declared",
+        "failure_code": null,
+        "detail": "Node identifiers have synthetic placeholder shape and require live recomputation."
+      },
+      {
+        "ordinal": 9,
+        "check_id": "proof_dag",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The six declared nodes form the intended acyclic reference shape."
+      },
+      {
+        "ordinal": 10,
+        "check_id": "references",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The example uses internally consistent logical references."
+      },
+      {
+        "ordinal": 11,
+        "check_id": "rule_trace",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The small explicit trace names fact, norm, counterfactual, selection, and conflict checks."
+      },
+      {
+        "ordinal": 12,
+        "check_id": "decision_admissibility",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The chosen route is listed, explicit, and not marked as a forbidden-edge alternative."
+      },
+      {
+        "ordinal": 13,
+        "check_id": "uncertainty_and_conflicts",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The fixture records fail-closed alternatives and a bounded no-conflict claim."
+      },
+      {
+        "ordinal": 14,
+        "check_id": "replay_snapshot",
+        "status": "declared",
+        "failure_code": null,
+        "detail": "Replay is described by provenance and model profile but was not independently run for this fixture."
+      },
+      {
+        "ordinal": 15,
+        "check_id": "logic_profile",
+        "status": "declared",
+        "failure_code": null,
+        "detail": "The semantics and translation hashes are illustrative placeholders; the ESSO backend was not run."
+      },
+      {
+        "ordinal": 16,
+        "check_id": "compilation_bindings",
+        "status": "declared",
+        "failure_code": null,
+        "detail": "All normative Q-pipeline bindings are present but use synthetic placeholders."
+      },
+      {
+        "ordinal": 17,
+        "check_id": "semantic_result",
+        "status": "not_run",
+        "failure_code": null,
+        "detail": "No ESSO, Tau, HOL, or other semantic backend result is claimed by this fixture."
+      },
+      {
+        "ordinal": 18,
+        "check_id": "source_direction",
+        "status": "pass",
+        "failure_code": null,
+        "detail": "The fixture declares that predicate direction is preserved and reverse navigation has browse-only meaning."
+      }
+    ],
+    "external_effect_authorized": false,
+    "checked_at": "2026-08-01T12:00:00Z"
+  },
+  "negative_knowledge": {
+    "items": [
+      {
+        "negative_id": "neg-blocked-edge-counterexample",
+        "kind": "counterexample",
+        "statement": "Selecting act-use-blocked-edge while fact-blocked-edge is true violates the active prohibition.",
+        "evidence_refs": [
+          "alt-use-blocked-edge",
+          "obl-no-blocked-traverse",
+          "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        ],
+        "consequence": "Reject the blocked-edge alternative even if a model ranks it highly."
+      },
+      {
+        "negative_id": "neg-glassmind-out-of-domain",
+        "kind": "excluded_domain",
+        "statement": "The receipt does not establish routing behavior after an unmodeled map, hazard, or state-abstraction change.",
+        "evidence_refs": [
+          "prov-model",
+          "review-routing-state-or-policy"
+        ],
+        "consequence": "Trigger review and use fail-closed abstention or escalation before relying on a changed model."
+      },
+      {
+        "negative_id": "neg-unmodeled-real-world-risk",
+        "kind": "unknown",
+        "statement": "Real emergency conditions, sensor reliability, and executor capability are unknown to this synthetic receipt.",
+        "evidence_refs": [
+          "prov-model",
+          "review-routing-state-or-policy"
+        ],
+        "consequence": "Do not treat the receipt as real-world safety evidence or external authorization."
+      },
+      {
+        "negative_id": "neg-formal-backend-not-run",
+        "kind": "unknown",
+        "statement": "The specified ESSO decision kernel, Tau export gate, and semantic query were not executed for this illustrative fixture.",
+        "evidence_refs": [
+          "prov-policy",
+          "neg-glassmind-out-of-domain"
+        ],
+        "consequence": "Do not claim PCD-S3-NORMATIVE-KERNEL conformance until a fail-closed backend run and its counterexamples are recorded."
+      },
+      {
+        "negative_id": "neg-utility-alignment-gap",
+        "kind": "excluded_domain",
+        "statement": "The bounded utility model does not establish complete stakeholder coverage, moral truth, or protection against every proxy failure.",
+        "evidence_refs": [
+          "prov-policy",
+          "prov-model"
+        ],
+        "consequence": "Keep normative side constraints authoritative and escalate on missing stakeholders, uncertain tails, or model mismatch."
+      }
+    ],
+    "coverage_limits": [
+      "The alternative set is finite and contains only the four listed resolutions.",
+      "The model is the declared frozen GlassMind layered-Q-table profile.",
+      "The example does not establish completeness beyond the declared bounded state.",
+      "The ESSO, Tau, and richer deontic logic profiles are specified but not executed.",
+      "The synthetic knowledge source does not exercise Open English WordNet or Wikidata adapters."
+    ],
+    "counterexample_count": 1
+  },
+  "review_trigger": {
+    "trigger_id": "review-routing-state-or-policy",
+    "status": "not_triggered",
+    "conditions": [
+      {
+        "kind": "fact_revision_changed",
+        "description": "Review if the blocked or open edge observations change.",
+        "reference_refs": [
+          "fact-blocked-edge",
+          "fact-safe-east"
+        ]
+      },
+      {
+        "kind": "norm_revision_changed",
+        "description": "Review if the routing obligation, prohibition, or selection policy changes.",
+        "reference_refs": [
+          "prov-policy",
+          "policy-emergency-route-rank"
+        ]
+      },
+      {
+        "kind": "model_profile_changed",
+        "description": "Review if the frozen GlassMind model profile or state abstraction changes.",
+        "reference_refs": [
+          "prov-model",
+          "neg-glassmind-out-of-domain"
+        ]
+      },
+      {
+        "kind": "source_revoked",
+        "description": "Review before any current use if a referenced source is revoked or superseded.",
+        "reference_refs": [
+          "prov-policy",
+          "prov-model",
+          "prov-observation"
+        ]
+      },
+      {
+        "kind": "logic_profile_changed",
+        "description": "Review if the logic semantics, translation, backend, CTD policy, or finite trace bound changes.",
+        "reference_refs": [
+          "prov-policy",
+          "review-routing-state-or-policy"
+        ]
+      },
+      {
+        "kind": "utility_model_changed",
+        "description": "Review if stakeholders, aggregation, uncertainty, horizon, side constraints, tail treatment, or reward proxies change.",
+        "reference_refs": [
+          "prov-policy",
+          "prov-model"
+        ]
+      },
+      {
+        "kind": "source_adapter_changed",
+        "description": "Review if a source adapter, license, revision, identity mapping, or predicate-direction rule changes.",
+        "reference_refs": [
+          "prov-observation",
+          "review-routing-state-or-policy"
+        ]
+      }
+    ],
+    "required_action": "Recompute the receipt against current facts, policy revisions, canonical hashes, and revocation status before any executor considers the route.",
+    "review_owner": "glassmind-demo-reviewer",
+    "next_review_at": "2026-08-01T12:01:00Z"
+  },
+  "revocation": {
+    "status": "not_revoked",
+    "checked_at": "2026-08-01T12:00:00Z",
+    "checked_provenance_refs": [
+      "prov-policy",
+      "prov-model",
+      "prov-observation"
+    ],
+    "revocation_evidence_refs": [],
+    "replay_behavior": "reject_current_execution_if_revoked"
+  },
+  "demo_status": {
+    "classification": "synthetic_bounded_example",
+    "hash_status": "synthetic_placeholders_not_independently_recomputed",
+    "semantic_status": "rule_trace_only",
+    "independent_execution": false
+  },
+  "nonclaims": {
+    "explicit": true,
+    "statements": [
+      "This receipt does not prove full modal or deontic semantics.",
+      "The synthetic hashes do not establish independent recomputation or source authenticity.",
+      "The GlassMind model does not establish real emergency-routing performance.",
+      "The chosen outcome is not authorization for an external side effect.",
+      "Historical fixture conformance does not establish current validity after revision or revocation.",
+      "An ESSO or Tau result would establish only model-relative conformance, not premise truth or completeness.",
+      "The human explanation is not a checker proof object.",
+      "Reverse navigation does not prove an inverse predicate or implication.",
+      "The bounded utilitarian reward does not establish complete ethical alignment."
+    ],
+    "excluded_scopes": [
+      "real-world emergency response",
+      "unbounded modal reasoning",
+      "external execution authority",
+      "model generalization beyond the frozen profile",
+      "independently verified ESSO or Tau integration",
+      "complete ethical alignment"
+    ]
+  }
+}

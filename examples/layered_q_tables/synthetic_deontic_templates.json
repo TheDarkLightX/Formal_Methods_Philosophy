@@ -1,0 +1,234 @@
+{
+  "schema": "synthetic-deontic-template-bank-v1",
+  "profile_id": "sdk1-bounded-four-valued-deontic-fixtures-v1",
+  "authoritative_status": "synthetic_non_authoritative",
+  "generation_method": "Luna-Max semantic-template synthesis reduced to a deterministic finite lattice",
+  "factorization": {
+    "formula": "8*8*4*8*4*4*2",
+    "record_count": 65536,
+    "ordinal_order": [
+      "domain",
+      "norm_graph",
+      "premise_truth",
+      "time",
+      "priority",
+      "exception",
+      "revision"
+    ]
+  },
+  "nonclaims": [
+    "not_law",
+    "not_ethics",
+    "not_world_truth",
+    "not_external_authority",
+    "not_population_frequency",
+    "not_complete_deontic_logic"
+  ],
+  "axes": {
+    "premise_truth": [
+      "true",
+      "false",
+      "unknown",
+      "both"
+    ],
+    "time": [
+      "atemporal",
+      "before_window",
+      "at_deadline_unperformed",
+      "at_deadline_performed",
+      "after_deadline_unperformed",
+      "after_deadline_performed",
+      "unknown_clock",
+      "contradictory_clock"
+    ],
+    "priority": [
+      "equal_rank",
+      "n0_gt_n1",
+      "n1_gt_n0",
+      "cyclic_priority"
+    ],
+    "exception": [
+      "absent",
+      "supported_true",
+      "supported_false",
+      "unknown_support"
+    ],
+    "revision": [
+      "active",
+      "revoked"
+    ]
+  },
+  "domains": [
+    {
+      "id": "resource_allocation",
+      "actors": ["allocator", "resource_owner", "affected_requester"],
+      "actions": {
+        "primary": ["allocate_capacity", "allocator", "resource_change"],
+        "safe": ["retain_reserve", "resource_owner", "safe_fallback"],
+        "repair": ["reclaim_allocation", "allocator", "reparation"],
+        "review": ["quota_review", "resource_owner", "review"]
+      },
+      "relation": ["capacity_exclusive", "primary", "safe"],
+      "premise_predicate": "request_is_eligible"
+    },
+    {
+      "id": "safety_hazard_control",
+      "actors": ["safety_controller", "safety_authority", "exposed_party"],
+      "actions": {
+        "primary": ["activate_system", "safety_controller", "state_change"],
+        "safe": ["enter_safe_state", "safety_controller", "safe_fallback"],
+        "repair": ["recover_and_inspect", "safety_controller", "reparation"],
+        "review": ["hazard_review", "safety_authority", "review"]
+      },
+      "relation": ["hazard_entails", "primary", "safe"],
+      "premise_predicate": "hazard_controls_verified"
+    },
+    {
+      "id": "privacy_disclosure",
+      "actors": ["data_steward", "privacy_authority", "data_subject"],
+      "actions": {
+        "primary": ["disclose_record", "data_steward", "disclosure"],
+        "safe": ["redact_or_deny", "data_steward", "safe_fallback"],
+        "repair": ["revoke_and_notify", "data_steward", "reparation"],
+        "review": ["privacy_review", "privacy_authority", "review"]
+      },
+      "relation": ["disclosure_conflict", "primary", "safe"],
+      "premise_predicate": "disclosure_basis_verified"
+    },
+    {
+      "id": "governance_enactment",
+      "actors": ["proposal_operator", "governance_authority", "constituency"],
+      "actions": {
+        "primary": ["enact_proposal", "proposal_operator", "governance_change"],
+        "safe": ["defer_for_vote", "governance_authority", "safe_fallback"],
+        "repair": ["repeal_and_restore", "governance_authority", "reparation"],
+        "review": ["governance_review", "governance_authority", "review"]
+      },
+      "relation": ["quorum_gate", "primary", "safe"],
+      "premise_predicate": "quorum_evidence_verified"
+    },
+    {
+      "id": "evidence_publication",
+      "actors": ["researcher", "review_authority", "evidence_consumer"],
+      "actions": {
+        "primary": ["publish_claim", "researcher", "publication"],
+        "safe": ["withhold_and_annotate", "researcher", "safe_fallback"],
+        "repair": ["retract_and_correct", "researcher", "reparation"],
+        "review": ["evidence_review", "review_authority", "review"]
+      },
+      "relation": ["evidence_dependency", "primary", "safe"],
+      "premise_predicate": "claim_evidence_verified"
+    },
+    {
+      "id": "integrity_commit",
+      "actors": ["commit_worker", "integrity_authority", "state_consumer"],
+      "actions": {
+        "primary": ["commit_state", "commit_worker", "state_change"],
+        "safe": ["serialize_or_retry", "commit_worker", "safe_fallback"],
+        "repair": ["rollback_commit", "commit_worker", "reparation"],
+        "review": ["integrity_review", "integrity_authority", "review"]
+      },
+      "relation": ["integrity_gate", "primary", "safe"],
+      "premise_predicate": "commit_preconditions_verified"
+    },
+    {
+      "id": "coordination_assignment",
+      "actors": ["assignment_worker", "coordination_authority", "peer_worker"],
+      "actions": {
+        "primary": ["assign_task", "assignment_worker", "delegation"],
+        "safe": ["coordinate_before_assigning", "peer_worker", "safe_fallback"],
+        "repair": ["revoke_and_reassign", "assignment_worker", "reparation"],
+        "review": ["coordination_review", "coordination_authority", "review"]
+      },
+      "relation": ["lease_exclusive", "primary", "safe"],
+      "premise_predicate": "assignment_scope_verified"
+    },
+    {
+      "id": "workflow_transition",
+      "actors": ["workflow_worker", "workflow_authority", "downstream_worker"],
+      "actions": {
+        "primary": ["advance_workflow", "workflow_worker", "state_change"],
+        "safe": ["pause_for_predecessor", "workflow_worker", "safe_fallback"],
+        "repair": ["compensate_transition", "workflow_worker", "reparation"],
+        "review": ["workflow_review", "workflow_authority", "review"]
+      },
+      "relation": ["predecessor_order", "primary", "safe"],
+      "premise_predicate": "predecessor_receipt_verified"
+    }
+  ],
+  "norm_graphs": [
+    {
+      "id": "obligation_with_safe_permission",
+      "compatibility": "kernel_projection",
+      "norms": [
+        ["n0", "O", "primary", "premise", "atemporal", "none"],
+        ["n1", "P", "safe", "premise", "atemporal", "none"]
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "primary_prohibition_safe_permission",
+      "compatibility": "kernel_projection",
+      "norms": [
+        ["n0", "F", "primary", "premise", "atemporal", "none"],
+        ["n1", "P", "safe", "premise", "atemporal", "none"]
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "dual_permission",
+      "compatibility": "kernel_projection",
+      "norms": [
+        ["n0", "P", "primary", "premise", "atemporal", "none"],
+        ["n1", "P", "safe", "premise", "atemporal", "none"]
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "coherent_obligation_permission",
+      "compatibility": "kernel_projection",
+      "norms": [
+        ["n0", "O", "primary", "premise", "atemporal", "none"],
+        ["n1", "P", "primary", "premise", "atemporal", "none"]
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "same_action_obligation_prohibition",
+      "compatibility": "kernel_projection",
+      "norms": [
+        ["n0", "O", "primary", "premise", "atemporal", "none"],
+        ["n1", "F", "primary", "premise", "atemporal", "none"]
+      ],
+      "conflicts": [["n0", "n1", "same_action"]]
+    },
+    {
+      "id": "exclusive_dual_obligation",
+      "compatibility": "kernel_projection",
+      "norms": [
+        ["n0", "O", "primary", "premise", "atemporal", "none"],
+        ["n1", "O", "safe", "premise", "atemporal", "none"]
+      ],
+      "conflicts": [["n0", "n1", "exclusive_actions"]]
+    },
+    {
+      "id": "deadline_with_repair",
+      "compatibility": "future_pcd_fixture",
+      "norms": [
+        ["n0", "O", "primary", "premise", "deadline", "none"],
+        ["n1", "O", "repair", "violation:n0", "atemporal", "ctd:n0"]
+      ],
+      "conflicts": []
+    },
+    {
+      "id": "repair_obligation_prohibition",
+      "compatibility": "future_pcd_fixture",
+      "norms": [
+        ["n0", "O", "primary", "premise", "deadline", "none"],
+        ["n1", "O", "repair", "violation:n0", "atemporal", "ctd:n0"],
+        ["n2", "F", "repair", "violation:n0", "atemporal", "none"]
+      ],
+      "conflicts": [["n1", "n2", "same_action"]]
+    }
+  ]
+}
