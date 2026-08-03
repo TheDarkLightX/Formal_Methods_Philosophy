@@ -21,14 +21,25 @@ facts, normative acceptance, rewards, table values, or verification labels.
 
 ## Exact profiles
 
-| Profile | Shape | Raw float32 data |
-| --- | --- | ---: |
-| Public | `(256, 6144, 8)` | 50,331,648 bytes, exactly 48 MiB |
-| Full local | `(256, 65536, 8)` | 536,870,912 bytes, exactly 512 MiB |
+| Profile | Logical shape | Dense raw data | Distinct horizon slabs | Quotient raw data |
+| --- | --- | ---: | ---: | ---: |
+| Public | `(256, 6144, 8)` | 50,331,648 bytes, exactly 48 MiB | 14 | 2,752,512 bytes, 2.625 MiB |
+| Full local | `(256, 65536, 8)` | 536,870,912 bytes, exactly 512 MiB | 16 | 33,554,432 bytes, 32 MiB |
 
 The public table factors its states as six required decisions, 256 graph-node
 slots, and four two-bit evidence masks. The full table uses 16 decisions and
 1,024 graph-node slots. Table generation is memory-mapped and chunked.
+
+The quotient stores each byte-distinct horizon slab once and maps all 256
+logical horizons to those physical slabs. It preserves every declared query
+exactly. It does not add knowledge, and the measured slab counts are not
+assumed to remain constant when the state-transition registry changes.
+
+The quotient verifier also reports exact final-horizon structural diversity.
+The current public table has 558 byte-distinct eight-action rows across 6,144
+states; the full table has 659 across 65,536 states. This is not a fact count,
+but it prevents raw address-space growth from being presented as proportional
+growth in decision knowledge.
 
 ## Files
 
@@ -39,6 +50,8 @@ slots, and four two-bit evidence masks. The full table uses 16 decisions and
   `planner_required_decisions_full.json` declare the planner decision records.
 - `deontic_kernel.py` implements a finite input/output-style O/F/P profile.
 - `knowledge_q_table.py` compiles the graph, deontic mask, utility, and Q layers.
+- `horizon_quotient_table.py` losslessly deduplicates byte-identical horizon
+  slabs and exhaustively replays the logical table through the mapping.
 - `policy_profile_demo.py` shows two declared utility profiles producing
   different Q bytes under the same facts, transitions, and hard norm mask.
 - `proof_carrying_decision.schema.json` defines the next-stage receipt envelope.
@@ -114,6 +127,21 @@ python3 -m examples.layered_q_tables.knowledge_q_table verify \
   --table assets/data/glassmind_knowledge_256_50mb.npy \
   --manifest assets/data/glassmind_knowledge_256_50mb.manifest.json \
   --report assets/data/glassmind_knowledge_256_50mb.verify.json
+```
+
+Build and replay the exact horizon quotient:
+
+```bash
+python3 -m examples.layered_q_tables.horizon_quotient_table build \
+  --source assets/data/glassmind_knowledge_256_50mb.npy \
+  --quotient assets/data/glassmind_knowledge_256_horizon_quotient.npy \
+  --manifest assets/data/glassmind_knowledge_256_horizon_quotient.manifest.json
+
+python3 -m examples.layered_q_tables.horizon_quotient_table verify \
+  --source assets/data/glassmind_knowledge_256_50mb.npy \
+  --quotient assets/data/glassmind_knowledge_256_horizon_quotient.npy \
+  --manifest assets/data/glassmind_knowledge_256_horizon_quotient.manifest.json \
+  --report assets/data/glassmind_knowledge_256_horizon_quotient.verify.json
 ```
 
 Build the 512 MiB local profile by replacing `public`, the snapshot, decision

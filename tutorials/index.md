@@ -753,9 +753,9 @@ show_title: false
   >
     <h2 class="fp-card-title">Tutorial 71: GlassMind-256</h2>
     <p class="fp-card-text">
-      Compile a pinned knowledge graph, deontic action gate, and declared utility
-      model into a 256-layer Q table, then distinguish exact model compilation
-      from evidence that additional experience produced new knowledge.
+      Compile a pinned knowledge graph and deontic gate into a literal 256-layer
+      Q table, quotient repeated horizons losslessly, and distinguish storage
+      scaling from evidence that experience produced new knowledge.
     </p>
   </a>
 </div>

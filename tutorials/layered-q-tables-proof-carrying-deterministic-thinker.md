@@ -2,10 +2,10 @@
 title: "GlassMind-256: A Proof-Carrying Deterministic Thinker"
 layout: docs
 kicker: Tutorial 71
-description: "Build a 256-layer Q table from a pinned knowledge graph, a deontic action gate, and a checked finite-horizon recurrence, then compare explicit tabular decisions with GPT-5.6 and Kimi K3."
+description: "Build a 256-layer Q table from a pinned knowledge graph, a deontic action gate, and a checked finite-horizon recurrence, then compare literal lookup, shared-feature fitted Q, and language models."
 ---
 
-A Q table can answer a decision question with one array lookup. If the state,
+A dense Q table can answer a decision question with one array lookup. If the state,
 action, reward model, and planning horizon are explicit, the answer can also be
 replayed exactly. That makes tabular planning attractive when a system needs a
 small, closed decision surface with predictable behavior.
@@ -57,6 +57,62 @@ The greedy optimal action is any action in
 $$
 \operatorname*{arg\,max}_{a} Q^*(s,a).
 $$
+
+### A table is also a one-hot weighted model
+
+The word *weight* does not imply a neural network. A literal Q table can be
+written as a linear model by assigning one indicator feature to every
+state-action cell.
+
+Let $C=S\times A$ be the set of table cells. For every $c\in C$, define
+
+$$
+\phi_c(s,a)
+=
+\begin{cases}
+1 & \text{if }c=(s,a),\\
+0 & \text{otherwise.}
+\end{cases}
+$$
+
+Then a table lookup is exactly
+
+$$
+Q(s,a)=\sum_{c\in C}w_c\phi_c(s,a),
+$$
+
+where $w_c$ is the value stored in cell $c$. Exactly one feature is active, so
+the sum retrieves one stored value. Calling table entries *weights* does not
+turn the table into a neural network or an approximate model.
+
+A shared-feature fitted model instead uses a smaller basis:
+
+$$
+\widehat Q_\theta(s,a)
+=
+\sum_{i=1}^{d}\theta_i\phi_i(s,a),
+\qquad d\ll |S||A|.
+$$
+
+One feature can now affect many state-action pairs. This can compress the model
+and estimate unseen combinations, but it can also create interference when the
+feature map merges situations that require different actions.
+
+This tutorial calls that separately scoped fitted-Q direction **BasisQ-256**.
+GlassMind-256 remains the literal table. BasisQ-256 is a design comparison, not
+a published benchmark result in this tutorial.
+
+| Representation | Stored object | Inference | Principal tradeoff |
+| --- | --- | --- | --- |
+| GlassMind-256 | Dense $Q[h,s,a]$ cells | Array lookup | Exact inside the enumerated model, but storage grows with the state space |
+| Sparse layered table | Keyed Q cells and residual cells | Key lookup and addition | Exact for stored keys, but unseen keys require a declared fallback |
+| BasisQ-256 | Shared features and coefficients | Dot product, then admissibility filtering | Compact transfer across states, but approximate and feature-dependent |
+
+The fitted direction arose because almost every natural-language episode can
+have a distinct raw key. A literal table cannot transfer to an unseen key
+unless a declared canonicalizer or backoff map relates it to a stored state.
+Shared features can transfer, but that is a different architecture and must not
+be silently presented as a giant lookup table.
 
 This definition is associated with [Watkins and Dayan's Q-learning
 paper](https://doi.org/10.1007/BF00992698), but a Q table does not have to be
@@ -230,6 +286,79 @@ $$
 
 states. Storage grows linearly with the number of layers, but usually grows
 combinatorially when additional facts must be represented in the state.
+
+### Logical layers versus physical slabs
+
+The formulas above describe a dense baseline. They do not imply that every
+logical horizon must occupy a different physical array. If two complete
+horizon slabs are byte-identical, a lossless quotient can store the slab once:
+
+$$
+m:\{0,\ldots,255\}\rightarrow\{0,\ldots,P-1\},
+\qquad
+Q_{\mathrm{logical}}[h,s,a]
+=Q_{\mathrm{physical}}[m(h),s,a].
+$$
+
+The horizon remains part of the query. Only its physical storage is shared.
+Every returned value is still an explicit table cell. There is no fitted dot
+product and no approximation.
+
+An audit of the generated tables found that the Bellman recurrence reaches an
+exact byte-level fixed point much earlier than horizon 255:
+
+| Profile | Logical horizons | Byte-distinct slabs | Fixed-point representative | Quotient raw data | Raw bytes avoided | Exhaustive quotient replay |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Public | 256 | 14 | 13 | 2,752,512 bytes (2.625 MiB) | 47,579,136 (94.53125%) | 12,582,912 values, 0 mismatches |
+| Full local | 256 | 16 | 15 | 33,554,432 bytes (32 MiB) | 503,316,480 (93.75%) | 134,217,728 values, 0 mismatches |
+
+The ordinary Bellman verifier establishes the recurrence. The separate
+quotient verifier checks every logical `(h, s, a)` query against the original
+dense table. Together they support an exact fixed-point interpretation inside
+this finite model.
+
+This improves **representation efficiency**, not knowledge. In these exact
+artifacts, 242 or 240 tail horizons repeat the same bytes. Those addressable
+horizons must not be counted as independent layers of learned information. The
+quotient is standard exact deduplication, not a claimed novel data structure.
+
+A second exact audit counted byte-distinct eight-action value rows at the final
+horizon:
+
+| Profile | Registered states | Distinct final-horizon Q rows | Fraction |
+| --- | ---: | ---: | ---: |
+| Public | 6,144 | 558 | 9.082% |
+| Full local | 65,536 | 659 | 1.006% |
+
+Equal final Q rows do not prove that two states have identical provenance,
+transitions, or earlier-horizon behavior. This is not a fact count. It does
+show why raw state count is also an inadequate knowledge metric: the larger
+registry has much more address space than final-horizon decision diversity.
+
+At a fixed byte budget, the recovered space can instead hold more canonical
+states. For example, if a larger model still needs only 16 physical slabs,
+eight actions, and four bytes per value, a 512 MiB payload can hold
+
+$$
+\frac{512\times2^{20}}{16\times8\times4}=1{,}048{,}576
+$$
+
+states. This is a conditional capacity calculation, not an achieved learning
+result. Adding meaningful transitions can increase the graph diameter and the
+number of distinct slabs. A scaled build must measure both quantities again.
+
+The next scale gate should spend reclaimed bytes only when at least one
+decision-relevant measure improves: reachable transition families, distinct
+normative conflicts, independently sourced outcomes, held-out rollout return,
+calibration, source-removal sensitivity, or exact counterexample coverage.
+Merely adding Cartesian-product keys should fail the gate.
+
+For storage benchmarking, a precise metric is *verified logical queries
+preserved per stored byte*. The quotient preserves about 4.57 logical values
+per NPY byte in the public profile and 4.00 in the full profile. This is not
+"intelligence per byte" or "morality per byte." Those labels would collapse
+task quality, normative premises, coverage, and representation overhead into
+one misleading number.
 
 ## 4. From source data to checked decision bytes
 
@@ -520,7 +649,7 @@ Evidence must still be separated by authority:
 | Generated content | Exact 65,536-record product, 16 gzip shards, stable roots, and explicit synthetic nonclaims | Real-world truth, legal force, moral authority, or population representativeness |
 | Raw-corpus oracle | All records accepted; diversity and outcome gates G08 and G09 passed | A complete schema-derived hostile-mutation and law-witness package |
 | Clean rebuild comparison | A second manifest and all 16 shards were byte-identical | A retained two-build receipt with a second complete oracle report |
-| Release and tools | The reducer and explicit tool table ran fail-closed | Durable receipt bodies, full call-graph evidence, and exact-profile ESSO, Tau, Lean, Research Kernel, PopperPad, LEAP, Morph, ZAG, Julia, or ZenoFCIS receipts |
+| Release and tools | The reducer and explicit tool table ran fail-closed | Durable receipt bodies, full call-graph evidence, and exact-profile logic, theorem-prover, abstraction-synthesis, numerical, and falsification-ledger receipts |
 
 The reducer therefore assigned **`QUARANTINED_CORPUS`**. G08, G09, and the
 honest-status-table gate G14 passed. G00 through G07 and G10 through G13 remain
@@ -641,11 +770,29 @@ python3 -m examples.layered_q_tables.knowledge_q_table verify \
   --report assets/data/glassmind_knowledge_256_50mb.verify.json
 ```
 
+Build and exhaustively replay the lossless horizon quotient:
+
+```bash
+python3 -m examples.layered_q_tables.horizon_quotient_table build \
+  --source assets/data/glassmind_knowledge_256_50mb.npy \
+  --quotient assets/data/glassmind_knowledge_256_horizon_quotient.npy \
+  --manifest assets/data/glassmind_knowledge_256_horizon_quotient.manifest.json
+
+python3 -m examples.layered_q_tables.horizon_quotient_table verify \
+  --source assets/data/glassmind_knowledge_256_50mb.npy \
+  --quotient assets/data/glassmind_knowledge_256_horizon_quotient.npy \
+  --manifest assets/data/glassmind_knowledge_256_horizon_quotient.manifest.json \
+  --report assets/data/glassmind_knowledge_256_horizon_quotient.verify.json
+```
+
 The published files are:
 
 - [48 MiB Q table]({{ '/assets/data/glassmind_knowledge_256_50mb.npy' | relative_url }});
 - [manifest and provenance]({{ '/assets/data/glassmind_knowledge_256_50mb.manifest.json' | relative_url }});
 - [exhaustive verification report]({{ '/assets/data/glassmind_knowledge_256_50mb.verify.json' | relative_url }});
+- [lossless horizon quotient with a 2.625 MiB raw Q payload]({{ '/assets/data/glassmind_knowledge_256_horizon_quotient.npy' | relative_url }});
+- [quotient manifest]({{ '/assets/data/glassmind_knowledge_256_horizon_quotient.manifest.json' | relative_url }});
+- [quotient exhaustive replay]({{ '/assets/data/glassmind_knowledge_256_horizon_quotient.verify.json' | relative_url }});
 - [256-node WordNet snapshot]({{ '/assets/data/glassmind_wordnet_256.json' | relative_url }});
 - [example reason receipt]({{ '/assets/data/glassmind_knowledge_256_trace.json' | relative_url }}).
 
@@ -699,6 +846,21 @@ python3 -m examples.layered_q_tables.knowledge_q_table verify \
   --report assets/data/glassmind_knowledge_256_512mib.verify.json
 ```
 
+The local lossless quotient is generated and checked separately:
+
+```bash
+python3 -m examples.layered_q_tables.horizon_quotient_table build \
+  --source artifacts/local/glassmind_knowledge_256_512mib.npy \
+  --quotient artifacts/local/glassmind_knowledge_256_512mib.hq.npy \
+  --manifest assets/data/glassmind_knowledge_256_512mib.hq.manifest.json
+
+python3 -m examples.layered_q_tables.horizon_quotient_table verify \
+  --source artifacts/local/glassmind_knowledge_256_512mib.npy \
+  --quotient artifacts/local/glassmind_knowledge_256_512mib.hq.npy \
+  --manifest assets/data/glassmind_knowledge_256_512mib.hq.manifest.json \
+  --report assets/data/glassmind_knowledge_256_512mib.hq.verify.json
+```
+
 Memory mapping means the compiler does not allocate the entire 512 MiB table
 in RAM. Disk capacity still matters. The local artifact is reproducible from
 the public source snapshot, decisions, code, and manifest.
@@ -746,6 +908,28 @@ The public [verification report]({{ '/assets/data/glassmind_knowledge_256_50mb.v
 and the full-profile [verification report]({{ '/assets/data/glassmind_knowledge_256_512mib.verify.json' | relative_url }})
 contain the canonical machine-readable results. The full Q array itself remains
 local because it exceeds GitHub's single-object limit.
+
+The horizon-quotient checks are deliberately separate from the Bellman checks.
+They reported:
+
+```text
+public physical shape: [14, 6144, 8]
+public quotient SHA-256: bb32caac7f4b3b6f2dbca22bf172566d9c6ef57a4e1f4072060cee3caa484384
+public logical values replayed: 12,582,912
+public distinct final-horizon Q rows: 558
+
+full physical shape: [16, 65536, 8]
+full quotient SHA-256: 909d5c85890c2877b1630b7e1ae402d2fbca7174ec017100f7152cd774d1b023
+full logical values replayed: 134,217,728
+full distinct final-horizon Q rows: 659
+
+quotient mismatches: 0
+lossy: false
+```
+
+Two independent public quotient builds were byte-identical, including their
+canonical manifests. This is same-machine deterministic-build evidence, not a
+cross-platform reproducibility claim.
 
 Exhaustive means exhaustive over the declared finite table. It does not mean
 that the state abstraction covers the real world. The replay pass deliberately
@@ -876,6 +1060,8 @@ The strongest supported claims are:
 
 - 256 horizon-indexed Q layers can be generated and memory-mapped;
 - the public and full shapes have exact 48 MiB and 512 MiB raw payloads;
+- the same 256 logical horizons can be represented losslessly by 14 public or
+  16 full-profile physical slabs for these exact artifacts;
 - a pinned external knowledge source can be converted into canonical bounded
   state keys;
 - deontic constraints can be compiled before utility ranking;
@@ -894,6 +1080,9 @@ The demonstration does not establish:
 - that a 512 MiB table has capabilities comparable to a 512 MiB language
   model;
 - that a finite table generalizes outside its canonical keys;
+- that horizon deduplication adds facts, decisions, or moral competence;
+- that the measured 14- or 16-slab fixed point survives a larger state and
+  transition registry;
 - that ESSO checked the entire Python and data pipeline;
 - that Tau was executed for this artifact;
 - that the system is ready to control safety-critical or value-moving effects.
@@ -908,7 +1097,9 @@ The current evidence passes a narrow tutorial gate: the artifacts are
 reproducible and their claims are bounded. It does not pass a knowledge-scaling
 gate or a research-paper gate. Exact finite-horizon dynamic programming over an
 authored model is useful, but it is not evidence that experience has taught the
-system new transition or value information.
+system new transition or value information. The full registry also grew much
+faster than its measured final-horizon decision diversity, so this tutorial
+does not present raw state count as knowledge growth.
 
 A paper would require a significant result beyond that baseline, such as a
 preregistered compression or runtime advantage at equal policy fidelity, a new
@@ -967,8 +1158,9 @@ decision request
 
 ESSO is a useful backend for finite decision graphs. Tau can express a governed
 logic boundary. Lean can prove mathematical invariants about the compiler.
-PopperPad can preserve failed hypotheses and minimal counterexamples. The
-Research Kernel can coordinate hypotheses, evidence, and promotion states.
+An append-only falsification ledger can preserve failed hypotheses and minimal
+counterexamples. A research coordinator can track hypotheses, evidence, and
+promotion states.
 
 The authority rule remains stable across those tools:
 
