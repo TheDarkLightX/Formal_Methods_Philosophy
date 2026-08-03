@@ -754,8 +754,8 @@ show_title: false
     <h2 class="fp-card-title">Tutorial 71: GlassMind-256</h2>
     <p class="fp-card-text">
       Compile a pinned knowledge graph, deontic action gate, and declared utility
-      model into a 256-layer Q table, then see delayed consequences reverse a
-      myopic decision and test what counts as learned knowledge.
+      model into a 256-layer Q table, then distinguish exact model compilation
+      from evidence that additional experience produced new knowledge.
     </p>
   </a>
 </div>

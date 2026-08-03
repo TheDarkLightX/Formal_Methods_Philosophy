@@ -112,77 +112,17 @@ consequences from premises, but it cannot create empirical facts about the
 world. Such premises need measurements, a simulator, reviewed evidence, or
 explicitly labeled assumptions.
 
-### A checked delayed-reward counterexample
-
-[LogicQ-256 v0.3](https://github.com/TheDarkLightX/LogicQ-256/pull/2)
-provides a smaller reference case that separates immediate choice from
-multi-step planning. Its authored world gives the initial state two relevant
-actions:
-
-- `execute` pays $+4$ immediately, activates a hazard obligation, and forces a
-  later mitigation cost of $-12$;
-- `mitigate` costs $-1$, activates a three-step waiting obligation, and later
-  enables an opportunity worth $+8$.
-
-At $\gamma=15/16$, the path selected from immediate reward has return
-
-$$
-4+\frac{15}{16}(-12)=-7.25.
-$$
-
-The horizon-eight policy instead selects `mitigate`, with return
-
-$$
--1+\left(\frac{15}{16}\right)^4(8)
-=5.1798095703125.
-$$
-
-| Policy | First action | Rollout return at $\gamma=15/16$ |
-| --- | --- | ---: |
-| Immediate-reward action selection | `execute` | $-7.25$ |
-| Exact horizon-eight planning | `mitigate` | $5.1798095703125$ |
-
-The common-horizon gain is
-
-$$
-5.1798095703125-(-7.25)=12.4298095703125.
-$$
-
-This proves that future consequences change the selected first action inside
-the declared model. It does not prove that the authored rewards or transitions
-describe an external world, and it is not experience-based Q learning. The
-values are computed from a known transition graph by exact backward dynamic
-programming.
-
-The hardened v0.3 evidence in [draft PR
-#2](https://github.com/TheDarkLightX/LogicQ-256/pull/2), including its
-[machine-readable build
-report](https://github.com/TheDarkLightX/LogicQ-256/blob/agent/million-state-streaming-v2/experiments/results/temporal_v03_build_report.json),
-records:
-
-- 19 reachable states and 28 checked, content-addressed transitions;
-- 128 admissible horizon-indexed Q cells;
-- exact Bellman residual zero and deployed Q16.16 residual zero units;
-- zero forbidden selections in both audited rollouts;
-- byte-identical duplicate artifact builds; and
-- an 8,943-byte artifact with SHA-256
-  `0c5827e6f4ffba16be77c60d9f157684dfef52590ee55e8d134aab045ed6b11d`.
-
-Artifact identifiers are version-specific. The hash above identifies the
-hardened v0.3 artifact used for these measurements. The scope remains narrow:
-the artifact is an exact compiler for one authored finite model.
-
-The two demonstrations also use the word *layer* differently. GlassMind stores
-256 horizon slices. LogicQ uses independent axes:
-
-```text
-Q[remaining horizon][feature or residual layer][state key][action]
-```
-
-Its v0.3 artifact serializes 256 feature-layer slots, but enables only three:
-immediate reward, discounted continuation, and quantization calibration. The
-remaining slots are reserves. Neither representation has learned 256 levels of
-reasoning merely because 256 slots exist.
+<div class="fp-callout fp-callout-warning">
+  <p class="fp-callout-title">Research status: compiled planning, not knowledge scaling</p>
+  <p>
+    The published GlassMind artifact computes exact values from a declared
+    transition and reward model. It does not learn a multi-step Q function from
+    sampled experience. This tutorial therefore makes no current claim that
+    increasing training data improves held-out multi-step decisions. Such a
+    claim requires a stable public implementation, frozen holdout families,
+    small-data and shuffled-label controls, and a reproducible scaling curve.
+  </p>
+</div>
 
 ### More records are not automatically more knowledge
 
@@ -964,10 +904,11 @@ unbounded claim.
 
 ### Tutorial gate and paper gate
 
-The current evidence passes a tutorial gate: the artifacts are reproducible,
-the claims are bounded, and the delayed-reward example is falsifiable. It does
-not pass a research-paper gate. The temporal result is standard finite-horizon
-dynamic programming over one authored synthetic world.
+The current evidence passes a narrow tutorial gate: the artifacts are
+reproducible and their claims are bounded. It does not pass a knowledge-scaling
+gate or a research-paper gate. Exact finite-horizon dynamic programming over an
+authored model is useful, but it is not evidence that experience has taught the
+system new transition or value information.
 
 A paper would require a significant result beyond that baseline, such as a
 preregistered compression or runtime advantage at equal policy fidelity, a new
@@ -975,10 +916,11 @@ deontic Bellman construction with machine-checked properties, positive transfer
 across independently sourced sequential environments, or a new abstraction
 method that defeats strong baselines and is independently replicated.
 
-### From exact planning to multi-step Q learning
+### Proposed gate from exact planning to multi-step Q learning
 
-An exact solver can serve as a reference oracle for a later experience-based
-learner. One deterministic fitted-Q iteration is:
+This section describes a proposed experiment, not a completed result. An exact
+solver can serve as a reference oracle for a later experience-based learner.
+One deterministic fitted-Q iteration is:
 
 ```text
 freeze Q_k
