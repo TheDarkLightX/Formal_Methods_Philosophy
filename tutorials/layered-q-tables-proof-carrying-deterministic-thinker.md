@@ -31,28 +31,57 @@ reasoning, moral truth, or general intelligence.
   </ul>
 </div>
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">A Q table can store one value surface per remaining horizon</p>
+  <img
+    src="{{ '/assets/images/glassmind/horizon-layer-stack.webp' | relative_url }}"
+    alt="A stack of translucent gridded slabs with an amber path selecting one cell on each successive slab."
+    class="fp-illustration"
+    width="1440"
+    height="960"
+    decoding="async">
+  <figcaption class="fp-figure-caption">
+    Each slab represents a complete state-action table for one remaining horizon. The illustration shows only a few representative slabs so that the structure is visible. GlassMind addresses 256 logical slabs. The amber route is one candidate decision path, not a neural activation trace.
+  </figcaption>
+</figure>
+
 ## 1. What a Q value means
 
-For a policy $\pi$, the action-value function is
+For a policy $\pi$, build the definition in two steps. First define the
+discounted return from time zero:
+
+$$
+G_0=\sum_{t=0}^{\infty}\gamma^t R_{t+1}.
+$$
+
+Here $R_{t+1}$ is the reward received after step $t$, and $\gamma$ is the
+discount factor. A smaller $\gamma$ makes distant rewards matter less.
+
+Second, condition that return on the starting state and action:
 
 $$
 Q^{\pi}(s,a)
 =
-\mathbb{E}_{\pi}\!\left[
-\sum_{t=0}^{\infty}\gamma^t R_{t+1}
-\;\middle|\;
-S_0=s, A_0=a
-\right].
+\mathbb{E}_{\pi}\!\left[G_0\mid S_0=s, A_0=a\right].
 $$
 
-It is the expected discounted return after starting in state $s$, taking action
-$a$, and then following policy $\pi$. The optimal action-value function is
+The expectation averages over any randomness in the policy or environment.
+In a fully deterministic finite model, it reduces to the return of the single
+declared path.
+
+The optimal value is the best value available across policies:
 
 $$
-Q^{\ast}(s,a)=\max_{\pi}Q^{\pi}(s,a)=Q^{\pi^{\ast}}(s,a).
+Q^{\ast}(s,a)=\max_{\pi}Q^{\pi}(s,a).
 $$
 
-The greedy optimal action is any action in
+If $\pi^{\ast}$ is a policy that attains this maximum, then
+
+$$
+Q^{\ast}(s,a)=Q^{\pi^{\ast}}(s,a).
+$$
+
+Finally, a greedy optimal action is any action in
 
 $$
 \operatorname*{arg\,max}_{a} Q^{\ast}(s,a).
@@ -108,6 +137,21 @@ a published benchmark result in this tutorial.
 | Sparse layered table | Keyed Q cells and residual cells | Key lookup and addition | Exact for stored keys, but unseen keys require a declared fallback |
 | BasisQ-256 | Shared features and coefficients | Dot product, then admissibility filtering | Compact transfer across states, but approximate and feature-dependent |
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">Literal address lookup versus shared-feature estimation</p>
+  <img
+    src="{{ '/assets/images/glassmind/table-versus-shared-features.webp' | relative_url }}"
+    alt="On the left, three coordinates identify one glowing cell in a dense grid. On the right, a small set of colored feature columns connects to many output tiles and combines at one highlighted tile."
+    class="fp-illustration"
+    width="1440"
+    height="790"
+    loading="lazy"
+    decoding="async">
+  <figcaption class="fp-figure-caption">
+    Left: a literal table stores an independently addressable value at every declared coordinate. Right: a fitted shared-feature model reuses a smaller set of coefficients across many states. Reuse enables compression and transfer, but it also couples errors between states.
+  </figcaption>
+</figure>
+
 The fitted direction arose because almost every natural-language episode can
 have a distinct raw key. A literal table cannot transfer to an unseen key
 unless a declared canonicalizer or backoff map relates it to a stored state.
@@ -123,17 +167,94 @@ dynamic programming can compute it directly.
 
 GlassMind stores $Q_h(s,a)$ for every remaining horizon
 $h \in \{0,\ldots,255\}$. For a deterministic transition $T$ and reward $r$,
+one Bellman backup can be read as three small operations.
+
+First, apply the selected action:
 
 $$
-Q_h(s,a)
-=
-r(s,a)
-+
-\gamma \max_b Q_{h-1}(T(s,a),b)
+s'=T(s,a).
 $$
 
-for nonterminal actions when $h>0$. Terminal actions have no continuation term.
-Layer zero admits only terminal actions.
+Second, find the best continuation value on the preceding horizon:
+
+$$
+C_{h-1}(s')=\max_b Q_{h-1}(s',b).
+$$
+
+Third, add the immediate reward to the discounted continuation:
+
+$$
+Q_h(s,a)=r(s,a)+\gamma C_{h-1}(s').
+$$
+
+These three lines are equivalent to the usual one-line recurrence. They apply
+to nonterminal actions when $h>0$. Terminal actions have no continuation term,
+and layer zero admits only terminal actions. Section 5 further restricts the
+maximum to deontically admissible actions.
+
+### Worked example: planning can reverse the immediate choice
+
+Assume a small deterministic model with two possible first actions:
+
+- `execute` gives $+4$ now, then forces a repair cost of $-12$ one step later;
+- `mitigate` costs $-1$ now, waits safely for three steps, then produces $+8$
+  at time $t=4$.
+
+This is a declared teaching model, not an empirical claim about an external
+system.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">The larger immediate reward is not the better path</p>
+  {% include diagrams/glassmind-delayed-reward-fork.svg %}
+  <figcaption class="fp-figure-caption">
+    The upper path wins if only the first reward is inspected. The lower path wins when the complete discounted return is evaluated. The exponent four is part of the model: the positive outcome arrives four decision steps after the initial action.
+  </figcaption>
+</figure>
+
+Set the discount factor first:
+
+$$
+\gamma=\frac{15}{16}=0.9375.
+$$
+
+For `execute`, discount the later loss by one step:
+
+$$
+\gamma(-12)=-11.25.
+$$
+
+Then add the immediate reward:
+
+$$
+4+(-11.25)=-7.25.
+$$
+
+For `mitigate`, calculate the four-step discount:
+
+$$
+\gamma^4=0.7724761962890625.
+$$
+
+Apply it to the delayed reward:
+
+$$
+8\gamma^4=6.1798095703125.
+$$
+
+Finally, include the immediate cost:
+
+$$
+-1+6.1798095703125=5.1798095703125.
+$$
+
+The planned advantage over the immediate-reward choice is therefore
+
+$$
+5.1798095703125-(-7.25)=12.4298095703125.
+$$
+
+Inside this toy model, the multi-step planner selects `mitigate`. If the delay,
+rewards, or transition graph changes, the calculation must be rebuilt.
 
 These 256 layers are not analogous to 256 transformer blocks. Each table layer
 is an explicit value function for one planning horizon. A transformer layer is
@@ -216,35 +337,46 @@ the abstraction is lossy in a decision-relevant way.
 Third, quantizing Q values compresses the values themselves. This can be lossy
 about exact returns while preserving the selected action.
 
-A useful error measure is **decision distortion**:
+A useful error measure is **decision distortion**. Calculate it in two steps.
+First, record the action chosen by the compressed system:
 
 $$
-d(x)
-=
-V^{\ast}(x)-Q^{\ast}\!\left(x,\hat\pi(x)\right),
-\qquad
 \hat\pi(x)=\operatorname*{arg\,max}_a
 \widehat Q(\phi(x),a).
 $$
 
-This asks how much value is lost because the compressed system selected
-$\hat\pi(x)$ instead of an optimal action.
+Second, evaluate that chosen action with the exact reference values:
+
+$$
+d(x)=V^{\ast}(x)-Q^{\ast}\!\left(x,\hat\pi(x)\right).
+$$
+
+Thus $d(x)$ asks how much value is lost because the compressed system selected
+$\hat\pi(x)$ instead of an optimal action. The approximate model chooses the
+action, but the reference model measures the loss.
 
 Suppose every stored value has absolute error at most $\varepsilon$. If the
 gap between the best and second-best exact action at a state is greater than
 $2\varepsilon$, quantization cannot change the greedy action at that state.
-For a standard finite discounted setting, a common worst-case greedy-policy
-bound is
+
+For a standard finite discounted setting, first define the discount-dependent
+amplification factor
+
+$$
+B(\gamma)=\frac{2}{1-\gamma}.
+$$
+
+A common worst-case greedy-policy bound can then be written as
 
 $$
 \lVert V^{\ast}-V^{\hat\pi}\rVert_{\infty}
-\leq
-\frac{2\varepsilon}{1-\gamma}.
+\leq B(\gamma)\varepsilon.
 $$
 
 The assumptions matter. This bound requires uniform Q error in the modeled
-domain. It says nothing about observations that the state encoder maps
-incorrectly or cannot represent.
+domain. The infinity norm means the largest absolute value error over all
+modeled states. The bound says nothing about observations that the state
+encoder maps incorrectly or cannot represent.
 
 The ICLR 2025 paper [*Physics of Language Models: Part 3.3, Knowledge Capacity
 Scaling Laws*](https://proceedings.iclr.cc/paper_files/paper/2025/hash/26d3c9a66836ded8f34a944f2bfe868e-Abstract-Conference.html)
@@ -259,20 +391,37 @@ There is no mathematical maximum such as 16, 256, or 1,000 layers. A finite
 implementation is limited by storage, build time, and whether a longer horizon
 changes the policy.
 
-For $H$ layers, $S$ states, $A$ actions, and $b_q$ bytes per value,
+For $H$ layers, $S$ states, and $A$ actions, first count the table cells:
 
 $$
-M_Q=HSA b_q.
+N_Q=HSA.
 $$
 
-GlassMind uses `float32`, so $b_q=4$.
+If each value occupies $b_q$ bytes, convert that count into storage:
+
+$$
+M_Q=N_Qb_q.
+$$
+
+GlassMind uses `float32`, so $b_q=4$. For the public profile, the cell count is
+
+$$
+N_Q=256\times6{,}144\times8=12{,}582{,}912.
+$$
+
+Multiplying by four bytes per cell gives
+
+$$
+M_Q=12{,}582{,}912\times4=50{,}331{,}648\text{ bytes}=48\text{ MiB}.
+$$
 
 | Profile | Layers $H$ | States $S$ | Actions $A$ | Raw Q bytes |
 | --- | ---: | ---: | ---: | ---: |
 | Public | 256 | 6,144 | 8 | 50,331,648 bytes, exactly 48 MiB |
 | Full local | 256 | 65,536 | 8 | 536,870,912 bytes, exactly 512 MiB |
 
-The public state count factors as
+The public state count combines 6 decisions, 256 graph slots, and 4 evidence
+masks:
 
 $$
 6\text{ decisions}\times256\text{ graph slots}\times4\text{ evidence masks}
@@ -292,11 +441,17 @@ combinatorially when additional facts must be represented in the state.
 
 The formulas above describe a dense baseline. They do not imply that every
 logical horizon must occupy a different physical array. If two complete
-horizon slabs are byte-identical, a lossless quotient can store the slab once:
+horizon slabs are byte-identical, a lossless quotient can store the slab once.
+
+First map each logical horizon to a physical slab identifier:
 
 $$
-m:\{0,\ldots,255\}\rightarrow\{0,\ldots,P-1\},
-\qquad
+m:\{0,\ldots,255\}\rightarrow\{0,\ldots,P-1\}.
+$$
+
+Then answer a logical query through that mapping:
+
+$$
 Q_{\mathrm{logical}}[h,s,a]
 =Q_{\mathrm{physical}}[m(h),s,a].
 $$
@@ -337,16 +492,23 @@ show why raw state count is also an inadequate knowledge metric: the larger
 registry has much more address space than final-horizon decision diversity.
 
 At a fixed byte budget, the recovered space can instead hold more canonical
-states. For example, if a larger model still needs only 16 physical slabs,
-eight actions, and four bytes per value, a 512 MiB payload can hold
+states. For example, suppose a larger model still needs only 16 physical slabs,
+eight actions, and four bytes per value. One state then occupies
 
 $$
-\frac{512\times2^{20}}{16\times8\times4}=1{,}048{,}576
+16\times8\times4=512\text{ bytes}.
 $$
 
-states. This is a conditional capacity calculation, not an achieved learning
-result. Adding meaningful transitions can increase the graph diameter and the
-number of distinct slabs. A scaled build must measure both quantities again.
+A 512 MiB payload can therefore address
+
+$$
+\frac{512\times2^{20}\text{ bytes}}{512\text{ bytes per state}}
+=1{,}048{,}576\text{ states}.
+$$
+
+This is a conditional capacity calculation, not an achieved learning result.
+Adding meaningful transitions can increase the graph diameter and the number
+of distinct slabs. A scaled build must measure both quantities again.
 
 The next scale gate should spend reclaimed bytes only when at least one
 decision-relevant measure improves: reachable transition families, distinct
@@ -463,6 +625,14 @@ deadline or "until" obligation would need a separately declared temporal model.
 
 ### Compile norms before utility
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">The logic gate acts before numerical ranking</p>
+  {% include diagrams/glassmind-deontic-gate.svg %}
+  <figcaption class="fp-figure-caption">
+    A coherent active obligation narrows the optimizer to the obligation set. Otherwise, the optimizer receives the permitted and not-forbidden set. An action outside the resulting set never enters the Q-value comparison.
+  </figcaption>
+</figure>
+
 Let $A_P(s)$ be the actions permitted and not forbidden in state $s$. If the
 profile has an active, coherent obligation set $A_O(s)$, the optimizer receives
 
@@ -474,20 +644,44 @@ A_P(s), & \text{otherwise}.
 \end{cases}
 $$
 
-The recurrence is then
+Selection first enforces the Boolean condition
+
+$$
+\operatorname{selectable}(s,a)\iff a\in A_D(s).
+$$
+
+For a selectable action, apply the transition and compute the best admissible
+continuation:
+
+$$
+s'=T(s,a),
+$$
+
+$$
+C_{h-1}(s')=\max_{b\in A_D(s')}Q_{h-1}(s',b).
+$$
+
+The admissible recurrence is then
 
 $$
 Q_h(s,a)=
 \begin{cases}
--10^6, & a\notin A_D(s),\\
-U(s,a), & a\in A_D(s)\text{ and }a\text{ is terminal},\\
-U(s,a)+\gamma\max_b Q_{h-1}(T(s,a),b), & \text{otherwise}.
+U(s,a), & a\text{ is terminal},\\
+U(s,a)+\gamma C_{h-1}(s'), & \text{otherwise}.
 \end{cases}
 $$
 
-The finite value $-10^6$ is an unavailable-action sentinel inside this bounded
-model. More importantly, an independent Boolean mask controls selection. The
-sentinel is not trusted as the sole safety mechanism.
+The serialized table writes the unavailable-action sentinel separately:
+
+$$
+Q^{\mathrm{stored}}_h(s,a)=-10^6
+\quad\text{when }a\notin A_D(s).
+$$
+
+The independent Boolean mask still controls selection. The sentinel is not
+trusted as the sole safety mechanism. If a required continuation has no
+admissible action, the compiler must fail closed or quarantine the state rather
+than take a maximum over an empty set.
 
 The demo's ESSO model checks finite adapter invariants with explicit domains
 and observables. Z3 and CVC5 agreed on all seven declared queries in two

@@ -1,0 +1,46 @@
+{
+  "schema_version": "formal-philosophy-image-manifest-v1",
+  "created_date": "2026-08-03",
+  "generator": "OpenAI built-in image generation tool",
+  "postprocessing": {
+    "command_shape": "strip metadata, resize only if wider than 1440 pixels, encode WebP at quality 84",
+    "software": "ImageMagick"
+  },
+  "accepted_assets": [
+    {
+      "path": "assets/images/glassmind/horizon-layer-stack.webp",
+      "sha256": "9bdd37656d6abe91a408a9cc9a8b14e1f991838ae8a20ee049b46f10877a8525",
+      "width": 1440,
+      "height": 960,
+      "bytes": 82592,
+      "use_case": "scientific-educational",
+      "prompt_spec": [
+        "Visualize a finite horizon-indexed Q table as a stack of translucent glass data slabs.",
+        "Every slab is a precise rectangular grid of state-action cells.",
+        "A single luminous decision path moves through one cell on successive slabs and ends at a terminal slab.",
+        "Use a clean warm-white background, crisp vector-like geometry, navy, cyan, violet, and amber.",
+        "No text, letters, digits, formulas, legends, people, robots, brains, logos, or watermarks."
+      ]
+    },
+    {
+      "path": "assets/images/glassmind/table-versus-shared-features.webp",
+      "sha256": "b8b7564ed4ddffd3daddad2ef5e4f075948dda926a7456f93989c70627ea75ed",
+      "width": 1440,
+      "height": 790,
+      "bytes": 58802,
+      "use_case": "scientific-educational",
+      "prompt_spec": [
+        "Compare two representations in a balanced two-panel illustration.",
+        "On the left, show a literal lookup table as a precise grid of independent addressable cells with one coordinate selecting exactly one cell.",
+        "On the right, show a compact shared-feature model whose reusable feature prisms connect to many state-action tiles and combine at one output.",
+        "Use a clean warm-white background, crisp vector-like geometry, navy, cyan, violet, teal, and amber.",
+        "No text, letters, digits, formulas, legends, people, robots, brains, logos, or watermarks."
+      ]
+    }
+  ],
+  "code_native_figures": [
+    "_includes/diagrams/glassmind-delayed-reward-fork.svg",
+    "_includes/diagrams/glassmind-deontic-gate.svg"
+  ],
+  "note": "Generated illustrations communicate visual structure. Exact logical branches and arithmetic use code-native SVG and MathJax."
+}
