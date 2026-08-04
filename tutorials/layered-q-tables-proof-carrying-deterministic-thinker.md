@@ -129,9 +129,9 @@ and compute estimates for unseen combinations. The architecture does not prove
 that those estimates are correct. Shared features can also create interference
 when the feature map merges situations that require different actions.
 
-This tutorial calls that separately scoped fitted-Q direction **BasisQ-256**.
-GlassMind-256 remains the literal table. BasisQ-256 is a design comparison, not
-a published benchmark result in this tutorial.
+The separately scoped fitted-Q direction is named **BasisQ-256**.
+GlassMind-256 remains the literal table. BasisQ-256 serves only as an
+architectural comparison and supplies no evidence for GlassMind's claims.
 
 | Representation | Stored object | Inference | Principal tradeoff |
 | --- | --- | --- | --- |
@@ -293,14 +293,13 @@ world. Such premises need measurements, a simulator, reviewed evidence, or
 explicitly labeled assumptions.
 
 <div class="fp-callout fp-callout-warning">
-  <p class="fp-callout-title">Research status: compiled planning, not knowledge scaling</p>
+  <p class="fp-callout-title">Compiled planning is not learned Q</p>
   <p>
-    The published GlassMind artifact computes exact values from a declared
-    transition and reward model. It does not learn a multi-step Q function from
-    sampled experience. This tutorial therefore makes no current claim that
-    increasing training data improves held-out multi-step decisions. Such a
-    claim requires a stable public implementation, frozen holdout families,
-    small-data and shuffled-label controls, and a reproducible scaling curve.
+    GlassMind computes exact values from a declared transition and reward
+    model. It does not learn a multi-step Q function from sampled experience.
+    Evidence that more experience improves decisions would require frozen
+    holdout families, small-data and shuffled-label controls, and a
+    reproducible scaling curve.
   </p>
 </div>
 
@@ -513,11 +512,11 @@ This is a conditional capacity calculation, not an achieved learning result.
 Adding meaningful transitions can increase the graph diameter and the number
 of distinct slabs. A scaled build must measure both quantities again.
 
-The next scale gate should spend reclaimed bytes only when at least one
-decision-relevant measure improves: reachable transition families, distinct
+Reclaimed bytes should be spent only when at least one decision-relevant
+measure improves: reachable transition families, distinct
 normative conflicts, independently sourced outcomes, held-out rollout return,
 calibration, source-removal sensitivity, or exact counterexample coverage.
-Merely adding Cartesian-product keys should fail the gate.
+Merely adding Cartesian-product keys is not an improvement.
 
 For storage benchmarking, a precise metric is *verified logical queries
 preserved per stored byte*. The quotient preserves about 4.57 logical values
@@ -569,7 +568,7 @@ should:
 5. search low-coverage and low-action-gap regions instead of generating only
    easy cases;
 6. keep the generator outside the final acceptance boundary; and
-7. bind source, policy, utility, and output hashes in every promoted artifact.
+7. bind source, policy, utility, and output hashes in every accepted artifact.
 
 More generated rows do not repair a weak labeler. If the simulator or normative
 profile is wrong, dynamic programming will faithfully amplify the wrong model.
@@ -616,7 +615,7 @@ it erased the original violation produces misleading receipts.
 [Benzmüller, Parent, and van der
 Torre](https://xavierparent.github.io/pdf/C69.pdf) describe a deontic reasoning
 infrastructure that supports multiple logics instead of assuming one formalism
-is best for every problem. The current demo follows that engineering lesson. It
+is best for every problem. GlassMind follows that engineering lesson. It
 uses a small finite input/output-style detachment profile. Conflicts, unknown
 premises, multiple simultaneous obligations, and unsupported
 contrary-to-duty constructs are quarantined.
@@ -706,169 +705,44 @@ semantics for every domain. A serious system needs separate, versioned lanes:
 | Authoritative source text | [EUR-Lex data services](https://eur-lex.europa.eu/content/help/data-reuse/webservice.html?locale=en) | Versioned EU legal documents and bulk-access routes | A ready-made O/F/P translation; amendments, scope, and applicability still need checking |
 | Descriptive social norms | [NormBank](https://aclanthology.org/2023.acl-long.429/) | A large empirical collection of situational social norms | Legal authority, moral truth, or formal deontic proofs |
 
-The current artifact uses only the first lane plus a small explicit policy
-pack. The other sources are candidates for a later ingestion and validation
-pipeline. Before a LegalRuleML or legislative rule can constrain real action,
-the receipt must bind its issuer, jurisdiction, version, effective interval,
-exceptions, amendments, and translation review. Descriptive datasets such as
-NormBank belong in a proposal or empirical-evidence lane, not an authority
-lane.
+GlassMind uses only the first lane plus a small explicit policy pack. The other
+sources require separate ingestion and validation. Before a LegalRuleML or
+legislative rule can constrain real action, the receipt must bind its issuer,
+jurisdiction, version, effective interval, exceptions, amendments, and
+translation review. Descriptive datasets such as NormBank belong in a proposal
+or empirical-evidence lane, not an authority lane.
 
-### The Luna-generated v0 candidate, and why it failed
+### Synthetic deontic data needs semantic validation
 
-A lexical graph helps name concepts, but it is not a substitute for normative
-structure. A separate Luna-Max campaign therefore proposed a deontic problem
-lattice rather than more WordNet substitutions. Its v0 construction was:
+A lexical graph can name concepts, but it cannot supply normative authority.
+Synthetic problem banks can add structured challenge cases by varying:
 
-```text
-8 typed domains
-  x 8 norm graphs
-  x 4 premise values
-  x 8 temporal states
-  x 4 priority states
-  x 4 exception states
-  x 2 revision states
-  = 65,536 synthetic records
-```
+- obligation, prohibition, and permission topologies;
+- true, false, unknown, and inconsistent evidence;
+- priorities, exceptions, deadlines, and revocations;
+- resolved, abstaining, and escalating outcomes; and
+- contrary-to-duty repairs after a primary obligation is violated.
 
-The premise values are true, false, unknown, and inconsistent. The norm graphs
-cover obligations, prohibitions, permissions, same-action conflicts,
-exclusive obligations, deadlines, and contrary-to-duty repairs. Other axes
-change the clock, conflict order, exception evidence, and revocation state.
-This creates typed semantic variation rather than counting paraphrases as new
-knowledge.
+A Cartesian product over these axes is a test surface, not evidence about the
+world. Large row counts can still collapse to a small number of distinct
+behaviors, and a deterministic generator can reproduce the same semantic error
+perfectly.
 
-The generator assigned a candidate result, but did not own acceptance. A
-separate oracle, which imported none of the generator code, derived every
-coordinate from raw semantic IR, recomputed hashes and references, and
-evaluated the bounded result. The historical integrity run reported:
+Acceptance labels should therefore come from an independently implemented
+oracle rather than from the content generator. The oracle should reconstruct
+each result from semantic inputs, execute both endpoints of every claimed
+counterfactual, reject caller-supplied verification fields, and preserve
+minimal disagreements as regression cases.
 
-| Corpus check | Result |
-| --- | ---: |
-| Records checked | 65,536 |
-| Unique semantic signatures | 65,536 |
-| Independent-oracle errors | 0 |
-| Resolved fixtures | 6,944 |
-| Unresolved fixtures | 58,592 |
-| Exact current-kernel projections | 1,152 |
-| Explicitly quarantined projections | 64,384 |
-| Negative-knowledge items | 285,056 |
-| Compressed size across 16 shards | about 9.3 MiB |
+Unsupported semantics must remain explicit. If the checker does not implement
+priority, exception, temporal, or contrary-to-duty rules, those records belong
+in an `unsupported_quarantine` class. A missing proof-tool run is missing
+evidence, not an implicit success.
 
-The high unresolved count comes from systematic conflict, uncertainty,
-inconsistency, revocation, and unsupported-feature cases. It is not a claim
-about real-world prevalence. A clean second generation produced a byte-identical
-manifest and all 16 byte-identical shards.
-
-Those results were necessary but not sufficient. A later Luna-Max
-falsification pass found only 49 role-normalized behaviors, plus re-sealed
-hostile records that the oracle accepted, incorrect contrary-to-duty behavior,
-ambiguous deadlines, dormant axes, and counterfactual claims that had never
-been executed. The v0 corpus is therefore **NO-GO for semantic promotion**.
-Its hashes and deterministic replay remain useful as negative knowledge and as
-a regression target. The detailed counterexamples are retained in the
-[v0 audit](https://github.com/TheDarkLightX/FormalPhilosophy/blob/main/research/synthetic_deontic_kb_luna_audit_v0.md).
-
-The historical artifacts are the [manifest]({{ '/assets/data/glassmind_synthetic_deontic_65536.manifest.json' | relative_url }}),
-[independent verification report]({{ '/assets/data/glassmind_synthetic_deontic_65536.verify.json' | relative_url }}),
-[deterministic replay report]({{ '/assets/data/glassmind_synthetic_deontic_65536.replay.json' | relative_url }}),
-and 16 compressed JSONL files under
-`assets/data/glassmind_synthetic_deontic_65536/`.
-
-Every record says `synthetic_non_authoritative`, `not_law`, `not_ethics`,
-`not_world_truth`, and `not_external_authority`. The current kernel does not
-implement priority, exception, temporal, or contrary-to-duty semantics. Those
-cases are useful future-profile and falsification fixtures, but their current
-projection remains `unsupported_quarantine`. The corpus verification also
-records SMT, ESSO, Tau, Lean, and HOL as `SKIP`, not implicit success.
-
-### What Luna v1 improved, and why it is still quarantined
-
-**Status: `QUARANTINED_CORPUS`.** Passing some finite checks did not promote
-the corpus.
-
-V1 treats the language model as a content proposer, not as the source of
-acceptance labels. It replaces the global v0 axes with a causal, topology-local
-product:
-
-```text
-16 typed domains
-  x 16 deontic topology programs
-  x 4 evidence values
-  x 4 local state variants
-  x 4 local resolution variants
-  x 4 local defeater variants
-  = 65,536 synthetic records
-```
-
-This problem bank is upstream of a Q table. It supplies explicit decision
-micro-worlds, conflicts, uncertainties, and checked counterfactuals that a
-later compiler could use as training, challenge, or regression data. It does
-not directly enlarge the GlassMind state space, and its synthetic norms are not
-automatically valid policy.
-
-The separate raw-record oracle found:
-
-| Measurement | Exact result |
-| --- | ---: |
-| Accepted records | 65,536 of 65,536 |
-| Normalized dispositions | 322 |
-| One-axis pairs classified | 393,216 of 393,216 |
-| `EFFECT` classifications | 177,600 |
-| `INVARIANT` classifications | 215,616 |
-| Declared spanning-effect witnesses | 3,072 of 3,072 |
-| Resolved outcomes | 8,480 |
-| Unresolved abstentions | 18,576 |
-| Unresolved escalations | 38,480 |
-
-The axis counts are informative. Evidence changed 91,136 of its 98,304 pairs,
-while resolution changed only 1,536 of 98,304. The remaining resolution pairs
-were checked invariants because another condition masked the priority change.
-An invariant is useful negative knowledge when both endpoints and their equal
-results were actually rebuilt and compared.
-
-Here, an `EFFECT` means that one encoded axis changed the normalized result or
-proof trace inside the frozen profile. It is not evidence of real-world
-causality. Likewise, 322 normalized dispositions are finite quotient classes,
-not 322 discoveries about the world.
-
-The run also exposed mistakes in its own pipeline. The first generator and
-oracle disagreed at ordinal `12336`. A peer audit then found that an early
-counterfactual path trusted fields on a caller-supplied verified endpoint. Both
-defects were repaired and retained as adversarial regressions before any v1
-promotion. A second exhaustive peer computation reproduced 322 classes, all
-393,216 pair classifications, the outcome counts above, and receipt-set root
-`9ccf9ae8d13c9b4fb12cee0503af4010a35ac73c75b3457c4fda528c21a0c2ab`.
-
-Evidence must still be separated by authority:
-
-| Evidence lane | What passed | What remains absent |
-| --- | --- | --- |
-| Generated content | Exact 65,536-record product, 16 gzip shards, stable roots, and explicit synthetic nonclaims | Real-world truth, legal force, moral authority, or population representativeness |
-| Raw-corpus oracle | All records accepted; diversity and outcome gates G08 and G09 passed | A complete schema-derived hostile-mutation and law-witness package |
-| Clean rebuild comparison | A second manifest and all 16 shards were byte-identical | A retained two-build receipt with a second complete oracle report |
-| Release and tools | The reducer and explicit tool table ran fail-closed | Durable receipt bodies, full call-graph evidence, and exact-profile logic, theorem-prover, abstraction-synthesis, numerical, and falsification-ledger receipts |
-
-The reducer therefore assigned **`QUARANTINED_CORPUS`**. G08, G09, and the
-honest-status-table gate G14 passed. G00 through G07 and G10 through G13 remain
-`SKIP`, so G15 failed as required. A `SKIP` is missing evidence, not a hidden
-success.
-
-The public artifacts are the v1
-[manifest]({{ '/assets/data/glassmind_synthetic_deontic_luna_v1_65536.manifest.json' | relative_url }}),
-[raw verification report]({{ '/assets/data/glassmind_synthetic_deontic_luna_v1_65536.verify.json' | relative_url }}),
-and 16 compressed shards under
-`assets/data/glassmind_synthetic_deontic_luna_v1_65536/`. The report file has
-SHA-256
-`38b6b3fd208e89c6cba7d4c3911f74326325e628b513d3fef217d75b5590460a`.
-The detailed evidence and residual gates are in the
-[v1 research report](https://github.com/TheDarkLightX/FormalPhilosophy/blob/main/research/synthetic_deontic_knowledge_base_v1.md).
-
-The lesson for synthetic Q-table pipelines is concrete: a strong model can
-propose states, abstractions, norms, and edge cases at scale, but generated
-volume becomes reusable knowledge only when canonicalization, independent
-reconstruction, counterexample search, replay, and a fail-closed reducer bind
-the exact claim.
+Byte-identical regeneration establishes deterministic construction. It does
+not establish legal force, moral authority, real-world truth, population
+representativeness, or semantic correctness. Those claims require separate
+sources and checks.
 
 ## 6. What is inside the state and action spaces?
 
@@ -1074,7 +948,7 @@ The replay pass deterministically recomputes:
 5. every greedy choice for forbidden-action and termination violations;
 6. the NPY shape, order, data type, byte length, and SHA-256 digest.
 
-For the public artifact, the completed run reported:
+The public verification report records:
 
 ```text
 passed: true
@@ -1088,7 +962,7 @@ maximum observed terminal steps: 13
 table SHA-256: 39b26a62f096011efe0b8ec444cff917b736f5713fcf7221665a7c9d10790c2e
 ```
 
-For the 512 MiB artifact, the completed run reported:
+The 512 MiB verification report records:
 
 ```text
 passed: true
@@ -1150,9 +1024,9 @@ bounded receipt containing:
 - a finite-trace gate result.
 
 The receipt explains the checked computation. It does not prove that the source
-fact is true or that the policy is morally correct. The next tutorial's
-[Proof-Carrying Decisions v0 specification](https://github.com/TheDarkLightX/FormalPhilosophy/blob/main/research/proof_carrying_decisions_v0.md)
-generalizes this boundary to typed evidence, proof DAGs, countermodels,
+fact is true or that the policy is morally correct. The
+[Proof-Carrying Decisions specification](https://github.com/TheDarkLightX/FormalPhilosophy/blob/main/research/proof_carrying_decisions_v0.md)
+extends this boundary with typed evidence, proof DAGs, countermodels,
 revocation, multiple logic profiles, ESSO, and Tau.
 
 ## 10. Can data become policy-aligned Q bytes?
@@ -1186,7 +1060,7 @@ proxy can produce a perfectly verified but badly specified table. Review
 triggers, counterexamples, sensitivity analysis, and policy versioning are
 therefore part of the alignment boundary.
 
-The current 50 MiB artifact uses a neutral evidence-completion utility profile.
+The 50 MiB artifact uses a neutral evidence-completion utility profile.
 It demonstrates normative masking and replay, not a claim of utilitarian moral
 authority. A small companion counterfactual shows how a bounded stakeholder-sum
 profile changes a policy and its Q bytes while preserving the same source and
@@ -1212,7 +1086,8 @@ different objects.
 [OpenAI describes GPT-5.6](https://openai.com/index/gpt-5-6/) as a model family
 with Sol, Terra, and Luna tiers and makes Luna available through Codex and the
 API. OpenAI does not disclose a parameter count or transformer-layer count in
-that documentation, so this tutorial does not invent one.
+that documentation, so no parameter or transformer-layer count is assumed
+here.
 
 [Moonshot's Kimi K3 repository](https://github.com/MoonshotAI/Kimi-K3)
 reports 2.8 trillion total parameters, 104 billion activated parameters, 93
@@ -1266,24 +1141,25 @@ intelligence.
 
 The claims form a ladder. Success on one rung does not establish the next.
 
-| Claim level | Required evidence | Status in this tutorial |
+| Claim level | Required evidence | What GlassMind establishes |
 | --- | --- | --- |
 | Authored key reuse | Several raw observations are deliberately canonicalized to one encoded state | GlassMind supports this, but the invariance comes from its authored canonicalizer rather than learning |
-| Same-distribution predictive transfer | Performance on untouched samples drawn by the same declared process as training | Not measured for GlassMind, which is compiled, or for the BasisQ design comparison in this tutorial |
+| Same-distribution predictive transfer | Performance on untouched samples drawn by the same declared process as training | Not measured; GlassMind is compiled rather than fitted |
 | Held-out-family or compositional transfer | Entire concept families, relation types, or combinations are excluded before model and threshold selection | Not established |
 | Distribution-shift robustness | Evaluation sources or mechanisms differ materially from training, with the shift declared in advance | Not established |
 | General intelligence | Broad, adaptive competence across unfamiliar domains, goals, representations, and environments | Not established by a Q table, a fitted-Q result, or a language-model benchmark |
 
 For GlassMind, exhaustive replay proves that the table implements its declared
 finite recurrence. It does not prove learned generalization because the values
-were compiled from an authored model. A future BasisQ experiment could support
-a bounded predictive-transfer claim with a fresh source-held-out and
-family-held-out evaluation. It still would not imply general intelligence.
+were compiled from an authored model. BasisQ could support a bounded
+predictive-transfer claim only with a fresh source-held-out and
+family-held-out evaluation. Such a result still would not imply general
+intelligence.
 
-An LLM is an excellent proposal engine for the Q-table pipeline. It can search
-for missing states, adversarial cases, alternative actions, and useful
-abstractions. The deterministic compiler and checkers remain responsible for
-accepted labels, masks, table bytes, and receipts.
+A language model can serve as a proposal engine for the Q-table pipeline. It
+can search for missing states, adversarial cases, alternative actions, and
+useful abstractions. The deterministic compiler and checkers remain responsible
+for accepted labels, masks, table bytes, and receipts.
 
 ## 12. Could a Q table support general intelligence?
 
@@ -1319,7 +1195,7 @@ above demonstrates general intelligence:
 The useful comparison is not "which file is smarter?" It is which subsystem
 has authority over which claim.
 
-## 13. What has actually been demonstrated?
+## 13. Verified properties and limits
 
 The strongest supported claims are:
 
@@ -1352,31 +1228,13 @@ The demonstration does not establish:
 - that Tau was executed for this artifact;
 - that the system is ready to control safety-critical or value-moving effects.
 
-That boundary is the point of the exercise. Large deterministic artifacts can
-be impressive and useful without turning their finite evidence into an
-unbounded claim.
+These limits keep finite verification evidence separate from claims of
+unbounded capability.
 
-### Tutorial gate and paper gate
+### From exact planning to experience-based multi-step Q learning
 
-The current evidence passes a narrow tutorial gate: the artifacts are
-reproducible and their claims are bounded. It does not pass a knowledge-scaling
-gate or a research-paper gate. Exact finite-horizon dynamic programming over an
-authored model is useful, but it is not evidence that experience has taught the
-system new transition or value information. The full registry also grew much
-faster than its measured final-horizon decision diversity, so this tutorial
-does not present raw state count as knowledge growth.
-
-A paper would require a significant result beyond that baseline, such as a
-preregistered compression or runtime advantage at equal policy fidelity, a new
-deontic Bellman construction with machine-checked properties, positive transfer
-across independently sourced sequential environments, or a new abstraction
-method that defeats strong baselines and is independently replicated.
-
-### Proposed gate from exact planning to multi-step Q learning
-
-This section describes a proposed experiment, not a completed result. An exact
-solver can serve as a reference oracle for a later experience-based learner.
-One deterministic fitted-Q iteration is:
+An exact solver can serve as a reference oracle for an experience-based
+learner. One deterministic fitted-Q iteration is:
 
 ```text
 freeze Q_k
@@ -1394,46 +1252,12 @@ search for Bellman and deontic counterexamples
 
 The transition stream should retain provenance, support counts, and
 uncertainty. Training transitions and held-out transition families must be
-separated before fitting. A credible gate should require lower held-out Bellman
-error as informative experience grows, better held-out rollout return than
-myopic and small-data controls, zero forbidden selections, deterministic
-duplicate builds, source-removal and label-permutation controls, and comparison
-with expert graphs, dense tables, and online search.
+separated before fitting. Validation should require lower held-out Bellman error
+as informative experience grows, better held-out rollout return than myopic and
+small-data controls, zero forbidden selections, deterministic duplicate builds,
+source-removal and label-permutation controls, and comparison with expert
+graphs, dense tables, and online search.
 
 If additional rows repeat the same authored dynamics and do not improve a
 held-out metric, the correct conclusion is increased enumeration, not increased
 knowledge.
-
-## 14. The next step: proof-carrying decisions
-
-The next tutorial can strengthen each table recommendation into a
-proof-carrying decision package:
-
-```text
-decision request
-  + canonical observations
-  + authority-scoped facts and norms
-  + selected logic profile
-  + proof or countermodel objects
-  + utility and transition model
-  + Q-table path
-  + negative knowledge and review triggers
-  + deterministic verification receipt
-```
-
-ESSO is a useful backend for finite decision graphs. Tau can express a governed
-logic boundary. Lean can prove mathematical invariants about the compiler.
-An append-only falsification ledger can preserve failed hypotheses and minimal
-counterexamples. A research coordinator can track hypotheses, evidence, and
-promotion states.
-
-The authority rule remains stable across those tools:
-
-```text
-models propose
-formal and deterministic tools check declared claims
-an explicit gate owns promotion and effects
-```
-
-That is how a large synthetic pipeline becomes more than a pile of plausible
-bytes. It becomes a bounded, falsifiable, replayable decision system.
