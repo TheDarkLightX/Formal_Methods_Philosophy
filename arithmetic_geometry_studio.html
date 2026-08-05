@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arithmetic geometry studio</title>
+  <style>
+    :root {
+      --ink: #edf4ff;
+      --muted: #a9bad2;
+      --night: #101a2c;
+      --night-2: #16243c;
+      --line: #334b6b;
+      --gold: #f4bf55;
+      --cyan: #64d8e8;
+      --pink: #f28caa;
+      --green: #83d6a5;
+      --warn: #ffd990;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 20px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 75% 2%, rgba(100,216,232,.14), transparent 24%),
+        radial-gradient(circle at 10% 92%, rgba(242,140,170,.11), transparent 26%),
+        var(--night);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    .shell { max-width: 900px; margin: 0 auto; }
+    h1, h2, p { margin: 0; }
+    h1, h2 { font-family: Georgia, serif; letter-spacing: -.02em; }
+    h1 { font-size: clamp(28px, 5vw, 46px); line-height: 1; }
+    h2 { font-size: 19px; }
+    .eyebrow { color: var(--gold); font-size: 11px; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 7px; }
+    .intro { color: var(--muted); max-width: 680px; margin-top: 9px; }
+    .hero { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
+    .equation { color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 16px; white-space: nowrap; }
+    .panel { margin-top: 13px; padding: 16px; border: 1px solid rgba(100,216,232,.2); border-radius: 20px; background: rgba(22,36,60,.82); box-shadow: 0 18px 55px rgba(0,0,0,.2); }
+    .controls { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 10px; margin-top: 12px; }
+    label { color: var(--muted); font-size: 12px; font-weight: 800; }
+    input, select, button { width: 100%; color: var(--ink); font: inherit; }
+    input, select { margin-top: 5px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--night); }
+    button { border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; background: var(--night); cursor: pointer; transition: border-color .18s ease, background .18s ease, transform .18s ease; }
+    button:hover { border-color: var(--cyan); background: var(--night-2); transform: translateY(-1px); }
+    button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid rgba(100,216,232,.35); outline-offset: 2px; }
+    button[aria-pressed="true"] { color: var(--night); background: var(--gold); border-color: var(--gold); }
+    .mode-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .visual-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(230px, .8fr); gap: 14px; align-items: start; margin-top: 14px; }
+    .plot-wrap { min-height: 300px; padding: 8px; border: 1px solid var(--line); border-radius: 15px; background: #0a1220; }
+    canvas { display: block; width: 100%; height: auto; border-radius: 10px; }
+    .facts { display: grid; gap: 9px; }
+    .fact { padding: 10px 11px; border-left: 3px solid var(--cyan); border-radius: 0 11px 11px 0; background: rgba(10,18,32,.66); }
+    .fact strong { display: block; color: var(--gold); font-size: 12px; }
+    .fact span { display: block; color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .points { margin-top: 13px; padding: 11px; border: 1px dashed var(--line); border-radius: 13px; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; line-height: 1.7; }
+    .group-law { display: grid; grid-template-columns: 1fr 1fr 1.4fr; gap: 10px; margin-top: 12px; }
+    .group-law[hidden] { display: none; }
+    .result { color: var(--green); font-weight: 900; }
+    .warning { color: var(--warn); }
+    .scope { color: var(--muted); font-size: 11px; margin-top: 13px; }
+    @media (max-width: 680px) {
+      body { padding: 14px; }
+      .hero { display: block; }
+      .equation { display: block; margin-top: 12px; }
+      .controls, .visual-grid, .group-law { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Equation | space | arithmetic</p>
+        <h1>Arithmetic geometry studio</h1>
+        <p class="intro">Change the number universe under one equation. The picture changes, the points change, and the allowed maps change with it.</p>
+      </div>
+      <div class="equation">y² = x³ + ax + b</div>
+    </header>
+
+    <section class="panel" aria-labelledby="controls-title">
+      <h2 id="controls-title">Choose the universe</h2>
+      <div class="mode-row">
+        <button type="button" data-mode="real" aria-pressed="true">ℝ real curve</button>
+        <button type="button" data-mode="finite" aria-pressed="false">𝔽ₚ finite field</button>
+      </div>
+      <div class="controls">
+        <label>a
+          <input id="a-value" type="number" min="-5" max="5" step="1" value="0">
+        </label>
+        <label>b
+          <input id="b-value" type="number" min="-5" max="5" step="1" value="1">
+        </label>
+        <label>prime p
+          <select id="prime-value">
+            <option value="5">5</option>
+            <option value="7" selected>7</option>
+            <option value="11">11</option>
+            <option value="13">13</option>
+          </select>
+        </label>
+        <button type="button" id="draw-button">Draw the world</button>
+      </div>
+    </section>
+
+    <section class="panel" aria-live="polite">
+      <div class="visual-grid">
+        <div>
+          <div class="plot-wrap"><canvas id="plot" width="720" height="420" aria-label="Curve or finite-field point plot"></canvas></div>
+          <div class="points" id="point-list" tabindex="0"></div>
+        </div>
+        <div class="facts">
+          <div class="fact"><strong>Discriminant</strong><span id="discriminant"></span></div>
+          <div class="fact"><strong>Objects</strong><span id="object-count"></span></div>
+          <div class="fact"><strong>Hasse window</strong><span id="hasse-window"></span></div>
+          <div class="fact"><strong>Structure</strong><span id="structure-note"></span></div>
+          <div class="fact"><strong>Scope</strong><span id="scope-note"></span></div>
+        </div>
+      </div>
+
+      <div class="group-law" id="group-law" hidden>
+        <label>P
+          <select id="point-p"></select>
+        </label>
+        <label>Q
+          <select id="point-q"></select>
+        </label>
+        <div class="fact"><strong>P + Q</strong><span class="result" id="sum-result"></span></div>
+      </div>
+    </section>
+
+    <p class="scope">The coefficient controls accept integers. The real plot is a sampled drawing. The finite-field plot exhausts all p² coordinate pairs and adds the point at infinity O. The group-law calculator is enabled only for the displayed nonsingular finite-field model.</p>
+  </main>
+
+  <script>
+    const modeButtons = document.querySelectorAll("[data-mode]");
+    const canvas = document.getElementById("plot");
+    const ctx = canvas.getContext("2d");
+    let mode = "real";
+    let renderedFinite = null;
+
+    const mod = (n, p) => ((n % p) + p) % p;
+    const discriminant = (a, b) => -16 * (4 * a ** 3 + 27 * b ** 2);
+    const pointText = point => point === null ? "O" : `(${point[0]}, ${point[1]})`;
+    const samePoint = (p, q) => p === null || q === null ? p === q : p[0] === q[0] && p[1] === q[1];
+
+    function finitePoints(a, b, p) {
+      const points = [];
+      for (let x = 0; x < p; x++) {
+        for (let y = 0; y < p; y++) {
+          if (mod(y * y - (x * x * x + a * x + b), p) === 0) points.push([x, y]);
+        }
+      }
+      return points;
+    }
+
+    function inverseMod(n, p) {
+      for (let x = 1; x < p; x++) if (mod(n * x, p) === 1) return x;
+      return null;
+    }
+
+    function addFinitePoints(P, Q, a, p) {
+      if (P === null) return Q;
+      if (Q === null) return P;
+      let slope;
+      if (P[0] === Q[0] && mod(P[1] + Q[1], p) === 0) return null;
+      if (samePoint(P, Q)) {
+        if (mod(2 * P[1], p) === 0) return null;
+        slope = mod((3 * P[0] * P[0] + a) * inverseMod(2 * P[1], p), p);
+      } else {
+        slope = mod((Q[1] - P[1]) * inverseMod(Q[0] - P[0], p), p);
+      }
+      slope = mod(slope, p);
+      const x3 = mod(slope * slope - P[0] - Q[0], p);
+      const y3 = mod(slope * (P[0] - x3) - P[1], p);
+      return [x3, y3];
+    }
+
+    function clearCanvas() {
+      ctx.fillStyle = "#0a1220";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function drawReal(a, b) {
+      clearCanvas();
+      const w = canvas.width, h = canvas.height;
+      const sx = 82, sy = 34;
+      const toX = x => sx + (x + 4) * (w - 2 * sx) / 8;
+      const toY = y => h / 2 - y * sy;
+      ctx.strokeStyle = "#334b6b";
+      ctx.lineWidth = 1;
+      for (let x = -4; x <= 4; x++) { ctx.beginPath(); ctx.moveTo(toX(x), 0); ctx.lineTo(toX(x), h); ctx.stroke(); }
+      for (let y = -5; y <= 5; y++) { ctx.beginPath(); ctx.moveTo(0, toY(y)); ctx.lineTo(w, toY(y)); ctx.stroke(); }
+      ctx.strokeStyle = "#a9bad2";
+      ctx.beginPath(); ctx.moveTo(0, toY(0)); ctx.lineTo(w, toY(0)); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(toX(0), 0); ctx.lineTo(toX(0), h); ctx.stroke();
+      ctx.strokeStyle = "#64d8e8";
+      ctx.lineWidth = 3;
+      for (const sign of [1, -1]) {
+        let drawing = false;
+        ctx.beginPath();
+        for (let i = 0; i <= 900; i++) {
+          const x = -4 + i * 8 / 900;
+          const value = x * x * x + a * x + b;
+          if (value < 0) {
+            if (drawing) ctx.stroke();
+            ctx.beginPath();
+            drawing = false;
+            continue;
+          }
+          const y = sign * Math.sqrt(value);
+          if (!drawing) ctx.moveTo(toX(x), toY(y));
+          else ctx.lineTo(toX(x), toY(y));
+          drawing = true;
+        }
+        if (drawing) ctx.stroke();
+      }
+      ctx.fillStyle = "#f4bf55";
+      ctx.font = "bold 14px Trebuchet MS";
+      ctx.fillText("real points form a curve", 18, 25);
+    }
+
+    function drawFinite(points, p, a, b) {
+      clearCanvas();
+      const pad = 38, size = Math.min(canvas.width, canvas.height) - 2 * pad;
+      const cell = size / p;
+      ctx.strokeStyle = "#334b6b";
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= p; i++) {
+        const pos = pad + i * cell;
+        ctx.beginPath(); ctx.moveTo(pos, pad); ctx.lineTo(pos, pad + size); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(pad, pos); ctx.lineTo(pad + size, pos); ctx.stroke();
+      }
+      ctx.fillStyle = "#a9bad2";
+      ctx.font = "12px ui-monospace";
+      for (let i = 0; i < p; i++) {
+        ctx.fillText(String(i), pad + i * cell + cell / 2 - 4, pad + size + 18);
+        ctx.fillText(String(i), pad - 22, pad + size - i * cell - cell / 2 + 4);
+      }
+      ctx.fillStyle = "#f28caa";
+      for (const [x, y] of points) {
+        ctx.beginPath();
+        ctx.arc(pad + x * cell + cell / 2, pad + size - y * cell - cell / 2, Math.max(4, cell * .18), 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = "#f4bf55";
+      ctx.font = "bold 14px Trebuchet MS";
+      ctx.fillText(`all ${p}² coordinate pairs checked`, 18, 24);
+      ctx.fillStyle = "#83d6a5";
+      ctx.font = "bold 13px Trebuchet MS";
+      ctx.fillText("+ O at infinity", canvas.width - 125, 24);
+    }
+
+    function populatePointSelects(points) {
+      const options = ["O", ...points.map(point => `${point[0]},${point[1]}`)];
+      for (const id of ["point-p", "point-q"]) {
+        const select = document.getElementById(id);
+        select.innerHTML = options.map((value, i) => `<option value="${value}">${value === "O" ? "O, identity" : value}</option>`).join("");
+        if (id === "point-q" && options.length > 2) select.selectedIndex = 2;
+      }
+    }
+
+    function readSelected(id) {
+      const value = document.getElementById(id).value;
+      if (value === "O") return null;
+      return value.split(",").map(Number);
+    }
+
+    function render() {
+      const a = document.getElementById("a-value").valueAsNumber;
+      const b = document.getElementById("b-value").valueAsNumber;
+      const p = Number(document.getElementById("prime-value").value);
+
+      if (!Number.isSafeInteger(a) || !Number.isSafeInteger(b)) {
+        renderedFinite = null;
+        clearCanvas();
+        ctx.fillStyle = "#f4bf55";
+        ctx.font = "bold 18px Trebuchet MS";
+        ctx.fillText("Enter integer coefficients a and b, then draw again.", 32, 58);
+        document.getElementById("discriminant").textContent = "not computed";
+        document.getElementById("object-count").textContent = "not computed";
+        document.getElementById("hasse-window").textContent = "not computed";
+        document.getElementById("structure-note").textContent = "integer coefficients required";
+        document.getElementById("scope-note").textContent = "decimal input is not silently reduced modulo p";
+        document.getElementById("point-list").textContent = "Enter integer values for a and b.";
+        document.getElementById("group-law").hidden = true;
+        return;
+      }
+
+      const delta = discriminant(a, b);
+      document.getElementById("discriminant").textContent = `Δ = ${delta}${mode === "finite" ? `, Δ mod ${p} = ${mod(delta, p)}` : ""}`;
+      if (mode === "real") {
+        renderedFinite = null;
+        drawReal(a, b);
+        document.getElementById("object-count").textContent = "a sampled real picture, not a finite list";
+        document.getElementById("structure-note").textContent = delta === 0 ? "singular model, change a or b" : "smooth real curve in this short model";
+        document.getElementById("scope-note").textContent = "the canvas samples x-values";
+        document.getElementById("point-list").textContent = "Real mode: the curve has infinitely many possible coordinate values. Switch to 𝔽ₚ to exhaust a finite point set.";
+        document.getElementById("hasse-window").textContent = "finite-field mode only";
+        document.getElementById("group-law").hidden = true;
+        return;
+      }
+      const aa = mod(a, p), bb = mod(b, p);
+      const points = finitePoints(aa, bb, p);
+      drawFinite(points, p, aa, bb);
+      const smooth = mod(delta, p) !== 0;
+      document.getElementById("object-count").textContent = smooth
+        ? `${points.length} affine points + O = ${points.length + 1} group elements`
+        : `${points.length} affine points + O = ${points.length + 1} projective points counted`;
+      const trace = p + 1 - (points.length + 1);
+      const bound = 2 * Math.sqrt(p);
+      document.getElementById("hasse-window").textContent = smooth
+        ? `aₚ = ${trace}; |aₚ| ≤ ${bound.toFixed(2)} (good reduction)`
+        : `count trace = ${trace}; Hasse bound not applied to this singular fiber`;
+      document.getElementById("structure-note").textContent = smooth ? `E(𝔽${p}) is a finite abelian group` : "singular curve, group-law demo disabled";
+      document.getElementById("scope-note").textContent = `all ${p * p} coordinate pairs were checked`;
+      document.getElementById("point-list").textContent = points.length ? `Points: O, ${points.map(pointText).join(", ")}` : "Points: O";
+      document.getElementById("group-law").hidden = !smooth;
+      renderedFinite = smooth ? { a: aa, b: bb, p } : null;
+      if (smooth) {
+        populatePointSelects(points);
+        updateSum();
+      }
+    }
+
+    function updateSum() {
+      if (!renderedFinite) return;
+      const P = readSelected("point-p"), Q = readSelected("point-q");
+      document.getElementById("sum-result").textContent = `${pointText(P)} + ${pointText(Q)} = ${pointText(addFinitePoints(P, Q, renderedFinite.a, renderedFinite.p))}`;
+    }
+
+    modeButtons.forEach(button => button.addEventListener("click", () => {
+      mode = button.dataset.mode;
+      modeButtons.forEach(other => other.setAttribute("aria-pressed", String(other === button)));
+      render();
+    }));
+    document.getElementById("draw-button").addEventListener("click", render);
+    document.getElementById("point-p").addEventListener("change", updateSum);
+    document.getElementById("point-q").addEventListener("change", updateSum);
+    const markControlsPending = () => {
+      if (mode !== "finite" || !renderedFinite) return;
+      document.getElementById("scope-note").textContent = "controls changed; press Draw the world. The calculator still uses the displayed curve.";
+    };
+    document.getElementById("a-value").addEventListener("input", markControlsPending);
+    document.getElementById("b-value").addEventListener("input", markControlsPending);
+    document.getElementById("prime-value").addEventListener("change", markControlsPending);
+    render();
+    const reportHeight = () => window.parent.postMessage({ type: "fp:iframe-height", height: document.documentElement.scrollHeight }, "*");
+    window.addEventListener("load", reportHeight);
+    if ("ResizeObserver" in window) new ResizeObserver(reportHeight).observe(document.body);
+  </script>
+</body>
+</html>

@@ -758,4 +758,15 @@ show_title: false
       scaling from evidence that experience produced new knowledge.
     </p>
   </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/exploring-mathematics-from-counting-to-functors/' | relative_url }}"
+  >
+    <p class="fp-kicker">Visual mathematics</p>
+    <h2 class="fp-card-title">Exploring mathematics: proofs to arithmetic geometry</h2>
+    <p class="fp-card-text">
+      Follow a classroom story from apples and proofs through algebraic structures,
+      category theory, elliptic curves, schemes, and arithmetic geometry.
+    </p>
+  </a>
 </div>

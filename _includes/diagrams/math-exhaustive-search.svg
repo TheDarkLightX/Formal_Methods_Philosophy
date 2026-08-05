@@ -1,0 +1,92 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 500" role="img" aria-labelledby="math-search-title math-search-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="math-search-title">Exhaustive search removes every rival answer</title>
+  <desc id="math-search-desc">Candidates zero, one, and two are checked in sequence against two apples. Zero and one are labeled rejected. Two is labeled pass. The possible-answer set shrinks from three candidates to the unique survivor two.</desc>
+  <defs>
+    <filter id="math-search-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#172033" flood-opacity="0.12" />
+    </filter>
+  </defs>
+  <style>
+    .search-reject-0, .search-reject-1, .search-accept-2 { opacity: 1; }
+    .search-state { opacity: 0; }
+    .search-state-3 { opacity: 1; }
+    .math-motion-run .search-reject-0 { animation: search-result-show 0.35s ease-out 0.65s 1 both; }
+    .math-motion-run .search-reject-1 { animation: search-result-show 0.35s ease-out 1.4s 1 both; }
+    .math-motion-run .search-accept-2 { animation: search-result-show 0.35s ease-out 2.15s 1 both; }
+    .math-motion-run .search-card-0 { animation: search-card-reject 0.35s ease-out 0.65s 1 both; }
+    .math-motion-run .search-card-1 { animation: search-card-reject 0.35s ease-out 1.4s 1 both; }
+    .math-motion-run .search-card-2 { animation: search-card-pass 0.35s ease-out 2.15s 1 both; }
+    .math-motion-run .search-state-0 { animation: search-first-state 0.75s linear 1 both; }
+    .math-motion-run .search-state-1 { animation: search-middle-state 0.75s linear 0.75s 1 both; }
+    .math-motion-run .search-state-2 { animation: search-middle-state 0.75s linear 1.5s 1 both; }
+    .math-motion-run .search-state-3 { animation: search-final-state 0.35s ease-out 2.25s 1 both; }
+    @keyframes search-result-show { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes search-card-reject {
+      from { fill: #fffaf2; stroke: #d9cdbd; }
+      to { fill: #f2f5f8; stroke: #91a0b3; }
+    }
+    @keyframes search-card-pass {
+      from { fill: #fffaf2; stroke: #d9cdbd; }
+      to { fill: #edf8f1; stroke: #58a77a; }
+    }
+    @keyframes search-first-state { 0%, 94% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes search-middle-state { 0% { opacity: 0; } 6%, 94% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes search-final-state { from { opacity: 0; } to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .search-reject-0, .search-reject-1, .search-accept-2 { animation: none; opacity: 1; }
+      .search-card-0, .search-card-1, .search-card-2 { animation: none; }
+      .search-state { animation: none; opacity: 0; }
+      .search-state-3 { opacity: 1; }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="460" rx="34" fill="#fffaf2" stroke="#d9cdbd" stroke-width="2" />
+  <text x="60" y="66" font-size="24" font-weight="800" fill="#172033" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Nothing skipped: test every candidate once</text>
+  <text x="60" y="92" font-size="14" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">The motion shows knowledge shrinking. A false statement never becomes partly true.</text>
+
+  <g filter="url(#math-search-shadow)">
+    <rect x="62" y="132" width="210" height="236" rx="24" fill="#fff3d7" stroke="#dfaa43" stroke-width="2" />
+    <rect class="search-card-0" x="306" y="132" width="174" height="236" rx="24" fill="#f2f5f8" stroke="#91a0b3" stroke-width="2" />
+    <rect class="search-card-1" x="504" y="132" width="174" height="236" rx="24" fill="#f2f5f8" stroke="#91a0b3" stroke-width="2" />
+    <rect class="search-card-2" x="702" y="132" width="196" height="236" rx="24" fill="#edf8f1" stroke="#58a77a" stroke-width="2" />
+  </g>
+
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="86" y="166" font-size="14" font-weight="800" fill="#8c5711">OBJECTS TO COUNT</text>
+    <g aria-hidden="true">
+      <circle cx="130" cy="226" r="30" fill="#e94f45" />
+      <circle cx="204" cy="226" r="30" fill="#e94f45" />
+      <path d="M130 196 Q134 178 149 176 M204 196 Q208 178 223 176" fill="none" stroke="#347451" stroke-width="7" stroke-linecap="round" />
+    </g>
+    <text x="86" y="300" font-size="15" font-weight="800" fill="#172033">fair test</text>
+    <text x="86" y="324" font-size="13" fill="#536076">perfect one-to-one match</text>
+    <text x="86" y="346" font-size="13" fill="#536076">nothing left over</text>
+
+    <text x="330" y="166" font-size="14" font-weight="800" fill="#536076">CANDIDATE</text>
+    <text x="393" y="250" text-anchor="middle" font-size="76" font-weight="800" fill="#172033">0</text>
+    <text class="search-reject-0" x="393" y="312" text-anchor="middle" font-size="15" font-weight="800" fill="#a52f2a" opacity="0">REJECTED</text>
+
+    <text x="528" y="166" font-size="14" font-weight="800" fill="#536076">CANDIDATE</text>
+    <text x="591" y="250" text-anchor="middle" font-size="76" font-weight="800" fill="#172033">1</text>
+    <text class="search-reject-1" x="591" y="312" text-anchor="middle" font-size="15" font-weight="800" fill="#a52f2a" opacity="0">REJECTED</text>
+
+    <text x="726" y="166" font-size="14" font-weight="800" fill="#536076">CANDIDATE</text>
+    <text x="800" y="250" text-anchor="middle" font-size="76" font-weight="800" fill="#172033">2</text>
+    <text class="search-accept-2" x="800" y="312" text-anchor="middle" font-size="16" font-weight="800" fill="#24704a" opacity="0">PASS</text>
+  </g>
+
+  <path class="search-match" d="M246 226 H300 M480 226 H498 M678 226 H696" stroke="#34445d" stroke-width="3" />
+
+  <rect x="120" y="400" width="720" height="48" rx="16" fill="#172033" />
+  <g text-anchor="middle" font-size="15" font-weight="800" fill="#ffffff" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text class="search-state search-state-0" x="480" y="430">U₀ = {0, 1, 2} · three possibilities remain</text>
+    <text class="search-state search-state-1" x="480" y="430">U₁ = {1, 2} · zero was rejected</text>
+    <text class="search-state search-state-2" x="480" y="430">U₂ = {2} · one was rejected</text>
+    <text class="search-state search-state-3" x="480" y="430">accepted = {2} · unique survivor, nothing unchecked</text>
+  </g>
+  <g text-anchor="middle" font-size="12" font-weight="800" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="230" y="468">1 · TEST 0 · REJECT</text>
+    <text x="480" y="468">2 · TEST 1 · REJECT</text>
+    <text x="730" y="468">3 · TEST 2 · PASS</text>
+  </g>
+</svg>

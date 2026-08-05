@@ -92,6 +92,7 @@
   button:hover { border-color: var(--border-hover); background: var(--bg-secondary); }
   button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
   button.primary:hover { opacity: 0.9; }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--accent-light); outline-offset: 2px; }
   .btn-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0 0 1rem; }
 
   /* Step log */
@@ -109,7 +110,7 @@
   /* Formula cards */
   .formula-card {
     padding: 0.7rem 1rem; border: 1px solid var(--border); border-radius: var(--radius);
-    cursor: pointer; margin: 0 0 0.5rem; transition: all 0.15s;
+    display: block; width: 100%; text-align: left; cursor: pointer; margin: 0 0 0.5rem; transition: all 0.15s;
   }
   .formula-card:hover { border-color: var(--accent); background: var(--accent-light); }
   .formula-card.selected { border-color: var(--accent); background: var(--accent-light); }
@@ -142,6 +143,10 @@
   .tower-layer.zero { background: var(--bg-secondary); border-color: var(--border); color: var(--text-primary); font-weight: 700; }
   @keyframes layerIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: none; } }
 
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+
   .search-grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
     gap: 4px; margin: 0.5rem 0;
@@ -157,17 +162,17 @@
 </head>
 <body>
 
-<h1>Presburger Arithmetic Explorer</h1>
-<p class="subtitle">Build numbers, step through addition, and evaluate formulas — all from the axioms.</p>
+<h1>Presburger Classroom Explorer</h1>
+<p class="subtitle">Build numbers, replay addition rules, and inspect explicitly bounded formula searches.</p>
 
-<div class="tabs">
-  <button class="tab active" onclick="showTab('build')">Build Numbers</button>
-  <button class="tab" onclick="showTab('add')">Addition Stepper</button>
-  <button class="tab" onclick="showTab('formula')">Formula Playground</button>
+<div class="tabs" role="tablist" aria-label="Explorer rooms">
+  <button class="tab active" id="tab-button-build" role="tab" aria-selected="true" aria-controls="tab-build" onclick="showTab(event, 'build')">Build Numbers</button>
+  <button class="tab" id="tab-button-add" role="tab" aria-selected="false" aria-controls="tab-add" onclick="showTab(event, 'add')">Addition Stepper</button>
+  <button class="tab" id="tab-button-formula" role="tab" aria-selected="false" aria-controls="tab-formula" onclick="showTab(event, 'formula')">Formula Playground</button>
 </div>
 
 <!-- ==================== TAB 1: BUILD NUMBERS ==================== -->
-<div id="tab-build" class="panel active">
+<div id="tab-build" class="panel active" role="tabpanel" aria-labelledby="tab-button-build">
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem;">
     Every natural number is built by applying the successor function <strong>S</strong> to <strong>0</strong>.
     Click S( ) to wrap another layer.
@@ -182,9 +187,9 @@
 </div>
 
 <!-- ==================== TAB 2: ADDITION STEPPER ==================== -->
-<div id="tab-add" class="panel">
+<div id="tab-add" class="panel" role="tabpanel" aria-labelledby="tab-button-add">
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem;">
-    Watch Presburger addition unfold axiom by axiom. Axiom 4 peels one S from the second argument; Axiom 3 resolves the base case.
+    Watch addition unfold rule by rule. The successor rule peels one S from the second input. The zero rule resolves the base case.
   </p>
   <div class="slider-row">
     <label>x</label>
@@ -206,9 +211,9 @@
 </div>
 
 <!-- ==================== TAB 3: FORMULA PLAYGROUND ==================== -->
-<div id="tab-formula" class="panel">
+<div id="tab-formula" class="panel" role="tabpanel" aria-labelledby="tab-button-formula">
   <p style="font-size:13px;color:var(--text-secondary);margin:0 0 1rem;">
-    Select a Presburger sentence and evaluate it. The decision procedure always terminates with the correct answer.
+    Select a sentence and inspect its displayed finite search box. This playground is not the general Presburger decision procedure.
   </p>
   <div id="formula-cards"></div>
   <div class="btn-row" style="margin-top:1rem;">
@@ -226,11 +231,15 @@ function succNotation(n) {
 }
 
 /* ---- Tab switching ---- */
-function showTab(id) {
+function showTab(event, id) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
   document.getElementById('tab-' + id).classList.add('active');
   event.target.classList.add('active');
+  event.target.setAttribute('aria-selected', 'true');
 }
 
 /* ==================== BUILD NUMBERS ==================== */
@@ -250,8 +259,8 @@ function buildSucc() {
   tower.appendChild(layer);
 
   const info = document.getElementById('build-info');
-  if (buildN === 1) info.textContent = 'S(0) — the first number after zero.';
-  else if (buildN === 2) info.textContent = 'S(S(0)) — two layers of successor.';
+  if (buildN === 1) info.textContent = 'S(0), the first number after zero.';
+  else if (buildN === 2) info.textContent = 'S(S(0)), two layers of successor.';
   else if (buildN <= 5) info.textContent = buildN + ' layers of S wrapped around 0.';
   else if (buildN <= 11) info.textContent = 'The notation grows, but the structure is always the same: S applied ' + buildN + ' times to 0.';
   else info.textContent = 'You have reached the demo limit (12). The real number line continues forever.';
@@ -265,12 +274,17 @@ function buildReset() {
 
 /* ==================== ADDITION STEPPER ==================== */
 let addState = null;
+let addTimer = null;
 
 function addExpr(x, y) {
   return succNotation(x) + ' + ' + succNotation(y);
 }
 
 function addReset() {
+  if (addTimer !== null) {
+    clearInterval(addTimer);
+    addTimer = null;
+  }
   const x = parseInt(document.getElementById('add-x').value);
   const y = parseInt(document.getElementById('add-y').value);
   document.getElementById('add-x-val').textContent = x;
@@ -288,28 +302,24 @@ function addStep() {
   const disp = document.getElementById('add-display');
 
   if (addState.y === 0) {
-    // Axiom 3: x + 0 = x
+    // Zero rule: x + 0 = x
     const entry = document.createElement('div');
     entry.className = 'log-entry final';
-    const wrappedResult = wrapS(addState.x, addState.depth);
-    entry.innerHTML = '<span class="axiom-label">Axiom 3: x + 0 = x</span>' +
-      wrapS(addState.x, addState.depth) + '  →  ' + succNotation(addState.origX + addState.origY);
+    entry.innerHTML = '<span class="axiom-label">ZERO RULE: x + 0 = x</span>' +
+      wrapS(addState.x, addState.depth) + '  becomes  ' + succNotation(addState.origX + addState.origY);
     log.appendChild(entry);
     disp.textContent = succNotation(addState.origX + addState.origY) + '  =  ' + (addState.origX + addState.origY);
     disp.classList.add('highlight');
     setTimeout(() => disp.classList.remove('highlight'), 400);
     addState.done = true;
   } else {
-    // Axiom 4: x + S(y) = S(x + y)
-    const before = wrapS(addState.x, addState.depth) !== addExpr(addState.x, addState.y)
-      ? wrapS(addState.x, addState.depth) : addExpr(addState.x, addState.y);
+    // Successor rule: x + S(y) = S(x + y)
     addState.y--;
     addState.depth++;
-    const after = wrapS(addState.x, addState.depth);
     const entry = document.createElement('div');
     entry.className = 'log-entry';
-    entry.innerHTML = '<span class="axiom-label">Axiom 4: x + S(y) = S(x + y)</span>' +
-      addExprFull(addState.x, addState.y + 1, addState.depth - 1) + '  →  ' +
+    entry.innerHTML = '<span class="axiom-label">SUCCESSOR RULE: x + S(y) = S(x + y)</span>' +
+      addExprFull(addState.x, addState.y + 1, addState.depth - 1) + '  becomes  ' +
       addExprFull(addState.x, addState.y, addState.depth);
     log.appendChild(entry);
     disp.textContent = addExprFull(addState.x, addState.y, addState.depth);
@@ -336,10 +346,15 @@ function addExprFull(x, y, depth) {
 function addRunAll() {
   if (!addState) addReset();
   if (addState.done) addReset();
-  const interval = setInterval(() => {
+  if (addTimer !== null) return;
+  const delay = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 20 : 500;
+  addTimer = setInterval(() => {
     addStep();
-    if (addState.done) clearInterval(interval);
-  }, 500);
+    if (addState.done) {
+      clearInterval(addTimer);
+      addTimer = null;
+    }
+  }, delay);
 }
 
 /* ==================== FORMULA PLAYGROUND ==================== */
@@ -355,7 +370,7 @@ const formulas = [
         steps.push({ val: x, pass: pass });
         if (pass) return { result: true, witness: x, steps: steps, explain: 'Witness found: x = ' + x + ', and ' + x + ' + ' + x + ' = 4.' };
       }
-      return { result: false, steps: steps, explain: 'No natural number x satisfies x + x = 4.' };
+      return { result: false, steps: steps, explain: 'No witness was found in the displayed box {0,…,4}.' };
     }
   },
   {
@@ -369,7 +384,7 @@ const formulas = [
         steps.push({ val: x, pass: pass });
         if (pass) return { result: true, witness: x, steps: steps, explain: 'Witness found.' };
       }
-      return { result: false, steps: steps, explain: 'No natural number x satisfies 2x = 3. The number 3 is odd.' };
+      return { result: false, steps: steps, explain: 'No witness was found in the displayed box {0,…,3}. A complete proof also justifies why larger x cannot work.' };
     }
   },
   {
@@ -382,7 +397,7 @@ const formulas = [
         const pass = (x + 0 === x);
         steps.push({ val: x, pass: pass });
       }
-      return { result: true, steps: steps, explain: 'Every candidate satisfies x + 0 = x. This is Axiom 3 verified by bounded search.' };
+      return { result: true, steps: steps, explain: 'Every displayed candidate 0 through 9 passes. The universal statement is an axiom here; this finite trace illustrates it but does not prove it.' };
     }
   },
   {
@@ -395,7 +410,7 @@ const formulas = [
         const pass = (x + 1 === 0);
         steps.push({ val: x, pass: pass });
       }
-      return { result: false, steps: steps, explain: 'By Axiom 1: ∀x. S(x) ≠ 0. No number has 0 as its successor. The search confirms this.' };
+      return { result: false, steps: steps, explain: 'No witness appears from 0 through 10. The universal conclusion comes from the displayed successor axiom, not from this bounded trace.' };
     }
   },
   {
@@ -407,7 +422,7 @@ const formulas = [
       for (let x = 0; x <= 5; x++) {
         const pass = (2 + x === 5);
         steps.push({ val: x, pass: pass });
-        if (pass) return { result: true, witness: x, steps: steps, explain: 'Witness found: x = ' + x + '. Verified: 2 + ' + x + ' = 5. This is program synthesis — the proof produces the value.' };
+        if (pass) return { result: true, witness: x, steps: steps, explain: 'Witness found in the displayed box: x = ' + x + '. Direct substitution checks 2 + ' + x + ' = 5.' };
       }
       return { result: false, steps: steps, explain: 'No witness found.' };
     }
@@ -425,7 +440,7 @@ const formulas = [
         }
         steps.push({ val: x, pass: found });
       }
-      return { result: true, steps: steps, explain: 'Every number in {0,…,6} is either 2y or 2y+1 for some y. The bounded check confirms this; induction extends it to all ℕ.' };
+      return { result: true, steps: steps, explain: 'Every displayed number in {0,…,6} passes. Extending this to all natural numbers requires a separate induction proof, which this widget does not show.' };
     }
   }
 ];
@@ -435,9 +450,11 @@ let selectedFormula = null;
 function renderFormulas() {
   const container = document.getElementById('formula-cards');
   formulas.forEach(f => {
-    const card = document.createElement('div');
+    const card = document.createElement('button');
+    card.type = 'button';
     card.className = 'formula-card';
     card.id = 'fc-' + f.id;
+    card.setAttribute('aria-pressed', 'false');
     card.innerHTML = '<div class="formula-text">' + f.display + '</div><div class="formula-desc">' + f.desc + '</div>';
     card.onclick = () => selectFormula(f.id);
     container.appendChild(card);
@@ -447,7 +464,9 @@ function renderFormulas() {
 function selectFormula(id) {
   selectedFormula = formulas.find(f => f.id === id);
   document.querySelectorAll('.formula-card').forEach(c => c.classList.remove('selected'));
+  document.querySelectorAll('.formula-card').forEach(c => c.setAttribute('aria-pressed', 'false'));
   document.getElementById('fc-' + id).classList.add('selected');
+  document.getElementById('fc-' + id).setAttribute('aria-pressed', 'true');
   document.getElementById('eval-btn').disabled = false;
   document.getElementById('formula-result').innerHTML = '';
   document.getElementById('formula-search').innerHTML = '';
@@ -462,6 +481,9 @@ function evalFormula() {
   grid.className = 'search-grid';
 
   let delay = 0;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const stepDelay = reducedMotion ? 0 : 200;
+  const settleDelay = reducedMotion ? 0 : 150;
   result.steps.forEach((s, i) => {
     const cell = document.createElement('div');
     cell.className = 'search-cell';
@@ -472,23 +494,23 @@ function evalFormula() {
       setTimeout(() => {
         cell.classList.remove('checking');
         cell.classList.add(s.pass ? 'pass' : 'fail');
-      }, 150);
+      }, settleDelay);
     }, delay);
-    delay += 200;
+    delay += stepDelay;
   });
   searchDiv.appendChild(grid);
 
   setTimeout(() => {
     const box = document.createElement('div');
     box.className = 'result-box ' + (result.result ? 'true' : 'false');
-    box.innerHTML = '<div class="verdict">' + (result.result ? 'TRUE' : 'FALSE') + '</div>';
+    box.innerHTML = '<div class="verdict">' + (result.result ? 'DISPLAYED BOX PASSES' : 'DISPLAYED BOX HAS NO WITNESS') + '</div>';
     if (result.witness !== undefined) {
-      box.innerHTML += '<div class="witness">Witness: x = ' + result.witness + '  →  ' + succNotation(result.witness) + '</div>';
+      box.innerHTML += '<div class="witness">Witness: x = ' + result.witness + ', written ' + succNotation(result.witness) + '</div>';
     }
     box.innerHTML += '<div class="explain">' + result.explain + '</div>';
     document.getElementById('formula-result').innerHTML = '';
     document.getElementById('formula-result').appendChild(box);
-  }, delay + 200);
+  }, delay + (reducedMotion ? 0 : 200));
 }
 
 /* ---- Init ---- */

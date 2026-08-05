@@ -1,0 +1,90 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 610" role="img" aria-labelledby="math-arithmetic-telescope-title math-arithmetic-telescope-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="math-arithmetic-telescope-title">The arithmetic geometry telescope</title>
+  <desc id="math-arithmetic-telescope-desc">One polynomial equation is viewed through real, rational, finite-field, and p-adic lenses. The local views feed a scheme-level picture, Galois and cohomological records, and an L-function, while a warning notes that local solutions do not always assemble into a rational point.</desc>
+  <defs>
+    <filter id="math-ag-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#172033" flood-opacity="0.12" />
+    </filter>
+    <marker id="math-ag-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#263650" />
+    </marker>
+  </defs>
+  <style>
+    .ag-lens { opacity: 1; }
+    .ag-flow { stroke-dasharray: 6 9; }
+    .math-motion-run .ag-lens { animation: ag-lens-focus 0.45s ease-out 1 both; }
+    .math-motion-run .ag-lens-1 { animation-delay: 0.25s; }
+    .math-motion-run .ag-lens-2 { animation-delay: 0.75s; }
+    .math-motion-run .ag-lens-3 { animation-delay: 1.25s; }
+    .math-motion-run .ag-lens-4 { animation-delay: 1.75s; }
+    .math-motion-run .ag-flow { animation: ag-flow 1s linear 2.25s 1 both; }
+    @keyframes ag-lens-focus { from { opacity: 0.45; } to { opacity: 1; } }
+    @keyframes ag-flow { from { stroke-dashoffset: 30; opacity: 0.45; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .ag-lens, .ag-flow { animation: none; }
+      .ag-lens { opacity: 1; }
+    }
+  </style>
+  <rect x="20" y="20" width="920" height="570" rx="34" fill="#f8fbff" stroke="#cad7e8" stroke-width="2" />
+  <text x="60" y="68" font-size="24" font-weight="800" fill="#172033" font-family="Atkinson Hyperlegible, system-ui, sans-serif">One equation, many worlds, one global mystery</text>
+  <text x="60" y="94" font-size="14" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Arithmetic geometry changes the allowed coordinates, then compares what every world can see.</text>
+
+  <g filter="url(#math-ag-shadow)">
+    <rect x="66" y="142" width="230" height="150" rx="24" fill="#172033" />
+  </g>
+  <text x="181" y="180" text-anchor="middle" font-size="14" font-weight="800" fill="#ffd777" font-family="Atkinson Hyperlegible, system-ui, sans-serif">ONE EQUATION</text>
+  <text x="181" y="226" text-anchor="middle" font-size="24" font-weight="800" fill="#ffffff" font-family="Georgia, serif">y² = x³ + ax + b</text>
+  <text x="181" y="263" text-anchor="middle" font-size="13" fill="#dce6f7" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Keep the equation. Change the world.</text>
+
+  <path d="M296 218 H354" stroke="#263650" stroke-width="4" marker-end="url(#math-ag-arrow)" />
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <rect class="ag-lens ag-lens-1" x="370" y="122" width="176" height="70" rx="18" fill="#fff1e9" stroke="#db765f" stroke-width="2" />
+    <text x="390" y="151" font-size="14" font-weight="800" fill="#9b4032">REAL · ℝ</text>
+    <text x="390" y="174" font-size="12" fill="#536076">continuous curve</text>
+    <rect class="ag-lens ag-lens-2" x="370" y="208" width="176" height="70" rx="18" fill="#fff7dc" stroke="#d6a33e" stroke-width="2" />
+    <text x="390" y="237" font-size="14" font-weight="800" fill="#80530c">RATIONAL · ℚ</text>
+    <text x="390" y="260" font-size="12" fill="#536076">special fraction dots</text>
+    <rect class="ag-lens ag-lens-3" x="562" y="122" width="176" height="70" rx="18" fill="#eaf7ef" stroke="#54a477" stroke-width="2" />
+    <text x="582" y="151" font-size="14" font-weight="800" fill="#246c48">FINITE FIELD · 𝔽ₚ</text>
+    <text x="582" y="174" font-size="12" fill="#536076">finite wrapped board</text>
+    <rect class="ag-lens ag-lens-4" x="562" y="208" width="176" height="70" rx="18" fill="#eff0ff" stroke="#7477bd" stroke-width="2" />
+    <text x="582" y="237" font-size="14" font-weight="800" fill="#4f5296">p-ADIC · ℚₚ</text>
+    <text x="582" y="260" font-size="12" fill="#536076">p-power closeness</text>
+  </g>
+
+  <path d="M754 200 H816" stroke="#263650" stroke-width="4" marker-end="url(#math-ag-arrow)" />
+  <g filter="url(#math-ag-shadow)">
+    <rect x="824" y="132" width="86" height="138" rx="23" fill="#f1eafa" stroke="#8462aa" stroke-width="2" />
+  </g>
+  <text x="867" y="171" text-anchor="middle" font-size="16" font-weight="800" fill="#654389" font-family="Georgia, serif">Spec(A)</text>
+  <text x="867" y="198" text-anchor="middle" font-size="13" font-weight="800" fill="#172033" font-family="Atkinson Hyperlegible, system-ui, sans-serif">SCHEME</text>
+  <text x="867" y="219" text-anchor="middle" font-size="11" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">all bases</text>
+  <text x="867" y="236" text-anchor="middle" font-size="11" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">and local</text>
+  <text x="867" y="253" text-anchor="middle" font-size="11" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">functions</text>
+
+  <path d="M867 282 V330" stroke="#263650" stroke-width="4" marker-end="url(#math-ag-arrow)" />
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <rect x="94" y="340" width="230" height="100" rx="22" fill="#eaf3ff" stroke="#5487c8" stroke-width="2" />
+    <text x="116" y="372" font-size="14" font-weight="800" fill="#315f9e">ρ · GALOIS ACTION</text>
+    <text x="116" y="398" font-size="13" fill="#172033">How hidden roots and</text>
+    <text x="116" y="418" font-size="13" fill="#172033">torsion points move together</text>
+    <rect x="365" y="340" width="230" height="100" rx="22" fill="#fff1e9" stroke="#dc7762" stroke-width="2" />
+    <text x="387" y="372" font-size="14" font-weight="800" fill="#9c4939">H¹ · COHOMOLOGY</text>
+    <text x="387" y="398" font-size="13" fill="#172033">What local pieces fail</text>
+    <text x="387" y="418" font-size="13" fill="#172033">to assemble globally</text>
+    <rect x="636" y="340" width="230" height="100" rx="22" fill="#fff7dc" stroke="#d5a23d" stroke-width="2" />
+    <text x="658" y="372" font-size="14" font-weight="800" fill="#80530c">L(E,s) · L-FUNCTION</text>
+    <text x="658" y="398" font-size="13" fill="#172033">Prime-local factors</text>
+    <text x="658" y="418" font-size="13" fill="#172033">combined in one product</text>
+  </g>
+  <g class="ag-flow" fill="none" stroke="#263650" stroke-width="3" marker-end="url(#math-ag-arrow)">
+    <path d="M816 292 Q690 320 324 362" />
+    <path d="M840 292 Q730 330 595 362" />
+    <path d="M867 292 V330" />
+  </g>
+
+  <rect x="116" y="478" width="728" height="72" rx="22" fill="#172033" />
+  <text x="480" y="506" text-anchor="middle" font-size="15" font-weight="800" fill="#ffd777" font-family="Atkinson Hyperlegible, system-ui, sans-serif">LOCAL PASS DOES NOT ALWAYS GIVE A GLOBAL POINT</text>
+  <text x="480" y="531" text-anchor="middle" font-size="13" fill="#dce6f7" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Local solvability is necessary for a rational point, but it is not sufficient for every variety.</text>
+  <text x="480" y="576" text-anchor="middle" font-size="13" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">This is a route through ideas, not a chain of automatic logical implications.</text>
+</svg>
