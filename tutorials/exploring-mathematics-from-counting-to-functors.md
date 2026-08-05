@@ -857,7 +857,13 @@ A vector space is a module whose scalars come from a field. A module lets algebr
 
 **Ideal.**
 
-An ideal is a special subcollection of a ring. It is stable when ring elements multiply its members. Ideals let us make quotient rings, which are rings where selected differences count as zero.
+An ideal is a special subcollection of a ring. It contains zero, is closed under addition and additive inverses, and stays inside the subcollection when any ring element multiplies one of its members. In symbols, for an ideal `I` of a ring `R`:
+
+$$
+0\in I,\qquad a,b\in I\Rightarrow a-b\in I,\qquad r\in R,\;a\in I\Rightarrow ra\in I.
+$$
+
+The additive rule matters: a pile can be stable under multiplication and still fail to be an ideal if it is not closed under addition. Ideals let us make quotient rings, which are rings where selected differences count as zero.
 
 **Boolean algebra.**
 
@@ -1306,11 +1312,3 @@ I close the rulebook.
   <p class="fp-callout-title">The pocket lesson</p>
   <p>Start with a picture. Ask what the picture leaves unexplained. Add exactly one rule. Name it only when the class needs the name. Then let a checker inspect the finite steps.</p>
 </div>
-
-<button id="math-motion-toggle" class="fp-btn fp-btn-secondary" type="button" aria-pressed="false">Pause moving diagrams</button>
-
-<style>
-  .math-motion-paused .fp-diagram * {
-    animation-play-state: paused !important;
-  }
-</style>

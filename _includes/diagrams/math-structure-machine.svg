@@ -12,11 +12,11 @@
   <style>
     .machine-flow { stroke-dasharray: 6 9; }
     .machine-law { opacity: 1; }
-    .math-motion-run .machine-law { animation: machine-law-enter 0.45s ease-out 1 both; }
-    .math-motion-run .machine-law-1 { animation-delay: 0.4s; }
-    .math-motion-run .machine-law-2 { animation-delay: 0.9s; }
-    .math-motion-run .machine-law-3 { animation-delay: 1.4s; }
-    .math-motion-run .machine-law-4 { animation-delay: 1.9s; }
+    .machine-law { animation: machine-law-enter 0.45s ease-out 1 both; }
+    .machine-law-1 { animation-delay: 0.4s; }
+    .machine-law-2 { animation-delay: 0.9s; }
+    .machine-law-3 { animation-delay: 1.4s; }
+    .machine-law-4 { animation-delay: 1.9s; }
     @keyframes machine-law-enter { from { opacity: 0.42; } to { opacity: 1; } }
     @media (prefers-reduced-motion: reduce) {
       .machine-law { animation: none; }

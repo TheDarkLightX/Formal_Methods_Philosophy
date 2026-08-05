@@ -12,12 +12,12 @@
   <style>
     .ag-lens { opacity: 1; }
     .ag-flow { stroke-dasharray: 6 9; }
-    .math-motion-run .ag-lens { animation: ag-lens-focus 0.45s ease-out 1 both; }
-    .math-motion-run .ag-lens-1 { animation-delay: 0.25s; }
-    .math-motion-run .ag-lens-2 { animation-delay: 0.75s; }
-    .math-motion-run .ag-lens-3 { animation-delay: 1.25s; }
-    .math-motion-run .ag-lens-4 { animation-delay: 1.75s; }
-    .math-motion-run .ag-flow { animation: ag-flow 1s linear 2.25s 1 both; }
+    .ag-lens { animation: ag-lens-focus 0.45s ease-out 1 both; }
+    .ag-lens-1 { animation-delay: 0.25s; }
+    .ag-lens-2 { animation-delay: 0.75s; }
+    .ag-lens-3 { animation-delay: 1.25s; }
+    .ag-lens-4 { animation-delay: 1.75s; }
+    .ag-flow { animation: ag-flow 1s linear 2.25s 1 both; }
     @keyframes ag-lens-focus { from { opacity: 0.45; } to { opacity: 1; } }
     @keyframes ag-flow { from { stroke-dashoffset: 30; opacity: 0.45; } to { stroke-dashoffset: 0; opacity: 1; } }
     @media (prefers-reduced-motion: reduce) {

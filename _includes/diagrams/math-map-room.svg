@@ -22,12 +22,12 @@
     .map-f-route, .map-g-route { stroke-dasharray: 8 10; }
     .map-natural-route { stroke-dasharray: 5 8; }
     .map-probe-route { stroke-dasharray: 4 8; }
-    .math-motion-run .map-f-route { animation: map-route 0.7s linear 1 both; }
-    .math-motion-run .map-g-route { animation: map-route 0.7s linear 0.75s 1 both; }
-    .math-motion-run .map-natural-route { animation: map-route 0.7s linear 1.5s 1 both; }
-    .math-motion-run .map-probe-route-1 { animation: map-route 0.45s linear 2.25s 1 both; }
-    .math-motion-run .map-probe-route-2 { animation: map-route 0.45s linear 2.7s 1 both; }
-    .math-motion-run .map-probe-route-3 { animation: map-route 0.45s linear 3.15s 1 both; }
+    .map-f-route { animation: map-route 0.7s linear 1 both; }
+    .map-g-route { animation: map-route 0.7s linear 0.75s 1 both; }
+    .map-natural-route { animation: map-route 0.7s linear 1.5s 1 both; }
+    .map-probe-route-1 { animation: map-route 0.45s linear 2.25s 1 both; }
+    .map-probe-route-2 { animation: map-route 0.45s linear 2.7s 1 both; }
+    .map-probe-route-3 { animation: map-route 0.45s linear 3.15s 1 both; }
     @keyframes map-route { from { stroke-dashoffset: 36; opacity: 0.4; } to { stroke-dashoffset: 0; opacity: 1; } }
     @media (prefers-reduced-motion: reduce) {
       .map-f-route, .map-g-route, .map-natural-route, .map-probe-route { animation: none; }

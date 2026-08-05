@@ -26,16 +26,16 @@
       stroke-dasharray: 38;
       stroke-dashoffset: 0;
     }
-    .math-motion-run .element-pointer {
+    .element-pointer {
       animation: element-pointer-flow 1.2s ease-out 1 both;
     }
-    .math-motion-run .element-target {
+    .element-target {
       animation: element-target-pulse 0.6s ease-out 0.8s 1 both;
     }
-    .math-motion-run .subset-boundary {
+    .subset-boundary {
       animation: subset-boundary-draw 1.2s ease-out 1.45s 1 both;
     }
-    .math-motion-run .subset-check {
+    .subset-check {
       animation: subset-check-draw 0.55s ease-out 2.55s 1 both;
     }
     @keyframes element-pointer-flow {
