@@ -1,0 +1,115 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 520" role="img" aria-labelledby="math-element-subset-title math-element-subset-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="math-element-subset-title">Element and subset ask different questions</title>
+  <desc id="math-element-subset-desc">The left panel selects the single object two inside the set D to show two is an element of D. The right panel encloses the objects one and two in a smaller set A inside D to show A is a subset of D.</desc>
+  <defs>
+    <filter id="math-element-subset-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#172033" flood-opacity="0.12" />
+    </filter>
+    <marker id="math-element-pointer" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#315f9e" />
+    </marker>
+  </defs>
+  <style>
+    .element-pointer {
+      stroke-dasharray: 8 8;
+      stroke-dashoffset: 0;
+    }
+    .element-target {
+      transform-box: fill-box;
+      transform-origin: center;
+    }
+    .subset-boundary {
+      stroke-dasharray: 920;
+      stroke-dashoffset: 0;
+    }
+    .subset-check {
+      stroke-dasharray: 38;
+      stroke-dashoffset: 0;
+    }
+    .element-pointer {
+      animation: element-pointer-flow 1.2s ease-out 1 both;
+    }
+    .element-target {
+      animation: element-target-pulse 0.6s ease-out 0.8s 1 both;
+    }
+    .subset-boundary {
+      animation: subset-boundary-draw 1.2s ease-out 1.45s 1 both;
+    }
+    .subset-check {
+      animation: subset-check-draw 0.55s ease-out 2.55s 1 both;
+    }
+    @keyframes element-pointer-flow {
+      from { stroke-dashoffset: 48; opacity: 0.25; }
+      to { stroke-dashoffset: 0; opacity: 1; }
+    }
+    @keyframes element-target-pulse {
+      0% { transform: scale(1); }
+      55% { transform: scale(1.12); }
+      100% { transform: scale(1); }
+    }
+    @keyframes subset-boundary-draw {
+      from { stroke-dashoffset: 920; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes subset-check-draw {
+      from { stroke-dashoffset: 38; }
+      to { stroke-dashoffset: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .element-pointer, .element-target, .subset-boundary, .subset-check {
+        animation: none;
+      }
+      .subset-boundary, .subset-check {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="480" rx="34" fill="#fffaf2" stroke="#d9cdbd" stroke-width="2" />
+  <text x="60" y="66" font-size="24" font-weight="800" fill="#172033" font-family="Atkinson Hyperlegible, system-ui, sans-serif">Two symbols, two questions</text>
+  <text x="60" y="92" font-size="14" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">An element is one object. A subset is a collection whose every object stays inside the larger collection.</text>
+
+  <g filter="url(#math-element-subset-shadow)">
+    <rect x="56" y="126" width="400" height="276" rx="28" fill="#eaf2ff" stroke="#5386cf" stroke-width="2" />
+    <rect x="504" y="126" width="400" height="276" rx="28" fill="#edf8f1" stroke="#58a77a" stroke-width="2" />
+  </g>
+
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="82" y="164" font-size="14" font-weight="800" fill="#315f9e">ELEMENT · ONE OBJECT</text>
+    <text x="82" y="196" font-size="28" font-weight="800" fill="#172033">2 ∈ D</text>
+    <rect x="106" y="222" width="292" height="126" rx="40" fill="#ffffff" stroke="#8aaad7" stroke-width="3" />
+    <text x="128" y="249" font-size="14" font-weight="800" fill="#315f9e">SET D</text>
+    <circle cx="172" cy="294" r="27" fill="#fff3d7" stroke="#dfaa43" stroke-width="2" />
+    <circle cx="252" cy="294" r="27" fill="#f6edff" stroke="#9467bd" stroke-width="2" />
+    <circle class="element-target" cx="332" cy="294" r="27" fill="#dceaff" stroke="#315f9e" stroke-width="4" />
+    <g text-anchor="middle" font-size="21" font-weight="800" fill="#172033">
+      <text x="172" y="302">0</text>
+      <text x="252" y="302">1</text>
+      <text x="332" y="302">2</text>
+    </g>
+    <path class="element-pointer" d="M88 330 C98 378 246 384 323 326" fill="none" stroke="#315f9e" stroke-width="4" marker-end="url(#math-element-pointer)" />
+    <text x="82" y="380" font-size="14" font-weight="700" fill="#315f9e">Ask: is this one object collected by D?</text>
+
+    <text x="530" y="164" font-size="14" font-weight="800" fill="#24704a">SUBSET · A WHOLE COLLECTION</text>
+    <text x="530" y="196" font-size="28" font-weight="800" fill="#172033">A ⊆ D</text>
+    <rect x="548" y="222" width="312" height="150" rx="46" fill="#ffffff" stroke="#8bc6a4" stroke-width="3" />
+    <text x="570" y="249" font-size="14" font-weight="800" fill="#24704a">SET D</text>
+    <circle cx="598" cy="304" r="24" fill="#fff3d7" stroke="#dfaa43" stroke-width="2" />
+    <circle cx="690" cy="304" r="24" fill="#f6edff" stroke="#9467bd" stroke-width="2" />
+    <circle cx="776" cy="304" r="24" fill="#dceaff" stroke="#315f9e" stroke-width="2" />
+    <g text-anchor="middle" font-size="19" font-weight="800" fill="#172033">
+      <text x="598" y="311">0</text>
+      <text x="690" y="311">1</text>
+      <text x="776" y="311">2</text>
+    </g>
+    <rect class="subset-boundary" x="648" y="264" width="168" height="80" rx="36" fill="none" stroke="#24704a" stroke-width="4" />
+    <rect x="666" y="252" width="34" height="22" rx="10" fill="#24704a" />
+    <text x="683" y="268" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">A</text>
+    <circle cx="836" cy="354" r="17" fill="#24704a" />
+    <path class="subset-check" d="M827 354 L834 361 L847 346" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="530" y="392" font-size="14" font-weight="700" fill="#24704a">Ask: is every element of A also an element of D?</text>
+  </g>
+
+  <rect x="116" y="430" width="728" height="46" rx="16" fill="#172033" />
+  <text x="480" y="458" text-anchor="middle" font-size="15" font-weight="800" fill="#ffffff" font-family="Atkinson Hyperlegible, system-ui, sans-serif">∈ asks about ONE OBJECT · ⊆ asks about EVERY ELEMENT OF A SET</text>
+</svg>

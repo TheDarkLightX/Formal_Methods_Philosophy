@@ -13,12 +13,12 @@
     .proof-room { opacity: 1; }
     .proof-route { stroke-dasharray: 5 8; }
     .proof-checkmark { stroke-dasharray: 38; stroke-dashoffset: 0; }
-    .math-motion-run .proof-room { animation: proof-room-enter 0.65s ease-out 1 both; }
-    .math-motion-run .proof-room-2 { animation-delay: 0.65s; }
-    .math-motion-run .proof-room-3 { animation-delay: 1.3s; }
-    .math-motion-run .proof-room-4 { animation-delay: 1.95s; }
-    .math-motion-run .proof-route { animation: proof-route-flow 2.6s linear 1 both; }
-    .math-motion-run .proof-checkmark { animation: proof-check-draw 0.65s ease-out 2.6s 1 both; }
+    .proof-room { animation: proof-room-enter 0.65s ease-out 1 both; }
+    .proof-room-2 { animation-delay: 0.65s; }
+    .proof-room-3 { animation-delay: 1.3s; }
+    .proof-room-4 { animation-delay: 1.95s; }
+    .proof-route { animation: proof-route-flow 2.6s linear 1 both; }
+    .proof-checkmark { animation: proof-check-draw 0.65s ease-out 2.6s 1 both; }
     @keyframes proof-room-enter { from { opacity: 0.5; } to { opacity: 1; } }
     @keyframes proof-route-flow { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -52; } }
     @keyframes proof-check-draw { from { stroke-dashoffset: 38; } to { stroke-dashoffset: 0; } }

@@ -10,16 +10,16 @@
     .search-reject-0, .search-reject-1, .search-accept-2 { opacity: 1; }
     .search-state { opacity: 0; }
     .search-state-3 { opacity: 1; }
-    .math-motion-run .search-reject-0 { animation: search-result-show 0.35s ease-out 0.65s 1 both; }
-    .math-motion-run .search-reject-1 { animation: search-result-show 0.35s ease-out 1.4s 1 both; }
-    .math-motion-run .search-accept-2 { animation: search-result-show 0.35s ease-out 2.15s 1 both; }
-    .math-motion-run .search-card-0 { animation: search-card-reject 0.35s ease-out 0.65s 1 both; }
-    .math-motion-run .search-card-1 { animation: search-card-reject 0.35s ease-out 1.4s 1 both; }
-    .math-motion-run .search-card-2 { animation: search-card-pass 0.35s ease-out 2.15s 1 both; }
-    .math-motion-run .search-state-0 { animation: search-first-state 0.75s linear 1 both; }
-    .math-motion-run .search-state-1 { animation: search-middle-state 0.75s linear 0.75s 1 both; }
-    .math-motion-run .search-state-2 { animation: search-middle-state 0.75s linear 1.5s 1 both; }
-    .math-motion-run .search-state-3 { animation: search-final-state 0.35s ease-out 2.25s 1 both; }
+    .search-reject-0 { animation: search-result-show 0.35s ease-out 0.65s 1 both; }
+    .search-reject-1 { animation: search-result-show 0.35s ease-out 1.4s 1 both; }
+    .search-accept-2 { animation: search-result-show 0.35s ease-out 2.15s 1 both; }
+    .search-card-0 { animation: search-card-reject 0.35s ease-out 0.65s 1 both; }
+    .search-card-1 { animation: search-card-reject 0.35s ease-out 1.4s 1 both; }
+    .search-card-2 { animation: search-card-pass 0.35s ease-out 2.15s 1 both; }
+    .search-state-0 { animation: search-first-state 0.75s linear 1 both; }
+    .search-state-1 { animation: search-middle-state 0.75s linear 0.75s 1 both; }
+    .search-state-2 { animation: search-middle-state 0.75s linear 1.5s 1 both; }
+    .search-state-3 { animation: search-final-state 0.35s ease-out 2.25s 1 both; }
     @keyframes search-result-show { from { opacity: 0; } to { opacity: 1; } }
     @keyframes search-card-reject {
       from { fill: #fffaf2; stroke: #d9cdbd; }
