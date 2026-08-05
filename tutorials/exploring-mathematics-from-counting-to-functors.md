@@ -432,6 +432,185 @@ proof        finite public route
 checker      independent replay
 ~~~
 
+## The teacher hides the answer
+
+The next morning I turn the board around. There is no pile of apples.
+
+There is only a covered box and a question:
+
+$$
+x+3=12.
+$$
+
+“This time,” I say, “<code>x</code> is an integer. Find it, then prove that your answer is the only one.”
+
+Ana says, “Nine.”
+
+“How do you know?”
+
+She writes:
+
+$$
+x+3=12
+\quad\Longrightarrow\quad
+x+3-3=12-3
+\quad\Longrightarrow\quad
+x=9.
+$$
+
+Now Malik checks the answer:
+
+$$
+9+3=12.
+$$
+
+The class has done two jobs:
+
+~~~text
+✅ existence    9 works
+✅ uniqueness   no other x can work
+~~~
+
+“The first line finds a candidate,” I say. “The second line checks it. The reversible steps show why no rival can survive.”
+
+This is a better proof prompt than “What is <code>x</code>?”:
+
+~~~text
+find x
+check x
+prove only x works
+~~~
+
+**The parity question.**
+
+I write:
+
+“Is an even number plus an odd number always odd?”
+
+Noor tests examples:
+
+~~~text
+2 + 3 = 5
+4 + 7 = 11
+~~~
+
+“Examples are clues,” I say. “The question says <em>always</em>, so we need a proof for every allowed pair.”
+
+We give the words exact shapes:
+
+~~~text
+even number = 2a
+odd number  = 2b + 1
+~~~
+
+Now the proof fits on one line:
+
+$$
+2a+(2b+1)=2(a+b)+1.
+$$
+
+The answer still has the form “twice something, plus one.” Therefore it is odd.
+
+Lina nods. “We did not check every pair. We showed that every pair has the same shape.”
+
+**The impossible question.**
+
+I write:
+
+$$
+x+1=x.
+$$
+
+“Can an integer or natural number satisfy this?”
+
+Ana tries zero. Then one. Then a very large number.
+
+“Trying numbers could go forever,” Malik says.
+
+“So suppose one works,” I answer:
+
+$$
+x+1=x
+\quad\Longrightarrow\quad
+1=0.
+$$
+
+That is impossible in the ordinary integer and natural-number systems. Therefore no allowed <code>x</code> works.
+
+~~~text
+assume a solution
+↓
+derive an impossibility
+↓
+no solution exists
+~~~
+
+**The forever question.**
+
+I draw an endless row of tiles:
+
+~~~text
+1, 3, 5, 7, 9, ...
+~~~
+
+“Prove that the first <code>n</code> odd numbers always add to <code>n²</code>.”
+
+The claim is:
+
+$$
+1+3+5+\cdots+(2n-1)=n^2.
+$$
+
+Noor proves the first tile:
+
+$$
+1=1^2.
+$$
+
+Then she assumes the claim works at <code>k</code>. The next odd number is <code>2k+1</code>:
+
+$$
+k^2+(2k+1)=(k+1)^2.
+$$
+
+So the truth moves from <code>k</code> to <code>k+1</code>. The first tile and the reusable step cover every tile.
+
+~~~text
+first tile ✅
+reusable next-step ✅
+all tiles ✅
+~~~
+
+**The counterexample question.**
+
+Lina writes:
+
+“Every odd number is prime.”
+
+“Disprove it,” I say.
+
+“Nine,” she answers:
+
+~~~text
+9 is odd
+9 = 3 × 3
+9 is not prime
+~~~
+
+One valid counterexample defeats a statement that claims “every.”
+
+The students make a proof-making card:
+
+~~~text
+“find”       may need a construction
+“only”       needs uniqueness
+“every”      needs a general proof
+“cannot”     needs contradiction or an invariant
+“disprove”   needs one counterexample
+~~~
+
+The word <strong>invariant</strong> means a feature that does not change while the allowed moves happen. It will become useful when the class studies puzzles, symmetries, and algebraic maps.
+
 ## The algebra machine
 
 The next morning I roll in a machine with an empty basket and buttons.
