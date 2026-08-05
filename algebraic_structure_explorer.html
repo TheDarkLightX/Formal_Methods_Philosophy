@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Algebraic structure explorer</title>
+  <style>
+    :root {
+      --ink: #213047;
+      --muted: #627087;
+      --paper: #fffaf0;
+      --paper-2: #f4ead7;
+      --line: #d8c9ad;
+      --blue: #2f6f9f;
+      --blue-soft: #e3f0f8;
+      --orange: #c96b32;
+      --orange-soft: #f9e7d7;
+      --green: #2f7958;
+      --green-soft: #e4f2e8;
+      --red: #a6413a;
+      --red-soft: #f8e2df;
+      --shadow: 0 18px 50px rgba(56, 43, 23, 0.11);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 22px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(201,107,50,.12), transparent 25%),
+        linear-gradient(135deg, #fdf8ee 0%, #f3e9d7 100%);
+      font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    .shell { max-width: 820px; margin: 0 auto; }
+    h1, h2, p { margin: 0; }
+    h1, h2 { font-family: Georgia, serif; letter-spacing: -.02em; }
+    h1 { font-size: clamp(26px, 5vw, 42px); line-height: 1.03; }
+    h2 { font-size: 20px; }
+    .eyebrow {
+      color: var(--orange);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .intro { color: var(--muted); max-width: 620px; margin-top: 10px; }
+    .top { display: flex; gap: 20px; align-items: end; justify-content: space-between; margin-bottom: 18px; }
+    .stamp {
+      color: var(--blue);
+      border: 1px solid rgba(47,111,159,.35);
+      background: rgba(227,240,248,.75);
+      padding: 9px 12px;
+      border-radius: 14px 4px 14px 4px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .panel {
+      background: rgba(255,250,240,.83);
+      border: 1px solid rgba(216,201,173,.9);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-top: 14px;
+    }
+    .worlds { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 13px; }
+    button {
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 8px;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    }
+    button:hover { background: #fff; border-color: var(--blue); transform: translateY(-1px); }
+    button:focus-visible { outline: 3px solid rgba(47,111,159,.35); outline-offset: 2px; }
+    button[aria-selected="true"] { color: #fff; background: var(--blue); border-color: var(--blue); }
+    .world-head { display: flex; gap: 14px; align-items: center; }
+    .world-mark {
+      min-width: 62px;
+      height: 62px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px 5px 18px 5px;
+      color: var(--orange);
+      background: var(--orange-soft);
+      font-size: 30px;
+      border: 1px solid rgba(201,107,50,.25);
+    }
+    .world-note { color: var(--muted); margin-top: 4px; font-size: 13px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 16px; }
+    .chip { padding: 7px 9px; border-radius: 10px; background: var(--paper-2); border: 1px solid var(--line); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+    .operator-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+    .operator { display: inline-flex; align-items: center; gap: 7px; padding: 8px 10px; border-radius: 999px; background: var(--blue-soft); color: var(--blue); font-size: 12px; font-weight: 800; }
+    .law-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-top: 13px; }
+    .law { padding: 11px; border-radius: 13px; border: 1px solid var(--line); background: var(--paper); }
+    .law.pass { background: var(--green-soft); border-color: rgba(47,121,88,.35); }
+    .law.fail { background: var(--red-soft); border-color: rgba(166,65,58,.35); }
+    .law-title { display: flex; justify-content: space-between; gap: 10px; font-weight: 900; font-size: 13px; }
+    .law-result { font-size: 11px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; }
+    .pass .law-result { color: var(--green); }
+    .fail .law-result { color: var(--red); }
+    .law-detail { color: var(--muted); font-size: 12px; margin-top: 4px; }
+    .verdict { display: flex; gap: 10px; align-items: center; margin-top: 15px; padding: 12px 14px; border-radius: 14px; background: var(--paper-2); border: 1px dashed var(--line); font-weight: 900; }
+    .verdict strong { color: var(--blue); }
+    .scope { color: var(--muted); font-size: 12px; margin-top: 11px; }
+    .footnote { color: var(--muted); font-size: 11px; margin-top: 15px; }
+    @media (max-width: 620px) {
+      body { padding: 14px; }
+      .top { display: block; }
+      .stamp { display: inline-block; margin-top: 12px; }
+      .worlds { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .law-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="top">
+      <div>
+        <p class="eyebrow">A finite classroom checker</p>
+        <h1>Structure studio</h1>
+        <p class="intro">Choose a small mathematical world. Watch its objects and operations, then let the checker ask which ring laws survive.</p>
+      </div>
+      <div class="stamp">CARRIER + OPERATIONS + LAWS</div>
+    </header>
+
+    <section class="panel" aria-labelledby="choose-title">
+      <h2 id="choose-title">Choose a world</h2>
+      <div class="worlds" role="tablist" aria-label="Mathematical worlds">
+        <button type="button" role="tab" aria-selected="true" data-world="n">Natural sample</button>
+        <button type="button" role="tab" aria-selected="false" data-world="z5">Z/5Z</button>
+        <button type="button" role="tab" aria-selected="false" data-world="f2">F₂</button>
+        <button type="button" role="tab" aria-selected="false" data-world="m2">M₂(F₂)</button>
+      </div>
+    </section>
+
+    <section class="panel" aria-live="polite">
+      <div class="world-head">
+        <div class="world-mark" id="world-mark" aria-hidden="true">ℕ</div>
+        <div>
+          <h2 id="world-name">Natural numbers, shown as a finite sample</h2>
+          <p class="world-note" id="world-note"></p>
+        </div>
+      </div>
+      <div class="chips" id="elements" aria-label="Displayed elements"></div>
+      <div class="operator-strip" id="operators"></div>
+    </section>
+
+    <section class="panel" aria-labelledby="laws-title">
+      <h2 id="laws-title">What survives the checker?</h2>
+      <div class="law-grid" id="laws"></div>
+      <div class="verdict" id="verdict"></div>
+      <p class="scope" id="scope"></p>
+    </section>
+
+    <p class="footnote">A green law means every displayed finite case passed. For the natural-number sample, closure failures are artifacts of displaying only 0 through 4; the missing additive inverses are the real obstruction to being a ring. Labels such as “Noetherian” are mathematical facts about the named model, not claims made by this tiny checker.</p>
+  </main>
+
+  <script>
+    const matrixValues = [];
+    for (let a = 0; a < 2; a++) for (let b = 0; b < 2; b++) for (let c = 0; c < 2; c++) for (let d = 0; d < 2; d++) matrixValues.push([a, b, c, d]);
+
+    const worlds = {
+      n: {
+        mark: "ℕ",
+        name: "Natural numbers, shown as a finite sample",
+        note: "Addition and multiplication work, but subtraction is not always available.",
+        elements: [0, 1, 2, 3, 4],
+        add: (a, b) => a + b,
+        mul: (a, b) => a * b,
+        zero: 0,
+        one: 1,
+        finite: false,
+        labels: ["N is a semiring", "not a ring"]
+      },
+      z5: {
+        mark: "ℤ/5ℤ",
+        name: "Z/5Z, arithmetic that wraps around",
+        note: "After 4 comes 0. Every nonzero element has a multiplicative inverse.",
+        elements: [0, 1, 2, 3, 4],
+        add: (a, b) => (a + b) % 5,
+        mul: (a, b) => (a * b) % 5,
+        zero: 0,
+        one: 1,
+        invAdd: a => (5 - a) % 5,
+        finite: true,
+        labels: ["commutative", "field", "Noetherian"]
+      },
+      f2: {
+        mark: "𝔽₂",
+        name: "F₂, the two-element Boolean ring",
+        note: "Addition is XOR. Multiplication is AND. Every element satisfies x² = x.",
+        elements: [0, 1],
+        add: (a, b) => (a + b) % 2,
+        mul: (a, b) => (a * b) % 2,
+        zero: 0,
+        one: 1,
+        invAdd: a => a,
+        finite: true,
+        labels: ["commutative", "Boolean", "field", "Noetherian"]
+      },
+      m2: {
+        mark: "M₂",
+        name: "M₂(F₂), 2 × 2 matrices over F₂",
+        note: "Add entries cell by cell. Multiply rows by columns. Order can matter.",
+        elements: matrixValues,
+        add: (a, b) => a.map((v, i) => (v + b[i]) % 2),
+        mul: (a, b) => [
+          (a[0] * b[0] + a[1] * b[2]) % 2,
+          (a[0] * b[1] + a[1] * b[3]) % 2,
+          (a[2] * b[0] + a[3] * b[2]) % 2,
+          (a[2] * b[1] + a[3] * b[3]) % 2
+        ],
+        zero: [0, 0, 0, 0],
+        one: [1, 0, 0, 1],
+        invAdd: a => a.slice(),
+        finite: true,
+        labels: ["ring", "noncommutative", "Noetherian"]
+      }
+    };
+
+    const eq = (a, b) => Array.isArray(a) ? a.every((v, i) => v === b[i]) : a === b;
+    const format = value => Array.isArray(value) ? `[${value[0]} ${value[1]}; ${value[2]} ${value[3]}]` : String(value);
+    const contains = (items, value) => items.some(item => eq(item, value));
+    const findPair = (items, predicate) => { for (const a of items) for (const b of items) if (predicate(a, b)) return [a, b]; return null; };
+    const findTriple = (items, predicate) => { for (const a of items) for (const b of items) for (const c of items) if (predicate(a, b, c)) return [a, b, c]; return null; };
+
+    function check(world) {
+      const E = world.elements;
+      const addClosed = E.every(a => E.every(b => contains(E, world.add(a, b))));
+      const mulClosed = E.every(a => E.every(b => contains(E, world.mul(a, b))));
+      const addAssoc = E.every(a => E.every(b => E.every(c => eq(world.add(world.add(a, b), c), world.add(a, world.add(b, c))))));
+      const addCommutative = E.every(a => E.every(b => eq(world.add(a, b), world.add(b, a))));
+      const zeroLaw = E.every(a => eq(world.add(a, world.zero), a) && eq(world.add(world.zero, a), a));
+      const addInverse = E.every(a => E.some(b => eq(world.add(a, b), world.zero) && eq(world.add(b, a), world.zero)));
+      const mulAssoc = E.every(a => E.every(b => E.every(c => eq(world.mul(world.mul(a, b), c), world.mul(a, world.mul(b, c))))));
+      const leftDist = E.every(a => E.every(b => E.every(c => eq(world.mul(a, world.add(b, c)), world.add(world.mul(a, b), world.mul(a, c))))));
+      const rightDist = E.every(a => E.every(b => E.every(c => eq(world.mul(world.add(a, b), c), world.add(world.mul(a, c), world.mul(b, c))))));
+      const commutative = E.every(a => E.every(b => eq(world.mul(a, b), world.mul(b, a))));
+      const boolean = E.every(a => eq(world.mul(a, a), a));
+      const unity = world.one !== undefined && E.every(a => eq(world.mul(a, world.one), a) && eq(world.mul(world.one, a), a));
+      const zeroAbsorbing = E.every(a => eq(world.mul(a, world.zero), world.zero) && eq(world.mul(world.zero, a), world.zero));
+      const nonzeroMultiplicativeInverse = world.one !== undefined && E.filter(a => !eq(a, world.zero)).every(a => E.some(b => eq(world.mul(a, b), world.one) && eq(world.mul(b, a), world.one)));
+      const ring = addClosed && mulClosed && addAssoc && addCommutative && zeroLaw && addInverse && mulAssoc && unity && zeroAbsorbing && leftDist && rightDist;
+      const field = ring && commutative && unity && nonzeroMultiplicativeInverse;
+      const addClosureWitness = findPair(E, (a, b) => !contains(E, world.add(a, b)));
+      const inverseWitness = E.find(a => !E.some(b => eq(world.add(a, b), world.zero) && eq(world.add(b, a), world.zero)));
+      const commWitness = findPair(E, (a, b) => !eq(world.mul(a, b), world.mul(b, a)));
+      const booleanWitness = E.find(a => !eq(world.mul(a, a), a));
+      return { addClosed, mulClosed, addAssoc, addCommutative, zeroLaw, addInverse, mulAssoc, leftDist, rightDist, commutative, boolean, unity, zeroAbsorbing, nonzeroMultiplicativeInverse, ring, field, addClosureWitness, inverseWitness, commWitness, booleanWitness };
+    }
+
+    function lawRow(title, pass, detail) {
+      return `<div class="law ${pass ? "pass" : "fail"}"><div class="law-title"><span>${title}</span><span class="law-result">${pass ? "passes" : "fails"}</span></div><div class="law-detail">${detail}</div></div>`;
+    }
+
+    function render(key) {
+      const world = worlds[key];
+      const result = check(world);
+      document.getElementById("world-mark").textContent = world.mark;
+      document.getElementById("world-name").textContent = world.name;
+      document.getElementById("world-note").textContent = world.note;
+      document.getElementById("elements").innerHTML = world.elements.map(value => `<span class="chip">${format(value)}</span>`).join("");
+      document.getElementById("operators").innerHTML = `<span class="operator">+ ${key === "f2" ? "XOR" : "addition"}</span><span class="operator">× ${key === "f2" ? "AND" : "multiplication"}</span><span class="operator">ZERO 0 = ${format(world.zero)}</span><span class="operator">ONE 1 = ${format(world.one)}</span>`;
+      const closureDetail = result.addClosureWitness ? `${format(result.addClosureWitness[0])} + ${format(result.addClosureWitness[1])} leaves the displayed box.` : "every displayed sum stays inside";
+      const inverseDetail = result.inverseWitness !== undefined ? `${format(result.inverseWitness)} has no additive undo in this box.` : "every displayed object has an additive undo";
+      const commDetail = result.commWitness ? `${format(result.commWitness[0])} and ${format(result.commWitness[1])} witness AB ≠ BA.` : "multiplication can be reordered";
+      const booleanDetail = result.booleanWitness !== undefined ? `${format(result.booleanWitness)}² is not itself.` : "every displayed object satisfies x² = x";
+      document.getElementById("laws").innerHTML = [
+        lawRow("closed under +", result.addClosed, closureDetail),
+        lawRow("closed under ×", result.mulClosed, result.mulClosed ? "every displayed product stays inside" : "a displayed product leaves the box"),
+        lawRow("+ is commutative", result.addCommutative, "a + b = b + a for every displayed pair"),
+        lawRow("addition is reversible", result.addInverse, inverseDetail),
+        lawRow("1 is multiplicative identity", result.unity, "1a = a = a1 for every displayed object"),
+        lawRow("× is associative", result.mulAssoc, "(ab)c = a(bc) for every displayed triple"),
+        lawRow("0 absorbs ×", result.zeroAbsorbing, "0a = 0 = a0 for every displayed object"),
+        lawRow("× distributes", result.leftDist && result.rightDist, "a(b+c) = ab+ac and (a+b)c = ac+bc"),
+        lawRow("× is commutative", result.commutative, commDetail),
+        lawRow("Boolean law", result.boolean, booleanDetail)
+      ].join("");
+      document.getElementById("verdict").innerHTML = result.ring ? `<strong>[PASS] ${result.field ? "This finite world is a field." : "This finite world passes the ring laws."}</strong>` : `<strong>[NOT A RING] This displayed world fails at least one required ring law.</strong>`;
+      document.getElementById("scope").textContent = world.finite ? `The table is finite, so exhausting every displayed case checks these laws for this named finite structure. Extra labels: ${world.labels.join(", ")}.` : "This is a finite classroom sample of an infinite world. The missing additive inverses are genuine; the closure failures come from truncating the display. Passing a sample would not prove a universal theorem.";
+    }
+
+    document.querySelectorAll("[data-world]").forEach(button => button.addEventListener("click", () => {
+      document.querySelectorAll("[data-world]").forEach(other => other.setAttribute("aria-selected", String(other === button)));
+      render(button.dataset.world);
+    }));
+
+    render("n");
+    const reportHeight = () => window.parent.postMessage({ type: "fp:iframe-height", height: document.documentElement.scrollHeight }, "*");
+    window.addEventListener("load", reportHeight);
+    if ("ResizeObserver" in window) new ResizeObserver(reportHeight).observe(document.body);
+  </script>
+</body>
+</html>
