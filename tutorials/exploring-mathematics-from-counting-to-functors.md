@@ -5,110 +5,19 @@ kicker: Visual mathematics
 description: "A story-led visual atlas of proofs, algebraic structures, category theory, and arithmetic geometry, compressed into pictures, symbols, and checkable contracts."
 ---
 
-<div class="fp-callout fp-callout-note">
-  <p class="fp-callout-title">How to read this page</p>
-  <p>The reader has a seat in the classroom. Every idea arrives in the same order: see it, play with it, question it, name it, state it exactly, then check what was actually proved.</p>
-</div>
+## The classroom begins: the answer goes on trial
+
+The classroom door opens. The reader takes an empty seat beside Ana, Malik, Noor, Jo, and Lina. I carry in a covered basket.
+
+“Today,” I say, “an answer is not enough. We are going to ask why an answer must be true.”
+
+I lift one apple from the basket and place it on the table. Then I place one more beside it.
 
 ```text
-[SEE] | [PLAY] | [ASK] | [IDEA] | [EXACT RULE] | [CHECK]
+🍎  then  🍎🍎
 ```
 
-The picture helps us discover. The rule lets us prove. The checker tests whether the proof really follows the public rules.
-
-The class uses six cards:
-
-~~~text
-[SEE]         a picture a very young child can follow
-[PLAY]        a move the class can act out
-[ASK]         the question that opens the next idea
-[IDEA]        the compressed intuition
-[EXACT RULE]  the mathematical contract
-[CHECK]       what a person or machine may conclude
-~~~
-
-The cards are six depths of the same lesson. A reader may stop after the picture or keep walking until the exact contract.
-
-Every claim also receives a status stamp:
-
-~~~text
-[PICTURE]      intuition or memory aid
-[EXAMPLE]      one case
-[DEFINITION]   meaning fixed by a contract
-[PROOF HERE]   derivation shown on this page
-[THEOREM]      established result, proof not shown here
-[CONJECTURE]   open in the stated generality
-[ONLY IF]      required hypotheses or scope
-~~~
-
-A formula can state a definition or an unproved claim. The stamp says what kind of evidence the page actually supplies.
-
-The students have recurring jobs:
-
-~~~text
-Ana     guesses and builds
-Malik   asks what has really been proved
-Noor    finds patterns
-Jo      draws maps between worlds
-Lina    looks for counterexamples
-Reader  may pause and answer before the class
-~~~
-
-### The visual language
-
-Every mark must say what it means. Emojis are used only when they literally picture the example: `🍎` is an apple, `🚗` is a car, and `🪞` is a mirror. An abstract law does not have an honest universal emoji, so it receives a labeled mini-formula or a custom vector drawing instead.
-
-~~~text
-ZERO                 0
-CANDIDATES           D = {0, 1, 2}
-SUCCESSOR            S(n)
-CARRIER              A
-OPERATION            a ◇ b
-CLOSURE              a ◇ b ∈ A
-ASSOCIATIVE          (a ◇ b) ◇ c = a ◇ (b ◇ c)
-IDENTITY             a ◇ e = a = e ◇ a
-INVERSE              a ◇ a⁻¹ = e = a⁻¹ ◇ a
-COMMUTATIVE          a ◇ b = b ◇ a
-DISTRIBUTIVE         a(b + c) = ab + ac
-HOMOMORPHISM         f(a ◇ b) = f(a) ◇ f(b)
-PROBE                X → A
-FINITE GENERATORS    I = (g₁, ..., gₙ)
-BOOLEAN              x² = x
-~~~
-
-This costs a few more characters and removes a large hidden burden: the child never has to remember that a toolbox secretly means “Noetherian” or that a shuffle symbol secretly means “commutative.” When no honest emoji exists, the page draws the idea.
-
-Motion has a grammar too. A traced route means “follow this map.” A highlighted card means “read this rule now.” A dimmed candidate means “this candidate has been rejected.” Each sequence runs once and keeps its final state. Motion guides reading order; it is never evidence that a theorem is true. The diagrams stay still when the browser requests reduced motion, and the controls give every reader direct control.
-
-<button id="math-motion-toggle" class="fp-btn fp-btn-secondary" type="button" aria-pressed="false">Pause moving diagrams</button>
-
-<style>
-  .math-motion-paused .fp-diagram * {
-    animation-play-state: paused !important;
-  }
-</style>
-
-### How to make a formula speak
-
-I tell the class, “Never let symbols become silent wallpaper. Read the relation in the middle first.”
-
-~~~text
-1 + 1 = 2       “one plus one equals two”
-n ∈ D           “n belongs to D”
-P ⇒ Q           “if P is true, then Q is true”
-f : A → B       “f maps objects from A to objects in B”
-P ↔ Q           “P exactly when Q, in both directions”
-∀n              “for every n”
-∃n              “there is at least one n”
-∃!n             “there is exactly one n”
-A ≅ B           “A and B have the same structure, up to renaming”
-~~~
-
-This page keeps the two logical jobs visibly separate. `⇒` means “implies.” A typed arrow such as `f:A→B` means “maps into.” Arrows inside pictures are labeled with verbs such as “tests,” “builds,” or “forgets.”
-
-## Act I: the answer goes on trial
-
-I put one apple on the table. Then I add one more.
+Only after everyone has seen the change do I write the question on the board.
 
 $$
 1+1=?
@@ -168,6 +77,54 @@ Malik adds one more warning: proving that two works and proving that only two wo
 [EXISTENCE]    at least one answer works
 [UNIQUENESS]   no second answer works
 [EXACTLY ONE]  both promises hold
+~~~
+
+### The class draws a map for the journey
+
+Ana points to the glowing proof ladder. “Will every lesson work like that?”
+
+“Yes. First the class sees and plays. Then it asks, names, states, and checks.”
+
+```text
+[SEE] → [PLAY] → [ASK] → [IDEA] → [EXACT RULE] → [CHECK]
+```
+
+The picture helps with discovery. The exact rule makes proof possible. The checker tests whether each claimed step follows the public rules.
+
+The six cards mark six depths of one lesson:
+
+~~~text
+[SEE]         a concrete picture
+[PLAY]        a move the class can act out
+[ASK]         the question that opens the idea
+[IDEA]        the shortest useful intuition
+[EXACT RULE]  the mathematical promise, with its scope
+[CHECK]       what the evidence permits the class to conclude
+~~~
+
+Claims also receive evidence stamps:
+
+~~~text
+[PICTURE]      intuition or memory aid
+[EXAMPLE]      one case
+[DEFINITION]   meaning fixed by a stated rule
+[PROOF HERE]   derivation shown on this page
+[THEOREM]      established result, proof not shown here
+[CONJECTURE]   open in the stated generality
+[ONLY IF]      required assumptions or scope
+~~~
+
+A formula is not automatically a proof. It may be a definition, a claim, or one line inside a proof. The stamp says which job it is doing.
+
+Each student has a recurring question:
+
+~~~text
+Ana     “What can we build?”
+Malik   “What has really been proved?”
+Noor    “What pattern repeats?”
+Jo      “What map connects these worlds?”
+Lina    “What could break this claim?”
+Reader  may pause and answer before the class
 ~~~
 
 ## Level 1: the apple explanation
@@ -246,13 +203,201 @@ Malik asks, “Did the false answers become a little true?”
 
 “No. They stayed false. Our state of knowledge improved because fewer false possibilities remained alive.”
 
-The class now gives the machine names:
+The class now needs short names for the candidate box, the candidate being tested, and the checker.
+
+### How to make a formula speak in three voices
+
+Noor points to `n ∈ D`. “Which words are the right words?”
+
+“A formula has more than one useful voice,” I say. “Its standard reading helps mathematicians communicate. An alternate reading may sound more natural. Its exact meaning tells us what must be true.”
+
+~~~text
+[STANDARD]  the conventional mathematical reading
+[ALSO]      another correct way to say the same relation
+[MEANING]   the condition the symbols require
+[CONTRAST]  a similar-looking symbol with a different job
+~~~
+
+The meaning is the final judge. Spoken readings are ways of carrying that meaning into a sentence.
+
+#### Element and subset are different
+
+$$
+n\in D
+$$
+
+**[STANDARD]** “`n` is an element of `D`.”
+
+**[ALSO]** “`n` is a member of `D`,” “`n` belongs to `D`,” or, informally, “`n` is in `D`.”
+
+**[MEANING]** `n` is one object collected by the set `D`.
+
+**[CONTRAST]** This does **not** say that `n` is a subset of `D`. A subset uses a different symbol:
+
+$$
+A\subseteq D.
+$$
+
+Read it: “`A` is a subset of `D`.” It means every element of `A` is also an element of `D`.
+
+~~~text
+D = {0, 1, 2}
+
+2 ∈ D             2 is one object in D
+{1, 2} ⊆ D        every object in {1, 2} is also in D
+~~~
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Element points to one object; subset draws a boundary</p>
+  {% include diagrams/math-element-vs-subset.svg %}
+  <figcaption class="fp-figure-caption">The moving pointer selects one element. The moving boundary encloses every member of a subset. The picture distinguishes the questions; the definitions above fix their exact meanings.</figcaption>
+</figure>
+
+The word “within” can be useful in casual speech, but it hides this one-object-versus-whole-collection difference. The page therefore teaches **element of** and **subset of** first.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Deep note: both relations can hold</p>
+  <p>When sets contain other sets, a set can sometimes be both an element of a larger set and a subset of it. The marks still ask different questions: <code>∈</code> asks whether the left side is one collected object; <code>⊆</code> asks whether every element on the left is also an element on the right.</p>
+</div>
+
+#### Implication has a standard name and a sentence form
+
+$$
+P\Rightarrow Q
+$$
+
+Here `P` and `Q` stand for complete statements.
+
+**[STANDARD]** “`P` implies `Q`.”
+
+**[ALSO]** “If `P`, then `Q`.”
+
+**[MEANING]** Whenever `P` is true, `Q` must be true too. In the classical true-or-false reading used here, one case breaks the promise:
+
+~~~text
+P is true    +    Q is false    =    implication broken
+~~~
+
+The arrow does not by itself claim that `P` happens first, causes `Q`, or is true. It states a logical dependence. In a proof-reading, it promises that a proof of `P` can be turned into a proof of `Q`.
+
+#### “If and only if” means both roads
+
+$$
+P\leftrightarrow Q
+$$
+
+**[STANDARD]** “`P` if and only if `Q`.”
+
+**[ALSO]** “`P` exactly when `Q`,” or “`P` is logically equivalent to `Q`.”
+
+**[MEANING]** Both implications hold:
+
+$$
+(P\Rightarrow Q)\quad\text{and}\quad(Q\Rightarrow P).
+$$
+
+~~~text
+P  ──implies──>  Q
+P  <──implies──  Q
+
+both roads together: P ↔ Q
+~~~
+
+For classical true-or-false statements, `P` and `Q` must have the same truth value.
+
+#### A function arrow is not an implication arrow
+
+$$
+f:A\to B
+$$
+
+**[STANDARD]** “`f` is a function from `A` to `B`.”
+
+**[ALSO]** “`f` maps `A` into `B`.”
+
+**[MEANING]** Every allowed input in `A` receives exactly one output in `B`. This notation alone does not promise that every object in `B` is reached.
+
+The colon announces the function's type. The arrow connects its input set to its output set. It does not mean “implies.”
+
+#### The counting words
+
+~~~text
+∀n ∈ D     [STANDARD] “for every element n of D”
+           [MEANING]  check all of D, with nothing skipped
+
+∃n ∈ D     [STANDARD] “there exists an element n of D”
+           [MEANING]  at least one object in D works
+
+∃!n ∈ D    [STANDARD] “there exists exactly one element n of D”
+           [MEANING]  one works, and no second object works
+~~~
+
+The set after `∈` supplies the range. Without a stated range, the surrounding mathematical world must supply it.
+
+#### Same structure needs the structure named
+
+$$
+A\cong B
+$$
+
+**[STANDARD]** “`A` is isomorphic to `B`.”
+
+**[ALSO]** “`A` and `B` have the same chosen structure,” or, more loosely, “they are structurally the same.”
+
+**[MEANING]** There is a reversible translation between `A` and `B` that preserves the structure currently being studied. The phrase “up to renaming” is a useful first picture, but the exact structure must be named: two objects may be isomorphic as groups and not isomorphic as rings.
+
+Malik compresses the lesson:
+
+~~~text
+say it aloud       → use the standard reading
+say it another way → use a stated equivalent reading
+reason with it     → use the exact meaning
+avoid confusion    → compare the nearest look-alike
+~~~
+
+No one English phrase is the mathematics itself. This page gives the standard reading first, then alternatives, then the condition that makes the reading correct.
+
+### The page's visual language
+
+Every mark must say what it means. Emojis are used only when they literally picture the example: `🍎` is an apple, `🚗` is a car, and `🪞` is a mirror. An abstract law does not have an honest universal emoji, so it receives a labeled mini-formula or a custom vector drawing instead.
+
+~~~text
+ZERO                 0
+CANDIDATES           D = {0, 1, 2}
+SUCCESSOR            S(n)
+CARRIER              A
+OPERATION            a ◇ b
+CLOSURE              a ◇ b ∈ A
+ASSOCIATIVE          (a ◇ b) ◇ c = a ◇ (b ◇ c)
+IDENTITY             a ◇ e = a = e ◇ a
+INVERSE              a ◇ a⁻¹ = e = a⁻¹ ◇ a
+COMMUTATIVE          a ◇ b = b ◇ a
+DISTRIBUTIVE         a(b + c) = ab + ac
+HOMOMORPHISM         f(a ◇ b) = f(a) ◇ f(b)
+PROBE                X → A
+FINITE GENERATORS    I = (g₁, ..., gₙ)
+BOOLEAN              x² = x
+~~~
+
+This costs a few more characters and removes a hidden memory burden. A toolbox does not secretly mean “Noetherian,” and a shuffle symbol does not secretly mean “commutative.” When no honest emoji exists, the page draws the idea.
+
+Motion has a grammar too. A traced route means “follow this map.” A highlighted card means “read this rule now.” A dimmed candidate means “this candidate has been rejected.” Each sequence runs once and keeps its final state. Motion guides reading order; it is never evidence that a theorem is true. The diagrams stay still when the browser requests reduced motion, and the controls give every reader direct control.
+
+<button id="math-motion-toggle" class="fp-btn fp-btn-secondary" type="button" aria-pressed="false">Pause moving diagrams</button>
+
+<style>
+  .math-motion-paused .fp-diagram * {
+    animation-play-state: paused !important;
+  }
+</style>
+
+The class compresses the counting machine into one glance:
 
 ~~~text
 D                 candidate set
-n ∈ D             n is one allowed candidate
-V : D → {0, 1}    checker returns fail or pass
-V(n) = 1          n passes
+n ∈ D             n is one element of D
+V : D → {0, 1}    V is a checker from candidates to fail-or-pass
+V(n) = 1          candidate n passes
 ∃n                at least one witness exists
 ∀n                every candidate is covered
 ∃!n               exactly one witness exists
