@@ -2,7 +2,7 @@
 title: "Finding the Hidden Road: Representation Learning as Compression"
 layout: docs
 kicker: Tutorial 72
-description: "How representations expose low-dimensional regularities, why abstraction often compresses, and what three bounded Qgent experiments actually found."
+description: "How representations expose low-dimensional regularities, why abstraction often compresses, and what a sequence of bounded Qgent experiments actually found."
 ---
 
 Imagine searching a haystack for a needle.
@@ -154,6 +154,58 @@ still differ:
 An abstraction may even make one description longer. Naming reusable proof
 steps or program components adds symbols locally while shortening an entire
 family of later descriptions.
+
+### Lossless relative to a question
+
+An abstraction can remove details and still be lossless for a declared target.
+Let
+
+$$
+T:X\rightarrow Y
+$$
+
+be the quantity, decision, or consequence that matters. The abstraction
+$\alpha$ is sufficient for $T$ when
+
+$$
+\alpha(x)=\alpha(y)
+\quad\Longrightarrow\quad
+T(x)=T(y).
+$$
+
+Equivalently, there is a function $g$ such that
+
+$$
+T=g\circ\alpha.
+$$
+
+Then $\alpha(x)$ preserves all information needed to compute $T(x)$. It may
+still discard information needed for a different question. Recovering the
+entire input is stronger. That requires a decoder $d$ satisfying
+
+$$
+d\circ\alpha=\operatorname{id}_X
+$$
+
+on the declared domain.
+
+Conway's Game of Life gives a useful example. The local update rule and the
+initial configuration determine the trajectory. A simple invariant does not
+automatically replace that initial configuration. Population count, a bounding
+box, or a symmetry label can discard the relative placement that determines a
+later collision.
+
+Suppose absolute position does not matter. A configuration $C\subseteq
+\mathbb{Z}^2$ can then be replaced by its translation class
+
+$$
+[C]=\{C+v:v\in\mathbb{Z}^2\}.
+$$
+
+That quotient is lossless relative to every translation-invariant question,
+but not for a question asking which absolute cell is occupied. The important
+discovery is therefore not merely a simple invariant. It is an invariant that
+is sufficient for the consequences under study.
 
 ## 4. Lossy compression requires a declared distortion
 
@@ -732,6 +784,44 @@ The
 and the
 [complete per-world report is available here]({{ '/experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_replication_v001.report.json' | relative_url }}).
 
+### More experience at fixed capacity
+
+A separate preregistration asked whether more exact synthetic experience would
+improve the same 89-feature architecture. The PCA rank, feature map,
+regularizer, and evaluation block were frozen. Only the number of nested
+training worlds changed.
+
+| Training worlds | Checked action examples | Mean optimal-utility ratio | Minimum ratio | Exact-action agreement | Mean gain over myopic |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 8 | 98,080 | 0.97980 | 0.90295 | 0.82340 | 2,223.02 |
+| 16 | 196,710 | 0.98292 | 0.90715 | 0.85120 | 2,242.88 |
+| 32 | 395,001 | 0.98615 | **0.96848** | 0.86230 | 2,265.11 |
+| 64 | 795,111 | 0.98581 | 0.96297 | 0.86500 | 2,262.87 |
+| 128 | 1,585,816 | **0.98719** | 0.95760 | **0.86740** | **2,270.87** |
+
+From 32 to 128 worlds, the average ratio rose by about 0.00104 and mean gain
+rose by 5.76 utility units. Paired outcomes were 53 wins, 34 losses, and 13
+ties. These movements suggest that the additional checked examples carried
+some useful signal.
+
+The preregistered knowledge-scaling claim is nevertheless refuted. The minimum
+ratio fell from 0.96848 to 0.95760, the learning curve dipped at 64 worlds, and
+the two-sided exact sign-test value was 0.0530 rather than below the frozen
+0.05 threshold. More data improved the average but did not pass the declared
+robust scaling gate.
+
+The independent equal-data representation comparison did pass. With 128
+training worlds, the plain 34-feature linear model achieved mean and minimum
+ratios of 0.98215 and 0.92083. The PCA-quadratic model achieved 0.98719 and
+0.95760, with 68 wins, 29 losses, 3 ties, and zero forbidden selections. This
+supports the tested feature map over that linear control. It is not a general
+law that more examples always produce more knowledge.
+
+The
+[scaling protocol is available here]({{ '/experiments/qgent_rate_structured_memory_v001/research/pca_quadratic_scaling_protocol_v001.json' | relative_url }})
+and the
+[complete scaling report is available here]({{ '/experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_scaling_v001.report.json' | relative_url }}).
+
 The
 [experimental model can be downloaded here]({{ '/assets/downloads/qgent-pca-quadratic-feature-model-v1.json' | relative_url }}).
 It remains a floating-point research artifact. It has not replaced the
@@ -756,8 +846,10 @@ world seeds from the same bounded generator. The centroid candidate failed
 that narrow test. The frozen PCA-quadratic candidate passed an exploratory
 confirmation and then a preregistered 80-world replication. It also passed one
 preregistered population-shift stress test. That second result changes only one
-generator factor, so neither result establishes transfer to a different world
-model, a real allocation problem, or an unrestricted domain.
+generator factor. A later fixed-capacity scaling test improved average utility
+but failed its preregistered worst-case and paired-evidence gate. None of these
+results establishes transfer to a different world model, a real allocation
+problem, or an unrestricted domain.
 
 ## 16. There is no universal intelligence-per-byte unit
 
@@ -885,6 +977,7 @@ python3 experiments/qgent_rate_structured_memory_v001/rate_structured_memory.py
 python3 experiments/qgent_rate_structured_memory_v001/centroid_feature_probe.py
 python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_feature_probe.py
 python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_replication.py
+python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_scaling.py
 PYTHONPATH=. pytest -q experiments/qgent_rate_structured_memory_v001/test_rate_structured_memory.py
 </pre>
 
@@ -894,7 +987,7 @@ and must not be reused as a fresh test for a redesigned model.
 
 ## 20. What the experiment changed
 
-The representation-learning perspective produced three different outcomes.
+The representation-learning perspective produced four different outcomes.
 
 First, the idea of optimal-action centroids looked promising on validation and
 failed on confirmation. That idea became negative knowledge.
@@ -908,7 +1001,13 @@ than training volume alone, contributed to the gain. The experiments do not
 isolate which quadratic terms matter, and the shifted result does not imply
 broad robustness.
 
-Third, choosing the deployment decision as the distortion exposed a symmetry:
+Third, increasing the same model from 32 to 128 training worlds improved its
+average result but worsened its minimum and missed the preregistered paired
+threshold. The scaling claim was rejected. At equal 128-world data, the
+quadratic representation still beat the plain linear control. Representation
+quality and experience volume are therefore separate experimental variables.
+
+Fourth, choosing the deployment decision as the distortion exposed a symmetry:
 statewise Q offsets do not affect greedy action choice. Quotienting out that
 symmetry, then using a sign-preserving quantizer, produced a smaller complete
 artifact than a strong exact control.
@@ -930,9 +1029,10 @@ compiled decision memory without changing its selected actions.
   <p>
     The mathematical lemma is proved above and exhaustively checked on the
     frozen compiled table. The byte comparison is specific to this artifact
-    and implemented controls. The predictive result is a small improvement on
-    one consumed confirmation block from the same synthetic generator, with an
-    equal-data control added after the first readout. The benchmark does not
+    and implemented controls. The predictive result replicated under a frozen
+    protocol and passed one narrow population-shift stress test. A later
+    fixed-capacity knowledge-scaling gate failed, although the equal-data
+    representation comparison passed. These synthetic benchmarks do not
     establish a real measure of welfare, morality, or general intelligence.
   </p>
 </div>
