@@ -1,0 +1,60 @@
+{
+  "boundary": "Retrieval-only prior art. This receipt does not support the local codec claim.",
+  "retrieved_at": "2026-08-05",
+  "request": {
+    "id": "statement_shape",
+    "query": "Let A be a finite action set and Q(s,a) real valued. Adding a state-dependent action-independent constant c(s) to every Q(s,a) preserves argmax. Quantizing advantages Q(s,a)-max_b Q(s,b) so maxima remain zero and strict nonmaxima remain negative preserves a deterministic greedy policy.",
+    "n_results": 6,
+    "types": [
+      "theorem"
+    ]
+  },
+  "response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"theorems\": [{\"slogan_id\": 11479401, \"theorem_id\": 26743637, \"name\": \"Theorem 1 (Existence and uniqueness of optimal policy)\", \"body\": \"Under Assumption \\\\ref {asm:frontdoor_crit}, (i) there exists an unique optimal deterministic stationary policy $\\\\pi ^*$ whose $J(\\\\pi ^*)$ is no worse than any other policies; (ii) $\\\\pi ^*$ is greedy with respect to a weighted average of the $Q^{*}$. In particular, \\\\begin {eqnarray}\\\\label {eqn:optimalpolicy} \\\\pi ^*(s)=\\\\mathop{ {argmax}} _{a} \\\\left [\\\\sum _{\\\\tilde {a},m} p_m(m|s,a) p_b(\\\\tilde {a}|s)Q^*(s,\\\\tilde {a},m)\\\\right ]; \\\\end {eqnarray} (iii) $Q^*$ satisfies the following Bellman optimality equation: \\\\begin {eqnarray}\\\\label {eqn:Belloptimal} Q^*(S_t,A_t,M_t)=\\\\mathbb{E} \\\\left [\\\\left .R_t+\\\\gamma \\\\max _{a} \\\\sum _{\\\\tilde {a},m} p_m(m|S_{t+1},a) p_b(\\\\tilde {a}|S_{t+1})Q^*(S_{t+1},\\\\tilde {a},m)\\\\right |S_t,A_t,M_t\\\\right ]. \\\\end {eqnarray}\", \"slogan\": \"An optimal deterministic stationary policy exists and is unique, performing at least as well as any other policy. This policy is greedy with respect to a weighted average of the optimal Q-values. The optimal action is chosen by maximizing a sum over mediator and baseline action probabilities. The optimal Q-function satisfies a Bellman equation involving expected rewards and future discounted values.\", \"theorem_type\": \"theorem\", \"label\": null, \"link\": null, \"paper\": {\"paper_id\": \"2403.11841v1\", \"source\": \"arXiv\", \"title\": \"Pessimistic Causal Reinforcement Learning with Mediators for Confounded Offline Data\", \"authors\": [\"Danyang Wang\", \"Chengchun Shi\", \"Shikai Luo\", \"Will Wei Sun\"], \"link\": \"http://arxiv.org/abs/2403.11841v1\", \"summary\": null, \"journal_ref\": null, \"primary_category\": \"stat.ML\", \"categories\": [\"stat.ML\", \"cs.AI\", \"cs.LG\"], \"citations\": 0, \"year\": 2024, \"journal_published\": false}, \"similarity\": 0.6373245473689682, \"score\": 0.6373245473689682, \"has_metadata\": true}]}"
+      }
+    ],
+    "structuredContent": {
+      "theorems": [
+        {
+          "slogan_id": 11479401,
+          "theorem_id": 26743637,
+          "name": "Theorem 1 (Existence and uniqueness of optimal policy)",
+          "body": "Under Assumption \\ref {asm:frontdoor_crit}, (i) there exists an unique optimal deterministic stationary policy $\\pi ^*$ whose $J(\\pi ^*)$ is no worse than any other policies; (ii) $\\pi ^*$ is greedy with respect to a weighted average of the $Q^{*}$. In particular, \\begin {eqnarray}\\label {eqn:optimalpolicy} \\pi ^*(s)=\\mathop{ {argmax}} _{a} \\left [\\sum _{\\tilde {a},m} p_m(m|s,a) p_b(\\tilde {a}|s)Q^*(s,\\tilde {a},m)\\right ]; \\end {eqnarray} (iii) $Q^*$ satisfies the following Bellman optimality equation: \\begin {eqnarray}\\label {eqn:Belloptimal} Q^*(S_t,A_t,M_t)=\\mathbb{E} \\left [\\left .R_t+\\gamma \\max _{a} \\sum _{\\tilde {a},m} p_m(m|S_{t+1},a) p_b(\\tilde {a}|S_{t+1})Q^*(S_{t+1},\\tilde {a},m)\\right |S_t,A_t,M_t\\right ]. \\end {eqnarray}",
+          "slogan": "An optimal deterministic stationary policy exists and is unique, performing at least as well as any other policy. This policy is greedy with respect to a weighted average of the optimal Q-values. The optimal action is chosen by maximizing a sum over mediator and baseline action probabilities. The optimal Q-function satisfies a Bellman equation involving expected rewards and future discounted values.",
+          "theorem_type": "theorem",
+          "label": null,
+          "link": null,
+          "paper": {
+            "paper_id": "2403.11841v1",
+            "source": "arXiv",
+            "title": "Pessimistic Causal Reinforcement Learning with Mediators for Confounded Offline Data",
+            "authors": [
+              "Danyang Wang",
+              "Chengchun Shi",
+              "Shikai Luo",
+              "Will Wei Sun"
+            ],
+            "link": "http://arxiv.org/abs/2403.11841v1",
+            "summary": null,
+            "journal_ref": null,
+            "primary_category": "stat.ML",
+            "categories": [
+              "stat.ML",
+              "cs.AI",
+              "cs.LG"
+            ],
+            "citations": 0,
+            "year": 2024,
+            "journal_published": false
+          },
+          "similarity": 0.6373245473689682,
+          "score": 0.6373245473689682,
+          "has_metadata": true
+        }
+      ]
+    }
+  }
+}

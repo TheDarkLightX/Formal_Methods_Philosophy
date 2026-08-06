@@ -1,0 +1,201 @@
+{
+  "boundary": "Retrieval-only prior art. This receipt does not support the local codec claim.",
+  "retrieved_at": "2026-08-05",
+  "request": {
+    "id": "breaker",
+    "query": "Counterexamples and necessary conditions for preserving a greedy policy under approximate or quantized Q values: action gap margin, ties, rounding to zero, forbidden actions, and failure of state-dependent offsets to preserve Bellman backups.",
+    "n_results": 6,
+    "types": [
+      "theorem"
+    ]
+  },
+  "response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"theorems\": [{\"slogan_id\": 2586645, \"theorem_id\": 18563648, \"name\": \"Theorem 5\", \"body\": \"Consider any $0<\\\\delta <1$ and any $\\\\gamma \\\\in [\\\\frac{1}{2},1)$. Suppose that the penalty terms are set to be \\\\eqref{def:bonus-Bernstein-infinite} for any numerical constant $c_{\\\\mathsf{b}}\\\\ge 144$. Then with probability exceeding $1-2\\\\delta ,$ for any estimate $\\\\widehat{Q}$ obeying $\\\\big\\\\| \\\\widehat{Q} - \\\\widehat{Q}^{\\\\star }_{\\\\mathsf{pe}} \\\\big\\\\| _{\\\\infty } \\\\le 1/N$ one has\\\\begin{align}  V^{\\\\star }(\\\\rho ) - V^{\\\\widehat{\\\\pi }}(\\\\rho ) \\\\le 120\\\\sqrt{\\\\frac{c_{\\\\mathsf{b}}SC^{\\\\star }_{\\\\mathsf{clipped}}\\\\log \\\\frac{NS }{(1-\\\\gamma )\\\\delta }}{(1-\\\\gamma )^3N}} + \\\\frac{3464c_{\\\\mathsf{b}}S C^{\\\\star }_{\\\\mathsf{clipped}}\\\\log \\\\frac{NS }{(1-\\\\gamma )\\\\delta }}{(1-\\\\gamma )^2N},  \\\\end{align}where $\\\\widehat{\\\\pi }(s) \\\\in \\\\arg \\\\max _a \\\\widehat{Q}(s, a)$ for any $s \\\\in \\\\mathcal{S}$.\", \"slogan\": \"For a given confidence parameter and discount factor, with high probability, the performance gap between the optimal value and the value of a greedy policy based on an approximate Q-function is bounded. The bound consists of two terms scaling with the inverse square root of the sample size and the inverse of the sample size. The result holds when the penalty terms are set appropriately with a sufficiently large constant. The bound depends on state space size, clipped concentrability, and logarithmic factors.\", \"theorem_type\": \"theorem\", \"label\": null, \"link\": null, \"paper\": {\"paper_id\": \"2204.05275v4\", \"source\": \"arXiv\", \"title\": \"Settling the Sample Complexity of Model-Based Offline Reinforcement Learning\", \"authors\": [\"Gen Li\", \"Laixi Shi\", \"Yuxin Chen\", \"Yuejie Chi\", \"Yuting Wei\"], \"link\": \"http://arxiv.org/abs/2204.05275v4\", \"summary\": null, \"journal_ref\": null, \"primary_category\": \"stat.ML\", \"categories\": [\"stat.ML\", \"cs.IT\", \"cs.LG\", \"eess.SY\", \"math.ST\"], \"citations\": 0, \"year\": 2024, \"journal_published\": true}, \"similarity\": 0.6353552390839532, \"score\": 0.6353552390839532, \"has_metadata\": true}, {\"slogan_id\": 11514769, \"theorem_id\": 26779037, \"name\": \"Theorem 7\", \"body\": \"[Robust Policy Loss, e.g. \\\\citep {Williams1994}] Let $\\\\pi $ be a greedy policy with respect to a value function $\\\\tilde v $. Then: \\\\[\\\\|v^* - v_\\\\pi \\\\|_\\\\infty \\\\leq \\\\frac {2}{1-\\\\gamma } \\\\| \\\\tilde v - L \\\\tilde v \\\\|_\\\\infty .\\\\] In addition, if $\\\\tilde v \\\\in \\\\mathcal{K} $, the policy loss is minimized for the greedy policy and: \\\\begin {align*} \\\\|v^* - v _{\\\\pi } \\\\|_\\\\infty \\\\leq \\\\frac {1}{1-\\\\gamma } \\\\|\\\\tilde v - L \\\\tilde v \\\\|_\\\\infty . \\\\end {align*}\", \"slogan\": \"A greedy policy based on an approximate value function has a bounded error relative to the optimal value. The error is at most a constant times the Bellman residual of the approximation. If the value function lies in a specific set, the bound improves by a factor of two. This tighter bound holds when the greedy policy minimizes the policy loss.\", \"theorem_type\": \"theorem\", \"label\": null, \"link\": null, \"paper\": {\"paper_id\": \"1006.2743v1\", \"source\": \"arXiv\", \"title\": \"Global Optimization for Value Function Approximation\", \"authors\": [\"Marek Petrik\", \"Shlomo Zilberstein\"], \"link\": \"http://arxiv.org/abs/1006.2743v1\", \"summary\": null, \"journal_ref\": null, \"primary_category\": \"cs.AI\", \"categories\": [\"cs.AI\"], \"citations\": 0, \"year\": 2010, \"journal_published\": false}, \"similarity\": 0.623673687711226, \"score\": 0.623673687711226, \"has_metadata\": true}, {\"slogan_id\": 2757514, \"theorem_id\": 18652569, \"name\": \"Theorem 1\", \"body\": \"There is a neighborhood of ${\\\\boldsymbol {f}}^{\\\\star }$ such that for any value function estimate $\\\\boldsymbol {\\\\widehat{f}}\\\\! \\\\, $ with $\\\\boldsymbol {\\\\varepsilon _{}}$-bounded Bellman residuals~ \\\\eqref{eq:def_BellErrh}, the induced greedy policy $\\\\widehat{{\\\\boldsymbol {\\\\pi }}}$ has value gap bounded as\\\\begin{align}   J({\\\\boldsymbol {\\\\pi }}^{\\\\star }) - J(\\\\widehat{{\\\\boldsymbol {\\\\pi }}}) &  \\\\leq 2 \\\\,  \\\\sum _{h=1}^{H-1} \\\\;  \\\\frac{1}{\\\\@ifstar \\\\norm *{\\\\norm []{}}_{_ }{f^{\\\\star }_{h}}{h}} \\\\,  \\\\bigg\\\\{  \\\\sum _{h\\u2019=h}^{H-1} \\\\,  \\\\boldsymbol {\\\\kappa }_{h,h\\u2019}({\\\\boldsymbol {\\\\pi }}^{\\\\star }) \\\\;  \\\\varepsilon _{h\\u2019} \\\\bigg\\\\}  \\\\bigg\\\\{  \\\\sum _{h\\u2019= h}^{H-1} \\\\boldsymbol {\\\\kappa }_{h, h\\u2019}(\\\\mathcal{T}^\\\\star ) \\\\;  \\\\varepsilon _{h\\u2019} \\\\bigg\\\\} . \\\\end{align}\", \"slogan\": \"A neighborhood exists around the optimal value function. For any estimate with bounded Bellman residuals, the greedy policy's value gap is bounded. The bound depends on sums over time steps of the Bellman errors. These sums are scaled by concentrability coefficients and the inverse of optimal value function norms.\", \"theorem_type\": \"theorem\", \"label\": null, \"link\": null, \"paper\": {\"paper_id\": \"2401.05233v1\", \"source\": \"arXiv\", \"title\": \"Taming \\\"data-hungry\\\" reinforcement learning? Stability in continuous state-action spaces\", \"authors\": [\"Yaqi Duan\", \"Martin J. Wainwright\"], \"link\": \"http://arxiv.org/abs/2401.05233v1\", \"summary\": null, \"journal_ref\": null, \"primary_category\": \"cs.LG\", \"categories\": [\"cs.LG\", \"cs.IT\", \"eess.SY\", \"math.OC\", \"stat.ML\"], \"citations\": 0, \"year\": 2024, \"journal_published\": false}, \"similarity\": 0.6201008123670784, \"score\": 0.6201008123670784, \"has_metadata\": true}, {\"slogan_id\": 11597118, \"theorem_id\": 26861393, \"name\": \"Theorem 1\", \"body\": \"Let $Q \\\\in {\\\\mathbb{R}} ^{|\\\\mathcal{S} | \\\\times |\\\\mathcal{A} |}$, $\\\\pi $ be a greedy policy with respect to $Q$, $u$ be an uniform policy and $b$ be a behavior policy. Let $\\\\nu $ and $\\\\mu $ be two probability measures on $\\\\mathcal{S} $, and $d = \\\\nu \\\\Pi ^u$. Then, \\\\begin {align*} \\\\sum _{s\\\\in \\\\mathcal{S} ,a\\\\in \\\\mathcal{A} } d(s,a) |Q^*(s,a) - Q^\\\\pi (s,a)|^{p} \\\\leq \\\\left [\\\\frac {2}{1-\\\\gamma }\\\\right ]^p C(\\\\nu ,\\\\mu ,b)\\\\sum _{s,a} \\\\mu (s)b(a|s) |(\\\\bellman Q)(s,a) - Q(s,a)|^{p}. \\\\end {align*}\", \"slogan\": \"The difference between the optimal and greedy policy Q-values is bounded by a constant times the Bellman error under the behavior policy. The bound depends on the discount factor and a concentrability coefficient relating the state distributions. The concentrability coefficient measures the mismatch between the target and behavior distributions. The inequality holds for any p-norm of the Q-value error.\", \"theorem_type\": \"theorem\", \"label\": null, \"link\": null, \"paper\": {\"paper_id\": \"2007.03807v1\", \"source\": \"arXiv\", \"title\": \"Towards a practical measure of interference for reinforcement learning\", \"authors\": [\"Vincent Liu\", \"Adam White\", \"Hengshuai Yao\", \"Martha White\"], \"link\": \"http://arxiv.org/abs/2007.03807v1\", \"summary\": null, \"journal_ref\": null, \"primary_category\": \"cs.LG\", \"categories\": [\"cs.LG\", \"cs.AI\", \"stat.ML\"], \"citations\": 0, \"year\": 2020, \"journal_published\": false}, \"similarity\": 0.6185682471301237, \"score\": 0.6185682471301237, \"has_metadata\": true}, {\"slogan_id\": 11587663, \"theorem_id\": 26851926, \"name\": \"Theorem 2 (Telescoping Performance Difference)\", \"body\": \"For any policy $\\\\pi $ and any $Q\\\\in \\\\mathbb{R} ^{\\\\mathcal{S} \\\\times \\\\mathcal{A} }$, \\\\begin {align} J(\\\\pi ) - J(\\\\pi _Q) \\\\leq &~ \\\\frac {\\\\mathbb{E} _{d_{\\\\pi }}\\\\left [\\\\mathcal T Q - Q\\\\right ]}{1 - \\\\gamma } + \\\\frac {\\\\mathbb{E} _{d_{\\\\pi _Q}}\\\\left [Q - \\\\mathcal T Q\\\\right ]}{1 - \\\\gamma }. \\\\end {align}\", \"slogan\": \"The difference in performance between a policy and its greedy counterpart with respect to a Q-function is bounded by two terms. Each term involves the expectation of the Bellman residual under a state distribution. The first term uses the state distribution of the policy itself. The second term uses the state distribution of the greedy policy.\", \"theorem_type\": \"theorem\", \"label\": null, \"link\": null, \"paper\": {\"paper_id\": \"2003.03924v4\", \"source\": \"arXiv\", \"title\": \"Q* Approximation Schemes for Batch Reinforcement Learning: A Theoretical Comparison\", \"authors\": [\"Tengyang Xie\", \"Nan Jiang\"], \"link\": \"http://arxiv.org/abs/2003.03924v4\", \"summary\": null, \"journal_ref\": null, \"primary_category\": \"cs.LG\", \"categories\": [\"cs.LG\", \"cs.AI\", \"stat.ML\"], \"citations\": 0, \"year\": 2020, \"journal_published\": false}, \"similarity\": 0.6163419398813966, \"score\": 0.6163419398813966, \"has_metadata\": true}]}"
+      }
+    ],
+    "structuredContent": {
+      "theorems": [
+        {
+          "slogan_id": 2586645,
+          "theorem_id": 18563648,
+          "name": "Theorem 5",
+          "body": "Consider any $0<\\delta <1$ and any $\\gamma \\in [\\frac{1}{2},1)$. Suppose that the penalty terms are set to be \\eqref{def:bonus-Bernstein-infinite} for any numerical constant $c_{\\mathsf{b}}\\ge 144$. Then with probability exceeding $1-2\\delta ,$ for any estimate $\\widehat{Q}$ obeying $\\big\\| \\widehat{Q} - \\widehat{Q}^{\\star }_{\\mathsf{pe}} \\big\\| _{\\infty } \\le 1/N$ one has\\begin{align}  V^{\\star }(\\rho ) - V^{\\widehat{\\pi }}(\\rho ) \\le 120\\sqrt{\\frac{c_{\\mathsf{b}}SC^{\\star }_{\\mathsf{clipped}}\\log \\frac{NS }{(1-\\gamma )\\delta }}{(1-\\gamma )^3N}} + \\frac{3464c_{\\mathsf{b}}S C^{\\star }_{\\mathsf{clipped}}\\log \\frac{NS }{(1-\\gamma )\\delta }}{(1-\\gamma )^2N},  \\end{align}where $\\widehat{\\pi }(s) \\in \\arg \\max _a \\widehat{Q}(s, a)$ for any $s \\in \\mathcal{S}$.",
+          "slogan": "For a given confidence parameter and discount factor, with high probability, the performance gap between the optimal value and the value of a greedy policy based on an approximate Q-function is bounded. The bound consists of two terms scaling with the inverse square root of the sample size and the inverse of the sample size. The result holds when the penalty terms are set appropriately with a sufficiently large constant. The bound depends on state space size, clipped concentrability, and logarithmic factors.",
+          "theorem_type": "theorem",
+          "label": null,
+          "link": null,
+          "paper": {
+            "paper_id": "2204.05275v4",
+            "source": "arXiv",
+            "title": "Settling the Sample Complexity of Model-Based Offline Reinforcement Learning",
+            "authors": [
+              "Gen Li",
+              "Laixi Shi",
+              "Yuxin Chen",
+              "Yuejie Chi",
+              "Yuting Wei"
+            ],
+            "link": "http://arxiv.org/abs/2204.05275v4",
+            "summary": null,
+            "journal_ref": null,
+            "primary_category": "stat.ML",
+            "categories": [
+              "stat.ML",
+              "cs.IT",
+              "cs.LG",
+              "eess.SY",
+              "math.ST"
+            ],
+            "citations": 0,
+            "year": 2024,
+            "journal_published": true
+          },
+          "similarity": 0.6353552390839532,
+          "score": 0.6353552390839532,
+          "has_metadata": true
+        },
+        {
+          "slogan_id": 11514769,
+          "theorem_id": 26779037,
+          "name": "Theorem 7",
+          "body": "[Robust Policy Loss, e.g. \\citep {Williams1994}] Let $\\pi $ be a greedy policy with respect to a value function $\\tilde v $. Then: \\[\\|v^* - v_\\pi \\|_\\infty \\leq \\frac {2}{1-\\gamma } \\| \\tilde v - L \\tilde v \\|_\\infty .\\] In addition, if $\\tilde v \\in \\mathcal{K} $, the policy loss is minimized for the greedy policy and: \\begin {align*} \\|v^* - v _{\\pi } \\|_\\infty \\leq \\frac {1}{1-\\gamma } \\|\\tilde v - L \\tilde v \\|_\\infty . \\end {align*}",
+          "slogan": "A greedy policy based on an approximate value function has a bounded error relative to the optimal value. The error is at most a constant times the Bellman residual of the approximation. If the value function lies in a specific set, the bound improves by a factor of two. This tighter bound holds when the greedy policy minimizes the policy loss.",
+          "theorem_type": "theorem",
+          "label": null,
+          "link": null,
+          "paper": {
+            "paper_id": "1006.2743v1",
+            "source": "arXiv",
+            "title": "Global Optimization for Value Function Approximation",
+            "authors": [
+              "Marek Petrik",
+              "Shlomo Zilberstein"
+            ],
+            "link": "http://arxiv.org/abs/1006.2743v1",
+            "summary": null,
+            "journal_ref": null,
+            "primary_category": "cs.AI",
+            "categories": [
+              "cs.AI"
+            ],
+            "citations": 0,
+            "year": 2010,
+            "journal_published": false
+          },
+          "similarity": 0.623673687711226,
+          "score": 0.623673687711226,
+          "has_metadata": true
+        },
+        {
+          "slogan_id": 2757514,
+          "theorem_id": 18652569,
+          "name": "Theorem 1",
+          "body": "There is a neighborhood of ${\\boldsymbol {f}}^{\\star }$ such that for any value function estimate $\\boldsymbol {\\widehat{f}}\\! \\, $ with $\\boldsymbol {\\varepsilon _{}}$-bounded Bellman residuals~ \\eqref{eq:def_BellErrh}, the induced greedy policy $\\widehat{{\\boldsymbol {\\pi }}}$ has value gap bounded as\\begin{align}   J({\\boldsymbol {\\pi }}^{\\star }) - J(\\widehat{{\\boldsymbol {\\pi }}}) &  \\leq 2 \\,  \\sum _{h=1}^{H-1} \\;  \\frac{1}{\\@ifstar \\norm *{\\norm []{}}_{_ }{f^{\\star }_{h}}{h}} \\,  \\bigg\\{  \\sum _{h’=h}^{H-1} \\,  \\boldsymbol {\\kappa }_{h,h’}({\\boldsymbol {\\pi }}^{\\star }) \\;  \\varepsilon _{h’} \\bigg\\}  \\bigg\\{  \\sum _{h’= h}^{H-1} \\boldsymbol {\\kappa }_{h, h’}(\\mathcal{T}^\\star ) \\;  \\varepsilon _{h’} \\bigg\\} . \\end{align}",
+          "slogan": "A neighborhood exists around the optimal value function. For any estimate with bounded Bellman residuals, the greedy policy's value gap is bounded. The bound depends on sums over time steps of the Bellman errors. These sums are scaled by concentrability coefficients and the inverse of optimal value function norms.",
+          "theorem_type": "theorem",
+          "label": null,
+          "link": null,
+          "paper": {
+            "paper_id": "2401.05233v1",
+            "source": "arXiv",
+            "title": "Taming \"data-hungry\" reinforcement learning? Stability in continuous state-action spaces",
+            "authors": [
+              "Yaqi Duan",
+              "Martin J. Wainwright"
+            ],
+            "link": "http://arxiv.org/abs/2401.05233v1",
+            "summary": null,
+            "journal_ref": null,
+            "primary_category": "cs.LG",
+            "categories": [
+              "cs.LG",
+              "cs.IT",
+              "eess.SY",
+              "math.OC",
+              "stat.ML"
+            ],
+            "citations": 0,
+            "year": 2024,
+            "journal_published": false
+          },
+          "similarity": 0.6201008123670784,
+          "score": 0.6201008123670784,
+          "has_metadata": true
+        },
+        {
+          "slogan_id": 11597118,
+          "theorem_id": 26861393,
+          "name": "Theorem 1",
+          "body": "Let $Q \\in {\\mathbb{R}} ^{|\\mathcal{S} | \\times |\\mathcal{A} |}$, $\\pi $ be a greedy policy with respect to $Q$, $u$ be an uniform policy and $b$ be a behavior policy. Let $\\nu $ and $\\mu $ be two probability measures on $\\mathcal{S} $, and $d = \\nu \\Pi ^u$. Then, \\begin {align*} \\sum _{s\\in \\mathcal{S} ,a\\in \\mathcal{A} } d(s,a) |Q^*(s,a) - Q^\\pi (s,a)|^{p} \\leq \\left [\\frac {2}{1-\\gamma }\\right ]^p C(\\nu ,\\mu ,b)\\sum _{s,a} \\mu (s)b(a|s) |(\\bellman Q)(s,a) - Q(s,a)|^{p}. \\end {align*}",
+          "slogan": "The difference between the optimal and greedy policy Q-values is bounded by a constant times the Bellman error under the behavior policy. The bound depends on the discount factor and a concentrability coefficient relating the state distributions. The concentrability coefficient measures the mismatch between the target and behavior distributions. The inequality holds for any p-norm of the Q-value error.",
+          "theorem_type": "theorem",
+          "label": null,
+          "link": null,
+          "paper": {
+            "paper_id": "2007.03807v1",
+            "source": "arXiv",
+            "title": "Towards a practical measure of interference for reinforcement learning",
+            "authors": [
+              "Vincent Liu",
+              "Adam White",
+              "Hengshuai Yao",
+              "Martha White"
+            ],
+            "link": "http://arxiv.org/abs/2007.03807v1",
+            "summary": null,
+            "journal_ref": null,
+            "primary_category": "cs.LG",
+            "categories": [
+              "cs.LG",
+              "cs.AI",
+              "stat.ML"
+            ],
+            "citations": 0,
+            "year": 2020,
+            "journal_published": false
+          },
+          "similarity": 0.6185682471301237,
+          "score": 0.6185682471301237,
+          "has_metadata": true
+        },
+        {
+          "slogan_id": 11587663,
+          "theorem_id": 26851926,
+          "name": "Theorem 2 (Telescoping Performance Difference)",
+          "body": "For any policy $\\pi $ and any $Q\\in \\mathbb{R} ^{\\mathcal{S} \\times \\mathcal{A} }$, \\begin {align} J(\\pi ) - J(\\pi _Q) \\leq &~ \\frac {\\mathbb{E} _{d_{\\pi }}\\left [\\mathcal T Q - Q\\right ]}{1 - \\gamma } + \\frac {\\mathbb{E} _{d_{\\pi _Q}}\\left [Q - \\mathcal T Q\\right ]}{1 - \\gamma }. \\end {align}",
+          "slogan": "The difference in performance between a policy and its greedy counterpart with respect to a Q-function is bounded by two terms. Each term involves the expectation of the Bellman residual under a state distribution. The first term uses the state distribution of the policy itself. The second term uses the state distribution of the greedy policy.",
+          "theorem_type": "theorem",
+          "label": null,
+          "link": null,
+          "paper": {
+            "paper_id": "2003.03924v4",
+            "source": "arXiv",
+            "title": "Q* Approximation Schemes for Batch Reinforcement Learning: A Theoretical Comparison",
+            "authors": [
+              "Tengyang Xie",
+              "Nan Jiang"
+            ],
+            "link": "http://arxiv.org/abs/2003.03924v4",
+            "summary": null,
+            "journal_ref": null,
+            "primary_category": "cs.LG",
+            "categories": [
+              "cs.LG",
+              "cs.AI",
+              "stat.ML"
+            ],
+            "citations": 0,
+            "year": 2020,
+            "journal_published": false
+          },
+          "similarity": 0.6163419398813966,
+          "score": 0.6163419398813966,
+          "has_metadata": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "boundary": "Retrieval-only prior art. This receipt does not support the local codec claim.",
+  "retrieved_at": "2026-08-05",
+  "request": {
+    "id": "formal_shape",
+    "query": "Formal theorem: for a finite linearly ordered action type and functions q q' with q'(a)=q(a)+c for all a, the least argmax of q' equals the least argmax of q. If q(a)<max q then floor((q(a)-max q)/epsilon)<=-1.",
+    "n_results": 6,
+    "types": [
+      "theorem"
+    ]
+  },
+  "response": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\"theorems\": []}"
+      }
+    ],
+    "structuredContent": {
+      "theorems": []
+    }
+  }
+}
