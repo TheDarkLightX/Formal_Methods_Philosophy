@@ -1,0 +1,64 @@
+{
+  "schema": "qgent-pca-quadratic-knowledge-scaling-protocol-v1",
+  "frozen_on": "2026-08-06",
+  "status": "PREREGISTERED_BEFORE_EVALUATION",
+  "question": "At a fixed 89-feature capacity, does adding exact checked synthetic training worlds improve sequential utility on an untouched block?",
+  "model_family": {
+    "representation": "34 base features plus 55 quadratic interactions among 10 PCA coordinates",
+    "feature_count": 89,
+    "pca_rank": 10,
+    "training_budgets": [8, 16, 32, 64, 128],
+    "nested_training_seeds": {
+      "first": 410000,
+      "last": 410127,
+      "count": 128
+    },
+    "labels": "exact finite-horizon dynamic-programming Q advantages from the authored synthetic world model",
+    "hyperparameters": "unchanged from the published 32-world PCA-quadratic candidate"
+  },
+  "controls": [
+    "the same rank-10 PCA-quadratic architecture trained on 32 worlds",
+    "an equal-data 128-world, 34-feature plain linear model"
+  ],
+  "evaluation_block": {
+    "generator": "unchanged default synthetic energy-world generator",
+    "seeds": {
+      "first": 930000,
+      "last": 930099,
+      "count": 100
+    },
+    "prior_use": "none known; block is frozen for this one evaluation"
+  },
+  "knowledge_scaling_gate": {
+    "comparison": "128-world PCA-quadratic model versus 32-world PCA-quadratic model",
+    "mean_optimal_utility_ratio": "128-world model must be strictly greater",
+    "minimum_optimal_utility_ratio": "128-world model must be no lower",
+    "mean_gain_over_myopic": "128-world model must be strictly greater",
+    "paired_utility": "wins must exceed losses and the two-sided exact sign-test p-value must be below 0.05",
+    "forbidden_selections": "128-world model must equal zero",
+    "capacity": "both models must have exactly 89 features"
+  },
+  "representation_gate": {
+    "comparison": "128-world PCA-quadratic model versus equal-data 128-world plain linear model",
+    "mean_optimal_utility_ratio": "PCA-quadratic model must be strictly greater",
+    "minimum_optimal_utility_ratio": "PCA-quadratic model must be no lower",
+    "mean_gain_over_myopic": "PCA-quadratic model must be strictly greater",
+    "forbidden_selections": "PCA-quadratic model must equal zero"
+  },
+  "curve_diagnostics_not_used_for_selection": [
+    "metrics at 8, 16, and 64 worlds",
+    "monotonicity across every adjacent budget",
+    "exact-action agreement",
+    "serialized JSON bytes",
+    "paired mean, median, minimum, and maximum utility deltas"
+  ],
+  "falsifier": "The knowledge-scaling claim is refuted if any knowledge-scaling gate fails. The representation claim is judged independently. A completed negative result is evidence, not a runner failure.",
+  "anti_tuning_rule": "No training budget, feature, rank, regularizer, seed range, control, metric, or threshold may change after evaluation begins. A procedural repair must be recorded as an amendment and cannot restore freshness to an observed block.",
+  "nonclaims": [
+    "The exact labels come from an authored model rather than an external environment.",
+    "More generated rows are not called knowledge unless fixed-capacity held-out utility improves under the declared gate.",
+    "A positive result would establish scaling only from 32 to 128 worlds inside this bounded generator.",
+    "This does not establish real-world welfare, morality, unrestricted generalization, or general intelligence.",
+    "The floating-point model is not the deployed Tau-gated Qgent."
+  ]
+}

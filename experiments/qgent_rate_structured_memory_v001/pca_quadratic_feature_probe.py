@@ -394,7 +394,18 @@ def metric_deltas(
     }
 
 
-def model_payload(model: Model) -> dict[str, Any]:
+def model_payload(
+    model: Model,
+    *,
+    training_seeds: Sequence[int] | None = None,
+) -> dict[str, Any]:
+    selected_training_seeds = (
+        list(qgent.TRAIN_SEEDS[: model.training_worlds])
+        if training_seeds is None
+        else [int(seed) for seed in training_seeds]
+    )
+    if len(selected_training_seeds) != model.training_worlds:
+        raise ValueError("training seed count does not match model")
     selected = model.encoder.indices(model.rank)
     payload: dict[str, Any] = {
         "schema": MODEL_SCHEMA,
@@ -427,7 +438,7 @@ def model_payload(model: Model) -> dict[str, Any]:
         "feature_count": len(model.weights[0]),
         "training_worlds": model.training_worlds,
         "training_examples": model.training_examples,
-        "training_seeds": list(qgent.TRAIN_SEEDS[: model.training_worlds]),
+        "training_seeds": selected_training_seeds,
         "tie_break": "lowest admissible action identifier",
         "authority_boundary": (
             "The model ranks admissible actions only. The deterministic "
