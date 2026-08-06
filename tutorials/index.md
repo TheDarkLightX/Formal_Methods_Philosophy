@@ -760,6 +760,17 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/finding-hidden-structure-representation-learning-compression/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 72: Finding the hidden road</h2>
+    <p class="fp-card-text">
+      Learn how representation, abstraction, and compression fit together,
+      then inspect a rejected centroid feature map, a bounded PCA-quadratic
+      improvement, and a Q-memory codec that preserved every compiled decision.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/exploring-mathematics-from-counting-to-functors/' | relative_url }}"
   >
     <p class="fp-kicker">Visual mathematics</p>
