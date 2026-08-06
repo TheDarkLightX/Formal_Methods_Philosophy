@@ -618,6 +618,91 @@ Q-values, or support value-sensitive inspection.
 The quotient codec improves density. It does not improve the learned policy or
 add knowledge.
 
+### Signal-Ladder Q memory: pay for the question
+
+The quotient codec stores approximate values for every alternative. A
+different literal lookup design asks which exact information must arrive
+first.
+
+For one row, sort the admissible actions by score, using the fixed action
+identifier to break ties:
+
+$$
+Q(s,a_1)\geq Q(s,a_2)\geq\cdots\geq Q(s,a_m).
+$$
+
+Define each adjacent gap by
+
+$$
+g_j(s)=Q(s,a_j)-Q(s,a_{j+1})\geq 0.
+$$
+
+The first layer stores $a_1$. The second stores $a_2$ and $g_1$. Each later
+rank layer stores one more action and adjacent gap. A final calibration layer
+stores
+
+$$
+V(s)=Q(s,a_1).
+$$
+
+After loading the first $k$ rank layers, every top-$k$ action identity and
+every score difference among those actions is exact. For $i<j\leq k$,
+
+$$
+Q(s,a_i)-Q(s,a_j)
+=
+\sum_{r=i}^{j-1}g_r(s).
+$$
+
+After all rank layers and $V(s)$ are loaded, every score is reconstructed by
+
+$$
+Q(s,a_j)
+=
+V(s)-\sum_{r=1}^{j-1}g_r(s).
+$$
+
+This produces a progressive exact lookup table rather than a shared-weight
+model.
+
+| Loaded information | Complete bytes | Exact guarantee |
+| --- | ---: | --- |
+| Signal-Ladder header and winner layer | 8,365 | All 27,000 winning actions |
+| Winner, runner-up, and first gap | 58,267 | Exact top two and exact decision margin |
+| First three ranked actions and gaps | 102,907 | Exact top three and their relative scores |
+| All rank and calibration layers | 348,692 | Full source Q table and forbidden mask |
+
+All winner, runner-up, margin, permitted-score, and forbidden-mask mismatch
+counts were zero. Duplicate builds were byte-identical, and wrong-source,
+wrong-magic, and corrupt-stream inputs were rejected.
+
+The comparison depends on the query:
+
+| Control | Bytes | What it answers |
+| --- | ---: | --- |
+| Policy-only compressed payload | 1,458 | Winner only, without a self-describing full-Q path |
+| Signal-Ladder top-two prefix | 58,267 | Exact winner, runner-up, and decision margin |
+| Decision-quotient artifact | 102,799 | Approximate values for every action, maximum error 382 |
+| Strong monolithic lossless Q payload | 114,690 | Every Q value exactly, without rank-addressable prefixes |
+| Full Signal-Ladder artifact | 348,692 | Every Q value exactly, with progressive rank access |
+
+The full ladder is not the smallest encoding. Separately compressed rank layers
+sacrifice cross-layer redundancy to make prefixes independently useful. Its
+benefit is progressive exact access. If the question asks only for the selected
+action and its exact margin over the runner-up, the later alternatives and
+absolute calibration need not be loaded.
+
+The 60,000-byte top-two gate was chosen after an exploratory stream-size probe.
+The checked result is therefore an engineering confirmation, not a fresh
+statistical discovery or a claim that the encoding is novel.
+
+The
+[Signal-Ladder artifact can be downloaded here]({{ '/assets/downloads/qgent-signal-ladder-q-v1.slq' | relative_url }}),
+with its
+[frozen protocol]({{ '/experiments/qgent_rate_structured_memory_v001/research/signal_ladder_protocol_v001.json' | relative_url }})
+and
+[complete report]({{ '/experiments/qgent_rate_structured_memory_v001/results/qgent_signal_ladder_v001.report.json' | relative_url }}).
+
 ## 13. Lab result: better validation, worse confirmation
 
 A second experiment tested whether representation geometry could improve the
@@ -978,6 +1063,7 @@ python3 experiments/qgent_rate_structured_memory_v001/centroid_feature_probe.py
 python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_feature_probe.py
 python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_replication.py
 python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_scaling.py
+python3 experiments/qgent_rate_structured_memory_v001/signal_ladder_memory.py
 PYTHONPATH=. pytest -q experiments/qgent_rate_structured_memory_v001/test_rate_structured_memory.py
 </pre>
 
@@ -987,7 +1073,7 @@ and must not be reused as a fresh test for a redesigned model.
 
 ## 20. What the experiment changed
 
-The representation-learning perspective produced four different outcomes.
+The representation-learning perspective produced five different outcomes.
 
 First, the idea of optimal-action centroids looked promising on validation and
 failed on confirmation. That idea became negative knowledge.
@@ -1007,7 +1093,13 @@ threshold. The scaling claim was rejected. At equal 128-world data, the
 quadratic representation still beat the plain linear control. Representation
 quality and experience volume are therefore separate experimental variables.
 
-Fourth, choosing the deployment decision as the distortion exposed a symmetry:
+Fourth, the Signal-Ladder lookup arranged exact information by query depth. A
+small prefix answers the decision, a larger prefix adds exact confidence and
+alternatives, and the complete artifact reconstructs the source. Its full form
+is larger than the monolithic control, making progressive access an explicit
+space tradeoff.
+
+Fifth, choosing the deployment decision as the distortion exposed a symmetry:
 statewise Q offsets do not affect greedy action choice. Quotienting out that
 symmetry, then using a sign-preserving quantizer, produced a smaller complete
 artifact than a strong exact control.

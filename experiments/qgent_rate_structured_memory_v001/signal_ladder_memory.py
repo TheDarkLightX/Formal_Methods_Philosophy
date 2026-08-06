@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import struct
 import sys
 import zlib
@@ -47,6 +48,8 @@ HEADER_LIMIT = 128 * 1024
 TOP_TWO_BYTE_LIMIT = 60_000
 FULL_BYTE_LIMIT = 512 * 1024
 ACTION_SENTINEL = 255
+ROW_LIMIT = 1_000_000
+ALLOWED_STREAM_DTYPES = {"|u1", "<u2", "<u4", "<i4"}
 
 
 class SignalLadderError(ValueError):
@@ -268,6 +271,8 @@ def parse_artifact(
     *,
     expected_source_sha256: str,
 ) -> tuple[dict[str, Any], int]:
+    if len(artifact) > FULL_BYTE_LIMIT:
+        raise SignalLadderError("artifact exceeds its fixed file limit")
     if len(artifact) < 8 or artifact[:4] != MAGIC:
         raise SignalLadderError("artifact magic is invalid")
     header_length = struct.unpack("<I", artifact[4:8])[0]
@@ -283,33 +288,132 @@ def parse_artifact(
         raise SignalLadderError("artifact header is invalid JSON") from error
     if quotient.canonical_json_bytes(header) != raw_header:
         raise SignalLadderError("artifact header is not canonical JSON")
+    if not isinstance(header, dict):
+        raise SignalLadderError("artifact header is not an object")
     if header.get("schema") != SCHEMA:
         raise SignalLadderError("artifact schema is unsupported")
     if header.get("source_sha256") != expected_source_sha256:
         raise SignalLadderError("artifact is bound to a different source table")
-    shape = tuple(int(value) for value in header.get("shape", []))
-    if len(shape) < 2 or any(value <= 0 for value in shape):
-        raise SignalLadderError("artifact shape is invalid")
-    if shape[-1] > ACTION_SENTINEL:
-        raise SignalLadderError("artifact has too many actions")
-    if int(header.get("row_count", -1)) != int(np.prod(shape[:-1])):
-        raise SignalLadderError("artifact row count is invalid")
-    if int(header.get("action_count", -1)) != shape[-1]:
-        raise SignalLadderError("artifact action count is invalid")
-    if int(header.get("body_bytes", -1)) != len(artifact) - body_start:
-        raise SignalLadderError("artifact body length is invalid")
-    expected_offset = 0
-    for stream in header.get("streams", []):
-        offset = int(stream.get("body_offset", -1))
-        length = int(stream.get("compressed_bytes", -1))
-        raw_length = int(stream.get("uncompressed_bytes", -1))
-        if offset != expected_offset or length <= 0:
-            raise SignalLadderError("artifact stream layout is invalid")
-        if raw_length < 0 or raw_length > quotient.STREAM_LIMIT:
-            raise SignalLadderError("artifact stream bound is invalid")
-        expected_offset += length
-    if expected_offset != int(header["body_bytes"]):
-        raise SignalLadderError("artifact stream lengths do not cover the body")
+    try:
+        raw_shape = header.get("shape")
+        if not isinstance(raw_shape, list) or any(
+            type(value) is not int for value in raw_shape
+        ):
+            raise SignalLadderError("artifact shape is invalid")
+        shape = tuple(raw_shape)
+        if len(shape) < 2 or any(value <= 0 for value in shape):
+            raise SignalLadderError("artifact shape is invalid")
+        if not 1 <= shape[-1] <= ACTION_SENTINEL:
+            raise SignalLadderError("artifact action count is invalid")
+        row_count = math.prod(shape[:-1])
+        if not 1 <= row_count <= ROW_LIMIT:
+            raise SignalLadderError("artifact row count exceeds its bound")
+        if int(header.get("row_count", -1)) != row_count:
+            raise SignalLadderError("artifact row count is invalid")
+        if int(header.get("action_count", -1)) != shape[-1]:
+            raise SignalLadderError("artifact action count is invalid")
+        if int(header.get("action_sentinel", -1)) != ACTION_SENTINEL:
+            raise SignalLadderError("artifact action sentinel is invalid")
+        sentinel = int(header["forbidden_sentinel"])
+        if not np.iinfo(np.int32).min <= sentinel <= np.iinfo(np.int32).max:
+            raise SignalLadderError("artifact forbidden sentinel is invalid")
+        if int(header.get("body_bytes", -1)) != len(artifact) - body_start:
+            raise SignalLadderError("artifact body length is invalid")
+
+        streams = header.get("streams")
+        if not isinstance(streams, list) or not streams:
+            raise SignalLadderError("artifact stream registry is invalid")
+        expected_offset = 0
+        for stream in streams:
+            if not isinstance(stream, dict):
+                raise SignalLadderError("artifact stream descriptor is invalid")
+            offset = int(stream.get("body_offset", -1))
+            length = int(stream.get("compressed_bytes", -1))
+            raw_length = int(stream.get("uncompressed_bytes", -1))
+            cells = int(stream.get("cells", -1))
+            dtype = np.dtype(stream.get("dtype"))
+            if dtype.str not in ALLOWED_STREAM_DTYPES:
+                raise SignalLadderError("artifact stream dtype is unsupported")
+            if offset != expected_offset or length <= 0 or cells < 0:
+                raise SignalLadderError("artifact stream layout is invalid")
+            if raw_length != cells * dtype.itemsize:
+                raise SignalLadderError("artifact stream cell size is invalid")
+            if raw_length < 0 or raw_length > quotient.STREAM_LIMIT:
+                raise SignalLadderError("artifact stream bound is invalid")
+            digest = stream.get("compressed_sha256")
+            if (
+                not isinstance(digest, str)
+                or len(digest) != 64
+                or any(character not in "0123456789abcdef" for character in digest)
+            ):
+                raise SignalLadderError("artifact stream hash is invalid")
+            expected_offset += length
+        if expected_offset != int(header["body_bytes"]):
+            raise SignalLadderError(
+                "artifact stream lengths do not cover the body"
+            )
+
+        rank_layers = header.get("rank_layers")
+        if not isinstance(rank_layers, list) or len(rank_layers) != shape[-1]:
+            raise SignalLadderError("artifact rank-layer registry is invalid")
+        used_indexes: set[int] = set()
+        for rank, layer in enumerate(rank_layers):
+            if not isinstance(layer, dict) or int(layer.get("rank", -1)) != rank:
+                raise SignalLadderError("artifact rank-layer order is invalid")
+            active_rows = int(layer.get("active_rows", -1))
+            if not 0 <= active_rows <= row_count:
+                raise SignalLadderError("artifact active-row count is invalid")
+            action_index = int(layer.get("action_stream_index", -1))
+            if not 0 <= action_index < len(streams):
+                raise SignalLadderError("artifact action stream index is invalid")
+            action_stream = streams[action_index]
+            if (
+                action_index in used_indexes
+                or action_stream.get("label") != f"rank_{rank}_actions"
+                or np.dtype(action_stream["dtype"]) != np.dtype("<u1")
+                or action_stream.get("transform") != "none"
+                or int(action_stream["cells"]) != active_rows
+            ):
+                raise SignalLadderError("artifact action stream role is invalid")
+            used_indexes.add(action_index)
+            gap_index = layer.get("gap_stream_index")
+            if rank == 0:
+                if gap_index is not None:
+                    raise SignalLadderError("winner layer unexpectedly has a gap")
+                continue
+            gap_index = int(gap_index)
+            if not 0 <= gap_index < len(streams):
+                raise SignalLadderError("artifact gap stream index is invalid")
+            gap_stream = streams[gap_index]
+            if (
+                gap_index in used_indexes
+                or gap_stream.get("label") != f"rank_{rank}_adjacent_gaps"
+                or np.dtype(gap_stream["dtype"]).str not in {"<u2", "<u4"}
+                or gap_stream.get("transform") != "byte shuffle"
+                or int(gap_stream["cells"]) != active_rows
+            ):
+                raise SignalLadderError("artifact gap stream role is invalid")
+            used_indexes.add(gap_index)
+        value_index = int(header.get("value_stream_index", -1))
+        if not 0 <= value_index < len(streams) or value_index in used_indexes:
+            raise SignalLadderError("artifact calibration stream index is invalid")
+        value_stream = streams[value_index]
+        if (
+            value_stream.get("label") != "absolute_maximum_q"
+            or np.dtype(value_stream["dtype"]) != np.dtype("<i4")
+            or value_stream.get("transform")
+            != "time-axis delta then byte shuffle"
+            or int(value_stream["cells"]) != row_count
+        ):
+            raise SignalLadderError("artifact calibration stream role is invalid")
+        used_indexes.add(value_index)
+        if used_indexes != set(range(len(streams))):
+            raise SignalLadderError("artifact contains an unreferenced stream")
+        static_mask_from_header(header, shape)
+    except SignalLadderError:
+        raise
+    except (KeyError, TypeError, ValueError, OverflowError) as error:
+        raise SignalLadderError("artifact semantic header is invalid") from error
     return header, body_start
 
 
@@ -318,13 +422,18 @@ def static_mask_from_header(
     shape: tuple[int, ...],
 ) -> np.ndarray:
     bits = int(header["static_mask_bits"])
-    expected_bits = int(np.prod(shape[1:]))
+    expected_bits = math.prod(shape[1:])
     if bits != expected_bits:
         raise SignalLadderError("artifact mask length is invalid")
     try:
         raw = bytes.fromhex(header["static_mask_little_endian_hex"])
     except (TypeError, ValueError) as error:
         raise SignalLadderError("artifact mask is not hexadecimal") from error
+    expected_bytes = (bits + 7) // 8
+    if len(raw) != expected_bytes:
+        raise SignalLadderError("artifact mask byte length is invalid")
+    if bits % 8 and raw[-1] >> (bits % 8):
+        raise SignalLadderError("artifact mask has nonzero padding bits")
     mask = (
         np.unpackbits(np.frombuffer(raw, dtype=np.uint8), bitorder="little")[:bits]
         .astype(bool)
@@ -490,11 +599,23 @@ def decode_full_table(
 def mutation_checks(artifact: bytes, source_sha256: str) -> dict[str, bool]:
     corrupted = bytearray(artifact)
     corrupted[-1] ^= 1
+    header_length = struct.unpack("<I", artifact[4:8])[0]
+    body_start = 8 + header_length
+    semantic_header = json.loads(artifact[8:body_start])
+    semantic_header["row_count"] += 1
+    semantic_header_bytes = quotient.canonical_json_bytes(semantic_header)
+    semantic_mutation = (
+        artifact[:4]
+        + struct.pack("<I", len(semantic_header_bytes))
+        + semantic_header_bytes
+        + artifact[body_start:]
+    )
     checks = {}
     for name, candidate, expected in (
         ("corrupt_stream_rejected", bytes(corrupted), source_sha256),
         ("wrong_source_rejected", artifact, "0" * 64),
         ("wrong_magic_rejected", b"BAD!" + artifact[4:], source_sha256),
+        ("semantic_header_rejected", semantic_mutation, source_sha256),
     ):
         rejected = False
         try:
