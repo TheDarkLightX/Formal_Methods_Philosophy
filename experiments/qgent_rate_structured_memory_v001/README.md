@@ -29,6 +29,7 @@ From the repository root:
     python3 experiments/qgent_rate_structured_memory_v001/centroid_feature_probe.py
     python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_feature_probe.py
     python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_replication.py
+    python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_scaling.py
     PYTHONPATH=. pytest -q experiments/qgent_rate_structured_memory_v001/test_rate_structured_memory.py
 
 The runner writes:
@@ -39,6 +40,7 @@ The runner writes:
     experiments/qgent_rate_structured_memory_v001/results/qgent_centroid_feature_probe_v001.report.json
     experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_feature_probe_v001.report.json
     experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_replication_v001.report.json
+    experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_scaling_v001.report.json
 
 ## Negative result
 
@@ -90,6 +92,33 @@ candidate's 0.861625 agreement was slightly below the frozen control's
 declared utility claim, not a claim that the candidate imitates the exact
 policy most often.
 
+## Fixed-capacity scaling result
+
+A second preregistration held the PCA rank and 89-feature capacity fixed while
+increasing nested exact training worlds through budgets 8, 16, 32, 64, and
+128. The evaluation block contained 100 untouched worlds.
+
+The 128-world model improved mean optimal-utility ratio from 0.986147 to
+0.987187 and mean gain over myopic from 2265.11 to 2270.87 relative to the
+32-world model. Paired utility outcomes were 53 wins, 34 losses, and 13 ties.
+The preregistered scaling gate nevertheless failed for two reasons:
+
+- minimum ratio fell from 0.968479 to 0.957595;
+- the two-sided exact sign-test value was 0.053003, above the frozen 0.05
+  threshold.
+
+The curve was also not monotone because the 64-world mean was slightly below
+the 32-world mean. The exact knowledge-scaling hypothesis is therefore
+refuted. More rows improved the average, but did not satisfy the declared
+robustness and paired-evidence conditions.
+
+The independent equal-data representation gate passed. At 128 training worlds,
+the PCA-quadratic model achieved mean and minimum ratios of 0.987187 and
+0.957595, compared with 0.982152 and 0.920826 for the 34-feature linear model.
+It won 68 paired comparisons, lost 29, tied 3, and selected no forbidden
+action. This supports the tested representation inside this generator, not a
+general scaling law.
+
 ## Boundary
 
 The decision-quotient artifact is a lossy encoding of a compiled score table.
@@ -101,4 +130,5 @@ The PCA-quadratic file is a separate experimental floating-point model. It has
 not replaced the deployed quantized Qgent or been integrated into the
 Tau-gated demo. The primary learning claim is limited to disjoint seeds from
 the same bounded synthetic generator. The population-shift claim is limited to
-the one preregistered population profile family.
+the one preregistered population profile family. The failed fixed-capacity
+scaling claim is preserved rather than repaired on its consumed test block.

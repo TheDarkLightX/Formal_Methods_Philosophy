@@ -239,6 +239,58 @@ def test_preregistered_pca_replication_is_complete_and_scoped() -> None:
     )
 
 
+def test_fixed_capacity_scaling_failure_is_preserved() -> None:
+    report_path = (
+        ROOT
+        / "experiments/qgent_rate_structured_memory_v001/results"
+        / "qgent_pca_quadratic_scaling_v001.report.json"
+    )
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    assert report["decision"] == {
+        "knowledge_scaling_status": "REFUTED",
+        "representation_status": "SUPPORTED_BOUNDED",
+        "knowledge_scaling_gate_passed": False,
+        "representation_gate_passed": True,
+        "runner_completed": True,
+    }
+    assert report["evaluation"]["seeds"] == list(range(930_000, 930_100))
+    summaries = report["training"]["model_summaries"]
+    assert set(summaries) == {"8", "16", "32", "64", "128"}
+    assert {row["feature_count"] for row in summaries.values()} == {89}
+    assert summaries["32"]["content_sha256"] == (
+        "0b3eb747c1582fbfa4ba332c3aea108da4fd9f956a630097d59f9422027e9c48"
+    )
+
+    metrics = report["evaluation"]["metrics"]
+    assert (
+        metrics["pca_128"]["mean_optimal_utility_ratio"]
+        > metrics["pca_32"]["mean_optimal_utility_ratio"]
+    )
+    assert (
+        metrics["pca_128"]["minimum_optimal_utility_ratio"]
+        < metrics["pca_32"]["minimum_optimal_utility_ratio"]
+    )
+    paired = report["evaluation"]["paired_pca_128_vs_pca_32"]
+    assert (paired["wins"], paired["losses"], paired["ties"]) == (53, 34, 13)
+    assert paired["two_sided_exact_sign_test_p"] > 0.05
+    assert (
+        report["evaluation"]["curve_diagnostics"][
+            "all_adjacent_mean_ratios_improve"
+        ]
+        is False
+    )
+
+    assert (
+        metrics["pca_128"]["mean_optimal_utility_ratio"]
+        > metrics["plain_128"]["mean_optimal_utility_ratio"]
+    )
+    assert (
+        metrics["pca_128"]["minimum_optimal_utility_ratio"]
+        > metrics["plain_128"]["minimum_optimal_utility_ratio"]
+    )
+    assert metrics["pca_128"]["forbidden_selections"] == 0
+
+
 def test_tutorial_uses_scoped_measured_claims_and_public_paths() -> None:
     tutorial = (
         ROOT
@@ -253,6 +305,9 @@ def test_tutorial_uses_scoped_measured_claims_and_public_paths() -> None:
     assert "0.96848" in tutorial
     assert "52 of 80" in tutorial
     assert "slightly lower exact-action agreement" in tutorial
+    assert "Lossless relative to a question" in tutorial
+    assert "Paired outcomes were 53 wins, 34 losses" in tutorial
+    assert "knowledge-scaling claim is nevertheless refuted" in tutorial
     assert "does not improve the learned policy or" in tutorial
     assert "/home/" not in tutorial
     assert "/tmp/" not in tutorial
