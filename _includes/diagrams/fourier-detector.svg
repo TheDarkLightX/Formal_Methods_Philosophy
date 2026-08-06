@@ -1,0 +1,76 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 540" role="img" aria-labelledby="fourier-detector-title fourier-detector-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="fourier-detector-title">Fourier detector for even numbers</title>
+  <desc id="fourier-detector-desc">A constant wave and an alternating wave are averaged. They agree on even inputs and cancel on odd inputs, producing a detector that returns one for even numbers and zero for odd numbers.</desc>
+  <defs>
+    <filter id="fourier-detector-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#172033" flood-opacity="0.13" />
+    </filter>
+    <marker id="fourier-detector-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#263650" />
+    </marker>
+  </defs>
+  <style>
+    .fd-path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .fd-route { stroke-dasharray: 8 10; animation: fd-route 1s linear 1.8s 1 both; }
+    .fd-light { transform-box: fill-box; transform-origin: center; animation: fd-light 0.8s ease-out 2.4s 2 both; }
+    .fd-pulse { animation: fd-pulse 1s ease-in-out 2.5s 2 both; }
+    @keyframes fd-route { from { stroke-dashoffset: 36; opacity: 0.25; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @keyframes fd-light { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+    @keyframes fd-pulse { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .fd-route, .fd-light, .fd-pulse { animation: none; }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="500" rx="34" fill="#fffaf2" stroke="#d9cdbd" stroke-width="2" />
+  <text x="58" y="66" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="24" font-weight="800" fill="#172033">Two waves make an even-number lamp</text>
+  <text x="58" y="93" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#536076">E(n) = (1 + (−1)ⁿ) / 2. Agreement gives 1. Cancellation gives 0.</text>
+
+  <g filter="url(#fourier-detector-shadow)">
+    <rect x="56" y="126" width="350" height="290" rx="25" fill="#ffffff" stroke="#8aaad7" stroke-width="2" />
+  </g>
+  <text x="82" y="162" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#315f9e">THE TWO NOTES</text>
+  <text x="82" y="198" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#172033">n</text>
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" text-anchor="middle" fill="#172033">
+    <text x="146" y="198">0</text><text x="193" y="198">1</text><text x="240" y="198">2</text><text x="287" y="198">3</text><text x="334" y="198">4</text><text x="381" y="198">5</text>
+  </g>
+  <text x="82" y="237" font-family="Georgia, serif" font-size="17" fill="#172033">constant</text>
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" text-anchor="middle" fill="#24704a">
+    <text x="146" y="237">+1</text><text x="193" y="237">+1</text><text x="240" y="237">+1</text><text x="287" y="237">+1</text><text x="334" y="237">+1</text><text x="381" y="237">+1</text>
+  </g>
+  <text x="82" y="278" font-family="Georgia, serif" font-size="17" fill="#172033">flip</text>
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" text-anchor="middle" fill="#bd5c46">
+    <text x="146" y="278">+1</text><text x="193" y="278">−1</text><text x="240" y="278">+1</text><text x="287" y="278">−1</text><text x="334" y="278">+1</text><text x="381" y="278">−1</text>
+  </g>
+  <path d="M82 301 H381" stroke="#d9cdbd" stroke-width="2" />
+  <text x="82" y="340" font-family="Georgia, serif" font-size="17" fill="#172033">average</text>
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="15" text-anchor="middle" font-weight="800" fill="#315f9e">
+    <text x="146" y="340">1</text><text x="193" y="340">0</text><text x="240" y="340">1</text><text x="287" y="340">0</text><text x="334" y="340">1</text><text x="381" y="340">0</text>
+  </g>
+  <text x="231" y="385" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#536076">even · odd · even · odd · even · odd</text>
+
+  <path class="fd-path fd-route" d="M420 270 H500" stroke="#263650" stroke-width="4" marker-end="url(#fourier-detector-arrow)" />
+  <g filter="url(#fourier-detector-shadow)">
+    <rect x="514" y="146" width="170" height="250" rx="25" fill="#172033" />
+  </g>
+  <text x="599" y="187" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#ffd777">THE LAMP</text>
+  <circle class="fd-light" cx="599" cy="259" r="52" fill="#ffd777" stroke="#fff1a8" stroke-width="7" />
+  <text x="599" y="268" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="27" font-weight="900" fill="#80530c">1</text>
+  <text x="599" y="333" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" fill="#dce6f7">property true</text>
+  <text x="599" y="356" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" fill="#dce6f7">or false</text>
+
+  <g filter="url(#fourier-detector-shadow)">
+    <rect x="732" y="146" width="168" height="250" rx="25" fill="#edf8f1" stroke="#62aa82" stroke-width="2" />
+  </g>
+  <text x="816" y="187" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#24704a">THE PROOF MOVE</text>
+  <text x="816" y="231" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#172033">agree</text>
+  <text x="816" y="256" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="24" font-weight="900" fill="#24704a">+1 + +1</text>
+  <text x="816" y="282" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#24704a">→ 1 after ÷2</text>
+  <path class="fd-path fd-pulse" d="M766 310 H866" stroke="#62aa82" stroke-width="2" />
+  <text x="816" y="341" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#172033">cancel</text>
+  <text x="816" y="366" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="24" font-weight="900" fill="#bd5c46">+1 + −1</text>
+  <text x="816" y="392" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#bd5c46">→ 0 after ÷2</text>
+
+  <rect x="180" y="448" width="600" height="42" rx="15" fill="#fff7dc" stroke="#d7a43d" stroke-width="2" />
+  <text x="480" y="475" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" font-weight="800" fill="#80530c">Make waves agree where the answer should be bright. Make them cancel everywhere else.</text>
+</svg>

@@ -1,0 +1,80 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 500" role="img" aria-labelledby="fourier-knob-title fourier-knob-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="fourier-knob-title">Reducing Fourier degrees of freedom</title>
+  <desc id="fourier-knob-desc">A large function space is reduced to a finite Fourier family, then to an even cosine family, and finally to a small set of coefficient choices that a checker can inspect.</desc>
+  <defs>
+    <filter id="fourier-knob-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#172033" flood-opacity="0.13" />
+    </filter>
+    <marker id="fourier-knob-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#263650" />
+    </marker>
+  </defs>
+  <style>
+    .fk-route { fill: none; stroke: #263650; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 8 10; animation: fk-route 1.1s linear 1.2s 1 both; }
+    .fk-knob { transform-box: fill-box; transform-origin: center; animation: fk-knob 0.65s ease-out 0.2s 1 both; }
+    .fk-lock { animation: fk-lock 0.55s ease-out 1.65s 1 both; }
+    .fk-lock-2 { animation-delay: 2.15s; }
+    .fk-lock-3 { animation-delay: 2.65s; }
+    @keyframes fk-route { from { stroke-dashoffset: 36; opacity: 0.2; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @keyframes fk-knob { from { transform: scale(0.85); opacity: 0.35; } to { transform: scale(1); opacity: 1; } }
+    @keyframes fk-lock { from { opacity: 0.25; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    @media (prefers-reduced-motion: reduce) {
+      .fk-route, .fk-knob, .fk-lock, .fk-lock-2, .fk-lock-3 { animation: none; }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="460" rx="34" fill="#f8fbff" stroke="#cad7e8" stroke-width="2" />
+  <text x="58" y="66" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="24" font-weight="800" fill="#172033">Fewer knobs, smaller search</text>
+  <text x="58" y="93" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#536076">A justified constraint removes choices. An unjustified constraint may hide the real solution.</text>
+
+  <g filter="url(#fourier-knob-shadow)">
+    <rect x="52" y="130" width="190" height="230" rx="23" fill="#172033" />
+  </g>
+  <text x="147" y="166" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" font-weight="800" fill="#ffd777">ALL FUNCTIONS</text>
+  <g class="fk-knob" fill="#ffd777">
+    <circle cx="92" cy="214" r="15" /><circle cx="147" cy="214" r="15" /><circle cx="202" cy="214" r="15" />
+    <circle cx="92" cy="270" r="15" /><circle cx="147" cy="270" r="15" /><circle cx="202" cy="270" r="15" />
+    <circle cx="92" cy="326" r="15" /><circle cx="147" cy="326" r="15" /><circle cx="202" cy="326" r="15" />
+  </g>
+  <text x="147" y="345" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" fill="#dce6f7">too many choices</text>
+
+  <path class="fk-route" d="M252 245 H286" marker-end="url(#fourier-knob-arrow)" />
+  <g filter="url(#fourier-knob-shadow)">
+    <rect x="300" y="130" width="190" height="230" rx="23" fill="#ffffff" stroke="#8aaad7" stroke-width="2" />
+  </g>
+  <text x="395" y="166" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" font-weight="800" fill="#315f9e">FINITE BAND</text>
+  <text x="395" y="191" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" fill="#536076">only k = −N,...,N</text>
+  <g class="fk-knob" fill="#5f78bd">
+    <circle cx="355" cy="240" r="15" /><circle cx="395" cy="240" r="15" /><circle cx="435" cy="240" r="15" />
+    <circle cx="355" cy="290" r="15" /><circle cx="395" cy="290" r="15" /><circle cx="435" cy="290" r="15" />
+  </g>
+  <text x="395" y="337" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" fill="#536076">finite coefficients</text>
+
+  <path class="fk-route" d="M500 245 H534" marker-end="url(#fourier-knob-arrow)" />
+  <g filter="url(#fourier-knob-shadow)">
+    <rect x="548" y="130" width="190" height="230" rx="23" fill="#fff7dc" stroke="#d7a43d" stroke-width="2" />
+  </g>
+  <text x="643" y="166" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" font-weight="800" fill="#80530c">SYMMETRY</text>
+  <text x="643" y="191" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" fill="#536076">f(−x) = f(x)</text>
+  <g class="fk-knob" fill="#d09a34">
+    <circle cx="610" cy="246" r="15" /><circle cx="676" cy="246" r="15" />
+    <circle cx="610" cy="298" r="15" />
+  </g>
+  <g class="fk-lock" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="16" font-weight="900" fill="#9b4032">
+    <text x="676" y="302">🔒</text>
+  </g>
+  <text x="643" y="337" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" fill="#80530c">sine knobs removed</text>
+
+  <path class="fk-route" d="M748 245 H782" marker-end="url(#fourier-knob-arrow)" />
+  <g filter="url(#fourier-knob-shadow)">
+    <rect x="796" y="130" width="112" height="230" rx="23" fill="#edf8f1" stroke="#62aa82" stroke-width="2" />
+  </g>
+  <text x="852" y="166" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" font-weight="800" fill="#24704a">CHECK</text>
+  <circle class="fk-knob" cx="852" cy="232" r="20" fill="#24704a" />
+  <path d="M842 232 L849 239 L863 222" fill="none" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+  <text x="852" y="285" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" fill="#24704a">small family</text>
+  <text x="852" y="303" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" fill="#24704a">replayable proof</text>
+
+  <rect x="154" y="404" width="652" height="42" rx="15" fill="#fff1e9" stroke="#db765f" stroke-width="2" />
+  <text x="480" y="431" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#9b4032">A smaller search is safe only when the reduction preserves a possible solution.</text>
+</svg>

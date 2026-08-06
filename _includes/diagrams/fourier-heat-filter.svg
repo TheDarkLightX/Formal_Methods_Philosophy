@@ -1,0 +1,66 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 520" role="img" aria-labelledby="fourier-heat-title fourier-heat-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="fourier-heat-title">Fourier filtering solves the heat equation</title>
+  <desc id="fourier-heat-desc">A rough signal is split into slow and fast frequencies. The heat multiplier e to the negative t times frequency squared keeps slow frequencies and suppresses fast ones, producing a smooth signal.</desc>
+  <defs>
+    <filter id="fourier-heat-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#172033" flood-opacity="0.13" />
+    </filter>
+    <marker id="fourier-heat-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#263650" />
+    </marker>
+  </defs>
+  <style>
+    .fh-path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .fh-rough { stroke-dasharray: 520; stroke-dashoffset: 520; animation: fh-draw 1.4s ease-out 0.3s 1 both; }
+    .fh-smooth { stroke-dasharray: 420; stroke-dashoffset: 420; animation: fh-draw 1.4s ease-out 2.1s 1 both; }
+    .fh-bar-fast { animation: fh-fade 1.1s ease-out 1.35s 1 both; }
+    .fh-route { stroke-dasharray: 8 10; animation: fh-route 1s linear 1.2s 1 both; }
+    @keyframes fh-draw { from { stroke-dashoffset: 520; opacity: 0.25; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @keyframes fh-fade { from { opacity: 1; } to { opacity: 0.18; } }
+    @keyframes fh-route { from { stroke-dashoffset: 36; opacity: 0.25; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .fh-rough, .fh-smooth, .fh-bar-fast, .fh-route { animation: none; }
+      .fh-rough, .fh-smooth { stroke-dashoffset: 0; }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="480" rx="34" fill="#fffaf2" stroke="#d9cdbd" stroke-width="2" />
+  <text x="58" y="66" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="24" font-weight="800" fill="#172033">Heat is a frequency filter</text>
+  <text x="58" y="93" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#536076">The multiplier e⁻ᵗξ² leaves slow waves and rapidly weakens fast waves.</text>
+
+  <g filter="url(#fourier-heat-shadow)">
+    <rect x="54" y="130" width="260" height="270" rx="25" fill="#ffffff" stroke="#db765f" stroke-width="2" />
+  </g>
+  <text x="184" y="167" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#9b4032">STARTING SHAPE</text>
+  <line x1="78" y1="317" x2="290" y2="317" stroke="#d9cdbd" stroke-width="2" />
+  <path class="fh-path fh-rough" d="M78 317 C91 245 105 354 119 276 C133 206 147 351 161 260 C175 194 189 357 203 280 C217 220 231 340 245 267 C259 224 275 312 290 238" stroke="#db765f" stroke-width="4" />
+  <text x="184" y="365" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#536076">rough = many fast wiggles</text>
+
+  <path class="fh-path fh-route" d="M326 265 H370" stroke="#263650" stroke-width="4" marker-end="url(#fourier-heat-arrow)" />
+  <g filter="url(#fourier-heat-shadow)">
+    <rect x="386" y="130" width="190" height="270" rx="25" fill="#172033" />
+  </g>
+  <text x="481" y="167" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#ffd777">FREQUENCIES</text>
+  <text x="415" y="211" font-family="Georgia, serif" font-size="16" fill="#ffffff">slow</text>
+  <rect x="466" y="195" width="77" height="20" rx="10" fill="#62aa82" />
+  <text x="505" y="210" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" font-weight="800" fill="#ffffff">kept</text>
+  <text x="415" y="267" font-family="Georgia, serif" font-size="16" fill="#ffffff">middle</text>
+  <rect x="466" y="251" width="53" height="20" rx="10" fill="#d09a34" />
+  <text x="492" y="266" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" font-weight="800" fill="#ffffff">less</text>
+  <text x="415" y="323" font-family="Georgia, serif" font-size="16" fill="#ffffff">fast</text>
+  <rect class="fh-bar-fast" x="466" y="307" width="20" height="20" rx="10" fill="#db765f" />
+  <text x="515" y="322" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="11" font-weight="800" fill="#ffb09b">fades</text>
+  <text x="481" y="365" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#dce6f7">e⁻ᵗξ²</text>
+
+  <path class="fh-path fh-route" d="M588 265 H632" stroke="#263650" stroke-width="4" marker-end="url(#fourier-heat-arrow)" />
+  <g filter="url(#fourier-heat-shadow)">
+    <rect x="648" y="130" width="260" height="270" rx="25" fill="#edf8f1" stroke="#62aa82" stroke-width="2" />
+  </g>
+  <text x="778" y="167" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#24704a">AFTER HEAT</text>
+  <line x1="672" y1="317" x2="884" y2="317" stroke="#a6cfb5" stroke-width="2" />
+  <path class="fh-path fh-smooth" d="M672 317 C706 313 724 260 746 238 C768 216 788 216 810 238 C832 260 850 313 884 317" stroke="#24704a" stroke-width="5" />
+  <text x="778" y="365" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#536076">smooth = fast wiggles removed</text>
+
+  <rect x="168" y="430" width="624" height="42" rx="15" fill="#eaf2ff" stroke="#8aaad7" stroke-width="2" />
+  <text x="480" y="457" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" font-weight="800" fill="#315f9e">Fourier turns a differential equation into one small decay equation for each frequency.</text>
+</svg>
