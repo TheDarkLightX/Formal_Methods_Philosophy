@@ -169,6 +169,76 @@ def test_pca_quadratic_model_is_content_bound() -> None:
     assert all(len(row) == 89 for row in model["weights"])
 
 
+def test_preregistered_pca_replication_is_complete_and_scoped() -> None:
+    protocol_path = (
+        ROOT
+        / "experiments/qgent_rate_structured_memory_v001/research"
+        / "pca_quadratic_replication_protocol_v001.json"
+    )
+    report_path = (
+        ROOT
+        / "experiments/qgent_rate_structured_memory_v001/results"
+        / "qgent_pca_quadratic_replication_v001.report.json"
+    )
+    protocol = json.loads(protocol_path.read_text(encoding="utf-8"))
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+
+    assert protocol["status"] == "PREREGISTERED_BEFORE_EVALUATION"
+    assert report["protocol"]["sha256"] == sha256_bytes(protocol_path.read_bytes())
+    assert report["decision"] == {
+        "primary_status": "SUPPORTED_BOUNDED",
+        "population_shift_status": "SUPPORTED_BOUNDED",
+        "runner_completed": True,
+    }
+    assert report["frozen_candidate"]["content_sha256"] == (
+        "0b3eb747c1582fbfa4ba332c3aea108da4fd9f956a630097d59f9422027e9c48"
+    )
+
+    primary = report["primary_default_generator"]
+    shifted = report["secondary_population_shift"]
+    assert [row["seed"] for row in primary["records"]] == list(
+        range(910_000, 910_080)
+    )
+    assert [row["seed"] for row in shifted["records"]] == list(
+        range(920_000, 920_040)
+    )
+    rotations = (
+        [1, 1, 8, 12],
+        [1, 8, 12, 1],
+        [8, 12, 1, 1],
+        [12, 1, 1, 8],
+    )
+    assert [row["populations"] for row in shifted["records"]] == [
+        rotations[index % 4] for index in range(40)
+    ]
+
+    for block in (primary, shifted):
+        assert block["gate_passed"] is True
+        candidate = block["metrics"]["candidate"]
+        assert candidate["forbidden_selections"] == 0
+        for control_name in ("frozen_16", "plain_32"):
+            control = block["metrics"][control_name]
+            assert (
+                candidate["mean_optimal_utility_ratio"]
+                > control["mean_optimal_utility_ratio"]
+            )
+            assert (
+                candidate["minimum_optimal_utility_ratio"]
+                >= control["minimum_optimal_utility_ratio"]
+            )
+            assert (
+                candidate["mean_gain_over_myopic"]
+                > control["mean_gain_over_myopic"]
+            )
+
+    assert primary["paired_candidate_vs_frozen_16"]["wins"] == 52
+    assert primary["paired_candidate_vs_plain_32"]["wins"] == 57
+    assert (
+        primary["metrics"]["candidate"]["mean_exact_action_agreement"]
+        < primary["metrics"]["frozen_16"]["mean_exact_action_agreement"]
+    )
+
+
 def test_tutorial_uses_scoped_measured_claims_and_public_paths() -> None:
     tutorial = (
         ROOT
@@ -179,6 +249,10 @@ def test_tutorial_uses_scoped_measured_claims_and_public_paths() -> None:
     assert "101 greedy-action mismatches" in tutorial
     assert "0.91959" in tutorial
     assert "0.98426" in tutorial
+    assert "0.98597" in tutorial
+    assert "0.96848" in tutorial
+    assert "52 of 80" in tutorial
+    assert "slightly lower exact-action agreement" in tutorial
     assert "does not improve the learned policy or" in tutorial
     assert "/home/" not in tutorial
     assert "/tmp/" not in tutorial

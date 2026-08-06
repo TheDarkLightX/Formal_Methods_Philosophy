@@ -28,6 +28,7 @@ From the repository root:
     python3 experiments/qgent_rate_structured_memory_v001/rate_structured_memory.py
     python3 experiments/qgent_rate_structured_memory_v001/centroid_feature_probe.py
     python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_feature_probe.py
+    python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_replication.py
     PYTHONPATH=. pytest -q experiments/qgent_rate_structured_memory_v001/test_rate_structured_memory.py
 
 The runner writes:
@@ -37,6 +38,7 @@ The runner writes:
     experiments/qgent_rate_structured_memory_v001/results/qgent_rate_structured_memory_v001.report.json
     experiments/qgent_rate_structured_memory_v001/results/qgent_centroid_feature_probe_v001.report.json
     experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_feature_probe_v001.report.json
+    experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_replication_v001.report.json
 
 ## Negative result
 
@@ -64,6 +66,30 @@ candidate was changed afterward. This timing makes the result useful bounded
 evidence, but not a fully preregistered comparison. The confirmation seeds are
 now consumed and cannot be used to retune another candidate.
 
+## Preregistered replication
+
+The candidate, both controls, gates, and two untouched seed blocks were then
+committed before evaluation. On 80 new worlds from the unchanged generator,
+the frozen candidate achieved a mean optimal-utility ratio of 0.985967 and a
+minimum ratio of 0.961181. The corresponding results were 0.983952 and
+0.921910 for the frozen 16-world linear control, and 0.982591 and 0.925703 for
+the equal-data 32-world linear control. The candidate won the paired utility
+comparison on 52 of 80 worlds against the first control and 57 of 80 against
+the second. It selected no forbidden actions.
+
+A separate 40-world stress block rotated population profiles based on
+`[1, 1, 8, 12]`, outside the training range of 2 through 6 per population. The
+candidate achieved a mean ratio of 0.968483, compared with 0.844722 and
+0.836906 for the controls, and won all 40 paired utility comparisons against
+both. This is a single-factor synthetic shift, not evidence of broad
+distributional robustness.
+
+Exact-action agreement was not a selection gate. On the primary block, the
+candidate's 0.861625 agreement was slightly below the frozen control's
+0.862750 while its utility was higher. The experiment therefore supports the
+declared utility claim, not a claim that the candidate imitates the exact
+policy most often.
+
 ## Boundary
 
 The decision-quotient artifact is a lossy encoding of a compiled score table.
@@ -73,5 +99,6 @@ to greedy deployment under the stored admissibility mask.
 
 The PCA-quadratic file is a separate experimental floating-point model. It has
 not replaced the deployed quantized Qgent or been integrated into the
-Tau-gated demo. All learning claims are limited to disjoint seeds from the same
-bounded synthetic generator.
+Tau-gated demo. The primary learning claim is limited to disjoint seeds from
+the same bounded synthetic generator. The population-shift claim is limited to
+the one preregistered population profile family.

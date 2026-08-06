@@ -612,7 +612,7 @@ The result refutes this fixed centroid feature design. It does not refute
 representation learning, coding-rate objectives, centroid methods, or nonlinear
 Q models in general.
 
-## 14. Lab result: a curved coordinate map survived confirmation
+## 14. Lab result: a curved coordinate map replicated
 
 A straight decision boundary can miss a curved regularity. The next candidate
 kept the original 34 features and added a small nonlinear coordinate system.
@@ -684,6 +684,54 @@ result is bounded exploratory evidence for this representation, rather than a
 fully preregistered comparison. All 40 confirmation seeds are now consumed and
 cannot be reused to tune a successor.
 
+The next test froze the candidate, both controls, seed blocks, metrics, and
+acceptance rule in a committed protocol before evaluation. The primary block
+contained 80 untouched worlds from the unchanged generator.
+
+| Preregistered primary metric, 80 worlds | Frozen linear, 16 worlds | Plain linear, 32 worlds | PCA-quadratic, 32 worlds |
+| --- | ---: | ---: | ---: |
+| Mean optimal-utility ratio | 0.98395 | 0.98259 | **0.98597** |
+| Minimum optimal-utility ratio | 0.92191 | 0.92570 | **0.96118** |
+| Exact-action agreement, diagnostic | **0.86275** | 0.84838 | 0.86163 |
+| Mean gain over myopic | 2,190.50 | 2,182.75 | **2,203.53** |
+| Forbidden selections | 0 | 0 | 0 |
+
+The candidate produced greater rollout utility on 52 of 80 worlds against the
+frozen control and 57 of 80 against the equal-data control. The corresponding
+two-sided exact sign-test values were about 0.0097 and 0.00018. These paired
+tests were declared diagnostics, not selection gates.
+
+The candidate had slightly lower exact-action agreement than the frozen
+control, 0.86163 rather than 0.86275, while achieving higher rollout utility.
+Agreement asks how often two policies choose the same action. Utility asks how
+well the entire trajectory scores. They need not move together.
+
+### A narrow population shift
+
+A separate preregistered stress block used all cyclic rotations of the
+population profile $(1,1,8,12)$. Training populations were each between 2 and
+6, so this moved one declared generator factor outside its training range.
+
+| Population-shift metric, 40 worlds | Frozen linear, 16 worlds | Plain linear, 32 worlds | PCA-quadratic, 32 worlds |
+| --- | ---: | ---: | ---: |
+| Mean optimal-utility ratio | 0.84472 | 0.83691 | **0.96848** |
+| Minimum optimal-utility ratio | 0.75926 | 0.77409 | **0.87316** |
+| Exact-action agreement, diagnostic | 0.39475 | 0.36700 | **0.80525** |
+| Mean gain over myopic | 3,004.80 | 2,901.05 | **4,678.25** |
+| Forbidden selections | 0 | 0 | 0 |
+
+The candidate beat each control on all 40 paired utility comparisons. One
+plausible explanation is that quadratic interactions represent how resource
+costs scale with population more effectively than the two linear controls.
+That explanation remains a hypothesis. The experiment changed only one
+factor, using a synthetic profile selected in advance. It does not establish
+broad distributional robustness.
+
+The
+[frozen protocol is available here]({{ '/experiments/qgent_rate_structured_memory_v001/research/pca_quadratic_replication_protocol_v001.json' | relative_url }})
+and the
+[complete per-world report is available here]({{ '/experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_replication_v001.report.json' | relative_url }}).
+
 The
 [experimental model can be downloaded here]({{ '/assets/downloads/qgent-pca-quadratic-feature-model-v1.json' | relative_url }}).
 It remains a floating-point research artifact. It has not replaced the
@@ -703,11 +751,13 @@ also demonstrate broad empirical transfer on held-out benchmarks. Neither fact
 proves unrestricted general intelligence or reliable transfer to every new
 domain.
 
-In this lab, *generalization* means only performance on disjoint synthetic
+In this lab, *generalization* first means performance on disjoint synthetic
 world seeds from the same bounded generator. The centroid candidate failed
-that narrow test. The frozen PCA-quadratic candidate passed it once, by small
-margins over two linear controls. Neither outcome establishes transfer to a
-different generator, a real allocation problem, or an unrestricted domain.
+that narrow test. The frozen PCA-quadratic candidate passed an exploratory
+confirmation and then a preregistered 80-world replication. It also passed one
+preregistered population-shift stress test. That second result changes only one
+generator factor, so neither result establishes transfer to a different world
+model, a real allocation problem, or an unrestricted domain.
 
 ## 16. There is no universal intelligence-per-byte unit
 
@@ -834,6 +884,7 @@ From the repository root:
 python3 experiments/qgent_rate_structured_memory_v001/rate_structured_memory.py
 python3 experiments/qgent_rate_structured_memory_v001/centroid_feature_probe.py
 python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_feature_probe.py
+python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_replication.py
 PYTHONPATH=. pytest -q experiments/qgent_rate_structured_memory_v001/test_rate_structured_memory.py
 </pre>
 
@@ -849,10 +900,13 @@ First, the idea of optimal-action centroids looked promising on validation and
 failed on confirmation. That idea became negative knowledge.
 
 Second, PCA coordinates with quadratic interactions produced a small rollout
-improvement on a disjoint confirmation block. The equal-data control suggests
-that the feature map, rather than training volume alone, contributed to the
-gain. The post-confirmation timing of that control limits the strength of the
-inference.
+improvement on a disjoint confirmation block. A preregistered replication then
+improved the declared utility metrics over both linear controls on 80 more
+worlds. A separate one-factor population shift produced a larger improvement.
+The equal-data control supports the inference that the feature map, rather
+than training volume alone, contributed to the gain. The experiments do not
+isolate which quadratic terms matter, and the shifted result does not imply
+broad robustness.
 
 Third, choosing the deployment decision as the distortion exposed a symmetry:
 statewise Q offsets do not affect greedy action choice. Quotienting out that
