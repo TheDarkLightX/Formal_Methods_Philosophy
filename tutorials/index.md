@@ -771,6 +771,17 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/how-to-build-a-function-that-helps-prove-a-theorem/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 73: Fourier function engineering</h2>
+    <p class="fp-card-text">
+      Design exact detectors, nonnegative spotlights, and heat filters from
+      waves, then reduce coefficient search to a small exact certificate with
+      a reproducible rational checker.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/exploring-mathematics-from-counting-to-functors/' | relative_url }}"
   >
     <p class="fp-kicker">Visual mathematics</p>

@@ -1,0 +1,75 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 560" role="img" aria-labelledby="fourier-engineering-title fourier-engineering-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="fourier-engineering-title">Fourier function engineering</title>
+  <desc id="fourier-engineering-desc">A proof goal is translated into selected wave frequencies and strengths. The waves combine into a helper function whose checked properties support the theorem.</desc>
+  <defs>
+    <filter id="fourier-engineering-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="9" flood-color="#172033" flood-opacity="0.14" />
+    </filter>
+    <marker id="fourier-engineering-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#263650" />
+    </marker>
+  </defs>
+  <style>
+    .fe-path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .fe-wave { stroke-dasharray: 220; stroke-dashoffset: 220; }
+    .fe-target { transform-box: fill-box; transform-origin: center; }
+    .fe-flow { stroke-dasharray: 8 10; }
+    .fe-wave-1 { animation: fe-draw 1.1s ease-out 0.25s 1 both; }
+    .fe-wave-2 { animation: fe-draw 1.1s ease-out 0.7s 1 both; }
+    .fe-wave-3 { animation: fe-draw 1.1s ease-out 1.15s 1 both; }
+    .fe-target { animation: fe-breathe 1.5s ease-in-out 2.2s 2 both; }
+    .fe-flow { animation: fe-flow 1.2s linear 1.9s 1 both; }
+    @keyframes fe-draw { from { stroke-dashoffset: 220; opacity: 0.25; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @keyframes fe-breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.035); } }
+    @keyframes fe-flow { from { stroke-dashoffset: 36; opacity: 0.35; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .fe-wave, .fe-target, .fe-flow { animation: none; }
+      .fe-wave { stroke-dashoffset: 0; }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="520" rx="34" fill="#f8fbff" stroke="#cad7e8" stroke-width="2" />
+  <text x="58" y="66" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="24" font-weight="800" fill="#172033">Build the helper from its notes</text>
+  <text x="58" y="93" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#536076">Fourier design changes a hard shape problem into a frequency-choice problem.</text>
+
+  <g filter="url(#fourier-engineering-shadow)">
+    <rect x="58" y="130" width="236" height="252" rx="25" fill="#172033" />
+  </g>
+  <text x="176" y="169" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#ffd777">PROOF GOAL</text>
+  <text x="176" y="199" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#ffffff">“Make a function that</text>
+  <text x="176" y="220" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#ffffff">lights up on the target.”</text>
+  <path class="fe-path fe-target" d="M92 330 C111 284 132 286 151 328 C170 370 191 370 210 328 C229 286 250 284 269 330" stroke="#ff9c7a" stroke-width="5" />
+  <circle cx="151" cy="328" r="6" fill="#ffd777" />
+  <circle cx="210" cy="328" r="6" fill="#ffd777" />
+  <text x="176" y="357" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#dce6f7">desired shape</text>
+
+  <path class="fe-path fe-flow" d="M310 256 H354" stroke="#263650" stroke-width="4" marker-end="url(#fourier-engineering-arrow)" />
+  <g filter="url(#fourier-engineering-shadow)">
+    <rect x="366" y="126" width="254" height="260" rx="25" fill="#ffffff" stroke="#8aaad7" stroke-width="2" />
+  </g>
+  <text x="493" y="163" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#315f9e">CHOOSE THE NOTES</text>
+  <text x="390" y="199" font-family="Georgia, serif" font-size="20" fill="#172033">low</text>
+  <path class="fe-path fe-wave fe-wave-1" d="M438 194 C450 170 462 170 474 194 C486 218 498 218 510 194 C522 170 534 170 546 194" stroke="#e47b62" stroke-width="3" />
+  <text x="390" y="251" font-family="Georgia, serif" font-size="20" fill="#172033">middle</text>
+  <path class="fe-path fe-wave fe-wave-2" d="M438 246 C446 230 454 230 462 246 C470 262 478 262 486 246 C494 230 502 230 510 246 C518 262 526 262 534 246 C542 230 550 230 558 246" stroke="#d09a34" stroke-width="3" />
+  <text x="390" y="303" font-family="Georgia, serif" font-size="20" fill="#172033">high</text>
+  <path class="fe-path fe-wave fe-wave-3" d="M438 298 C444 286 450 286 456 298 C462 310 468 310 474 298 C480 286 486 286 492 298 C498 310 504 310 510 298 C516 286 522 286 528 298 C534 310 540 310 546 298 C552 286 558 286 564 298" stroke="#5f78bd" stroke-width="3" />
+  <text x="493" y="352" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#536076">choose frequency + strength + phase</text>
+
+  <path class="fe-path fe-flow" d="M626 256 H670" stroke="#263650" stroke-width="4" marker-end="url(#fourier-engineering-arrow)" />
+  <g filter="url(#fourier-engineering-shadow)">
+    <rect x="682" y="126" width="220" height="260" rx="25" fill="#edf8f1" stroke="#62aa82" stroke-width="2" />
+  </g>
+  <text x="792" y="163" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#24704a">INVERSE FOURIER</text>
+  <text x="792" y="185" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#536076">combine the notes</text>
+  <path class="fe-path fe-wave" d="M708 256 C720 230 732 230 744 256 C756 282 768 282 780 256 C792 230 804 230 816 256 C828 282 840 282 852 256" stroke="#e47b62" stroke-width="2" opacity="0.35" />
+  <path class="fe-path fe-wave" d="M708 256 C716 240 724 240 732 256 C740 272 748 272 756 256 C764 240 772 240 780 256 C788 272 796 272 804 256 C812 240 820 240 828 256 C836 272 844 272 852 256" stroke="#d09a34" stroke-width="2" opacity="0.35" />
+  <path class="fe-path fe-target" d="M708 319 C724 279 740 282 756 320 C772 358 788 358 804 320 C820 282 836 279 852 319" stroke="#24704a" stroke-width="5" />
+  <circle cx="756" cy="320" r="6" fill="#24704a" />
+  <circle cx="804" cy="320" r="6" fill="#24704a" />
+  <text x="792" y="356" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#24704a">helper function</text>
+
+  <rect x="160" y="430" width="640" height="66" rx="22" fill="#fff7dc" stroke="#d7a43d" stroke-width="2" />
+  <text x="480" y="458" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="15" font-weight="800" fill="#80530c">CHECK THE BRIDGE</text>
+  <text x="480" y="480" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" fill="#536076">The shape is a proof tool only after its promised properties are verified.</text>
+</svg>

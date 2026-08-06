@@ -1,0 +1,58 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 540" role="img" aria-labelledby="fourier-spotlight-title fourier-spotlight-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="fourier-spotlight-title">Fourier waves make a focused spotlight</title>
+  <desc id="fourier-spotlight-desc">A finite sum of circular waves is squared in magnitude. The resulting nonnegative kernel keeps total mass fixed while becoming taller and narrower near the target.</desc>
+  <defs>
+    <filter id="fourier-spotlight-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#172033" flood-opacity="0.13" />
+    </filter>
+  </defs>
+  <style>
+    .fs-curve { fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 600; stroke-dashoffset: 600; animation: fs-draw 1.8s ease-out 0.6s 1 both; }
+    .fs-ray { stroke-dasharray: 8 10; animation: fs-ray 1.2s linear 0.4s 1 both; }
+    .fs-target { transform-box: fill-box; transform-origin: center; animation: fs-target 0.9s ease-out 2.3s 2 both; }
+    @keyframes fs-draw { from { stroke-dashoffset: 600; opacity: 0.2; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @keyframes fs-ray { from { stroke-dashoffset: 36; opacity: 0.2; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @keyframes fs-target { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
+    @media (prefers-reduced-motion: reduce) {
+      .fs-curve, .fs-ray, .fs-target { animation: none; }
+      .fs-curve { stroke-dashoffset: 0; }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="500" rx="34" fill="#f8fbff" stroke="#cad7e8" stroke-width="2" />
+  <text x="58" y="66" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="24" font-weight="800" fill="#172033">A spotlight made from many waves</text>
+  <text x="58" y="93" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#536076">Kₙ(x) = (1/N)|1 + eⁱˣ + … + eⁱ⁽ᴺ⁻¹⁾ˣ|² is never negative and focuses near x = 0.</text>
+
+  <g filter="url(#fourier-spotlight-shadow)">
+    <rect x="58" y="132" width="260" height="260" rx="25" fill="#172033" />
+  </g>
+  <text x="188" y="171" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#ffd777">ALIGN THE ARROWS</text>
+  <circle cx="188" cy="264" r="68" fill="none" stroke="#6f8fcc" stroke-width="2" opacity="0.5" />
+  <g class="fs-ray" stroke="#ffd777" stroke-width="4" stroke-linecap="round">
+    <path d="M188 264 L188 188" />
+    <path d="M188 264 L242 210" />
+    <path d="M188 264 L264 264" />
+    <path d="M188 264 L242 318" />
+    <path d="M188 264 L188 340" />
+    <path d="M188 264 L134 318" />
+    <path d="M188 264 L112 264" />
+    <path d="M188 264 L134 210" />
+  </g>
+  <circle cx="188" cy="264" r="7" fill="#ffffff" />
+  <text x="188" y="365" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" fill="#dce6f7">At the target, every note agrees.</text>
+
+  <g filter="url(#fourier-spotlight-shadow)">
+    <rect x="350" y="132" width="552" height="260" rx="25" fill="#ffffff" stroke="#8aaad7" stroke-width="2" />
+  </g>
+  <text x="376" y="171" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#315f9e">KERNEL HEIGHT</text>
+  <line x1="400" y1="347" x2="860" y2="347" stroke="#536076" stroke-width="2" />
+  <line x1="630" y1="202" x2="630" y2="365" stroke="#d9cdbd" stroke-width="2" stroke-dasharray="5 7" />
+  <text x="630" y="382" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#536076">target x = 0</text>
+  <path class="fs-curve" d="M400 346 C458 344 493 342 526 338 C556 334 579 324 597 295 C611 270 620 233 630 206 C640 233 649 270 663 295 C681 324 704 334 734 338 C767 342 802 344 860 346" stroke="#d09a34" stroke-width="4" />
+  <path class="fs-curve" d="M400 346 C480 345 532 343 570 338 C599 334 616 322 630 301 C644 322 661 334 690 338 C728 343 780 345 860 346" stroke="#5f78bd" stroke-width="4" opacity="0.72" />
+  <text x="810" y="214" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#80530c">large N</text>
+  <text x="810" y="239" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#4f629c">small N</text>
+
+  <rect x="174" y="430" width="612" height="46" rx="16" fill="#edf8f1" stroke="#62aa82" stroke-width="2" />
+  <text x="480" y="459" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" font-weight="800" fill="#24704a">Square the magnitude for positivity. Add more aligned notes for concentration.</text>
+</svg>

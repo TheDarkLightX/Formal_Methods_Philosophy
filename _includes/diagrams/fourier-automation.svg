@@ -1,0 +1,81 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 520" role="img" aria-labelledby="fourier-automation-title fourier-automation-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="fourier-automation-title">Automated Fourier function engineering</title>
+  <desc id="fourier-automation-desc">A program receives a proof goal, chooses a finite wave basis, solves coefficient constraints, reconstructs a candidate function, and sends a certificate to an independent checker. Numerical samples are marked as evidence but not a complete proof.</desc>
+  <defs>
+    <filter id="fourier-automation-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#172033" flood-opacity="0.13" />
+    </filter>
+    <marker id="fourier-automation-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#263650" />
+    </marker>
+  </defs>
+  <style>
+    .fa-route { fill: none; stroke: #263650; stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 8 10; animation: fa-route 1.2s linear 0.4s 1 both; }
+    .fa-card { transform-box: fill-box; transform-origin: center; animation: fa-card 0.55s ease-out 0.2s 1 both; }
+    .fa-card-2 { animation-delay: 0.55s; }
+    .fa-card-3 { animation-delay: 0.9s; }
+    .fa-card-4 { animation-delay: 1.25s; }
+    .fa-card-5 { animation-delay: 1.6s; }
+    @keyframes fa-route { from { stroke-dashoffset: 36; opacity: 0.2; } to { stroke-dashoffset: 0; opacity: 1; } }
+    @keyframes fa-card { from { transform: translateY(8px); opacity: 0.35; } to { transform: translateY(0); opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) {
+      .fa-route, .fa-card { animation: none; }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="480" rx="34" fill="#f8fbff" stroke="#cad7e8" stroke-width="2" />
+  <text x="58" y="66" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="24" font-weight="800" fill="#172033">Can a program design the proof function?</text>
+  <text x="58" y="93" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#536076">Yes, inside a declared search space. The final certificate still needs an independent check.</text>
+
+  <g class="fa-card" filter="url(#fourier-automation-shadow)">
+    <rect x="52" y="142" width="142" height="120" rx="20" fill="#172033" />
+  </g>
+  <text x="123" y="176" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" font-weight="800" fill="#ffd777">GOAL</text>
+  <text x="123" y="211" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#ffffff">detect multiples</text>
+  <text x="123" y="233" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#ffffff">of q</text>
+
+  <g class="fa-card fa-card-2" filter="url(#fourier-automation-shadow)">
+    <rect x="222" y="142" width="142" height="120" rx="20" fill="#ffffff" stroke="#8aaad7" stroke-width="2" />
+  </g>
+  <text x="293" y="176" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" font-weight="800" fill="#315f9e">BASIS</text>
+  <text x="293" y="211" text-anchor="middle" font-family="Georgia, serif" font-size="17" fill="#172033">1, cos(kx),</text>
+  <text x="293" y="235" text-anchor="middle" font-family="Georgia, serif" font-size="17" fill="#172033">sin(kx)</text>
+
+  <g class="fa-card fa-card-3" filter="url(#fourier-automation-shadow)">
+    <rect x="392" y="142" width="142" height="120" rx="20" fill="#fff7dc" stroke="#d7a43d" stroke-width="2" />
+  </g>
+  <text x="463" y="176" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" font-weight="800" fill="#80530c">CONSTRAINTS</text>
+  <text x="463" y="211" text-anchor="middle" font-family="Georgia, serif" font-size="17" fill="#172033">align here</text>
+  <text x="463" y="235" text-anchor="middle" font-family="Georgia, serif" font-size="17" fill="#172033">cancel there</text>
+
+  <g class="fa-card fa-card-4" filter="url(#fourier-automation-shadow)">
+    <rect x="562" y="142" width="142" height="120" rx="20" fill="#eff0ff" stroke="#7477bd" stroke-width="2" />
+  </g>
+  <text x="633" y="176" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" font-weight="800" fill="#4f5296">SOLVER</text>
+  <text x="633" y="211" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#172033">find coefficients</text>
+  <text x="633" y="235" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#172033">a₀, a₁, …</text>
+
+  <g class="fa-card fa-card-5" filter="url(#fourier-automation-shadow)">
+    <rect x="732" y="142" width="176" height="120" rx="20" fill="#edf8f1" stroke="#62aa82" stroke-width="2" />
+  </g>
+  <text x="820" y="176" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" font-weight="800" fill="#24704a">CHECKER</text>
+  <text x="820" y="211" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#172033">replay identities</text>
+  <text x="820" y="235" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#172033">accept certificate</text>
+
+  <path class="fa-route" d="M194 202 H218" marker-end="url(#fourier-automation-arrow)" />
+  <path class="fa-route" d="M364 202 H388" marker-end="url(#fourier-automation-arrow)" />
+  <path class="fa-route" d="M534 202 H558" marker-end="url(#fourier-automation-arrow)" />
+  <path class="fa-route" d="M704 202 H728" marker-end="url(#fourier-automation-arrow)" />
+
+  <rect x="92" y="315" width="776" height="104" rx="22" fill="#ffffff" stroke="#d9cdbd" stroke-width="2" />
+  <text x="122" y="350" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#536076">AUTOMATION HAS LEVELS</text>
+  <text x="122" y="380" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#24704a">finite exact search</text>
+  <text x="350" y="380" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#315f9e">symbolic identities</text>
+  <text x="570" y="380" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="14" fill="#80530c">interval bounds</text>
+  <text x="122" y="400" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#536076">can be fully checked</text>
+  <text x="350" y="400" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#536076">can certify algebraic steps</text>
+  <text x="570" y="400" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="12" fill="#536076">can bound continuous error</text>
+
+  <rect x="174" y="444" width="612" height="38" rx="14" fill="#fff1e9" stroke="#db765f" stroke-width="2" />
+  <text x="480" y="469" text-anchor="middle" font-family="Atkinson Hyperlegible, system-ui, sans-serif" font-size="13" font-weight="800" fill="#9b4032">many numerical samples are evidence, not a proof of every real input</text>
+</svg>
