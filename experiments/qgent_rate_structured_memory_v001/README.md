@@ -30,17 +30,20 @@ From the repository root:
     python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_feature_probe.py
     python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_replication.py
     python3 experiments/qgent_rate_structured_memory_v001/pca_quadratic_scaling.py
+    python3 experiments/qgent_rate_structured_memory_v001/signal_ladder_memory.py
     PYTHONPATH=. pytest -q experiments/qgent_rate_structured_memory_v001/test_rate_structured_memory.py
 
 The runner writes:
 
     assets/downloads/qgent-decision-quotient-q-v1.qdq
     assets/downloads/qgent-pca-quadratic-feature-model-v1.json
+    assets/downloads/qgent-signal-ladder-q-v1.slq
     experiments/qgent_rate_structured_memory_v001/results/qgent_rate_structured_memory_v001.report.json
     experiments/qgent_rate_structured_memory_v001/results/qgent_centroid_feature_probe_v001.report.json
     experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_feature_probe_v001.report.json
     experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_replication_v001.report.json
     experiments/qgent_rate_structured_memory_v001/results/qgent_pca_quadratic_scaling_v001.report.json
+    experiments/qgent_rate_structured_memory_v001/results/qgent_signal_ladder_v001.report.json
 
 ## Negative result
 
@@ -132,3 +135,30 @@ Tau-gated demo. The primary learning claim is limited to disjoint seeds from
 the same bounded synthetic generator. The population-shift claim is limited to
 the one preregistered population profile family. The failed fixed-capacity
 scaling claim is preserved rather than repaired on its consumed test block.
+
+## Signal-Ladder exact lookup result
+
+The Signal-Ladder experiment returns to a literal lookup-table architecture.
+Each row's admissible actions are sorted by exact compiled score. The first
+rank layer stores the winner. Each later rank layer stores the next action and
+its exact adjacent score gap. A final calibration layer stores the row maximum.
+
+The complete artifact passed every frozen engineering gate:
+
+- an 8,365-byte prefix recovers all 27,000 winning actions exactly;
+- a 58,267-byte prefix recovers every winner, runner-up, and exact decision
+  margin;
+- the 348,692-byte full artifact reconstructs every permitted score and
+  forbidden cell exactly;
+- duplicate builds were byte-identical;
+- wrong-source, wrong-magic, and corrupt-stream mutations were rejected.
+
+The full artifact is larger than the 114,690-byte strong monolithic lossless
+payload and the 102,799-byte approximate decision-quotient artifact. Its
+benefit is progressive exact access, not total compressed size. The 1,458-byte
+policy-only payload is smaller than the first Signal-Ladder prefix because it
+does not carry a self-describing header or any path to deeper exact values.
+
+The 60,000-byte top-two threshold was chosen after an exploratory stream-size
+probe. The final result is therefore a checked engineering confirmation, not a
+fresh statistical discovery or a novelty claim.

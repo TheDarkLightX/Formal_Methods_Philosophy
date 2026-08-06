@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import re
+import struct
 from pathlib import Path
 
 import numpy as np
@@ -14,9 +16,20 @@ from experiments.qgent_rate_structured_memory_v001.rate_structured_memory import
     ArtifactError,
     build_artifact,
     build_experiment,
+    canonical_json_bytes,
     decode_artifact,
     greedy_actions,
     sha256_bytes,
+)
+from experiments.qgent_rate_structured_memory_v001.signal_ladder_memory import (
+    SignalLadderError,
+    decode_rank_prefix,
+)
+from experiments.qgent_rate_structured_memory_v001.signal_ladder_memory import (
+    build_artifact as build_signal_ladder,
+)
+from experiments.qgent_rate_structured_memory_v001.signal_ladder_memory import (
+    decode_full_table as decode_signal_ladder,
 )
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -73,6 +86,71 @@ def test_corrupt_artifact_fails_closed() -> None:
         decode_artifact(bytes(artifact), expected_source_sha256=source_hash)
 
 
+def test_signal_ladder_prefix_and_full_decode_are_exact() -> None:
+    source = tiny_table()
+    source_hash = sha256_bytes(source.tobytes())
+    artifact, layout = build_signal_ladder(
+        source,
+        sentinel=SENTINEL,
+        source_sha256=source_hash,
+    )
+    actions, gaps, active, _ = decode_rank_prefix(
+        artifact,
+        depth=2,
+        expected_source_sha256=source_hash,
+    )
+    rebuilt, _ = decode_signal_ladder(
+        artifact,
+        expected_source_sha256=source_hash,
+    )
+    assert np.array_equal(rebuilt, source)
+    assert actions[0].tolist() == [0, 1]
+    assert gaps[0].tolist() == [0, 3]
+    assert actions[1].tolist() == [0, 1]
+    assert gaps[1].tolist() == [0, 0]
+    assert active[:, 0].all()
+    assert layout["rank_prefix_file_bytes"][0] < len(artifact)
+
+    corrupted = bytearray(artifact)
+    corrupted[-1] ^= 1
+    with pytest.raises(SignalLadderError):
+        decode_signal_ladder(
+            bytes(corrupted),
+            expected_source_sha256=source_hash,
+        )
+    with pytest.raises(SignalLadderError):
+        decode_signal_ladder(
+            artifact,
+            expected_source_sha256="0" * 64,
+        )
+
+
+def test_signal_ladder_rejects_canonical_semantic_header_mutation() -> None:
+    source = tiny_table()
+    source_hash = sha256_bytes(source.tobytes())
+    artifact, _ = build_signal_ladder(
+        source,
+        sentinel=SENTINEL,
+        source_sha256=source_hash,
+    )
+    header_length = struct.unpack("<I", artifact[4:8])[0]
+    body_start = 8 + header_length
+    header = json.loads(artifact[8:body_start])
+    header["row_count"] += 1
+    header_bytes = canonical_json_bytes(header)
+    mutated = (
+        artifact[:4]
+        + struct.pack("<I", len(header_bytes))
+        + header_bytes
+        + artifact[body_start:]
+    )
+    with pytest.raises(SignalLadderError, match="row count"):
+        decode_signal_ladder(
+            mutated,
+            expected_source_sha256=source_hash,
+        )
+
+
 def test_full_experiment_beats_strong_lossless_control() -> None:
     artifact, report = build_experiment()
     selected = report["selected"]
@@ -101,6 +179,41 @@ def test_published_report_and_artifact_match_when_present() -> None:
     artifact = artifact_path.read_bytes()
     assert sha256_bytes(artifact) == report["selected"]["sha256"]
     assert len(artifact) == report["selected"]["artifact_bytes"]
+    assert report["acceptance"]["experiment_accepted"] is True
+
+
+def test_published_signal_ladder_is_exact_and_source_bound() -> None:
+    artifact_path = ROOT / "assets/downloads/qgent-signal-ladder-q-v1.slq"
+    report_path = (
+        ROOT
+        / "experiments/qgent_rate_structured_memory_v001/results"
+        / "qgent_signal_ladder_v001.report.json"
+    )
+    source_path = ROOT / "assets/data/qgent_utilitarian_energy_100_v1.qtable"
+    source_report_path = (
+        ROOT / "assets/data/qgent_utilitarian_energy_100_v1.report.json"
+    )
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    source_report = json.loads(source_report_path.read_text(encoding="utf-8"))
+    source_hash = source_report["compiled_q_table"]["sha256"]
+    source_shape = tuple(source_report["compiled_q_table"]["shape"])
+    source = np.frombuffer(source_path.read_bytes(), dtype="<i4").reshape(
+        source_shape
+    )
+    artifact = artifact_path.read_bytes()
+    rebuilt, _ = decode_signal_ladder(
+        artifact,
+        expected_source_sha256=source_hash,
+    )
+    assert np.array_equal(rebuilt, source)
+    assert sha256_bytes(artifact) == report["artifact"]["sha256"]
+    assert len(artifact) == report["artifact"]["bytes"] == 348_692
+    assert report["artifact"]["top_one_prefix_bytes"] == 8_365
+    assert report["artifact"]["top_two_prefix_bytes"] == 58_267
+    assert report["fidelity"]["winner_mismatches"] == 0
+    assert report["fidelity"]["best_to_runner_up_gap_mismatches"] == 0
+    assert report["fidelity"]["full_permitted_score_mismatches"] == 0
+    assert report["mutations"]["semantic_header_rejected"] is True
     assert report["acceptance"]["experiment_accepted"] is True
 
 
@@ -308,7 +421,9 @@ def test_tutorial_uses_scoped_measured_claims_and_public_paths() -> None:
     assert "Lossless relative to a question" in tutorial
     assert "Paired outcomes were 53 wins, 34 losses" in tutorial
     assert "knowledge-scaling claim is nevertheless refuted" in tutorial
+    assert "Signal-Ladder Q memory" in tutorial
+    assert "58,267" in tutorial
+    assert "progressive exact access" in tutorial
     assert "does not improve the learned policy or" in tutorial
-    assert "/home/" not in tutorial
-    assert "/tmp/" not in tutorial
-    assert "trevormoc" not in tutorial
+    assert re.search(r"/(?:home|Users)/[^/\s]+/", tutorial) is None
+    assert str(Path("/", "tmp")) + "/" not in tutorial

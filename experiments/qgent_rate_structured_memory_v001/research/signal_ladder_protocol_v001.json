@@ -1,0 +1,35 @@
+{
+  "schema": "qgent-signal-ladder-protocol-v1",
+  "frozen_on": "2026-08-06",
+  "status": "ENGINEERING_GATE_FROZEN_AFTER_EXPLORATORY_SIZE_PROBE",
+  "source_sha256": "0ee3c397a951be99ac3d58ce4f7c0efd47120da73ab9948edb1ac87a980dd003",
+  "question": "Can a literal Q table be arranged as progressive exact lookup layers so a consumer pays first for the decision signal it actually asks for?",
+  "layers": [
+    "layer 1: exact best admissible action",
+    "layer 2: exact runner-up action and exact best-to-runner-up score gap",
+    "layers 3 through 9: each next action and adjacent exact score gap",
+    "final calibration layer: exact maximum Q value for full absolute reconstruction"
+  ],
+  "acceptance": {
+    "winner": "zero mismatches across all 27000 rows",
+    "top_two": "zero runner-up or best-to-runner-up gap mismatches on every row with at least two admissible actions",
+    "full_table": "zero permitted-score or forbidden-mask mismatches after loading every layer",
+    "top_two_prefix_bytes": "complete header plus required streams must not exceed 60000 bytes",
+    "full_artifact_bytes": "must not exceed 524288 bytes",
+    "determinism": "two builds must be byte-identical",
+    "fail_closed": "wrong source, wrong magic, and corrupted stream must be rejected"
+  },
+  "controls": [
+    "policy-only compressed action payload",
+    "decision-quotient approximate Q artifact",
+    "strong structure-aware lossless Q payload"
+  ],
+  "exploratory_disclosure": "The 60000-byte top-two threshold follows an exploratory in-memory stream-size probe. It is an engineering acceptance limit, not a fresh statistical discovery threshold.",
+  "nonclaims": [
+    "A top-k prefix does not preserve lower-ranked alternatives or absolute return.",
+    "Only the complete artifact reconstructs the full source table exactly.",
+    "Progressive access trades a larger full artifact for smaller task-specific prefixes.",
+    "The representation does not improve the source policy or add learned knowledge.",
+    "The result is specific to this compiled synthetic table and implemented controls."
+  ]
+}
