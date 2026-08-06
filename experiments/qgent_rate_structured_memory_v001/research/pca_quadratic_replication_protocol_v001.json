@@ -1,0 +1,72 @@
+{
+  "schema": "qgent-pca-quadratic-preregistered-replication-protocol-v1",
+  "frozen_on": "2026-08-06",
+  "status": "PREREGISTERED_BEFORE_EVALUATION",
+  "claim": "The frozen rank-10 PCA-quadratic model improves mean and minimum optimal-utility ratio and mean gain over myopic relative to both frozen linear controls on a new 80-world default-generator block, with zero forbidden selections.",
+  "candidate": {
+    "base_feature_count": 34,
+    "quadratic_feature_count": 55,
+    "feature_count": 89,
+    "pca_rank": 10,
+    "training_worlds": 32,
+    "training_seeds": {
+      "first": 410000,
+      "last": 410031,
+      "count": 32
+    },
+    "content_sha256": "0b3eb747c1582fbfa4ba332c3aea108da4fd9f956a630097d59f9422027e9c48",
+    "published_file_sha256": "68c264f7017d484f4bd3757313466be9be6741ed6996ffe30849c47c51a9f82c"
+  },
+  "controls": [
+    "frozen 16-world, 34-feature linear model",
+    "equal-data 32-world, 34-feature linear model"
+  ],
+  "primary_block": {
+    "generator": "unchanged default synthetic energy-world generator",
+    "seeds": {
+      "first": 910000,
+      "last": 910079,
+      "count": 80
+    },
+    "prior_use": "none known; block is frozen for this one evaluation"
+  },
+  "population_shift_block": {
+    "role": "independent secondary stress claim, not part of the primary gate",
+    "seeds": {
+      "first": 920000,
+      "last": 920039,
+      "count": 40
+    },
+    "population_profiles": "all four cyclic rotations of [1, 1, 8, 12], selected by seed offset modulo four",
+    "training_population_range": "each population was between 2 and 6",
+    "prior_use": "none known; block is frozen for this one evaluation"
+  },
+  "primary_metrics": [
+    "mean optimal-utility ratio",
+    "minimum optimal-utility ratio",
+    "mean gain over myopic",
+    "forbidden selections"
+  ],
+  "primary_gate": {
+    "mean_optimal_utility_ratio": "candidate must be strictly greater than each control",
+    "minimum_optimal_utility_ratio": "candidate must be no lower than each control",
+    "mean_gain_over_myopic": "candidate must be strictly greater than each control",
+    "forbidden_selections": "candidate must equal zero"
+  },
+  "secondary_gate": "The population-shift claim uses the same comparisons but is reported independently from the primary result.",
+  "diagnostics_not_used_for_selection": [
+    "exact-action agreement",
+    "paired utility wins, ties, and losses",
+    "two-sided exact sign-test p-value",
+    "paired mean, median, minimum, and maximum utility delta"
+  ],
+  "falsifier": "Either claim is refuted if its candidate fails any gate against either control. A completed negative result is evidence, not a runner failure.",
+  "anti_tuning_rule": "No candidate ranks, features, training worlds, thresholds, controls, seed ranges, or population profiles may change after evaluation begins. Any procedural repair must be recorded as an amendment and cannot restore freshness to an observed block.",
+  "nonclaims": [
+    "The primary block tests only more seeds from the same bounded generator.",
+    "The population shift changes one declared generator factor and is not broad distributional robustness.",
+    "Synthetic utility is not evidence of real-world welfare or morality.",
+    "A positive result would not establish unrestricted generalization or general intelligence.",
+    "The experimental floating-point model is not the deployed Tau-gated Qgent."
+  ]
+}
