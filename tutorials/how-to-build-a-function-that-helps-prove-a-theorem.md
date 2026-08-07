@@ -232,6 +232,21 @@ inverse Fourier transform  put the notes back together
 
 For a periodic function, the integral becomes a list of discrete notes. For a finite sum, the reconstruction is an exact identity. For an infinite series or an integral transform, an inversion theorem with stated hypotheses must be supplied. The displayed formulas are not valid for every imaginable function without qualification.
 
+<figure class="fp-figure">
+  <p class="fp-figure-title">A geometric map of the forward transform</p>
+  <img
+    class="fp-illustration"
+    src="{{ '/assets/images/fourier/continuous-transform-geometry.webp' | relative_url }}"
+    alt="An irregular waveform flows into equal phasor circles with arrows at different angles, then into a vertical frequency spectrum."
+    width="1800"
+    height="900"
+    loading="lazy"
+    decoding="async">
+  <figcaption class="fp-figure-caption">
+    The left curve represents <code>f(x)</code>. The equal circles are snapshots of complex test rotations, and the spikes represent frequency contributions in <code>f̂(ξ)</code>. This is a conceptual map, not the numerical transform of the particular curve shown. Frequency is a rotation rate across <code>x</code>, not merely one arrow angle.
+  </figcaption>
+</figure>
+
 ## The Secret of the Dual Worlds
 
 > **The ultimate magic trick**
@@ -587,6 +602,14 @@ Here <code>δ</code> is read “delta,” <code>ω</code> is read “omega,” a
 **Story reading:**
 
 > “Spin the <code>q</code> test arrows according to <code>n</code>, add them, and divide by <code>q</code>.”
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Watch vector addition produce a signal or zero</p>
+  {% include diagrams/fourier-character-cancellation-geometry.svg %}
+  <figcaption class="fp-figure-caption">
+    The moving dots trace the partial sums in a <code>q=8</code> example. Alignment finishes far from the start. Eight evenly spaced directions close an octagon and return to zero. The octagon is the coprime case. A nonmatching <code>n</code> that shares a factor with <code>8</code> repeats a smaller closed polygon instead, and still sums to zero. With reduced motion enabled, the same conclusion remains visible in the static arrows.
+  </figcaption>
+</figure>
 
 ### First round: every arrow agrees
 
@@ -1267,6 +1290,21 @@ $$
 > “u of x comma t equals the integral from minus infinity to infinity of G sub t of y times u sub zero of x minus y, d y.”
 
 This integral is called **convolution**.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">Each source places a shifted Gaussian, then the copies add</p>
+  <img
+    class="fp-illustration"
+    src="{{ '/assets/images/fourier/gaussian-convolution-geometry.webp' | relative_url }}"
+    alt="Five positive source stems share one axis with five centered Gaussian curves and their smooth dark sum."
+    width="1800"
+    height="990"
+    loading="lazy"
+    decoding="async">
+  <figcaption class="fp-figure-caption">
+    This picture shows the special case where <code>u₀</code> is five nonnegative weighted point sources. Each colored bell is a translated copy of the same Gaussian, scaled by its source height. The dark curve is their sum. A general <code>u₀</code> may be continuous or signed, so the integral replaces this finite positive sum.
+  </figcaption>
+</figure>
 
 ### The Glow Stamp game
 

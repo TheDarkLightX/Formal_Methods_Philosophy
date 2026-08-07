@@ -1,0 +1,69 @@
+<svg class="fp-diagram" data-math-motion="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="character-cancellation-title character-cancellation-desc">
+  <title id="character-cancellation-title">Aligned vectors add, evenly spaced vectors cancel</title>
+  <desc id="character-cancellation-desc">A moving blue point traverses eight equal vectors that all point right and finish far from the start. A moving orange point traverses eight equal vectors forming a regular octagon and returns to the start.</desc>
+  <defs>
+    <marker id="blue-arrowhead" markerWidth="3.2" markerHeight="3.2" refX="2.45" refY="1.6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L3.2,1.6 L0,3.2 Z" fill="#2563a9"/>
+    </marker>
+    <marker id="orange-arrowhead" markerWidth="3.2" markerHeight="3.2" refX="2.45" refY="1.6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L3.2,1.6 L0,3.2 Z" fill="#d86f1d"/>
+    </marker>
+    <filter id="motion-glow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <style>
+      .title { font: 700 30px Atkinson Hyperlegible, ui-sans-serif, system-ui, sans-serif; fill: #172033; }
+      .label { font: 700 21px Atkinson Hyperlegible, ui-sans-serif, system-ui, sans-serif; fill: #334155; }
+      .note { font: 500 18px Atkinson Hyperlegible, ui-sans-serif, system-ui, sans-serif; fill: #64748b; }
+      .blue { stroke: #2563a9; stroke-width: 7; stroke-linecap: round; marker-end: url(#blue-arrowhead); }
+      .orange { stroke: #d86f1d; stroke-width: 7; stroke-linecap: round; marker-end: url(#orange-arrowhead); }
+      .result-pulse { transform-box: fill-box; transform-origin: center; animation: result-pulse 7s ease-in-out infinite; }
+      .zero-pulse { transform-box: fill-box; transform-origin: center; animation: zero-pulse 7s ease-in-out infinite; }
+      @keyframes result-pulse { 0%, 74%, 100% { opacity: .25; transform: scale(.8); } 88% { opacity: 1; transform: scale(1.35); } }
+      @keyframes zero-pulse { 0%, 74%, 100% { opacity: .35; transform: scale(.9); } 88% { opacity: 1; transform: scale(1.45); } }
+      @media (prefers-reduced-motion: reduce) {
+        .motion-dot { display: none; }
+        .result-pulse, .zero-pulse { animation: none; opacity: 1; transform: none; }
+      }
+    </style>
+    <path id="aligned-motion-path" d="M168 225 H936"/>
+    <path id="closed-motion-path" d="M600 395 L688.388 431.612 L725 520 L688.388 608.388 L600 645 L511.612 608.388 L475 520 L511.612 431.612 Z"/>
+  </defs>
+
+  <rect x="1" y="1" width="1198" height="698" rx="30" fill="#fffaf0" stroke="#dbe4ef" stroke-width="2"/>
+  <text x="60" y="62" class="title">The geometry behind character cancellation</text>
+
+  <text x="82" y="124" class="label">Same direction</text>
+  <text x="82" y="154" class="note">Eight equal vectors make a long nonzero total.</text>
+  <circle cx="168" cy="225" r="9" fill="#172033"/>
+  <line x1="168" y1="225" x2="264" y2="225" class="blue"/>
+  <line x1="264" y1="225" x2="360" y2="225" class="blue"/>
+  <line x1="360" y1="225" x2="456" y2="225" class="blue"/>
+  <line x1="456" y1="225" x2="552" y2="225" class="blue"/>
+  <line x1="552" y1="225" x2="648" y2="225" class="blue"/>
+  <line x1="648" y1="225" x2="744" y2="225" class="blue"/>
+  <line x1="744" y1="225" x2="840" y2="225" class="blue"/>
+  <line x1="840" y1="225" x2="936" y2="225" class="blue"/>
+  <circle class="result-pulse" cx="936" cy="225" r="11" fill="#2563a9" filter="url(#motion-glow)"/>
+  <circle class="motion-dot" r="9" fill="#7dd3fc" stroke="#0c4a6e" stroke-width="3" filter="url(#motion-glow)">
+    <animateMotion dur="7s" repeatCount="indefinite" calcMode="linear"><mpath href="#aligned-motion-path"/></animateMotion>
+  </circle>
+
+  <line x1="60" y1="292" x2="1140" y2="292" stroke="#dbe4ef" stroke-width="2"/>
+
+  <text x="82" y="344" class="label">One complete turn</text>
+  <text x="82" y="374" class="note">Eight equal directions close the polygon, so the total is zero.</text>
+  <line x1="600" y1="395" x2="688.388" y2="431.612" class="orange"/>
+  <line x1="688.388" y1="431.612" x2="725" y2="520" class="orange"/>
+  <line x1="725" y1="520" x2="688.388" y2="608.388" class="orange"/>
+  <line x1="688.388" y1="608.388" x2="600" y2="645" class="orange"/>
+  <line x1="600" y1="645" x2="511.612" y2="608.388" class="orange"/>
+  <line x1="511.612" y1="608.388" x2="475" y2="520" class="orange"/>
+  <line x1="475" y1="520" x2="511.612" y2="431.612" class="orange"/>
+  <line x1="511.612" y1="431.612" x2="600" y2="395" class="orange"/>
+  <circle class="zero-pulse" cx="600" cy="395" r="11" fill="#d86f1d" filter="url(#motion-glow)"/>
+  <circle class="motion-dot" r="9" fill="#fdba74" stroke="#7c2d12" stroke-width="3" filter="url(#motion-glow)">
+    <animateMotion dur="7s" repeatCount="indefinite" calcMode="linear"><mpath href="#closed-motion-path"/></animateMotion>
+  </circle>
+</svg>

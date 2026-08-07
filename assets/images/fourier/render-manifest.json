@@ -1,0 +1,23 @@
+{
+  "schema_version": "1",
+  "generated_on": "2026-08-07",
+  "generator_mode": "OpenAI built-in image generation",
+  "assets": [
+    {
+      "file": "continuous-transform-geometry.webp",
+      "use_case": "scientific-educational",
+      "final_prompt": "Edit the previous scientific Fourier-transform illustration. Preserve the wide ivory composition, the irregular black waveform at left, the arrows showing left-to-right flow, and the vertical frequency spectrum at right. Change only the central geometric frequency-testing region: every phasor circle must have exactly the same diameter, every radial arrow must have exactly the same length, and the circles must be arranged in a clean orderly arc or grid rather than shrinking into a spiral. The arrows may point at different angles. Keep the illustration precise, sparse, flat, and textbook-like. No text, letters, numbers, equations, musical notes, logos, or watermark.",
+      "claim_boundary": "Conceptual map only. It is not a numerical transform of the displayed waveform, and an arrow angle is not itself a frequency."
+    },
+    {
+      "file": "gaussian-convolution-geometry.webp",
+      "use_case": "scientific-educational",
+      "final_prompt": "Edit the previous convolution illustration into one mathematically faithful shared-coordinate diagram. Preserve the warm ivory background, muted blue, orange, green, and charcoal palette, flat textbook style, smooth Gaussian curves, and no text. Remove the separate left, middle, and right stages and remove all flow arrows. Use one wide horizontal baseline across the image. Place exactly five source impulse stems at five different horizontal positions on that baseline. Draw one translucent symmetric Gaussian bell curve centered directly above each corresponding source position, with its height scaled to that source stem. Overlay one thick dark smooth resultant curve equal in visual shape to the sum of the five component bells. Use faint vertical guides to make each source center and bell center visibly align. No words, letters, numbers, equations, icons, logos, or watermark.",
+      "claim_boundary": "Illustrates a finite nonnegative point-source case. General convolution may use continuous or signed input."
+    }
+  ],
+  "deterministic_companion": {
+    "file": "../../../_includes/diagrams/fourier-character-cancellation-geometry.svg",
+    "reason": "Exact vector counts and polygon closure were implemented as SVG because generated raster drafts did not reliably preserve discrete arithmetic."
+  }
+}
