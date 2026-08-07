@@ -1,0 +1,4 @@
+interface:
+  display_name: "Story-Rule Math Metaphors"
+  short_description: "Build faithful, playable math metaphors"
+  default_prompt: "Use $design-story-rule-math-metaphors to explain this mathematical concept as a precise story-game."

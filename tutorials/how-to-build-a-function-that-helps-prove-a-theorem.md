@@ -190,11 +190,110 @@ inverse Fourier transform  put the notes back together
 
 For a periodic function, the integral becomes a list of discrete notes. For a finite sum, the reconstruction is an exact identity. For an infinite series or an integral transform, an inversion theorem with stated hypotheses must be supplied. The displayed formulas are not valid for every imaginable function without qualification.
 
-## The first proof tool is a detector
+## The Secret of the Dual Worlds
 
-The teacher draws a lamp.
+> **The ultimate magic trick**
+>
+> Most people first meet mathematics in one world: the **Shape World**, also called the spatial domain. A graph appears, and its bumps, dips, edges, and curves are studied directly.
+>
+> Fourier analysis opens a second description: the **Recipe World**, also called the frequency domain. Instead of recording the finished shape point by point, it records which waves make the shape and how strongly each wave contributes.
+>
+> Here is the secret mathematicians use on problems that seem impossible in the Shape World:
+>
+> **Some problems that are extremely difficult in the Shape World become simple operations in the Recipe World.**
 
-“Suppose we want to find objects with property <code>P</code>. We can build a detector.”
+The two worlds describe the same mathematical object in different coordinates:
+
+~~~text
+Shape World                         Recipe World
+
+f(x)                               f̂(ξ)
+bumps, edges, and locations   ↔     frequencies, strengths, and phases
+finished object                    construction recipe
+~~~
+
+An exact wave recipe needs more than an ingredient list:
+
+~~~text
+frequency     which wave
+magnitude     how strongly it appears
+phase         where its cycle starts
+~~~
+
+If phase is discarded, different shapes can share the same frequency magnitudes. The return trip is then not generally exact. The full Fourier transform keeps the complex information needed for reconstruction under the stated inversion assumptions.
+
+### The workflow of a genius
+
+1. Take the difficult shape.
+2. Teleport it to the Recipe World with the Fourier transform.
+3. Perform an easier operation there, such as turning down the high-frequency dial.
+4. Teleport the result back with the inverse Fourier transform.
+5. Read the solution in the Shape World.
+
+~~~text
+🌊 difficult shape
+        ↓ Fourier transform
+🎚️ frequency recipe
+        ↓ easy frequency operation
+🎵 modified recipe
+        ↓ inverse Fourier transform
+✨ useful new shape
+~~~
+
+For example, differentiation is a complicated local operation on a shape, but in the Recipe World it becomes multiplication by <code>iξ</code>:
+
+$$
+\frac{d}{dx}f(x)
+\quad\longleftrightarrow\quad
+i\xi\widehat f(\xi).
+$$
+
+Smoothing can become another simple dial:
+
+$$
+\widehat g(\xi)
+=
+m(\xi)\widehat f(\xi),
+$$
+
+where <code>m(ξ)</code> is chosen to weaken high frequencies.
+
+The “teleportation” language is a metaphor. Nothing leaves the mathematical problem. The representation changes. Also, deleting frequencies loses information, so that operation is appropriate for smoothing but not for every theorem. Here “impossible” means difficult in the original representation, not logically impossible.
+
+## The helper function: the Magic Color Gate
+
+The teacher rolls a bucket of mixed Lego bricks into the room.
+
+“There are one thousand bricks in here. How many are red?”
+
+Ana reaches into the bucket. “We could inspect them one at a time.”
+
+“Yes,” says Malik, “but we are supposed to be inventors.”
+
+Together they build a conveyor belt with a color scanner and a jar of gold tokens. Every brick passes through the gate exactly once.
+
+### Rule card
+
+~~~text
+Rule 1: Inspect one brick at a time.
+
+Rule 2: If the brick is red, drop one token into the jar.
+
+Rule 3: If the brick is not red, drop zero tokens.
+
+Rule 4: After every brick passes, add the tokens.
+~~~
+
+The first five bricks are:
+
+~~~text
+red   blue   red   yellow   red
+ 1      0      1      0       1
+~~~
+
+“Three tokens,” says Ana. “So three of those bricks were red.”
+
+The gate is a **helper function**. It converts a property into a number. For any property <code>P</code>, define:
 
 $$
 \mathbf{1}_{P}(x)
@@ -205,7 +304,7 @@ $$
 \end{cases}
 $$
 
-The symbol <code>1_P</code> means “the indicator of <code>P</code>.” It is a mathematical light switch:
+The symbol <code>1_P</code> means “the indicator of <code>P</code>.” It is the mathematical version of the Color Gate:
 
 ~~~text
 property true   → 1 → light on
@@ -222,11 +321,42 @@ $$
 
 Every success contributes <code>1</code>. Every failure contributes <code>0</code>.
 
-The difficulty is that a detector can look jagged and unpleasant. Fourier analysis lets us build it from waves that agree on the wanted inputs and cancel on the unwanted inputs.
+The story pieces now have exact mathematical jobs:
 
-## The even-number lamp
+~~~text
+brick                 input x
+red-brick test         property P(x)
+token or no token      value 1 or 0
+tokens in the jar      sum of indicator values
+~~~
 
-I ask the class:
+Prediction round:
+
+> If one thousand bricks pass through exactly once and the jar contains 237 tokens, how many bricks passed the red-brick test?
+
+The answer is 237 because every successful test contributes exactly one token.
+
+The Color Gate assumes that the property test is correct and that every object passes exactly once. It packages the bookkeeping, but it does not automatically reduce the amount of computation. It also does not tell us how to construct a difficult test. That is the next problem. A Fourier detector builds such a gate from waves that agree on wanted inputs and cancel algebraically on unwanted inputs.
+
+## First game: build the even-number gate
+
+Ana points at the scanner. “Color is easy to see. Can the gate recognize an even number using only waves?”
+
+I give the class two scorecards.
+
+### Rule card
+
+~~~text
+Rule 1: The constant card always contributes +1.
+
+Rule 2: The alternating card contributes +1, −1, +1, −1, ...
+
+Rule 3: Add the two contributions and divide by 2.
+
+Rule 4: A final score of 1 opens the gate. A score of 0 closes it.
+~~~
+
+The challenge is:
 
 > “Can we build a lamp that turns on for even numbers and off for odd numbers?”
 
@@ -278,6 +408,12 @@ n:       0   1   2   3   4   5
 E(n):    1   0   1   0   1   0
 ~~~
 
+Prediction round:
+
+> What score will the gate produce for <code>n=12</code>? What about <code>n=13</code>?
+
+The rules predict <code>1</code> and <code>0</code>. Substitution into the formula verifies both answers.
+
 <figure class="fp-figure">
   <p class="fp-figure-title">Agreement becomes a detector</p>
   {% include diagrams/fourier-detector.svg %}
@@ -287,6 +423,8 @@ E(n):    1   0   1   0   1   0
 The first Fourier lesson is:
 
 > **Make waves agree where the helper should be large. Make waves cancel where the helper should vanish.**
+
+Here “cancel” means that the represented numbers add to zero. It does not claim that physical energy disappears.
 
 ## The lamp proves a counting theorem
 
@@ -333,15 +471,15 @@ $$
 
 The detector did not merely illustrate the answer. It converted the counting problem into a cancellation proof.
 
-## The clock with <code>q</code> seats
+## The Clock of Cancelling Arrows
 
-The class replaces the even-odd line with a clock:
+The class enters a room with a circular floor and <code>q</code> marked seats:
 
 ~~~text
 0 → 1 → 2 → ... → q−1 → 0
 ~~~
 
-Now the question is:
+At every seat lies a golden arrow of length one. The challenge is:
 
 > “Did <code>n</code> make a whole number of laps?”
 
@@ -351,7 +489,21 @@ $$
 n\equiv0\pmod q.
 $$
 
-To build the detector, place one arrow-step around a circle:
+### Rule card
+
+~~~text
+Rule 1: Every arrow has length 1.
+
+Rule 2: Multiplication by ω rotates an arrow by one q-seat step.
+
+Rule 3: Add arrows head to tail.
+
+Rule 4: A closed polygon has total arrow 0.
+
+Rule 5: Divide the final arrow sum by q.
+~~~
+
+One arrow-step around the circle is:
 
 $$
 \omega=e^{2\pi i/q}.
@@ -377,6 +529,22 @@ $$
 Child reading:
 
 > “Spin the <code>q</code> test arrows according to <code>n</code>, add them, and divide by <code>q</code>.”
+
+### First round: every arrow agrees
+
+Take <code>q=4</code> and <code>n=0</code>. Every arrow is <code>1</code>, so every arrow points right:
+
+~~~text
+→ + → + → + → = one arrow of length 4
+~~~
+
+After division by <code>4</code>, the score is <code>1</code>.
+
+### Prediction round: can the arrows close?
+
+Keep <code>q=4</code>, but take <code>n=1</code>. The arrows are <code>1,i,−1,−i</code>. Placed head to tail, they form a square and return to the starting point. The predicted score is <code>0</code>.
+
+Now try the boundary case <code>n=2</code>. The arrows are <code>1,−1,1,−1</code>. They trace a two-sided path twice rather than visiting four distinct directions, but they still cancel. This warns us not to assume that every nonmatching input visits every seat exactly once.
 
 ## Why the clock detector works
 
@@ -428,11 +596,15 @@ $$
 The arrows explain the same result visually:
 
 ~~~text
-whole lap       → → → → →     line up
-partial lap     ↗ ← ↙ → ↘     cancel
+q divides n       every arrow aligns                 sum q
+q does not divide n
+                  a nontrivial polygon closes,
+                  possibly after repeated smaller loops       sum 0
 ~~~
 
-The formal proof is the finite geometric sum. The picture is a memory aid.
+This is a finite form of **character orthogonality**: matching rhythms survive a complete average, while nonmatching characters sum to zero.
+
+The story has an exact boundary. The arrows are complex numbers represented as vectors, not physical forces. Cancellation means their vector sum is zero. The geometric-sum identity is the proof, and the picture predicts its two cases.
 
 ## Count solutions by inserting the detector
 
@@ -509,67 +681,193 @@ sum of waves
 exact count
 ~~~
 
-## A probe can listen for one note
+## The Spin Lock: extract one hidden frequency
 
-Fourier functions can also act as listening devices.
+Fourier functions can also act as precise listening devices.
 
-Suppose a finite wave mixture is:
+The teacher places a spinning compass on the table. “Every pure note rotates at its own integer speed. The lock opens only when the test wheel removes exactly that rotation.”
+
+Suppose the finite wave mixture is:
 
 $$
 F(x)
 =
-a_0+
-\sum_{k=1}^{N}
-\bigl(a_k\cos(kx)+b_k\sin(kx)\bigr).
+\sum_{k=-N}^{N}c_ke^{ikx}.
 $$
 
-How can we recover the coefficient <code>a_m</code>?
+The coefficient <code>c_k</code> records both magnitude and phase. The challenge is to recover one chosen coefficient <code>c_m</code> without disturbing the others.
 
-Use the probe:
+### Rule card
+
+~~~text
+Rule 1: The note eⁱᵏˣ rotates k times during one complete 2π round.
+
+Rule 2: The test wheel e⁻ⁱᵐˣ rotates backward m times.
+
+Rule 3: Multiplying the wheels subtracts their rotation counts.
+
+Rule 4: Average the resulting arrow over exactly one complete round.
+
+Rule 5: A stationary arrow survives; a nonzero integer rotation closes and averages to 0.
+~~~
+
+### First round
+
+Test the note <code>e^{i5x}</code> with the reverse wheel <code>e^{-i5x}</code>:
 
 $$
-g_m(x)=\cos(mx).
+e^{i5x}e^{-i5x}=1.
 $$
 
-Over a complete period, different notes cancel:
+The arrow stops rotating. Its full-round average is <code>1</code>.
+
+### Prediction round
+
+Test the same note with <code>e^{-i3x}</code>:
 
 $$
-\int_0^{2\pi}\cos(nx)\cos(mx)\,dx
-=0
-\qquad
-(n\ne m).
+e^{i5x}e^{-i3x}=e^{i2x}.
 $$
 
-The matching note survives:
+The remaining arrow makes two complete rotations. Its path closes, so its full-round average is <code>0</code>.
+
+The exact rule is:
 
 $$
-\int_0^{2\pi}\cos^2(mx)\,dx=\pi.
+\frac{1}{2\pi}
+\int_0^{2\pi}
+e^{ikx}e^{-imx}\,dx
+=
+\begin{cases}
+1,&k=m,\\
+0,&k\ne m.
+\end{cases}
 $$
 
-Therefore:
+Apply that rule to the whole mixture:
+
+$$
+c_m
+=
+\frac{1}{2\pi}
+\int_0^{2\pi}
+F(x)e^{-imx}\,dx.
+$$
+
+Every mismatched integer frequency averages to zero. Only the stationary matching term remains. This is orthogonality in action, and it proves that a finite Fourier description has unique coefficients.
+
+For a real sine-and-cosine description, the same mechanism gives:
 
 $$
 a_m
 =
 \frac{1}{\pi}
-\int_0^{2\pi}F(x)\cos(mx)\,dx.
+\int_0^{2\pi}F(x)\cos(mx)\,dx,
+\qquad
+b_m
+=
+\frac{1}{\pi}
+\int_0^{2\pi}F(x)\sin(mx)\,dx
 $$
 
-The sine probe recovers <code>b_m</code>. The constant probe recovers <code>a_0</code>.
+for <code>m≥1</code>, with the constant term handled separately.
 
-This proves uniqueness of the coefficients: two finite wave descriptions of the same function must have the same coefficients.
+The lock has limits. Exact cancellation here uses integer frequencies and a complete <code>2π</code> interval with the stated averaging measure. A shorter observation window can produce spectral leakage. Also, an opposite-phase copy of the same frequency is not orthogonal: it produces a negative surviving coefficient rather than zero.
 
-Child translation:
+## The Codebreaker's Rhythm Test
+
+Malik brings the class a message encrypted by a toy repeating-key cipher.
+
+“The letters look mixed up,” he says. “Can Fourier analysis read the message?”
+
+“Not directly,” I answer. “First it can help us search for a repeating rhythm hidden underneath the letters.”
+
+Imagine that the cipher uses three masks over and over:
 
 ~~~text
-complicated song
-      ↓ play one matching note
-only that note answers
+position     0 1 2 3 4 5 6 7 8 ...
+key mask     A B C A B C A B C ...
 ~~~
 
-This is the same design pattern as the detector. Choose a function that is orthogonal to everything the proof should ignore.
+The encrypted letters vary, but the schedule of masks repeats every three positions.
 
-## Build a spotlight, not a switch
+### Rule card
+
+~~~text
+Rule 1: Give each possible ciphertext symbol its own 0-or-1 indicator strip.
+
+Rule 2: Compare the strips with shifted copies of themselves.
+
+Rule 3: A shift that repeatedly aligns the same key positions may receive a larger coincidence score.
+
+Rule 4: Use a discrete Fourier transform to inspect or compute those periodic correlations.
+
+Rule 5: Treat a peak as a candidate period, not as decoded plaintext.
+~~~
+
+For ciphertext symbol <code>a</code>, define a length-<code>L</code> indicator strip:
+
+$$
+I_a(j)
+=
+\begin{cases}
+1,&\text{if ciphertext position }j\text{ contains }a,\\
+0,&\text{otherwise.}
+\end{cases}
+$$
+
+Assume in this finite game that <code>L</code> is a multiple of the toy key period, so cyclic wraparound preserves the lanes. The total coincidence score at shift <code>s</code> is:
+
+$$
+C(s)
+=
+\sum_a\sum_{j=0}^{L-1}
+I_a(j)I_a(j+s\bmod L).
+$$
+
+### Prediction round
+
+If the toy key repeats every three positions, which shift is more likely to compare positions encrypted by the same key mask: <code>s=1</code> or <code>s=3</code>?
+
+The rule card predicts <code>s=3</code>. Positions <code>0,3,6,…</code> form one lane, positions <code>1,4,7,…</code> form another, and positions <code>2,5,8,…</code> form the third.
+
+Fourier analysis connects the indicator strips to the coincidence scores. Define:
+
+$$
+X_a(k)
+=
+\sum_{j=0}^{L-1}
+I_a(j)e^{-2\pi i k j/L}
+$$
+
+and combine their power spectra:
+
+$$
+P(k)=\sum_a\lvert X_a(k)\rvert^2.
+$$
+
+Then the inverse discrete Fourier transform recovers the cyclic coincidence scores:
+
+$$
+C(s)
+=
+\frac{1}{L}
+\sum_{k=0}^{L-1}
+P(k)e^{2\pi i k s/L}.
+$$
+
+A repeating structure can therefore appear as peaks in a correlation plot or as concentrated spectral energy at related frequencies. Once a candidate period <code>p</code> is found, split the ciphertext into <code>p</code> lanes. For a Vigenère-style toy cipher, each lane behaves like a Caesar cipher, so ordinary letter-frequency counts can test candidate shifts inside that lane.
+
+The two kinds of frequency analysis have different jobs:
+
+~~~text
+Fourier or correlation analysis   search for repeating positions
+letter-frequency analysis         compare symbol counts inside each lane
+~~~
+
+The game has strict limits. A peak is statistical evidence, not proof of the key length. Short messages, accidental repetitions, or nearly uniform source text can create weak or misleading results. Encoding letters as arbitrary numbers can also create artificial spectra, which is why the construction used one indicator strip per symbol. Strong modern encryption is designed not to expose useful periodic or frequency structure, and Fourier analysis alone does not recover meaning or plaintext.
+
+## The Spotlight Workshop: build a soft detector
 
 A detector is sharp. Sometimes a proof needs a soft spotlight:
 
@@ -578,6 +876,20 @@ bright near the target
 dim far away
 never negative
 total brightness known
+~~~
+
+Noor dims the room. “Can we make the light gather near one point without allowing negative brightness?”
+
+### Rule card
+
+~~~text
+Rule 1: Add N equal wave arrows.
+
+Rule 2: Aim them so they all align at the target x=0.
+
+Rule 3: Square the bundle's size so brightness cannot be negative.
+
+Rule 4: Divide by N so the total normalized brightness remains 1.
 ~~~
 
 Start with a wave bundle:
@@ -652,12 +964,20 @@ $$
 
 As <code>N</code> grows, the kernel keeps total mass one but concentrates more of that mass near <code>x=0</code>.
 
+Prediction round:
+
+> If the total brightness stays fixed while the beam becomes narrower, what must happen near its center?
+
+The center becomes taller. Indeed, <code>K_N(0)=N</code>. The game predicts the height before the formula confirms it.
+
 That gives us a soft version of a detector:
 
 ~~~text
 exact detector     1 here, 0 there
 spotlight          mostly here, very little there
 ~~~
+
+The spotlight is not an exact point detector at any finite <code>N</code>. It still has light away from the center. The theorem below needs a limit and continuity assumptions to turn increasing concentration into uniform approximation.
 
 ## The spotlight proves an approximation theorem
 
@@ -811,7 +1131,7 @@ fast frequency   ξ large   → strongly weakened
 ~~~
 
 <figure class="fp-figure">
-  <p class="fp-figure-title">Heat keeps slow notes and removes fast wiggles</p>
+  <p class="fp-figure-title">Heat mostly keeps slow notes and strongly weakens fast wiggles</p>
   {% include diagrams/fourier-heat-filter.svg %}
   <figcaption class="fp-figure-caption">The differential equation becomes one decay rule for each frequency.</figcaption>
 </figure>
@@ -834,7 +1154,45 @@ u(x,t)
 G_t(y)u_0(x-y)\,dy.
 $$
 
-This integral is called convolution. In child language, slide the Gaussian across the starting temperature and take a weighted average at each position.
+This integral is called **convolution**.
+
+### The Glow Stamp game
+
+Noor replaces a nonnegative temperature line with a dark sheet covered in tiny source points. Beside it sits a translucent stamp shaped like the Gaussian. For signed mathematical data, red and blue ink can represent positive and negative contributions.
+
+### Rule card
+
+~~~text
+Rule 1: Every source point places one shifted copy of the same glow stamp.
+
+Rule 2: The source value scales that copy's signed intensity.
+
+Rule 3: Add the contributions from every source point.
+
+Rule 4: Use the same stamp rule at every location.
+~~~
+
+At output position <code>x</code>, the source at <code>x−y</code> contributes:
+
+$$
+G_t(y)u_0(x-y).
+$$
+
+Adding continuously over every shift <code>y</code> gives the convolution formula above.
+
+First round:
+
+> One idealized point source produces one shifted copy of the Gaussian stamp.
+
+Prediction round:
+
+> What do two equal point sources produce?
+
+The rules predict two shifted Gaussian copies added together. Doubling a source doubles its contribution, and shifting every source shifts the final glow by the same amount. These are the linearity and translation rules encoded by convolution.
+
+An asymmetric kernel would create a directional glow. The Gaussian used here is symmetric, so this heat model spreads influence equally left and right.
+
+The picture has a boundary. Literal brightness cannot be negative, so signed functions require the two-color convention. Real ink and thumb smears may also be nonlinear, position-dependent, or irreversible in ways this equation does not model. The Glow Stamp is exact only when shifted, scaled contributions combine linearly according to the declared kernel.
 
 The Gaussian has three proof-friendly properties:
 
@@ -1083,7 +1441,8 @@ mass one          → normalize
 concentration     → align many frequencies
 exact cancellation → use a complete cycle
 smoothing         → suppress high frequencies
-probe one note    → use an orthogonal wave
+extract one note  → multiply by its reverse wave and average a complete period
+convolution       → shift, scale, and add copies of one declared kernel
 ~~~
 
 ### The verification move
@@ -1134,6 +1493,24 @@ The notation may look similar while the theorem changes. Always name the world b
 The class compresses the lesson:
 
 ~~~text
+📖 story
+      ↓
+🎮 exact rules
+      ↓
+🧩 worked round
+      ↓
+💡 prediction
+      ↓
+📐 formula
+      ↓
+✅ proof and boundary
+~~~
+
+The story helps generate a prediction. The formula and proof decide whether that prediction is true.
+
+The proof-engineering pipeline is:
+
+~~~text
 🎯 proof job
       ↓
 🎵 frequency design
@@ -1163,6 +1540,21 @@ heat filter
   keep slow frequencies
   suppress fast frequencies
   transform back into a smoothing kernel
+
+spin lock
+  multiply by a reverse test frequency
+  average over the declared complete period
+  keep only the stationary match
+
+codebreaker rhythm test
+  build one indicator strip per symbol
+  use correlation or Fourier peaks to propose a period
+  split into lanes before ordinary symbol counting
+
+glow stamp
+  shift one kernel to every source location
+  scale each copy by the source value
+  add all contributions
 ~~~
 
 The deepest sentence is:
