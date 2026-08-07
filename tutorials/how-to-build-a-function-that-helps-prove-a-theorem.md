@@ -91,7 +91,11 @@ $$
 f(x)=x^2.
 $$
 
-Read it as:
+**Exact standard reading:**
+
+> “f of x equals x squared.”
+
+**Meaning:**
 
 > “The output of <code>f</code> at <code>x</code> is <code>x</code> times <code>x</code>.”
 
@@ -100,6 +104,8 @@ So:
 $$
 f(3)=9.
 $$
+
+**Exact standard reading:** “f of three equals nine.”
 
 The same function can also be drawn as a landscape:
 
@@ -136,6 +142,8 @@ k = 5       five wiggles
 
 A finite Fourier sum is a finite orchestra:
 
+Mathematicians vary slightly in pronunciation. In this tutorial, **exact reading** means that every index, bound, factor, sign, exponent, argument, and differential in the displayed formula is spoken. A meaning or story may follow, but it does not replace the formula's exact reading.
+
 $$
 F(x)
 =
@@ -143,6 +151,12 @@ a_0+
 \sum_{k=1}^{N}
 \bigl(a_k\cos(kx)+b_k\sin(kx)\bigr).
 $$
+
+**Exact standard reading:**
+
+> “Capital F of x equals a sub zero plus the sum from k equals one to capital N of the quantity a sub k times cosine of k times x plus b sub k times sine of k times x.”
+
+This reading says every visible part of the formula. Adjacent symbols such as <code>kx</code> mean multiplication, so <code>kx</code> is read “k times x.”
 
 The dictionary is:
 
@@ -160,6 +174,10 @@ e^{ikx}=\cos(kx)+i\sin(kx),
 \qquad i^2=-1.
 $$
 
+**Exact standard reading:**
+
+> “e to the power i times k times x equals cosine of k times x plus i times sine of k times x; and i squared equals negative one.”
+
 Here <code>i</code> is a symbol whose square is <code>-1</code>. The arrow rotates as <code>x</code> changes.
 
 On the real line, one common Fourier-transform convention is:
@@ -171,6 +189,22 @@ $$
 f(x)e^{-i\xi x}\,dx.
 $$
 
+**Exact standard reading of the forward transform:**
+
+> “f hat of xi equals the integral from minus infinity to infinity of f of x times e to the power negative i times xi times x, d x.”
+
+The spoken line does not omit any symbol:
+
+| Written notation | Standard reading | Exact role here |
+|---|---|---|
+| <code>f̂(ξ)</code> | “f hat of xi” | the Fourier transform of <code>f</code>, evaluated at frequency <code>ξ</code> |
+| <code>∫<sub>−∞</sub><sup>∞</sup></code> | “the integral from minus infinity to infinity” | combine contributions across the whole real line |
+| <code>f(x)</code> | “f of x” | the original function evaluated at <code>x</code> |
+| <code>e<sup>−iξx</sup></code> | “e to the power negative i times xi times x” | the complex test wave |
+| <code>dx</code> | “d x” | integrate with respect to <code>x</code> |
+
+The letter <code>ξ</code> is the Greek letter **xi**, pronounced “ksee” or “zai” depending on local convention. This tutorial uses “ksee.” The symbol <code>i</code> is the imaginary unit, defined by <code>i²=−1</code>.
+
 Under suitable regularity and decay assumptions, the inverse transform rebuilds the shape:
 
 $$
@@ -181,7 +215,15 @@ f(x)
 \widehat f(\xi)e^{i\xi x}\,d\xi.
 $$
 
-Child translation:
+**Exact standard reading of the inverse transform:**
+
+> “f of x equals one over two pi times the integral from minus infinity to infinity of f hat of xi times e to the power i times xi times x, d xi.”
+
+Here <code>1/(2π)</code> is read “one over two pi,” <code>dξ</code> is read “d xi,” and the positive sign in <code>e<sup>iξx</sup></code> must be spoken because the forward formula used a negative sign.
+
+The two readings above are pronunciations of the displayed equations. Their mathematical meaning comes next: the first equation computes frequency data from <code>f</code>, while the second reconstructs <code>f</code> when the hypotheses of an appropriate Fourier inversion theorem hold.
+
+Story translation:
 
 ~~~text
 Fourier transform          listen for the notes
@@ -248,6 +290,12 @@ $$
 i\xi\widehat f(\xi).
 $$
 
+**Exact standard reading:**
+
+> “The derivative with respect to x of f of x corresponds, under the Fourier transform, to i times xi times f hat of xi.”
+
+The double arrow is read “corresponds to” here. It does not mean that the two expressions are literally equal in the same representation.
+
 Smoothing can become another simple dial:
 
 $$
@@ -256,7 +304,11 @@ $$
 m(\xi)\widehat f(\xi),
 $$
 
-where <code>m(ξ)</code> is chosen to weaken high frequencies.
+**Exact standard reading:**
+
+> “g hat of xi equals m of xi times f hat of xi.”
+
+Here <code>m(ξ)</code> is chosen to weaken high frequencies.
 
 The “teleportation” language is a metaphor. Nothing leaves the mathematical problem. The representation changes. Also, deleting frequencies loses information, so that operation is appropriate for smoothing but not for every theorem. Here “impossible” means difficult in the original representation, not logically impossible.
 
@@ -526,7 +578,13 @@ $$
 \sum_{r=0}^{q-1}\omega^{rn}.
 $$
 
-Child reading:
+**Exact standard reading:**
+
+> “Delta sub q of n equals one over q times the sum from r equals zero to q minus one of omega raised to the power r times n.”
+
+Here <code>δ</code> is read “delta,” <code>ω</code> is read “omega,” and the subscript in <code>δ<sub>q</sub></code> is read “sub q.”
+
+**Story reading:**
 
 > “Spin the <code>q</code> test arrows according to <code>n</code>, add them, and divide by <code>q</code>.”
 
@@ -816,6 +874,10 @@ I_a(j)
 \end{cases}
 $$
 
+**Exact standard reading:**
+
+> “I sub a of j equals one if ciphertext position j contains a, and equals zero otherwise.”
+
 Assume in this finite game that <code>L</code> is a multiple of the toy key period, so cyclic wraparound preserves the lanes. The total coincidence score at shift <code>s</code> is:
 
 $$
@@ -824,6 +886,12 @@ C(s)
 \sum_a\sum_{j=0}^{L-1}
 I_a(j)I_a(j+s\bmod L).
 $$
+
+**Exact standard reading:**
+
+> “C of s equals the sum over a of the sum from j equals zero to capital L minus one of I sub a of j times I sub a of the quantity j plus s modulo capital L.”
+
+The words “modulo capital L” mean that the shifted position wraps around the finite strip.
 
 ### Prediction round
 
@@ -840,11 +908,21 @@ X_a(k)
 I_a(j)e^{-2\pi i k j/L}
 $$
 
+**Exact standard reading:**
+
+> “X sub a of k equals the sum from j equals zero to capital L minus one of I sub a of j times e to the power negative two times pi times i times k times j, all divided by capital L.”
+
 and combine their power spectra:
 
 $$
 P(k)=\sum_a\lvert X_a(k)\rvert^2.
 $$
+
+**Exact standard reading:**
+
+> “P of k equals the sum over a of the absolute value of X sub a of k, squared.”
+
+The bars in <code>|X<sub>a</sub>(k)|</code> mean complex absolute value, also called magnitude. The exponent <code>2</code> squares that magnitude.
 
 Then the inverse discrete Fourier transform recovers the cyclic coincidence scores:
 
@@ -855,6 +933,10 @@ C(s)
 \sum_{k=0}^{L-1}
 P(k)e^{2\pi i k s/L}.
 $$
+
+**Exact standard reading:**
+
+> “C of s equals one over capital L times the sum from k equals zero to capital L minus one of P of k times e to the power two times pi times i times k times s, all divided by capital L.”
 
 A repeating structure can therefore appear as peaks in a correlation plot or as concentrated spectral energy at related frequencies. Once a candidate period <code>p</code> is found, split the ciphertext into <code>p</code> lanes. For a Vigenère-style toy cipher, each lane behaves like a Caesar cipher, so ordinary letter-frequency counts can test candidate shifts inside that lane.
 
@@ -1086,6 +1168,12 @@ $$
 \frac{\partial^2u}{\partial x^2}.
 $$
 
+**Exact standard reading:**
+
+> “Partial u over partial t equals partial squared u over partial x squared.”
+
+In meaning, the left side is the partial derivative of <code>u</code> with respect to <code>t</code>, and the right side is the second partial derivative of <code>u</code> with respect to <code>x</code>.
+
 Here <code>u(x,t)</code> is temperature, <code>x</code> is position, and <code>t</code> is time.
 
 For this example, assume <code>x∈ℝ</code>, <code>t>0</code>, and the initial temperature decays enough at infinity for the integrations by parts below to have no boundary terms.
@@ -1099,6 +1187,10 @@ $$
 u(x,t)e^{-i\xi x}\,dx.
 $$
 
+**Exact standard reading:**
+
+> “u hat of xi comma t equals the integral from minus infinity to infinity of u of x comma t times e to the power negative i times xi times x, d x.”
+
 Fourier analysis turns a second derivative into multiplication:
 
 $$
@@ -1106,6 +1198,10 @@ $$
 =
 -\xi^2\widehat u.
 $$
+
+**Exact standard reading:**
+
+> “The Fourier transform of partial squared u over partial x squared equals negative xi squared times u hat.”
 
 So the heat equation becomes:
 
@@ -1115,13 +1211,21 @@ $$
 -\xi^2\widehat u.
 $$
 
+**Exact standard reading:**
+
+> “Partial u hat over partial t equals negative xi squared times u hat.”
+
 For each frequency <code>ξ</code>, this is a simple decay equation:
 
 $$
 \widehat u(\xi,t)
 =
-e^{-t\xi^2}\widehat u_0(\xi).
+e^{-t\xi^2}\widehat{u_0}(\xi).
 $$
+
+**Exact standard reading:**
+
+> “u hat of xi comma t equals e to the power negative t times xi squared, times u sub zero hat of xi.”
 
 The multiplier is a frequency volume knob:
 
@@ -1145,6 +1249,10 @@ G_t(x)
 e^{-x^2/(4t)}.
 $$
 
+**Exact standard reading:**
+
+> “G sub t of x equals one over the square root of the quantity four times pi times t, times e to the power negative x squared divided by the quantity four times t.”
+
 The temperature is:
 
 $$
@@ -1153,6 +1261,10 @@ u(x,t)
 \int_{-\infty}^{\infty}
 G_t(y)u_0(x-y)\,dy.
 $$
+
+**Exact standard reading:**
+
+> “u of x comma t equals the integral from minus infinity to infinity of G sub t of y times u sub zero of x minus y, d y.”
 
 This integral is called **convolution**.
 
