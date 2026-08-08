@@ -1,0 +1,64 @@
+{
+  "actual": [
+    "T",
+    "T",
+    "F",
+    "T",
+    "F",
+    "F",
+    "T",
+    "F",
+    "F",
+    "T",
+    "T",
+    "F",
+    "T",
+    "F"
+  ],
+  "actual_codes": [
+    "0",
+    "9",
+    "9",
+    "5",
+    "3",
+    "8"
+  ],
+  "claim_boundary": "This receipt checks the declared Tau normalizations and temporal verdict codes only. It is not evidence of a complete distributed protocol.",
+  "expected": [
+    "T",
+    "T",
+    "F",
+    "T",
+    "F",
+    "F",
+    "T",
+    "F",
+    "F",
+    "T",
+    "T",
+    "F",
+    "T",
+    "F"
+  ],
+  "expected_codes": [
+    "0",
+    "9",
+    "9",
+    "5",
+    "3",
+    "8"
+  ],
+  "passed": true,
+  "review_subject": {
+    "commit": "4baf38cbad096fdbe7c41c46e4b41d35c9ba44d2",
+    "repository": "taumorrow/tau-lang-demos",
+    "source": "consensus_decomposed.tau",
+    "source_sha256": "869e4cba2f553afd67b0d7ba87e945e6d4826f1d6ab9055176af8c964bec6f5e"
+  },
+  "schema": "formal-philosophy.tau-peer-review-replay.v2",
+  "spec": "consensus_decomposed.tau",
+  "spec_sha256": "869e4cba2f553afd67b0d7ba87e945e6d4826f1d6ab9055176af8c964bec6f5e",
+  "tau_binary_name": "tau",
+  "tau_exit_code": 0,
+  "tau_version_output": "Tau Language Framework version 0.7.0-alpha (401d756b)"
+}

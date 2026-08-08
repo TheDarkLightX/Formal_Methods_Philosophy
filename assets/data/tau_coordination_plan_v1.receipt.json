@@ -1,0 +1,24 @@
+{
+  "admitted_count": 8,
+  "agreement_input_hash": "d3ab22795765d715640fed64bafa65423f80aa12a15280103113f3a74a2bcc01",
+  "claim_boundary": "PASS establishes structural integrity, complete disposition, hash binding, acyclic precedence, and resolution of the declared conflicts. It does not validate the embedded semantic certificates or a network protocol.",
+  "excluded_count": 1,
+  "invariant_violation_count": 0,
+  "joint_conflict_count": 2,
+  "mutation_tests": {
+    "changed_evidence_binding_rejected": true,
+    "changed_model_binding_rejected": true,
+    "cyclic_precedence_rejected": true,
+    "invariant_violation_admitted_rejected": true,
+    "joint_conflict_admitted_rejected": true,
+    "stale_plan_hash_rejected": true,
+    "unbound_operation_rejected": true,
+    "unknown_admitted_rejected": true
+  },
+  "operation_count": 10,
+  "passed": true,
+  "plan_hash": "915e5873ab709da5b4ac15b290b63f33ec200b4250cc53a5408ef1a79088210d",
+  "precedence_edge_count": 1,
+  "quarantined_count": 1,
+  "schema": "formal-philosophy.tau-coordination-plan-check.v1"
+}

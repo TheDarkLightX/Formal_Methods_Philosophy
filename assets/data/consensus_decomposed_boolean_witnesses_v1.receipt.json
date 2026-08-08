@@ -1,0 +1,29 @@
+{
+  "claim_boundary": "This checker independently validates the finite Boolean witnesses. It does not validate Tau implementation semantics or a network protocol.",
+  "conjunction_aci": {
+    "commutative_and_associative_instance": true,
+    "idempotent_instance": true
+  },
+  "higher_order_conflict": {
+    "pq_satisfiable": true,
+    "pqr_unsatisfiable": true,
+    "pr_satisfiable": true,
+    "qr_satisfiable": true
+  },
+  "overlapping_minimal_cores": {
+    "abc_minimal_unsatisfiable": true,
+    "ade_minimal_unsatisfiable": true,
+    "shared_member": "A"
+  },
+  "passed": true,
+  "satisfiable_order_dependence": {
+    "left_satisfiable": true,
+    "outcomes_unequal": true,
+    "right_satisfiable": true
+  },
+  "schema": "formal-philosophy.consensus-review-boolean-witnesses.v1",
+  "valuations_exhaustively_enumerated": {
+    "three_variables": 8,
+    "two_variables": 4
+  }
+}
