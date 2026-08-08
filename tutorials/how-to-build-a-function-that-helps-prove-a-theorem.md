@@ -405,41 +405,80 @@ The answer is 237 because every successful test contributes exactly one token.
 
 The Color Gate assumes that the property test is correct and that every object passes exactly once. It packages the bookkeeping, but it does not automatically reduce the amount of computation. It also does not tell us how to construct a difficult test. That is the next problem. A Fourier detector builds such a gate from waves that agree on wanted inputs and cancel algebraically on unwanted inputs.
 
-## First game: build the even-number gate
+## The exact Fourier parity detector
 
-Ana points at the scanner. “Color is easy to see. Can the gate recognize an even number using only waves?”
+For every integer <code>n</code>, define:
 
-I give the class two scorecards.
+$$
+E(n)
+=
+\frac{1+(-1)^n}{2}
+=
+\begin{cases}
+1,&\text{if }n\text{ is even},\\
+0,&\text{if }n\text{ is odd}.
+\end{cases}
+$$
 
-### Rule card
+**Exact standard reading:**
 
-~~~text
-Rule 1: The constant card always contributes +1.
+> “E of n equals one plus negative one to the power n, all divided by two. This equals one if n is even and zero if n is odd.”
 
-Rule 2: The alternating card contributes +1, −1, +1, −1, ...
-
-Rule 3: Add the two contributions and divide by 2.
-
-Rule 4: A final score of 1 opens the gate. A score of 0 closes it.
-~~~
-
-The challenge is:
-
-> “Can we build a lamp that turns on for even numbers and off for odd numbers?”
-
-The first wave never changes:
+This is the detector itself. It is an exact finite Fourier function, not merely a game or picture. On the two residue classes modulo <code>2</code>, its two Fourier notes are the constant character:
 
 $$
 C(n)=1.
 $$
 
-The second wave flips sign at every step:
+and the alternating character:
 
 $$
 A(n)=(-1)^n.
 $$
 
-The two patterns are:
+The detector is their average:
+
+$$
+E(n)=\frac{C(n)+A(n)}{2}.
+$$
+
+### Why it outputs exactly 1 or 0
+
+If <code>n</code> is even, then <code>n=2k</code> for some integer <code>k</code>. Therefore:
+
+$$
+(-1)^n
+=
+(-1)^{2k}
+=
+\bigl((-1)^2\bigr)^k
+=1,
+$$
+
+so:
+
+$$
+E(n)=\frac{1+1}{2}=1.
+$$
+
+If <code>n</code> is odd, then <code>n=2k+1</code> for some integer <code>k</code>. Therefore:
+
+$$
+(-1)^n
+=
+(-1)^{2k+1}
+=
+\bigl((-1)^2\bigr)^k(-1)
+=-1,
+$$
+
+so:
+
+$$
+E(n)=\frac{1-1}{2}=0.
+$$
+
+That proves the stated output for every integer. The first few values are:
 
 ~~~text
 n:       0   1   2   3   4   5
@@ -447,39 +486,9 @@ n:       0   1   2   3   4   5
 C(n):    1   1   1   1   1   1
 
 A(n):    1  −1   1  −1   1  −1
-~~~
-
-Now average them:
-
-$$
-E(n)=\frac{1+(-1)^n}{2}.
-$$
-
-For an even number, the two waves agree:
-
-$$
-E(4)=\frac{1+1}{2}=1.
-$$
-
-For an odd number, they cancel:
-
-$$
-E(5)=\frac{1-1}{2}=0.
-$$
-
-The whole lamp is:
-
-~~~text
-n:       0   1   2   3   4   5
 
 E(n):    1   0   1   0   1   0
 ~~~
-
-Prediction round:
-
-> What score will the gate produce for <code>n=12</code>? What about <code>n=13</code>?
-
-The rules predict <code>1</code> and <code>0</code>. Substitution into the formula verifies both answers.
 
 <figure class="fp-figure">
   <p class="fp-figure-title">Agreement becomes a detector</p>
@@ -493,7 +502,31 @@ The first Fourier lesson is:
 
 Here “cancel” means that the represented numbers add to zero. It does not claim that physical energy disappears.
 
-## The lamp proves a counting theorem
+### Intuition game: two scorecards
+
+Ana points at the formula. “Can we play the detector before using it in a proof?”
+
+I give the class two scorecards.
+
+~~~text
+Rule 1: The constant card always contributes +1.
+
+Rule 2: The alternating card contributes +1, −1, +1, −1, ...
+
+Rule 3: Add the two contributions and divide by 2.
+
+Rule 4: A final score of 1 opens the gate. A score of 0 closes it.
+~~~
+
+Prediction round:
+
+> What score will the gate produce for <code>n=12</code>? What about <code>n=13</code>?
+
+The rules predict <code>1</code> and <code>0</code>. Substitution into the exact formula verifies both answers.
+
+The scorecards are a way to rehearse the algebra. They do not replace the definition or the proof above.
+
+## The detector proves a counting theorem
 
 Claim:
 
