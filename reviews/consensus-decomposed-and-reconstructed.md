@@ -108,13 +108,7 @@ The agreement layer can then agree on one content-addressed partial-order plan w
 | State-dependent commutativity | Reachable-scope certificate contract | General proof open |
 | Handoff to agreement | Content-addressed partial-order plan | Network refinement open |
 
-The reference checker accepted a ten-operation plan and rejected eight targeted mutations. During review, two checker defects were found and repaired: invariant-violating sets could remain admitted, and the agreement digest omitted part of the semantic subject and evidence. The corrected mutation tests recompute derived hashes so rejection cannot be credited to an unrelated stale hash.
-
-## Proof standard
-
-Hermann Weyl attributed to Emmy Noether a preference for proofs that disclose the “inner ground for their equality.” That is the right standard here. Matching outputs are evidence, but the certificate should expose why schedules agree, or expose the exact obstruction when they do not.
-
-The current checker validates bindings and plan structure. It does not yet verify the mathematical content of every semantic certificate.
+The reference checker accepted a ten-operation plan and rejected eight targeted mutations. This establishes bounded structural integrity only. It does not verify the mathematical content of every semantic certificate.
 
 ## Conclusion
 
@@ -138,4 +132,3 @@ This work does not solve Byzantine agreement, liveness, availability, Sybil resi
 4. Nuno Preguiça, Carlos Baquero, and Marc Shapiro, [“Conflict-free Replicated Data Types”](https://arxiv.org/abs/1805.06358), 2018.
 5. Zhenyu Guo et al., [“Paxos Made Parallel”](https://www.microsoft.com/en-us/research/publication/paxos-made-parallel/), 2012.
 6. Florian Bridoux, Maximilien Gadouleau, and Guillaume Theyssier, [“Commutative automata networks”](https://arxiv.org/abs/2004.09806), 2020.
-7. Hermann Weyl, [“Emmy Noether”](https://www.cambridge.org/core/books/who-gave-you-the-epsilon/emmy-noether/819BE1D61F0C5F008FD8CE0BC4DA386B), *Scripta Mathematica* 3 (1935), 201–220.
