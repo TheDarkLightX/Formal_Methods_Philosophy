@@ -1,0 +1,37 @@
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [
+        ["$", "$"],
+        ["\\(", "\\)"],
+      ],
+      displayMath: [
+        ["$$", "$$"],
+        ["\\[", "\\]"],
+      ],
+      macros: {
+        llbracket: "{[\\![}",
+        rrbracket: "{]\\!]}",
+      },
+      processEscapes: true,
+    },
+    output: {
+      font: "mathjax-newcm",
+      fontPath: "{{ '/assets/vendor/mathjax-newcm-font' | relative_url }}",
+      displayOverflow: "linebreak",
+      linebreaks: {
+        inline: true,
+        width: "100%",
+        lineleading: 0.2,
+      },
+    },
+    options: {
+      skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"],
+    },
+  };
+</script>
+<script
+  id="MathJax-script"
+  defer
+  src="{{ '/assets/vendor/mathjax/tex-chtml.js' | relative_url }}"
+></script>

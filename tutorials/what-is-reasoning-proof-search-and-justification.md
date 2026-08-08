@@ -178,7 +178,7 @@ This also clarifies the child example. If the child really checked all candidate
     style="width: 100%; min-height: 760px; border: 0; border-radius: 16px; background: transparent;"
     loading="lazy"></iframe>
   <figcaption class="fp-figure-caption">
-    This is a deliberately bounded demonstration. The machine searches the finite box <code>{0,\dots,10}</code>, applies the same checker to every candidate, and keeps only the one that survives. That is the part that makes it exhaustive. It is not a proof about all natural numbers, and that limit matters.
+    This is a deliberately bounded demonstration. The machine searches the finite box <code>{0, …, 10}</code>, applies the same checker to every candidate, and keeps only the one that survives. That is the part that makes it exhaustive. It is not a proof about all natural numbers, and that limit matters.
   </figcaption>
 </figure>
 
@@ -345,6 +345,13 @@ If the question is about comparative cognition, the answer may be "yes, in some 
 If the question is about mathematics, theorem proving, or formal methods, the standard is higher. There, reasoning earns its name only when the result is justified by a derivation, an invariant-preserving argument, or a checkable certificate.
 
 That is the standard a child must eventually meet in arithmetic, a mathematician must meet in proof, and an AI system must meet in high-assurance work.
+
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Continue to Part 2</p>
+  <p>
+    Part 1 asked what turns search into proof. <a href="{{ '/tutorials/what-is-two/' | relative_url }}">Part 2 asks what the unique answer <code>2</code> is</a>, beginning with a numeral-free symmetry shape and ending with its exhaustive-search and Fourier signatures.
+  </p>
+</div>
 
 ## References
 

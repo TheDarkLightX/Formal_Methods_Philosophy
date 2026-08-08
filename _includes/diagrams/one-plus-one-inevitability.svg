@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 660" role="img" aria-labelledby="title description">
+  <title id="title">The reversible-distinction shape survives search and Fourier transformation</title>
+  <desc id="description">Numeral-free flip rules select a pair of positions connected by a reversible flip. Forward, backward, and scrambled searches find the same shape. Its acceptance detector is one spike, and its Fourier transform has flat magnitude with rotating phase.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#475569"/>
+    </marker>
+    <style>
+      .panel { fill: #fffdf8; stroke: #9a8b74; stroke-width: 2; }
+      .soft { fill: #f5f0e6; stroke: #9a8b74; stroke-width: 1.5; }
+      .accent { fill: #e9f2ec; stroke: #52735d; stroke-width: 2; }
+      .reject { fill: #f8ece8; stroke: #aa6b5d; stroke-width: 1.5; }
+      .line { fill: none; stroke: #475569; stroke-width: 2; marker-end: url(#arrow); }
+      .plain { fill: none; stroke: #52735d; stroke-width: 2.5; }
+      .label { font: 600 20px system-ui, sans-serif; fill: #243047; }
+      .small { font: 16px system-ui, sans-serif; fill: #475569; }
+      .math { font: 600 22px Georgia, serif; fill: #172033; }
+      .tiny { font: 14px system-ui, sans-serif; fill: #475569; }
+      .ok { font: 700 15px system-ui, sans-serif; fill: #3f6c50; }
+      .no { font: 700 14px system-ui, sans-serif; fill: #97483d; }
+    </style>
+  </defs>
+
+  <rect class="panel" x="20" y="20" width="1080" height="620" rx="20"/>
+  <text class="label" x="55" y="61">Find the shape before attaching the numeral.</text>
+
+  <g aria-label="Numeral-free shape rules">
+    <rect class="soft" x="55" y="90" width="295" height="210" rx="16"/>
+    <text class="small" x="78" y="122">Minimal shape rules</text>
+    <text class="math" x="78" y="166">F(x) ≠ x</text>
+    <text class="tiny" x="78" y="190">the map makes a distinction</text>
+    <text class="math" x="78" y="226">y = x or y = F(x)</text>
+    <text class="tiny" x="78" y="250">one orbit covers the space</text>
+    <text class="ok" x="78" y="281">therefore F(F(x)) = x</text>
+  </g>
+
+  <path class="line" d="M 365 196 L 414 196"/>
+
+  <g aria-label="Candidate shapes">
+    <text class="small" x="430" y="105">Candidate shapes</text>
+    <rect class="reject" x="420" y="125" width="108" height="144" rx="14"/>
+    <text class="math" x="456" y="181">∅</text>
+    <text class="no" x="448" y="244">empty</text>
+
+    <rect class="reject" x="540" y="125" width="108" height="144" rx="14"/>
+    <circle cx="594" cy="183" r="23" fill="#fff" stroke="#9a8b74" stroke-width="2"/>
+    <text class="no" x="559" y="244">no partner</text>
+
+    <rect class="accent" x="660" y="125" width="165" height="144" rx="14"/>
+    <circle cx="705" cy="183" r="23" fill="#fff" stroke="#52735d" stroke-width="2.5"/>
+    <circle cx="780" cy="183" r="23" fill="#fff" stroke="#52735d" stroke-width="2.5"/>
+    <path class="plain" d="M 729 177 C 742 164, 749 164, 757 177" marker-end="url(#arrow)"/>
+    <path class="plain" d="M 757 190 C 748 204, 741 204, 729 190" marker-end="url(#arrow)"/>
+    <text class="ok" x="687" y="244">all rules pass</text>
+
+    <rect class="reject" x="837" y="125" width="210" height="144" rx="14"/>
+    <circle cx="879" cy="183" r="18" fill="#fff" stroke="#9a8b74" stroke-width="2"/>
+    <circle cx="942" cy="183" r="18" fill="#fff" stroke="#9a8b74" stroke-width="2"/>
+    <circle cx="1005" cy="183" r="18" fill="#fff" stroke="#aa6b5d" stroke-width="2"/>
+    <path class="plain" d="M 899 183 L 920 183" marker-end="url(#arrow)"/>
+    <text class="no" x="862" y="244">position left outside</text>
+  </g>
+
+  <path class="line" d="M 742 285 L 742 344"/>
+
+  <g aria-label="Search order invariance">
+    <rect class="soft" x="55" y="345" width="525" height="245" rx="16"/>
+    <text class="small" x="78" y="379">Complete routes change the trace, not the survivor</text>
+    <text class="tiny" x="78" y="422">forward</text>
+    <text class="math" x="158" y="424">0 → 1 → 2 → … → 8 → 9</text>
+    <text class="tiny" x="78" y="474">backward</text>
+    <text class="math" x="158" y="476">9 → 8 → … → 2 → 1 → 0</text>
+    <text class="tiny" x="78" y="526">scrambled</text>
+    <text class="math" x="158" y="528">7 → 0 → 5 → 9 → … → 2</text>
+    <rect class="accent" x="173" y="550" width="288" height="54" rx="10"/>
+    <text class="ok" x="208" y="583">unique shape label = 2</text>
+  </g>
+
+  <g aria-label="Fourier representation">
+    <rect class="soft" x="610" y="345" width="437" height="245" rx="16"/>
+    <text class="small" x="634" y="379">Fourier view of the acceptance detector</text>
+    <text class="tiny" x="634" y="414">spatial world</text>
+    <path d="M 651 476 L 651 435 L 720 435 L 720 476" fill="none" stroke="#52735d" stroke-width="4"/>
+    <line x1="625" y1="476" x2="748" y2="476" stroke="#9a8b74" stroke-width="2"/>
+    <text class="tiny" x="671" y="501">one spike</text>
+    <path class="line" d="M 756 456 L 805 456"/>
+    <text class="tiny" x="765" y="441">FFT</text>
+    <text class="tiny" x="830" y="414">frequency world</text>
+    <circle cx="851" cy="463" r="31" fill="#fff" stroke="#9a8b74" stroke-width="2"/>
+    <circle cx="919" cy="463" r="31" fill="#fff" stroke="#9a8b74" stroke-width="2"/>
+    <circle cx="987" cy="463" r="31" fill="#fff" stroke="#9a8b74" stroke-width="2"/>
+    <path class="plain" d="M 851 463 L 851 437" marker-end="url(#arrow)"/>
+    <path class="plain" d="M 919 463 L 895 474" marker-end="url(#arrow)"/>
+    <path class="plain" d="M 987 463 L 1002 484" marker-end="url(#arrow)"/>
+    <text class="ok" x="795" y="535">flat magnitude, changing phase</text>
+    <text class="tiny" x="681" y="570">inverse transform returns the same exact spike</text>
+  </g>
+</svg>
