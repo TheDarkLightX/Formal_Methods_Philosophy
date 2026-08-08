@@ -203,6 +203,28 @@ The spoken line does not omit any symbol:
 | <code>e<sup>−iξx</sup></code> | “e to the power negative i times xi times x” | the complex test wave |
 | <code>dx</code> | “d x” | integrate with respect to <code>x</code> |
 
+### What does <code>dx</code> mean?
+
+The useful beginner's picture is:
+
+> **<code>dx</code> is a tiny width in the <code>x</code> direction.**
+
+That picture comes from approximating an integral with thin rectangles:
+
+$$
+\sum_{j=1}^{N} f(x_j)\,\Delta x_j
+\longrightarrow
+\int_a^b f(x)\,dx.
+$$
+
+**Exact standard reading:**
+
+> “The sum from j equals one to capital N of f of x sub j times delta x sub j approaches the integral from a to b of f of x, d x.”
+
+Here <code>Δx<sub>j</sub></code> is an ordinary finite width. As the widest rectangle shrinks toward zero, the sum approaches the integral. In the integral, <code>dx</code> says that accumulation is **with respect to <code>x</code>**.
+
+So “a little bit of <code>x</code>” is useful geometric intuition, but ordinary real analysis does not automatically treat <code>dx</code> as an ordinary positive real number smaller than every other positive real number. Other frameworks give differentials additional precise meanings. In this tutorial, <code>dx</code> identifies the integration variable and remembers the limiting-width picture.
+
 The letter <code>ξ</code> is the Greek letter **xi**, pronounced “ksee” or “zai” depending on local convention. This tutorial uses “ksee.” The symbol <code>i</code> is the imaginary unit, defined by <code>i²=−1</code>.
 
 Under suitable regularity and decay assumptions, the inverse transform rebuilds the shape:
@@ -219,7 +241,7 @@ $$
 
 > “f of x equals one over two pi times the integral from minus infinity to infinity of f hat of xi times e to the power i times xi times x, d xi.”
 
-Here <code>1/(2π)</code> is read “one over two pi,” <code>dξ</code> is read “d xi,” and the positive sign in <code>e<sup>iξx</sup></code> must be spoken because the forward formula used a negative sign.
+Here <code>1/(2π)</code> is read “one over two pi,” <code>dξ</code> is read “d xi,” and the positive sign in <code>e<sup>iξx</sup></code> must be spoken because the forward formula used a negative sign. The same distinction applies to <code>dξ</code>: its geometric picture is a tiny frequency-width, while its exact role here is “integrate with respect to <code>ξ</code>.”
 
 The two readings above are pronunciations of the displayed equations. Their mathematical meaning comes next: the first equation computes frequency data from <code>f</code>, while the second reconstructs <code>f</code> when the hypotheses of an appropriate Fourier inversion theorem hold.
 
