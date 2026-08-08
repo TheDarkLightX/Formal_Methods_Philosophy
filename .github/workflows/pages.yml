@@ -26,7 +26,8 @@ jobs:
         run: |
           python3 scripts/audit_markdown_math.py \
             tutorials/what-is-reasoning-proof-search-and-justification.md \
-            tutorials/what-is-two.md
+            tutorials/what-is-two.md \
+            tutorials/two-ways-to-prove-equality.md
 
       - name: Verify the one-plus-one lab
         run: node tests/one_plus_one_proof_core.test.js
