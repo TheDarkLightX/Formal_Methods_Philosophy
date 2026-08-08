@@ -1,0 +1,99 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 540" role="img" aria-labelledby="chess-proof-tree-title chess-proof-tree-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="chess-proof-tree-title">One mating line compared with a forced-mate proof tree</title>
+  <desc id="chess-proof-tree-desc">The left panel follows one cooperative defense to mate and is only a candidate line. The right panel branches over every legal defense and reaches mate on every branch, forming a forced-mate certificate.</desc>
+  <defs>
+    <filter id="chess-proof-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#172033" flood-opacity="0.12" />
+    </filter>
+    <marker id="chess-proof-arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#315f9e" />
+    </marker>
+    <marker id="chess-proof-arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#24704a" />
+    </marker>
+  </defs>
+  <style>
+    .candidate-line, .proof-branch {
+      stroke-dasharray: 190;
+      stroke-dashoffset: 0;
+    }
+    .math-motion-run .candidate-line {
+      animation: chess-line-draw 1.1s ease-out 1 both;
+    }
+    .math-motion-run .proof-branch {
+      animation: chess-tree-draw 1.5s ease-out 1.15s 1 both;
+    }
+    @keyframes chess-line-draw {
+      from { stroke-dashoffset: 190; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes chess-tree-draw {
+      from { stroke-dashoffset: 190; opacity: 0.2; }
+      to { stroke-dashoffset: 0; opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .candidate-line, .proof-branch {
+        animation: none;
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="500" rx="34" fill="#fffaf2" stroke="#d9cdbd" stroke-width="2" />
+  <text x="60" y="66" font-size="24" font-weight="800" fill="#172033" font-family="Atkinson Hyperlegible, system-ui, sans-serif">A path can reach mate. A proof must survive every defense.</text>
+  <text x="60" y="94" font-size="14" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">The defender chooses the branch. The attacking move is forced only when every legal branch closes.</text>
+
+  <g filter="url(#chess-proof-shadow)">
+    <rect x="54" y="126" width="340" height="336" rx="28" fill="#eaf2ff" stroke="#5386cf" stroke-width="2" />
+    <rect x="430" y="126" width="476" height="336" rx="28" fill="#edf8f1" stroke="#58a77a" stroke-width="2" />
+  </g>
+
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="82" y="166" font-size="14" font-weight="800" fill="#315f9e">ONE ATTRACTIVE LINE</text>
+    <text x="82" y="190" font-size="13" fill="#536076">The defender cooperates with the imagined reply.</text>
+    <g text-anchor="middle">
+      <rect x="145" y="218" width="158" height="44" rx="16" fill="#ffffff" stroke="#315f9e" stroke-width="2" />
+      <text x="224" y="245" font-size="14" font-weight="800" fill="#172033">my move</text>
+      <path class="candidate-line" d="M224 264 V306" fill="none" stroke="#315f9e" stroke-width="4" marker-end="url(#chess-proof-arrow-blue)" />
+      <rect x="145" y="314" width="158" height="44" rx="16" fill="#ffffff" stroke="#315f9e" stroke-width="2" />
+      <text x="224" y="341" font-size="14" font-weight="800" fill="#172033">one reply</text>
+      <path class="candidate-line" d="M224 360 V395" fill="none" stroke="#315f9e" stroke-width="4" marker-end="url(#chess-proof-arrow-blue)" />
+      <rect x="162" y="401" width="124" height="40" rx="16" fill="#fff0eb" stroke="#d65b2f" stroke-width="2" />
+      <text x="224" y="426" font-size="14" font-weight="800" fill="#a13f22">checkmate</text>
+    </g>
+    <text x="82" y="448" font-size="12" font-weight="700" fill="#315f9e">This proves only that one path exists.</text>
+
+    <text x="458" y="166" font-size="14" font-weight="800" fill="#24704a">FORCED-MATE PROOF TREE</text>
+    <text x="458" y="190" font-size="13" fill="#536076">Every legal defense receives a verified answer.</text>
+    <g text-anchor="middle">
+      <rect x="591" y="210" width="154" height="44" rx="16" fill="#ffffff" stroke="#24704a" stroke-width="2" />
+      <text x="668" y="237" font-size="14" font-weight="800" fill="#172033">key move, ∃</text>
+
+      <path class="proof-branch" d="M668 256 C668 278 520 278 520 310" fill="none" stroke="#24704a" stroke-width="4" marker-end="url(#chess-proof-arrow-green)" />
+      <path class="proof-branch" d="M668 256 V310" fill="none" stroke="#24704a" stroke-width="4" marker-end="url(#chess-proof-arrow-green)" />
+      <path class="proof-branch" d="M668 256 C668 278 816 278 816 310" fill="none" stroke="#24704a" stroke-width="4" marker-end="url(#chess-proof-arrow-green)" />
+
+      <rect x="466" y="316" width="108" height="40" rx="14" fill="#ffffff" stroke="#58a77a" stroke-width="2" />
+      <text x="520" y="341" font-size="13" font-weight="800" fill="#172033">defense A</text>
+      <rect x="614" y="316" width="108" height="40" rx="14" fill="#ffffff" stroke="#58a77a" stroke-width="2" />
+      <text x="668" y="341" font-size="13" font-weight="800" fill="#172033">defense B</text>
+      <rect x="762" y="316" width="108" height="40" rx="14" fill="#ffffff" stroke="#58a77a" stroke-width="2" />
+      <text x="816" y="341" font-size="13" font-weight="800" fill="#172033">defense C</text>
+      <text x="668" y="378" font-size="13" font-weight="800" fill="#24704a">every defense, ∀</text>
+
+      <path class="proof-branch" d="M520 358 V399" fill="none" stroke="#24704a" stroke-width="4" marker-end="url(#chess-proof-arrow-green)" />
+      <path class="proof-branch" d="M668 358 V399" fill="none" stroke="#24704a" stroke-width="4" marker-end="url(#chess-proof-arrow-green)" />
+      <path class="proof-branch" d="M816 358 V399" fill="none" stroke="#24704a" stroke-width="4" marker-end="url(#chess-proof-arrow-green)" />
+
+      <g font-size="13" font-weight="800" fill="#24704a">
+        <rect x="474" y="405" width="92" height="36" rx="14" fill="#ffffff" stroke="#24704a" stroke-width="2" />
+        <text x="520" y="428">mate</text>
+        <rect x="622" y="405" width="92" height="36" rx="14" fill="#ffffff" stroke="#24704a" stroke-width="2" />
+        <text x="668" y="428">mate</text>
+        <rect x="770" y="405" width="92" height="36" rx="14" fill="#ffffff" stroke="#24704a" stroke-width="2" />
+        <text x="816" y="428">mate</text>
+      </g>
+    </g>
+    <text x="458" y="448" font-size="12" font-weight="700" fill="#24704a">All leaves close. This is a finite certificate.</text>
+  </g>
+</svg>

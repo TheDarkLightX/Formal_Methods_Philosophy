@@ -802,6 +802,17 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/chess-tetris-and-the-math-before-math/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 74: The math I learned before I knew it was math</h2>
+    <p class="fp-card-text">
+      Begin with a lost chess game, turn forced mate into an existence proof,
+      then connect proof trees, compact strategies, and the structures practiced
+      in Chess, Tetris, Nim, Sudoku, and the Rubik's Cube.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/exploring-mathematics-from-counting-to-functors/' | relative_url }}"
   >
     <p class="fp-kicker">Visual mathematics</p>
