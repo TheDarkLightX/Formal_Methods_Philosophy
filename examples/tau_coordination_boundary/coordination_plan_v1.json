@@ -1,0 +1,218 @@
+{
+  "agreement_input_hash": "d3ab22795765d715640fed64bafa65423f80aa12a15280103113f3a74a2bcc01",
+  "claim_boundary": "This bounded reference plan demonstrates canonical binding, complete disposition, higher-order conflict exclusion, an explicit order choice, and fail-closed quarantine. Its certificate hashes are fixtures, not independently verified semantic proofs or network-consensus evidence.",
+  "evidence": [
+    {
+      "certificate_hash": "72f9e7f55aab5a2aafdbd455c1eee27e9e319ab2fc33179f4ae0d7e493670b30",
+      "evidence_id": "core-abc",
+      "kind": "JOINT_UNSAT",
+      "members": [
+        "core-a",
+        "core-b",
+        "core-c"
+      ],
+      "model_hash": "b3b82b4fe33ea43c46195e9d1a022d69db555f72b573d5929af168f604c3bc78",
+      "proof_kind": "PROVED_MINIMAL",
+      "scope": "finite-demo/all-boolean-valuations"
+    },
+    {
+      "certificate_hash": "022e7d964cc169d9c90f43851c1d8a14ca06540fff8a1fa4cc880e4a8db0b0fe",
+      "evidence_id": "core-ade",
+      "kind": "JOINT_UNSAT",
+      "members": [
+        "core-a",
+        "core-d",
+        "core-e"
+      ],
+      "model_hash": "b3b82b4fe33ea43c46195e9d1a022d69db555f72b573d5929af168f604c3bc78",
+      "proof_kind": "PROVED_MINIMAL",
+      "scope": "finite-demo/all-boolean-valuations"
+    },
+    {
+      "certificate_hash": "2eec0c2f247b6e92c33ef48d7023843a90e8d96723a65fecf9382d99b5ca1396",
+      "evidence_id": "fast-ab",
+      "kind": "FAST_CONFLUENT",
+      "members": [
+        "fast-a",
+        "fast-b"
+      ],
+      "model_hash": "b3b82b4fe33ea43c46195e9d1a022d69db555f72b573d5929af168f604c3bc78",
+      "proof_kind": "BOUNDED_EXHAUSTIVE",
+      "scope": "finite-demo/all-reachable-states"
+    },
+    {
+      "certificate_hash": "bb52be8b8ff4cad98284bc3d1d12c8d279a3dba8838d641d62de4f5a6043f0b8",
+      "evidence_id": "order-ab",
+      "kind": "ORDER_DEPENDENT",
+      "members": [
+        "order-a",
+        "order-b"
+      ],
+      "model_hash": "b3b82b4fe33ea43c46195e9d1a022d69db555f72b573d5929af168f604c3bc78",
+      "proof_kind": "CHECKED_DIVERGENT_DIAMOND",
+      "scope": "finite-demo/witness-state-7"
+    },
+    {
+      "certificate_hash": "00f06a8887c46f8ce796836d3b559ac7643a9bd5ca5fa482afcdf9aae4169cb8",
+      "evidence_id": "unknown-x",
+      "kind": "UNKNOWN",
+      "members": [
+        "unknown-x"
+      ],
+      "model_hash": "b3b82b4fe33ea43c46195e9d1a022d69db555f72b573d5929af168f604c3bc78",
+      "proof_kind": "MISSING_CERTIFICATE",
+      "scope": "outside-bounded-reachable-scope"
+    }
+  ],
+  "evidence_root": "e50433cbf65e820ce949b5cb043bfb41ddcd695c5c79dcf9cb73828533e5f4e7",
+  "operations": [
+    {
+      "class_hash": "0d90c327107b44425e5647155bbfebc153a0a4e63b114c1af80afd3ddaa0f1de",
+      "operation_id": "core-a",
+      "payload_hash": "b897ec0ddc22b2cb6927a092dfbff61964f2465941168170897fcfd1463168a2"
+    },
+    {
+      "class_hash": "0d90c327107b44425e5647155bbfebc153a0a4e63b114c1af80afd3ddaa0f1de",
+      "operation_id": "core-b",
+      "payload_hash": "6e3971bbba4bb161f7d36b94809122059f2034717a5b56697aa523b16be78cbd"
+    },
+    {
+      "class_hash": "0d90c327107b44425e5647155bbfebc153a0a4e63b114c1af80afd3ddaa0f1de",
+      "operation_id": "core-c",
+      "payload_hash": "462504418ed79e54411a0650a0f1c7b95040925f0498099c2a9a7dd55dc797e8"
+    },
+    {
+      "class_hash": "0d90c327107b44425e5647155bbfebc153a0a4e63b114c1af80afd3ddaa0f1de",
+      "operation_id": "core-d",
+      "payload_hash": "c9bf0a80e94235406bb0b7a166bb5cec7f7c977f7aadfb8a8f569c794903e7e5"
+    },
+    {
+      "class_hash": "0d90c327107b44425e5647155bbfebc153a0a4e63b114c1af80afd3ddaa0f1de",
+      "operation_id": "core-e",
+      "payload_hash": "83a4ea3b5543def1aade3f3c32d9c0b033ae394a97009bed20de543f908ed196"
+    },
+    {
+      "class_hash": "a09ddd2cf4ced0a52c591d01d7fcc2f31de304047f24d6094959542c6c011304",
+      "operation_id": "fast-a",
+      "payload_hash": "06adce9ee00e821ea97ae4121d8819b1f54873455db61864bbd1e83b53281a07"
+    },
+    {
+      "class_hash": "a09ddd2cf4ced0a52c591d01d7fcc2f31de304047f24d6094959542c6c011304",
+      "operation_id": "fast-b",
+      "payload_hash": "5c1ee81350d38f01bd18ce7eead558b29b74af0b931efd5d3b452a6285afe688"
+    },
+    {
+      "class_hash": "9f38c3fada2459b3acef961d3563d345148f5c4764f3a6c3803eb4000fe91863",
+      "operation_id": "order-a",
+      "payload_hash": "5c9f230b57caf59ae1bbfacd27417a958e983f43252effeb813ab58f417a9bde"
+    },
+    {
+      "class_hash": "9f38c3fada2459b3acef961d3563d345148f5c4764f3a6c3803eb4000fe91863",
+      "operation_id": "order-b",
+      "payload_hash": "270b0083b5109ec153766104bd17ea743efe4fafee35d2af6b79ba9209a95a78"
+    },
+    {
+      "class_hash": "0e8b1ca01ceb349206daac2819ec33fbb4296b7b08151b66a85cdb1ef1bf2568",
+      "operation_id": "unknown-x",
+      "payload_hash": "911959e452257a74cdaa5ef7e5b5256e33cc927ae3a0ed410eb4870ea028dbe0"
+    }
+  ],
+  "plan_hash": "915e5873ab709da5b4ac15b290b63f33ec200b4250cc53a5408ef1a79088210d",
+  "proposal_root": "42d42f9ac8a97d8bba4567d540e9ee54d01855337aee91e9b7a8ba983d7635e4",
+  "resolution": {
+    "admitted": [
+      "core-b",
+      "core-c",
+      "core-d",
+      "core-e",
+      "fast-a",
+      "fast-b",
+      "order-a",
+      "order-b"
+    ],
+    "excluded": [
+      {
+        "evidence_ids": [
+          "core-abc",
+          "core-ade"
+        ],
+        "operation_id": "core-a",
+        "reason": "The declared resolver removes the shared member and thereby hits both disclosed minimal inconsistent cores."
+      }
+    ],
+    "precedence": [
+      {
+        "after": "order-b",
+        "before": "order-a",
+        "evidence_id": "order-ab",
+        "reason": "The versioned policy selects this orientation for the checked divergent pair."
+      }
+    ],
+    "quarantined": [
+      {
+        "evidence_ids": [
+          "unknown-x"
+        ],
+        "operation_id": "unknown-x",
+        "reason": "No applicable global certificate or checked conflict resolution exists within the declared scope."
+      }
+    ],
+    "slow_justifications": [
+      {
+        "evidence_ids": [
+          "core-abc"
+        ],
+        "operation_id": "core-b",
+        "reason": "Admitted after the resolver excluded core-a from the disclosed higher-order conflict."
+      },
+      {
+        "evidence_ids": [
+          "core-abc"
+        ],
+        "operation_id": "core-c",
+        "reason": "Admitted after the resolver excluded core-a from the disclosed higher-order conflict."
+      },
+      {
+        "evidence_ids": [
+          "core-ade"
+        ],
+        "operation_id": "core-d",
+        "reason": "Admitted after the resolver excluded core-a from the disclosed overlapping conflict."
+      },
+      {
+        "evidence_ids": [
+          "core-ade"
+        ],
+        "operation_id": "core-e",
+        "reason": "Admitted after the resolver excluded core-a from the disclosed overlapping conflict."
+      },
+      {
+        "evidence_ids": [
+          "order-ab"
+        ],
+        "operation_id": "order-a",
+        "reason": "Admitted under the explicit order-a before order-b precedence choice."
+      },
+      {
+        "evidence_ids": [
+          "order-ab"
+        ],
+        "operation_id": "order-b",
+        "reason": "Admitted under the explicit order-a before order-b precedence choice."
+      }
+    ]
+  },
+  "schema": "formal-philosophy.tau-coordination-plan.v1",
+  "subject": {
+    "delivery_model_hash": "84969fc2cd547c1fb39401659efdd984e3fef4231448a169751a488ad7ac8d3e",
+    "fault_profile_hash": "5ec93f4a21050a8e9ea859dae8cd3d415be2b44fea7c9ffd80f5890cf0dc4575",
+    "invariant_hash": "dfdb9b38816eb9b9bc6578aa847e25239371df9be6da8e9ef1aa30a20c065de5",
+    "model_hash": "b3b82b4fe33ea43c46195e9d1a022d69db555f72b573d5929af168f604c3bc78",
+    "pre_state_hash": "ff11184cde9c8a2c13516ec36aec848a559433d7ccc874b296658075bee5f69f",
+    "reachable_scope_hash": "67e7b3b4c2edd6eb577182c098de68b9920301cb30d85bfb79ec984ad4b7def5",
+    "resolver_policy_hash": "0efe2c344835e6ddd12fb1bdad32057af991bb92f862375743548cc8c15a0b4e",
+    "resource_budget_hash": "2ced772c120c220183d3f8c4ff54141a88dc6f330391402b84b3b44b510baddd",
+    "tau_semantics_hash": "c9564621cf736db810816ab999dd441b9e62e601c85358832ff1b28d819c5dd2",
+    "transition_system_hash": "10a0a342d3cd7419164c7c61b17d627c9ef9e8967a51b3a3b5e688460354fc72"
+  }
+}

@@ -1,0 +1,170 @@
+{
+  "architecture": {
+    "name": "Proof-Carrying Tau Coordination Boundary",
+    "status": "BOUNDED_PROTOTYPE",
+    "summary": "Compile a pinned semantic model and proposal manifest into checked fast-path certificates, typed conflict obligations, a policy-selected partial order, complete operation dispositions, and one content-addressed agreement input.",
+    "unproved_claims": [
+      "soundness for unbounded Tau transition systems",
+      "completeness of conflict discovery",
+      "cross-implementation Tau semantic equivalence",
+      "Byzantine safety or liveness",
+      "performance improvement on a realistic workload"
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "examples/tau_coordination_boundary/coordination_plan_v1.json",
+      "role": "canonical ten-operation reference plan"
+    },
+    {
+      "path": "scripts/check_tau_coordination_plan.py",
+      "role": "fail-closed structural checker and mutation suite"
+    },
+    {
+      "path": "assets/data/tau_coordination_plan_v1.receipt.json",
+      "role": "replay receipt"
+    },
+    {
+      "path": "examples/tau/consensus_decomposed_review_addendum_v1.tau",
+      "role": "Tau counterexample and algebra replay source"
+    }
+  ],
+  "claim_boundary": "This is a curated public export of a Research Kernel run, not a raw database dump. Supported findings have attached replay evidence. The proposed architecture remains a bounded prototype until its semantic certificates and network layer receive independent verification.",
+  "exported_on": "2026-08-08",
+  "negative_knowledge": [
+    {
+      "finding": "Pairwise satisfiability does not imply joint satisfiability.",
+      "implication": "Conflict graphs are insufficient for arbitrary batches; higher-order conflict sets are required."
+    },
+    {
+      "finding": "One minimal unsatisfiable core does not describe every conflict in a batch.",
+      "implication": "Core enumeration must report completeness or budget exhaustion, and operations outside the first core are not automatically safe."
+    },
+    {
+      "finding": "Joint satisfiability does not imply order independence.",
+      "implication": "The residue also needs divergent-diamond or invariant-merge witnesses."
+    },
+    {
+      "finding": "Local commutativity is weaker than global schedule independence.",
+      "implication": "Fast certificates need reachable-state scope, enabledness preservation, diamond equality, invariant preservation, and composition obligations."
+    },
+    {
+      "finding": "The same deterministic checker can diverge on different proposal universes.",
+      "implication": "Certificates and agreement inputs must bind a canonical proposal-set or epoch root."
+    },
+    {
+      "finding": "arXiv:1901.00193 concerns algebraic geometry rather than distributed coordination.",
+      "implication": "It was excluded from the technical prior-art argument."
+    }
+  ],
+  "open_obligations": [
+    {
+      "gate": "SEMANTIC_SOUNDNESS",
+      "question": "Does every accepted fast certificate prove stable enabledness, commutation, and invariant preservation over its exact reachable-state scope?"
+    },
+    {
+      "gate": "COMPOSITION",
+      "question": "Do independently certified operation classes satisfy the required cross-class diamonds and invariant obligations?"
+    },
+    {
+      "gate": "CONFLICT_COVERAGE",
+      "question": "Is the discovered conflict family complete for the declared finite bound, or explicitly incomplete?"
+    },
+    {
+      "gate": "NETWORK_REFINEMENT",
+      "question": "Under a declared fault and timing model, does agreement on the plan digest refine to common execution and checkpoint selection?"
+    },
+    {
+      "gate": "DIFFERENTIAL_SEMANTICS",
+      "question": "Do independent Tau implementations produce identical canonical receipts for the same model and manifest?"
+    },
+    {
+      "gate": "WORKLOAD_BENCHMARK",
+      "question": "Does the architecture reduce false serialization, messages, or latency on a source-pinned realistic workload?"
+    }
+  ],
+  "primary_literature": [
+    {
+      "contribution": "logical monotonicity and coordination-free consistency",
+      "title": "Keeping CALM: When Distributed Consistency is Easy",
+      "url": "https://arxiv.org/abs/1901.01930"
+    },
+    {
+      "contribution": "necessary and sufficient invariant-confluence criterion in its model",
+      "title": "Coordination Avoidance in Database Systems",
+      "url": "https://arxiv.org/abs/1402.2237"
+    },
+    {
+      "contribution": "agreement over partially ordered command structures",
+      "title": "Generalized Consensus and Paxos",
+      "url": "https://www.microsoft.com/en-us/research/publication/generalized-consensus-and-paxos/"
+    },
+    {
+      "contribution": "replication using partial-order traces",
+      "title": "Paxos Made Parallel",
+      "url": "https://www.microsoft.com/en-us/research/publication/paxos-made-parallel/"
+    },
+    {
+      "contribution": "same-update-set convergence boundary",
+      "title": "Conflict-free Replicated Data Types",
+      "url": "https://arxiv.org/abs/1805.06358"
+    },
+    {
+      "contribution": "exponentially many minimal unsatisfiable subsets",
+      "title": "Recursive Online Enumeration of All Minimal Unsatisfiable Subsets",
+      "url": "https://arxiv.org/abs/1708.00400"
+    },
+    {
+      "contribution": "distinction between local and global commutativity",
+      "title": "Commutative automata networks",
+      "url": "https://arxiv.org/abs/2004.09806"
+    }
+  ],
+  "research_kernel": {
+    "public_export_policy": "Only source-pinned claims, counterexamples, bounded prototype results, negative knowledge, and open obligations are exported. Internal paths, private coordination tactics, and superseded claim bookkeeping are omitted.",
+    "run_id": "tau-coordination-minimization-review-v1-20260808"
+  },
+  "reviewed_subject": {
+    "commit": "4baf38cbad096fdbe7c41c46e4b41d35c9ba44d2",
+    "path": "consensus_decomposed.tau",
+    "repository": "https://github.com/taumorrow/tau-lang-demos",
+    "source_sha256": "869e4cba2f553afd67b0d7ba87e945e6d4826f1d6ab9055176af8c964bec6f5e"
+  },
+  "schema": "formal-philosophy.tau-coordination-knowledge-base.v1",
+  "supported_findings": [
+    {
+      "evidence": [
+        "assets/data/consensus_decomposed_review_addendum_v1.receipt.json",
+        "assets/data/consensus_decomposed_boolean_witnesses_v1.receipt.json"
+      ],
+      "finding": "There exist three proposals whose pairs are satisfiable while their full conjunction is unsatisfiable.",
+      "scope": "the displayed finite Boolean witness under replayed Tau semantics and exhaustive independent enumeration",
+      "status": "SUPPORTED"
+    },
+    {
+      "evidence": [
+        "assets/data/consensus_decomposed_review_addendum_v1.receipt.json",
+        "assets/data/consensus_decomposed_boolean_witnesses_v1.receipt.json"
+      ],
+      "finding": "A single minimal unsatisfiable core is not a complete conflict representation because cores can overlap and order-sensitive outcomes can remain satisfiable.",
+      "scope": "the displayed finite witnesses",
+      "status": "SUPPORTED"
+    },
+    {
+      "evidence": [
+        "assets/data/consensus_decomposed_submission_replay_v1.receipt.json"
+      ],
+      "finding": "The reviewed submission's 14 normalization results and six temporal codes reproduced under the tested Tau build.",
+      "scope": "the exact source commit and tested Tau build",
+      "status": "REPRODUCED"
+    },
+    {
+      "evidence": [
+        "assets/data/tau_coordination_plan_v1.receipt.json"
+      ],
+      "finding": "The reference plan passed structural validation and eight adversarial mutations were rejected.",
+      "scope": "canonical binding, disposition, disclosed conflicts, precedence acyclicity, and plan hashing only",
+      "status": "BOUNDED_PROTOTYPE_CHECKED"
+    }
+  ]
+}

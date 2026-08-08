@@ -1,0 +1,96 @@
+# ============================================================================
+# CONSENSUS, DECOMPOSED: PEER-REVIEW ADDENDUM V1
+# ============================================================================
+#
+# This file checks four distinctions needed by a coordination-minimizing
+# architecture:
+#
+#   1. conjunction is order- and duplicate-insensitive;
+#   2. pairwise satisfiability does not imply joint satisfiability;
+#   3. two satisfiable transitions can still be order-dependent;
+#   4. one unsatisfiable core need not describe every conflict in a batch.
+#
+# Run:
+#
+#   tau -q < examples/tau/consensus_decomposed_review_addendum_v1.tau
+#
+# EXPECTED-RESULTS: T T F F F T T T F T F F F T F F F F
+#
+# Scope: these are logical checks. They do not establish authentication,
+# reliable delivery, agreement on a proposal set, Byzantine fault tolerance,
+# liveness, fair ordering, resource bounds, or production readiness.
+# ============================================================================
+
+set charvar off
+
+# 1. The algebraic fast path
+#
+# Conjunction is commutative and associative, so two amendments can be received
+# in either order. It is also idempotent, so an exact duplicate does not alter
+# the logical result.
+
+normalize (all C:tau all A:tau all B:tau (((C & A) & B) = ((C & B) & A))).
+normalize (all C:tau all A:tau (((C & A) & A) = (C & A))).
+
+# 2. Higher-order inconsistency
+#
+# Let:
+#
+#   P = x OR y
+#   Q = x OR NOT y
+#   R = NOT x
+#
+# Every pair is satisfiable. The triple is not.
+
+normalize (({ o30[t]=1 || o31[t]=1 } & { o30[t]=1 || o31[t]=0 }) = 0).
+normalize (({ o30[t]=1 || o31[t]=1 } & { o30[t]=0 }) = 0).
+normalize (({ o30[t]=1 || o31[t]=0 } & { o30[t]=0 }) = 0).
+normalize ((({ o30[t]=1 || o31[t]=1 } & { o30[t]=1 || o31[t]=0 }) & { o30[t]=0 }) = 0).
+
+# 3. Satisfiable but order-dependent outcomes
+#
+# Both outcomes below are satisfiable, but they differ. An unsatisfiable-core
+# detector alone cannot represent this kind of non-confluence.
+
+normalize (({ o10[t]=0 && o12[t]=1 } & { o14[t]=1 }) != 0).
+normalize (({ o10[t]=0 } & { o14[t]=1 }) != 0).
+normalize (({ o10[t]=0 && o12[t]=1 } & { o14[t]=1 }) = ({ o10[t]=0 } & { o14[t]=1 })).
+
+# 4. Two overlapping minimal inconsistent sets
+#
+# A is shared by two distinct three-proposal conflicts:
+#
+#   U1 = { A, B, C }
+#   U2 = { A, D, E }
+#
+# where:
+#
+#   A = x
+#   B = NOT x OR y
+#   C = NOT y
+#   D = NOT x OR z
+#   E = NOT z
+#
+# Each full triple is unsatisfiable, while removing any one member makes that
+# triple satisfiable. Extracting U1 does not prove that D and E are outside the
+# conflict boundary because A, D, and E form U2.
+
+# U1 is unsatisfiable, and every two-member subset is satisfiable.
+normalize ((({ o40[t]=1 } & { o40[t]=0 || o41[t]=1 }) & { o41[t]=0 }) = 0).
+normalize (({ o40[t]=0 || o41[t]=1 } & { o41[t]=0 }) = 0).
+normalize (({ o40[t]=1 } & { o41[t]=0 }) = 0).
+normalize (({ o40[t]=1 } & { o40[t]=0 || o41[t]=1 }) = 0).
+
+# U2 is unsatisfiable, and every two-member subset is satisfiable.
+normalize ((({ o40[t]=1 } & { o40[t]=0 || o42[t]=1 }) & { o42[t]=0 }) = 0).
+normalize (({ o40[t]=0 || o42[t]=1 } & { o42[t]=0 }) = 0).
+normalize (({ o40[t]=1 } & { o42[t]=0 }) = 0).
+normalize (({ o40[t]=1 } & { o40[t]=0 || o42[t]=1 }) = 0).
+
+# 5. Same logical checker, different proposal universes
+#
+# Each node can compute a deterministic local result and still disagree if the
+# nodes do not share the same proposal set. Logical determinism does not supply
+# reliable delivery or agreement on epoch membership.
+
+normalize (({ o1[t]=1 -> o2[t]=1 } & { o50[t]=1 }) = ({ o1[t]=1 -> o2[t]=1 } & { o50[t]=0 })).
