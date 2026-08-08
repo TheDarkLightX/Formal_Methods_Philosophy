@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Hidden Shape of 2</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f8f4e9;
+      --paper-deep: #eee6d5;
+      --ink: #17202a;
+      --muted: #62707a;
+      --line: #cec4b0;
+      --blue: #245a78;
+      --blue-soft: #dceaf0;
+      --green: #2f6b4f;
+      --green-soft: #dfeee4;
+      --red: #97483d;
+      --red-soft: #f2dfda;
+      --gold-soft: #f2e7c9;
+      --shadow: 0 18px 42px rgba(53, 45, 31, 0.1);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: clamp(18px, 4vw, 44px);
+      background:
+        linear-gradient(rgba(93, 78, 51, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(93, 78, 51, 0.035) 1px, transparent 1px),
+        var(--paper);
+      background-size: 28px 28px;
+      color: var(--ink);
+      font-family: Charter, "Bitstream Charter", "Iowan Old Style", Georgia, serif;
+    }
+
+    button, select { font: inherit; }
+
+    .lab {
+      width: min(980px, 100%);
+      margin: 0 auto;
+    }
+
+    .masthead {
+      padding: 18px 0 24px;
+      border-top: 5px solid var(--ink);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow,
+    .section-label {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 0;
+      font-size: clamp(32px, 6vw, 58px);
+      letter-spacing: -0.045em;
+      line-height: 1;
+    }
+
+    .dek {
+      max-width: 790px;
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: clamp(16px, 2.4vw, 20px);
+      line-height: 1.5;
+    }
+
+    .definition {
+      margin: 22px 0;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--blue);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.52);
+    }
+
+    .definition p { margin: 0; line-height: 1.48; }
+
+    .definition code,
+    .boundary code {
+      white-space: nowrap;
+    }
+
+    .rules {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+      margin-top: 13px;
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 13px;
+    }
+
+    .rule {
+      padding: 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+    }
+
+    .workbench,
+    .fourier-panel {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.68);
+      box-shadow: var(--shadow);
+    }
+
+    .workbench-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(238, 230, 213, 0.62);
+    }
+
+    .workbench-head strong { font-size: 19px; }
+
+    .route-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    select {
+      min-height: 38px;
+      padding: 6px 30px 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: white;
+      color: var(--ink);
+    }
+
+    .candidate-section {
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .candidate-strip {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .candidate {
+      display: grid;
+      min-height: 58px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      background: var(--paper);
+      color: var(--muted);
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 18px;
+      font-weight: 800;
+      transition: transform 160ms ease, background 160ms ease;
+    }
+
+    .candidate.is-testing {
+      border-color: var(--blue);
+      background: var(--blue-soft);
+      color: var(--blue);
+      transform: translateY(-3px);
+    }
+
+    .candidate.is-rejected {
+      border-color: #d6a096;
+      background: var(--red-soft);
+      color: var(--red);
+      text-decoration: line-through;
+    }
+
+    .candidate.is-accepted {
+      border-color: #82ad93;
+      background: var(--green-soft);
+      color: var(--green);
+      box-shadow: inset 0 0 0 2px rgba(47, 107, 79, 0.12);
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .control {
+      min-height: 42px;
+      padding: 9px 14px;
+      border: 1px solid var(--ink);
+      border-radius: 8px;
+      background: var(--ink);
+      color: var(--paper);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 750;
+    }
+
+    .control.secondary {
+      border-color: var(--line);
+      background: transparent;
+      color: var(--ink);
+    }
+
+    .control:hover:not(:disabled) { transform: translateY(-1px); }
+    .control:disabled { cursor: not-allowed; opacity: 0.45; }
+    .control:focus-visible, select:focus-visible {
+      outline: 3px solid rgba(36, 90, 120, 0.3);
+      outline-offset: 3px;
+    }
+
+    .inspection-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+    }
+
+    .inspection, .ledger { min-height: 350px; padding: 18px; }
+    .ledger {
+      border-left: 1px solid var(--line);
+      background: rgba(238, 230, 213, 0.32);
+    }
+
+    .shape-stage {
+      min-height: 132px;
+      padding: 18px;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      background: rgba(248, 244, 233, 0.74);
+    }
+
+    .shape-points {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 66px;
+    }
+
+    .shape-point {
+      display: grid;
+      width: 46px;
+      height: 46px;
+      place-items: center;
+      border: 2px solid #8a806e;
+      border-radius: 50%;
+      background: white;
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .shape-point.partner {
+      border-color: var(--green);
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .flip-mark {
+      color: var(--green);
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .empty-mark {
+      color: var(--muted);
+      font-size: 32px;
+      text-align: center;
+    }
+
+    .gate-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+      margin-top: 13px;
+    }
+
+    .gate {
+      padding: 8px 9px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: white;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .gate.pass { border-color: #82ad93; color: var(--green); }
+    .gate.fail { border-color: #d6a096; color: var(--red); }
+
+    .receipt {
+      margin-top: 13px;
+      padding: 12px 13px;
+      border-left: 4px solid var(--blue);
+      background: var(--blue-soft);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .receipt.accepted { border-color: var(--green); background: var(--green-soft); }
+    .receipt.rejected { border-color: var(--red); background: var(--red-soft); }
+
+    .ledger-list {
+      display: grid;
+      gap: 7px;
+      max-height: 245px;
+      margin: 0;
+      padding: 0;
+      overflow: auto;
+      list-style: none;
+    }
+
+    .ledger-item {
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.64);
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .ledger-item.ok { border-color: #82ad93; color: var(--green); }
+    .ledger-item.no { border-color: #d6a096; color: var(--red); }
+
+    .belief {
+      margin-top: 14px;
+      padding: 11px;
+      border: 1px solid #d8c18d;
+      border-radius: 8px;
+      background: var(--gold-soft);
+      color: #5d4b2f;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .summary {
+      display: none;
+      padding: 18px;
+      border-top: 1px solid #82ad93;
+      background: var(--green-soft);
+    }
+
+    .summary.is-visible { display: block; }
+    .summary h2 { margin: 0 0 7px; color: var(--green); font-size: 22px; }
+    .summary p { margin: 0; line-height: 1.5; }
+
+    .fingerprint {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 13px;
+    }
+
+    .fingerprint div {
+      padding: 9px;
+      border: 1px solid rgba(47, 107, 79, 0.28);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.52);
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 12px;
+    }
+
+    .fourier-panel { margin-top: 20px; padding: 18px; }
+    .fourier-panel h2 { margin: 0 0 7px; font-size: 23px; }
+    .fourier-panel > p { margin: 0 0 14px; color: var(--muted); line-height: 1.48; }
+
+    .fourier-output { display: none; margin-top: 17px; }
+    .fourier-output.is-visible { display: block; }
+
+    .phase-grid {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .phase-cell {
+      display: grid;
+      min-height: 82px;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 11px;
+    }
+
+    .phase-arrow {
+      display: inline-block;
+      color: var(--blue);
+      font-size: 28px;
+      line-height: 1;
+      transform-origin: 50% 50%;
+    }
+
+    .reconstruction {
+      display: grid;
+      grid-template-columns: repeat(10, minmax(0, 1fr));
+      align-items: end;
+      gap: 8px;
+      min-height: 110px;
+      margin-top: 11px;
+    }
+
+    .recon-cell {
+      display: grid;
+      align-content: end;
+      justify-items: center;
+      min-height: 100px;
+      color: var(--muted);
+      font-family: ui-monospace, "SFMono-Regular", Consolas, monospace;
+      font-size: 11px;
+    }
+
+    .recon-bar {
+      width: min(36px, 80%);
+      min-height: 2px;
+      border-radius: 5px 5px 0 0;
+      background: var(--blue);
+    }
+
+    .boundary {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 720px) {
+      .rules, .inspection-grid, .fingerprint { grid-template-columns: 1fr; }
+      .ledger { border-top: 1px solid var(--line); border-left: 0; }
+      .workbench-head { align-items: flex-start; flex-direction: column; }
+      .candidate-strip, .phase-grid, .reconstruction {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="lab">
+    <header class="masthead">
+      <p class="eyebrow">Executable shape search · no stored target comparison</p>
+      <h1>Find the hidden shape before naming the number</h1>
+      <p class="dek">
+        The checker does not begin with an earlier numeral. It searches for a nonempty space whose transformation changes every position and reaches the whole space. Reversibility must then follow.
+      </p>
+    </header>
+
+    <section class="definition" aria-labelledby="shape-rules-title">
+      <p class="section-label" id="shape-rules-title">The intrinsic shape rules</p>
+      <p>Find a nonempty space <code>X</code> and a function <code>F : X → X</code>. The first two rules define the shape. The third must follow and is audited:</p>
+      <div class="rules">
+        <div class="rule">F(x) ≠ x</div>
+        <div class="rule">y = x or y = F(x)</div>
+        <div class="rule">derived: F(F(x)) = x</div>
+      </div>
+    </section>
+
+    <section class="workbench" aria-labelledby="workbench-title">
+      <div class="workbench-head">
+        <strong id="workbench-title">Search finite candidate shapes</strong>
+        <label class="route-control" for="order-select">
+          Complete search route
+          <select id="order-select">
+            <option value="forward">forward</option>
+            <option value="backward">backward</option>
+            <option value="outsideIn">outside-in</option>
+            <option value="scrambled">scrambled</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="candidate-section">
+        <p class="section-label">Candidate labels D = {0,1,2,3,4,5,6,7,8,9}</p>
+        <div class="candidate-strip" id="candidate-strip" aria-label="Candidate status"></div>
+      </div>
+
+      <div class="controls">
+        <button class="control" type="button" id="next-button">Check next shape</button>
+        <button class="control" type="button" id="all-button">Run complete search</button>
+        <button class="control secondary" type="button" id="reset-button">Reset</button>
+      </div>
+
+      <div class="inspection-grid">
+        <section class="inspection" aria-labelledby="inspection-label">
+          <p class="section-label" id="inspection-label">Current shape certificate</p>
+          <div class="shape-stage" id="shape-stage">
+            <div class="empty-mark">waiting for a candidate</div>
+          </div>
+          <div class="gate-grid" id="gate-grid" aria-label="Verifier gates"></div>
+          <div class="receipt" id="receipt" aria-live="polite">
+            No candidate has been checked. Acceptance depends only on the shape rules above.
+          </div>
+        </section>
+
+        <aside class="ledger" aria-labelledby="ledger-label">
+          <p class="section-label" id="ledger-label">Negative-knowledge ledger</p>
+          <ol class="ledger-list" id="ledger-list" aria-live="polite"></ol>
+          <div class="belief" id="belief-text">
+            A uniform exactly-one-survivor model begins with probability 1/10 on each label. This is a belief model, not the proof.
+          </div>
+        </aside>
+      </div>
+
+      <section class="summary" id="summary" aria-live="polite">
+        <h2 id="summary-title"></h2>
+        <p id="summary-text"></p>
+        <div class="fingerprint" id="fingerprint"></div>
+      </section>
+    </section>
+
+    <section class="fourier-panel" aria-labelledby="fourier-title">
+      <p class="section-label">The recipe world</p>
+      <h2 id="fourier-title">Transform the shape detector into frequencies</h2>
+      <p>
+        After the complete search, the acceptance signal has one spike. Its discrete Fourier transform has equal magnitude at every frequency, while phase carries the spike's address.
+      </p>
+      <button class="control secondary" type="button" id="fourier-button" disabled>Show the Fourier signature</button>
+      <div class="fourier-output" id="fourier-output" aria-live="polite">
+        <p class="section-label">Frequency coefficients: arrow = phase, every magnitude = 1</p>
+        <div class="phase-grid" id="phase-grid"></div>
+        <p class="section-label" style="margin-top: 18px;">Inverse transform: the unique spike returns</p>
+        <div class="reconstruction" id="reconstruction"></div>
+        <p class="boundary">
+          Finite-transform boundary: with ten labels this signature locates the spike modulo ten. The declared candidate box selects its displayed representative. The continuous transform on the integers gives the related phase-winding picture developed in the tutorial.
+        </p>
+      </div>
+    </section>
+
+    <p class="boundary">
+      Proof boundary: the program exhausts the declared finite candidate box. The accompanying structural proof is stronger: choose any position <code>x</code>; fixed-point freedom supplies a different partner <code>F(x)</code>; transitivity says every position is one of those. Applying transitivity from <code>F(x)</code> back to <code>x</code> proves that the transformation undoes itself. The probability panel is not used by the checker.
+    </p>
+  </main>
+
+  <script src="assets/js/one-plus-one-proof-core.js"></script>
+  <script>
+    (() => {
+      "use strict";
+
+      const proof = window.OnePlusOneProof;
+      const maximumCandidate = 9;
+      const strip = document.getElementById("candidate-strip");
+      const stage = document.getElementById("shape-stage");
+      const gateGrid = document.getElementById("gate-grid");
+      const receiptBox = document.getElementById("receipt");
+      const ledger = document.getElementById("ledger-list");
+      const belief = document.getElementById("belief-text");
+      const summary = document.getElementById("summary");
+      const summaryTitle = document.getElementById("summary-title");
+      const summaryText = document.getElementById("summary-text");
+      const fingerprint = document.getElementById("fingerprint");
+      const orderSelect = document.getElementById("order-select");
+      const nextButton = document.getElementById("next-button");
+      const allButton = document.getElementById("all-button");
+      const resetButton = document.getElementById("reset-button");
+      const fourierButton = document.getElementById("fourier-button");
+      const fourierOutput = document.getElementById("fourier-output");
+      const phaseGrid = document.getElementById("phase-grid");
+      const reconstruction = document.getElementById("reconstruction");
+
+      let experiment;
+      let receipts;
+      let cursor = 0;
+      let shown = [];
+      let running = false;
+
+      function reportHeight() {
+        if (window.parent !== window) {
+          window.parent.postMessage(
+            { type: "fp:iframe-height", height: document.body.scrollHeight },
+            "*",
+          );
+        }
+      }
+
+      function buildCandidates() {
+        strip.innerHTML = "";
+        for (let candidate = 0; candidate <= maximumCandidate; candidate += 1) {
+          const node = document.createElement("div");
+          node.className = "candidate";
+          node.id = `candidate-${candidate}`;
+          node.textContent = String(candidate);
+          node.setAttribute("aria-label", `Candidate ${candidate}, not yet checked`);
+          strip.appendChild(node);
+        }
+      }
+
+      function gate(label, status) {
+        const node = document.createElement("div");
+        node.className = `gate ${status === true ? "pass" : status === false ? "fail" : ""}`;
+        node.textContent = `${status === true ? "PASS" : status === false ? "FAIL" : "WAIT"} · ${label}`;
+        return node;
+      }
+
+      function renderShape(current) {
+        stage.innerHTML = "";
+        const positions = proof.positionsFor(current.candidate);
+        if (positions.length === 0) {
+          const empty = document.createElement("div");
+          empty.className = "empty-mark";
+          empty.textContent = "∅ · no position exists";
+          stage.appendChild(empty);
+        } else {
+          const row = document.createElement("div");
+          row.className = "shape-points";
+          for (const position of positions) {
+            if (current.accepted && position > 0) {
+              const flip = document.createElement("span");
+              flip.className = "flip-mark";
+              flip.setAttribute("aria-hidden", "true");
+              flip.textContent = "⇄";
+              row.appendChild(flip);
+            }
+            const point = document.createElement("span");
+            point.className = `shape-point ${current.accepted ? "partner" : ""}`;
+            point.textContent = String(position);
+            row.appendChild(point);
+          }
+          stage.appendChild(row);
+        }
+
+        const accepted = current.accepted;
+        const nonempty = current.reason !== "empty_space";
+        const distinctPartner = accepted || current.reason === "flip_orbit_does_not_cover_space";
+        gateGrid.innerHTML = "";
+        gateGrid.appendChild(gate("space is nonempty", nonempty));
+        gateGrid.appendChild(gate("flip changes every position", accepted ? true : distinctPartner ? null : false));
+        gateGrid.appendChild(gate("flip undoes itself", accepted ? true : null));
+        gateGrid.appendChild(gate("one flip-orbit covers the space", accepted ? true : current.reason === "flip_orbit_does_not_cover_space" ? false : null));
+      }
+
+      function reasonText(current) {
+        if (current.reason === "empty_space") {
+          return `REJECT ${current.candidate}: the candidate has no position, so the required nonempty shape is absent.`;
+        }
+        if (current.reason === "no_distinct_partner") {
+          return `REJECT ${current.candidate}: every possible flip fixes the only position, violating F(x) ≠ x.`;
+        }
+        if (current.reason === "flip_orbit_does_not_cover_space") {
+          return `REJECT ${current.candidate}: every proposed flip-pair leaves at least one position outside its orbit.`;
+        }
+        const mapping = current.certificate.mapping.join(", ");
+        return `ACCEPT ${current.candidate}: mapping [${mapping}] changes every position, undoes itself, and covers the entire space.`;
+      }
+
+      function updateBelief() {
+        const rejectionCount = shown.filter((entry) => !entry.accepted).length;
+        const accepted = shown.find((entry) => entry.accepted);
+        if (accepted) {
+          belief.textContent = `The trusted certificate supports label ${accepted.candidate}. The search continues because uniqueness requires checking every rival in the declared box.`;
+          return;
+        }
+        const remaining = maximumCandidate + 1 - rejectionCount;
+        belief.textContent = `${rejectionCount} exact rejection(s) leave ${remaining} candidate(s). Under the optional uniform exactly-one-survivor assumption, each remaining label has probability 1/${remaining}.`;
+      }
+
+      function reveal(current) {
+        const node = document.getElementById(`candidate-${current.candidate}`);
+        node.className = `candidate ${current.accepted ? "is-accepted" : "is-rejected"}`;
+        node.setAttribute("aria-label", `Candidate ${current.candidate}, ${current.accepted ? "accepted" : "rejected"}`);
+        renderShape(current);
+        receiptBox.className = `receipt ${current.accepted ? "accepted" : "rejected"}`;
+        receiptBox.textContent = reasonText(current);
+        const item = document.createElement("li");
+        item.className = `ledger-item ${current.accepted ? "ok" : "no"}`;
+        item.textContent = reasonText(current);
+        ledger.appendChild(item);
+        shown.push(current);
+        updateBelief();
+        reportHeight();
+      }
+
+      async function step() {
+        if (cursor >= receipts.length) return;
+        const current = receipts[cursor];
+        const node = document.getElementById(`candidate-${current.candidate}`);
+        node.className = "candidate is-testing";
+        await new Promise((resolve) => window.setTimeout(resolve, 180));
+        reveal(current);
+        cursor += 1;
+        if (cursor >= receipts.length) finish();
+      }
+
+      function finish() {
+        summary.classList.add("is-visible");
+        nextButton.disabled = true;
+        allButton.disabled = true;
+        if (!experiment.shapeSearch.unique || !experiment.agreement) {
+          summaryTitle.textContent = "The evidence gates did not establish one agreed survivor";
+          summaryText.textContent = "The Fourier view remains locked because publication requires unique shape-search acceptance and agreement with the independent matching check.";
+          fourierButton.disabled = true;
+          reportHeight();
+          return;
+        }
+
+        const survivor = experiment.shapeSearch.survivor;
+        summaryTitle.textContent = `The conventional label of the unique shape is ${survivor}`;
+        summaryText.textContent = `The accepted certificate is a reversible distinction. Search order changed the rejection trace, but not the survivor. A separately implemented matching checker also selected label ${experiment.matchingSearch.survivor}.`;
+        fourierButton.disabled = false;
+        fingerprint.innerHTML = "";
+        const profile = experiment.fingerprint;
+        const facts = [
+          `greater than 1 = ${profile.greaterThanOne}`,
+          `less than 3 = ${profile.lessThanThree}`,
+          `distance from 9 = ${profile.distanceFromNine}`,
+          `distance from 0 = ${profile.distanceFromZero}`,
+          `even = ${profile.isEven}`,
+          `prime = ${profile.isPrime}`,
+        ];
+        for (const fact of facts) {
+          const node = document.createElement("div");
+          node.textContent = fact;
+          fingerprint.appendChild(node);
+        }
+        reportHeight();
+      }
+
+      async function runAll() {
+        if (running) return;
+        running = true;
+        nextButton.disabled = true;
+        allButton.disabled = true;
+        while (cursor < receipts.length) await step();
+        running = false;
+      }
+
+      function reset() {
+        experiment = proof.buildInevitabilityExperiment(
+          maximumCandidate,
+          orderSelect.value,
+        );
+        receipts = experiment.shapeSearch.receipts;
+        cursor = 0;
+        shown = [];
+        running = false;
+        ledger.innerHTML = "";
+        gateGrid.innerHTML = "";
+        summary.classList.remove("is-visible");
+        fourierOutput.classList.remove("is-visible");
+        nextButton.disabled = false;
+        allButton.disabled = false;
+        fourierButton.disabled = true;
+        receiptBox.className = "receipt";
+        receiptBox.textContent = "No candidate has been checked. Acceptance depends only on the shape rules above.";
+        belief.textContent = `A uniform exactly-one-survivor model begins with probability 1/${maximumCandidate + 1} on each label. This is a belief model, not the proof.`;
+        buildCandidates();
+        stage.innerHTML = '<div class="empty-mark">waiting for a candidate</div>';
+        reportHeight();
+      }
+
+      function showFourier() {
+        phaseGrid.innerHTML = "";
+        reconstruction.innerHTML = "";
+        for (const coefficient of experiment.fourier.spectrum) {
+          const cell = document.createElement("div");
+          cell.className = "phase-cell";
+          const arrow = document.createElement("span");
+          arrow.className = "phase-arrow";
+          arrow.textContent = "↑";
+          arrow.style.transform = `rotate(${coefficient.phase * 180 / Math.PI}deg)`;
+          const label = document.createElement("span");
+          label.textContent = `k=${coefficient.frequency}`;
+          cell.appendChild(arrow);
+          cell.appendChild(label);
+          phaseGrid.appendChild(cell);
+        }
+        for (const sample of experiment.fourier.reconstructed) {
+          const cell = document.createElement("div");
+          cell.className = "recon-cell";
+          const bar = document.createElement("div");
+          bar.className = "recon-bar";
+          bar.style.height = `${Math.max(2, Math.round(Math.max(0, sample.re) * 86))}px`;
+          const label = document.createElement("span");
+          label.textContent = String(sample.position);
+          cell.appendChild(bar);
+          cell.appendChild(label);
+          reconstruction.appendChild(cell);
+        }
+        fourierOutput.classList.add("is-visible");
+        reportHeight();
+      }
+
+      nextButton.addEventListener("click", async () => {
+        if (running) return;
+        running = true;
+        await step();
+        running = false;
+      });
+      allButton.addEventListener("click", runAll);
+      resetButton.addEventListener("click", reset);
+      orderSelect.addEventListener("change", reset);
+      fourierButton.addEventListener("click", showFourier);
+      window.addEventListener("load", reportHeight);
+      window.addEventListener("resize", reportHeight);
+      new MutationObserver(reportHeight).observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+      });
+
+      reset();
+    })();
+  </script>
+</body>
+</html>

@@ -22,6 +22,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Audit tutorial math source
+        run: |
+          python3 scripts/audit_markdown_math.py \
+            tutorials/what-is-reasoning-proof-search-and-justification.md \
+            tutorials/what-is-two.md
+
+      - name: Verify the one-plus-one lab
+        run: node tests/one_plus_one_proof_core.test.js
+
+      - name: Audit public repository safety
+        run: bash scripts/audit_public_repo_safety.sh
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
