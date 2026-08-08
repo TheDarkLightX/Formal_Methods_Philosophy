@@ -8,7 +8,7 @@ permalink: /reviews/tau-coordination-boundary-knowledge-base/
 
 This page is the public evidence base for [*Consensus, Decomposed and Reconstructed*]({{ '/reviews/consensus-decomposed-and-reconstructed/' | relative_url }}) and the [proof-carrying coordination architecture]({{ '/reviews/tau-coordination-boundary-technical-addendum/' | relative_url }}).
 
-It is a curated export from Research Kernel run `tau-coordination-minimization-review-v1-20260808`. A raw research graph is a poor public interface because it contains retrieval candidates, superseded formulations, intermediate graph bookkeeping, and failed promotion attempts. This page and its [versioned JSON export]({{ '/assets/data/tau_coordination_boundary_knowledge_base_v1.json' | relative_url }}) retain the useful claims, negative knowledge, evidence paths, and open obligations in a stable format.
+It is a curated export from Research Kernel runs `tau-coordination-minimization-review-v1-20260808` and `tau-semantic-conflict-hypergraph-v2-20260808`. A raw research graph is a poor public interface because it contains retrieval candidates, superseded formulations, intermediate graph bookkeeping, and failed promotion attempts. This page and its [versioned JSON export]({{ '/assets/data/tau_coordination_boundary_knowledge_base_v1.json' | relative_url }}) retain the useful claims, negative knowledge, evidence paths, and open obligations in a stable format.
 
 ## Status vocabulary
 
@@ -68,6 +68,28 @@ The ten-operation reference plan contains two overlapping higher-order conflicts
 **Evidence:** [reference plan]({{ '/examples/tau_coordination_boundary/coordination_plan_v1.json' | relative_url }}), [checker]({{ site.repo_url }}/blob/main/scripts/check_tau_coordination_plan.py), and [receipt]({{ '/assets/data/tau_coordination_plan_v1.receipt.json' | relative_url }}).
 
 The checker validates structure and bindings. It does not validate the semantic proof objects named by certificate hashes, and it does not prove Byzantine safety or liveness.
+
+### The ADD-only implicit resolver passes its bounded checks
+
+For a fixed satisfiable base law and a finite conjunction-only ADD batch, the reference resolver discovers minimal inconsistent sets as needed, solves the resulting weighted hitting-set problem exactly, and globally rechecks the complete accepted remainder. The master problem also enforces proposal dependencies.
+
+The updated replay matched all 15 declared Tau normalization values under Tau `0.7.0-alpha`, build `f7423804`. Seventeen Python tests covered pair and three-way conflicts, seeded comparisons with exhaustive global optimization, dependency closure, inconsistent-base rejection, `UNKNOWN`, resource exhaustion, and semantic-subject binding. They also covered all 24 arrival permutations, identical redelivery, conflicting duplicate identifiers, canonical proposal roots, payload, cost, and dependency mutations, policy and budget mismatches, and resolution-certificate replay.
+
+**Status:** `SUPPORTED` for the exact bounded claims `tau-hg-c-001`, `tau-hg-c-002`, and `tau-hg-c-003`.
+
+**Evidence:** [Tau and Python replay receipt]({{ '/assets/data/tau_semantic_conflict_hypergraph_v1.receipt.json' | relative_url }}), [reference model]({{ site.repo_url }}/blob/main/examples/tau_coordination_boundary/semantic_conflict_hypergraph_v1.py), and [tests]({{ site.repo_url }}/blob/main/examples/tau_coordination_boundary/test_semantic_conflict_hypergraph_v1.py).
+
+This result does not cover non-ADD operations, unbounded tractability, production Tau-oracle soundness, proposal-set agreement, Byzantine safety, liveness, or fairness.
+
+### The sealed epoch is a bounded improvement over the reviewed pair path
+
+The [reviewed commit](https://github.com/taumorrow/tau-lang-demos/commit/4baf38cbad096fdbe7c41c46e4b41d35c9ba44d2) routes conflicts pairwise and changes guarded `ADD` state on arrival. The repaired reference path stores proposals in a pending set, seals one content-bound manifest, detects minimal inconsistent sets of arbitrary finite size, resolves them under one declared deterministic policy, globally rechecks the accepted remainder, and emits a subject-bound certificate.
+
+For the exact four-proposal reference epoch, all 24 arrival permutations produced the same proposal-set root, accepted and rejected sets, and resolution root. The demonstrated size-three conflict is invisible to every pair check. This establishes a strict improvement only inside the fixed-base, finite, conjunction-only `ADD` model.
+
+**Status:** `SUPPORTED` by the local Research Kernel promotion gate for `tau-hg-c-003`.
+
+The promotion status records evidence and falsification checks inside Research Kernel. It is not an external proof of a production network protocol.
 
 ## Architecture candidate
 
@@ -139,6 +161,14 @@ A fast-path certificate should establish, over its exact reachable-state scope:
 
 Two replicas can run the same checker over different proposal universes and derive different states. The model, epoch, pre-state, proposal manifest, policy, resource limits, and semantic version must be content-addressed.
 
+### Logical repair must preserve dependencies
+
+A minimum hitting set can be logically satisfiable while retaining a proposal whose prerequisite was rejected. Dependency closure must be a constraint of the resolver's master problem, not an optional check after optimization.
+
+### Conflict identities must bind their semantic subject
+
+An edge hash over only an epoch label and member IDs can be replayed under a different domain, base law, proposal set, or oracle implementation. The edge identity must bind all of those fields through a canonical encoding.
+
 ### One supplied paper was not relevant
 
 [arXiv:1901.00193](https://arxiv.org/abs/1901.00193) studies cohomology of algebraic surfaces. It was excluded from the distributed-coordination argument.
@@ -165,6 +195,7 @@ TheoremSearch supplied retrieval-only statement shapes for trace monoids and a b
 4. **Network refinement:** prove that agreement on the plan digest refines to common execution and checkpoint selection under a named fault and timing model.
 5. **Differential semantics:** replay the same capsule across independent Tau implementations.
 6. **Workload evidence:** measure false serialization, coordination amplification, messages, latency, certificate cost, and timeout rates on source-pinned workloads.
+7. **Resolver refinement:** prove that the production epoch state machine implements the bounded ADD resolver's mathematical contract, including dependency closure and typed deferment.
 
 ## Replay
 
@@ -172,9 +203,10 @@ TheoremSearch supplied retrieval-only statement shapes for trace monoids and a b
 python3 scripts/check_consensus_decomposed_review.py --tau tau --json
 python3 scripts/check_consensus_decomposed_boolean_witnesses.py --json
 python3 scripts/check_tau_coordination_plan.py --self-test --json
+python3 scripts/check_tau_semantic_conflict_hypergraph_v1.py --tau tau --json
 ```
 
-The first command requires a separately installed Tau executable. The other two use only the Python standard library.
+The first and fourth commands require a separately installed Tau executable. The other two use only the Python standard library.
 
 ## Public export
 

@@ -360,6 +360,48 @@ The receipt should therefore separate:
 2. **policy:** the rule for selecting among compatible outcomes;
 3. **agreement:** the network mechanism that makes the selected policy outcome common.
 
+### ADD-only semantic conflict hypergraph
+
+The conjunction-only ADD lane admits a sharper specialization. Fix one satisfiable base law `C` and one finite proposal set `V`. For `S` contained in `V`, define:
+
+$$
+\operatorname{Cons}_C(S)
+\quad\Longleftrightarrow\quad
+C \land \bigwedge_{v\in S}\varphi(v) \neq 0.
+$$
+
+The consistent sets are downward closed. Their minimal inconsistent sets form a semantic conflict hypergraph:
+
+$$
+E_C
+=
+\left\{
+e \subseteq V :
+\neg\operatorname{Cons}_C(e)
+\text{ and }
+\forall v\in e,\ \operatorname{Cons}_C(e\setminus\{v\})
+\right\}.
+$$
+
+For this fixed model, a proposal set is consistent exactly when it contains no complete hyperedge. A rejected set is therefore a correction exactly when it intersects every hyperedge. This equivalence does not extend by itself to general state transformations, where two orders may both remain satisfiable yet produce different states.
+
+Complete hyperedge enumeration is unnecessary for a safe bounded resolver. An implicit loop can:
+
+1. compute an exact minimum-cost hitting set for the conflicts discovered so far;
+2. globally check the complete accepted remainder;
+3. return only when that remainder is satisfiable;
+4. otherwise shrink the remainder to a new minimal conflict and repeat;
+5. defer if the oracle returns `UNKNOWN` or the declared search budget is exhausted.
+
+If every master problem is solved exactly under nonnegative declared costs, every accepted set is dependency-closed, and the final complete remainder is satisfiable, the terminating correction has globally minimum declared cost. Every safe correction must hit every discovered conflict, while the returned correction is both the cheapest such set and globally safe.
+
+Two details are safety-critical:
+
+- Dependency closure belongs inside the master problem. A resolver that checks only logical satisfiability can reject a prerequisite while retaining a dependent proposal.
+- A conflict-edge identity must bind the domain, epoch, base-law root, proposal-set root, oracle semantics, and sorted members. Hashing only an epoch label and member list permits semantic replay under a different subject.
+
+The [bounded reference model]({{ site.repo_url }}/blob/main/examples/tau_coordination_boundary/semantic_conflict_hypergraph_v1.py) implements these conditions. Its final whole-batch check is the safety boundary. The discovered hyperedges remain partial explanatory cuts unless completeness has been established separately.
+
 ## 9. Partial order instead of total order
 
 The slow lane should not automatically serialize the entire batch.
@@ -401,6 +443,11 @@ The addendum is available as:
 - [proof-carrying reference plan]({{ '/examples/tau_coordination_boundary/coordination_plan_v1.json' | relative_url }});
 - [`scripts/check_tau_coordination_plan.py`]({{ site.repo_url }}/blob/main/scripts/check_tau_coordination_plan.py);
 - [coordination-plan receipt]({{ '/assets/data/tau_coordination_plan_v1.receipt.json' | relative_url }});
+- [`examples/tau/consensus_hypergraph_v1.tau`]({{ '/examples/tau/consensus_hypergraph_v1.tau' | relative_url }});
+- [bounded ADD-only hypergraph model]({{ site.repo_url }}/blob/main/examples/tau_coordination_boundary/semantic_conflict_hypergraph_v1.py);
+- [hypergraph reference tests]({{ site.repo_url }}/blob/main/examples/tau_coordination_boundary/test_semantic_conflict_hypergraph_v1.py);
+- [`scripts/check_tau_semantic_conflict_hypergraph_v1.py`]({{ site.repo_url }}/blob/main/scripts/check_tau_semantic_conflict_hypergraph_v1.py);
+- [hypergraph replay receipt]({{ '/assets/data/tau_semantic_conflict_hypergraph_v1.receipt.json' | relative_url }});
 - [curated Research Kernel export]({{ '/reviews/tau-coordination-boundary-knowledge-base/' | relative_url }}).
 
 Replay with a locally installed Tau executable:
@@ -431,9 +478,14 @@ python3 scripts/check_consensus_decomposed_review.py \
 
 python3 scripts/check_consensus_decomposed_boolean_witnesses.py --json
 python3 scripts/check_tau_coordination_plan.py --self-test --json
+python3 scripts/check_tau_semantic_conflict_hypergraph_v1.py --tau tau --json
 ```
 
 The coordination-plan checker accepted the canonical ten-operation plan and rejected eight mutations: changed model binding, changed evidence hidden from the agreement digest, cyclic precedence, admission of a disclosed higher-order conflict, admission of a disclosed invariant violation, admission of an unsupported operation, incomplete disposition, and stale plan hashing. The structural mutations were rehashed before validation, except for the two tests that intentionally target stale agreement or plan hashes. This prevents an unrelated stale hash from supplying the expected rejection. This is structural evidence only. The certificate hashes in the fixture are not proofs of Tau semantics.
+
+The updated ADD-only hypergraph replay matched all 15 declared Tau values under Tau `0.7.0-alpha`, build `f7423804`. Its 17 Python tests covered mixed pair and three-way conflicts, seeded comparisons against exhaustive global optimization, dependency closure, an inconsistent base, `UNKNOWN`, resource exhaustion, and complete semantic-subject binding. They also checked all 24 arrival permutations, duplicate delivery, conflicting duplicate identifiers, canonical proposal-manifest roots, policy and budget binding, resolution-certificate replay, and rehashed semantic mutations. This is bounded reference-model evidence, not a claim of tractability for arbitrary proposal sets or agreement on the epoch input set.
+
+Relative to the reviewed commit, this is a strict improvement only for the declared finite conjunction-only `ADD` epoch. Proposals enter a pending set without changing the active law. A canonical manifest is sealed before resolution. Tau checks the complete candidate batch, minimal inconsistent sets become deterministic repair constraints, and one final global `SAT` result owns activation. The network must still establish the common manifest root, authenticate proposals, make their contents available, and provide any required Byzantine safety and liveness.
 
 ## 11. Acceptance tests for an implementation
 
