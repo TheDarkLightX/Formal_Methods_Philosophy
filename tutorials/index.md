@@ -181,6 +181,16 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/two-ways-to-prove-equality/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 13, Part 3: Two ways to prove equality</h2>
+    <p class="fp-card-text">
+      Compare Tao's two-direction tactic with Noether's search for an inner ground,
+      then join them through normal forms, bijections, invariants, and symmetry.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/microkernels-micro-models-and-compositional-correctness/' | relative_url }}"
   >
     <h2 class="fp-card-title">Tutorial 14: Microkernels and micro-models</h2>

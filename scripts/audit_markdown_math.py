@@ -17,6 +17,8 @@ from pathlib import Path
 
 LATEX_COMMAND = re.compile(r"\\[A-Za-z]+")
 RAW_DELIMITER = re.compile(r"\\[()[\]]")
+INLINE_MATH = re.compile(r"(?<!\$)\$([^$\n]+)\$(?!\$)")
+RAW_INLINE_ASTERISK = re.compile(r"(?<!\\)\*")
 
 
 @dataclass(frozen=True)
@@ -86,6 +88,16 @@ def audit_file(path: Path) -> list[Issue]:
         segments = outside_inline_math_segments(line)
         if "__UNBALANCED_INLINE_MATH__" in segments:
             issues.append(Issue(path, line_no, "unbalanced inline math delimiter", line))
+        for match in INLINE_MATH.finditer(line):
+            if RAW_INLINE_ASTERISK.search(match.group(1)):
+                issues.append(
+                    Issue(
+                        path,
+                        line_no,
+                        "raw asterisk in inline math can become Markdown emphasis; use \\ast",
+                        line,
+                    )
+                )
         for segment in segments:
             if segment == "__UNBALANCED_INLINE_MATH__":
                 continue

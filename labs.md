@@ -172,6 +172,17 @@ description: "Interactive labs paired with the tutorial series: bounded witness 
   <p class="fp-card-text" style="margin-bottom: var(--space-lg)">For a gentler change of pace, start here with the Vending Machine Explorer. It is the most concrete entry point for states, transitions, and invariants before the later shape tutorials become more abstract.</p>
   <div class="fp-grid">
     <div class="fp-card fp-card-span-4">
+      <h3 class="fp-card-title">One-Plus-One Inevitability Lab</h3>
+      <p class="fp-card-text">
+        Search every candidate label from 0 through 9, inspect rejected shapes,
+        and watch every complete route recover the same reversible-distinction certificate.
+      </p>
+      <div class="fp-hero-actions">
+        <a class="fp-btn fp-btn-primary" href="{{ '/one_plus_one_inevitability_lab.html' | relative_url }}">Open lab</a>
+        <a class="fp-btn fp-btn-secondary" href="{{ '/tutorials/what-is-two/' | relative_url }}">Read Tutorial 13, Part 2</a>
+      </div>
+    </div>
+    <div class="fp-card fp-card-span-4">
       <h3 class="fp-card-title">Vending Machine Explorer</h3>
       <p class="fp-card-text">
         A small live state machine for learning states, transitions, and invariants

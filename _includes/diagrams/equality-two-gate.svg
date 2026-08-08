@@ -1,0 +1,27 @@
+<svg style="display:block;width:100%;height:auto" viewBox="0 0 480 400" role="img" aria-labelledby="two-gate-title two-gate-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="two-gate-title">Equality from two checked directions</title>
+  <desc id="two-gate-desc">Arrows a less than or equal to b and b less than or equal to a enter an antisymmetry gate and produce a equals b.</desc>
+  <defs>
+    <marker id="two-gate-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#17324d"/>
+    </marker>
+  </defs>
+  <rect x="7" y="7" width="466" height="386" rx="22" fill="#fffdf8" stroke="#d8cdb9" stroke-width="2"/>
+  <text x="240" y="44" text-anchor="middle" font-family="system-ui, sans-serif" font-size="17" font-weight="800" letter-spacing="1.4" fill="#17324d">TWO CHECKED DIRECTIONS</text>
+
+  <circle cx="102" cy="147" r="39" fill="#e8f3f6" stroke="#16708a" stroke-width="3"/>
+  <circle cx="356" cy="147" r="39" fill="#e8f3f6" stroke="#16708a" stroke-width="3"/>
+  <text x="102" y="157" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-style="italic" fill="#17324d">a</text>
+  <text x="356" y="157" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-style="italic" fill="#17324d">b</text>
+
+  <path d="M145 128 C199 86, 259 86, 313 128" fill="none" stroke="#17324d" stroke-width="3" marker-end="url(#two-gate-arrow)"/>
+  <path d="M313 167 C259 209, 199 209, 145 167" fill="none" stroke="#17324d" stroke-width="3" marker-end="url(#two-gate-arrow)"/>
+  <text x="229" y="93" text-anchor="middle" font-family="Georgia, serif" font-size="23" fill="#17324d">a ≤ b</text>
+  <text x="229" y="221" text-anchor="middle" font-family="Georgia, serif" font-size="23" fill="#17324d">b ≤ a</text>
+
+  <path d="M229 230 L229 263" stroke="#17324d" stroke-width="3" marker-end="url(#two-gate-arrow)"/>
+  <rect x="126" y="270" width="206" height="50" rx="12" fill="#f6e7c5" stroke="#b7791f" stroke-width="2"/>
+  <text x="229" y="301" text-anchor="middle" font-family="system-ui, sans-serif" font-size="18" font-weight="700" fill="#70440d">antisymmetry gate</text>
+  <path d="M229 321 L229 348" stroke="#17324d" stroke-width="3" marker-end="url(#two-gate-arrow)"/>
+  <text x="229" y="382" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-weight="700" fill="#17324d">a = b</text>
+</svg>

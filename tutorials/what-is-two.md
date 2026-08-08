@@ -652,6 +652,8 @@ A compact summary is:
 
 That sentence describes complementary mathematical habits. It does not claim that either mathematician would endorse every construction on this page.
 
+The comparison is developed carefully in [Tutorial 13, Part 3: Two ways to prove equality]({{ '/tutorials/two-ways-to-prove-equality/' | relative_url }}), beginning with partial orders and simple finite examples before reaching Cantor–Schröder–Bernstein and a scoped instance of Noether's theorem.
+
 ## 16. Where the result can change
 
 The glyphs alone do not determine an operation.

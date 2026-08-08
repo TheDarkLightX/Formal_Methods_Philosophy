@@ -1,0 +1,32 @@
+<svg style="display:block;width:100%;height:auto" viewBox="0 0 480 400" role="img" aria-labelledby="shared-mechanism-title shared-mechanism-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="shared-mechanism-title">Equality from one shared mechanism</title>
+  <desc id="shared-mechanism-desc">Expressions A and B travel along meaning-preserving paths and meet at one common structure C, producing A equals C equals B.</desc>
+  <defs>
+    <marker id="shared-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#16708a"/>
+    </marker>
+    <marker id="shared-arrow-navy" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#17324d"/>
+    </marker>
+  </defs>
+  <rect x="7" y="7" width="466" height="386" rx="22" fill="#fffdf8" stroke="#d8cdb9" stroke-width="2"/>
+  <text x="240" y="44" text-anchor="middle" font-family="system-ui, sans-serif" font-size="17" font-weight="800" letter-spacing="1.4" fill="#17324d">ONE SHARED MECHANISM</text>
+
+  <rect x="44" y="84" width="116" height="62" rx="16" fill="#eef2f7" stroke="#17324d" stroke-width="2"/>
+  <rect x="44" y="226" width="116" height="62" rx="16" fill="#eef2f7" stroke="#17324d" stroke-width="2"/>
+  <text x="102" y="124" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-style="italic" fill="#17324d">A</text>
+  <text x="102" y="266" text-anchor="middle" font-family="Georgia, serif" font-size="30" font-style="italic" fill="#17324d">B</text>
+
+  <rect x="286" y="143" width="154" height="86" rx="18" fill="#dff2ee" stroke="#167b6b" stroke-width="3"/>
+  <text x="363" y="177" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#16594f">COMMON STRUCTURE</text>
+  <text x="363" y="213" text-anchor="middle" font-family="Georgia, serif" font-size="34" font-style="italic" fill="#17324d">C</text>
+
+  <path d="M164 114 C224 114, 243 143, 286 166" fill="none" stroke="#16708a" stroke-width="3" marker-end="url(#shared-arrow)"/>
+  <path d="M164 257 C224 257, 243 229, 286 207" fill="none" stroke="#16708a" stroke-width="3" marker-end="url(#shared-arrow)"/>
+  <text x="224" y="94" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#16708a">sound receipt</text>
+  <text x="224" y="285" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" font-weight="700" fill="#16708a">sound receipt</text>
+
+  <path d="M363 230 L363 311" stroke="#17324d" stroke-width="3" marker-end="url(#shared-arrow-navy)"/>
+  <text x="363" y="346" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#17324d">A = C = B</text>
+  <text x="240" y="379" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#5a6570">normal form · bijection · invariant · symmetry</text>
+</svg>
