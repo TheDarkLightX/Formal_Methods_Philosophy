@@ -2,7 +2,7 @@
   "architecture": {
     "name": "Proof-Carrying Tau Coordination Boundary",
     "status": "BOUNDED_PROTOTYPE",
-    "summary": "Compile a pinned semantic model and proposal manifest into checked fast-path certificates, typed conflict obligations, a policy-selected partial order, complete operation dispositions, and one content-addressed agreement input.",
+    "summary": "Compile a pinned semantic model and sealed proposal manifest into checked fast-path certificates, typed conflict obligations, a policy-selected partial order, complete operation dispositions, and one content-addressed agreement input.",
     "unproved_claims": [
       "soundness for unbounded Tau transition systems",
       "completeness of conflict discovery",
@@ -27,9 +27,25 @@
     {
       "path": "examples/tau/consensus_decomposed_review_addendum_v1.tau",
       "role": "Tau counterexample and algebra replay source"
+    },
+    {
+      "path": "examples/tau/consensus_hypergraph_v1.tau",
+      "role": "ADD-only pair and three-way conflict replay source"
+    },
+    {
+      "path": "examples/tau_coordination_boundary/semantic_conflict_hypergraph_v1.py",
+      "role": "bounded implicit MUS and hitting-set reference model"
+    },
+    {
+      "path": "examples/tau_coordination_boundary/test_semantic_conflict_hypergraph_v1.py",
+      "role": "exhaustive comparison, all-permutation, dependency, fail-closed, mutation, and certificate-binding tests"
+    },
+    {
+      "path": "assets/data/tau_semantic_conflict_hypergraph_v1.receipt.json",
+      "role": "Tau and Python replay receipt"
     }
   ],
-  "claim_boundary": "This is a curated public export of a Research Kernel run, not a raw database dump. Supported findings have attached replay evidence. The proposed architecture remains a bounded prototype until its semantic certificates and network layer receive independent verification.",
+  "claim_boundary": "This is a curated public export of Research Kernel runs, not a raw database dump. Supported findings have attached replay evidence. The sealed-epoch resolver strictly improves the reviewed pairwise path only for the tested fixed-base finite conjunction-only ADD model. The broader architecture remains a bounded prototype until its semantic certificates and network layer receive independent verification.",
   "exported_on": "2026-08-08",
   "negative_knowledge": [
     {
@@ -51,6 +67,14 @@
     {
       "finding": "The same deterministic checker can diverge on different proposal universes.",
       "implication": "Certificates and agreement inputs must bind a canonical proposal-set or epoch root."
+    },
+    {
+      "finding": "A logically satisfiable correction can violate proposal dependencies.",
+      "implication": "Dependency closure must be enforced inside the resolver master problem, not checked only after optimization."
+    },
+    {
+      "finding": "An edge identifier over only an epoch label and member IDs is semantically underbound.",
+      "implication": "Conflict-edge identity must bind the domain, epoch, base law, proposal set, oracle semantics, and sorted members."
     },
     {
       "finding": "arXiv:1901.00193 concerns algebraic geometry rather than distributed coordination.",
@@ -81,6 +105,10 @@
     {
       "gate": "WORKLOAD_BENCHMARK",
       "question": "Does the architecture reduce false serialization, messages, or latency on a source-pinned realistic workload?"
+    },
+    {
+      "gate": "RESOLVER_REFINEMENT",
+      "question": "Does the production epoch state machine refine the bounded ADD resolver, including dependency closure and typed deferment?"
     }
   ],
   "primary_literature": [
@@ -122,7 +150,10 @@
   ],
   "research_kernel": {
     "public_export_policy": "Only source-pinned claims, counterexamples, bounded prototype results, negative knowledge, and open obligations are exported. Internal paths, private coordination tactics, and superseded claim bookkeeping are omitted.",
-    "run_id": "tau-coordination-minimization-review-v1-20260808"
+    "run_ids": [
+      "tau-coordination-minimization-review-v1-20260808",
+      "tau-semantic-conflict-hypergraph-v2-20260808"
+    ]
   },
   "reviewed_subject": {
     "commit": "4baf38cbad096fdbe7c41c46e4b41d35c9ba44d2",
@@ -165,6 +196,28 @@
       "finding": "The reference plan passed structural validation and eight adversarial mutations were rejected.",
       "scope": "canonical binding, disposition, disclosed conflicts, precedence acyclicity, and plan hashing only",
       "status": "BOUNDED_PROTOTYPE_CHECKED"
+    },
+    {
+      "evidence": [
+        "assets/data/tau_semantic_conflict_hypergraph_v1.receipt.json"
+      ],
+      "finding": "The bounded ADD-only implicit MUS and hitting-set resolver matched exhaustive finite optimization, preserved dependency closure, produced one result across all 24 arrival permutations, and failed closed on equivocation, semantic mutations, inconsistent-base, UNKNOWN, policy, budget, and resource-limit cases.",
+      "research_kernel_atoms": [
+        "tau-hg-c-001",
+        "tau-hg-c-002"
+      ],
+      "scope": "fixed satisfiable base, finite conjunction-only ADD epoch, identical sealed proposal records, exact bounded master solves, and the tested Tau and Python artifacts",
+      "status": "SUPPORTED"
+    },
+    {
+      "evidence": [
+        "assets/data/tau_semantic_conflict_hypergraph_v1.receipt.json",
+        "https://github.com/taumorrow/tau-lang-demos/commit/4baf38cbad096fdbe7c41c46e4b41d35c9ba44d2"
+      ],
+      "finding": "The sealed semantic-conflict-hypergraph resolver is a strict bounded improvement over the reviewed pairwise arrival-mutating path because it detects the demonstrated arity-three conflict and derives one certified resolution for every permutation of the same sealed records.",
+      "research_kernel_atom": "tau-hg-c-003",
+      "scope": "comparison with the exact reviewed commit inside the fixed-base finite conjunction-only ADD model; excludes proposal-set agreement, authentication, availability, Byzantine safety, liveness, fairness, non-ADD operations, and unbounded tractability",
+      "status": "SUPPORTED"
     }
   ]
 }

@@ -813,6 +813,16 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/conflicts-beyond-pairs-semantic-hypergraphs/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 75: When conflicts need more than pairs</h2>
+    <p class="fp-card-text">
+      See why every pair can pass while a whole proposal set fails, then build
+      a sealed Tau ADD epoch with hypergraph conflicts and checked resolution.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/exploring-mathematics-from-counting-to-functors/' | relative_url }}"
   >
     <p class="fp-kicker">Visual mathematics</p>

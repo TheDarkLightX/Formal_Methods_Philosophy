@@ -1,0 +1,90 @@
+<svg class="fp-diagram" data-math-motion="true" viewBox="0 0 960 520" role="img" aria-labelledby="hypergraph-conflict-title hypergraph-conflict-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="hypergraph-conflict-title">A conflict that no pair can see</title>
+  <desc id="hypergraph-conflict-desc">The left panel checks all three pairs of proposals P, Q, and R and finds each pair satisfiable. The right panel surrounds all three proposals with one hyperedge because their complete set is inconsistent.</desc>
+  <defs>
+    <filter id="hypergraph-conflict-shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#172033" flood-opacity="0.12" />
+    </filter>
+    <marker id="hypergraph-conflict-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#315f9e" />
+    </marker>
+  </defs>
+  <style>
+    .pair-scan {
+      stroke-dasharray: 10 8;
+      stroke-dashoffset: 0;
+    }
+    .hyperedge-boundary {
+      stroke-dasharray: 980;
+      stroke-dashoffset: 0;
+    }
+    .math-motion-run .pair-scan {
+      animation: hypergraph-pair-scan 1.3s ease-out 1 both;
+    }
+    .math-motion-run .hyperedge-boundary {
+      animation: hypergraph-edge-draw 1.5s ease-out 1.25s 1 both;
+    }
+    @keyframes hypergraph-pair-scan {
+      from { stroke-dashoffset: 72; opacity: 0.25; }
+      to { stroke-dashoffset: 0; opacity: 1; }
+    }
+    @keyframes hypergraph-edge-draw {
+      from { stroke-dashoffset: 980; opacity: 0.2; }
+      to { stroke-dashoffset: 0; opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .pair-scan, .hyperedge-boundary {
+        animation: none;
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+
+  <rect x="20" y="20" width="920" height="480" rx="34" fill="#fffaf2" stroke="#d9cdbd" stroke-width="2" />
+  <text x="60" y="66" font-size="24" font-weight="800" fill="#172033" font-family="Atkinson Hyperlegible, system-ui, sans-serif">A graph checks pairs. A hypergraph can bind the whole set.</text>
+  <text x="60" y="94" font-size="14" fill="#536076" font-family="Atkinson Hyperlegible, system-ui, sans-serif">P and Q are compatible. P and R are compatible. Q and R are compatible. P, Q, and R together are not.</text>
+
+  <g filter="url(#hypergraph-conflict-shadow)">
+    <rect x="54" y="126" width="396" height="312" rx="28" fill="#eaf2ff" stroke="#5386cf" stroke-width="2" />
+    <rect x="510" y="126" width="396" height="312" rx="28" fill="#fff0eb" stroke="#d66b43" stroke-width="2" />
+  </g>
+
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="82" y="166" font-size="14" font-weight="800" fill="#315f9e">PAIRWISE GRAPH</text>
+    <text x="82" y="192" font-size="13" fill="#536076">Every two-proposal test says SAT.</text>
+
+    <path class="pair-scan" d="M160 260 L336 260 L248 364 Z" fill="none" stroke="#5386cf" stroke-width="3" />
+    <g text-anchor="middle" font-size="23" font-weight="800" fill="#172033">
+      <circle cx="160" cy="260" r="34" fill="#ffffff" stroke="#315f9e" stroke-width="3" />
+      <text x="160" y="268">P</text>
+      <circle cx="336" cy="260" r="34" fill="#ffffff" stroke="#315f9e" stroke-width="3" />
+      <text x="336" y="268">Q</text>
+      <circle cx="248" cy="364" r="34" fill="#ffffff" stroke="#315f9e" stroke-width="3" />
+      <text x="248" y="372">R</text>
+    </g>
+    <g text-anchor="middle" font-size="12" font-weight="800" fill="#24704a">
+      <rect x="221" y="231" width="54" height="24" rx="12" fill="#edf8f1" stroke="#58a77a" />
+      <text x="248" y="248">SAT</text>
+      <rect x="158" y="305" width="54" height="24" rx="12" fill="#edf8f1" stroke="#58a77a" />
+      <text x="185" y="322">SAT</text>
+      <rect x="284" y="305" width="54" height="24" rx="12" fill="#edf8f1" stroke="#58a77a" />
+      <text x="311" y="322">SAT</text>
+    </g>
+    <text x="82" y="412" font-size="13" font-weight="700" fill="#315f9e">Conclusion from pairs alone: no conflict found.</text>
+
+    <text x="538" y="166" font-size="14" font-weight="800" fill="#a13f22">SEMANTIC HYPERGRAPH</text>
+    <text x="538" y="192" font-size="13" fill="#536076">One minimal conflict contains all three proposals.</text>
+    <path class="hyperedge-boundary" d="M585 222 C635 176 783 178 833 230 C877 276 858 382 798 410 C736 440 610 416 574 350 C548 302 552 252 585 222 Z" fill="#f9731614" stroke="#d65b2f" stroke-width="5" />
+    <g text-anchor="middle" font-size="23" font-weight="800" fill="#172033">
+      <circle cx="640" cy="275" r="34" fill="#ffffff" stroke="#d65b2f" stroke-width="3" />
+      <text x="640" y="283">P</text>
+      <circle cx="790" cy="275" r="34" fill="#ffffff" stroke="#d65b2f" stroke-width="3" />
+      <text x="790" y="283">Q</text>
+      <circle cx="715" cy="365" r="34" fill="#ffffff" stroke="#d65b2f" stroke-width="3" />
+      <text x="715" y="373">R</text>
+    </g>
+    <rect x="666" y="215" width="98" height="28" rx="14" fill="#a13f22" />
+    <text x="715" y="234" text-anchor="middle" font-size="13" font-weight="800" fill="#ffffff">UNSAT together</text>
+    <text x="538" y="432" font-size="13" font-weight="700" fill="#a13f22">Hyperedge: {P, Q, R}</text>
+  </g>
+</svg>

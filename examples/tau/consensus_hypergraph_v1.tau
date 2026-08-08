@@ -1,0 +1,59 @@
+# =============================================================================
+# SEMANTIC CONFLICT HYPERGRAPH V1
+# Pairwise compatibility is insufficient for conjunction-only ADD batches.
+# =============================================================================
+#
+# P: o30 is true
+# Q: o31 is true
+# R: if o30 is true, o31 must be false
+# S: o30 is false
+#
+# The minimally inconsistent proposal sets are:
+#
+#   {P,Q,R}   a three-way conflict; all three pairs are compatible
+#   {P,S}     an ordinary pair conflict
+#
+# Run: tau < examples/tau/consensus_hypergraph_v1.tau
+# EXPECTED-RESULTS: F F F F F F T T F F F F T T T
+# =============================================================================
+
+set charvar off
+
+# P, Q, and R are individually satisfiable.
+normalize { o30[t]=1 } = 0.
+normalize { o31[t]=1 } = 0.
+normalize { o30[t]=1 -> o31[t]=0 } = 0.
+
+# Every pair among P, Q, and R is satisfiable.
+normalize ({ o30[t]=1 } & { o31[t]=1 }) = 0.
+normalize ({ o30[t]=1 } & { o30[t]=1 -> o31[t]=0 }) = 0.
+normalize ({ o31[t]=1 } & { o30[t]=1 -> o31[t]=0 }) = 0.
+
+# The triple is impossible, so it is a size-three conflict hyperedge.
+normalize (({ o30[t]=1 } & { o31[t]=1 }) &
+           { o30[t]=1 -> o31[t]=0 }) = 0.
+
+# P and S form a size-two conflict hyperedge.
+normalize ({ o30[t]=1 } & { o30[t]=0 }) = 0.
+
+# Removing any member from {P,Q,R} restores satisfiability.
+normalize ({ o31[t]=1 } & { o30[t]=1 -> o31[t]=0 }) = 0.
+normalize ({ o30[t]=1 } & { o30[t]=1 -> o31[t]=0 }) = 0.
+normalize ({ o30[t]=1 } & { o31[t]=1 }) = 0.
+
+# Rejecting P hits both known hyperedges. Q, R, and S remain satisfiable.
+normalize (({ o31[t]=1 } & { o30[t]=1 -> o31[t]=0 }) &
+           { o30[t]=0 }) = 0.
+
+# Rejecting only R leaves the conflict {P,S} unresolved.
+normalize (({ o30[t]=1 } & { o31[t]=1 }) & { o30[t]=0 }) = 0.
+
+# Rejecting R and S leaves the satisfiable set {P,Q}.
+normalize ({ o30[t]=1 } & { o31[t]=1 }) != 0.
+
+# After a safe ADD set is fixed, its conjunction is order-independent.
+normalize (({ o1[t]=1 -> o2[t]=1 } & { o30[t]=1 }) & { o31[t]=1 }) =
+          (({ o1[t]=1 -> o2[t]=1 } & { o31[t]=1 }) & { o30[t]=1 }).
+
+# The host resolver may use discovered minimal conflicts as cutting planes, but
+# the complete accepted batch must still receive one final global SAT check.
