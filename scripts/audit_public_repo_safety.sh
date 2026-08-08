@@ -6,6 +6,9 @@ cd "$ROOT"
 
 SELF="scripts/audit_public_repo_safety.sh"
 FAILED=0
+# Runtime accounts such as GitHub Actions' "runner" are ordinary English words.
+# Set this explicitly for a workstation-specific standalone username audit.
+LOCAL_USERNAME="${PUBLIC_REPO_LOCAL_USERNAME:-}"
 
 echo "Checking tracked paths for local-only artifacts..."
 while IFS= read -r path; do
@@ -25,7 +28,7 @@ while IFS= read -r path; do
     sed "s#^#$path:#" /tmp/public_repo_safety_hits.$$ >&2
     FAILED=1
   fi
-  if [[ -n "${USER:-}" ]] && grep -I -n -F "${USER}" "$path" >/tmp/public_repo_safety_hits.$$ 2>/dev/null; then
+  if [[ -n "$LOCAL_USERNAME" ]] && grep -I -n -F "$LOCAL_USERNAME" "$path" >/tmp/public_repo_safety_hits.$$ 2>/dev/null; then
     sed "s#^#$path:#" /tmp/public_repo_safety_hits.$$ >&2
     FAILED=1
   fi
