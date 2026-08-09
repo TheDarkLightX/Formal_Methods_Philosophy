@@ -823,6 +823,17 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/the-category-is-not-the-coalition/' | relative_url }}"
+  >
+    <p class="fp-kicker">Essay</p>
+    <h2 class="fp-card-title">The category is not the coalition</h2>
+    <p class="fp-card-text">
+      A personal and mathematical argument about ignorance, human variation,
+      collective threat attribution, and distributed human-AI capability.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/exploring-mathematics-from-counting-to-functors/' | relative_url }}"
   >
     <p class="fp-kicker">Visual mathematics</p>
