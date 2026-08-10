@@ -823,6 +823,16 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/find-the-symmetry-tao-and-representation-theory/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Tutorial 76: Find the symmetry</h2>
+    <p class="fp-card-text">
+      Move from antisymmetry and a two-state swap machine to group actions,
+      matrix representations, invariant pieces, Fourier modes, and the mathematics of time.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/the-category-is-not-the-coalition/' | relative_url }}"
   >
     <p class="fp-kicker">Essay</p>
