@@ -1,0 +1,65 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 560"
+  role="img"
+  aria-labelledby="fp-swap-decomposition-title fp-swap-decomposition-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-swap-decomposition-title">A vector decomposed into symmetric and antisymmetric components</title>
+  <desc id="fp-swap-decomposition-desc">
+    The vector 4 comma 2 is shown as the sum of the symmetric vector 3 comma 3 along the line y equals x and the antisymmetric vector 1 comma negative 1 parallel to the line y equals negative x.
+  </desc>
+
+  <defs>
+    <marker id="fp-swap-decomp-navy-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#173B63" />
+    </marker>
+    <marker id="fp-swap-decomp-teal-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#1C9A92" />
+    </marker>
+    <marker id="fp-swap-decomp-coral-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#D97757" />
+    </marker>
+    <filter id="fp-swap-decomp-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F2747" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <rect x="28" y="28" width="904" height="504" rx="28" fill="#FFFDF8" stroke="#E5E7EB" filter="url(#fp-swap-decomp-shadow)" />
+
+  <g stroke="#DDE6EA" stroke-width="1">
+    <path d="M100 60 H650 M100 120 H650 M100 180 H650 M100 240 H650 M100 300 H650 M100 360 H650 M100 420 H650 M100 480 H650" />
+    <path d="M120 45 V500 M180 45 V500 M240 45 V500 M300 45 V500 M360 45 V500 M420 45 V500 M480 45 V500 M540 45 V500 M600 45 V500" />
+  </g>
+
+  <g stroke="#173B63" stroke-width="3" stroke-linecap="round">
+    <path d="M80 300 H665" />
+    <path d="M360 510 V38" />
+  </g>
+  <text x="670" y="307" font-size="18" fill="#173B63" font-family="Atkinson Hyperlegible, system-ui, sans-serif">x</text>
+  <text x="350" y="32" font-size="18" fill="#173B63" font-family="Atkinson Hyperlegible, system-ui, sans-serif">y</text>
+
+  <path d="M130 530 L640 20" stroke="#1C9A92" stroke-width="5" stroke-linecap="round" opacity="0.55" />
+  <path d="M130 70 L640 580" stroke="#D97757" stroke-width="5" stroke-linecap="round" opacity="0.45" />
+  <text x="540" y="80" font-size="16" font-weight="700" fill="#14766F" font-family="Atkinson Hyperlegible, system-ui, sans-serif">symmetric line</text>
+  <text x="510" y="500" font-size="16" font-weight="700" fill="#A8462A" font-family="Atkinson Hyperlegible, system-ui, sans-serif">difference line</text>
+
+  <path d="M360 300 L535 125" stroke="#1C9A92" stroke-width="7" marker-end="url(#fp-swap-decomp-teal-arrow)" />
+  <path d="M540 120 L595 175" stroke="#D97757" stroke-width="7" marker-end="url(#fp-swap-decomp-coral-arrow)" />
+  <path d="M360 300 L598 181" stroke="#173B63" stroke-width="4" stroke-dasharray="9 8" marker-end="url(#fp-swap-decomp-navy-arrow)" />
+
+  <circle cx="360" cy="300" r="7" fill="#173B63" />
+  <circle cx="540" cy="120" r="9" fill="#1C9A92" stroke="#FFFFFF" stroke-width="3" />
+  <circle cx="600" cy="180" r="10" fill="#173B63" stroke="#FFFFFF" stroke-width="3" />
+
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="690" y="128" font-size="18" font-weight="800" fill="#C17C22">ONE EXACT EXAMPLE</text>
+    <text x="690" y="186" font-size="26" font-weight="800" fill="#173B63">p = (4, 2)</text>
+    <text x="690" y="240" font-size="22" font-weight="700" fill="#14766F">symmetric = (3, 3)</text>
+    <text x="690" y="282" font-size="16" fill="#425466">the symmetric component</text>
+    <text x="690" y="340" font-size="22" font-weight="700" fill="#A8462A">difference = (1, -1)</text>
+    <text x="690" y="382" font-size="16" fill="#425466">the difference component</text>
+    <text x="690" y="450" font-size="22" font-weight="800" fill="#173B63">p =</text>
+    <text x="716" y="482" font-size="20" font-weight="800" fill="#173B63">symmetric + difference</text>
+  </g>
+</svg>

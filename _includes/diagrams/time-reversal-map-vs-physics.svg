@@ -1,0 +1,73 @@
+<svg
+  class="fp-diagram"
+  viewBox="0 0 960 610"
+  role="img"
+  aria-labelledby="fp-time-math-title fp-time-math-desc"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="fp-time-math-title">Three distinct mathematical structures involving time</title>
+  <desc id="fp-time-math-desc">
+    The first panel reflects a real time coordinate around zero. The second maps a history to its time-reversed history. The third shows a closed timelike curve returning to the same spacetime event. A bottom panel shows that a strictly increasing global time function excludes such a loop.
+  </desc>
+
+  <defs>
+    <marker id="fp-time-coral-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#D97757" />
+    </marker>
+    <marker id="fp-time-blue-arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#173B63" />
+    </marker>
+    <filter id="fp-time-math-shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F2747" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <rect x="28" y="28" width="904" height="554" rx="28" fill="#FFFDF8" stroke="#E5E7EB" filter="url(#fp-time-math-shadow)" />
+
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="480" y="75" font-size="25" font-weight="800" fill="#173B63" text-anchor="middle">THREE MATHEMATICAL QUESTIONS ABOUT TIME</text>
+
+    <rect x="58" y="105" width="260" height="315" rx="22" fill="#EEF6FA" stroke="#A9C3D3" stroke-width="2" />
+    <text x="188" y="143" font-size="18" font-weight="800" fill="#173B63" text-anchor="middle">1. COORDINATE REFLECTION</text>
+    <text x="188" y="177" font-size="21" font-weight="800" fill="#14766F" text-anchor="middle">R(t) = -t</text>
+
+    <line x1="88" y1="255" x2="288" y2="255" stroke="#173B63" stroke-width="4" stroke-linecap="round" />
+    <g stroke="#173B63" stroke-width="3">
+      <path d="M108 245 V265 M148 245 V265 M188 241 V269 M228 245 V265 M268 245 V265" />
+    </g>
+    <g fill="#425466" font-size="15" text-anchor="middle">
+      <text x="108" y="289">-2</text>
+      <text x="148" y="289">-1</text>
+      <text x="188" y="289">0</text>
+      <text x="228" y="289">1</text>
+      <text x="268" y="289">2</text>
+    </g>
+    <path d="M228 230 C218 195 173 195 151 229" fill="none" stroke="#D97757" stroke-width="4" marker-end="url(#fp-time-coral-arrow)" />
+    <path d="M148 315 C158 350 203 350 225 316" fill="none" stroke="#1C9A92" stroke-width="4" marker-end="url(#fp-time-blue-arrow)" />
+    <text x="188" y="382" font-size="16" font-weight="700" fill="#425466" text-anchor="middle">R followed by R is identity.</text>
+
+    <rect x="350" y="105" width="260" height="315" rx="22" fill="#FFF6E8" stroke="#D9A85E" stroke-width="2" />
+    <text x="480" y="143" font-size="18" font-weight="800" fill="#9A5A12" text-anchor="middle">2. HISTORY REVERSAL</text>
+    <text x="480" y="177" font-size="17" font-weight="800" fill="#9A5A12" text-anchor="middle">z_R(t) = Theta(z(-t))</text>
+
+    <path d="M385 237 C425 193 475 210 510 247 C536 274 555 272 580 230" fill="none" stroke="#173B63" stroke-width="5" marker-end="url(#fp-time-blue-arrow)" />
+    <text x="480" y="292" font-size="15" fill="#425466" text-anchor="middle">original history z(t)</text>
+
+    <path d="M575 340 C535 384 485 367 450 330 C424 303 405 305 380 347" fill="none" stroke="#D97757" stroke-width="5" marker-end="url(#fp-time-coral-arrow)" />
+    <text x="480" y="392" font-size="15" fill="#425466" text-anchor="middle">reversed history z_R(t)</text>
+
+    <rect x="642" y="105" width="260" height="315" rx="22" fill="#EAF7F3" stroke="#72B7A6" stroke-width="2" />
+    <text x="772" y="143" font-size="18" font-weight="800" fill="#14766F" text-anchor="middle">3. CAUSAL RETURN PATH</text>
+    <text x="772" y="177" font-size="18" font-weight="800" fill="#14766F" text-anchor="middle">gamma(0) = gamma(1)</text>
+
+    <ellipse cx="772" cy="282" rx="83" ry="70" fill="none" stroke="#1C9A92" stroke-width="7" />
+    <path d="M717 229 C684 256 684 308 716 336" fill="none" stroke="#D97757" stroke-width="5" marker-end="url(#fp-time-coral-arrow)" />
+    <circle cx="717" cy="229" r="10" fill="#173B63" stroke="#FFFFFF" stroke-width="4" />
+    <text x="772" y="385" font-size="15" font-weight="700" fill="#425466" text-anchor="middle">one curve returns to</text>
+    <text x="772" y="406" font-size="15" font-weight="700" fill="#425466" text-anchor="middle">the same spacetime event</text>
+
+    <rect x="92" y="462" width="776" height="82" rx="20" fill="#F4F6F8" stroke="#DDE6EA" stroke-width="2" />
+    <text x="480" y="495" font-size="17" font-weight="800" fill="#173B63" text-anchor="middle">MONOTONE OBSTRUCTION</text>
+    <text x="480" y="525" font-size="16" fill="#425466" text-anchor="middle">If tau strictly increases on every future causal path, no such path can close.</text>
+  </g>
+</svg>
