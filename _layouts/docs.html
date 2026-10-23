@@ -11,6 +11,11 @@
       name="description"
       content="{{ page.description | default: site.description }}"
     />
+    {% if page.og_title %}
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{{ page.og_title | escape }}" />
+    <meta property="og:description" content="{{ page.description | escape }}" />
+    {% endif %}
 
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}" />
   </head>
