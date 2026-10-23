@@ -838,7 +838,7 @@ show_title: false
     <p class="fp-kicker">Tutorial 77</p>
     <h2 class="fp-card-title">ZenoFCIS 2.5: From Requirements to Verified Programs</h2>
     <p class="fp-card-text">
-      How abstraction, synthesis, and proof turn intent into working software.
+      How meaning, search, and proof turn a requirement into a program whose behavior can be checked.
     </p>
   </a>
   <a
