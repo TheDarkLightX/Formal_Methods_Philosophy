@@ -833,6 +833,16 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/zenofcis-2-5-from-requirements-to-verified-programs/' | relative_url }}"
+  >
+    <p class="fp-kicker">Tutorial 77</p>
+    <h2 class="fp-card-title">ZenoFCIS 2.5: From Requirements to Verified Programs</h2>
+    <p class="fp-card-text">
+      How abstraction, synthesis, and proof turn intent into working software.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/the-category-is-not-the-coalition/' | relative_url }}"
   >
     <p class="fp-kicker">Essay</p>
