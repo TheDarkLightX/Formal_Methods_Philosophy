@@ -602,6 +602,15 @@ details.fp-faq summary:focus-visible {
   border-radius: 8px;
 }
 
+/* Keep links in article text distinct from prose, including numbered citations. */
+.fp-doc-content a:not(.fp-heading-anchor) {
+  color: #1d4ed8;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.12em;
+  overflow-wrap: anywhere;
+}
+
 .markdown-body pre,
 .markdown-body code {
   font-size: 0.95em;
@@ -811,12 +820,14 @@ details.fp-faq summary:focus-visible {
   margin-left: 10px;
   opacity: 0;
   font-size: 0.9em;
-  color: rgba(59, 130, 246, 0.85);
+  color: #1d4ed8;
   text-decoration: none;
 }
 
 .markdown-body h2:hover .fp-heading-anchor,
-.markdown-body h3:hover .fp-heading-anchor {
+.markdown-body h3:hover .fp-heading-anchor,
+.markdown-body h2:focus-within .fp-heading-anchor,
+.markdown-body h3:focus-within .fp-heading-anchor {
   opacity: 1;
 }
 
