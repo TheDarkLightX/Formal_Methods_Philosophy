@@ -24,7 +24,7 @@ Walk halfway to a wall, then half the remaining distance, and keep going. The po
 
 Mathematics asks whether a sequence has a limit. A program needs to know whether a stopping condition is ever met. These are different questions, and they can have different answers.
 
-<details id="zeno-depth">
+<details id="zeno-depth" markdown="1">
 <summary>Go deeper: the limit exists even when the loop never ends</summary>
 
 Our source for Zeno's argument is Aristotle, who reports that the moving thing “must arrive at the half-way stage before it arrives at the goal” (*Physics* VI.9). These are Aristotle's words about Zeno, not a quotation from Zeno himself. [1](https://classics.mit.edu/Aristotle/physics.6.vi.html)
@@ -45,7 +45,7 @@ The proof does not follow the numbers. It follows an ordinal, a different measur
 
 *Figure 2. Starting from 4, the number grows at every step while its ordinal falls. The two rows do not share a numerical scale.*
 
-<details id="goodstein-depth">
+<details id="goodstein-depth" markdown="1">
 <summary>Go deeper: compute the first steps and watch the ordinal fall</summary>
 
 Start with a natural number and write it in hereditary base 2. “Hereditary” means the exponents are also written in base 2, and their exponents too, all the way down. Then replace every occurrence of the base 2 by 3 and subtract one. Repeat with the base raised to 4, then 5, and so on, one step at a time.
@@ -72,7 +72,7 @@ Two ideas connect behavior to proof. An **invariant** is a property that holds i
 
 Encoding also explains universality. Turing wrote that “it is possible to invent a single machine which can be used to compute any computable sequence.” His universal machine does this by interpreting encoded descriptions of other machines. Running every machine is not the same as answering every question about them. [4](https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf)
 
-<details id="logic-depth">
+<details id="logic-depth" markdown="1">
 <summary>Unpack the logic: encodings, invariants, and Curry–Howard</summary>
 
 Start with a deliberately plain encoding. Give each token an integer, include delimiters or lengths, and encode the resulting finite sequence as a single natural number. Richer encodings preserve syntax trees and variable binding. Either way, every finite program can be represented by a number.
@@ -107,7 +107,7 @@ The **Edwards Contract Machine**, a teaching construction proposed here, makes t
 
 A standalone Python example applies the construction to moving fictional credits between nonnegative balances. The search finds t = min(a, max(r, 0)) and checks it on every input in a finite domain; a separate short proof then covers every integer request under the same balance preconditions. The panel below works through both.
 
-<details id="machines-depth">
+<details id="machines-depth" markdown="1">
 <summary>Build the Edwards machine, from ideal contract to finite search</summary>
 
 A finite automaton remembers only which of finitely many states it is in. Two states are enough to track whether the number of 1s read so far is even or odd: reading 1 switches state, reading 0 does not. Limited memory makes some tasks impossible, but it also makes many questions about the machine's behavior decidable. The restriction is part of what makes it useful. [15](https://doi.org/10.1147/rd.32.0114)
@@ -188,7 +188,7 @@ At (2, 3) the answers are 5 and 6, and multiplication fails the addition require
 
 Recent research organizes this search more efficiently; the panel below compares three approaches. Later sections follow a real synthesis task through its recorded checks and into a running application.
 
-<details id="synthesis-depth">
+<details id="synthesis-depth" markdown="1">
 <summary>Go deeper: what a synthesizer receives, and how research speeds it up</summary>
 
 ### What the synthesizer receives
@@ -233,7 +233,7 @@ Finite checking can be complete too: it can cover every input in a declared doma
 - Using which semantics, assumptions, and checker?
 - What connects that artifact to the program actually deployed?
 
-<details id="bounds-depth">
+<details id="bounds-depth" markdown="1">
 <summary>Derive the square loop, step by step</summary>
 
 ![A square accumulator maintains s equals i squared at successive states]({{ '/assets/images/zenofcis-2-5/figure-07.png' | relative_url }})
@@ -267,7 +267,7 @@ Over a finite input domain D, a checker can establish a property for every x in 
 
 On a finite trace, the ending matters. In the semantics used here, “eventually” includes the present: the trace [false, false, true] satisfies “eventually p” at its start, and the completed trace [false, false] does not. Strong “next” is false at the last position, because there is no next observation. A real-time deadline also needs a clock and timing assumptions, and unbounded progress may depend on an explicit fairness assumption. A guarantee about a system must cover every admitted execution under its assumptions; one successful trace is not enough.
 
-<details id="temporal-depth">
+<details id="temporal-depth" markdown="1">
 <summary>Why a finite ending changes what is true</summary>
 
 ![Finite eventuality outcomes depend on whether a witness occurs before the trace ends]({{ '/assets/images/zenofcis-2-5/figure-08.png' | relative_url }})
@@ -312,7 +312,7 @@ if authorized, move to approved.
 
 Both forms denote the same canonical model, and the grammar fixes what each word means, so no language model is asked to improvise an equivalent policy. The `authorized` Boolean is an input observation; authenticating an actual person is the surrounding application's job. The grammar has no temporal operators, so a progress requirement can be recorded only as an unresolved placeholder, which is reported, not checked. [12](https://github.com/TheDarkLightX/ZenoFCIS/blob/v2.5.0/docs/zal/GRAMMAR.md#L75-L107)
 
-<details id="zal-depth">
+<details id="zal-depth" markdown="1">
 <summary>Why a safe state graph can still wait forever</summary>
 
 ![ZAL order states allow a pending order to keep rejecting without progress]({{ '/assets/images/zenofcis-2-5/figure-10.png' | relative_url }})
@@ -359,7 +359,7 @@ ZenoFCIS separates a **functional core**, which decides, from an **imperative sh
 
 Trust then rests on an evidence chain: the contract, the source revision, the generated artifact, the checks, and the running code, each identified by a hash. Evidence also comes in different strengths, and finite exhaustive checks, attested solver answers, and kernel-checked proofs are recorded as distinct categories. Within the core, the shared executable evaluation, law checking, and Authority operations are formally verified against their stated specifications; the surrounding system keeps obligations of its own. [26](https://github.com/TheDarkLightX/ZenoFCIS/blob/v2.5.0/verification/verus/authority_v2.rs#L1-L19)
 
-<details id="factory-depth">
+<details id="factory-depth" markdown="1">
 <summary>Trace the trust boundary: core, shell, authority, and evidence</summary>
 
 ![Candidate generation is separate from checking and refinement]({{ '/assets/images/zenofcis-2-5/figure-15.png' | relative_url }})
@@ -400,7 +400,7 @@ The shell really calls the generated core. It rejects unapproved spending, accep
 
 A separate transformation loop refuted an unsafe edit, accepted an equivalent smaller program, and replayed the result. The accepted replacement was emitted, checked on all 42 inputs, and selected as the module this shell uses. The measured improvement is in representation size, from 10 nodes to 9. The candidate edits were proposed outside the loop; the loop itself made no model calls.
 
-<details id="install-depth">
+<details id="install-depth" markdown="1">
 <summary>Reproduce the source build and published-binary installation</summary>
 
 ### Build the exact tool under test
@@ -432,7 +432,7 @@ The official [v2.5.0 release](https://github.com/TheDarkLightX/ZenoFCIS/releases
 
 This adds a real path from download to installation to a generated template. The running budget application and its durable Rust journey remain separate evidence from the source-build demonstration. The release check was deliberately narrow: it did not rerun the 42-input application, the durable-application flow, or the full release acceptance suite. Its receipt says `authority: none`, so it is not evidence of deployment or authorization for a real financial action.
 
-<details id="binary-install-depth">
+<details id="binary-install-depth" markdown="1">
 <summary>Release provenance, replay commands, and compatibility notes</summary>
 
 The release was published at 05:19:21 UTC on 22 October 2026; the recorded commands ran from 06:09 to 06:11 UTC. The tested archive is `x86_64-unknown-linux-gnu`, run on Linux x86-64 with glibc 2.41; the archive requires glibc 2.39 or newer. The release assets included no macOS or Windows binary, so macOS installation remains untested.
@@ -482,7 +482,7 @@ The evidence bundle keeps six numbered logs: download, source checkout, signatur
 
 </details>
 
-<details id="app-depth">
+<details id="app-depth" markdown="1">
 <summary>Go deeper: every handoff from contract to application</summary>
 
 ### A contract that demands useful behavior
@@ -527,7 +527,7 @@ JavaScript emission was checked too. The first attempt refused Node 24, because 
 
 </details>
 
-<details id="repair-depth">
+<details id="repair-depth" markdown="1">
 <summary>Why a smaller program still needs a check</summary>
 
 A candidate is useful only if it preserves the contract. In the educational source-build run, a deliberately unsafe edit accepted a request that would breach the fictional reserve, and the checker produced a concrete witness. A later candidate removed a redundant expression while preserving the same finite relation.
@@ -542,7 +542,7 @@ Tau Language supports logical specifications, reactive synthesis, an interpreter
 
 For agent security, a correct decision gate helps only if privileged actions cannot bypass it and untrusted input cannot rewrite its policy. Least privilege, authentication, protected configuration, controlled effects, and audit records are separate obligations. A checked reserve rule does not make data honest or delivery reliable.
 
-<details id="tau-depth">
+<details id="tau-depth" markdown="1">
 <summary>Where Tau connects, and what the bridge refuses</summary>
 
 Tau Language offers a declarative way to express relationships between inputs and outputs over time, with facilities for reasoning and reactive synthesis. Its current source documents both an interpreter and ahead-of-time generation and compilation through `tau gen` and `tau compile`. A comparison that casts Tau as an interpreter and ZenoFCIS as a compiler misses the real overlap. [8](https://github.com/IDNI/tau-lang/blob/dad02cdbdd239f5b169e1256045c57d8f7efca3d/README.md)
@@ -563,7 +563,7 @@ The hard work is at the joins: preserving meaning during translation, authentica
 
 </details>
 
-<details id="security-depth">
+<details id="security-depth" markdown="1">
 <summary>A correct gate still needs an unbypassable path</summary>
 
 ![Nested rings: the verified core inside the surrounding system and its environment, with bridge obligations on the core's boundary]({{ '/assets/images/zenofcis-2-5/figure-24.png' | relative_url }})
@@ -602,7 +602,7 @@ The synthesis walkthrough above already shows these layers: a counterexample rej
 
 The references below point to primary papers, public project documentation, and the official release record.
 
-<details id="sources-depth">
+<details id="sources-depth" markdown="1">
 <summary>Read the primary papers and public implementation sources</summary>
 
 1. Aristotle, *Physics* VI.9, Hardie and Gaye translation. [Ancient account of Zeno](https://classics.mit.edu/Aristotle/physics.6.vi.html).
