@@ -5,11 +5,13 @@ kicker: Research essay
 description: "ZAL sentences, symbols, functions, and diagrams make the assumptions behind two small machines visible."
 ---
 
-I use ZAL, the Zeno Abstraction Language, to make a mathematical idea explicit enough for a person and a machine to examine together. A model records the objects, rules, and assumptions under discussion. Different views, such as controlled English, symbols, and diagrams, can make that model easier to inspect.
+I use ZAL, the Zeno Abstraction Language. ZAL allows for a human like me, to capture my mental model and translate it into a formal mathematical representation. I can start with a plain English sentence to the LLM assistant which can translate it into unambiguous controlled English. I can also simply type: `f(x)=y` and most LLMs know my intent and can translate that into deeper more meaningful visual representations. This can be Lambda calculus, it can be ZAL notation, or any custom representation, without losing any accuracy.
 
-The aim is to share the same meaning across views. A matching picture or sentence alone does not establish that the views agree. Their relationship must be defined and checked. An assistant can propose a model, and a checker can answer questions about it; I still have to decide whether the model expresses what I intended.
+I inspect the controlled English and glyphs, ask questions, and revise it. The assistant proposes; I oversee meaning; checkers answer the encoded questions. This shared meaning can also be lowered down the abstraction ladder, once ambiguity is removed. Plain English requirements can become controlled English. Controlled English can become a semantic contract, a formal specification, and from there synthesized to a program, or compiled.
 
-## One sentence, two models
+An assistant's interpretation is a proposal: `f(x)=y` alone does not specify the domain or what the function and variables represent. I can supply and review those details. A translation preserves meaning when the necessary distinctions can be expressed and the relationship between views has been checked. Program generation and compilation depend on the ZAL profile and the artifacts it supports.
+
+## Multiple views, same meaning
 
 Consider this ZAL sentence:
 
