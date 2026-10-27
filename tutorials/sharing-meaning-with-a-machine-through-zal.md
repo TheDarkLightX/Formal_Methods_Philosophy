@@ -11,7 +11,9 @@ I use ZAL, the Zeno Abstraction Language. ZAL allows for a human like me, to cap
 
 I inspect the controlled English and glyphs, ask questions, and revise it. The assistant proposes; I oversee meaning; checkers answer the encoded questions. This shared meaning can also be lowered down the abstraction ladder, once ambiguity is removed. Plain English requirements can become controlled English. Controlled English can become a semantic contract, a formal specification, and from there synthesized to a program, or compiled.
 
-An assistant's interpretation is a proposal: `f(x)=y` alone does not specify the domain or what the function and variables represent. I can supply and review those details. A translation preserves meaning when the necessary distinctions can be expressed and the relationship between views has been checked. For supported ZAL profiles, a formal specification can guide program synthesis. A backend may then generate source code that can be compiled.
+An assistant's interpretation is a proposal: `f(x)=y` alone does not specify the domain or what the function and variables represent. I can supply and review those details. A translation preserves meaning when the necessary distinctions can be expressed and the relationship between views has been checked.
+
+For supported ZAL profiles, one path is **ZAL requirements → synthesis and checking → code generation → compilation**. An already explicit implementation can enter at the checking stage when the checker supports its representation. If it is already source code, it may not need code generation before compilation.
 
 ## Thinking about a Rubik's Cube
 
