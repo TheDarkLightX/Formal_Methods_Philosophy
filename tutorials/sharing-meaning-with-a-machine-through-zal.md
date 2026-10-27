@@ -33,12 +33,12 @@ The sentence states both that every state has a next state and that there is onl
 
 | Model | Result |
 | --- | --- |
-| Three encoded FIFO cache queues; one step executes the complete request sequence `ABCD`. | **TRUE** |
+| Three encoded first-in, first-out (FIFO) cache queues; one step executes the complete request sequence `ABCD`. | **TRUE** |
 | Sixteen bit patterns; a step can use any of twelve Toffoli instructions, without recording which instruction was chosen. | **FALSE** |
 
 In the second model, state `3` has three possible successors: `3`, `7`, and `11`. That is enough to disprove the sentence for this model.
 
-For the first model, imagine a first-in, first-out (FIFO) cache with three slots and four possible keys, `A`, `B`, `C`, and `D`. A request for a key already in the cache is a hit and leaves the queue unchanged. On a miss, the key is added and the oldest key is removed if the cache is full. Reading each queue from oldest to newest, repeated requests of `ABCD` produce the cycle `ADC → DCB → BAD → ADC`.
+For the first model, imagine a FIFO cache with three slots and four possible keys, `A`, `B`, `C`, and `D`. “First in, first out” means that when the cache is full, a new key replaces the key that was added earliest. A request for a key already in the cache is a hit and leaves the queue unchanged; a miss adds the requested key. Reading each queue from oldest to newest, repeated requests of `ABCD` produce the cycle `ADC → DCB → BAD → ADC`.
 
 [![The FIFO three-state cycle in ZAL notation]({{ '/assets/images/zal-machine-discovery/fifo-trit.png' | relative_url }})]({{ '/assets/images/zal-machine-discovery/fifo-trit.png' | relative_url }})
 
