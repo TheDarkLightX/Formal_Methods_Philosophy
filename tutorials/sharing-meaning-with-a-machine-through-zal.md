@@ -29,14 +29,18 @@ forall x in D: exists1 y in D: Step(x, y)
 
 *The brackets bind variables. Dashed lines connect their uses; solid lines connect the parts of the formula.*
 
-The sentence states both that every state has a next state and that there is only one possible next state. Its meaning stays the same when it is checked against different models:
+The English sentence and the symbolic formula are two views of the same statement: every state has a next state, and there is only one possible next state.
 
-| Model | Result |
+To evaluate that statement, the names `D` and `Step` need an **interpretation**: a choice of what counts as a state and which steps are possible. A model supplies those choices. For any one model, the English and symbolic views ask the same question. The following examples apply that question to two different models:
+
+| Interpretation of state and step | Result |
 | --- | --- |
-| Three encoded first-in, first-out (FIFO) cache queues; one step executes the complete request sequence `ABCD`. | **TRUE** |
-| Sixteen bit patterns; a step can use any of twelve Toffoli instructions, without recording which instruction was chosen. | **FALSE** |
+| In the first-in, first-out (FIFO) cache model, `D` contains the queues `ADC`, `DCB`, and `BAD`. A step executes the complete request sequence `ABCD`. | **TRUE** |
+| In the Toffoli model, `D` contains sixteen four-bit patterns. A step can use any of twelve Toffoli instructions, without recording which instruction was chosen. | **FALSE** |
 
-In the second model, state `3` has three possible successors: `3`, `7`, and `11`. That is enough to disprove the sentence for this model.
+In the FIFO model, the steps are `ADC → DCB`, `DCB → BAD`, and `BAD → ADC`. Every state has exactly one successor, so the statement is true. In the Toffoli model, state `3` has three possible successors: `3`, `7`, and `11`. One state with more than one successor is enough to make the statement false.
+
+The words “every” and “exactly one” keep their meaning in both interpretations. What changes is the set of states and the steps available between them. Because those choices differ, the same statement can have a different result in each model.
 
 For the first model, imagine a FIFO cache with three slots and four possible keys, `A`, `B`, `C`, and `D`. “First in, first out” means that when the cache is full, a new key replaces the key that was added earliest. A request for a key already in the cache is a hit and leaves the queue unchanged; a miss adds the requested key. Reading each queue from oldest to newest, repeated requests of `ABCD` produce the cycle `ADC → DCB → BAD → ADC`.
 
