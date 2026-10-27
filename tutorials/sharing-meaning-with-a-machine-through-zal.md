@@ -51,6 +51,22 @@ Now I can consider a repair. In a second toy model, I leave `summoned` out of th
 
 This is what I mean by wanting bad states to be unrepresentable. The state representation and transition rules work together to keep the machine in the allowed configurations. For real software, I would also need to check that its implementation follows those rules, including when an input is unexpected or hostile.
 
+## Summoning bad behavior
+
+In software, we can summon bad states and bad behavior too. The input might be garbage. The training data might be wrong or misleading. The rules might allow a configuration the designer never meant to allow.
+
+Sometimes a sequence of inputs can make a system perform unintended computations. Security researchers call this kind of behavior a [weird machine](https://arxiv.org/abs/1911.00157). To establish a real example, I would need to show how the behavior can actually be reached and controlled in the implementation.
+
+In 2014, [Elon Musk said at MIT](https://elonmuskarchive.org/video/mit-aeroastro-centennial-symposium-2014-10-24): “With artificial intelligence, we are summoning the demon.” I don't believe AI is conscious. But a system does not have to be conscious to produce an outcome I did not want. I think **garbage in, garbage out** still applies.
+
+Let's zoom back out to the functional view. Suppose `f(x) = 2x` doubles a number. If I give it the wrong number, it can correctly double that input and still give me an output that is wrong for my purpose. If the input is outside the function's declared domain, the mathematical function does not define an output at all. The software still needs rules for how to handle or reject that input.
+
+For AI, I want the training data to be as high quality and as clean as I can make it. Bad or misleading data can contribute to bad results. Clean data alone does not guarantee that a system will behave as intended; its objectives, inputs, and behavior also need attention.
+
+When I use synthesis, the specification is another important input. If it misses a requirement, a program can satisfy the written specification and still fail to do what I intended. Using ZAL to look at the function, the states, or another view helps me ask what inputs are allowed, which behaviors are possible, and whether the written rules capture what I meant.
+
+I see a connection to the [AI alignment problem](https://arxiv.org/abs/1606.06565): how do we make what a system does line up with what we want it to do? Training data, inputs, and specifications are different parts of the picture. Each can contribute to the gap between the behavior I intended and the behavior I get.
+
 ## Multiple views, same meaning
 
 Consider this ZAL sentence:
