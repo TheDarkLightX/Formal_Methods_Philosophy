@@ -50,11 +50,23 @@ For the first model, imagine a FIFO cache with three slots and four possible key
 
 Repeating any one request leaves the cache state unchanged after the first request. The hit or miss response can still change: a first request can miss and the repeated request can hit. The model above tracks queue states, not those responses.
 
-## Function and lambda-calculus views
+## State-machine, function, and lambda-calculus views
 
-When the unique-successor sentence holds, the step relation describes a total function `f` from states to states. “Total” means that `f` gives an output for every state in `D`. In that case, **Step(x, y) holds exactly when f(x) = y**. For example, in the FIFO model, `f(ADC) = DCB`.
+The FIFO state-machine view and its function view are equivalent descriptions of the same transitions. The state-machine view draws an arrow from one queue to the next; the function view maps each queue to its successor:
 
-The condition matters. The combined Toffoli relation gives three successors for state `3`, so no single function of state alone can describe all its steps. A function that also takes the chosen instruction as an input could describe a different, instruction-labelled model.
+| State-machine view | Function view |
+| --- | --- |
+| `ADC → DCB` | `f(ADC) = DCB` |
+| `DCB → BAD` | `f(DCB) = BAD` |
+| `BAD → ADC` | `f(BAD) = ADC` |
+
+An arrow from `x` to `y` appears exactly when `f(x) = y`. Each view can be recovered from the other, so they describe the same three-state transition behavior. This connection is standard in automata theory: [Cornell's notes on deterministic finite automata](https://www.cs.cornell.edu/courses/cs2800/2017fa/lectures/lec21-dfa.html) relate each arrow in a transition diagram to a transition-function value.
+
+More generally, when the unique-successor sentence holds, the step relation describes a **total** function `f` from states to states. “Total” means that `f` gives an output for every state in `D`. The sentence requires both a successor for every state and no more than one successor per state. Determinism alone can mean at most one successor, allowing a state with none; see Leslie Lamport's discussion of [state machines and next-state relations](https://lamport.azurewebsites.net/pubs/state-machine.pdf).
+
+In this FIFO example, the complete request sequence `ABCD` is fixed as one step, so the current state is the only input to `f`. If a machine takes a varying input `i` on each step, the function can include it: `f(x, i) = y`. A complete description must also carry any initial states, outputs, or action labels that the model includes. The FIFO transition views here track queue states; they do not include the hit or miss responses.
+
+Machines with several possible next states can have functional views too. The function can return the **set of possible successors**: `F(x) = {y : Step(x, y)}`. For the Toffoli model, `F(3) = {3, 7, 11}`. Keeping the chosen instruction as another input gives a function for each labelled step; omitting that label recovers the combined relation. [Carnegie Mellon's state-machine notes](https://www.cs.cmu.edu/afs/cs/academic/class/15671-f95/www/handouts/sm-basics/node4.html) discuss relations and set-valued functions as ways to describe such choices.
 
 Lambda calculus offers a way to describe functions by naming their inputs and expressions. The following lambda term represents the **unique-successor property** itself when supplied with suitable finite-domain operations:
 
