@@ -11,7 +11,7 @@ I use ZAL, the Zeno Abstraction Language. ZAL allows for a human like me, to cap
 
 I inspect the controlled English and glyphs, ask questions, and revise it. The assistant proposes; I oversee meaning; checkers answer the encoded questions. This shared meaning can also be lowered down the abstraction ladder, once ambiguity is removed. Plain English requirements can become controlled English. Controlled English can become a semantic contract, a formal specification, and from there synthesized to a program, or compiled.
 
-An assistant's interpretation is a proposal: `f(x)=y` alone does not specify the domain or what the function and variables represent. I can supply and review those details. A translation preserves meaning when the necessary distinctions can be expressed and the relationship between views has been checked. Program generation and compilation depend on the ZAL profile and the artifacts it supports.
+An assistant's interpretation is a proposal: `f(x)=y` alone does not specify the domain or what the function and variables represent. I can supply and review those details. A translation preserves meaning when the necessary distinctions can be expressed and the relationship between views has been checked. For supported ZAL profiles, a formal specification can guide program synthesis. A backend may then generate source code that can be compiled.
 
 ## Thinking about a Rubik's Cube
 
@@ -172,7 +172,7 @@ One eight-instruction example met the local S-box criteria chosen for the experi
 
 These examples show several views of a mathematical object and questions about its behavior. A view can preserve a complete meaning, while an abstraction can deliberately leave details out; the latter needs an explicit account of what was forgotten. In the FIFO example, observing only the three queue states leaves out hit and miss responses.
 
-ZAL also has separate executable finite-state profiles that can generate contracts and Rust programs. The relational property sentences in this essay followed a different route: controlled English was parsed into C², a two-variable logic with counting, and evaluated on finite models. Those checks did not produce implementations of the machines described here.
+ZAL also has separate executable finite-state profiles that can generate contracts and Rust programs. In other supported cases, program synthesis searches a defined set of candidates for one that satisfies a specification. The relational property sentences in this essay followed a different route: controlled English was parsed into C², a two-variable logic with counting, and evaluated on finite models. Those checks did not produce implementations of the machines described here.
 
 The investigation involved proposals, searches, counterexamples, and revisions. For example, a proposed way to obtain all six permutations of the three FIFO states failed: for the chosen encoding and fixed request sequences, only three rotations were available. Review also found and corrected a mismatch between one visual view and its formula.
 
