@@ -2,60 +2,102 @@
 title: "Sharing Meaning with a Machine Through ZAL"
 layout: docs
 kicker: Research essay
-description: "Actual ZAL sentences and glyphs expose a FIFO cycle and fixed states in a reversible machine."
+description: "ZAL sentences, symbols, functions, and diagrams make the assumptions behind two small machines visible."
 ---
 
-I use ZAL, the Zeno Abstraction Language, as a shared formal representation of mathematical meaning: domain, vocabulary, assumptions, and observations. I inspect its controlled English and glyphs, ask questions, and revise it. The assistant proposes; I oversee meaning; checkers answer the encoded questions.
+I use ZAL, the Zeno Abstraction Language, to make a mathematical idea explicit enough for a person and a machine to examine together. A model records the objects, rules, and assumptions under discussion. Different views, such as controlled English, symbols, and diagrams, can make that model easier to inspect.
 
-These controlled-English sentences parse to formal structure. Changing presentation preserves the bound object; forgetting information through abstraction needs a separate checked map.
+The aim is to share the same meaning across views. A matching picture or sentence alone does not establish that the views agree. Their relationship must be defined and checked. An assistant can propose a model, and a checker can answer questions about it; I still have to decide whether the model expresses what I intended.
 
-## One sentence with two interpretations
+## One sentence, two models
+
+Consider this ZAL sentence:
 
 > For every state x, there exists exactly one state y such that x advances to y.
+
+Its symbolic reading is **∀x ∈ D : ∃!y ∈ D : Step(x, y)**.
+
+Here **∀** means “for every,” **∃!** means “there exists exactly one,” `D` is the set of states, and `Step(x, y)` means that `x` can advance to `y`. The same ZAL formula also has an ASCII spelling:
 
 ```text
 forall x in D: exists1 y in D: Step(x, y)
 ```
 
-[![The unique successor statement in actual ZAL glyphs]({{ '/assets/images/zal-machine-discovery/unique-successor.png' | relative_url }})]({{ '/assets/images/zal-machine-discovery/unique-successor.png' | relative_url }})
+[![The unique-successor statement in ZAL glyphs]({{ '/assets/images/zal-machine-discovery/unique-successor.png' | relative_url }})]({{ '/assets/images/zal-machine-discovery/unique-successor.png' | relative_url }})
 
-*Brackets bind variables. Dashed wires connect their uses; solid wires connect formula operands.*
+*The brackets bind variables. Dashed lines connect their uses; solid lines connect the parts of the formula.*
 
-**Operation:** parse the same formula, then evaluate it against an explicit model.
+The sentence states both that every state has a next state and that there is only one possible next state. Its meaning stays the same when it is checked against different models:
 
-| Meaning of state and step | Result |
+| Model | Result |
 | --- | --- |
-| Three encoded FIFO queues; each step executes the complete request word `ABCD`. | **TRUE** |
-| Sixteen bit patterns; a step may use any of twelve Toffoli instructions, without retaining which one. | **FALSE** |
+| Three encoded FIFO cache queues; one step executes the complete request sequence `ABCD`. | **TRUE** |
+| Sixteen bit patterns; a step can use any of twelve Toffoli instructions, without recording which instruction was chosen. | **FALSE** |
 
-In the second model, decimal `3` has successors `3`, `7`, and `11`. The sentence has not changed. The interpretation has.
+In the second model, state `3` has three possible successors: `3`, `7`, and `11`. That is enough to disprove the sentence for this model.
 
-The FIFO host has three slots and four request keys. Hits preserve its queue; misses append and evict the oldest key when full. Repeating `ABCD` cycles `ADC → DCB → BAD → ADC`, although each individual request is state-idempotent. Hit/miss responses are not idempotent.
+For the first model, imagine a first-in, first-out (FIFO) cache with three slots and four possible keys, `A`, `B`, `C`, and `D`. A request for a key already in the cache is a hit and leaves the queue unchanged. On a miss, the key is added and the oldest key is removed if the cache is full. Reading each queue from oldest to newest, repeated requests of `ABCD` produce the cycle `ADC → DCB → BAD → ADC`.
 
-[![The FIFO trit cycle in actual ZAL notation]({{ '/assets/images/zal-machine-discovery/fifo-trit.png' | relative_url }})]({{ '/assets/images/zal-machine-discovery/fifo-trit.png' | relative_url }})
+[![The FIFO three-state cycle in ZAL notation]({{ '/assets/images/zal-machine-discovery/fifo-trit.png' | relative_url }})]({{ '/assets/images/zal-machine-discovery/fifo-trit.png' | relative_url }})
 
-*One displayed step is the complete word. The unique-successor sentence checks determinism; the separate transition and map checks establish this cycle and its arithmetic interpretation.*
+*Each displayed step is the whole request sequence `ABCD`. The unique-successor sentence holds for these three queue states; separate checks establish the cycle.*
+
+Repeating any one request leaves the cache state unchanged after the first request. The hit or miss response can still change: a first request can miss and the repeated request can hit. The model above tracks queue states, not those responses.
+
+## Function and lambda-calculus views
+
+When the unique-successor sentence holds, the step relation describes a total function `f` from states to states. “Total” means that `f` gives an output for every state in `D`. In that case, **Step(x, y) holds exactly when f(x) = y**. For example, in the FIFO model, `f(ADC) = DCB`.
+
+The condition matters. The combined Toffoli relation gives three successors for state `3`, so no single function of state alone can describe all its steps. A function that also takes the chosen instruction as an input could describe a different, instruction-labelled model.
+
+Lambda calculus offers a way to describe functions by naming their inputs and expressions. The following lambda term represents the **unique-successor property** itself when supplied with suitable finite-domain operations:
+
+```text
+λall.λone.λr. all (λx. one (λy. r x y))
+```
+
+In this term, `r` is a relation such as `Step`. The operation `all` checks whether a predicate holds for every state in `D`, and `one` checks whether a predicate holds for exactly one state in `D`. Applying the term to those operations and `Step` asks whether, for every `x`, exactly one `y` satisfies `Step(x, y)`. These operations have to be defined for the domain; the names alone do not define them.
+
+[![ZAL lambda diagram for the unique-successor property]({{ '/assets/images/zal-machine-discovery/unique-successor-lambda.svg' | relative_url }})]({{ '/assets/images/zal-machine-discovery/unique-successor-lambda.svg' | relative_url }})
+
+*ZAL rendered the lambda term as a diagram. Upper horizontal bars introduce variables, vertical lines lead to their uses, and lower horizontal joins show applications of functions. The diagram displays the term; it does not by itself prove agreement with another view.*
+
+The FIFO **transition function** also has a lambda representation. Assign the three queue states to three selectors:
+
+```text
+Q0 = λa.λb.λc.a    (ADC: choose the first argument)
+Q1 = λa.λb.λc.b    (DCB: choose the second argument)
+Q2 = λa.λb.λc.c    (BAD: choose the third argument)
+
+f = λq. q Q1 Q2 Q0
+```
+
+The names `Q0`, `Q1`, and `Q2` abbreviate the terms above. For example, `f Q0` applies the first selector to `Q1`, `Q2`, and `Q0`, producing `Q1`. In the same way, `f Q1` produces `Q2`, and `f Q2` produces `Q0`. This is the same three-state cycle as the FIFO table.
+
+I constructed these lambda terms from the recorded ZAL property and transition table. ZAL parsed the terms, rendered the property diagram, and reduced the FIFO transition on all three states; each result matched the recorded successor. The finite `all` and `one` operations were also checked in parts: the FIFO relation passed, while examples with no successor or two successors failed. The combined property expression exceeded the reducer's size limit, so this is a finite comparison, not an automatic general translation or a general equivalence proof.
 
 ## A reversible machine that cannot hide zero
 
+The Toffoli model supports a different question. A positive-control Toffoli instruction flips one target bit when two distinct control bits are both `1`; otherwise it leaves the bits unchanged. This model has four bits, distinct controls and target, and no extra bits or constants. A step may use any of the twelve legal instructions.
+
 > For every frozen state x, for every state y, if x advances to y, then x equals y.
 
-```text
-∀x ∈ D : Frozen(x) ⇒ (∀y ∈ D : Step(x, y) ⇒ x = y)
-```
+The symbolic reading is **∀x ∈ D : Frozen(x) ⇒ (∀y ∈ D : Step(x, y) ⇒ x = y)**.
 
-[![The frozen state statement in actual ZAL glyphs]({{ '/assets/images/zal-machine-discovery/frozen-family.png' | relative_url }})]({{ '/assets/images/zal-machine-discovery/frozen-family.png' | relative_url }})
+[![The frozen-state statement in ZAL glyphs]({{ '/assets/images/zal-machine-discovery/frozen-family.png' | relative_url }})]({{ '/assets/images/zal-machine-discovery/frozen-family.png' | relative_url }})
 
-Here `D` is the sixteen-state domain. `Frozen` means `{0,1,2,4,8}`, the common fixed states of all twelve legal positive-control Toffoli instructions. Controls and target are distinct; there are no extra bits or constants. `Step` is their combined transition relation.
+Here `D` contains all sixteen four-bit patterns. `Frozen` identifies the five states `{0, 1, 2, 4, 8}`. Each has at most one bit set to `1`, so no instruction can have both controls set to `1`. Every legal instruction therefore leaves each of these states unchanged.
 
-**What ZAL does:** recovers the same formula from the sentence and glyph model, then evaluates it. **Result: TRUE.** The separate composition argument extends primitive fixedness to every finite instruction sequence.
+ZAL recovered the formula from the controlled sentence and glyph model, then evaluated it over the stated finite model. The result was **TRUE**. A separate argument extends this result from one instruction to any finite sequence: if each instruction leaves a state unchanged, applying another instruction still leaves it unchanged.
 
-An eight-instruction witness meets the chosen local S-box metrics. Yet every legal program key gives `E_k(0)=0`: the invariant survives every key choice. The selected witness also fixes decimal `12`. This structural restriction is known mathematics. [Shende and colleagues, Theorem 22](https://arxiv.org/pdf/quant-ph/0207001)
+One eight-instruction example met the local S-box criteria chosen for the experiment. An S-box is a small substitution of bit patterns, often used in cryptography. Even so, every legal instruction sequence maps `0` to `0`, including every sequence selected by a key. The selected example also fixes state `12`. Passing chosen local criteria does not by itself establish cryptographic security. This structural restriction is known mathematics: see [Shende and colleagues, Theorem 22](https://arxiv.org/pdf/quant-ph/0207001).
 
 ## From meaning to machines
 
-Supported executable finite-state ZAL profiles have a separate factory route from controlled-English programs to contracts and generated Rust, which can be compiled to machine code. These relational property sentences instead followed **controlled English → C² → native finite-model evaluation**. They did not generate implementations satisfying the properties. Language rungs are views, not compiler stages.
+These examples show several views of a mathematical object and questions about its behavior. A view can preserve a complete meaning, while an abstraction can deliberately leave details out; the latter needs an explicit account of what was forgotten. In the FIFO example, observing only the three queue states leaves out hit and miss responses.
 
-The loop was proposals, exact search, counterexamples, revised meanings. The stronger FIFO conjecture of all six trit permutations failed: only three rotations were available for fixed words on that encoding. Review also caught and repaired a visual/formal binding mismatch.
+ZAL also has separate executable finite-state profiles that can generate contracts and Rust programs. The relational property sentences in this essay followed a different route: controlled English was parsed into C², a two-variable logic with counting, and evaluated on finite models. Those checks did not produce implementations of the machines described here.
 
-I share an inspectable object, not an unspoken intention. These bounded synthetic experiments establish neither a real vulnerability nor cryptographic security. A checker result does not supply human agreement.
+The investigation involved proposals, searches, counterexamples, and revisions. For example, a proposed way to obtain all six permutations of the three FIFO states failed: for the chosen encoding and fixed request sequences, only three rotations were available. Review also found and corrected a mismatch between one visual view and its formula.
+
+These bounded examples establish neither a real software vulnerability nor cryptographic security. A checker can test the statement that was written, but a person still has to decide whether that statement expresses the intended requirement.
