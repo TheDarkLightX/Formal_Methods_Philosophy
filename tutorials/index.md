@@ -843,6 +843,16 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/sharing-meaning-with-a-machine-through-zal/' | relative_url }}"
+  >
+    <p class="fp-kicker">Research essay</p>
+    <h2 class="fp-card-title">Sharing Meaning with a Machine Through ZAL</h2>
+    <p class="fp-card-text">
+      Actual ZAL sentences and glyphs expose a FIFO cycle and fixed states in a reversible machine.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/the-category-is-not-the-coalition/' | relative_url }}"
   >
     <p class="fp-kicker">Essay</p>
