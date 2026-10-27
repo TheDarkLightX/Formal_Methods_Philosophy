@@ -7,7 +7,7 @@ description: "A Rubik's Cube, the Lament Configuration, and ZAL show how I share
 
 **How this post was made.** This post was dictated and edited by the author. AI assisted with drafting, gathering quotations and sources, checking facts and numbers, and refining the precision of the arguments.
 
-I use ZAL, the Zeno Abstraction Language. ZAL allows for a human like me, to capture my mental model and translate it into a formal mathematical representation. I can start with a plain English sentence to the LLM assistant which can translate it into unambiguous controlled English. I can also simply type: `f(x)=y` and most LLMs know my intent and can translate that into deeper more meaningful visual representations. This can be Lambda calculus, it can be ZAL notation, or any custom representation, without losing any accuracy.
+I use ZAL, the Zeno Abstraction Language. ZAL allows for a human like me, to capture my mental model and translate it into a formal mathematical representation. I can start with a plain English sentence to the LLM assistant which can translate it into unambiguous controlled English. I can also simply type: `f(x)=y` and most LLMs know my intent and can translate that into deeper more meaningful visual representations. This might use lambda calculus, ZAL notation, or a custom representation, provided it can express the distinctions I need and their preservation has been checked.
 
 I inspect the controlled English and glyphs, ask questions, and revise it. The assistant proposes; I oversee meaning; checkers answer the encoded questions. This shared meaning can also be lowered down the abstraction ladder, once ambiguity is removed. Plain English requirements can become controlled English. Controlled English can become a semantic contract, a formal specification, and from there synthesized to a program, or compiled.
 
@@ -172,7 +172,13 @@ One eight-instruction example met the local S-box criteria chosen for the experi
 
 ## From meaning to machines
 
-These examples show several views of a mathematical object and questions about its behavior. A view can preserve a complete meaning, while an abstraction can deliberately leave details out; the latter needs an explicit account of what was forgotten. In the FIFO example, observing only the three queue states leaves out hit and miss responses.
+These examples show several views of a mathematical object and questions about its behavior. I distinguish three relationships:
+
+- **Exact representation changes** keep the same complete declared semantic context. Folding a definition, or redrawing a transition table as a matching state diagram, changes presentation while retaining the model and its assumptions.
+- **Observation-preserving abstractions** deliberately merge distinctions. In the experimental finite Lens prototype, a counter increments through `0 → 1 → 2 → 3 → 0` or resets to `0`. Its parity view merges `0` with `2` and `1` with `3`. It preserves next-state parity and the counter's constant outputs, but parity alone cannot tell me the original state.
+- **Derived mathematical perspectives** can forget execution details. The counter's transformation monoid records the state changes produced by command sequences and how those changes compose. It discards command spelling, intermediate states, timing, and output observations.
+
+I can return to the source retained by the Lens prototype, but that does not invert the lossy map. The prototype is experimental; it validates declared finite models exhaustively, without providing a proof checked by a proof assistant or a universal correctness guarantee. The promise I want from ZAL is to compose checked relationships across layers, preserving precisely the declared meaning and making any forgotten information explicit. In the FIFO example, observing only the three queue states leaves out hit and miss responses.
 
 ZAL also has separate executable finite-state profiles that can generate contracts and Rust programs. In other supported cases, program synthesis searches a defined set of candidates for one that satisfies a specification. The relational property sentences in this essay followed a different route: controlled English was parsed into C², a two-variable logic with counting, and evaluated on finite models. Those checks did not produce implementations of the machines described here.
 
