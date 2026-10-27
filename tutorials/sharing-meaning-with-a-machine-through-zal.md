@@ -2,7 +2,7 @@
 title: "Sharing Meaning with a Machine Through ZAL"
 layout: docs
 kicker: Research essay
-description: "ZAL sentences, symbols, functions, and diagrams make the assumptions behind two small machines visible."
+description: "A Rubik's Cube, the Lament Configuration, and ZAL show how I share a mental model with a machine."
 ---
 
 I use ZAL, the Zeno Abstraction Language. ZAL allows for a human like me, to capture my mental model and translate it into a formal mathematical representation. I can start with a plain English sentence to the LLM assistant which can translate it into unambiguous controlled English. I can also simply type: `f(x)=y` and most LLMs know my intent and can translate that into deeper more meaningful visual representations. This can be Lambda calculus, it can be ZAL notation, or any custom representation, without losing any accuracy.
@@ -10,6 +10,46 @@ I use ZAL, the Zeno Abstraction Language. ZAL allows for a human like me, to cap
 I inspect the controlled English and glyphs, ask questions, and revise it. The assistant proposes; I oversee meaning; checkers answer the encoded questions. This shared meaning can also be lowered down the abstraction ladder, once ambiguity is removed. Plain English requirements can become controlled English. Controlled English can become a semantic contract, a formal specification, and from there synthesized to a program, or compiled.
 
 An assistant's interpretation is a proposal: `f(x)=y` alone does not specify the domain or what the function and variables represent. I can supply and review those details. A translation preserves meaning when the necessary distinctions can be expressed and the relationship between views has been checked. Program generation and compilation depend on the ZAL profile and the artifacts it supports.
+
+## Thinking about a Rubik's Cube
+
+As a toy mental model, I like to think of computation as a Rubik's Cube. A particular arrangement of the cube is a state. A twist is an action that changes that state. A sequence of twists takes the cube through a sequence of configurations.
+
+<figure class="fp-figure">
+  <p class="fp-figure-title">One move, a different state</p>
+  {% include diagrams/rubiks-cube-state-explosion.svg %}
+  <figcaption class="fp-figure-caption">
+    A configuration is a state. A permitted twist changes that state.
+  </figcaption>
+</figure>
+
+How many configurations does the cube have? Starting from a solved standard 3 × 3 cube, legal face turns can produce exactly **43,252,003,274,489,856,000** different configurations, counting the pieces relative to the fixed centers. At a billion configurations per second, just visiting each one once would take about 1,370 years. That is still a finite number of configurations. The cube can keep turning indefinitely, but eventually a configuration must repeat.
+
+The mental object I am picturing can be captured as a mathematical object. In Violeta Hernández's [Lean 4 formalization of the cube](https://github.com/vihdzp/rubik-lean4/tree/b8a5a09c8fa715f643d936230852059cc82462f2), the pieces, their orientations, and the permitted turns are given precise definitions. The project includes [a theorem giving the exact number of solvable configurations](https://github.com/vihdzp/rubik-lean4/blob/b8a5a09c8fa715f643d936230852059cc82462f2/Rubik/Card.lean#L207-L223), and [a theorem characterizing which configurations are solvable](https://github.com/vihdzp/rubik-lean4/blob/b8a5a09c8fa715f643d936230852059cc82462f2/Rubik/Algorithm.lean#L712-L720). Lean is a proof assistant that checks the logical steps against the formal definitions.
+
+Once the cube is a mathematical object, I can ask another precise question: what is the most moves needed to solve it, if the best solution is chosen? The answer is **20**, a bound known as God's Number. Here a move means one face turn, whether it turns 90, 180, or 270 degrees. Every reachable configuration can be solved in 20 moves or fewer, and some require all 20. [Rokicki, Kociemba, Davidson, and Dethridge](https://epubs.siam.org/doi/10.1137/120867366) established the result with mathematical structure, symmetry, and a large computer-assisted search.
+
+The definition of a move matters. If a 180-degree turn counts as two quarter-turns, the corresponding worst-case number is [26](https://www.cube20.org/qtm/). The Lean formalization and the 20-move computation are separate results: the 20-move proof was not produced by the Lean project or by ZAL.
+
+This is the kind of power I want from ZAL. I have a mental model that I use to reason. I make its objects and rules explicit, express them mathematically, and ask questions about them. A machine can then help me explore the possibilities and check arguments about the object. I still have to decide whether the model captures the idea I intended.
+
+## The Lament Configuration
+
+For horror fans, there is another puzzle box I like to think about: the [Lament Configuration](https://clivebarker.info/hellraiserb.html) from *Hellraiser*. Fans of the movie know what can happen when the box is opened. The Cenobites arrive.
+
+I like to think of this box in a similar way to how I think of software. The happy path, the good states, the correct configurations, are the states I want my software to represent. You don't want the bad states. You don't want to unleash the Cenobites.
+
+For a small thought experiment, I will invent three states: `closed`, `shifted`, and `summoned`. The box starts closed. One turn shifts it, and a second turn summons the Cenobites: `closed → shifted → summoned`. These are rules for this example, not a count of the configurations in the film.
+
+I represented that toy machine in ZAL and followed the two turns. The result reached `summoned`, a disaster state I wanted to avoid. That sequence is a counterexample to the rule “the Cenobites are never summoned.”
+
+[![ZAL diagram of the imagined box, from closed through shifted to summoned]({{ '/assets/images/zal-machine-discovery/lament-toy.svg' | relative_url }})]({{ '/assets/images/zal-machine-discovery/lament-toy.svg' | relative_url }})
+
+*ZAL's diagram shows the three invented states and the effect of each turn. Once the model reaches `summoned`, further turns leave it there.*
+
+Now I can consider a repair. In a second toy model, I leave `summoned` out of the state representation and block the second turn. ZAL follows the same two turns and stays in `shifted`, with the second turn blocked. Rejection is still a behavior the model can represent, and it is a safe outcome here.
+
+This is what I mean by wanting bad states to be unrepresentable. The state representation and transition rules work together to keep the machine in the allowed configurations. For real software, I would also need to check that its implementation follows those rules, including when an input is unexpected or hostile.
 
 ## Multiple views, same meaning
 

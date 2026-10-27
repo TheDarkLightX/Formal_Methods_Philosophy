@@ -1,0 +1,45 @@
+<svg class="fp-diagram" viewBox="0 0 960 410" role="img"
+  aria-labelledby="cube-state-title cube-state-desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="cube-state-title">A cube changes state after a permitted move</title>
+  <desc id="cube-state-desc">A solved cube and the result of turning its right face once appear on either side of an arrow. Their positions represent states and the turn represents an allowed action.</desc>
+  <defs>
+    <linearGradient id="cube-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071827" />
+      <stop offset="1" stop-color="#102b3b" />
+    </linearGradient>
+    <marker id="cube-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5eead4" />
+    </marker>
+    <g id="cube-outlines" fill="none" stroke="#071827" stroke-width="4" stroke-linejoin="round">
+      <polygon points="180,40 270,85 180,130 90,85" />
+      <polygon points="90,85 180,130 180,230 90,185" />
+      <polygon points="180,130 270,85 270,185 180,230" />
+      <path d="M210 55 L120 100 M240 70 L150 115 M150 55 L240 100 M120 70 L210 115" />
+      <path d="M120 100 V200 M150 115 V215 M90 118.33 L180 163.33 M90 151.67 L180 196.67" />
+      <path d="M210 115 V215 M240 100 V200 M180 163.33 L270 118.33 M180 196.67 L270 151.67" />
+    </g>
+  </defs>
+  <rect x="18" y="18" width="924" height="374" rx="30" fill="url(#cube-bg)" />
+  <g font-family="Atkinson Hyperlegible, system-ui, sans-serif">
+    <text x="52" y="60" fill="#f8fafc" font-size="24" font-weight="800">Configurations and transitions</text>
+    <text x="52" y="86" fill="#a8c2cf" font-size="15">The same idea describes a cube, or an abstract software model.</text>
+    <g transform="translate(25 82)">
+      <polygon points="180,40 270,85 180,130 90,85" fill="#f1f5f9" />
+      <polygon points="90,85 180,130 180,230 90,185" fill="#14b88c" />
+      <polygon points="180,130 270,85 270,185 180,230" fill="#ef635b" />
+      <use href="#cube-outlines" />
+    </g>
+    <path d="M350 218 H510" stroke="#5eead4" stroke-width="4" marker-end="url(#cube-arrow)" />
+    <text x="430" y="198" text-anchor="middle" fill="#ccfbf1" font-size="16" font-weight="700">one legal twist</text>
+    <g transform="translate(505 82)">
+      <polygon points="180,40 270,85 180,130 90,85" fill="#f1f5f9" />
+      <polygon points="90,85 180,130 180,230 90,185" fill="#14b88c" />
+      <polygon points="180,130 270,85 270,185 180,230" fill="#ef635b" />
+      <polygon points="240,70 270,85 180,130 150,115" fill="#14b88c" />
+      <polygon points="150,115 180,130 180,230 150,215" fill="#f6c85f" />
+      <use href="#cube-outlines" />
+    </g>
+    <text x="205" y="348" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="800">one state</text>
+    <text x="685" y="348" text-anchor="middle" fill="#f8fafc" font-size="17" font-weight="800">another state</text>
+  </g>
+</svg>
