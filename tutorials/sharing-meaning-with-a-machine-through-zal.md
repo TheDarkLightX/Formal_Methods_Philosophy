@@ -5,7 +5,7 @@ kicker: Research essay
 description: "A Rubik's Cube, the Lament Configuration, and ZAL show how I share a mental model with a machine."
 ---
 
-*Author's note: I am a human, and I dictated and edited this post. An AI assistant helped with the wording, gathered quotations and sources, and helped make the arguments more precise, including the facts and numbers.*
+**How this post was made.** This post was dictated and edited by the author. AI assisted with drafting, gathering quotations and sources, checking facts and numbers, and refining the precision of the arguments.
 
 I use ZAL, the Zeno Abstraction Language. ZAL allows for a human like me, to capture my mental model and translate it into a formal mathematical representation. I can start with a plain English sentence to the LLM assistant which can translate it into unambiguous controlled English. I can also simply type: `f(x)=y` and most LLMs know my intent and can translate that into deeper more meaningful visual representations. This can be Lambda calculus, it can be ZAL notation, or any custom representation, without losing any accuracy.
 
