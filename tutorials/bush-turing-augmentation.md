@@ -8,6 +8,11 @@ date: 2026-10-28
 tags: ["essay","philosophy","augmentation","Bush","Turing","ZAL"]
 ---
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Authorship and AI assistance</p>
+  <p>I developed the initial drafts, concepts, analogies, mental models, and philosophical and political positions in this essay. ChatGPT assisted with editing, rephrasing, fact-checking, and grammar correction. The ideas and opinions expressed are my own. I use AI as an augmentation of human thought and expression, in the spirit of Vannevar Bush’s vision.</p>
+</div>
+
 I side more with Vannevar Bush than with Alan Turing. Bush’s vision is closer to my mental model and to the goal I want AI to serve: extending a person’s capacity to understand and act.
 
 I want better access to evidence, more expressive models, and stronger ways to check my reasoning. Humanlike conversation can help with that. My measure of success is whether the system makes me more capable of understanding the problem, challenging an answer, and deciding what to do.

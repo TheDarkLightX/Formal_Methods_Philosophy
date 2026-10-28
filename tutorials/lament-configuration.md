@@ -8,6 +8,11 @@ date: 2026-10-28
 tags: ["essay","formal methods","invariants","state machines","ZAL"]
 ---
 
+<div class="fp-callout fp-callout-note">
+  <p class="fp-callout-title">Authorship and AI assistance</p>
+  <p>I developed the initial drafts, concepts, analogies, mental models, and philosophical and political positions in this essay. ChatGPT assisted with editing, rephrasing, fact-checking, and grammar correction. The ideas and opinions expressed are my own. I use AI as an augmentation of human thought and expression, in the spirit of Vannevar Bush’s vision.</p>
+</div>
+
 For most of my life, I did not care much for mathematics. But enjoying equations is not a prerequisite for understanding why opening a mysterious puzzle box might be a terrible idea.
 
 Fans of horror films or fantasy may know the Lament Configuration from the world of Clive Barker’s *The Hellbound Heart* and *Hellraiser*. The box invites curiosity and promises extraordinary experience. Manipulating it can summon the Cenobites. Barker’s [discussion of the film](https://clivebarker.info/hellraiser.html) connects the intellectual puzzle to desire and its physical consequences.
