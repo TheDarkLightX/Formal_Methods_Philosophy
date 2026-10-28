@@ -1,0 +1,80 @@
+{
+  "scope": "Finite exported transition tables; full reachability for safety; no production-code or authentication claim.",
+  "six_to_three_exact_rows": 24,
+  "three_to_two_sound_rows": 12,
+  "refined_exact_rows": 12,
+  "policy_difference": {
+    "state": "released",
+    "event": "reserve",
+    "authorized": true
+  },
+  "authorization_and_first_admission": "both finite models satisfy their Boolean-input rules",
+  "one_use": {
+    "reachable_control_monitor_pairs": 3,
+    "at_most_one_accepted_reserve": true,
+    "counterexample": null
+  },
+  "reusable": {
+    "reachable_control_monitor_pairs": 5,
+    "at_most_one_accepted_reserve": false,
+    "counterexample": [
+      {
+        "state": "unseen",
+        "event": "reserve",
+        "authorized": true,
+        "decision": "Accept",
+        "reason": "",
+        "next_state": "held"
+      },
+      {
+        "state": "held",
+        "event": "release",
+        "authorized": true,
+        "decision": "Accept",
+        "reason": "",
+        "next_state": "released"
+      },
+      {
+        "state": "released",
+        "event": "reserve",
+        "authorized": true,
+        "decision": "Accept",
+        "reason": "",
+        "next_state": "held"
+      }
+    ]
+  },
+  "occupancy": {
+    "reachable_control_monitor_pairs": 5,
+    "at_most_one_accepted_reserve": false,
+    "counterexample": [
+      {
+        "state": "idle",
+        "event": "reserve",
+        "authorized": true,
+        "decision": "Accept",
+        "reason": "",
+        "next_state": "busy"
+      },
+      {
+        "state": "busy",
+        "event": "release",
+        "authorized": true,
+        "decision": "Accept",
+        "reason": "",
+        "next_state": "idle"
+      },
+      {
+        "state": "idle",
+        "event": "reserve",
+        "authorized": true,
+        "decision": "Accept",
+        "reason": "",
+        "next_state": "busy"
+      }
+    ]
+  },
+  "spurious_trace_first_impossible_step_one_based": 3,
+  "requirement_conjunction": "inconsistent at released, reserve, authorized; remote replay matched the refutation",
+  "status": "all independent finite-table checks passed"
+}

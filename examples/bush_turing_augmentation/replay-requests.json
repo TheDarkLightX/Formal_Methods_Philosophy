@@ -1,0 +1,860 @@
+[
+  {
+    "tool": "zal_layers",
+    "arguments": {
+      "expected_source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9"
+    }
+  },
+  {
+    "tool": "zal_resolve",
+    "arguments": {
+      "definition": {
+        "left": {
+          "entry": "reservation_once",
+          "pin": "c2b330bddd87aa0d8d74debe4d9260efb4769480d1d5ebaefe8e5f2920085bd7",
+          "resource": "single_use_pass"
+        },
+        "name": "Two reservation policies",
+        "profile": "reservation-pair",
+        "right": {
+          "entry": "reservation_reusable",
+          "pin": "1105687a61cdb735998639ba70249f8dbb5adc1c237b1d061ae721f9d04c23e8",
+          "resource": "meeting_room"
+        }
+      }
+    }
+  },
+  {
+    "tool": "zal_check",
+    "arguments": {
+      "document": {
+        "schema": "zal.mcp-document/1",
+        "definition": {
+          "left": {
+            "entry": "reservation_once",
+            "pin": "c2b330bddd87aa0d8d74debe4d9260efb4769480d1d5ebaefe8e5f2920085bd7",
+            "resource": "single_use_pass"
+          },
+          "name": "Two reservation policies",
+          "profile": "reservation-pair",
+          "right": {
+            "entry": "reservation_reusable",
+            "pin": "1105687a61cdb735998639ba70249f8dbb5adc1c237b1d061ae721f9d04c23e8",
+            "resource": "meeting_room"
+          }
+        },
+        "context_digest": "8e44c2aefded7b5e4802f4701ce3ed2d0fe32e3c02d61f2d60cb9704d1ffcc4e",
+        "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+        "records": []
+      },
+      "expected_context_digest": "8e44c2aefded7b5e4802f4701ce3ed2d0fe32e3c02d61f2d60cb9704d1ffcc4e",
+      "request": {
+        "kind": "library-meet",
+        "requirements": [
+          "authorized_only",
+          "positive_admission",
+          "once_after_release",
+          "reuse_after_release"
+        ]
+      }
+    }
+  },
+  {
+    "tool": "zal_replay",
+    "arguments": {
+      "document": {
+        "schema": "zal.mcp-document/1",
+        "definition": {
+          "left": {
+            "entry": "reservation_once",
+            "pin": "c2b330bddd87aa0d8d74debe4d9260efb4769480d1d5ebaefe8e5f2920085bd7",
+            "resource": "single_use_pass"
+          },
+          "name": "Two reservation policies",
+          "profile": "reservation-pair",
+          "right": {
+            "entry": "reservation_reusable",
+            "pin": "1105687a61cdb735998639ba70249f8dbb5adc1c237b1d061ae721f9d04c23e8",
+            "resource": "meeting_room"
+          }
+        },
+        "context_digest": "8e44c2aefded7b5e4802f4701ce3ed2d0fe32e3c02d61f2d60cb9704d1ffcc4e",
+        "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+        "records": [
+          {
+            "context_digest": "8e44c2aefded7b5e4802f4701ce3ed2d0fe32e3c02d61f2d60cb9704d1ffcc4e",
+            "id": "r1",
+            "request": {
+              "kind": "library-meet",
+              "requirements": [
+                "authorized_only",
+                "positive_admission",
+                "once_after_release",
+                "reuse_after_release"
+              ]
+            },
+            "result": {
+              "authority": "none",
+              "conjoined": {
+                "inputs": [
+                  {
+                    "name": "state",
+                    "role": "lifecycle",
+                    "unit": "control",
+                    "values": [
+                      "held",
+                      "released",
+                      "unseen"
+                    ]
+                  },
+                  {
+                    "name": "event",
+                    "role": "operation",
+                    "unit": "control",
+                    "values": [
+                      "release",
+                      "reserve"
+                    ]
+                  },
+                  {
+                    "name": "authorized",
+                    "role": "authorization_observation",
+                    "unit": "boolean",
+                    "values": [
+                      "no",
+                      "yes"
+                    ]
+                  }
+                ],
+                "outputs": [
+                  {
+                    "name": "outcome",
+                    "role": "business_decision",
+                    "unit": "control",
+                    "values": [
+                      "accept",
+                      "reject"
+                    ]
+                  },
+                  {
+                    "name": "next_state",
+                    "role": "lifecycle",
+                    "unit": "control",
+                    "values": [
+                      "held",
+                      "released",
+                      "unseen"
+                    ]
+                  },
+                  {
+                    "name": "reason",
+                    "role": "decision_reason",
+                    "unit": "control",
+                    "values": [
+                      "duplicate",
+                      "not_held",
+                      "ok",
+                      "unauthorized"
+                    ]
+                  }
+                ],
+                "owns": [
+                  "single_use_pass"
+                ],
+                "profile": "zal/semantic-library-finite-enum/1",
+                "rows": [
+                  {
+                    "input": [
+                      "held",
+                      "release",
+                      "no"
+                    ],
+                    "outputs": [
+                      [
+                        "reject",
+                        "held",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "held",
+                      "release",
+                      "yes"
+                    ],
+                    "outputs": [
+                      [
+                        "accept",
+                        "held",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "unauthorized"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "unauthorized"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "held",
+                      "reserve",
+                      "no"
+                    ],
+                    "outputs": [
+                      [
+                        "reject",
+                        "held",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "held",
+                      "reserve",
+                      "yes"
+                    ],
+                    "outputs": [
+                      [
+                        "accept",
+                        "held",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "unauthorized"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "unauthorized"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "released",
+                      "release",
+                      "no"
+                    ],
+                    "outputs": [
+                      [
+                        "reject",
+                        "released",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "released",
+                      "release",
+                      "yes"
+                    ],
+                    "outputs": [
+                      [
+                        "accept",
+                        "held",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "unauthorized"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "unauthorized"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "released",
+                      "reserve",
+                      "no"
+                    ],
+                    "outputs": [
+                      [
+                        "reject",
+                        "released",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "released",
+                      "reserve",
+                      "yes"
+                    ],
+                    "outputs": []
+                  },
+                  {
+                    "input": [
+                      "unseen",
+                      "release",
+                      "no"
+                    ],
+                    "outputs": [
+                      [
+                        "reject",
+                        "unseen",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "unseen",
+                      "release",
+                      "yes"
+                    ],
+                    "outputs": [
+                      [
+                        "accept",
+                        "held",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "held",
+                        "unauthorized"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "released",
+                        "unauthorized"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "duplicate"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "not_held"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "ok"
+                      ],
+                      [
+                        "accept",
+                        "unseen",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "held",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "released",
+                        "unauthorized"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "duplicate"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "not_held"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "ok"
+                      ],
+                      [
+                        "reject",
+                        "unseen",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "unseen",
+                      "reserve",
+                      "no"
+                    ],
+                    "outputs": [
+                      [
+                        "reject",
+                        "unseen",
+                        "unauthorized"
+                      ]
+                    ]
+                  },
+                  {
+                    "input": [
+                      "unseen",
+                      "reserve",
+                      "yes"
+                    ],
+                    "outputs": [
+                      [
+                        "accept",
+                        "held",
+                        "ok"
+                      ]
+                    ]
+                  }
+                ],
+                "state": [
+                  [
+                    "state",
+                    "next_state",
+                    "unseen"
+                  ]
+                ]
+              },
+              "conjoined_revision": "75af44bb365e4983d64dac193cc5e8f795b54fb66faacf23d8335f2224099045",
+              "context_digest": "8e44c2aefded7b5e4802f4701ce3ed2d0fe32e3c02d61f2d60cb9704d1ffcc4e",
+              "evidence": "finite-model-replay",
+              "formal_proof": "not-run",
+              "native_execution": "not-run",
+              "operands": {
+                "left": {
+                  "entry": "reservation_once",
+                  "instance_revision": "4e722ef88715d490d6847eb6c31d181ae26bd1d9f92057b533691fb6fb7a5803",
+                  "owns": [
+                    "single_use_pass"
+                  ],
+                  "pin": "c2b330bddd87aa0d8d74debe4d9260efb4769480d1d5ebaefe8e5f2920085bd7"
+                },
+                "right": {
+                  "entry": "reservation_reusable",
+                  "instance_revision": "ce2fe988e08f45822003ff7b5bc6de187e459fe68214c2ec23c6bfd33b99e0a5",
+                  "owns": [
+                    "meeting_room"
+                  ],
+                  "pin": "1105687a61cdb735998639ba70249f8dbb5adc1c237b1d061ae721f9d04c23e8"
+                }
+              },
+              "operation": "library-meet",
+              "request": {
+                "kind": "library-meet",
+                "requirements": [
+                  "authorized_only",
+                  "positive_admission",
+                  "once_after_release",
+                  "reuse_after_release"
+                ]
+              },
+              "requirements": [
+                "authorized_only",
+                "positive_admission",
+                "once_after_release",
+                "reuse_after_release"
+              ],
+              "result": {
+                "authority": "none",
+                "human_agreement": "pending",
+                "native_fcis_qualification": "not-performed",
+                "status": "inconsistent-request",
+                "witness": [
+                  "released",
+                  "reserve",
+                  "yes"
+                ]
+              },
+              "result_digest": "77e48836368199515cd65282b03776ab33232ea9cee03c6892c6e74b19b9075b",
+              "schema": "zal.library-operation/1",
+              "scope": "Separate same-interface requirement conjunction and finite fit analysis of the LEFT component. This does not wire components or change the product specification.",
+              "source_revision": "7e06cb419bf35a6fdf24ebdf75e1c75c9d62c905",
+              "source_sha256": "34f99b50deec64c8a5bc0b19f431fb9eb00bf4bcb4a688082e61e385863057fb",
+              "status": "refuted"
+            }
+          }
+        ]
+      },
+      "expected_context_digest": "8e44c2aefded7b5e4802f4701ce3ed2d0fe32e3c02d61f2d60cb9704d1ffcc4e"
+    }
+  }
+]

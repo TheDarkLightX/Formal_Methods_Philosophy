@@ -711,6 +711,15 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/bush-turing-augmentation/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Essay: Why I Favor Bush on the Purpose of AI</h2>
+    <p class="fp-card-text">
+      A preference for human augmentation, with a finite reservation model that makes assumptions and disagreements inspectable.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/market-for-behaviors/' | relative_url }}"
   >
     <h2 class="fp-card-title">Essay: A Market for Behaviors</h2>
