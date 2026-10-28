@@ -702,6 +702,15 @@ show_title: false
   </a>
   <a
     class="fp-card fp-card-link fp-card-span-6"
+    href="{{ '/tutorials/lament-configuration/' | relative_url }}"
+  >
+    <h2 class="fp-card-title">Essay: The Lament Configuration</h2>
+    <p class="fp-card-text">
+      Keep the pleasure of solving a puzzle while making its forbidden outcome impossible within a checked model.
+    </p>
+  </a>
+  <a
+    class="fp-card fp-card-link fp-card-span-6"
     href="{{ '/tutorials/market-for-behaviors/' | relative_url }}"
   >
     <h2 class="fp-card-title">Essay: A Market for Behaviors</h2>

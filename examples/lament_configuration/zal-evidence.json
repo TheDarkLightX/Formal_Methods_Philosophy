@@ -1,0 +1,677 @@
+{
+  "inspect": {
+    "schema": "zal.mcp/1",
+    "status": "ok",
+    "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+    "authority": "none",
+    "semantic_acceptance": "not-granted",
+    "data": {
+      "profiles": [
+        "byte-interval",
+        "reservation-pair"
+      ],
+      "library_status": "available",
+      "entries": [
+        {
+          "description": "After release, reserve is rejected as a duplicate.",
+          "id": "reservation_once",
+          "pin": "c2b330bddd87aa0d8d74debe4d9260efb4769480d1d5ebaefe8e5f2920085bd7",
+          "reusable": false,
+          "title": "Replay-safe one-use reservation"
+        },
+        {
+          "description": "Reserve again after release.",
+          "id": "reservation_reusable",
+          "pin": "1105687a61cdb735998639ba70249f8dbb5adc1c237b1d061ae721f9d04c23e8",
+          "reusable": true,
+          "title": "Reusable reservation"
+        }
+      ],
+      "requirements": [
+        "authorized_only",
+        "positive_admission",
+        "once_after_release",
+        "reuse_after_release"
+      ],
+      "examples": {
+        "byte_classifier": {
+          "profile": "byte-interval",
+          "lower": 48,
+          "upper": 58
+        }
+      },
+      "limits": {
+        "input_bytes": 524288,
+        "output_bytes": 1048576,
+        "records": 4,
+        "json_depth": 32,
+        "json_items": 40000,
+        "concurrent_operations": 4,
+        "deadline_seconds": 15,
+        "byte_inputs": 256,
+        "synthesis_candidates": 9,
+        "product_rows": 144
+      },
+      "source_files": {
+        ".openai/hosting.json": "8bf5fc3f995d1e65e43c12be0f7dbd0d3083a78cc7e2fd45942d19717e0c4ea0",
+        "scripts/build-worker.mjs": "55c3b6c7f189f259e3705cd70157f4de9f43658e1170a30209e8d08f3f3ac76a",
+        "scripts/build.sh": "7b785bf6368efa54aec6f38b0551208f592c4b06e5a056407f95f1d1145d1f33",
+        "src/core.mjs": "f7007a9b02dba2a93255ed1978ec2f7d9140c30faeebfc0bebb686498c8ae7c9",
+        "src/lowering-data.mjs": "d2190ad93e9fab8a20d5ebd0bed1c1ccdf4bc7f7eee325ab26d7e67bc9836711",
+        "src/lowering.mjs": "8469cbe504f6d771889e0680e85ffa5680a59cb2666bacecf26a37e7475b859d",
+        "src/ui.mjs": "b2d31d81a3115740ad1c0659d0d027f184755a5f671884683763aa51c2429da7",
+        "src/worker.mjs": "bf6a08c717cb32c518d789603b2deacc7457785fcb44a4b0a9e0b25f5867b835",
+        "src/workflow-data.mjs": "188c44b2bb98926e5f2d5b2762792eb708a879c56c0a40c8219e1393e306651c",
+        "src/workflow.mjs": "427795ae719ced1759d24edd80ba17eb46455a7d32e4999be790b724426dc905"
+      },
+      "lowering": {
+        "backend": {
+          "implementation": "deterministic JavaScript parser/checker/factory port",
+          "python_runtime": "not-run",
+          "runtime": "javascript-worker",
+          "status": "available"
+        },
+        "entries": [
+          "reservation_once",
+          "reservation_reusable",
+          "document_release"
+        ],
+        "graph_tool": "zal_layers",
+        "lower_tool": "zal_lower",
+        "modes": [
+          "identity",
+          "quotient"
+        ],
+        "registry": [
+          {
+            "boolean_inputs": 4,
+            "events": 8,
+            "modes": [
+              "identity",
+              "quotient"
+            ],
+            "profile": "zal/typed-finite-ladder/1",
+            "registered_entries": [
+              "reservation_once",
+              "reservation_reusable",
+              "document_release"
+            ],
+            "rules": 32,
+            "states": 8,
+            "unsupported": [
+              "effects",
+              "nondeterministic realization",
+              "class-only realization",
+              "unbounded state",
+              "higher-order logic",
+              "liveness",
+              "fairness"
+            ]
+          }
+        ]
+      },
+      "unsupported": [
+        "arbitrary machine lowering",
+        "native program synthesis",
+        "arbitrary edited-graph compilation",
+        "host code execution",
+        "formal proof",
+        "human acceptance",
+        "authentication"
+      ],
+      "execution": "JavaScript Worker finite-model interpreter; Python reference fixtures are definitions and provenance, not a live Python runtime."
+    }
+  },
+  "specification": {
+    "schema": "zal.mcp/1",
+    "status": "ok",
+    "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+    "authority": "none",
+    "semantic_acceptance": "not-granted",
+    "data": {
+      "document": {
+        "schema": "zal.mcp-document/1",
+        "definition": {
+          "lower": 0,
+          "profile": "byte-interval",
+          "upper": 3
+        },
+        "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+        "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+        "records": []
+      },
+      "previous_context_digest": "2dc93f6bc44aec7a7bbad60b47f5096a8474b5ec293c725ea0ce5264d1ac8f4e",
+      "meaning_changed": true,
+      "views": {
+        "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+        "source": "bytes [0, 3)",
+        "english": "For every byte b from 0 to 255, return true if and only if 0 <= b < 3. Return false for every other byte.",
+        "code": "pub fn byte_classifier(b: u8) -> bool {\n    let value = u16::from(b);\n    !(value < 0) && value < 3\n}\n",
+        "cells": [
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "true_count": 3,
+        "false_count": 253
+      },
+      "replay": {
+        "status": "replayed",
+        "records": [],
+        "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+        "authority": "none",
+        "scope": "Recomputed registered operations; notes and self-declared acknowledgements are not proofs."
+      }
+    }
+  },
+  "bad_check": {
+    "schema": "zal.mcp/1",
+    "status": "ok",
+    "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+    "authority": "none",
+    "semantic_acceptance": "not-granted",
+    "data": {
+      "document": {
+        "schema": "zal.mcp-document/1",
+        "definition": {
+          "lower": 0,
+          "profile": "byte-interval",
+          "upper": 3
+        },
+        "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+        "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+        "records": [
+          {
+            "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+            "id": "r1",
+            "request": {
+              "candidate": {
+                "lower": 0,
+                "upper": 4
+              },
+              "kind": "byte-check"
+            },
+            "result": {
+              "authority": "none",
+              "candidate": {
+                "lower": 0,
+                "upper": 4
+              },
+              "candidate_digest": "8f7c5762aacb65a5cfff7b5b86b5a1943c05bf5c58b1842888ac911a23e7b3c4",
+              "checked_cases": 256,
+              "checker": "zal.byte-enumeration/1",
+              "code": "pub fn byte_classifier(b: u8) -> bool {\n    let value = u16::from(b);\n    !(value < 0) && value < 4\n}\n",
+              "code_digest": "30b4a4db1dcb0a758ab3b48242191a1c9711c290ff988ac1dad5b32ae2146536",
+              "counterexample": {
+                "actual": true,
+                "byte": 3,
+                "expected": false
+              },
+              "evidence": "exhaustive-javascript-model-check",
+              "formal_proof": "not-run",
+              "mismatch_count": 1,
+              "native_execution": "not-run",
+              "schema": "zal.byte-check/1",
+              "scope": "All 256 byte inputs for this interval specification and separately evaluated interval candidate; generated Rust has not been executed by this operation.",
+              "status": "refuted",
+              "table_digest": "f30e86b98ce1624c76ad25609db463e22779fedb003be1fd1efd02af1cdcae74",
+              "target_context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+              "target_model_digest": "0b88407a92e39d2cd61ab7b54aa42a2d15757cd640f6d1574464dc286a12a577"
+            }
+          }
+        ]
+      },
+      "record": {
+        "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+        "id": "r1",
+        "request": {
+          "candidate": {
+            "lower": 0,
+            "upper": 4
+          },
+          "kind": "byte-check"
+        },
+        "result": {
+          "authority": "none",
+          "candidate": {
+            "lower": 0,
+            "upper": 4
+          },
+          "candidate_digest": "8f7c5762aacb65a5cfff7b5b86b5a1943c05bf5c58b1842888ac911a23e7b3c4",
+          "checked_cases": 256,
+          "checker": "zal.byte-enumeration/1",
+          "code": "pub fn byte_classifier(b: u8) -> bool {\n    let value = u16::from(b);\n    !(value < 0) && value < 4\n}\n",
+          "code_digest": "30b4a4db1dcb0a758ab3b48242191a1c9711c290ff988ac1dad5b32ae2146536",
+          "counterexample": {
+            "actual": true,
+            "byte": 3,
+            "expected": false
+          },
+          "evidence": "exhaustive-javascript-model-check",
+          "formal_proof": "not-run",
+          "mismatch_count": 1,
+          "native_execution": "not-run",
+          "schema": "zal.byte-check/1",
+          "scope": "All 256 byte inputs for this interval specification and separately evaluated interval candidate; generated Rust has not been executed by this operation.",
+          "status": "refuted",
+          "table_digest": "f30e86b98ce1624c76ad25609db463e22779fedb003be1fd1efd02af1cdcae74",
+          "target_context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+          "target_model_digest": "0b88407a92e39d2cd61ab7b54aa42a2d15757cd640f6d1574464dc286a12a577"
+        }
+      },
+      "record_digest": "ee6ed157b65e251a40cc10d2a3c4af66391bade2f202bf10bb025f458b7ab3bd",
+      "evidence_kind": "finite-model-check",
+      "native_execution": "not-run",
+      "formal_proof": "not-run"
+    }
+  },
+  "good_check": {
+    "schema": "zal.mcp/1",
+    "status": "ok",
+    "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+    "authority": "none",
+    "semantic_acceptance": "not-granted",
+    "data": {
+      "document": {
+        "schema": "zal.mcp-document/1",
+        "definition": {
+          "lower": 0,
+          "profile": "byte-interval",
+          "upper": 3
+        },
+        "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+        "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+        "records": [
+          {
+            "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+            "id": "r1",
+            "request": {
+              "candidate": {
+                "lower": 0,
+                "upper": 4
+              },
+              "kind": "byte-check"
+            },
+            "result": {
+              "authority": "none",
+              "candidate": {
+                "lower": 0,
+                "upper": 4
+              },
+              "candidate_digest": "8f7c5762aacb65a5cfff7b5b86b5a1943c05bf5c58b1842888ac911a23e7b3c4",
+              "checked_cases": 256,
+              "checker": "zal.byte-enumeration/1",
+              "code": "pub fn byte_classifier(b: u8) -> bool {\n    let value = u16::from(b);\n    !(value < 0) && value < 4\n}\n",
+              "code_digest": "30b4a4db1dcb0a758ab3b48242191a1c9711c290ff988ac1dad5b32ae2146536",
+              "counterexample": {
+                "actual": true,
+                "byte": 3,
+                "expected": false
+              },
+              "evidence": "exhaustive-javascript-model-check",
+              "formal_proof": "not-run",
+              "mismatch_count": 1,
+              "native_execution": "not-run",
+              "schema": "zal.byte-check/1",
+              "scope": "All 256 byte inputs for this interval specification and separately evaluated interval candidate; generated Rust has not been executed by this operation.",
+              "status": "refuted",
+              "table_digest": "f30e86b98ce1624c76ad25609db463e22779fedb003be1fd1efd02af1cdcae74",
+              "target_context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+              "target_model_digest": "0b88407a92e39d2cd61ab7b54aa42a2d15757cd640f6d1574464dc286a12a577"
+            }
+          },
+          {
+            "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+            "id": "r2",
+            "request": {
+              "candidate": {
+                "lower": 0,
+                "upper": 3
+              },
+              "kind": "byte-check"
+            },
+            "result": {
+              "authority": "none",
+              "candidate": {
+                "lower": 0,
+                "upper": 3
+              },
+              "candidate_digest": "f89a1dd66745f6bead24483ca0014933bf967686151157af9988ac93c9a0bc5f",
+              "checked_cases": 256,
+              "checker": "zal.byte-enumeration/1",
+              "code": "pub fn byte_classifier(b: u8) -> bool {\n    let value = u16::from(b);\n    !(value < 0) && value < 3\n}\n",
+              "code_digest": "9637826357d075a5520bfed6192896ee6077efb9f7736a3a91a86886e61610a5",
+              "counterexample": null,
+              "evidence": "exhaustive-javascript-model-check",
+              "formal_proof": "not-run",
+              "mismatch_count": 0,
+              "native_execution": "not-run",
+              "schema": "zal.byte-check/1",
+              "scope": "All 256 byte inputs for this interval specification and separately evaluated interval candidate; generated Rust has not been executed by this operation.",
+              "status": "checked",
+              "table_digest": "a76d2ac7d7638c323f1de0ff3a11bea3349de58685c3b9272d688023f5b10f73",
+              "target_context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+              "target_model_digest": "0b88407a92e39d2cd61ab7b54aa42a2d15757cd640f6d1574464dc286a12a577"
+            }
+          }
+        ]
+      },
+      "record": {
+        "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+        "id": "r2",
+        "request": {
+          "candidate": {
+            "lower": 0,
+            "upper": 3
+          },
+          "kind": "byte-check"
+        },
+        "result": {
+          "authority": "none",
+          "candidate": {
+            "lower": 0,
+            "upper": 3
+          },
+          "candidate_digest": "f89a1dd66745f6bead24483ca0014933bf967686151157af9988ac93c9a0bc5f",
+          "checked_cases": 256,
+          "checker": "zal.byte-enumeration/1",
+          "code": "pub fn byte_classifier(b: u8) -> bool {\n    let value = u16::from(b);\n    !(value < 0) && value < 3\n}\n",
+          "code_digest": "9637826357d075a5520bfed6192896ee6077efb9f7736a3a91a86886e61610a5",
+          "counterexample": null,
+          "evidence": "exhaustive-javascript-model-check",
+          "formal_proof": "not-run",
+          "mismatch_count": 0,
+          "native_execution": "not-run",
+          "schema": "zal.byte-check/1",
+          "scope": "All 256 byte inputs for this interval specification and separately evaluated interval candidate; generated Rust has not been executed by this operation.",
+          "status": "checked",
+          "table_digest": "a76d2ac7d7638c323f1de0ff3a11bea3349de58685c3b9272d688023f5b10f73",
+          "target_context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+          "target_model_digest": "0b88407a92e39d2cd61ab7b54aa42a2d15757cd640f6d1574464dc286a12a577"
+        }
+      },
+      "record_digest": "a1e8c9462265406febf0cff180dc7db4c1e49b8c7e559658901c61bd5626c641",
+      "evidence_kind": "finite-model-check",
+      "native_execution": "not-run",
+      "formal_proof": "not-run"
+    }
+  },
+  "replay": {
+    "schema": "zal.mcp/1",
+    "status": "ok",
+    "source_digest": "138294e67be19ba662069d3cbd713176eafe63f32c369a2262505075993664e9",
+    "authority": "none",
+    "semantic_acceptance": "not-granted",
+    "data": {
+      "status": "replayed",
+      "records": [
+        {
+          "id": "r1",
+          "status": "matches-replay",
+          "replayed_result_status": "refuted"
+        },
+        {
+          "id": "r2",
+          "status": "matches-replay",
+          "replayed_result_status": "checked"
+        }
+      ],
+      "context_digest": "c92c43551a2c0d12a9e2764e69dae7427f2d4784ce7087c30b94a0cb6d3e6a84",
+      "authority": "none",
+      "scope": "Recomputed registered operations; notes and self-declared acknowledgements are not proofs."
+    }
+  }
+}

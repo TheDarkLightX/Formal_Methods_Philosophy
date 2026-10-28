@@ -1,0 +1,194 @@
+{
+  "schema": "lament-configuration-toy/1",
+  "created_date": "2026-10-28",
+  "purpose": "An invented finite toy inspired by the Lament Configuration, not franchise mechanics or a physical-device claim.",
+  "encoding": {
+    "Closed": 0,
+    "Aligned": 1,
+    "Reward": 2,
+    "Summon": 3
+  },
+  "actions": [
+    "Twist",
+    "Slide",
+    "Reset"
+  ],
+  "initial": "Closed",
+  "safe_states": [
+    "Closed",
+    "Aligned",
+    "Reward"
+  ],
+  "safe_effects": [
+    "None",
+    "Enjoy"
+  ],
+  "unsafe": {
+    "states": [
+      "Closed",
+      "Aligned",
+      "Reward",
+      "Summon"
+    ],
+    "rows": [
+      [
+        "Closed",
+        "Twist",
+        "Aligned",
+        "None"
+      ],
+      [
+        "Closed",
+        "Slide",
+        "Closed",
+        "None"
+      ],
+      [
+        "Closed",
+        "Reset",
+        "Closed",
+        "None"
+      ],
+      [
+        "Aligned",
+        "Twist",
+        "Closed",
+        "None"
+      ],
+      [
+        "Aligned",
+        "Slide",
+        "Reward",
+        "Enjoy"
+      ],
+      [
+        "Aligned",
+        "Reset",
+        "Closed",
+        "None"
+      ],
+      [
+        "Reward",
+        "Twist",
+        "Summon",
+        "Summon"
+      ],
+      [
+        "Reward",
+        "Slide",
+        "Aligned",
+        "None"
+      ],
+      [
+        "Reward",
+        "Reset",
+        "Closed",
+        "None"
+      ],
+      [
+        "Summon",
+        "Twist",
+        "Summon",
+        "None"
+      ],
+      [
+        "Summon",
+        "Slide",
+        "Summon",
+        "None"
+      ],
+      [
+        "Summon",
+        "Reset",
+        "Summon",
+        "None"
+      ]
+    ]
+  },
+  "redesigned": {
+    "states": [
+      "Closed",
+      "Aligned",
+      "Reward"
+    ],
+    "rows": [
+      [
+        "Closed",
+        "Twist",
+        "Aligned",
+        "None"
+      ],
+      [
+        "Closed",
+        "Slide",
+        "Closed",
+        "None"
+      ],
+      [
+        "Closed",
+        "Reset",
+        "Closed",
+        "None"
+      ],
+      [
+        "Aligned",
+        "Twist",
+        "Closed",
+        "None"
+      ],
+      [
+        "Aligned",
+        "Slide",
+        "Reward",
+        "Enjoy"
+      ],
+      [
+        "Aligned",
+        "Reset",
+        "Closed",
+        "None"
+      ],
+      [
+        "Reward",
+        "Twist",
+        "Reward",
+        "None"
+      ],
+      [
+        "Reward",
+        "Slide",
+        "Aligned",
+        "None"
+      ],
+      [
+        "Reward",
+        "Reset",
+        "Closed",
+        "None"
+      ]
+    ]
+  },
+  "row_fields": [
+    "state",
+    "action",
+    "next_state",
+    "effect"
+  ],
+  "assumptions": [
+    "A single atomic transition per action",
+    "All state and effects are included in each row",
+    "Input actions are exactly Twist, Slide and Reset",
+    "No hidden transitions, concurrency, corruption, reset bypass or external summoning channel",
+    "A rejected state encoding creates no valid state and emits no effect",
+    "Reward means harmless toy completion, not the original supernatural promise"
+  ],
+  "obligations": [
+    "State closure",
+    "Effect closure",
+    "Closed initial state is admitted",
+    "Harmless Reward remains reachable",
+    "All 256 byte encodings checked at state-admission boundary"
+  ],
+  "primary_fiction_source": "https://clivebarker.info/hellraiser.html",
+  "zal_scope": "The registered byte-interval checker covers the state-admission predicate only; it does not execute or verify this custom transition graph. Upper endpoints are exclusive."
+}
