@@ -186,6 +186,15 @@ show_title: false
     </a>
     <a
       class="fp-card fp-card-link fp-card-span-6"
+      href="{{ '/tutorials/fuzzy-lookup-tables-or-neural-networks/' | relative_url }}"
+    >
+      <h2 class="fp-card-title">Essay: Fuzzy lookup tables or neural networks?</h2>
+      <p class="fp-card-text">
+        Programming by example, direct weight edits, compiled processors, and learned tables executed and checked in Tau.
+      </p>
+    </a>
+    <a
+      class="fp-card fp-card-link fp-card-span-6"
       href="{{ '/tutorials/lament-configuration/' | relative_url }}"
     >
       <h2 class="fp-card-title">Essay: The Lament Configuration</h2>
