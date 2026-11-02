@@ -62,8 +62,6 @@ There is no universal best number of layers. More depth can help represent some 
 
 My philosophical position remains the one I started with: neural networks are computations, and training is a way of constructing those computations. The table experiments supply concrete implementations and checks consistent with that view. I want to find out how far this approach can go while keeping the representation, the required behaviour and the evidence explicit.
 
-A shorter version appears on my [portfolio](https://www.danaedwards.info/essays/neural-networks-as-fuzzy-lookup-tables.html).
-
 ## Sources
 
 1. <a id="source-1"></a> Felix Petersen, Christian Borgelt, Hilde Kuehne and Oliver Deussen. [Deep Differentiable Logic Gate Networks](https://arxiv.org/abs/2210.08277), 2022.
