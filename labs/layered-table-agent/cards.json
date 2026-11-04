@@ -1,0 +1,870 @@
+[
+  {
+    "id": "binary_search",
+    "title": "Binary search",
+    "aliases": [
+      "binary search",
+      "bisect",
+      "sorted array search"
+    ],
+    "held": "find a target by halving a sorted range",
+    "body": "Keep an interval containing every possible match. Compare its middle item and discard the impossible half. The input must already be sorted.",
+    "cost": "O(log n) comparisons and O(1) extra space.",
+    "example": "search 7 in [1,3,7,9,12]",
+    "mistake": "An unsorted input invalidates the search invariant."
+  },
+  {
+    "id": "linear_search",
+    "title": "Linear search",
+    "aliases": [
+      "linear search",
+      "sequential search",
+      "scan an array"
+    ],
+    "held": "inspect each element until it matches",
+    "body": "Inspect elements in order until a match is found or the input ends. No sorting precondition is needed.",
+    "cost": "O(n) time and O(1) extra space.",
+    "example": "Scan [8,2,9] for 2: compare 8, then 2.",
+    "mistake": "Sorting first can cost more than a single scan."
+  },
+  {
+    "id": "merge_sort",
+    "title": "Merge sort",
+    "aliases": [
+      "merge sort",
+      "mergesort",
+      "divide and merge"
+    ],
+    "held": "split a list then combine sorted halves",
+    "body": "Recursively sort two halves, then merge by repeatedly taking the smaller front item. Taking from the left on equality preserves stability.",
+    "cost": "O(n log n) time; typically O(n) auxiliary array storage.",
+    "example": "sort [9,2,7,2,1]",
+    "mistake": "Repeatedly rescanning a prefix makes a merge unnecessarily expensive."
+  },
+  {
+    "id": "quick_sort",
+    "title": "Quicksort",
+    "aliases": [
+      "quicksort",
+      "quick sort",
+      "pivot partition"
+    ],
+    "held": "partition a list around a chosen pivot",
+    "body": "Choose a pivot, partition by comparison with it, and recursively sort the parts. Three-way partitioning handles duplicate keys well.",
+    "cost": "Expected O(n log n) with randomized pivots; O(n²) worst case.",
+    "example": "Partition [4,1,4,8,2] into values below, equal to, and above 4.",
+    "mistake": "Repeatedly choosing an extreme pivot can make the algorithm quadratic."
+  },
+  {
+    "id": "heap_sort",
+    "title": "Heapsort",
+    "aliases": [
+      "heap sort",
+      "heapsort",
+      "heap sorting"
+    ],
+    "held": "remove the maximum repeatedly from a binary heap",
+    "body": "Build a max heap, swap its maximum to the end, and restore the heap in the shrinking prefix.",
+    "cost": "O(n log n) time; O(1) auxiliary space in-place.",
+    "example": "The heap root gives the largest remaining element.",
+    "mistake": "Heapsort is generally not stable."
+  },
+  {
+    "id": "insertion_sort",
+    "title": "Insertion sort",
+    "aliases": [
+      "insertion sort",
+      "sorted prefix insertion",
+      "insertion sorting"
+    ],
+    "held": "move each item into its place in the sorted prefix",
+    "body": "Maintain a sorted prefix and shift larger items right to insert the next one. Useful for small or nearly sorted inputs.",
+    "cost": "O(n²) worst case; O(n) on sorted inputs; O(1) extra space.",
+    "example": "[3,1,2] becomes [1,3,2], then [1,2,3].",
+    "mistake": "Worst-case asymptotics alone do not determine speed on small inputs."
+  },
+  {
+    "id": "counting_sort",
+    "title": "Counting sort",
+    "aliases": [
+      "counting sort",
+      "frequency sorting",
+      "count sort"
+    ],
+    "held": "sort integer keys by counting occurrences",
+    "body": "Count each integer key, then reconstruct sorted output. A cumulative-count variant preserves record stability.",
+    "cost": "O(n+k) time for key range size k; O(k) counts.",
+    "example": "[2,0,2,1] gives counts [1,1,2].",
+    "mistake": "A huge sparse key range makes the array impractical."
+  },
+  {
+    "id": "radix_sort",
+    "title": "Radix sort",
+    "aliases": [
+      "radix sort",
+      "digit sort",
+      "radix sorting"
+    ],
+    "held": "sort keys one digit at a time",
+    "body": "Process key digits in stable passes. Least-significant-digit sorting relies on preserving the order established by earlier passes.",
+    "cost": "O(d(n+b)) for d digits and radix b.",
+    "example": "Sort nonnegative fixed-width integers by successive bytes.",
+    "mistake": "An unstable pass breaks the usual LSD algorithm."
+  },
+  {
+    "id": "bfs",
+    "title": "Breadth-first search",
+    "aliases": [
+      "breadth first search",
+      "bfs",
+      "unweighted shortest path"
+    ],
+    "held": "visit graph vertices in distance layers",
+    "body": "A FIFO queue explores vertices by increasing edge count. Mark a vertex when enqueuing it. Parent links reconstruct a shortest unweighted path.",
+    "cost": "O(V+E) time and O(V) auxiliary space.",
+    "example": "bfs A D: A-B, A-C, B-D, C-D",
+    "mistake": "BFS does not minimize arbitrary weighted distances."
+  },
+  {
+    "id": "dfs",
+    "title": "Depth-first search",
+    "aliases": [
+      "depth first search",
+      "dfs",
+      "graph traversal stack"
+    ],
+    "held": "follow a graph branch before backtracking",
+    "body": "Explore one branch at a time using recursion or a stack. Discovery and finishing information helps analyze cycles and components.",
+    "cost": "O(V+E) time and O(V) auxiliary space.",
+    "example": "Explore one branch to its end before trying another neighbor.",
+    "mistake": "A visited flag differs from an active recursion-stack flag."
+  },
+  {
+    "id": "dijkstra",
+    "title": "Dijkstra's algorithm",
+    "aliases": [
+      "dijkstra",
+      "weighted shortest path",
+      "nonnegative shortest path"
+    ],
+    "held": "settle the closest unsettled vertex with nonnegative edges",
+    "body": "Remove the smallest tentative distance from a priority queue and relax its outgoing edges. Nonnegative weights justify finalizing that distance.",
+    "cost": "O((V+E) log V) with a binary heap.",
+    "example": "dijkstra A D: A-B:4, A-C:1, C-B:2, B-D:1",
+    "mistake": "Negative edges invalidate standard finalization."
+  },
+  {
+    "id": "bellman_ford",
+    "title": "Bellman-Ford",
+    "aliases": [
+      "bellman ford",
+      "negative edge shortest path",
+      "negative cycle detection"
+    ],
+    "held": "relax every edge repeatedly to handle negative weights",
+    "body": "Relax all edges up to V-1 times. An additional reachable improvement indicates a reachable negative cycle.",
+    "cost": "O(VE) time and O(V) distance storage.",
+    "example": "A negative edge can coexist with well-defined shortest paths.",
+    "mistake": "A negative edge is not itself a negative cycle."
+  },
+  {
+    "id": "floyd_warshall",
+    "title": "Floyd-Warshall",
+    "aliases": [
+      "floyd warshall",
+      "all pairs shortest paths",
+      "distance matrix"
+    ],
+    "held": "allow each vertex as an intermediate in a distance matrix",
+    "body": "For each intermediate vertex k, improve d[i,j] with d[i,k]+d[k,j]. A negative diagonal afterward indicates a negative cycle.",
+    "cost": "O(V³) time and O(V²) memory.",
+    "example": "Each iteration expands the set of allowed intermediate vertices.",
+    "mistake": "The k loop must be outermost for the standard invariant."
+  },
+  {
+    "id": "astar",
+    "title": "A star search",
+    "aliases": [
+      "a star",
+      "astar",
+      "heuristic path search"
+    ],
+    "held": "guide path finding with a lower bound estimate",
+    "body": "Order nodes by path cost g plus heuristic h. Admissible h never overestimates remaining cost; consistency supports closing nodes without reopening.",
+    "cost": "Cost depends on the graph and heuristic; worst-case search can be large.",
+    "example": "Manhattan distance bounds remaining unit-cost movement on a four-neighbor grid.",
+    "mistake": "An overestimating heuristic can lose optimality."
+  },
+  {
+    "id": "topological",
+    "title": "Topological sorting",
+    "aliases": [
+      "topological sort",
+      "dependency ordering",
+      "dag scheduling"
+    ],
+    "held": "order tasks so every prerequisite comes first",
+    "body": "Repeatedly remove an indegree-zero vertex and decrease its successors' indegrees. Remaining vertices after the queue empties indicate a cycle.",
+    "cost": "O(V+E) time and O(V) auxiliary space.",
+    "example": "toposort: plan-build, build-test, test-release",
+    "mistake": "A cyclic directed graph has no topological ordering."
+  },
+  {
+    "id": "kruskal",
+    "title": "Kruskal's algorithm",
+    "aliases": [
+      "kruskal",
+      "minimum spanning tree",
+      "mst edges"
+    ],
+    "held": "connect components using the lightest safe edge",
+    "body": "Sort undirected edges by weight and accept an edge only when it joins separate components. Union-find tests connectivity efficiently.",
+    "cost": "O(E log E), dominated by sorting.",
+    "example": "An undirected spanning tree connects all vertices with V-1 edges.",
+    "mistake": "An MST minimizes total tree weight, not every pairwise path."
+  },
+  {
+    "id": "prim",
+    "title": "Prim's algorithm",
+    "aliases": [
+      "prim",
+      "grow a spanning tree",
+      "mst frontier"
+    ],
+    "held": "grow a tree by its lightest outgoing edge",
+    "body": "Start at a vertex and repeatedly select the lightest edge crossing from the tree to an outside vertex. Restart to cover disconnected components.",
+    "cost": "O(E log V) with a binary heap.",
+    "example": "The cut property justifies the selected edge.",
+    "mistake": "Disconnected graphs need a spanning forest."
+  },
+  {
+    "id": "union_find",
+    "title": "Union-find",
+    "aliases": [
+      "union find",
+      "disjoint set",
+      "dsu"
+    ],
+    "held": "track which elements share a connected component",
+    "body": "Represent each set by a root. Union by rank or size limits growth; path compression shortens later finds.",
+    "cost": "Amortized O(α(n)) per operation with both optimizations.",
+    "example": "Union A-B then B-C makes A and C share a representative.",
+    "mistake": "Standard union-find does not support arbitrary edge deletions."
+  },
+  {
+    "id": "scc",
+    "title": "Strongly connected components",
+    "aliases": [
+      "strongly connected components",
+      "scc",
+      "tarjan"
+    ],
+    "held": "find directed regions with mutual reachability",
+    "body": "Partition a directed graph into maximal groups where every member reaches every other. Contracting the groups produces a DAG.",
+    "cost": "O(V+E) for Tarjan or Kosaraju.",
+    "example": "A→B→C→A is one strongly connected component.",
+    "mistake": "Undirected connectivity is a different property."
+  },
+  {
+    "id": "max_flow",
+    "title": "Maximum flow",
+    "aliases": [
+      "maximum flow",
+      "max flow",
+      "augmenting path"
+    ],
+    "held": "send the greatest flow through a capacity network",
+    "body": "Maintain capacities and flow conservation. Residual edges record where flow can be added or undone. Augment until no residual source-to-sink path remains.",
+    "cost": "Edmonds-Karp: O(VE²).",
+    "example": "Reverse residual edges allow an earlier routing decision to be revised.",
+    "mistake": "Removing reverse edges can prevent reaching the optimum."
+  },
+  {
+    "id": "matching",
+    "title": "Bipartite matching",
+    "aliases": [
+      "bipartite matching",
+      "maximum matching",
+      "job assignment graph"
+    ],
+    "held": "pair vertices across two sets without reusing any vertex",
+    "body": "An augmenting path alternates unused and used edges. Flipping it increases the matching size by one.",
+    "cost": "Hopcroft-Karp: O(E√V).",
+    "example": "Match workers to compatible jobs, one job per worker.",
+    "mistake": "Greedy pairing need not maximize the number of pairs."
+  },
+  {
+    "id": "dynamic_programming",
+    "title": "Dynamic programming",
+    "aliases": [
+      "dynamic programming",
+      "dp",
+      "overlapping subproblems"
+    ],
+    "held": "store solutions to repeated smaller problems",
+    "body": "Define sufficient state, a recurrence, and base cases. Reuse solutions instead of recomputing them.",
+    "cost": "Roughly states times transitions examined per state.",
+    "example": "Edit distance stores solutions for pairs of prefixes.",
+    "mistake": "Memoization cannot repair a recurrence that omits necessary state."
+  },
+  {
+    "id": "greedy",
+    "title": "Greedy algorithms",
+    "aliases": [
+      "greedy algorithm",
+      "greedy choice",
+      "local optimum"
+    ],
+    "held": "make the best immediate choice without reconsidering it",
+    "body": "Choose the locally best feasible step. Correctness requires structure, often an exchange argument or cut property.",
+    "cost": "Depends on the algorithm; sorting often dominates.",
+    "example": "Earliest-finishing interval selection maximizes the count of compatible intervals.",
+    "mistake": "Largest-coin-first fails for coins 1,3,4 and amount 6."
+  },
+  {
+    "id": "backtracking",
+    "title": "Backtracking",
+    "aliases": [
+      "backtracking",
+      "constraint search",
+      "recursive search"
+    ],
+    "held": "try a choice and undo it when it cannot reach a solution",
+    "body": "Build partial solutions, prune invalid ones, and explore the remaining choices. The partial-state invariant justifies pruning.",
+    "cost": "Often exponential in the number of choices.",
+    "example": "Assign a legal Sudoku digit and undo unsuccessful choices.",
+    "mistake": "Pruning merely unlikely branches can remove the only solution."
+  },
+  {
+    "id": "branch_bound",
+    "title": "Branch and bound",
+    "aliases": [
+      "branch and bound",
+      "optimization pruning",
+      "bound search"
+    ],
+    "held": "discard a branch when its optimistic bound cannot beat the incumbent",
+    "body": "Keep the best feasible solution. Bound each unfinished branch and discard it when even its optimistic outcome cannot improve the incumbent.",
+    "cost": "Worst-case exponential.",
+    "example": "For maximization, prune when the upper bound is no greater than the incumbent.",
+    "mistake": "A bound in the wrong direction can remove the optimum."
+  },
+  {
+    "id": "knapsack",
+    "title": "Zero-one knapsack",
+    "aliases": [
+      "knapsack",
+      "zero one knapsack",
+      "0/1 knapsack"
+    ],
+    "held": "choose indivisible items under a weight capacity",
+    "body": "For each item and capacity, choose between skipping it and taking it once. Update a one-dimensional capacity table downward to prevent reuse.",
+    "cost": "O(nC) time and O(C) memory; pseudo-polynomial in capacity C.",
+    "example": "knapsack 7: 3:4, 4:5, 2:3",
+    "mistake": "Updating capacities upward permits unbounded item reuse."
+  },
+  {
+    "id": "coin_change",
+    "title": "Coin change",
+    "aliases": [
+      "coin change",
+      "minimum coins",
+      "change making"
+    ],
+    "held": "make an amount with the fewest reusable denominations",
+    "body": "Let dp[a] be the minimum coins for amount a. Try dp[a-c]+1 for each coin c. Keep unreachable amounts explicitly unreachable.",
+    "cost": "O(AC) for amount A and C denominations.",
+    "example": "coins 6 with [1,3,4]",
+    "mistake": "Greedy change is not valid for every coin system."
+  },
+  {
+    "id": "edit_distance",
+    "title": "Edit distance",
+    "aliases": [
+      "edit distance",
+      "levenshtein",
+      "string distance"
+    ],
+    "held": "count insertions deletions and substitutions between strings",
+    "body": "Use a table over prefix pairs. Each cell chooses deletion, insertion, or substitution; equal characters allow free diagonal progress.",
+    "cost": "O(mn) time; O(min(m,n)) space for only the distance.",
+    "example": "edit kitten -> sitting",
+    "mistake": "Operation distance is not semantic difference."
+  },
+  {
+    "id": "lcs",
+    "title": "Longest common subsequence",
+    "aliases": [
+      "longest common subsequence",
+      "lcs",
+      "common subsequence"
+    ],
+    "held": "find the longest ordered sequence shared by two strings",
+    "body": "If final characters match, extend the shorter-prefix solution. Otherwise choose the better result from dropping either final character.",
+    "cost": "O(mn) with a prefix table.",
+    "example": "lcs ABCBDAB / BDCABA",
+    "mistake": "Subsequences need not be contiguous; substrings must be."
+  },
+  {
+    "id": "lis",
+    "title": "Longest increasing subsequence",
+    "aliases": [
+      "longest increasing subsequence",
+      "lis",
+      "increasing sequence"
+    ],
+    "held": "keep the smallest tail for each possible increasing length",
+    "body": "Maintain the smallest possible ending value for each increasing subsequence length. Binary search finds which tail a value improves.",
+    "cost": "O(n log n) time and O(n) memory.",
+    "example": "lis [10,9,2,5,3,7,101,18]",
+    "mistake": "Strictly increasing and nondecreasing need different equality rules."
+  },
+  {
+    "id": "intervals",
+    "title": "Interval scheduling",
+    "aliases": [
+      "interval scheduling",
+      "activity selection",
+      "nonoverlapping intervals"
+    ],
+    "held": "choose the largest set of compatible time intervals",
+    "body": "Sort by finish time and select each next interval starting after the previous selected one ends. An exchange argument proves the equal-value case.",
+    "cost": "O(n log n), dominated by sorting.",
+    "example": "Select meetings by earliest finish time.",
+    "mistake": "Weighted interval scheduling generally needs dynamic programming."
+  },
+  {
+    "id": "hash_table",
+    "title": "Hash tables",
+    "aliases": [
+      "hash table",
+      "hash map",
+      "dictionary lookup"
+    ],
+    "held": "map keys into buckets and resolve collisions",
+    "body": "Hash a key to a bucket, then compare keys to resolve collisions. Manage the load and resizing policy.",
+    "cost": "Expected O(1) operations under suitable assumptions; O(n) worst case.",
+    "example": "Store the latest value associated with an exact key.",
+    "mistake": "Equal hashes do not imply equal keys."
+  },
+  {
+    "id": "heap",
+    "title": "Priority queues",
+    "aliases": [
+      "priority queue",
+      "binary heap",
+      "min heap"
+    ],
+    "held": "retrieve the smallest item while new items arrive",
+    "body": "A min heap keeps each parent no greater than its children. It supports insertion and removal of the minimum.",
+    "cost": "O(log n) insert/remove, O(1) peek, O(n) bottom-up build.",
+    "example": "Dijkstra queues tentative distances.",
+    "mistake": "The heap's array is not globally sorted."
+  },
+  {
+    "id": "trie",
+    "title": "Tries",
+    "aliases": [
+      "trie",
+      "prefix tree",
+      "word prefix search"
+    ],
+    "held": "follow characters through a tree to locate a prefix",
+    "body": "Store paths for keys and share common prefixes. Mark complete words separately from internal prefix nodes.",
+    "cost": "O(k) lookup for k characters with constant-time child access.",
+    "example": "car, cart, and cat share ca.",
+    "mistake": "An existing prefix need not be a complete stored word."
+  },
+  {
+    "id": "bst",
+    "title": "Binary search trees",
+    "aliases": [
+      "binary search tree",
+      "bst",
+      "balanced search tree"
+    ],
+    "held": "organize ordered keys in smaller and larger subtrees",
+    "body": "Search follows one branch per comparison. Balanced variants maintain height bounds with rotations or other restructuring.",
+    "cost": "O(h) for height h; O(log n) when balanced, O(n) when skewed.",
+    "example": "In-order traversal returns sorted keys.",
+    "mistake": "Ordinary search trees are not automatically balanced."
+  },
+  {
+    "id": "stack_queue",
+    "title": "Stacks and queues",
+    "aliases": [
+      "stack and queue",
+      "lifo fifo",
+      "stack queue"
+    ],
+    "held": "contrast last in first out with first in first out",
+    "body": "Stacks remove the newest item; queues remove the oldest. They support depth-first and breadth-first work respectively.",
+    "cost": "O(1) amortized endpoint operations with appropriate implementations.",
+    "example": "Undo uses a stack; BFS uses a queue.",
+    "mistake": "Shifting an array to remove its first item costs O(n)."
+  },
+  {
+    "id": "fenwick",
+    "title": "Fenwick trees",
+    "aliases": [
+      "fenwick tree",
+      "binary indexed tree",
+      "prefix sums"
+    ],
+    "held": "update array values and query prefix sums efficiently",
+    "body": "Store selected partial sums and jump between ranges using the lowest set bit.",
+    "cost": "O(log n) updates and queries; O(n) memory.",
+    "example": "Range sum is the difference of two prefix sums.",
+    "mistake": "One-based indexing formulas cannot be copied unchanged to zero-based storage."
+  },
+  {
+    "id": "segment_tree",
+    "title": "Segment trees",
+    "aliases": [
+      "segment tree",
+      "range query tree",
+      "range minimum query"
+    ],
+    "held": "combine summaries of intervals in a balanced tree",
+    "body": "Each node summarizes an interval. Combine fully covered nodes during a query and update nodes on the affected leaf's path.",
+    "cost": "O(log n) point updates and range queries; O(n) memory.",
+    "example": "Store range minima or sums.",
+    "mistake": "The combine operation must be associative."
+  },
+  {
+    "id": "bloom",
+    "title": "Bloom filters",
+    "aliases": [
+      "bloom filter",
+      "probabilistic membership",
+      "membership filter"
+    ],
+    "held": "test membership with possible false positives",
+    "body": "Insertion sets several hash-selected bits. A zero proves absence; all ones indicate possible presence.",
+    "cost": "O(k) for k hashes with a fixed bit array.",
+    "example": "Skip expensive lookups when the filter proves absence.",
+    "mistake": "Naively clearing bits on deletion can create false negatives."
+  },
+  {
+    "id": "kmp",
+    "title": "Knuth-Morris-Pratt",
+    "aliases": [
+      "kmp",
+      "knuth morris pratt",
+      "prefix function"
+    ],
+    "held": "reuse matched prefixes while searching for a pattern",
+    "body": "Precompute how much pattern remains matched after a mismatch. Search does not back up the text pointer.",
+    "cost": "O(n+m) time and O(m) extra space.",
+    "example": "Handle repeated-prefix patterns without rescanning text.",
+    "mistake": "Resetting the match length to zero loses the optimization."
+  },
+  {
+    "id": "rabin_karp",
+    "title": "Rabin-Karp",
+    "aliases": [
+      "rabin karp",
+      "rolling hash",
+      "substring hash"
+    ],
+    "held": "roll a fingerprint over consecutive text windows",
+    "body": "Compare a rolling window hash to the pattern's hash. Verify characters on matches to handle collisions.",
+    "cost": "Expected linear behavior in suitable settings; O(nm) worst case.",
+    "example": "Slide a fixed-width search window through text.",
+    "mistake": "Hash equality alone is not an exact substring proof."
+  },
+  {
+    "id": "gcd",
+    "title": "Euclidean algorithm",
+    "aliases": [
+      "gcd",
+      "euclidean algorithm",
+      "greatest common divisor"
+    ],
+    "held": "replace a pair with the smaller number and its remainder",
+    "body": "Repeatedly replace (a,b) with (b,a mod b) until b is zero. Common divisors are preserved.",
+    "cost": "O(log min(a,b)) remainder steps for positive inputs.",
+    "example": "gcd 1071 462",
+    "mistake": "This demo defines gcd(0,0)=0 and normalizes signs."
+  },
+  {
+    "id": "primes",
+    "title": "Prime sieve",
+    "aliases": [
+      "prime sieve",
+      "sieve of eratosthenes",
+      "prime numbers"
+    ],
+    "held": "mark multiples to enumerate primes below a bound",
+    "body": "For each unmarked prime p through √n, mark multiples starting at p². Remaining numbers from 2 are primes.",
+    "cost": "O(n log log n) time and O(n) marker space.",
+    "example": "primes 100",
+    "mistake": "The integer 1 is not prime."
+  },
+  {
+    "id": "modular",
+    "title": "Modular arithmetic",
+    "aliases": [
+      "modular arithmetic",
+      "modulo",
+      "modular exponentiation"
+    ],
+    "held": "calculate remainders under a positive modulus",
+    "body": "Repeated squaring computes powers modulo m without constructing the full power. Arithmetic is over residue classes.",
+    "cost": "O(log e) modular multiplications for exponent e.",
+    "example": "powmod 7 128 13",
+    "mistake": "Division requires an inverse, which exists only for a divisor coprime to m."
+  },
+  {
+    "id": "complexity",
+    "title": "Algorithmic complexity",
+    "aliases": [
+      "big o",
+      "time complexity",
+      "asymptotic complexity"
+    ],
+    "held": "describe resource growth as input size increases",
+    "body": "Big O bounds growth under a cost model. Distinguish worst-case, expected, and amortized statements and specify the input parameter.",
+    "cost": "Examples: O(log n), O(n), O(n log n), O(n²), O(2^n).",
+    "example": "Doubling n roughly quadruples n² but adds one to log₂ n.",
+    "mistake": "Asymptotic bounds alone do not predict a particular small run's speed."
+  },
+  {
+    "id": "np_complete",
+    "title": "NP completeness",
+    "aliases": [
+      "np complete",
+      "np hard",
+      "p versus np"
+    ],
+    "held": "classify problems using polynomial time reductions",
+    "body": "NP problems have polynomial-time verifiable certificates. NP-complete problems are in NP and as hard as every NP problem under polynomial reductions.",
+    "cost": "No polynomial-time algorithm for all NP-complete problems is known.",
+    "example": "Boolean satisfiability is NP-complete.",
+    "mistake": "NP does not mean not polynomial; NP-hard need not imply membership in NP."
+  },
+  {
+    "id": "invariant",
+    "title": "Loop invariants",
+    "aliases": [
+      "loop invariant",
+      "invariant",
+      "inductive property"
+    ],
+    "held": "state what remains true before and after every loop step",
+    "body": "Show initialization, preservation by a step, and usefulness at termination. Partial correctness alone does not establish termination.",
+    "cost": "Proof effort depends on the model and property.",
+    "example": "Binary search keeps every possible match inside its remaining interval.",
+    "mistake": "Sample executions do not prove every execution."
+  },
+  {
+    "id": "fcis",
+    "title": "Functional core imperative shell",
+    "aliases": [
+      "functional core",
+      "fcis",
+      "imperative shell"
+    ],
+    "held": "separate deterministic decisions from external effects",
+    "body": "Put decisions in pure functions over explicit inputs. Keep persistence, clocks, and network effects in a shell so decisions can be replayed.",
+    "cost": "A design boundary, not a complexity bound.",
+    "example": "A transition returns next state and requested effects; the shell performs them.",
+    "mistake": "Purity does not prove requirements correct or authenticate input observations."
+  },
+  {
+    "id": "model_checking",
+    "title": "Model checking",
+    "aliases": [
+      "model checking",
+      "finite state verification",
+      "state space checking"
+    ],
+    "held": "explore reachable states against a property",
+    "body": "Specify initial states, transitions, and a property. Explore reachable behavior and return a counterexample when a violation is found.",
+    "cost": "Independent variables can make the state space grow exponentially.",
+    "example": "Check that exclusive ownership is never granted twice.",
+    "mistake": "A model guarantee depends on correspondence to deployment."
+  },
+  {
+    "id": "sat_smt",
+    "title": "SAT and SMT",
+    "aliases": [
+      "sat solver",
+      "smt solver",
+      "satisfiability"
+    ],
+    "held": "ask whether a logical formula has a satisfying assignment",
+    "body": "SAT handles Boolean formulas; SMT adds theories such as bitvectors and arithmetic. A satisfying assignment is a witness in that model.",
+    "cost": "General SAT is NP-complete; theory fragments have different costs.",
+    "example": "Equivalence can be checked by searching for an input with differing outputs.",
+    "mistake": "Timeout and unknown are not unsatisfiability."
+  },
+  {
+    "id": "tau",
+    "title": "Tau Language",
+    "aliases": [
+      "tau language",
+      "tau lang",
+      "tau specification"
+    ],
+    "held": "express behavior as logical requirements in Tau",
+    "body": "Tau expresses executable logical specifications. This experiment exports tables as Boolean equations and compares actual Tau 0.8 outputs with an independent evaluator.",
+    "cost": "Preparation cost depends on specification size and algebra.",
+    "example": "XOR is expressed as out[t] = a[t] ^ b[t].",
+    "mistake": "Runtime agreement establishes correspondence on checked inputs, not prediction accuracy."
+  },
+  {
+    "id": "zenofcis",
+    "title": "ZenoFCIS",
+    "aliases": [
+      "zenofcis",
+      "zeno fcis",
+      "zal"
+    ],
+    "held": "qualify a candidate implementation with a contract checker",
+    "body": "Separate candidate construction from acceptance by a named checker over a declared domain. Record source identity and replayable evidence.",
+    "cost": "Cost depends on domain, checker, and representation.",
+    "example": "Exhaustively compare implementations over a bounded domain.",
+    "mistake": "Proposal, checked acceptance, and deployment are different events."
+  },
+  {
+    "id": "layered_tables",
+    "title": "Layered lookup tables",
+    "aliases": [
+      "layered lookup tables",
+      "boolean table network",
+      "logic gate network"
+    ],
+    "held": "compose small learned truth tables into a bigger function",
+    "body": "Each unit stores a small finite function. Composition exploits structure without storing every whole-input case. Training selects entries; frozen inference is deterministic.",
+    "cost": "Two-input Boolean tables have four entries; evaluation is linear in visited tables.",
+    "example": "This companion uses frozen Boolean tables to route text.",
+    "mistake": "Representability does not guarantee compactness, easy learning, or broad language ability."
+  },
+  {
+    "id": "folding",
+    "title": "Circuit folding",
+    "aliases": [
+      "circuit folding",
+      "constant propagation",
+      "table simplification"
+    ],
+    "held": "remove redundant gates while preserving observable outputs",
+    "body": "Propagate constants, absorb negations, bypass wires, share equal computations, and remove dead nodes. Preserve output votes and polarities.",
+    "cost": "Graph simplification can reduce runtime work.",
+    "example": "x OR 0 can be replaced by x.",
+    "mistake": "Equal final labels on samples are weaker than preservation of every vote."
+  },
+  {
+    "id": "q_learning",
+    "title": "Q learning",
+    "aliases": [
+      "q learning",
+      "q table",
+      "reinforcement learning"
+    ],
+    "held": "learn state action values from rewards",
+    "body": "A Q table estimates future return per state-action pair. Updates combine observed reward with an estimate of next-state value.",
+    "cost": "Storage grows with states times actions.",
+    "example": "A finite grid policy learns useful moves.",
+    "mistake": "Estimated reward is not a safety guarantee outside the modeled environment."
+  },
+  {
+    "id": "guards",
+    "title": "Safety guards",
+    "aliases": [
+      "safety guard",
+      "action mask",
+      "shielded policy"
+    ],
+    "held": "reject or repair a learned action that breaks a checked rule",
+    "body": "A learned policy proposes an action; a separately specified guard accepts, rejects, or replaces it. State the guard's scope and fallback.",
+    "cost": "Cost depends on the rule and state representation.",
+    "example": "A game guard rejects moves onto occupied squares.",
+    "mistake": "Local legality does not prove a long-term objective like never losing."
+  },
+  {
+    "id": "determinism",
+    "title": "Deterministic inference",
+    "aliases": [
+      "determinism",
+      "reproducibility",
+      "deterministic model"
+    ],
+    "held": "get the same output from the same frozen inputs",
+    "body": "Fixed tables, input normalization, and tie-breaking give repeatable integer inference. Floating-point training can still depend on libraries and execution order.",
+    "cost": "Frozen inference performs bounded graph work.",
+    "example": "Same message, context, and model bytes must give the same trace.",
+    "mistake": "A random seed alone does not guarantee cross-platform identical training."
+  },
+  {
+    "id": "verification",
+    "title": "Verification and accuracy",
+    "aliases": [
+      "verification versus accuracy",
+      "correctness and accuracy",
+      "execution agreement"
+    ],
+    "held": "distinguish faithful execution from good predictions",
+    "body": "A model can execute exactly and choose the wrong answer. Measure prediction quality on held-out inputs and implementation correspondence separately.",
+    "cost": "Different measurements answer different questions.",
+    "example": "An always-zero classifier can be perfectly implemented and mostly inaccurate.",
+    "mistake": "Parity is not proof of relevant or correct conversation."
+  },
+  {
+    "id": "limitations",
+    "title": "Capabilities and limits",
+    "aliases": [
+      "what can you do",
+      "your limitations",
+      "how do you work"
+    ],
+    "held": "describe the small local chat experiment",
+    "body": "I am a bounded local companion for algorithms and formal methods. Learned tables choose topics, authored cards supply prose, and deterministic tools calculate examples.",
+    "cost": "Local integer inference; no remote language model.",
+    "example": "Try sorting, shortest paths, knapsack, edit distance, GCD, or method comparisons.",
+    "mistake": "Synthetic training volume is not evidence of general conversation ability."
+  },
+  {
+    "id": "hello",
+    "title": "Hello",
+    "aliases": [
+      "hello",
+      "hi there",
+      "hey"
+    ],
+    "held": "greet the algorithm companion",
+    "body": "Hello. Ask about algorithms or layered tables, compare two methods, or run a small example with a trace.",
+    "cost": "All chat computation runs in this browser.",
+    "example": "Try 'gcd 1071 462' or 'what is dynamic programming?'.",
+    "mistake": "Ambiguous questions may need a more specific topic."
+  },
+  {
+    "id": "thanks",
+    "title": "Thanks",
+    "aliases": [
+      "thank you",
+      "thanks",
+      "that helped"
+    ],
+    "held": "acknowledge a useful explanation",
+    "body": "You're welcome. Try another example, ask about complexity, or compare with a different method.",
+    "cost": "No remote inference is needed.",
+    "example": "Ask 'compare BFS and Dijkstra'.",
+    "mistake": "The learned topic route can be wrong."
+  },
+  {
+    "id": "unknown",
+    "title": "Outside the catalog",
+    "aliases": [
+      "weather today",
+      "stock price",
+      "write a poem"
+    ],
+    "held": "ask something outside this bounded catalog",
+    "body": "I do not have a reliable answer in this catalog. I can help with algorithms, formal methods, layered tables, and the commands in Help.",
+    "cost": "No web access or general language model is connected.",
+    "example": "Try a named algorithm or a command from Help.",
+    "mistake": "The largest score alone does not mean a question is in scope."
+  }
+]

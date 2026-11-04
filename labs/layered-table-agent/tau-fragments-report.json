@@ -1,0 +1,331 @@
+{
+  "tau_commit": "95a7d261ca3db5ff6f7c198a0b4d81c880816058",
+  "bundle_sha256": "25c7abc892f40962b8f4cc96adf5b0849f18e56614c6c4ea5808964a9678b435",
+  "fragments": 1238,
+  "fragments_executed": 32,
+  "node_values_checked": 2022,
+  "seconds": 148.928,
+  "cases": [
+    {
+      "fragment": 0,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 0,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 13,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 13,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 41,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 41,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 58,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 58,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 150,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 150,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 227,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 227,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 236,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 236,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 328,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 328,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 428,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 428,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 435,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 435,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 467,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 467,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 490,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 490,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 585,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 585,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 596,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 596,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 654,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 654,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 661,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 661,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 759,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 759,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 769,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 769,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 793,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 793,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 918,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 918,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 936,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 936,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 965,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 965,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1019,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 1019,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1021,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 1021,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1031,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 1031,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1076,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 1076,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1109,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 1109,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1120,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 1120,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1127,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 1127,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1200,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 1200,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1211,
+      "trial": 0,
+      "node_values": 32
+    },
+    {
+      "fragment": 1211,
+      "trial": 1,
+      "node_values": 32
+    },
+    {
+      "fragment": 1237,
+      "trial": 0,
+      "node_values": 19
+    },
+    {
+      "fragment": 1237,
+      "trial": 1,
+      "node_values": 19
+    }
+  ],
+  "scope": "Native Tau execution of sampled literal graph fragments, two deterministic random input vectors each. Primitive gate and folding certificates are separate evidence; this sample is not exhaustive."
+}

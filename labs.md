@@ -53,6 +53,18 @@ description: "Interactive labs paired with the tutorial series: bounded witness 
   <h2 class="fp-page-title" style="font-size: 2rem; margin-bottom: var(--space-md)">Optimization and Training Track</h2>
   <div class="fp-grid">
     <div class="fp-card fp-card-span-4">
+      <h3 class="fp-card-title">Layered Table Agent</h3>
+      <p class="fp-card-text">
+        Chat with 111,104 CPU-trained Boolean tables, inspect their votes, and
+        try exact algorithm tools or attributed answer retrieval. Runs locally
+        with WebAssembly; an optional Tau 0.8 runtime can be loaded from local files.
+      </p>
+      <div class="fp-hero-actions">
+        <a class="fp-btn fp-btn-primary" href="{{ '/labs/layered-table-agent/' | relative_url }}">Open lab</a>
+        <a class="fp-btn fp-btn-secondary" href="https://github.com/TheDarkLightX/Intelligent-Daemon-Interface/blob/main/idi/layered_chat/RESULTS.md">Read the experiment</a>
+      </div>
+    </div>
+    <div class="fp-card fp-card-span-4">
       <h3 class="fp-card-title">TauEnergy Workbench</h3>
       <p class="fp-card-text">
         Inspect the replayable TauEnergy experiment: measured route ranking,
