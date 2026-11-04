@@ -1,0 +1,27 @@
+Layered Table Agent, November 2026
+Code and authored topic cards: MIT, Intelligent Daemon Interface contributors.
+AI assistance: Dana Edwards oversees and refines the results.
+
+OpenAssistant / LAION OASST1 contributors: Apache License 2.0.
+Source revision fdf72ae0827c1cda404aff25b6603abec9e3399b:
+https://huggingface.co/datasets/OpenAssistant/oasst1/tree/fdf72ae0827c1cda404aff25b6603abec9e3399b
+See OPENASSISTANT-LICENSE for the full Apache license.
+
+Databricks Dolly 15k contributors: Creative Commons Attribution-ShareAlike 3.0 Unported.
+Source revision bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a:
+https://huggingface.co/datasets/databricks/databricks-dolly-15k/tree/bdd27f4d94b9c1f951818a7da7fd7aeea5dbff1a
+License and legal code: https://creativecommons.org/licenses/by-sa/3.0/
+https://creativecommons.org/licenses/by-sa/3.0/legalcode
+
+Changes: selected English answers by source annotations, scope, length and
+duplicate filters; preserved answer text; added per-record attribution and
+conversation/Dolly-row splits. The page export omits five additional answers
+containing user-specific filesystem path examples; the training corpus retains them. Original answers may be incomplete or wrong.
+The combined knowledge.json and learned relevance component of model.json
+are distributed under CC BY-SA 3.0. Retain the per-record Apache notices.
+The topic component of model.json is trained on original authored cards and
+is MIT. No endorsement by the source contributors is implied.
+
+The Algorithm Design Manual informed algorithm selection, not the answer corpus.
+No textbook passages, Tau source code or Tau runtime are distributed here.
+Tau must be obtained independently from IDNI under the applicable Tau license.

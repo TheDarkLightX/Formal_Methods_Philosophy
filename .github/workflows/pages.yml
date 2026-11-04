@@ -32,6 +32,9 @@ jobs:
       - name: Verify the one-plus-one lab
         run: node tests/one_plus_one_proof_core.test.js
 
+      - name: Verify the layered-table agent
+        run: node --test tests/layered-table-agent.test.mjs
+
       - name: Audit public repository safety
         run: bash scripts/audit_public_repo_safety.sh
 

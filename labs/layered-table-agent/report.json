@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "trainedTopicTables": 111104,
+    "topicLayers": 4,
+    "integerReadoutOffsets": 62,
+    "executedTopicTables": 39603,
+    "trainedRelevanceTables": 3072,
+    "executedRelevanceTables": 1194,
+    "inputBits": 3072,
+    "classes": 62,
+    "checkpointSha256": "f2ba5e05db45d883aed549f07842d3fb7578cd237842ca78133d8ceb20d58e88",
+    "selectedEpoch": 10,
+    "parityInputVectors": 2062,
+    "provisional": false
+  },
+  "metrics": {
+    "validation": {
+      "rows": 744,
+      "correct": 656,
+      "accuracy": 0.8817204301075269
+    },
+    "test": {
+      "rows": 744,
+      "correct": 740,
+      "accuracy": 0.9946236559139785
+    },
+    "challenge": {
+      "rows": 62,
+      "correct": 30,
+      "accuracy": 0.4838709677419355
+    },
+    "validation_selective": {
+      "margin": 74,
+      "accepted": 551,
+      "coverage": 0.7405913978494624,
+      "accuracy": 0.9509981851179673
+    },
+    "test_selective": {
+      "margin": 74,
+      "accepted": 697,
+      "coverage": 0.9368279569892473,
+      "accuracy": 1.0
+    },
+    "challenge_selective": {
+      "margin": 74,
+      "accepted": 20,
+      "coverage": 0.3225806451612903,
+      "accuracy": 0.6
+    }
+  },
+  "retrieval_records": 16283,
+  "retrieval_export_filter": {
+    "omitted_ids": [
+      "e500fae1-5670-4b7f-80f4-1291cd20b036",
+      "ea622e12-9b3e-4c06-930c-8b6f28798b0a",
+      "6cb04b93-4a1c-4dcd-9ee5-0cf0a738e707",
+      "d1b4b0d4-6335-4214-9d28-a9bde543d278",
+      "bddcf03b-f9eb-4ee7-9ca4-ab627c83d76e"
+    ],
+    "reason": "Public-page export omits answers containing user-specific filesystem path examples. Training inputs remain unchanged."
+  },
+  "scope": "Topic wrapper tests share topic aliases with training. Challenge descriptions do not. Parity checks every class vote for the listed input vectors, not the entire input domain.",
+  "assets": {
+    "model.json": {
+      "bytes": 927895,
+      "gzip_bytes": 289606,
+      "sha256": "25c7abc892f40962b8f4cc96adf5b0849f18e56614c6c4ea5808964a9678b435"
+    },
+    "model.json.gz": {
+      "bytes": 289606,
+      "gzip_bytes": 289696,
+      "sha256": "2fafef7499f53760aa0e9f353f7c7471382511c50d87f03ac2a095a45280d0fc"
+    },
+    "knowledge.json.gz": {
+      "bytes": 5877308,
+      "gzip_bytes": 5879107,
+      "sha256": "7576377f117c497fdb3b7f93e2fe640249de979395d652f8190818170fb8b7a7"
+    },
+    "cards.json": {
+      "bytes": 35319,
+      "gzip_bytes": 11140,
+      "sha256": "0fc160c8b6abe34de60c23769beb3cf9eb5d68b894d923a3e2d1d40024a9a969"
+    },
+    "evaluator.wasm": {
+      "bytes": 832,
+      "gzip_bytes": 577,
+      "sha256": "1fbd0fdb7943faf7466cd960843f50e3186afb9ae61855fc12e2535700c35e96"
+    },
+    "knowledge-00.json": {
+      "bytes": 4602794,
+      "gzip_bytes": 1528347,
+      "sha256": "b03b1cb6709049ee461641e16d5d30200e15a2a691c111629f5762f8b03b5869"
+    },
+    "knowledge-01.json": {
+      "bytes": 4058836,
+      "gzip_bytes": 1333840,
+      "sha256": "d44dbb1ce537c63ac979b97112cce8cf3f29bbe31e4de1a06a66855859e12266"
+    },
+    "knowledge-02.json": {
+      "bytes": 3296513,
+      "gzip_bytes": 883856,
+      "sha256": "ffcc364a88a7b3e94a9a9a82598ea6ea2e707b3ef92da31e48ab8d793a16052c"
+    },
+    "knowledge-03.json": {
+      "bytes": 3268766,
+      "gzip_bytes": 876390,
+      "sha256": "ef6fb4a10d8b88b64dc013f241717c56f81dfb9692bf05b6fd94abb1abb971f3"
+    },
+    "knowledge-04.json": {
+      "bytes": 3318235,
+      "gzip_bytes": 891260,
+      "sha256": "bfdfbc3552c54277412594cee1ebf3ad5942f996df113c966f217f246398b5f1"
+    },
+    "knowledge-05.json": {
+      "bytes": 1384150,
+      "gzip_bytes": 367960,
+      "sha256": "5ed5a67d5dd40c6245b1896fbfff85141e3943b0490211eb39da20b3edc3dd98"
+    },
+    "knowledge-manifest.json": {
+      "bytes": 1447,
+      "gzip_bytes": 775,
+      "sha256": "b0f22d0b2effe10d76071644f7db378fa07f5a4a0896bbd87537b9289d0610de"
+    }
+  },
+  "seconds": 7.275,
+  "relevance_pair_test": {
+    "rows": 54698,
+    "balanced_accuracy": 0.9913190000853169,
+    "positive_recall": 0.9997440491425647,
+    "negative_recall": 0.9828939510280693,
+    "scope": "Held-out conversation trees / Dolly rows; weak pair labels and lexical perturbations. The search index contains the evaluation documents. Not a factuality or open-chat accuracy score."
+  },
+  "relevance_fixed_rule_baselines": {
+    "query_coverage_at_least_half": {
+      "balanced_accuracy": 0.8962332565480762
+    },
+    "both_question_coverages_at_least_half": {
+      "balanced_accuracy": 0.8528175923556011
+    },
+    "identical_normalized_question_tokens": {
+      "balanced_accuracy": 0.6133755652248102
+    }
+  },
+  "canonicalKnowledge": {
+    "bytes": 19930610,
+    "sha256": "564f336738a749f1cac7c2addceb5ac741f19474dfbfb105f2ae4633ee05e8d2"
+  }
+}

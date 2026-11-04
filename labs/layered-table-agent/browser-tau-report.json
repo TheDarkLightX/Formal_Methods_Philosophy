@@ -1,0 +1,66 @@
+{
+  "tau_commit": "95a7d261ca3db5ff6f7c198a0b4d81c880816058",
+  "emscripten": "6.0.13",
+  "build": "release-wasm-nothreads; TAU_BAS=sbf,tau; TAU_LTO=OFF",
+  "errors": [],
+  "cases": [
+    {
+      "query": "What is dynamic programming?",
+      "same_answer": true,
+      "same_votes": true,
+      "answer": "TOPIC TABLES + AUTHORED EXPLANATION\nDynamic programming\n\nDefine sufficient state, a recurrence, and base cases. Reuse solutions instead of recomputing them.\n\n",
+      "trace": "Route\nlearned topic tables\nBackend\nTau 0.8 gate tables\nTime\n69.7 ms\nVote margin\n288\nActive features\n18"
+    },
+    {
+      "query": "Compare BFS and Dijkstra",
+      "same_answer": true,
+      "same_votes": true,
+      "answer": "LEARNED TOPIC COMPARISON\nBreadth-first search and Dijkstra's algorithm\n\nBreadth-first search\nA FIFO queue explores vertices by increasing edge count. Mark a vertex when enqueuing it. Parent links reconstruct a shortest unweighted path.\nO(V+E) time and O(V) auxiliary space.\nWatch for: BFS does not minimize arbitrary weighted distances.\n\nDijkstra's algorithm\nRemove the smallest tentative distance from a priority queue and relax its outgoing edges. Nonnegative weights justify finalizing that distance.\nO((V+E) log V) with a binary heap.\nWatch for: Negative edges invalidate standard finalization.",
+      "trace": "Route\ntwo learned topic decisions\nBackend\nTau 0.8 gate tables\nTime\n67.5 ms"
+    },
+    {
+      "query": "How do solar panels work?",
+      "same_answer": true,
+      "same_votes": true,
+      "answer": "RETRIEVED HUMAN ANSWER\nA related Dolly 15k answer\n\nSunlight contains photon particles which hit the solar panels and cause electrons off silicon chips to get directed to the wiring to batteries or appliances, providing electricity\n\nMatched question: How do solar panels work?\n\nDolly 15k · CC-BY-SA-3.0 · dolly-1901",
+      "trace": "Route\nretrieval + learned relevance tables\nBackend\nTau 0.8 gate tables\nTime\n30.1 ms\nVote margin\n10\nActive features\n13\nOverlap\n100%"
+    },
+    {
+      "query": "gcd 1071 462",
+      "same_answer": true,
+      "same_votes": true,
+      "answer": "EXACT CALCULATION\nEuclidean algorithm\n21\n\n1071 = 2 × 462 + 147\n462 = 3 × 147 + 21\n147 = 7 × 21 + 0",
+      "trace": "Route\nexact algorithm\nBackend\nJavaScript\nTime\n0.3 ms"
+    },
+    {
+      "query": "flibbertigibbet quantum pineapple",
+      "same_answer": true,
+      "same_votes": true,
+      "answer": "NO CLOSE MATCH\nI do not have a close enough match\n\nTry a concrete algorithm question, or run a calculation such as “dijkstra A D: A-B:4, A-C:1, C-B:2, B-D:1”. This is a compact table and retrieval experiment; it cannot compose a reliable answer to every question.\n\nNearby topics: Capabilities and limits · Quicksort · Longest increasing subsequence",
+      "trace": "Route\nabstain\nBackend\nTau 0.8 gate tables\nTime\n39.3 ms\nVote margin\n3\nActive features\n21"
+    }
+  ],
+  "browser": "157.0.8103.38",
+  "runtime_files": {
+    "tau.esm.mjs": {
+      "bytes": 116665,
+      "sha256": "719de150a96a06338d6700d1233448d904beaf42641b3de44131de0abf78816e"
+    },
+    "tau.esm.wasm": {
+      "bytes": 6261656,
+      "sha256": "7a415b14e76cfda5c7e014b94176dab1e910e34aebef4ab9f02e28bc85b097b9"
+    }
+  },
+  "tau_status": "Tau is executing topic table decisions. Two boundary input vectors agree with the reference evaluator.",
+  "backend": "Tau 0.8",
+  "full_vote_parity": {
+    "vectors": 58,
+    "class_votes": 3596,
+    "equal": true
+  },
+  "model_sha256": "25c7abc892f40962b8f4cc96adf5b0849f18e56614c6c4ea5808964a9678b435",
+  "adapter_sha256": "0c52eece32938e663cb992d1771917a932c2bce286fc325016e9c194c4e34a0b",
+  "overflow": false,
+  "success": true,
+  "mobile_overflow": false
+}
